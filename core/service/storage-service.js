@@ -112,28 +112,32 @@ var StorageService = exports.StorageService = Montage.specialize({
                     var promises = [];
                     dataset.properties = newProperties;
                     promises.push(
-                        self._populateDatasetProperty(dataset, "VolumeDatasetPropertyAtime", "atime"),
-                        self._populateDatasetProperty(dataset, "VolumeDatasetPropertyCasesensitivity", "casesensitivity"),
-                        self._populateDatasetProperty(dataset, "VolumeDatasetPropertyCompression", "compression"),
-                        self._populateDatasetProperty(dataset, "VolumeDatasetPropertyDedup", "dedup"),
-                        self._populateDatasetProperty(dataset, "VolumeDatasetPropertyQuota", "quota"),
-                        self._populateDatasetProperty(dataset, "VolumeDatasetPropertyRefquota", "refquota"),
-                        self._populateDatasetProperty(dataset, "VolumeDatasetPropertyVolblocksize", "volblocksize"),
-                        self._populateDatasetProperty(dataset, "VolumeDatasetPropertyRefreservation", "refreservation"),
-                        self._populateDatasetProperty(dataset, "VolumeDatasetPropertyReservation", "reservation")
+                        self._populateDatasetPropertyModel(dataset, "VolumeDatasetPropertyAtime", "atime").then(function() {
+                            dataset.properties.atime.source = "INHERITED";
+                            dataset.properties.atime.parsed = "none";
+                        }),
+                        self._populateDatasetPropertyModel(dataset, "VolumeDatasetPropertyCasesensitivity", "casesensitivity").then(function(){
+                            dataset.properties.casesensitivity.source = "INHERITED";
+                            dataset.properties.casesensitivity.parsed = "none";
+                        }),
+                        self._populateDatasetPropertyModel(dataset, "VolumeDatasetPropertyCompression", "compression").then(function() {
+                            dataset.properties.compression.source = "INHERITED";
+                            dataset.properties.compression.parsed = "none";
+                        }),
+                        self._populateDatasetPropertyModel(dataset, "VolumeDatasetPropertyDedup", "dedup").then(function() {
+                            dataset.properties.dedup.source = "INHERITED";
+                            dataset.properties.dedup.parsed = "none";
+                        }),
+                        self._populateDatasetPropertyModel(dataset, "VolumeDatasetPropertyQuota", "quota"),
+                        self._populateDatasetPropertyModel(dataset, "VolumeDatasetPropertyRefquota", "refquota"),
+                        self._populateDatasetPropertyModel(dataset, "VolumeDatasetPropertyVolblocksize", "volblocksize").then(function() {
+                            dataset.properties.volblocksize.parsed = 512;
+                        }),
+                        self._populateDatasetPropertyModel(dataset, "VolumeDatasetPropertyRefreservation", "refreservation"),
+                        self._populateDatasetPropertyModel(dataset, "VolumeDatasetPropertyReservation", "reservation")
                     );
 
-                    return Promise.all(promises).then(function(){
-                        dataset.properties.atime.source = "INHERITED";
-                        dataset.properties.atime.parsed = "none";
-                        dataset.properties.casesensitivity.source = "INHERITED";
-                        dataset.properties.casesensitivity.parsed = "none";
-                        dataset.properties.compression.source = "INHERITED";
-                        dataset.properties.compression.parsed = "none";
-                        dataset.properties.dedup.source = "INHERITED";
-                        dataset.properties.dedup.parsed = "none";
-                        dataset.properties.volblocksize.parsed = 512;
-                    });
+                    return Promise.all(promises);
                 });
             } else {
                 return Promise.resolve();
