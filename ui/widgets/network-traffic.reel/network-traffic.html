@@ -9,7 +9,7 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "enabledInterfaces": {"<-": "this.interfaces.filter{type == 'ETHER' && enabled}.sorted{id}"},
+                "enabledInterfaces": {"<-": "this.interfaces.filter{enabled}.sorted{id}"},
                 "card": {"<-": "this.object.context.selectedInterface || this.enabledInterfaces.0.id"}
             }
         },
