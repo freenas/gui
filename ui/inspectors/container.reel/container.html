@@ -160,7 +160,7 @@
                 "disabled": true
             },
             "bindings": {
-                "checked": {"<->": "!!@owner.object.expose_ports"}
+                "checked": {"<-": "!!@owner.object.expose_ports"}
             }
         },
 
@@ -181,7 +181,7 @@
                 "element": {"#": "environment"},
                 "label": "Environment",
                 "labelPath": "this",
-                "enabled": false
+                "disabled": true
             },
             "bindings": {
                 "values": {"<-": "@owner.object.environment"},
@@ -195,7 +195,7 @@
                 "element": {"#": "ports"},
                 "label": "Ports",
                 "labelPath": "this",
-                "enabled": false
+                "disabled": true
             },
             "bindings": {
                 "values": {"<-": "@owner.object.ports.map{container_port + ':' + host_port + (protocol.defined() ? '/' + protocol : '/TCP')}"},
@@ -211,7 +211,7 @@
                 "disabled": true
             },
             "bindings": {
-                "checked": {"<->": "@owner.object.interactive"}
+                "checked": {"<-": "@owner.object.interactive"}
             }
         }
 
