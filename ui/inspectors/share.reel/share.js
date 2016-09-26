@@ -46,25 +46,6 @@ exports.Share = AbstractInspector.specialize({
         }
     },
 
-    _targetType: {
-        value: null
-    },
-
-    targetType: {
-        get: function() {
-            return this._targetType;
-        },
-        set: function(targetType) {
-            if (this._targetType !== targetType) {
-                this._targetType = targetType;
-                if (this._object.target_type !== targetType) {
-                    this._object.target_type = targetType;
-                    this._openTreeController();
-                }
-            }
-        }
-    },
-
     pathConverter: {
         value: null
     },
@@ -139,6 +120,12 @@ exports.Share = AbstractInspector.specialize({
         set: function (targetType) {
             if (this._targetType !== targetType) {
                 this._targetType = targetType;
+
+                if (this._object.target_type !== targetType) {
+                    this._object.target_type = targetType;
+                    this._openTreeController();
+                }
+
                 // triggers icon update
                 this.dispatchOwnPropertyChange("iconModuleId", this.iconModuleId);
             }
