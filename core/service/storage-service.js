@@ -112,33 +112,15 @@ var StorageService = exports.StorageService = Montage.specialize({
                     var promises = [];
                     dataset.properties = newProperties;
                     promises.push(
-                        self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyAtime).then(function(newAtime) {
-                            dataset.properties.atime = newAtime;
-                        }),
-                        self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyCasesensitivity).then(function(newCasesensitivity) {
-                            dataset.properties.casesensitivity = newCasesensitivity;
-                        }),
-                        self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyCompression).then(function(newCompression) {
-                            dataset.properties.compression = newCompression;
-                        }),
-                        self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyDedup).then(function(newDedup) {
-                            dataset.properties.dedup = newDedup;
-                        }),
-                        self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyQuota).then(function(newQuota) {
-                            dataset.properties.quota = newQuota;
-                        }),
-                        self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyRefquota).then(function(newRefquota) {
-                            dataset.properties.refquota = newRefquota;
-                        }),
-                        self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyVolblocksize).then(function(newVolblocksize) {
-                            dataset.properties.volblocksize = newVolblocksize;
-                        }),
-                        self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyRefreservation).then(function(newRefreservation) {
-                            dataset.properties.refreservation = newRefreservation;
-                        }),
-                        self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyReservation).then(function(newReservation) {
-                            dataset.properties.reservation = newReservation;
-                        })
+                        self._populateDatasetProperty(dataset, "VolumeDatasetPropertyAtime", "atime"),
+                        self._populateDatasetProperty(dataset, "VolumeDatasetPropertyCasesensitivity", "casesensitivity"),
+                        self._populateDatasetProperty(dataset, "VolumeDatasetPropertyCompression", "compression"),
+                        self._populateDatasetProperty(dataset, "VolumeDatasetPropertyDedup", "dedup"),
+                        self._populateDatasetProperty(dataset, "VolumeDatasetPropertyQuota", "quota"),
+                        self._populateDatasetProperty(dataset, "VolumeDatasetPropertyRefquota", "refquota"),
+                        self._populateDatasetProperty(dataset, "VolumeDatasetPropertyVolblocksize", "volblocksize"),
+                        self._populateDatasetProperty(dataset, "VolumeDatasetPropertyRefreservation", "refreservation"),
+                        self._populateDatasetProperty(dataset, "VolumeDatasetPropertyReservation", "reservation")
                     );
 
                     return Promise.all(promises).then(function(){
@@ -156,6 +138,14 @@ var StorageService = exports.StorageService = Montage.specialize({
             } else {
                 return Promise.resolve();
             }
+        }
+    },
+
+    _populateDatasetProperty: {
+        value: function(dataset, modelName, propertyName) {
+            return this._dataService.getNewInstanceForType(Model[modelName]).then(function(propertyObject) {
+                dataset.properties[propertyName] = propertyObject;
+            });
         }
     },
 
