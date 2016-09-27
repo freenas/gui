@@ -14,43 +14,39 @@ exports.AbstractDao = Montage.specialize({
 
     list: {
         value: function() {
-            if (this._model) {
-                return this._dataService.fetchData(this._model);
-            } else {
-                throw new Error("Dao model is not defined.");
-            }
+            this._checkModelIsInitialized();
+            return this._dataService.fetchData(this._model);
         }
     },
 
     getEmptyList: {
         value: function() {
-            if (this._model) {
-                return this._dataService.getEmptyCollectionForType(this._model);
-            } else {
-                throw new Error("Dao model is not defined.");
-            }
+            this._checkModelIsInitialized();
+            return this._dataService.getEmptyCollectionForType(this._model);
         }
     },
 
     getNewInstance: {
         value: function() {
-            if (this._model) {
-                return this._dataService.getNewInstanceForType(this._model);
-            } else {
-                throw new Error("Dao model is not defined.");
-            }
+            this._checkModelIsInitialized();
+            return this._dataService.getNewInstanceForType(this._model);
         }
     },
 
     save: {
         value: function(object) {
-            if (this._model) {
-                if (object && object.Type === this._model) {
-                    return this._dataService.saveDataObject(object);
-                } else {
-                    throw new Error("Object type does not match Dao model:", object.Type, this._model);
-                }
+            this._checkModelIsInitialized();
+            if (object && object.Type === this._model) {
+                return this._dataService.saveDataObject(object);
             } else {
+                throw new Error("Object type does not match Dao model:", object.Type, this._model);
+            }
+        }
+    },
+
+    _checkModelIsInitialized: {
+        value: function() {
+            if (!this._model) {
                 throw new Error("Dao model is not defined.");
             }
         }
