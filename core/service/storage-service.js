@@ -110,9 +110,8 @@ var StorageService = exports.StorageService = Montage.specialize({
             var self = this;
             if (!dataset.properties) {
                 return this._dataService.getNewInstanceForType(Model.VolumeDatasetProperties).then(function(newProperties) {
-                    var promises = [];
                     dataset.properties = newProperties;
-                    promises.push(
+                    var promises = [
                         self._populateDatasetPropertyWithModel(dataset, "VolumeDatasetPropertyAtime", "atime").then(function() {
                             dataset.properties.atime.source = VolumePropertySource.INHERITED;
                             dataset.properties.atime.parsed = "none";
@@ -136,7 +135,7 @@ var StorageService = exports.StorageService = Montage.specialize({
                         }),
                         self._populateDatasetPropertyWithModel(dataset, "VolumeDatasetPropertyRefreservation", "refreservation"),
                         self._populateDatasetPropertyWithModel(dataset, "VolumeDatasetPropertyReservation", "reservation")
-                    );
+                    ];
 
                     return Promise.all(promises);
                 });
