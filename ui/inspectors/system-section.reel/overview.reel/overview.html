@@ -20,6 +20,20 @@
                 "value": {"<-": "@owner.systemInfo.systemVersion"}
             }
         },
+        "secondsToStringConverter": {
+            "prototype": "core/converter/seconds-to-string-converter"
+        },
+        "uptime": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "uptime"},
+                "label": "System Uptime",
+                "converter": {"@": "secondsToStringConverter"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.systemTime.uptime"}
+            }
+        },
         "hostname": {
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
@@ -94,6 +108,7 @@
     <div data-montage-id="owner" class="Overview">
         <div data-montage-id="version"></div>
         <div data-montage-id="hostname"></div>
+        <div data-montage-id="uptime"></div>
         <div data-montage-id="groupSeparator"></div>
         <div data-montage-id="dataset"></div>
         <div data-montage-id="snapshots"></div>
