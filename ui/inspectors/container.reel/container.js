@@ -14,7 +14,7 @@ exports.Container = AbstractInspector.specialize({
             this.$super.enterDocument(isFirstTime);
 
             if (this.object.memory_limit) {
-                this.object.memory_limit = this.application.bytesService.convertMemsizeToString(this.object.memory_limit);
+                this.object.memory_limit = this.application.bytesService.convertSizeToString(this.object.memory_limit, this.application.bytesService.UNITS.M);
             }
         }
     },

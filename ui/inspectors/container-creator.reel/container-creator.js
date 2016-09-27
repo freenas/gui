@@ -155,7 +155,7 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
             }
 
             if (this.object.memory_limit) {
-                var memoryLimit = this.application.bytesService.convertStringToMemsize(this.object.memory_limit);
+                var memoryLimit = this.application.bytesService.convertStringToSize(this.object.memory_limit, this.application.bytesService.UNITS.M);
                 this.object.memory_limit = memoryLimit || void 0;
             }
 
