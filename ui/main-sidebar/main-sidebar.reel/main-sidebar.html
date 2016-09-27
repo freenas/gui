@@ -9,6 +9,9 @@
             "properties": {
                 "element": {"#": "owner"}
             },
+            "bindings": {
+                "classList.has('has-confirmation')": {"<-": "!!@owner._confirmationDeferred"}
+            },
             "listeners": [
                 {
                     "type": "action",
@@ -72,6 +75,31 @@
             "properties": {
                 "element": {"#": "globalActionsButton"}
             }
+        },
+        "confirmationMessage": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "confirmationMessage"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.confirmationMessage"}
+            }
+        },
+        "confirm": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "confirm"}
+            },
+            "bindings": {
+                "label": {"<-": "@owner.confirmationButtonLabel || 'Confirm'"}
+            }
+        },
+        "cancel": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "cancel"},
+                "label": "Cancel"
+            }
         }
     }
     </script>
@@ -86,7 +114,7 @@
         <div data-montage-id="userSummary" class="MainSidebar-userSummary"></div>
         <div class="MainSidebar-globalActions">
             <div data-montage-id="globalActionsButton" class="MainSidebar-globalActions-button" tabindex="0">
-                <span data-montage-id="username" class="MainSidebar-user">joshuaruledobson</span>
+                <span data-montage-id="username" class="MainSidebar-user"></span>
                 <svg><use xlink:href="#i-power"/></svg>
             </div>
             <ul class="MainSidebar-globalActions-options">
@@ -94,6 +122,11 @@
                 <li><button data-montage-id="reboot"></button></li>
                 <li><button data-montage-id="shutdown"></button></li>
             </ul>
+            <div class="MainSidebar-confirmation">
+                <div data-montage-id="confirmationMessage" class="MainSidebar-confirmation-message"></div>
+                <button data-montage-id="cancel"></button>
+                <button data-montage-id="confirm" class="Button--primary"></button>
+            </div>
         </div>
     </div>
 </body>
