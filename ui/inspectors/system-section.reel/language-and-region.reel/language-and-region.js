@@ -144,12 +144,10 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
 
     save: {
         value: function() {
-            var loadingPromises = [];
-            loadingPromises.push(
+            return Promise.all([
                 this.application.applicationContextService.save(),
                 this.application.systemGeneralService.saveGeneralData(this.generalData)
-            );
-            return Promise.all(loadingPromises);
+            ]);
         }
     },
 
