@@ -88,7 +88,11 @@ var Topology = exports.Topology = AbstractInspector.specialize(/** @lends Topolo
             }
             this._clearDisk();
             this._freeTopologyProxy();
-            this._parentCascadingListItem.classList.remove("CascadingListItem-Topology");
+            
+            if (this._parentCascadingListItem) {
+                this._parentCascadingListItem.classList.remove("CascadingListItem-Topology");
+            }
+
             this._object = null;
         }
     },
