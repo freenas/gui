@@ -10,6 +10,7 @@
                 "element": {"#": "owner"},
                 "datasetTreeController": {"@": "datasetTreeController"},
                 "validationController": {"@": "validationController"},
+                "neverExpireCheckboxComponent": {"@": "neverExpireCheckbox"},
                 "inspector": {"@": "inspector"}
             },
             "bindings": {
@@ -109,7 +110,18 @@
                 "intervalInSeconds": 300
             },
             "bindings": {
-                "value": {"<->": "@owner.expirationDate"}
+                "value": {"<->": "@owner.expirationDate"},
+                "disabled": {"<->": "@neverExpireCheckbox.checked"}
+            }
+        },
+        "neverExpireCheckbox": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "neverExpires"},
+                "label": "Never expires"
+            },
+            "bindings": {
+                "checked": {"<-": "!@owner.expirationDate"}
             }
         },
         "replicable": {
@@ -165,6 +177,7 @@
                 <div data-montage-id="datasetDisplay" data-arg="display"></div>
             </div>
             <div data-montage-id="expirationDate"></div>
+            <div data-montage-id="neverExpires"></div>
             <div data-montage-id="replicable"></div>
             <div data-montage-id="creationCondition">
                 <div data-montage-id="used"></div>

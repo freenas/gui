@@ -60,6 +60,7 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
         set: function(object) {
             if (this._object != object) {
                 this._object = object;
+
                 if (object) {
                     var self = this;
                     if (object.id == void 0) {
@@ -68,6 +69,7 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
                     } else {
                         this.pathDisplayMode = "display";
                     }
+
                     this.expirationDate = this._getExpirationDate();
                 }
             }
@@ -80,6 +82,14 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
             this.$super.enterDocument();
             this.expirationDate = this._getExpirationDate();
             this._loadVolume();
+        }
+    },
+
+    handleAction: {
+        value: function (event) {
+            if (this.neverExpireCheckboxComponent.element.contains(event.target.element)) {
+                this.expirationDate = null;
+            }
         }
     },
 
