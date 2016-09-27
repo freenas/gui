@@ -124,7 +124,7 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
             var formattedDateList = [];
             for (var i = 0,length = dateOptionList.length; i < length; i++) {
                 this.dateConverter.pattern = dateOptionList[i];
-                formattedDateList.push({ label: this.dateConverter.convert(today), value: dateOptionList[i] });
+                formattedDateList.push({label: this.dateConverter.convert(today), value: dateOptionList[i]});
             }
             return formattedDateList;
         }
