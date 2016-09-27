@@ -1,7 +1,8 @@
 var Montage = require("montage").Montage,
     FreeNASService = require("core/service/freenas-service").FreeNASService,
     Promise = require("montage/core/promise").Promise,
-    Model = require("core/model/model").Model;
+    Model = require("core/model/model").Model,
+    VolumePropertySource = require("core/model/enumerations/volume-property-source.js").VolumePropertySource;
 
 var StorageService = exports.StorageService = Montage.specialize({
 
@@ -113,19 +114,19 @@ var StorageService = exports.StorageService = Montage.specialize({
                     dataset.properties = newProperties;
                     promises.push(
                         self._populateDatasetPropertyWithModel(dataset, "VolumeDatasetPropertyAtime", "atime").then(function() {
-                            dataset.properties.atime.source = "INHERITED";
+                            dataset.properties.atime.source = VolumePropertySource.INHERITED;
                             dataset.properties.atime.parsed = "none";
                         }),
                         self._populateDatasetPropertyWithModel(dataset, "VolumeDatasetPropertyCasesensitivity", "casesensitivity").then(function(){
-                            dataset.properties.casesensitivity.source = "INHERITED";
+                            dataset.properties.casesensitivity.source = VolumePropertySource.INHERITED;
                             dataset.properties.casesensitivity.parsed = "none";
                         }),
                         self._populateDatasetPropertyWithModel(dataset, "VolumeDatasetPropertyCompression", "compression").then(function() {
-                            dataset.properties.compression.source = "INHERITED";
+                            dataset.properties.compression.source = VolumePropertySource.INHERITED;
                             dataset.properties.compression.parsed = "none";
                         }),
                         self._populateDatasetPropertyWithModel(dataset, "VolumeDatasetPropertyDedup", "dedup").then(function() {
-                            dataset.properties.dedup.source = "INHERITED";
+                            dataset.properties.dedup.source = VolumePropertySource.INHERITED;
                             dataset.properties.dedup.parsed = "none";
                         }),
                         self._populateDatasetPropertyWithModel(dataset, "VolumeDatasetPropertyQuota", "quota"),
