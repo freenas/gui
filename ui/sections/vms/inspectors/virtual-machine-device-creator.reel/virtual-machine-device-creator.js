@@ -36,13 +36,17 @@ exports.VirtualMachineDeviceCreator = Component.specialize({
 
     enterDocument: {
         value: function(isFirstTime) {
+            var self = this;
             if (isFirstTime) {
                 this._selectionService = this.application.selectionService;
                 this._virtualMachineService = this.application.virtualMachineService;
                 this.addPathChangeListener("parentCascadingListItem.selectedObject", this, "_handleSelectionChange");
             }
 
-            this._populateNewDeviceObjectList();
+            this._canDrawGate.setField(this.constructor.DRAW_GATE_FIELD, false);
+            this._populateNewDeviceObjectList().then(function() {
+                self._canDrawGate.setField(this.constructor.DRAW_GATE_FIELD, true);
+            });
             if (this.parentCascadingListItem) {
                 this.parentCascadingListItem.selectedObject = null;
             }
@@ -53,8 +57,7 @@ exports.VirtualMachineDeviceCreator = Component.specialize({
         value: function () {
             var virtualMachineService = this._virtualMachineService;
 
-            //todo: block draw gate, in order to avoid some odd behavior.
-            Promise.all([
+            return Promise.all([
                 virtualMachineService.createCdromDevice(),
                 virtualMachineService.createDiskDevice(),
                 virtualMachineService.createGraphicsDevice(),
@@ -66,7 +69,6 @@ exports.VirtualMachineDeviceCreator = Component.specialize({
                 this.newGraphicsDevice = devices[2];
                 this.newNicDevice = devices[3];
                 this.newUsbDevice = devices[4];
-                //todo: can draw
             });
         }
     },
@@ -79,5 +81,9 @@ exports.VirtualMachineDeviceCreator = Component.specialize({
                 }
             }
         }
+    }
+}, {
+    DRAW_GATE_FIELD: {
+        value: "devicesLoaded"
     }
 });

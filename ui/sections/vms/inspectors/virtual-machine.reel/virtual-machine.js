@@ -40,7 +40,7 @@ exports.VirtualMachine = AbstractInspector.specialize({
     enterDocument: {
         value: function(isFirstTime) {
             this.$super.enterDocument(isFirstTime);
-            this.isLoading = true;
+            this._startLoading();
             var self = this,
                 loadingPromises = [
                     this._dependenciesLoadingPromise,
@@ -53,10 +53,10 @@ exports.VirtualMachine = AbstractInspector.specialize({
                 self._sectionService.initializeVm(self.object);
                 self.addPathChangeListener("object._bootDevice", self, "_handleBootDeviceChange");
                 self.addPathChangeListener("object._selectedTemplate", self, "_handleTemplateChange");
-                this._cancelDevicesListener = self.addRangeAtPathChangeListener("object.devices", self, "_handleDevicesChange");
-                this._cancelVolumeDevicesListener = self.addRangeAtPathChangeListener("object._volumeDevices", self, "_handleCategorizedDevicesChange");
-                this._cancelNonVolumeDevicesListener = self.addRangeAtPathChangeListener("object._nonVolumeDevices", self, "_handleCategorizedDevicesChange");
-                self.isLoading = false;
+                self._cancelDevicesListener = self.addRangeAtPathChangeListener("object.devices", self, "_handleDevicesChange");
+                self._cancelVolumeDevicesListener = self.addRangeAtPathChangeListener("object._volumeDevices", self, "_handleCategorizedDevicesChange");
+                self._cancelNonVolumeDevicesListener = self.addRangeAtPathChangeListener("object._nonVolumeDevices", self, "_handleCategorizedDevicesChange");
+                self._finishLoading();
             });
         }
     },
@@ -191,6 +191,24 @@ exports.VirtualMachine = AbstractInspector.specialize({
                     });
                 })
             ]);
+         }
+    },
+
+    _startLoading: {
+        value: function() {
+            this.isLoading = true;
+            this._canDrawGate.setField(this.constructor.DRAW_GATE_FIELD, false);
         }
+    },
+
+    _finishLoading: {
+        value: function() {
+            this.isLoading = false;
+            this._canDrawGate.setField(this.constructor.DRAW_GATE_FIELD, true);
+        }
+    }
+}, {
+    DRAW_GATE_FIELD: {
+        value: "vmLoaded"
     }
 });
