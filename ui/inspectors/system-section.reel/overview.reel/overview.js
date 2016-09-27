@@ -24,6 +24,10 @@ exports.Overview = Component.specialize(/** @lends Overview# */ {
                 this.application.systemGeneralService.getSystemGeneral().then(function (systemGeneral) {
                     self.systemInfo.general = systemGeneral;
                 }),
+                this.application.systemTimeService.getSystemTime().then(function (time) {
+                    self.systemTime = time
+                    // console.log(time);
+                }),
                 this.application.storageService.listDatasets().then(function (datasetList) {
                     self.systemInfo.totalDatasets = datasetList.length;
                 }),
