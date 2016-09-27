@@ -38,7 +38,9 @@ exports.VolumeCreator = AbstractInspector.specialize({
     exitDocument: {
         value: function() {
             this.$super.exitDocument();
-            this._parentCascadingListItem.classList.remove("CascadingListItem-VolumeCreator");
+            if (this._parentCascadingListItem) {
+                this._parentCascadingListItem.classList.remove("CascadingListItem-VolumeCreator");
+            }
         }
     },
 
