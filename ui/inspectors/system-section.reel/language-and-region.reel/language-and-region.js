@@ -76,6 +76,13 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
         value: function(isFirstTime) {
             var self = this,
                 loadingPromises = [];
+            this.application.applicationContextService.findCurrentUser().then(function (user) {
+                self.user = user;
+                if (!user.attributes.userSettings) {
+                    user.attributes.userSettings = {};
+                }
+                self._checkUserSettings(self.user);
+            });
             if (isFirstTime) {
                 this._dataService = this.application.dataService;
                 this.isLoading = true;
@@ -95,8 +102,7 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
                     this.application.systemGeneralService.getConsoleKeymap().then(function(generalData) {
                         self.generalData = generalData;
                         self._snapshotDataObjectsIfNecessary();
-                    }),
-                    this.application.applicationContextService.findCurrentUser()
+                    })
                 );
                 Promise.all(loadingPromises).then(function() {
                     this.isLoading = false;
@@ -124,8 +130,21 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
         }
     },
 
+    _checkUserSettings: {
+        value: function(user){
+            user.attributes.userSettings.timeFormatShort = user.attributes.userSettings.timeFormatShort || this.shortTimeFormats[0];
+            user.attributes.userSettings.timeFormatMedium = user.attributes.userSettings.timeFormatMedium || this.mediumTimeFormats[0];
+            user.attributes.userSettings.timeFormatLong = user.attributes.userSettings.timeFormatLong || this.longTimeFormats[0];
+            user.attributes.userSettings.dateFormatShort = user.attributes.userSettings.dateFormatShort || this.shortDateFormats[0];
+            user.attributes.userSettings.dateFormatMedium = user.attributes.userSettings.dateFormatMedium || this.mediumDateFormats[0];
+            user.attributes.userSettings.dateFormatLong = user.attributes.userSettings.dateFormatLong || this.longDateFormats[0];
+            user.attributes.userSettings.dateFormatFull = user.attributes.userSettings.dateFormatFull || this.fullDateFormats[0];
+        }
+    },
+
     save: {
         value: function() {
+            this.application.applicationContextService.save();
             return this.application.systemGeneralService.saveGeneralData(this.generalData);
         }
     },
@@ -134,6 +153,7 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
         value: function() {
             this.generalData.console_keymap = this._generalData.console_keymap;
             this.generalData.timezone = this._generalData.timezone;
+            this.user.attributes.userSettings = this._dataService.clone(this._userSettings);
         }
     },
 
@@ -141,6 +161,9 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
         value: function() {
             if (!this._generalData) {
                 this._generalData = this._dataService.clone(this.generalData);
+            }
+            if (!this._user) {
+                this._userSettings = this._dataService.clone(this.user.attributes.userSettings);
             }
         }
     }
