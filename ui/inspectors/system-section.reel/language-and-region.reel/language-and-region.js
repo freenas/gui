@@ -81,7 +81,7 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
                 if (!user.attributes.userSettings) {
                     user.attributes.userSettings = {};
                 }
-                self._checkUserSettings(self.user);
+                self.setDefaultDateAndTimeFormat(self.user.attributes.userSettings);
             });
             if (isFirstTime) {
                 this._dataService = this.application.dataService;
@@ -90,7 +90,7 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
                     this.application.systemGeneralService.getTimezoneOptions().then(function(timezoneOptions) {
                         self.timezoneOptions = [];
                         for(var i=0; i<timezoneOptions.length; i++) {
-                            self.timezoneOptions.push({label: timezoneOptions[i], value: timezoneOptions[i]})
+                            self.timezoneOptions.push({label: timezoneOptions[i], value: timezoneOptions[i]});
                         }
                     }),
                     this.application.systemGeneralService.getKeymapOptions().then(function(keymapsData) {
@@ -108,44 +108,48 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
                     this.isLoading = false;
                 });
                 var today = new Date();
-                this.dateFormatShortOptions = this._generateDateFormatConvertedList(today, this.shortDateFormats);
-                this.dateFormatMediumOptions = this._generateDateFormatConvertedList(today, this.mediumDateFormats);
-                this.dateFormatLongOptions = this._generateDateFormatConvertedList(today, this.longDateFormats);
-                this.dateFormatFullOptions = this._generateDateFormatConvertedList(today, this.fullDateFormats);
-                this.timeFormatShortOptions = this._generateDateFormatConvertedList(today, this.shortTimeFormats);
-                this.timeFormatMediumOptions = this._generateDateFormatConvertedList(today, this.mediumTimeFormats);
-                this.timeFormatLongOptions = this._generateDateFormatConvertedList(today, this.longTimeFormats);
+                this.dateFormatShortOptions = this.generateDateFormatConvertedList(today, this.shortDateFormats);
+                this.dateFormatMediumOptions = this.generateDateFormatConvertedList(today, this.mediumDateFormats);
+                this.dateFormatLongOptions = this.generateDateFormatConvertedList(today, this.longDateFormats);
+                this.dateFormatFullOptions = this.generateDateFormatConvertedList(today, this.fullDateFormats);
+                this.timeFormatShortOptions = this.generateDateFormatConvertedList(today, this.shortTimeFormats);
+                this.timeFormatMediumOptions = this.generateDateFormatConvertedList(today, this.mediumTimeFormats);
+                this.timeFormatLongOptions = this.generateDateFormatConvertedList(today, this.longTimeFormats);
             }
         }
     },
 
-    _generateDateFormatConvertedList: {
+    generateDateFormatConvertedList: {
         value: function(today, dateOptionList) {
-            var _formattedDateList = [];
+            var formattedDateList = [];
             for (var i = 0,length = dateOptionList.length; i < length; i++) {
                 this.dateConverter.pattern = dateOptionList[i];
-                _formattedDateList.push({ label: this.dateConverter.convert(today), value: dateOptionList[i] });
+                formattedDateList.push({ label: this.dateConverter.convert(today), value: dateOptionList[i] });
             }
-            return _formattedDateList;
+            return formattedDateList;
         }
     },
 
-    _checkUserSettings: {
-        value: function(user){
-            user.attributes.userSettings.timeFormatShort = user.attributes.userSettings.timeFormatShort || this.shortTimeFormats[0];
-            user.attributes.userSettings.timeFormatMedium = user.attributes.userSettings.timeFormatMedium || this.mediumTimeFormats[0];
-            user.attributes.userSettings.timeFormatLong = user.attributes.userSettings.timeFormatLong || this.longTimeFormats[0];
-            user.attributes.userSettings.dateFormatShort = user.attributes.userSettings.dateFormatShort || this.shortDateFormats[0];
-            user.attributes.userSettings.dateFormatMedium = user.attributes.userSettings.dateFormatMedium || this.mediumDateFormats[0];
-            user.attributes.userSettings.dateFormatLong = user.attributes.userSettings.dateFormatLong || this.longDateFormats[0];
-            user.attributes.userSettings.dateFormatFull = user.attributes.userSettings.dateFormatFull || this.fullDateFormats[0];
+    setDefaultDateAndTimeFormat: {
+        value: function(userSettings) {
+            userSettings.timeFormatShort = userSettings.timeFormatShort || this.shortTimeFormats[0];
+            userSettings.timeFormatMedium = userSettings.timeFormatMedium || this.mediumTimeFormats[0];
+            userSettings.timeFormatLong = userSettings.timeFormatLong || this.longTimeFormats[0];
+            userSettings.dateFormatShort = userSettings.dateFormatShort || this.shortDateFormats[0];
+            userSettings.dateFormatMedium = userSettings.dateFormatMedium || this.mediumDateFormats[0];
+            userSettings.dateFormatLong = userSettings.dateFormatLong || this.longDateFormats[0];
+            userSettings.dateFormatFull = userSettings.dateFormatFull || this.fullDateFormats[0];
         }
     },
 
     save: {
         value: function() {
-            this.application.applicationContextService.save();
-            return this.application.systemGeneralService.saveGeneralData(this.generalData);
+            var loadingPromises = [];
+            loadingPromises.push(
+                this.application.applicationContextService.save(),
+                this.application.systemGeneralService.saveGeneralData(this.generalData)
+            );
+            return Promise.all(loadingPromises);
         }
     },
 
