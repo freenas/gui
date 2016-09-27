@@ -12,11 +12,12 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
     NetworkRepository = require("core/repository/network-repository").NetworkRepository,
     BytesService = require("core/service/bytes-service").BytesService,
     ConsoleService = require("core/service/console-service").ConsoleService,
+    CONSTANTS = require("core/constants"),
     Dict = require("collections/dict").Dict;
 
 exports.VmsSectionService = AbstractSectionService.specialize({
     DEFAULT_STRING: {
-        value: '---'
+        value: CONSTANTS.DEFAULT_SELECT_STRING
     },
 
     _guestTypes: {
