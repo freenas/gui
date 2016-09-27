@@ -112,29 +112,29 @@ var StorageService = exports.StorageService = Montage.specialize({
                 return this._dataService.getNewInstanceForType(Model.VolumeDatasetProperties).then(function(newProperties) {
                     dataset.properties = newProperties;
                     var promises = [
-                        self._populateDatasetPropertyWithModel(dataset, "VolumeDatasetPropertyAtime", "atime").then(function() {
+                        self._populateDatasetPropertyWithModel(dataset, Model.VolumeDatasetPropertyAtime, "atime").then(function() {
                             dataset.properties.atime.source = VolumePropertySource.INHERITED;
                             dataset.properties.atime.parsed = "none";
                         }),
-                        self._populateDatasetPropertyWithModel(dataset, "VolumeDatasetPropertyCasesensitivity", "casesensitivity").then(function(){
+                        self._populateDatasetPropertyWithModel(dataset, Model.VolumeDatasetPropertyCasesensitivity, "casesensitivity").then(function(){
                             dataset.properties.casesensitivity.source = VolumePropertySource.INHERITED;
                             dataset.properties.casesensitivity.parsed = "none";
                         }),
-                        self._populateDatasetPropertyWithModel(dataset, "VolumeDatasetPropertyCompression", "compression").then(function() {
+                        self._populateDatasetPropertyWithModel(dataset, Model.VolumeDatasetPropertyCompression, "compression").then(function() {
                             dataset.properties.compression.source = VolumePropertySource.INHERITED;
                             dataset.properties.compression.parsed = "none";
                         }),
-                        self._populateDatasetPropertyWithModel(dataset, "VolumeDatasetPropertyDedup", "dedup").then(function() {
+                        self._populateDatasetPropertyWithModel(dataset, Model.VolumeDatasetPropertyDedup, "dedup").then(function() {
                             dataset.properties.dedup.source = VolumePropertySource.INHERITED;
                             dataset.properties.dedup.parsed = "none";
                         }),
-                        self._populateDatasetPropertyWithModel(dataset, "VolumeDatasetPropertyQuota", "quota"),
-                        self._populateDatasetPropertyWithModel(dataset, "VolumeDatasetPropertyRefquota", "refquota"),
-                        self._populateDatasetPropertyWithModel(dataset, "VolumeDatasetPropertyVolblocksize", "volblocksize").then(function() {
+                        self._populateDatasetPropertyWithModel(dataset, Model.VolumeDatasetPropertyQuota, "quota"),
+                        self._populateDatasetPropertyWithModel(dataset, Model.VolumeDatasetPropertyRefquota, "refquota"),
+                        self._populateDatasetPropertyWithModel(dataset, Model.VolumeDatasetPropertyVolblocksize, "volblocksize").then(function() {
                             dataset.properties.volblocksize.parsed = 512;
                         }),
-                        self._populateDatasetPropertyWithModel(dataset, "VolumeDatasetPropertyRefreservation", "refreservation"),
-                        self._populateDatasetPropertyWithModel(dataset, "VolumeDatasetPropertyReservation", "reservation")
+                        self._populateDatasetPropertyWithModel(dataset, Model.VolumeDatasetPropertyRefreservation, "refreservation"),
+                        self._populateDatasetPropertyWithModel(dataset, Model.VolumeDatasetPropertyReservation, "reservation")
                     ];
 
                     return Promise.all(promises);
@@ -146,8 +146,8 @@ var StorageService = exports.StorageService = Montage.specialize({
     },
 
     _populateDatasetPropertyWithModel: {
-        value: function(dataset, modelName, propertyName) {
-            return this._dataService.getNewInstanceForType(Model[modelName]).then(function(propertyObject) {
+        value: function(dataset, propertyModel, propertyName) {
+            return this._dataService.getNewInstanceForType(propertyModel).then(function(propertyObject) {
                 dataset.properties[propertyName] = propertyObject;
             });
         }
