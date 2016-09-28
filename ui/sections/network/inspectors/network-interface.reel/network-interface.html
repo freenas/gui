@@ -10,6 +10,9 @@
                 "element": {"#": "owner"},
                 "validationController": {"@": "validationController"},
                 "inspector": {"@": "inspector"}
+            },
+            "bindings": {
+                "dhcpInterface": {"<-": "@owner.interfaces.filter{dhcp}.0"}
             }
         },
         "interface_alias_converter": {
@@ -75,16 +78,16 @@
                 "value": {"<->": "@owner.object.name"}
             }
         },
-        "ip_address": {
+        "ipAddress": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
-                "element": {"#": "ip_address"},
+                "element": {"#": "ipAddress"},
                 "label": "IPv4 Address",
                 "converter": {"@": "interface_alias_converter"}
             },
             "bindings": {
-                "value": {"<->": "@owner.object.dhcp ? @owner.dhcpAlias : @owner.staticIP"},
-                "enabled": {"<-": "!@owner.object.dhcp"},
+                "value": {"<->": "@owner.object._ipAddress"},
+                "disabled": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp"},
                 "placeholderValue": {"<-": "!@owner.object.dhcp ? 'eg. 1.2.3.4/16' : ''"}
             }
         },
@@ -95,7 +98,8 @@
                 "label": "DHCP"
             },
             "bindings": {
-                "checked": {"<->": "!!@owner.object.dhcp"}
+                "checked": {"<->": "!!@owner.object.dhcp"},
+                "disabled": {"<-": "@owner.dhcpInterface.defined() && @owner.dhcpInterface != @owner.object"}
             }
         },
         "rtadv": {
@@ -198,7 +202,7 @@
                 "inputErrorMessage": "Please enter a valid IP address and netmask."
             },
             "bindings": {
-                "values": {"<->": "@owner.otherAliases"},
+                "values": {"<->": "@owner.object._otherAliases"},
                 "enabled": {"<-": "!@owner.object.dhcp"},
                 "placeholderValue": {"<-": "!@owner.object.dhcp ? 'eg. 1.2.3.4/16' : ''"}
             }
@@ -214,7 +218,7 @@
             </div>
             <div data-montage-id="enabled"></div>
             <div data-montage-id="description"></div>
-            <div data-montage-id="ip_address"></div>
+            <div data-montage-id="ipAddress"></div>
             <div data-montage-id="dhcp"></div>
             <div data-montage-id="rtadv"></div>
             <div data-montage-id="mtu"></div>

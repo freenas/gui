@@ -321,7 +321,7 @@ exports.NetworkInterface = Montage.specialize({
     userInterfaceDescriptor: {
         value: {
             inspectorComponentModule: {
-                id: 'ui/inspectors/network-interface.reel'
+                id: 'ui/sections/network/inspectors/network-interface.reel'
             },
             iconComponentModule: {
                 id: 'ui/icons/network-interface.reel'
@@ -330,10 +330,10 @@ exports.NetworkInterface = Montage.specialize({
                 id: 'ui/controls/viewer.reel'
             },
             creatorComponentModule: {
-                id: 'ui/inspectors/network-interface-creator.reel'
+                id: 'ui/sections/network/inspectors/network-interface-creator.reel'
             },
             collectionNameExpression: "'Interfaces'",
-            nameExpression: "!!id ? !!name ? name : id : !!type ? 'New ' + type : 'Choose an interface type'",
+            nameExpression: "!!id ? (!!name ? name : id) + (!!dhcp ? ' (dhcp)': '') : !!type ? 'New ' + type : 'Choose an interface type'",
             statusColorMapping: {
                 "LINK_STATE_UP": "green",
                 "DISABLED": "grey",

@@ -1,4 +1,5 @@
 var Component = require("montage/ui/component").Component,
+    NetworkSectionService = require("core/service/section/network-section-service").NetworkSectionService,
     Promise = require("montage/core/promise").Promise,
     Model = require("core/model/model").Model;
 
@@ -13,24 +14,49 @@ exports.Network = Component.specialize({
         value: null
     },
 
+    templateDidLoad: {
+        value: function() {
+            var self = this;
+            this._sectionService = NetworkSectionService.instance;
+            this._canDrawGate.setField(this.constructor.CAN_DRAW_GATE_FIELD, false);
+            Promise.all([
+                this._sectionService.listEntries().then(function(entries) {
+                    self.entries = entries;
+                }),
+                this._oldFashionLoad()
+            ]).then(function() {
+                self._canDrawGate.setField(self.constructor.CAN_DRAW_GATE_FIELD, true);
+            });
+        }
+    },
 
     enterDocument: {
         value: function (firstTime) {
-            if (firstTime || !this.overview) {
-                var self = this;
-                this._dataService = this.application.dataService;
+            if (firstTime) {
                 this.addPathChangeListener("overview.networkConfiguration.general.hostname", this, "_handleHostnameChange");
                 this.addRangeAtPathChangeListener("overview.interfaces", this, "_handleNetworkInterfacesRangeChange");
 
-                this.getNetworkOverview().then(function (networkOverview) {
-                    self.overview = networkOverview;
-                });
             }
         }
     },
 
+    /**
+     * DEPRECATED: Should be replaced by SectionService usage
+     */
+    _oldFashionLoad: {
+        value: function() {
+            var self = this;
+            this._dataService = this.application.dataService;
+            return this._getNetworkOverview().then(function (networkOverview) {
+                self.overview = networkOverview;
+            });
+        }
+    },
 
-    getNetworkOverview: {
+    /**
+     * DEPRECATED: Should be replaced by SectionsService overview property
+     */
+    _getNetworkOverview: {
         value: function () {
             var self = this,
                 networkOverview;
@@ -240,4 +266,8 @@ exports.Network = Component.specialize({
         }
     }
 
+}, {
+    CAN_DRAW_GATE_FIELD: {
+        value: "sectionLoaded"
+    }
 });

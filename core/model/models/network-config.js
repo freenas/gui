@@ -110,7 +110,7 @@ exports.NetworkConfig = Montage.specialize({
     userInterfaceDescriptor: {
         value: {
             inspectorComponentModule: {
-                id: 'ui/inspectors/network-configuration.reel'
+                id: 'ui/sections/network/inspectors/network-configuration.reel'
             },
             iconComponentModule: {
                 id: 'ui/icons/network-configuration.reel'
