@@ -126,9 +126,15 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
 
     _getExpirationDate: {
         value: function() {
-            if (this._object.lifetime && this._object.properties) {
-                return new Date((+this.object.properties.creation.rawvalue + this.object.lifetime)*1000);
+            if (!this.object._isNew) {
+                if (this._object.lifetime && this._object.properties) {
+                    return new Date((+this.object.properties.creation.rawvalue + this.object.lifetime)*1000);
+                }
+            } else {
+                var now = new Date();
+                return new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7);
             }
+
             return null;
         }
     },
