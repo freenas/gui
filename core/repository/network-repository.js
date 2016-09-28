@@ -12,5 +12,11 @@ exports.NetworkRepository = AbstractRepository.specialize({
         value: function() {
             return this._networkInterfaceDao.list();
         }
+    },
+
+    saveNetworkInterface: {
+        value: function(networkInterface) {
+            return this._networkInterfaceDao.save(networkInterface);
+        }
     }
 });
