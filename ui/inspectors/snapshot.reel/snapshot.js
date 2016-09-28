@@ -9,6 +9,7 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
  * @extends Component
  */
 exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
+
     _expirationDate: {
         value: null
     },
@@ -17,11 +18,14 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
         get: function() {
             return this._expirationDate;
         },
-        set: function(expirationDate) {
+        set: function (expirationDate) {
             if (this._expirationDate !== expirationDate) {
                 this._expirationDate = expirationDate;
+                
                 if (expirationDate) {
-                    this.object.lifetime = Math.round((expirationDate.getTime() - Date.now()) / 1000);
+                    this.object.lifetime = Math.round((expirationDate.getTime() - 
+                        (this.object.properties ? (+this.object.properties.creation.rawvalue * 1000): Date.now())
+                    ) / 1000);
                 } else {
                     this.object.lifetime = null;
                 }
@@ -57,8 +61,8 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
         get: function() {
             return this._object;
         },
-        set: function(object) {
-            if (this._object != object) {
+        set: function (object) {
+            if (this._object !== object) {
                 this._object = object;
 
                 if (object) {
@@ -80,7 +84,6 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
     enterDocument: {
         value: function() {
             this.$super.enterDocument();
-            this.expirationDate = this._getExpirationDate();
             this._loadVolume();
         }
     },
@@ -128,7 +131,7 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
         value: function() {
             if (!this.object._isNew) {
                 if (this._object.lifetime && this._object.properties) {
-                    return new Date((+this.object.properties.creation.rawvalue + this.object.lifetime)*1000);
+                    return new Date((+this.object.properties.creation.rawvalue + this.object.lifetime) * 1000);
                 }
             } else {
                 var now = new Date();
@@ -136,12 +139,6 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
             }
 
             return null;
-        }
-    },
-
-    _handleLifetimeChange: {
-        value: function() {
-            this.expirationDate = this._getExpirationDate();
         }
     }
 
