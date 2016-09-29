@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="section-root.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "selectedObject": {"<->": "@entries.selectedObject"}
+            }
+        },
+        "overview": {
+            "prototype": "ui/controls/placeholder.reel",
+            "properties": {
+                "element": {"#": "overview"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.overview"},
+                "moduleId": {"<-": "@owner.object.overview.defined() && 'ui/sections/' + @owner.object.id + '/inspectors/overview.reel'"}
+            }
+        },
+        "entries": {
+            "prototype": "ui/controls/viewer.reel",
+            "properties": {
+                "element": {"#": "entries"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.entries"}
+            }
+        },
+        "settings": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "settings"},
+                "name": "Settings"
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.settings"},
+                "classList.has('hide')": {"<-": "!@owner.object.settings"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="SectionRoot">
+        <div data-montage-id="overview"></div>
+        <div data-montage-id="entries"></div>
+        <div data-montage-id="settings"></div>
+    </div>
+</body>
+</html>

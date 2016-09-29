@@ -30,7 +30,7 @@
                 "element": {"#": "substitution"}
             },
             "bindings": {
-                "switchValue": {"<-": "application.section"}
+                "switchValue": {"<-": "@owner.sectionId"}
             }
         },
         "dashboard": {
@@ -49,12 +49,6 @@
             "prototype": "../accounts/accounts.reel",
             "properties": {
                 "element": {"#": "accounts"}
-            }
-        },
-        "network": {
-            "prototype": "ui/sections/network/network.reel",
-            "properties": {
-                "element": {"#": "network"}
             }
         },
         "hardware": {
@@ -123,11 +117,28 @@
                 "element": {"#": "drawer"}
             }
         },
-
         "containers": {
             "prototype": "ui/sections/containers.reel",
             "properties": {
                 "element": {"#": "containers"}
+            }
+        },
+        "cascadingList": {
+            "prototype": "ui/controls/cascading-list.reel",
+            "properties": {
+                "element": {"#": "cascadingList"}
+            },
+            "bindings": {
+                "root": {"<-": "@owner.sectionService.section"}
+            }
+        },
+        "migrationSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "migrationSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.sectionGeneration"}
             }
         }
     }
@@ -139,8 +150,8 @@
         <div data-montage-id="mainSidebar" class="Main-mainSidebar"></div>
         <main>
             <div class="Main-wrapper">
-                <div class="Main-content">
-                    <div data-montage-id="substitution" class="Main-substitution">
+                <div data-montage-id="migrationSubstitution" class="Main-content">
+                    <div data-arg="old" data-montage-id="substitution" class="Main-substitution">
                         <div data-arg="dashboard" data-montage-id="dashboard"></div>
                         <div data-arg="storage" data-montage-id="storage"></div>
                         <div data-arg="accounts" data-montage-id="accounts"></div>
@@ -154,6 +165,9 @@
                         <div data-arg="virtualization" data-montage-id="virtualization"></div>
                         <div data-arg="preferences" data-montage-id="preferences"></div>
                         <div data-arg="containers" data-montage-id="containers"></div>
+                    </div>
+                    <div data-arg="new" class="Main-cascadingListWrapper">
+                        <div data-montage-id="cascadingList"></div>
                     </div>
                 </div>
                 <div data-montage-id="sideboard" class="Main-sideboard"></div>

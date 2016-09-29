@@ -1,6 +1,12 @@
 var AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate;
 
 var AbstractInspector = exports.AbstractInspector = AbstractComponentActionDelegate.specialize({
+    _sectionService: {
+        get: function() {
+            return this.application.sectionService;
+        }
+    },
+
     enterDocument: {
         value: function(isFirstTime) {
             this._callSuperMethod(AbstractComponentActionDelegate, 'enterDocument', arguments);

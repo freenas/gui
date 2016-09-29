@@ -31,6 +31,7 @@ var FreeNASService = require("core/service/freenas-service").FreeNASService,
     Model = require("core/model/model").Model,
     ValidationService = require("core/service/validation-service").ValidationService,
     VirtualMachineService = require("core/service/virtual-machine-service").VirtualMachineService,
+    SectionsDescriptors = require("core/model/sections-descriptors.mjson"),
     Montage = require("montage").Montage;
 
 
@@ -81,6 +82,8 @@ exports.ApplicationDelegate = Montage.specialize({
             app.bytesService = BytesService.instance;
 
             app.addOwnPropertyChangeListener("section", this);
+
+            app.sectionsDescriptors = SectionsDescriptors;
 
             Object.defineProperties(app, {
 
