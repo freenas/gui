@@ -167,10 +167,11 @@ exports.Directory = Montage.specialize({
             statusColorMapping: {
                 "BOUND": "green",
                 "FAILURE": "red",
-                "DISABLED": "gray",
-                "OTHER": "yellow"
+                "DISABLED": "red",
+                "JOINING": "yellow",
+                "EXITING": "yellow"
             },
-            statusValueExpression: "!enabled || !!_isNew ? 'DISABLED' : status == 'BOUND' || status == 'FAILURE' ? status : 'OTHER'"
+            statusValueExpression: "!enabled || !status || !status.state ? 'DISABLED' : status.state"
         }
     }
 });
