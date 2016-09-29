@@ -119,6 +119,15 @@ var VirtualMachineService = exports.VirtualMachineService = Montage.specialize({
         }
     },
 
+    listVirtualMachines: {
+        value: function() {
+            var self = this;
+            return this._dataService.fetchData(Model.Vm).then(function(virtualMachines) {
+                return virtualMachines;
+            });
+        }
+    },
+
     getTemplates: {
         value: function() {
             var self = this;
