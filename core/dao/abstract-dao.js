@@ -19,6 +19,14 @@ exports.AbstractDao = Montage.specialize({
         }
     },
 
+    get: {
+        value: function() {
+            return this.list().then(function(entries) {
+                return entries[0];
+            });
+        }
+    },
+
     getEmptyList: {
         value: function() {
             this._checkModelIsInitialized();
@@ -36,11 +44,18 @@ exports.AbstractDao = Montage.specialize({
     save: {
         value: function(object) {
             this._checkModelIsInitialized();
-            if (object && object.Type === this._model) {
-                return this._dataService.saveDataObject(object);
-            } else {
-                throw new Error("Object type does not match Dao model:", object.Type, this._model);
-            }
+            this._checkObjectIsNotNull(object);
+            this._checkObjectHasDaoModel(object);
+            return this._dataService.saveDataObject(object);
+        }
+    },
+
+    revert: {
+        value: function(object) {
+            this._checkModelIsInitialized();
+            this._checkObjectIsNotNull(object);
+            this._checkObjectHasDaoModel(object);
+            return this._dataService.restoreSnapshotVersion(object);
         }
     },
 
@@ -50,7 +65,23 @@ exports.AbstractDao = Montage.specialize({
                 throw new Error("Dao model is not defined.");
             }
         }
-    } 
+    },
+
+    _checkObjectIsNotNull: {
+        value: function(object) {
+            if (!object || typeof object !== 'object' || !object.Type) {
+                throw new Error("Invalid object:", object);
+            }
+        }
+    },
+
+    _checkObjectHasDaoModel: {
+        value: function(object) {
+            if (object.Type !== this._model) {
+                throw new Error("Object type does not match Dao model:", object.Type, this._model);
+            }
+        }
+    }
 }, {
     instance: {
         get: function() {

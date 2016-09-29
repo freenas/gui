@@ -128,7 +128,7 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
 
                     //FIXME: kind of hacky
                     self.application.dispatchEventNamed("userLogged");
-                    self.application.section = self._getSection();
+//                    self.application.section = self._getSection();
 
                 }, function (error) {
                     self.errorMessage = error.message || error;

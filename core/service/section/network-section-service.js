@@ -1,20 +1,61 @@
 var AbstractSectionService = require("core/service/section/abstract-section-service").AbstractSectionService,
     NetworkRepository = require("core/repository/network-repository").NetworkRepository,
+    SystemRepository = require("core/repository/system-repository").SystemRepository,
     NetworkInterfaceAliasType = require("core/model/enumerations/network-interface-alias-type").NetworkInterfaceAliasType;
 
 exports.NetworkSectionService = AbstractSectionService.specialize({
     init: {
-        value: function(networkRepository) {
+        value: function(networkRepository, systemRepository) {
             this._networkRepository = networkRepository || NetworkRepository.instance;
+            this._systemRepository = systemRepository || SystemRepository.instance;
         }
     },
 
-    listEntries: {
+    loadEntries: {
+        value: function() {
+            return this._networkRepository.listNetworkInterfaces();
+        }
+    },
+
+    loadOverview: {
         value: function() {
             var self = this;
-            return this._networkRepository.listNetworkInterfaces().then(function(interfaces) {
-                return self.entries = interfaces;
+            return this._networkRepository.getNetworkOverview().then(function(overview) {
+                return self._systemRepository.getSystemGeneral().then(function(general) {
+                    overview.system = general;
+                    return overview;
+                });
             });
+        }
+    },
+
+    loadSettings: {
+        value: function() {
+            var self = this;
+            return this._networkRepository.getNetworkSettings().then(function(settings) {
+                return self._systemRepository.getSystemGeneral().then(function(general) {
+                    settings.system = general;
+                    return settings;
+                });
+            });
+        }
+    },
+
+    revertSettings: {
+        value: function() {
+            var self = this;
+            return this._networkRepository.revertNetworkSettings().then(function() {
+                return self._systemRepository.revertSystemGeneral();
+            });
+        }
+    },
+
+    saveSettings: {
+        value: function() {
+            return Promise.all([
+                this._networkRepository.saveNetworkSettings(),
+                this._systemRepository.saveSystemGeneral()
+            ]);
         }
     },
 

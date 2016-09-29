@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="section-settings.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "settings": {
+            "prototype": "ui/controls/placeholder.reel",
+            "properties": {
+                "element": {"#": "settings"}
+            },
+            "bindings": {
+                "moduleId": {"<-": "'ui/sections/' + @owner.object.section.id + '/inspectors/settings.reel'"},
+                "context": {"<-": "@owner.context"},
+                "object": {"<-": "@owner.object"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="SectionSettings">
+        <div data-montage-id="settings"></div>
+    </div>
+</body>
+</html>

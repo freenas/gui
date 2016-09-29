@@ -2,7 +2,6 @@ var DataService = require("montage-data/logic/service/data-service").DataService
     RawDataService = require("montage-data/logic/service/raw-data-service").RawDataService,
     SnapshotService = require("montage-data/logic/service/snapshot-service").SnapshotService,
     BackEndBridgeModule = require("../backend/backend-bridge"),
-    DataObjectDescriptor = require("montage-data/logic/model/data-object-descriptor").DataObjectDescriptor,
     NotificationCenterModule = require("../backend/notification-center"),
     NotificationCenter = NotificationCenterModule.NotificationCenter,
     SelectionService = require("./selection-service").SelectionService,
@@ -116,17 +115,8 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                                                     DataService
 ----------------------------------------------------------------------------------------------------------------------*/
 
-
-    /**
-     * @public
-     *
-     * @type {Array.<DataObjectDescriptor>}
-     *
-     */
     types: {
         value: [
-            //FIXME: ALL_TYPES doesn't seems to work
-            //DataObjectDescriptor.ALL_TYPES,
             Model.Alert,
             Model.BootEnvironment,
             Model.Calendar,
@@ -177,7 +167,6 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
             Model.ZfsVdev,
         ]
     },
-
 
     /**
      * @public

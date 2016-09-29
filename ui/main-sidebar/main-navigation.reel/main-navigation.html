@@ -6,71 +6,18 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "repetition": {"@": "repetition"}
             }
         },
         "repetition": {
             "prototype": "montage/ui/repetition.reel",
             "properties": {
                 "element": {"#": "repetition"},
-                "isSelectionEnabled": true,
-                "content": [
-                    {
-                        "value": "dashboard",
-                        "label": "Dashboard",
-                        "icon": "dashboard"
-                    },
-                    {
-                        "value": "storage",
-                        "label": "Storage",
-                        "icon": "storage"
-                    },
-                    {
-                        "value": "accounts",
-                        "label": "Accounts",
-                        "icon": "users"
-                    },
-                    {
-                        "value": "network",
-                        "label": "Network",
-                        "icon": "network"
-                    },
-                    {
-                        "value": "settings",
-                        "label": "System",
-                        "icon": "settings"
-                    },
-                    {
-                        "value": "services",
-                        "label": "Services",
-                        "icon": "services"
-                    },
-                    {
-                        "value": "console",
-                        "label": "Console",
-                        "icon": "console"
-                    },
-                    {
-                        "value": "calendar",
-                        "label": "Calendar",
-                        "icon": "calendar"
-                    },
-                    {
-                        "value": "peering",
-                        "label": "Peering",
-                        "icon": "peering"
-                    },
-                    {
-                        "value": "virtualization",
-                        "label": "VMs",
-                        "icon": "vms"
-                    },
-                    {
-                        "value": "containers",
-                        "label": "Containers",
-                        "icon": "container"
-                    }
-                ]
+                "isSelectionEnabled": true
+            },
+            "bindings": {
+                "content": {"<-": "@owner.sections"}
             }
         },
 
@@ -82,17 +29,7 @@
             "bindings": {
                 "iteration": {"<-": "@repetition:iteration"},
                 "object": {"<-": "iteration.object"},
-                "iteration.selected": {"<->": "application.section == object.value"}
-            }
-        },
-
-        "preferences": {
-            "prototype": "montage/ui/button.reel",
-            "properties": {
-                "element": {"#": "preferences"}
-            },
-            "bindings": {
-                "classList.has('selected')": {"<-": "application.section == 'preferences'"}
+                "iteration.selected": {"<->": "application.section == iteration.object"}
             }
         }
     }

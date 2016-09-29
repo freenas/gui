@@ -26,7 +26,8 @@
         );
 }
 
-.Main-substitution {
+.Main-substitution,
+.Main-cascadingListWrapper {
     position: relative;
     display: flex;
     flex-direction: column;

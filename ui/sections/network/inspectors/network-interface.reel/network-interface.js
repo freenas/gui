@@ -31,7 +31,6 @@ exports.NetworkInterface = AbstractInspector.specialize({
 
     templateDidLoad: {
         value: function() {
-            this._sectionService = NetworkSectionService.instance;
             this.interfaces = this._sectionService.entries;
         }
     },

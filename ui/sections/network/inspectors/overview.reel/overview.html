@@ -2,7 +2,7 @@
 <html>
 <head>
     <title></title>
-    <link rel="stylesheet" type="text/css" href="configuration.css">
+    <link rel="stylesheet" type="text/css" href="overview.css">
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -23,7 +23,7 @@
                 "element": {"#": "hostname"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.networkConfiguration.general.hostname"}
+                "value": {"<-": "@owner.object.system.hostname"}
             }
         },
         "defaultRouteIpv4": {
@@ -32,7 +32,7 @@
                 "element": {"#": "defaultRouteIpv4"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.networkConfiguration.gateway.ipv4"}
+                "value": {"<-": "@owner.object.config.gateway.ipv4"}
             }
         },
         "defaultRouteIpv6": {
@@ -41,35 +41,27 @@
                 "element": {"#": "defaultRouteIpv6"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.networkConfiguration.gateway.ipv6"},
-                "classList.has('hide')": {"<-": "!@owner.object.networkConfiguration.gateway.ipv6"}
+                "value": {"<-": "@owner.object.config.gateway.ipv6"},
+                "classList.has('hide')": {"<-": "!@owner.object.config.gateway.ipv6"}
             }
         },
-        "ipv6LabelCondition": {
-            "prototype": "montage/ui/condition.reel",
-            "properties": {
-                "element": {"#": "ipv6LabelCondition"}
-            },
-            "bindings": {
-                "condition": {"<-": "@owner.object.summary.interfaces.filter{enabled}.filter{ipv6.length > 0}.length > 0"}
-            }
-        },
-        "interfaceRepetition": {
+        "enabledInterfaces": {
             "prototype": "montage/ui/repetition.reel",
             "properties": {
-                "element": {"#": "interfaceRepetition"}
+                "element": {"#": "enabledInterfaces"}
             },
             "bindings": {
-                "content": {"<-": "@owner.object.summary.interfaces.filter{enabled}"}
+                "content": {"<-": "@owner.object.interfaces.filter{enabled}"},
+                "classList.has('has-ip6')": {"<-": "@owner.object.interfaces.filter{enabled}.map{status.aliases}.concat(@owner.object.interfaces.filter{enabled}.map{aliases}).some{type == 'INET6'}"}
             }
         },
-        "interface": {
+        "enabledInterface": {
             "prototype": "./interface-overview-item.reel",
             "properties": {
-                "element": {"#": "interface"}
+                "element": {"#": "enabledInterface"}
             },
             "bindings": {
-                "object": {"<-": "@interfaceRepetition:iteration.object"}
+                "object": {"<-": "@enabledInterfaces:iteration.object"}
             }
         },
         "nameserverRepetition": {
@@ -78,7 +70,7 @@
                 "element": {"#": "nameserverRepetition"}
             },
             "bindings": {
-                "content": {"<-": "@owner.object.networkConfiguration.dns.addresses"}
+                "content": {"<-": "@owner.object.config.dns.addresses"}
             }
         },
         "nameserver": {
@@ -90,41 +82,24 @@
                 "value": {"<-": "@nameserverRepetition:iteration.object"}
             }
         },
-        "networkConfiguration": {
-            "prototype": "ui/controls/inspector-option.reel",
-            "properties": {
-                "element": {"#": "networkConfiguration"}
-            },
-            "bindings": {
-                "object": {"<-": "@owner.object.networkConfiguration"}
-            }
-        },
-        "interfaceViewer": {
-            "prototype": "ui/controls/inspector-option.reel",
-            "properties": {
-                "element": {"#": "interfaceViewer"}
-            },
-            "bindings": {
-                "object": {"<-": "@owner.object.interfaces"}
-            }
-        },
-        "disabledInterfaces": {
+        "disabledInterfacesSection": {
             "prototype": "ui/controls/foldable-section.reel",
             "properties": {
-                "element": {"#": "disabledInterfaces"},
+                "element": {"#": "disabledInterfacesSection"},
                 "title": "Disabled Interfaces"
             },
             "bindings": {
-                "classList.has('hide')": {"<-": "@owner.object.summary.interfaces.filter{!enabled}.length == 0"}
+                "classList.has('hide')": {"<-": "@owner.object.interfaces.filter{!enabled}.length == 0"}
             }
         },
-        "disabledInterfacesRepetition": {
+        "disabledInterfaces": {
             "prototype": "montage/ui/repetition.reel",
             "properties": {
-                "element": {"#": "disabledInterfacesRepetition"}
+                "element": {"#": "disabledInterfaces"}
             },
             "bindings": {
-                "content": {"<-": "@owner.object.summary.interfaces.filter{!enabled}"}
+                "content": {"<-": "@owner.object.interfaces.filter{!enabled}"},
+                "classList.has('has-ip6')": {"<-": "@owner.object.interfaces.filter{!enabled}.map{status.aliases}.concat(@owner.object.interfaces.filter{!enabled}.map{aliases}).some{type == 'INET6'}"}
             }
         },
         "disabledInterface": {
@@ -133,16 +108,7 @@
                 "element": {"#": "disabledInterface"}
             },
             "bindings": {
-                "object": {"<-": "@disabledInterfacesRepetition:iteration.object"}
-            }
-        },
-        "disabledIpv6LabelCondition": {
-            "prototype": "montage/ui/condition.reel",
-            "properties": {
-                "element": {"#": "disabledIpv6LabelCondition"}
-            },
-            "bindings": {
-                "condition": {"<-": "@owner.object.summary.interfaces.filter{!enabled}.filter{ipv6.length > 0}.length > 0"}
+                "object": {"<-": "@disabledInterfaces:iteration.object"}
             }
         },
         "routesSection": {
@@ -152,7 +118,7 @@
                 "hasTemplate": false
             },
             "bindings": {
-                "classList.has('hide')": {"<-": "!@owner.object.networkConfiguration.gateway.ipv4 &&!@owner.object.networkConfiguration.gateway.ipv6"}
+                "classList.has('hide')": {"<-": "!@owner.object.config.gateway.ipv4 &&!@owner.object.config.gateway.ipv6"}
             }
         },
         "nameserverSection": {
@@ -169,10 +135,10 @@
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="Configuration">
+    <div data-montage-id="owner" class="Overview">
         <div data-montage-id="scrollView">
             <div>
-                <div class="Configuration-overview">
+                <div class="Overview-overview">
                     <table>
                         <thead>
                             <tr>
@@ -187,36 +153,33 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div class="table">
-                        <div class="thead">
-                            <div class="tr">
-                                <div class="th">Interface</div>
-                                <div class="th">IPv4</div>
-                                <div data-montage-id="ipv6LabelCondition">
-                                    <div class="th">IPv6</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div data-montage-id="interfaceRepetition" class="tbody">
-                            <div data-montage-id="interface"></div>
-                        </div>
-                    </div>
 
-                    <div data-montage-id="disabledInterfaces" class="Configuration-disabledInterfaces">
-                        <div class="table">
-                            <div class="thead">
-                                <div class="tr">
-                                    <div class="th">Interface</div>
-                                    <div class="th">IPv4</div>
-                                    <div data-montage-id="disabledIpv6LabelCondition">
-                                        <div class="th">IPv6</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div data-montage-id="disabledInterfacesRepetition" class="tbody">
-                                <div data-montage-id="disabledInterface"></div>
-                            </div>
-                        </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Interface</th>
+                                <th>IPv4</th>
+                                <th class="ip6Address">IPv6</th>
+                            </tr>
+                        </thead>
+                        <tbody data-montage-id="enabledInterfaces">
+                            <tr data-montage-id="enabledInterface"></tr>
+                        </tbody>
+                    </table>
+
+                    <div data-montage-id="disabledInterfacesSection" class="Overview-disabledInterfaces">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Interface</th>
+                                    <th>IPv4</th>
+                                    <th class="ip6Address">IPv6</th>
+                                </tr>
+                            </thead>
+                            <tbody data-montage-id="disabledInterfaces">
+                                <tr data-montage-id="disabledInterface"></tr>
+                            </tbody>
+                        </table>
                     </div>
 
                     <table data-montage-id="nameserverSection">
@@ -248,7 +211,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div data-montage-id="networkConfiguration"></div>
+                <div data-montage-id="networkOverview"></div>
                 <div data-montage-id="interfaceViewer"></div>
             </div>
         </div>
