@@ -1,14 +1,8 @@
-var Component = require("montage/ui/component").Component,
-    VmsSectionService = require("core/service/section/vms-section-service").VmsSectionService;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
-/**
- * @class VirtualMachineDeviceGraphics
- * @extends Component
- */
-exports.VirtualMachineDeviceGraphics = Component.specialize({
+exports.VirtualMachineDeviceGraphics = AbstractInspector.specialize({
     templateDidLoad: {
         value: function() {
-            this._sectionService = VmsSectionService.instance;
             this.graphicsResolutionOptions = this._sectionService.GRAPHICS_RESOLUTIONS;
         }
     }

@@ -1,10 +1,8 @@
-var Component = require("montage/ui/component").Component,
-    VmsSectionService = require("core/service/section/vms-section-service").VmsSectionService;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
-exports.VirtualMachineDeviceUsb = Component.specialize({
+exports.VirtualMachineDeviceUsb = AbstractInspector.specialize({
     templateDidLoad: {
         value: function() {
-            this._sectionService = VmsSectionService.instance;
             this.usbTypeOptions = this._sectionService.USB_DEVICES;
         }
     }

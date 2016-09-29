@@ -1,6 +1,4 @@
-var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Model = require("core/model/model").Model,
-    VmsSectionService = require("core/service/section/vms-section-service").VmsSectionService;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
 /**
  * @class VirtualMachine
@@ -29,7 +27,6 @@ exports.VirtualMachine = AbstractInspector.specialize({
     templateDidLoad: {
         value: function() {
             var self = this;
-            this._sectionService = VmsSectionService.instance;
             this._dependenciesLoadingPromise = this._load();
             this.DEFAULT_STRING = this._sectionService.DEFAULT_STRING;
             this.guestTypeOptions = this._sectionService.GUEST_TYPES;

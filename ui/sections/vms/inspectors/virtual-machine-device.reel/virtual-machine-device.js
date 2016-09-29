@@ -1,10 +1,5 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Model = require("core/model/model").Model,
-    VmConfigBootloader = require("core/model/enumerations/vm-config-bootloader").VmConfigBootloader,
-    VmDeviceType = require("core/model/enumerations/vm-device-type").VmDeviceType,
-    CascadingList = require("ui/controls/cascading-list.reel").CascadingList,
-    Promise = require("montage/core/promise").Promise,
-    VmsSectionService = require("core/service/section/vms-section-service").VmsSectionService;
+    Model = require("core/model/model").Model;
 
 /**
  * @class VirtualMachineDevice
@@ -32,12 +27,6 @@ exports.VirtualMachineDevice = AbstractInspector.specialize({
                     }
                 }
             }
-        }
-    },
-
-    templateDidLoad: {
-        value: function() {
-            this._sectionService = VmsSectionService.instance;
         }
     },
 

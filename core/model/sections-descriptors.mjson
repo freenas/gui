@@ -58,7 +58,8 @@
         "label": "VMs",
         "id": "vms",
         "index": 9,
-        "icon": "vms"
+        "icon": "vms",
+        "service": "core/service/section/vms-section-service"
     },
     "containers": {
         "label": "Containers",

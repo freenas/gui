@@ -1,14 +1,8 @@
-var Component = require("montage/ui/component").Component,
-    VmsSectionService = require("core/service/section/vms-section-service").VmsSectionService;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
-/**
- * @class VirtualMachineDeviceDisk
- * @extends Component
- */
-exports.VirtualMachineDeviceDisk = Component.specialize({
+exports.VirtualMachineDeviceDisk = AbstractInspector.specialize({
     templateDidLoad: {
         value: function() {
-            this._sectionService = VmsSectionService.instance;
             this.diskModeOptions = this._sectionService.DISK_MODES;
         }
     },
