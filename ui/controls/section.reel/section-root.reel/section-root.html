@@ -20,7 +20,8 @@
             },
             "bindings": {
                 "object": {"<-": "@owner.object.overview"},
-                "moduleId": {"<-": "@owner.object.overview.defined() && 'ui/sections/' + @owner.object.id + '/inspectors/overview.reel'"}
+                "moduleId": {"<-": "@owner.object.overview.defined() && 'ui/sections/' + @owner.object.id + '/inspectors/overview.reel'"},
+                "classList.has('hide')": {"<-": "!@owner.object.overview"}
             }
         },
         "entries": {
@@ -40,7 +41,7 @@
             },
             "bindings": {
                 "object": {"<-": "@owner.object.settings"},
-                "classList.has('hide')": {"<-": "!@owner.object.settings"}
+                "classList.has('hide')": {"<-": "!@owner.object.settings.settings"}
             }
         }
     }

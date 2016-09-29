@@ -1,17 +1,10 @@
-var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model,
-    VmsSectionService = require("core/service/section/vms-section-service").VmsSectionService;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
-/**
- * @class VirtualMachineDeviceNic
- * @extends Component
- */
-exports.VirtualMachineDeviceNic = Component.specialize({
+exports.VirtualMachineDeviceNic = AbstractInspector.specialize({
     templateDidLoad: {
         value: function() {
             var self = this;
             this._canDrawGate.setField(this.constructor.DRAW_GATE_FIELD, false);
-            this._sectionService = VmsSectionService.instance;
             this.nicDeviceOptions = this._sectionService.NIC_DEVICES;
             this.nicModeOptions = this._sectionService.NIC_MODES;
             this._sectionService.listNetworkInterfaces().then(function(interfaces) {
