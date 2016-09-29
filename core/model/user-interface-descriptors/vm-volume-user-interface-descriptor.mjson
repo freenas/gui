@@ -2,8 +2,8 @@
     "root": {
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
-            "inspectorComponentModule": {"%": "ui/inspectors/virtual-machine-volume.reel"},
-            "creatorComponentModule": {"%": "ui/inspectors/virtual-machine-volume.reel"},
+            "inspectorComponentModule": {"%": "ui/sections/vms/inspectors/virtual-machine-device.reel"},
+            "creatorComponentModule": {"%": "ui/sections/vms/inspectors/virtual-machine-device.reel"},
             "nameExpression": "!_isNew ? name : 'New Volume'",
             "collectionNameExpression": "'Volumes'",
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"}

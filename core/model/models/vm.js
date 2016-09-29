@@ -202,10 +202,10 @@ exports.Vm = Montage.specialize({
             },
             collectionNameExpression: "'Virtual Machines'",
             inspectorComponentModule: {
-                id: 'ui/inspectors/virtual-machine.reel'
+                id: 'ui/sections/vms/inspectors/virtual-machine.reel'
             },
             creatorComponentModule: {
-                id: 'ui/inspectors/virtual-machine.reel'
+                id: 'ui/sections/vms/inspectors/virtual-machine.reel'
             },
             nameExpression: "_isNew.defined() && _isNew ? 'New VM' : name",
             statusColorMapping: {

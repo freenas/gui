@@ -2,7 +2,7 @@
     "root": {
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
-            "inspectorComponentModule": {"%": "ui/inspectors/virtual-machine.reel/virtual-machine-readme.reel"},
+            "inspectorComponentModule": {"%": "ui/sections/vms/inspectors/virtual-machine.reel/virtual-machine-readme.reel"},
             "nameExpression": "'Readme'"
         }
     }

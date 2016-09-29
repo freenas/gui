@@ -151,14 +151,18 @@ exports.CascadingList = Component.specialize({
             var self = this;
 
             this.application.delegate.userInterfaceDescriptorForObject(object).then(function (userInterfaceDescriptor) {
-                columnIndex = Math.min(self._stack.length, columnIndex);
+                var currentStackLength = self._stack.length;
+                columnIndex = Math.min(currentStackLength, columnIndex);
                 var context = {
                     object: object,
                     userInterfaceDescriptor: userInterfaceDescriptor,
-                    columnIndex: columnIndex
+                    columnIndex: columnIndex,
                 };
                 if (self._defaultSelection && self._defaultSelection.error && self._defaultSelection.path.length == 0) {
                     context.error = self._defaultSelection.error;
+                }
+                if (currentStackLength > 0) {
+                    context.parentContext = self._stack[currentStackLength - 1];
                 }
                 self._push(context);
 
