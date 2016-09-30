@@ -1,5 +1,5 @@
 {
-  "blueprint_networkinterfacebridgeanonymous_members": {
+  "blueprint_networkinterfacebridgeproperties_members": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "members",
@@ -10,9 +10,9 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "NetworkInterfaceBridgeAnonymous",
+      "name": "NetworkInterfaceBridgeProperties",
       "propertyBlueprints": [
-        {"@": "blueprint_networkinterfacebridgeanonymous_members"}
+        {"@": "blueprint_networkinterfacebridgeproperties_members"}
       ]
     }
   }

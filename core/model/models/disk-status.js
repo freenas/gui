@@ -66,6 +66,19 @@ exports.DiskStatus = Montage.specialize({
             return this._empty;
         }
     },
+    _enclosure: {
+        value: null
+    },
+    enclosure: {
+        set: function (value) {
+            if (this._enclosure !== value) {
+                this._enclosure = value;
+            }
+        },
+        get: function () {
+            return this._enclosure;
+        }
+    },
     _encrypted: {
         value: null
     },
@@ -360,6 +373,10 @@ exports.DiskStatus = Montage.specialize({
             mandatory: false,
             name: "empty",
             valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "enclosure",
+            valueType: "String"
         }, {
             mandatory: false,
             name: "encrypted",

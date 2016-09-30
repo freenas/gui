@@ -31,6 +31,14 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_systemadvanced_graphite_servers": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "graphite_servers",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
   "blueprint_systemadvanced_home_directory_root": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -113,6 +121,7 @@
         {"@": "blueprint_systemadvanced_console_cli"},
         {"@": "blueprint_systemadvanced_console_screensaver"},
         {"@": "blueprint_systemadvanced_debugkernel"},
+        {"@": "blueprint_systemadvanced_graphite_servers"},
         {"@": "blueprint_systemadvanced_home_directory_root"},
         {"@": "blueprint_systemadvanced_motd"},
         {"@": "blueprint_systemadvanced_periodic_notify_user"},

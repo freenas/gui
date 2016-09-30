@@ -53,6 +53,19 @@ exports.SystemAdvanced = Montage.specialize({
             return this._debugkernel;
         }
     },
+    _graphite_servers: {
+        value: null
+    },
+    graphite_servers: {
+        set: function (value) {
+            if (this._graphite_servers !== value) {
+                this._graphite_servers = value;
+            }
+        },
+        get: function () {
+            return this._graphite_servers;
+        }
+    },
     _home_directory_root: {
         value: null
     },
@@ -188,6 +201,10 @@ exports.SystemAdvanced = Montage.specialize({
             mandatory: false,
             name: "debugkernel",
             valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "graphite_servers",
+            valueType: "array"
         }, {
             mandatory: false,
             name: "home_directory_root",

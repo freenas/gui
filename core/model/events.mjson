@@ -7,6 +7,7 @@
     "CryptoCertificate": "entity-subscriber.crypto.certificate.changed",
     "Directory": "entity-subscriber.directory.changed",
     "Disk": "entity-subscriber.disk.changed",
+    "DiskEnclosure": "entity-subscriber.disk.enclosure.changed",
     "DockerContainer": "entity-subscriber.docker.container.changed",
     "DockerHost": "entity-subscriber.docker.host.changed",
     "DockerImage": "entity-subscriber.docker.image.changed",

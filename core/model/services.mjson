@@ -308,6 +308,34 @@
             }
         }
     },
+    "ClidEval": {
+        "class": {
+            "evalAst": {
+                "method": "clid.eval.eval_ast",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "evalCode": {
+                "method": "clid.eval.eval_code",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "parse": {
+                "method": "clid.eval.parse",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
+    "ClidManagement": {
+        "class": {
+            "die": {
+                "method": "clid.management.die",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
     "ContainerdDocker": {
         "class": {
             "create": {
@@ -327,6 +355,11 @@
             },
             "getHostStatus": {
                 "method": "containerd.docker.get_host_status",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "hostNameByContainerId": {
+                "method": "containerd.docker.host_name_by_container_id",
                 "name": "call",
                 "namespace": "rpc"
             },
@@ -595,6 +628,15 @@
             }
         }
     },
+    "DiskEnclosure": {
+        "instance": {
+            "read": {
+                "method": "disk.enclosure.query",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
     "DockerConfig": {
         "instance": {
             "read": {
@@ -667,13 +709,18 @@
     },
     "DockerImage": {
         "class": {
+            "getCollectionImages": {
+                "method": "docker.image.get_collection_images",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "getTemplates": {
                 "method": "docker.image.get_templates",
                 "name": "call",
                 "namespace": "rpc"
             },
-            "labelsToTemplate": {
-                "method": "docker.image.labels_to_template",
+            "labelsToPresets": {
+                "method": "docker.image.labels_to_presets",
                 "name": "call",
                 "namespace": "rpc"
             },
@@ -1527,6 +1574,13 @@
         }
     },
     "Peer": {
+        "class": {
+            "peerTypes": {
+                "method": "peer.peer_types",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        },
         "instance": {
             "create": {
                 "method": "task.submit",
@@ -1668,14 +1722,7 @@
                         "name",
                         "slave",
                         "master",
-                        "datasets",
-                        "replicate_services",
-                        "bidirectional",
-                        "auto_recover",
-                        "recursive",
-                        "transport_options",
-                        "snapshot_lifetime",
-                        "followdelete"
+                        "datasets"
                     ]
                 },
                 "task": "replication.create"
@@ -2995,6 +3042,7 @@
                 "namespace": "rpc",
                 "restrictions": {
                     "requiredFields": [
+                        "name",
                         "target"
                     ]
                 },
