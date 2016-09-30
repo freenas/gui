@@ -135,8 +135,7 @@ exports.User = AbstractInspector.specialize({
     },
     save: {
         value: function() {
-            var self = this,
-                needsSaveSystemAdvanced = this._defaultHomeDirectoryComponent.checked && !this.useEmptyHomedir;
+            var self = this;
 
             this.object.groups = this.additionalGroups.map(function(x) { return x.id; });
             if (this.object._isNew) {
@@ -147,12 +146,7 @@ exports.User = AbstractInspector.specialize({
                 }
             }
 
-            return this.application.dataService.saveDataObject(this.object).then(function () {
-                if (needsSaveSystemAdvanced && systemAdvanced.home_directory_root !== self.homeDirectory) {
-                    self.systemAdvanced.home_directory_root = self.homeDirectory;
-                    return self.application.dataService.saveDataObject(self.systemAdvanced);
-                }
-            });
+            return this.application.dataService.saveDataObject(this.object);
         }
     },
 
