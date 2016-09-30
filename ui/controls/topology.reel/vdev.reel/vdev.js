@@ -309,7 +309,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
 
     _calculateSizes: {
         value: function() {
-            if (this.children[0] && this.children[0]._disk) {
+            if (this.children && this.children[0] && this.children[0]._disk) {
                 var diskSize = this.children[0]._disk.mediasize,
                     totalSize = diskSize * this.children.length;
                 this.object._paritySize = this._topologyService.getParitySizeOnTotal(this.children.length, this.object.type, totalSize);
