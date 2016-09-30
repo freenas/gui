@@ -80,15 +80,20 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
         }
     },
 
+    templateDidLoad: {
+        value: function() {
+
+            this.compressionOptions = this._initializePropertyOptions(COMPRESSION_OPTIONS);
+            this.dedupOptions = this._initializePropertyOptions(DEDUP_OPTIONS);
+            this.atimeOptions = this._initializePropertyOptions(ATIME_OPTIONS);
+            this.volblocksizeOptions = this._initializePropertyOptions(VOLBLOCKSIZE_OPTIONS);
+        }
+    },
+
     enterDocument: {
-        value: function(isFirstTime) {
+        value: function() {
             this._isLoaded = false;
-            if (isFirstTime) {
-                this.compressionOptions = this._initializePropertyOptions(COMPRESSION_OPTIONS);
-                this.dedupOptions = this._initializePropertyOptions(DEDUP_OPTIONS);
-                this.atimeOptions = this._initializePropertyOptions(ATIME_OPTIONS);
-                this.volblocksizeOptions = this._initializePropertyOptions(VOLBLOCKSIZE_OPTIONS);
-            }
+
             this.addPathChangeListener("object.properties.atime.source", this, "_updateInheritedPropertySource");
             this.addPathChangeListener("object.properties.atime.parsed", this, "_updateInheritedPropertyValue");
             this.addPathChangeListener("object.properties.compression.source", this, "_updateInheritedPropertySource");
