@@ -1,17 +1,30 @@
 var Montage = require("montage").Montage;
 
-exports.Peer = Montage.specialize({
-    _credentials: {
+exports.Enclosure = Montage.specialize({
+    _description: {
         value: null
     },
-    credentials: {
+    description: {
         set: function (value) {
-            if (this._credentials !== value) {
-                this._credentials = value;
+            if (this._description !== value) {
+                this._description = value;
             }
         },
         get: function () {
-            return this._credentials;
+            return this._description;
+        }
+    },
+    _devices: {
+        value: null
+    },
+    devices: {
+        set: function (value) {
+            if (this._devices !== value) {
+                this._devices = value;
+            }
+        },
+        get: function () {
+            return this._devices;
         }
     },
     _id: {
@@ -52,27 +65,17 @@ exports.Peer = Montage.specialize({
         get: function () {
             return this._status;
         }
-    },
-    _type: {
-        value: null
-    },
-    type: {
-        set: function (value) {
-            if (this._type !== value) {
-                this._type = value;
-            }
-        },
-        get: function () {
-            return this._type;
-        }
     }
 }, {
     propertyBlueprints: {
         value: [{
             mandatory: false,
-            name: "credentials",
-            valueObjectPrototypeName: "PeerCredentials",
-            valueType: "object"
+            name: "description",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "devices",
+            valueType: "array"
         }, {
             mandatory: false,
             name: "id",
@@ -84,27 +87,8 @@ exports.Peer = Montage.specialize({
         }, {
             mandatory: false,
             name: "status",
-            valueObjectPrototypeName: "PeerStatus",
-            valueType: "object"
-        }, {
-            mandatory: false,
-            name: "type",
-            valueType: "String"
+            valueObjectPrototypeName: "EnclosureStatus",
+            valueType: "array"
         }]
-    },
-    userInterfaceDescriptor: {
-        value: {
-            collectionInspectorComponentModule: {
-                id: 'ui/controls/viewer.reel'
-            },
-            collectionNameExpression: "'Peers'",
-            inspectorComponentModule: {
-                id: 'ui/sections/peering/inspectors/peer.reel'
-            },
-            creatorComponentModule: {
-                id: 'ui/sections/peering/inspectors/peer.reel'
-            },
-            nameExpression: "name.defined() ? name : 'Create a peer'"
-        }
     }
 });

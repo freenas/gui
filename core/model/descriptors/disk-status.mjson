@@ -39,6 +39,14 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_diskstatus_enclosure": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "enclosure",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_diskstatus_encrypted": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -218,6 +226,7 @@
         {"@": "blueprint_diskstatus_data_partition_uuid"},
         {"@": "blueprint_diskstatus_description"},
         {"@": "blueprint_diskstatus_empty"},
+        {"@": "blueprint_diskstatus_enclosure"},
         {"@": "blueprint_diskstatus_encrypted"},
         {"@": "blueprint_diskstatus_gdisk_name"},
         {"@": "blueprint_diskstatus_id"},

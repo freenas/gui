@@ -1,6 +1,6 @@
 var Montage = require("montage").Montage;
 
-exports.NetworkInterfaceBridgeAnonymous = Montage.specialize({
+exports.NetworkInterfaceBridgeProperties = Montage.specialize({
     _members: {
         value: null
     },
