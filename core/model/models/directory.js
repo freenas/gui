@@ -167,7 +167,7 @@ exports.Directory = Montage.specialize({
             statusColorMapping: {
                 "BOUND": "green",
                 "FAILURE": "red",
-                "DISABLED": "red",
+                "DISABLED": "grey",
                 "JOINING": "yellow",
                 "EXITING": "yellow"
             },
