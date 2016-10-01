@@ -359,6 +359,12 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
                     if (type === Topology.VDEV_TYPES.DISK.value) {
                         allowedVDevTypes = [Topology.VDEV_TYPES.DISK, Topology.VDEV_TYPES.MIRROR];
 
+                    } else if (type === Topology.VDEV_TYPES.RAIDZ3.value) {
+                        allowedVDevTypes = [Topology.VDEV_TYPES.RAIDZ3];
+                    } else if (type === Topology.VDEV_TYPES.RAIDZ2.value) {
+                        allowedVDevTypes = [Topology.VDEV_TYPES.RAIDZ2];
+                    } else if (type === Topology.VDEV_TYPES.RAIDZ1.value) {
+                        allowedVDevTypes = [Topology.VDEV_TYPES.RAIDZ1];
                     } else if (type === Topology.VDEV_TYPES.MIRROR.value) {
                         allowedVDevTypes = [Topology.VDEV_TYPES.MIRROR];
                     } else {
