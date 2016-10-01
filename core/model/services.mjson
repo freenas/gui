@@ -3160,6 +3160,24 @@
             }
         }
     },
+    "Vmware": {
+        "class": {
+            "getDatastores": {
+                "method": "vmware.get_datastores",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
+    "VmwareDatasets": {
+        "instance": {
+            "read": {
+                "method": "vmware.datasets.query",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
     "Volume": {
         "class": {
             "decodePath": {

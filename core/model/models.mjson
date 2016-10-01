@@ -685,6 +685,10 @@
             "type": "Update"
         },
         {
+            "modelId": "core/model/models/usb-device.js",
+            "type": "UsbDevice"
+        },
+        {
             "modelId": "core/model/models/user-attributes-anonymous.js",
             "type": "UserAttributesAnonymous"
         },
@@ -763,6 +767,14 @@
         {
             "modelId": "core/model/models/vm.js",
             "type": "Vm"
+        },
+        {
+            "modelId": "core/model/models/vmware-dataset.js",
+            "type": "VmwareDataset"
+        },
+        {
+            "modelId": "core/model/models/vmware-datastore.js",
+            "type": "VmwareDatastore"
         },
         {
             "modelId": "core/model/models/volume-attributes-anonymous.js",

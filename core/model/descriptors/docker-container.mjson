@@ -136,6 +136,14 @@
       "valueObjectPrototypeName": "DockerVolume"
     }
   },
+  "blueprint_dockercontainer_web_ui_url": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "web_ui_url",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
@@ -157,7 +165,8 @@
         {"@": "blueprint_dockercontainer_running"},
         {"@": "blueprint_dockercontainer_settings"},
         {"@": "blueprint_dockercontainer_status"},
-        {"@": "blueprint_dockercontainer_volumes"}
+        {"@": "blueprint_dockercontainer_volumes"},
+        {"@": "blueprint_dockercontainer_web_ui_url"}
       ]
     }
   }
