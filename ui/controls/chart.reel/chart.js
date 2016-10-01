@@ -199,27 +199,29 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
 
     _addDisplayedSeries: {
         value: function() {
-            var legendsContainer = this._legend.content()[0][0],
-                legendElements = legendsContainer.getElementsByClassName('legend-entry'),
-                disabledSeries = this._seriesList.filter(function(x) { return x.disabled; }).map(function(x) { return x.key; }),
-                legendElement, series,
-                datasets = [],
-                i, length;
-            for (i = 0, length = legendElements.length; i < length; i++) {
-                legendElement = legendElements.item(i);
-                if (disabledSeries.length > 0 && disabledSeries.indexOf(d3.select(legendElement).datum()) != -1) {
-                    legendElement.classList.add('is-disabled');
-                } else {
-                    legendElement.classList.remove('is-disabled');
+            var legendsContainer = this._legend.content()[0][0];
+            if (legendsContainer && legendsContainer.childNodes && legendsContainer.childNodes[0]) {
+                var legendElements = legendsContainer.childNodes[0].childNodes,
+                    disabledSeries = this._seriesList.filter(function(x) { return x.disabled; }).map(function(x) { return x.key; }),
+                    legendElement, series,
+                    datasets = [],
+                    i, length;
+                for (i = 0, length = legendElements.length; i < length; i++) {
+                    legendElement = legendElements.item(i);
+                    if (disabledSeries.length > 0 && disabledSeries.indexOf(d3.select(legendElement).datum()) != -1) {
+                        legendElement.classList.add('is-disabled');
+                    } else {
+                        legendElement.classList.remove('is-disabled');
+                    }
                 }
-            }
-            for (i = 0, length = this._seriesList.length; i < length; i++) {
-                series = this._seriesList[i];
-                if (!series.disabled) {
-                    datasets.push(this._seriesToDataset(series));
+                for (i = 0, length = this._seriesList.length; i < length; i++) {
+                    series = this._seriesList[i];
+                    if (!series.disabled) {
+                        datasets.push(this._seriesToDataset(series));
+                    }
                 }
+                this._plot.datasets(datasets);
             }
-            this._plot.datasets(datasets);
         }
     },
 
