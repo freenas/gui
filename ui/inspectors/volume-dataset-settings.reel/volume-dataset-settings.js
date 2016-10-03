@@ -80,15 +80,19 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
         }
     },
 
+    templateDidLoad: {
+        value: function() {
+
+            this.compressionOptions = this._initializePropertyOptions(COMPRESSION_OPTIONS);
+            this.dedupOptions = this._initializePropertyOptions(DEDUP_OPTIONS);
+            this.atimeOptions = this._initializePropertyOptions(ATIME_OPTIONS);
+            this.volblocksizeOptions = this._initializePropertyOptions(VOLBLOCKSIZE_OPTIONS);
+        }
+    },
+
     enterDocument: {
-        value: function(isFirstTime) {
+        value: function() {
             this._isLoaded = false;
-            if (isFirstTime) {
-                this.compressionOptions = this._initializePropertyOptions(COMPRESSION_OPTIONS);
-                this.dedupOptions = this._initializePropertyOptions(DEDUP_OPTIONS);
-                this.atimeOptions = this._initializePropertyOptions(ATIME_OPTIONS);
-                this.volblocksizeOptions = this._initializePropertyOptions(VOLBLOCKSIZE_OPTIONS);
-            }
             this.isRootDataset = this.application.storageService.isRootDataset(this.object);
             var label = this.isRootDataset ? "Default": "Inherit";
             this._replaceLabel(this.compressionOptions, label);
