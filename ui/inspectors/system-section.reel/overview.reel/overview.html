@@ -8,6 +8,9 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('is-expanded')": {"<-": "@owner.isExpanded"}
             }
         },
         "version": {
@@ -54,6 +57,56 @@
                 "value": {"<-": "@owner.systemInfo.totalDatasets"}
             }
         },
+        "totalVolumes": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "totalVolumes"},
+                "label": "Total Volumes"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.systemInfo.totalVolumes"}
+            }
+        },
+        "totalVMs": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "totalVMs"},
+                "label": "VMs (enabled / total)"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.virtualMachines.filter{status.state=='RUNNING'}.length + '/' + @owner.virtualMachines.length"}
+            }
+        },
+        "totalDisks": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "totalDisks"},
+                "label": "Disks (SSD / HDD)"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.systemInfo.totalDisks.filter{is_ssd==true}.length + '/' + @owner.systemInfo.totalDisks.filter{is_ssd==false}.length "}
+            }
+        },
+        "totalContainers": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "totalContainers"},
+                "label": "Containers (runnging / total)"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.totalContainers.filter{running == true}.length + '/' + @owner.totalContainers.length"}
+            }
+        },
+        "totalNetworkInterfaces": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "totalNetworkInterfaces"},
+                "label": "Network (enabled / total)"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.systemInfo.totalNetworkInterfaces.filter{enabled == true}.length + '/' + @owner.systemInfo.totalNetworkInterfaces.length"}
+            }
+        },
         "snapshots": {
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
@@ -84,13 +137,6 @@
                 "value": {"<-": "@owner.systemInfo.totalPeers"}
             }
         },
-        "groupSeparator": {
-            "prototype": "ui/controls/inspector-section-title.reel",
-            "properties": {
-                "element": {"#": "groupSeparator"},
-                "value": "Data"
-            }
-        },
         "replication": {
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
@@ -99,6 +145,24 @@
             },
             "bindings": {
                 "value": {"<-": "@owner.systemInfo.totalReplications"}
+            }
+        },
+        "enable_debug_kernel": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "enable_debug_kernel"},
+                "label": "Enable debug kernel"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.debugkernel"}
+            }
+        },
+        "dataSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "dataSection"},
+                "title": "Data Info",
+                "isExpanded": true
             }
         }
     }
@@ -109,12 +173,19 @@
         <div data-montage-id="version"></div>
         <div data-montage-id="hostname"></div>
         <div data-montage-id="uptime"></div>
-        <div data-montage-id="groupSeparator"></div>
-        <div data-montage-id="dataset"></div>
-        <div data-montage-id="snapshots"></div>
+        <div data-montage-id="dataSection">
+            <div data-montage-id="dataset"></div>
+            <div data-montage-id="totalVMs"></div>
+            <div data-montage-id="totalVolumes"></div>
+            <div data-montage-id="totalDisks"></div>
+            <div data-montage-id="totalContainers"></div>
+            <div data-montage-id="snapshots"></div>
+            <div data-montage-id="replication"></div>
+        </div>
         <div data-montage-id="shares"></div>
         <div data-montage-id="peer"></div>
-        <div data-montage-id="replication"></div>
+        <div data-montage-id="totalNetworkInterfaces"></div>
+        <div data-montage-id="enable_debug_kernel"></div>
     </div>
 </body>
 </html>
