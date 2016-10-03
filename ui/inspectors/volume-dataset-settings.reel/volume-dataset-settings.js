@@ -87,26 +87,18 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
             this.dedupOptions = this._initializePropertyOptions(DEDUP_OPTIONS);
             this.atimeOptions = this._initializePropertyOptions(ATIME_OPTIONS);
             this.volblocksizeOptions = this._initializePropertyOptions(VOLBLOCKSIZE_OPTIONS);
-        }
+         }
     },
 
     enterDocument: {
         value: function() {
             this._isLoaded = false;
-
-            this.addPathChangeListener("object.properties.atime.source", this, "_updateInheritedPropertySource");
-            this.addPathChangeListener("object.properties.atime.parsed", this, "_updateInheritedPropertyValue");
-            this.addPathChangeListener("object.properties.compression.source", this, "_updateInheritedPropertySource");
-            this.addPathChangeListener("object.properties.compression.parsed", this, "_updateInheritedPropertyValue");
-            this.addPathChangeListener("object.properties.dedup.source", this, "_updateInheritedPropertySource");
-            this.addPathChangeListener("object.properties.dedup.parsed", this, "_updateInheritedPropertyValue");
-
             this.isRootDataset = this.application.storageService.isRootDataset(this.object);
             var label = this.isRootDataset ? "Default": "Inherit";
             this._replaceLabel(this.compressionOptions, label);
             this._replaceLabel(this.dedupOptions, label);
             this._replaceLabel(this.atimeOptions, label);
-            if (this.object.properties) {
+            if ( this.object.properties) {
                 this.compression = (!this.object.properties.compression || this._isInheritedProperty(this.object.properties.compression)) ? "none": this.object.properties.compression.parsed;
                 this.dedup = (!this.object.properties.dedup || this._isInheritedProperty(this.object.properties.dedup)) ? "none": this.object.properties.dedup.parsed;
                 this.atime = (!this.object.properties.atime || this._isInheritedProperty(this.object.properties.atime)) ? "none": this.object.properties.atime.parsed;
@@ -122,12 +114,6 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
             this.compression = null;
             this.dedup = null;
             this.atime = null;
-            this.removePathChangeListener("object.properties.atime.source", this);
-            this.removePathChangeListener("object.properties.atime.parsed", this);
-            this.removePathChangeListener("object.properties.compression.source", this);
-            this.removePathChangeListener("object.properties.compression.parsed", this);
-            this.removePathChangeListener("object.properties.dedup.source", this);
-            this.removePathChangeListener("object.properties.dedup.parsed", this);
         }
     },
 
@@ -147,32 +133,6 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
     _canUpdateObjectProperty: {
         value: function(propertyName) {
             return this._isLoaded && this.object && this.object.properties && this.object.properties[propertyName];
-        }
-    },
-
-    _updateInheritedPropertyValue: {
-        value: function(value, path) {
-            var pathParts = path.split(".");
-            var property = pathParts[pathParts.length - 2];
-            if (this._canUpdateObjectProperty(property) && typeof value !== "undefined") {
-                if ((value === "none") && this.object.properties[property].source !== "INHERITED") {
-                    this.object.properties[property].source = "INHERITED";
-                }
-                this[property] = value;
-            }
-        }
-    },
-
-    _updateInheritedPropertySource: {
-        value: function(value, path) {
-            var pathParts = path.split(".");
-            var property = pathParts[pathParts.length - 2];
-            if (this._canUpdateObjectProperty(property) && typeof value !== "undefined") {
-                if (value === "INHERITED" && this.object.properties[property].parsed !== null && this.object.properties[property] !== "none") {
-                    this.object.properties[property].parsed = "none";
-                    this[property] = "none";
-                }
-            }
         }
     },
 
