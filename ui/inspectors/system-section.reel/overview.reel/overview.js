@@ -18,6 +18,7 @@ exports.Overview = Component.specialize(/** @lends Overview# */ {
         value: function () {
             var self = this,
                 loadingPromises = [];
+            this._canDrawGate.setField(this.constructor._CAN_DRAW_FIELD, false);
             this.isLoading = true;
             this.systemInfo = {};
             loadingPromises.push(
@@ -66,7 +67,12 @@ exports.Overview = Component.specialize(/** @lends Overview# */ {
             );
             Promise.all(loadingPromises).then(function() {
                 this.isLoading = false;
+                self._canDrawGate.setField(self.constructor._CAN_DRAW_FIELD, true);
             })
         }
+    }
+}, {
+    _CAN_DRAW_FIELD: {
+        value: "infoLoaded"
     }
 });
