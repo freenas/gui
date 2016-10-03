@@ -28,6 +28,7 @@ exports.SystemSection = AbstractInspector.specialize({
                     break;
                 case "updates":
                 case "bootPool":
+                case "overview":
                     this.canSave = false;
                     this.canRevert = false;
                     // this.hasTable = true;

@@ -59,6 +59,22 @@ var StorageService = exports.StorageService = Montage.specialize({
         }
     },
 
+    listVolumeSnapshots: {
+        value: function() {
+            return this._dataService.fetchData(Model.VolumeSnapshot).then(function (snapshots) {
+                return snapshots;
+            });
+        }
+    },
+
+    getShareData: {
+        value: function() {
+            return this._dataService.fetchData(Model.Share).then(function (shares) {
+                return shares;
+            });
+        }
+    },
+
     listVolumes: {
         value: function() {
             if (this._volumes) {
