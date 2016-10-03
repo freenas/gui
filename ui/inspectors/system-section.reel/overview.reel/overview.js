@@ -26,7 +26,12 @@ exports.Overview = Component.specialize(/** @lends Overview# */ {
                 }),
                 this.application.systemTimeService.getSystemTime().then(function (time) {
                     self.systemTime = time
-                    // console.log(time);
+                }),
+                this.application.virtualMachineService.listVirtualMachines().then(function (virtualMachines) {
+                    self.virtualMachines = virtualMachines;
+                }),
+                this.application.dockerSettingsService.getDockerContainers().then(function (dockerContainers) {
+                    self.totalContainers = dockerContainers;
                 }),
                 this.application.storageService.listDatasets().then(function (datasetList) {
                     self.systemInfo.totalDatasets = datasetList.length;
@@ -45,6 +50,18 @@ exports.Overview = Component.specialize(/** @lends Overview# */ {
                 }),
                 this.application.replicationService.listReplications().then(function (replications) {
                     self.systemInfo.totalReplications = replications.length;
+                }),
+                this.application.storageService.listVolumes().then(function (volumes) {
+                    self.systemInfo.totalVolumes = volumes.length;
+                }),
+                this.application.storageService.listDisks().then(function (disks) {
+                    self.systemInfo.totalDisks = disks
+                }),
+                this.application.systemAdvancedService.getSerialConsoleData().then(function (systemAdvanced) {
+                    self.debugkernel = systemAdvanced.debugkernel
+                }),
+                this.application.networkInterfacesSevice.getNetworkInterfaces().then(function (totalNetworkInterfaces) {
+                    self.systemInfo.totalNetworkInterfaces = totalNetworkInterfaces;
                 })
             );
             Promise.all(loadingPromises).then(function() {
