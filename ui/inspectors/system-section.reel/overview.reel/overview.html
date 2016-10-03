@@ -157,12 +157,25 @@
                 "checked": {"<->": "@owner.debugkernel"}
             }
         },
-        "dataSection": {
-            "prototype": "ui/controls/foldable-section.reel",
+        "dataTitle": {
+            "prototype": "ui/controls/inspector-section-title.reel",
             "properties": {
-                "element": {"#": "dataSection"},
-                "title": "Data Info",
-                "isExpanded": true
+                "element": {"#": "dataTitle"},
+                "value": "Data Info"
+            }
+        },
+        "networkTitle": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+            "properties": {
+                "element": {"#": "networkTitle"},
+                "value": "Networking Info"
+            }
+        },
+        "virtualizationTitle": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+            "properties": {
+                "element": {"#": "virtualizationTitle"},
+                "value": "Virtualization Info"
             }
         }
     }
@@ -170,22 +183,33 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Overview">
-        <div data-montage-id="version"></div>
-        <div data-montage-id="hostname"></div>
-        <div data-montage-id="uptime"></div>
-        <div data-montage-id="dataSection">
-            <div data-montage-id="dataset"></div>
-            <div data-montage-id="totalVMs"></div>
-            <div data-montage-id="totalVolumes"></div>
-            <div data-montage-id="totalDisks"></div>
-            <div data-montage-id="totalContainers"></div>
-            <div data-montage-id="snapshots"></div>
-            <div data-montage-id="replication"></div>
+        <div class=Overview-system>
+            <div data-montage-id="version"></div>
+            <div data-montage-id="hostname"></div>
+            <div data-montage-id="uptime"></div>
+            <div data-montage-id="enable_debug_kernel"></div>
         </div>
-        <div data-montage-id="shares"></div>
-        <div data-montage-id="peer"></div>
-        <div data-montage-id="totalNetworkInterfaces"></div>
-        <div data-montage-id="enable_debug_kernel"></div>
+        <div class="Overview-metrics">
+            <div class="OverviewMetrics-data">
+                <div data-montage-id="dataTitle"></div>
+                <div data-montage-id="totalDisks"></div>
+                <div data-montage-id="totalVolumes"></div>
+                <div data-montage-id="dataset"></div>
+                <div data-montage-id="snapshots"></div>
+                <div data-montage-id="shares"></div>
+                <div data-montage-id="replication"></div>
+            </div>
+            <div class="OverviewMetrics-network">
+                <div data-montage-id="networkTitle"></div>
+                <div data-montage-id="totalNetworkInterfaces"></div>
+                <div data-montage-id="peer"></div>
+            </div>
+            <div class="OverviewMetrics-virtualization">
+                <div data-montage-id="virtualizationTitle"></div>
+                <div data-montage-id="totalVMs"></div>
+                <div data-montage-id="totalContainers"></div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
