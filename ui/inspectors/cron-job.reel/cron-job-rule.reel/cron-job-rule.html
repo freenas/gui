@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="cron-job-rule.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "ruleSectionTitle": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "ruleSectionTitle"}
+            },
+            "bindings": {
+                "title": {"<-": "@owner.title"},
+                "subtitle": {"<-": "!@owner.selectedValues.length ? 'No values selected' : @owner.selectedValues.length == @owner.options.length ? 'Every ' + @owner.title.toLowerCase().slice(0, -1) + ' selected' : @owner.selectedValues.join(', ')"}
+            }
+        },
+        "ruleOptionSelector": {
+            "prototype": "blue-shark/ui/multiple-select-grid.reel",
+            "properties": {
+                "element": {"#": "ruleOptionSelector"},
+                "hasIterator": true
+            },
+            "bindings": {
+                "content": {"<-": "@owner.options"},
+                "selectedValues": {"<->": "@owner.selectedValues"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="CronJobRule">
+        <div data-montage-id="ruleSectionTitle">
+            <div data-montage-id="ruleOptionSelector"></div>
+        </div>
+    </div>
+</body>
+</html>

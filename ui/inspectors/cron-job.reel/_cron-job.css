@@ -1,3 +1,21 @@
 .CronJob {
-
+    min-width: 22em !important;
+    background-color: #2F3233;
 }
+
+.CronJob-months {
+    margin-top: -1em;
+    & .MultipleSelectGrid-option {
+        min-width: 16.6% !important;
+    }
+}
+
+.CronJob-days {
+    & .MultipleSelectGrid-option {}
+}
+
+.CronJob-hours {
+    & .MultipleSelectGrid-option {}
+}
+
+.CronJob .FoldableSection { margin-bottom: 0; }
