@@ -429,6 +429,14 @@
             "type": "Scrub"
         },
         {
+            "modelId": "core/model/models/section-settings.js",
+            "type": "SectionSettings"
+        },
+        {
+            "modelId": "core/model/models/section.js",
+            "type": "Section"
+        },
+        {
             "modelId": "core/model/models/serial-port-device.js",
             "type": "SerialPortDevice"
         },

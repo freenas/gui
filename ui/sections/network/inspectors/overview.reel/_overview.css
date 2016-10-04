@@ -1,0 +1,54 @@
+.Overview {
+    width: 26em;
+}
+
+.Overview .ScrollviewContent { width: 100%; }
+
+.Overview-overview {
+    border-bottom: 1px solid rgba(255,255,255,.2);
+}
+
+.Overview table {
+    margin-bottom: 0;
+}
+
+.Overview th {
+    text-align: left;
+    line-height: 2em;
+    padding: .5em 1em;
+    font-weight: 300;
+}
+
+.Overview th,
+.Overview .th {
+    color: #E9FDFF;
+    padding: .5em 1em;
+}
+
+.Overview .ip6Address {
+    display: none;
+}
+
+.Overview .has-ip6 .ip6Address {
+    display: inherit;
+}
+
+/* Disabled Interfaces */
+
+.Overview-disabledInterface {
+   height: 2em;
+   line-height: 2em;
+   padding: 0 1em;
+}
+
+.Overview-disabledInterface:nth-child(even) {
+    background: rgba(0,0,0,.05);
+}
+
+/* Foldable Section Overriedes */
+
+.Overview-disabledInterfaces { margin: 0; }
+.Overview-disabledInterfaces .InspectorSectionTitle { margin: 0; padding: 0; }
+.Overview-disabledInterfaces .FoldableSection-content { margin: 0; padding: 0;}
+.Overview-disabledInterfaces .FoldableSection-contentContainer { padding: 0; }
+.Overview-disabledInterfaces .FoldableSection-expand svg { margin-right: 1em; }

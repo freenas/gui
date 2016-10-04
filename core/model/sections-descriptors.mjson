@@ -1,0 +1,70 @@
+{
+    "dashboard": {
+        "label": "Dashboard",
+        "id": "dashboard",
+        "index": 0,
+        "icon": "dashboard"
+    },
+    "storage": {
+        "label": "Storage",
+        "id": "storage",
+        "index": 1,
+        "icon": "storage"
+    },
+    "accounts": {
+        "label": "Accounts",
+        "id": "accounts",
+        "index": 2,
+        "icon": "users"
+    },
+    "network": {
+        "label": "Network",
+        "id": "network",
+        "index": 3,
+        "icon": "network",
+        "service": "core/service/section/network-section-service"
+    },
+    "settings": {
+        "label": "System",
+        "id": "settings",
+        "index": 4,
+        "icon": "settings"
+    },
+    "services": {
+        "label": "Services",
+        "id": "services",
+        "index": 5,
+        "icon": "services"
+    },
+    "console": {
+        "label": "Console",
+        "id": "console",
+        "index": 6,
+        "icon": "console"
+    },
+    "calendar": {
+        "label": "Calendar",
+        "id": "calendar",
+        "index": 7,
+        "icon": "calendar"
+    },
+    "peering": {
+        "label": "Peering",
+        "id": "peering",
+        "index": 8,
+        "icon": "peering"
+    },
+    "vms": {
+        "label": "VMs",
+        "id": "vms",
+        "index": 9,
+        "icon": "vms",
+        "service": "core/service/section/vms-section-service"
+    },
+    "containers": {
+        "label": "Containers",
+        "id": "containers",
+        "index": 10,
+        "icon": "container"
+    }
+}

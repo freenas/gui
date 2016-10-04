@@ -1,7 +1,3 @@
-var Component = require("montage/ui/component").Component;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
-/**
- * @class VirtualMachineDeviceCdrom
- * @extends Component
- */
-exports.VirtualMachineDeviceCdrom = Component.specialize();
+exports.VirtualMachineDeviceCdrom = AbstractInspector.specialize();

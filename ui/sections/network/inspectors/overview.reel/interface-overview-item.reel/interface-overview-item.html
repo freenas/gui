@@ -16,7 +16,7 @@
                 "element": {"#": "interfaceName"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.name"}
+                "value": {"<-": "@owner.object.path(@owner.object.Type.constructor.userInterfaceDescriptor.nameExpression)"}
             }
         },
         "interfaceIpv4Repetition": {
@@ -25,7 +25,7 @@
                 "element": {"#": "interfaceIpv4Repetition"}
             },
             "bindings": {
-                "content": {"<-": "@owner.object.ipv4"}
+                "content": {"<-": "!@owner.object.dhcp ? @owner.object.aliases.filter{type == 'INET'}.map{address} : @owner.object.status.aliases.filter{type == 'INET'}.map{address}"}
             }
         },
         "interfaceIpv4": {
@@ -43,7 +43,7 @@
                 "element": {"#": "interfaceIpv6Repetition"}
             },
             "bindings": {
-                "content": {"<-": "@owner.object.ipv6"}
+                "content": {"<-": "!@owner.object.dhcp ? @owner.object.aliases.filter{type == 'INET6'}.map{address} : @owner.object.status.aliases.filter{type == 'INET6'}.map{address}"}
             }
         },
         "interfaceIpv6": {
@@ -69,18 +69,19 @@
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="InterfaceOverviewItem">
-
-        <div>
+    <table>
+    <tr data-montage-id="owner" class="InterfaceOverviewItem">
+        <td>
             <div data-montage-id="status" class="InterfaceOverviewItem-status"></div>
             <div data-montage-id="interfaceName" class="InterfaceOverviewItem-name"></div>
-        </div>
-        <div data-montage-id="interfaceIpv4Repetition">
+        </td>
+        <td data-montage-id="interfaceIpv4Repetition">
             <div data-montage-id="interfaceIpv4"></div>
-        </div>
-        <div data-montage-id="interfaceIpv6Repetition">
+        </td>
+        <td data-montage-id="interfaceIpv6Repetition" class="ip6Address">
             <div data-montage-id="interfaceIpv6"></div>
-        </div>
-    </div>
+        </td>
+    </tr>
+    </table>
 </body>
 </html>

@@ -106,11 +106,9 @@ exports.VmsSectionService = AbstractSectionService.specialize({
         }
     },
 
-    listEntries: {
+    loadEntries: {
         value: function() {
-            return this._vmRepository.listVms().then(function(vms) {
-                return self._entries = vms;
-            });
+            return this._vmRepository.listVms();
         }
     },
 

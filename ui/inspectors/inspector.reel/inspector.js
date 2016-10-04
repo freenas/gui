@@ -151,7 +151,7 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                 cascadingListItem;
             for (var i = cascadingListItems.length -1; i >= 0; i--) {
                 cascadingListItem = cascadingListItems[i];
-                if (Array.isArray(cascadingListItem.object)) {
+                if (Array.isArray(cascadingListItem.object) || Array.isArray(cascadingListItem.object.entries)) {
                     result = cascadingListItem;
                     break;
                 }

@@ -1,0 +1,10 @@
+{
+    "root": {
+        "prototype": "montage/core/meta/user-interface-descriptor",
+        "properties": {
+            "inspectorComponentModule": {"%": "ui/controls/section.reel/section-settings.reel"},
+            "nameExpression": "section.label = ' settings'"
+        }
+    }
+}
+

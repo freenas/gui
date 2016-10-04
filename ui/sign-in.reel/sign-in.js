@@ -128,7 +128,6 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
 
                     //FIXME: kind of hacky
                     self.application.dispatchEventNamed("userLogged");
-                    self.application.section = self._getSection();
 
                 }, function (error) {
                     self.errorMessage = error.message || error;
@@ -155,23 +154,6 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
                     typeof WebKitAnimationEvent !== "undefined" ? "webkitAnimationEnd" : "animationend", this, false
                 );
             }
-        }
-    },
-
-    _getSection: {
-        value: function() {
-            var defaultSection = 'dashboard',
-                hashParts = window.location.hash.replace('#!', '').split('&'),
-                keyValue,
-                args = {};
-            for (var i = 0, length = hashParts.length; i < length; i++) {
-                keyValue = hashParts[i].split('=');
-                args[keyValue[0]] = keyValue[1];
-            }
-            if (args.section && args.section !== '') {
-                return args.section;
-            }
-            return defaultSection;
         }
     },
 
