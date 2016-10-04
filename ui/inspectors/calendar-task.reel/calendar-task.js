@@ -17,7 +17,7 @@ exports.CalendarTask = AbstractInspector.specialize({
             } else {
                 this._daysOfMonth = [];
                 for (var i = 1; i <= 31; i++) {
-                    this._daysOfMonth.push({"value": i});
+                    this._daysOfMonth.push({"value": i, "label": i, "index": (i - 1)});
                 }
                 return this._daysOfMonth;
             }
