@@ -37,7 +37,7 @@ exports.NetworkInterface = AbstractInspector.specialize({
 
     enterDocument: {
         value: function() {
-            this.$super.enterDocument();
+            this.super();
             this._sectionService.initializeInterface(this.object);
             this.addPathChangeListener('object.dhcp', this, '_handleDhcpChange');
         }
@@ -45,7 +45,7 @@ exports.NetworkInterface = AbstractInspector.specialize({
 
     exitDocument: {
         value: function() {
-            this.$super.exitDocument();
+            this.super();
         }
     },
 

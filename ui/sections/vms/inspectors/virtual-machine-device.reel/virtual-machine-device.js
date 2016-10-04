@@ -32,7 +32,9 @@ exports.VirtualMachineDevice = AbstractInspector.specialize({
 
     enterDocument: {
         value: function() {
-            this.$super.enterDocument();
+            this.super();
+
+
             if (this.object._isNew) {
                 this._sectionService.initializeNewDevice(this.object);
             }

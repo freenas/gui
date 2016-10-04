@@ -60,7 +60,7 @@ var Topology = exports.Topology = AbstractInspector.specialize(/** @lends Topolo
 
     enterDocument: {
         value: function() {
-            this.$super.enterDocument();
+            this.super();
             this._cancelTopologySelectedDiskListener = this.addRangeAtPathChangeListener("topologySelectedDisk", this, "_handleTopologySelectedDiskChange");
             this._cancelAvailableSelectedDiskListener = this.addRangeAtPathChangeListener("availableSelectedDisk", this, "_handleAvailableSelectedDiskChange");
 
@@ -77,7 +77,7 @@ var Topology = exports.Topology = AbstractInspector.specialize(/** @lends Topolo
 
     exitDocument: {
         value: function() {
-            this.$super.exitDocument();
+            this.super();
             if (typeof this._cancelAvailableSelectedDiskListener === "function") {
                 this._cancelAvailableSelectedDiskListener();
                 this._cancelAvailableSelectedDiskListener = null;

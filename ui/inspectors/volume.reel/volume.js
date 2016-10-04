@@ -94,7 +94,7 @@ exports.Volume = AbstractInspector.specialize({
 
     exitDocument: {
         value: function() {
-            this.$super.exitDocument();
+            this.super();
             this.isConfirmationVisible = false;
         }
     },

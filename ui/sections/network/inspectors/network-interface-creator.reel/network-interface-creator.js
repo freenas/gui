@@ -28,7 +28,7 @@ exports.NetworkInterfaceCreator = AbstractInspector.specialize({
 
     enterDocument: {
         value: function(isFirstTime) {
-            this.$super.enterDocument(isFirstTime);
+            this.super();
             var self = this;
             if (isFirstTime) {
                 this._dataService = this.application.dataService;

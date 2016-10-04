@@ -1,6 +1,6 @@
-var AbstractComponent = require("ui/abstract/abstract-component").AbstractComponent;
+var Component = require("montage/ui/component").Component;
 
-var AbstractComponentActionDelegate = exports.AbstractComponentActionDelegate = AbstractComponent.specialize({
+var AbstractComponentActionDelegate = exports.AbstractComponentActionDelegate = Component.specialize({
 
     enterDocument: {
         value: function () {

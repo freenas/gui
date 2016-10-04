@@ -43,14 +43,14 @@ exports.Group = AbstractInspector.specialize({
 
     enterDocument: {
         value: function() {
-            this.$super.enterDocument();
+            this.super();
             this.groupType = this.object.builtin && this.object.gid !== 0 ? "system" : "user";
         }
     },
 
     exitDocument: {
         value: function() {
-            this.$super.exitDocument();
+            this.super();
             this.groupType = null;
         }
     },

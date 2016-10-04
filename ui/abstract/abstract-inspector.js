@@ -9,17 +9,12 @@ var AbstractInspector = exports.AbstractInspector = AbstractComponentActionDeleg
 
     enterDocument: {
         value: function(isFirstTime) {
-            this._callSuperMethod(AbstractComponentActionDelegate, 'enterDocument', arguments);
+            this.super();
+            
             if (this.validationController && !this._hasContextObjectListener) {
                 this.addPathChangeListener("context.object", this, "_reloadValidationController");
                 this._hasContextObjectListener = true;
             }
-        }
-    },
-
-    exitDocument: {
-        value: function() {
-            this._callSuperMethod(AbstractComponentActionDelegate, 'exitDocument', arguments);
         }
     },
 

@@ -12,7 +12,7 @@ exports.DirectoryServices = AbstractInspector.specialize({
 
     enterDocument: {
         value: function () {
-            this.$super.enterDocument();
+            this.super();
             this._fetchDataIfNeeded();
         }
     },

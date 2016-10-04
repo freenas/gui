@@ -26,7 +26,7 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
 
     enterDocument: {
         value: function(firsTime) {
-            this.$super.enterDocument(firsTime);
+            this.super();
             this._fetchDataIfNeeded();
 
             if (firsTime) {
@@ -37,7 +37,7 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
 
     exitDocument: {
         value: function() {
-            this.$super.exitDocument();
+            this.super();
             this._reset();
         }
     },

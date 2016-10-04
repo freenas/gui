@@ -36,7 +36,7 @@ exports.VirtualMachine = AbstractInspector.specialize({
 
     enterDocument: {
         value: function(isFirstTime) {
-            this.$super.enterDocument(isFirstTime);
+            this.super();
             this._startLoading();
             var self = this,
                 loadingPromises = [
@@ -60,7 +60,7 @@ exports.VirtualMachine = AbstractInspector.specialize({
 
     exitDocument: {
         value: function() {
-            this.$super.exitDocument();
+            this.super();
             if (this.getPathChangeDescriptor('object._bootDevice', this)) {
                 this.removePathChangeListener('object._bootDevice', this);
             }
