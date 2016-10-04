@@ -1,17 +1,18 @@
 var AbstractRepository = require("core/repository/abstract-repository").AbstractRepository,
-    FreeNASService = require("core/service/freenas-service").FreeNASService,
-    Model = require("core/model/model").Model;
+    SectionDao = require("core/dao/section-dao").SectionDao,
+    SectionSettingsDao = require("core/dao/section-settings-dao").SectionSettingsDao;
 
 exports.SectionRepository = AbstractRepository.specialize({
     init: {
-        value: function(dataService) {
-            this._dataService = dataService || FreeNASService.instance;
+        value: function(sectionDao, sectionSettingsDao) {
+            this._sectionDao = sectionDao || SectionDao.instance;
+            this._sectionSettingsDao = sectionSettingsDao || SectionSettingsDao.instance;
         }
     },
 
     getNewSection: {
         value: function() {
-            return this._dataService.getNewInstanceForType(Model.Section).then(function(section) {
+            return this._sectionDao.getNewInstance().then(function(section) {
                 section._isNew = false;
                 return section;
             });
@@ -20,7 +21,7 @@ exports.SectionRepository = AbstractRepository.specialize({
 
     getNewSectionSettings: {
         value: function() {
-            return this._dataService.getNewInstanceForType(Model.SectionSettings).then(function(sectionSettings) {
+            return this._sectionSettingsDao.getNewInstance().then(function(sectionSettings) {
                 sectionSettings._isNew = false;
                 return sectionSettings;
             });
