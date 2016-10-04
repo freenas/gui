@@ -309,7 +309,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
 
     _calculateSizes: {
         value: function() {
-            if (this.children[0] && this.children[0]._disk) {
+            if (this.children && this.children[0] && this.children[0]._disk) {
                 var diskSize = this.children[0]._disk.mediasize,
                     totalSize = diskSize * this.children.length;
                 this.object._paritySize = this._topologyService.getParitySizeOnTotal(this.children.length, this.object.type, totalSize);
@@ -359,6 +359,12 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
                     if (type === Topology.VDEV_TYPES.DISK.value) {
                         allowedVDevTypes = [Topology.VDEV_TYPES.DISK, Topology.VDEV_TYPES.MIRROR];
 
+                    } else if (type === Topology.VDEV_TYPES.RAIDZ3.value) {
+                        allowedVDevTypes = [Topology.VDEV_TYPES.RAIDZ3];
+                    } else if (type === Topology.VDEV_TYPES.RAIDZ2.value) {
+                        allowedVDevTypes = [Topology.VDEV_TYPES.RAIDZ2];
+                    } else if (type === Topology.VDEV_TYPES.RAIDZ1.value) {
+                        allowedVDevTypes = [Topology.VDEV_TYPES.RAIDZ1];
                     } else if (type === Topology.VDEV_TYPES.MIRROR.value) {
                         allowedVDevTypes = [Topology.VDEV_TYPES.MIRROR];
                     } else {

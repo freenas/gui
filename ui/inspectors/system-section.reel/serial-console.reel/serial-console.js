@@ -49,7 +49,7 @@ exports.SerialConsole = Component.specialize(/** @lends SerialConsole# */ {
                     this.application.systemAdvancedService.getSerialConsoleData().then(function(systemAdvanced) {
                         self.object = systemAdvanced;
                     }),
-                    this.application.systemGeneralService.getConsoleKeymap().then(function(generalData) {
+                    this.application.systemGeneralService.getSystemGeneral().then(function(generalData) {
                         self.generalData = generalData;
                     }),
                     this.application.systemDeviceService.getSerialPorts().then(function(serialPorts) {

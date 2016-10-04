@@ -1,8 +1,7 @@
 var Montage = require("montage").Montage,
     FreeNASService = require("core/service/freenas-service").FreeNASService,
     Promise = require("montage/core/promise").Promise,
-    Model = require("core/model/model").Model,
-    VolumePropertySource = require("core/model/enumerations/volume-property-source.js").VolumePropertySource;
+    Model = require("core/model/model").Model;
 
 var StorageService = exports.StorageService = Montage.specialize({
 
@@ -60,6 +59,22 @@ var StorageService = exports.StorageService = Montage.specialize({
         }
     },
 
+    listVolumeSnapshots: {
+        value: function() {
+            return this._dataService.fetchData(Model.VolumeSnapshot).then(function (snapshots) {
+                return snapshots;
+            });
+        }
+    },
+
+    getShareData: {
+        value: function() {
+            return this._dataService.fetchData(Model.Share).then(function (shares) {
+                return shares;
+            });
+        }
+    },
+
     listVolumes: {
         value: function() {
             if (this._volumes) {
@@ -109,47 +124,43 @@ var StorageService = exports.StorageService = Montage.specialize({
         value: function(dataset) {
             var self = this;
             if (!dataset.properties) {
-                return this._dataService.getNewInstanceForType(Model.VolumeDatasetProperties).then(function(newProperties) {
+                this._dataService.getNewInstanceForType(Model.VolumeDatasetProperties).then(function(newProperties) {
                     dataset.properties = newProperties;
-                    var promises = [
-                        self._populateDatasetPropertyWithModel(dataset, "atime", Model.VolumeDatasetPropertyAtime).then(function() {
-                            dataset.properties.atime.source = VolumePropertySource.INHERITED;
-                            dataset.properties.atime.parsed = "none";
-                        }),
-                        self._populateDatasetPropertyWithModel(dataset, "casesensitivity", Model.VolumeDatasetPropertyCasesensitivity).then(function(){
-                            dataset.properties.casesensitivity.source = VolumePropertySource.INHERITED;
-                            dataset.properties.casesensitivity.parsed = "none";
-                        }),
-                        self._populateDatasetPropertyWithModel(dataset, "compression", Model.VolumeDatasetPropertyCompression).then(function() {
-                            dataset.properties.compression.source = VolumePropertySource.INHERITED;
-                            dataset.properties.compression.parsed = "none";
-                        }),
-                        self._populateDatasetPropertyWithModel(dataset, "dedup", Model.VolumeDatasetPropertyDedup).then(function() {
-                            dataset.properties.dedup.source = VolumePropertySource.INHERITED;
-                            dataset.properties.dedup.parsed = "none";
-                        }),
-                        self._populateDatasetPropertyWithModel(dataset, "quota", Model.VolumeDatasetPropertyQuota),
-                        self._populateDatasetPropertyWithModel(dataset, "refquota", Model.VolumeDatasetPropertyRefquota),
-                        self._populateDatasetPropertyWithModel(dataset, "volblocksize", Model.VolumeDatasetPropertyVolblocksize).then(function() {
-                            dataset.properties.volblocksize.parsed = 512;
-                        }),
-                        self._populateDatasetPropertyWithModel(dataset, "refreservation", Model.VolumeDatasetPropertyRefreservation),
-                        self._populateDatasetPropertyWithModel(dataset, "reservation", Model.VolumeDatasetPropertyReservation)
-                    ];
 
-                    return Promise.all(promises);
+                    self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyAtime).then(function(newAtime) {
+                        newAtime.source = "INHERITED";
+                        dataset.properties.atime = newAtime;
+                        return self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyCasesensitivity);
+                    }).then(function(newCasesensitivity) {
+                        newCasesensitivity.source = "INHERITED";
+                        dataset.properties.casesensitivity = newCasesensitivity;
+                        return self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyCompression);
+                    }).then(function(newCompression) {
+                        newCompression.source = "INHERITED";
+                        dataset.properties.compression = newCompression;
+                        return self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyDedup);
+                    }).then(function(newDedup) {
+                        newDedup.source = "INHERITED";
+                        dataset.properties.dedup = newDedup;
+                        return self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyQuota);
+                    }).then(function(newQuota) {
+                        dataset.properties.quota = newQuota;
+                        return self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyRefquota);
+                    }).then(function(newRefquota) {
+                        dataset.properties.refquota = newRefquota;
+                        return self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyVolblocksize);
+                    }).then(function(newVolblocksize) {
+                        newVolblocksize.parsed = 512;
+                        dataset.properties.volblocksize = newVolblocksize;
+                        return self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyRefreservation);
+                    }).then(function(newRefreservation) {
+                        dataset.properties.refreservation = newRefreservation;
+                        return self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyReservation);
+                    }).then(function(newReservation) {
+                        dataset.properties.reservation = newReservation;
+                    });
                 });
-            } else {
-                return Promise.resolve();
             }
-        }
-    },
-
-    _populateDatasetPropertyWithModel: {
-        value: function(dataset, propertyName, propertyModel) {
-            return this._dataService.getNewInstanceForType(propertyModel).then(function(propertyObject) {
-                dataset.properties[propertyName] = propertyObject;
-            });
         }
     },
 

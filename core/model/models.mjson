@@ -197,6 +197,10 @@
             "type": "DockerVolume"
         },
         {
+            "modelId": "core/model/models/enclosure.js",
+            "type": "Enclosure"
+        },
+        {
             "modelId": "core/model/models/encrypt-plugin.js",
             "type": "EncryptPlugin"
         },
@@ -313,16 +317,16 @@
             "type": "NetworkInterfaceAlias"
         },
         {
-            "modelId": "core/model/models/network-interface-bridge-anonymous.js",
-            "type": "NetworkInterfaceBridgeAnonymous"
+            "modelId": "core/model/models/network-interface-bridge-properties.js",
+            "type": "NetworkInterfaceBridgeProperties"
         },
         {
             "modelId": "core/model/models/network-interface-capabilities-anonymous.js",
             "type": "NetworkInterfaceCapabilitiesAnonymous"
         },
         {
-            "modelId": "core/model/models/network-interface-lagg-anonymous.js",
-            "type": "NetworkInterfaceLaggAnonymous"
+            "modelId": "core/model/models/network-interface-lagg-properties.js",
+            "type": "NetworkInterfaceLaggProperties"
         },
         {
             "modelId": "core/model/models/network-interface-status-dhcp-anonymous.js",
@@ -333,8 +337,8 @@
             "type": "NetworkInterfaceStatus"
         },
         {
-            "modelId": "core/model/models/network-interface-vlan-anonymous.js",
-            "type": "NetworkInterfaceVlanAnonymous"
+            "modelId": "core/model/models/network-interface-vlan-properties.js",
+            "type": "NetworkInterfaceVlanProperties"
         },
         {
             "modelId": "core/model/models/network-interface.js",
@@ -367,6 +371,10 @@
         {
             "modelId": "core/model/models/open-file.js",
             "type": "OpenFile"
+        },
+        {
+            "modelId": "core/model/models/peer-status.js",
+            "type": "PeerStatus"
         },
         {
             "modelId": "core/model/models/peer.js",

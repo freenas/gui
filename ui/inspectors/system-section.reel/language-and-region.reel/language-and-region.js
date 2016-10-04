@@ -99,7 +99,7 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
                             self.keymapsOptions.push({label: keymapsData[i][1], value: keymapsData[i][0]});
                         }
                     }),
-                    this.application.systemGeneralService.getConsoleKeymap().then(function(generalData) {
+                    this.application.systemGeneralService.getSystemGeneral().then(function(generalData) {
                         self.generalData = generalData;
                         self._snapshotDataObjectsIfNecessary();
                     })

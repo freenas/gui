@@ -1,14 +1,21 @@
 {
-  "blueprint_peer_credentials": {
+  "blueprint_enclosure_description": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "credentials",
+      "name": "description",
       "blueprint": {"@": "root"},
-      "valueType": "object",
-      "valueObjectPrototypeName": "PeerCredentials"
+      "valueType": "String"
     }
   },
-  "blueprint_peer_id": {
+  "blueprint_enclosure_devices": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "devices",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_enclosure_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "id",
@@ -16,7 +23,7 @@
       "valueType": "String"
     }
   },
-  "blueprint_peer_name": {
+  "blueprint_enclosure_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "name",
@@ -24,33 +31,25 @@
       "valueType": "String"
     }
   },
-  "blueprint_peer_status": {
+  "blueprint_enclosure_status": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "status",
       "blueprint": {"@": "root"},
-      "valueType": "object",
-      "valueObjectPrototypeName": "PeerStatus"
-    }
-  },
-  "blueprint_peer_type": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "type",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "array",
+      "valueObjectPrototypeName": "EnclosureStatus"
     }
   },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "Peer",
+      "name": "Enclosure",
       "propertyBlueprints": [
-        {"@": "blueprint_peer_credentials"},
-        {"@": "blueprint_peer_id"},
-        {"@": "blueprint_peer_name"},
-        {"@": "blueprint_peer_status"},
-        {"@": "blueprint_peer_type"}
+        {"@": "blueprint_enclosure_description"},
+        {"@": "blueprint_enclosure_devices"},
+        {"@": "blueprint_enclosure_id"},
+        {"@": "blueprint_enclosure_name"},
+        {"@": "blueprint_enclosure_status"}
       ]
     }
   }

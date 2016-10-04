@@ -245,6 +245,7 @@ exports.NetworkInterface = Montage.specialize({
         }, {
             mandatory: false,
             name: "bridge",
+            valueObjectPrototypeName: "NetworkInterfaceBridgeProperties",
             valueType: "object"
         }, {
             mandatory: false,
@@ -269,6 +270,7 @@ exports.NetworkInterface = Montage.specialize({
         }, {
             mandatory: false,
             name: "lagg",
+            valueObjectPrototypeName: "NetworkInterfaceLaggProperties",
             valueType: "object"
         }, {
             mandatory: false,
@@ -312,6 +314,7 @@ exports.NetworkInterface = Montage.specialize({
         }, {
             mandatory: false,
             name: "vlan",
+            valueObjectPrototypeName: "NetworkInterfaceVlanProperties",
             valueType: "object"
         }]
     },

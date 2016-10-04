@@ -65,7 +65,7 @@ exports.NetworkInterfaceCreator = AbstractInspector.specialize({
                 //
                 // FIXME: NetworkInterfaceVlan, NetworkInterfaceLagg and NetworkInterfaceBridge should be real classes (needs middleware evolution)
                 newInterface.name = "";
-                return self._dataService.getNewInstanceForType(Model['NetworkInterface' + type + 'Anonymous']);
+                return self._dataService.getNewInstanceForType(Model['NetworkInterface' + type + 'Properties']);
             }).then(function(properties) {
                 newInterface[type.toLowerCase()] = properties;
                 return newInterface;

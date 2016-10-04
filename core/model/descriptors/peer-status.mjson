@@ -1,0 +1,36 @@
+{
+  "blueprint_peerstatus_rtt": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "rtt",
+      "blueprint": {"@": "root"},
+      "readOnly": true,
+      "valueType": "number"
+    }
+  },
+  "blueprint_peerstatus_state": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "state",
+      "blueprint": {"@": "root"},
+      "readOnly": true,
+      "valueType": "String",
+      "enumValues": [
+        "ONLINE",
+        "OFFLINE",
+        "UNKNOWN",
+        "NOT_SUPPORTED"
+      ]
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "PeerStatus",
+      "propertyBlueprints": [
+        {"@": "blueprint_peerstatus_rtt"},
+        {"@": "blueprint_peerstatus_state"}
+      ]
+    }
+  }
+}

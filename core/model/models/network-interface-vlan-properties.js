@@ -1,6 +1,6 @@
 var Montage = require("montage").Montage;
 
-exports.NetworkInterfaceVlanAnonymous = Montage.specialize({
+exports.NetworkInterfaceVlanProperties = Montage.specialize({
     _parent: {
         value: null
     },

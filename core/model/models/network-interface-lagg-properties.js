@@ -1,6 +1,6 @@
 var Montage = require("montage").Montage;
 
-exports.NetworkInterfaceLaggAnonymous = Montage.specialize({
+exports.NetworkInterfaceLaggProperties = Montage.specialize({
     _ports: {
         value: null
     },

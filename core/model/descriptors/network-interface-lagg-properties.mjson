@@ -1,5 +1,5 @@
 {
-  "blueprint_networkinterfacelagganonymous_ports": {
+  "blueprint_networkinterfacelaggproperties_ports": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "ports",
@@ -7,7 +7,7 @@
       "valueType": "array"
     }
   },
-  "blueprint_networkinterfacelagganonymous_protocol": {
+  "blueprint_networkinterfacelaggproperties_protocol": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "protocol",
@@ -19,10 +19,10 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "NetworkInterfaceLaggAnonymous",
+      "name": "NetworkInterfaceLaggProperties",
       "propertyBlueprints": [
-        {"@": "blueprint_networkinterfacelagganonymous_ports"},
-        {"@": "blueprint_networkinterfacelagganonymous_protocol"}
+        {"@": "blueprint_networkinterfacelaggproperties_ports"},
+        {"@": "blueprint_networkinterfacelaggproperties_protocol"}
       ]
     }
   }
