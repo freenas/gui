@@ -81,8 +81,8 @@ exports.Placeholder = Slot.specialize({
     },
 
     enterDocument: {
-        value: function() {
-            Slot.prototype.enterDocument.call(this);
+        value: function(isFirstTime) {
+            Slot.prototype.enterDocument.call(this, isFirstTime);
             if (this.component) {
                 if ( this.component.templateModuleId.indexOf(this._moduleId) != 0) {
                     this.removeChildComponent(this.component);
