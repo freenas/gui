@@ -8,15 +8,24 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
-                "_maxDisplayedLines": 2
+                "_maxDisplayedLines": 2,
+                "showAllTasks": false
             },
             "bindings": {
                 "classList.has('CalendarWidgetDay-otherMonth')": {"<-": "!data.isCurrentMonth"},
                 "classList.has('CalendarWidgetDay-Sunday')": {"<-": "data.day == 0"},
                 "classList.has('CalendarWidgetDay-Saturday')": {"<-": "data.day == 6"},
                 "classList.has('CalendarWidgetDay-today')": {"<-": "data.isToday"},
-                "tasksOverflow": {"<-": "@owner.distinctTasks.length > @owner._maxDisplayedLines"}
-            }
+                "tasksOverflow": {"<-": "@owner.distinctTasks.length > @owner._maxDisplayedLines"},
+                "classList.has('has-max-tasks')": {"<-": "@owner.tasksOverflow"},
+                "classList.has('show-more')": {"<-": "@owner._allTasksVisible"}
+            },
+            "listeners": [
+                {
+                    "listener": {"@": "owner"},
+                    "type": "action"
+                }
+            ]
         },
         "date": {
             "prototype": "montage/ui/text.reel",
@@ -44,17 +53,17 @@
             "bindings": {
                 "object": {"<-": "@tasks:iteration.object"},
                 "selectedTask": {"<->": "@owner.selectedTask"},
-                "classList.has('is-visible')": {"<-": "@tasks:iteration.index < (@owner.tasksOverflow ? @owner._maxDisplayedLines - 1 : @owner._maxDisplayedLines)"},
+                "classList.has('is-visible')": {"<-": "@tasks:iteration.index < (@owner.tasksOverflow ? @owner._maxDisplayedLines - 1 : @owner._maxDisplayedLines) || @owner._allTasksVisible"},
                 "taskCategory": {"<-": "@owner.taskCategories.filter{.value == @tasks:iteration.object.task}.one()"}
             }
         },
-        "moreTasks": {
-            "prototype": "montage/ui/text.reel",
+        "moreTasksButton": {
+            "prototype": "blue-shark/ui/button.reel",
             "properties": {
-                "element": {"#": "moreTasks"}
+                "element": {"#": "moreTasksButton"}
             },
             "bindings": {
-                "value": {"<-": "@owner.tasksOverflow ? '+ ' + (@owner.distinctTasks.length - @owner._maxDisplayedLines + 1) + ' more' : ''"}
+                "label": {"<-": "@owner._allTasksVisible ? 'show less' : '+ ' + (@owner.distinctTasks.length - @owner._maxDisplayedLines + 1) + ' more'"}
             }
         }
     }
@@ -64,12 +73,12 @@
     <table>
         <tr>
             <td data-montage-id="owner" class="CalendarWidgetDay">
-                <div data-montage-id="date" class="CalendarWidgetDay-date"></div>
                 <div class="CalendarWidgetDay-content">
-                    <div data-montage-id="tasks" class=CalendarWidget-events>
-                        <div data-montage-id="task" class="CalendarWidget-event"></div>
+                    <div data-montage-id="date" class="CalendarWidgetDay-date"></div>
+                    <div data-montage-id="tasks" class=CalendarWidget-tasks>
+                        <div data-montage-id="task" class="CalendarWidgetDay-task"></div>
                     </div>
-                    <div data-montage-id="moreTasks" class="CalendarWidgetDayContent-more"></div>
+                    <div data-montage-id="moreTasksButton" class="CalendarWidgetDayContent-moreButton"></div>
                 </div>
             </td>
         </tr>

@@ -62,10 +62,23 @@ exports.CalendarWidgetDay = Component.specialize({
         }
     },
 
+    _allTasksVisible: {
+        value: false
+    },
+
+    _setMaxDisplayedLines: {
+        value: function () {
+            if (document.documentElement.clientHeight > 1120) {
+                this._maxDisplayedLines = 3
+            }
+        }
+    },
+
     enterDocument: {
         value: function() {
-            this.addRangeAtPathChangeListener("taskCategories", this, "_filterDistinctTasks")
-            this.addRangeAtPathChangeListener("tasks", this, "_filterDistinctTasks")
+            this.addRangeAtPathChangeListener("taskCategories", this, "_filterDistinctTasks");
+            this.addRangeAtPathChangeListener("tasks", this, "_filterDistinctTasks");
+            this._setMaxDisplayedLines();
         }
     },
 
@@ -115,6 +128,12 @@ exports.CalendarWidgetDay = Component.specialize({
                         return a;
                     }, []);
             }
+        }
+    },
+
+    handleMoreTasksButtonAction: {
+        value: function () {
+            this._allTasksVisible = !this._allTasksVisible;
         }
     }
 });
