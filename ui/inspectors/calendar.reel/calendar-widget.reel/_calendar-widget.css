@@ -135,7 +135,6 @@
 }
 
 .CalendarWidget-taskCategories {
-    padding: 0 1em;
     display: flex;
     align-items: center;
 }
@@ -314,12 +313,11 @@ Calendar Events
     width: 100%;
     font-size: 1rem;
     display: none;
-    border: 1px solid transparent;
-    border-radius: 2px;
     position: absolute;
     align-items: center;
     cursor: pointer;
     transform: translateY(2px);
+    border: 1px solid transparent;
 
     /* $fixme - remove one of these classes */
     &.is-displayed,
@@ -344,14 +342,9 @@ Calendar Events
 }
 
 .CalendarWidget-event-inner {
-    align-self: center;
-    height: 1.25em;
-    line-height: 1.25em;
-    padding: 0 .25em;
-    font-size: .85em;
-    color: #fff;
-    border-radius: 2px;
     overflow: hidden;
+    border-radius: 2px;
+    color: #fff;
 }
 
 .CalendarWidget-event.type-rsync .CalendarWidget-event-inner                             { background-color: #D95B1B; }
