@@ -88,7 +88,7 @@ exports.User = AbstractInspector.specialize({
 
     enterDocument: {
         value: function(isFirstTime) {
-            this.$super.enterDocument(isFirstTime);
+            this.super();
 
             var self = this,
                 loadingPromises = [],
@@ -118,7 +118,7 @@ exports.User = AbstractInspector.specialize({
 
     exitDocument: {
         value: function() {
-            this.$super.exitDocument();
+            this.super();
             this.userType = null;
             this.useEmptyHomedir = null;
         }

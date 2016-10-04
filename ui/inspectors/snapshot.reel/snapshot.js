@@ -83,7 +83,7 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
 
     enterDocument: {
         value: function() {
-            this.$super.enterDocument();
+            this.super();
             this._loadVolume();
         }
     },

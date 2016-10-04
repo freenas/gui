@@ -11,7 +11,7 @@ exports.NetworkConfiguration = AbstractInspector.specialize(/** @lends NetworkCo
 
     enterDocument: {
         value: function(isFirstTime) {
-            this.$super.enterDocument(isFirstTime);
+            this.super();
             if (isFirstTime) {
                 this._dataService = this.application.dataService;
                 this._snapshotDataObjectsIfNecessary();

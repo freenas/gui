@@ -48,7 +48,7 @@ exports.CalendarTask = AbstractInspector.specialize({
 
     enterDocument: {
         value: function(isFirstTime) {
-            this.$super.enterDocument(isFirstTime);
+            this.super();
             var self = this;
 
             this.application.dataService.getNewInstanceForType(Model.CalendarCustomSchedule).then(function (result) {
@@ -69,7 +69,7 @@ exports.CalendarTask = AbstractInspector.specialize({
 
     exitDocument: {
         value: function() {
-            this.$super.exitDocument();
+            this.super();
 
             if (this.getPathChangeDescriptor("object._simpleSchedule.type", this)) {
                 this.removePathChangeListener("object._simpleSchedule.type", this);

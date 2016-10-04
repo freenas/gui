@@ -45,7 +45,7 @@ exports.Share = AbstractInspector.specialize({
 
     enterDocument: {
         value: function(isFirsttime) {
-            this.$super.enterDocument(isFirsttime);
+            this.super();
             var self = this;
             if (isFirsttime) {
                 this._loadingPromise = this._loadVolumeService().then(function() {
