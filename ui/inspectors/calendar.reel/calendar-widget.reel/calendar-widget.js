@@ -53,6 +53,7 @@ exports.CalendarWidget = Component.specialize({
 
     handleCreateTaskAction: {
         value: function(event) {
+            console.log("create Task");
             var self = this;
             this.application.calendarService.getNewTask().then(function(task) {
                 self.selectedTask = task;
