@@ -80,6 +80,21 @@ exports.Placeholder = Slot.specialize({
         value: false
     },
 
+    enterDocument: {
+        value: function(isFirstTime) {
+            Slot.prototype.enterDocument.call(this, isFirstTime);
+            if (this.component) {
+                if ( this.component.templateModuleId.indexOf(this._moduleId) != 0) {
+                    this.removeChildComponent(this.component);
+                    this._needChildRemoval = true;
+                    this.needsDraw = true;
+                } else if (this.object !== this.component.object) {
+                    this.component._needsEnterDocument = false;
+                }
+            }
+        }
+    },
+
     exitDocument: {
         value: function () {
             // Reset content to ensure that component is detached from component tree
@@ -150,6 +165,12 @@ exports.Placeholder = Slot.specialize({
 
     draw: {
         value: function () {
+            if (this._needChildRemoval) {
+                this._needChildRemoval = false;
+                if (this.element.children.length === 1) {
+                    this.element.removeChild(this.element.firstElementChild);
+                }
+            }
             this._loadComponentIfNeeded();
         }
     }
