@@ -11,4 +11,5 @@ body {
     flex-direction: column;
     max-width: 300px;
     outline: 1px solid #aaa;
+    padding: 0 1em;
 }
