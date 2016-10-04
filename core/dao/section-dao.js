@@ -1,10 +1,11 @@
 var AbstractDao = require("core/dao/abstract-dao").AbstractDao,
     Model = require("core/model/model").Model;
 
-exports.SectionSettingsDao = AbstractDao.specialize({
+exports.SectionDao = AbstractDao.specialize({
     init: {
         value: function() {
-            this._model = Model.SectionSettings;
+            this._model = Model.Section;
         }
     }
 });
+
