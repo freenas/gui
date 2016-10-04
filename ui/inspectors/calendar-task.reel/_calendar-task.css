@@ -5,3 +5,14 @@
     background-color: #2F3233;
 }
 
+.CalendarTask-monthOptionDays .MultipleSelectGrid-option {
+    /* overrides for the cascade :( */
+    min-width: 12.5% !important;
+    height: 2.25em !important;
+    line-height: 1.25em !important;
+}
+
+/* .CalendarTask .InspectorOption .ListItem {
+    border-bottom-color: transparent !important;
+} */
+

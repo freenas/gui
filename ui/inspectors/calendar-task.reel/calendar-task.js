@@ -6,6 +6,24 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
  * @extends Component
  */
 exports.CalendarTask = AbstractInspector.specialize({
+    _daysOfMonth: {
+        value: null
+    },
+
+    daysOfMonth: {
+        get: function () {
+            if(this._daysOfMonth) {
+                return this._daysOfMonth;
+            } else {
+                this._daysOfMonth = [];
+                for (var i = 1; i <= 31; i++) {
+                    this._daysOfMonth.push({"value": i});
+                }
+                return this._daysOfMonth;
+            }
+        }
+    },
+
     templateDidLoad: {
         value: function() {
             this.taskCategories = [{ name: '---', value: null }].concat(this.application.calendarService.taskCategories);
@@ -30,6 +48,10 @@ exports.CalendarTask = AbstractInspector.specialize({
                 Model.populateObjectPrototypeForType(Model.CalendarTask).then(function () {
                     self._calendarTaskService = Model.CalendarTask.objectPrototype.services;
                 });
+
+                this.application.dataService.getNewInstanceForType(Model.CalendarCustomSchedule).then(function (result) {
+                    self.object._customSchedule = result;
+                });
             }
         }
     },
@@ -43,12 +65,12 @@ exports.CalendarTask = AbstractInspector.specialize({
             }
         }
     },
-    
+
     save: {
         value: function() {
             var argsLength = this.object.args.length;
-            this.object.args = this.object.args.filter(function(x) { 
-                return !!x || (typeof x !== "undefined" && typeof x !== "object") ; 
+            this.object.args = this.object.args.filter(function(x) {
+                return !!x || (typeof x !== "undefined" && typeof x !== "object") ;
             });
             this.object.args.length = argsLength;
             this._closeInspector();

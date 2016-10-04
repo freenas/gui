@@ -143,15 +143,113 @@
                 "disabled": {"<-": "!!@owner.object._isNew"}
             }
         },
-
-        "schedule": {
-            "prototype": "ui/controls/cron.reel/cron-rules.reel",
+        "scheduleResultsHeader": {
+            "prototype": "ui/controls/inspector-section-title.reel",
             "properties": {
-                "element": {"#": "schedule"},
-                "label": "Schedule"
+                "element": {"#": "scheduleResultsHeader"},
+                "value": "Schedule"
+            }
+        },
+        "scheduleString": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "scheduleString"}
             },
             "bindings": {
-                "value": {"<->": "@owner.object.schedule"}
+                "value": {"<-": "@scheduleOptions.selectedValue"}
+            }
+        },
+        "scheduleHeader": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+            "properties": {
+                "element": {"#": "scheduleHeader"},
+                "value": "Schedule Options"
+            }
+        },
+        "scheduleOptions": {
+            "prototype": "blue-shark/ui/radio-button-field-group.reel",
+            "properties": {
+                "element": {"#": "scheduleOptions"},
+                "options": [
+                    {"value": "day", "label": "every day"},
+                    {"value": "week", "label": "every week"},
+                    {"value": "month", "label": "every month"},
+                    {"value": "custom", "label": "custom"}
+                ],
+                "selectedValue": "day"
+            }
+        },
+        "scheduleOptionsSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "scheduleOptionsSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@scheduleOptions.selectedValue"}
+            }
+        },
+        "dayOptionTime": {
+            "prototype": "blue-shark/ui/time.reel",
+            "properties": {
+                "element": {"#": "dayOptionTime"},
+                "intervalInSeconds": 1800,
+                "enabled": false,
+                "pattern": "hh:mm:ss",
+                "isDefaultNow": true
+            }
+        },
+        "weekOptionTime": {
+            "prototype": "blue-shark/ui/time.reel",
+            "properties": {
+                "element": {"#": "weekOptionTime"},
+                "intervalInSeconds": 1800,
+                "enabled": false,
+                "pattern": "hh:mm:ss",
+                "isDefaultNow": true
+            }
+        },
+        "weekOptionDay": {
+            "prototype": "blue-shark/ui/multiple-select-grid.reel",
+            "properties": {
+                "element": {"#": "weekOptionDay"},
+                "content": [
+                    {"value": "S"},
+                    {"value": "M"},
+                    {"value": "T"},
+                    {"value": "W"},
+                    {"value": "Th"},
+                    {"value": "F"},
+                    {"value": "S"}
+                ]
+            }
+        },
+        "monthOptionDays": {
+            "prototype": "blue-shark/ui/multiple-select-grid.reel",
+            "properties": {
+                "element": {"#": "monthOptionDays"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.daysOfMonth"}
+            }
+        },
+        "monthOptionTime": {
+            "prototype": "blue-shark/ui/time.reel",
+            "properties": {
+                "element": {"#": "monthOptionTime"},
+                "intervalInSeconds": 1800,
+                "enabled": false,
+                "pattern": "hh:mm:ss",
+                "isDefaultNow": true
+            }
+        },
+        "customOptionButton": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "customOptionButton"}
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"},
+                "object": {"<-": "@owner.object._customSchedule"}
             }
         }
     }
@@ -171,8 +269,32 @@
                 <div data-montage-id="cron" data-arg="calendar_task.command"></div>
                 <div data-montage-id="replication" data-arg="replication.replicate_dataset"></div>
             </div>
-            <button data-montage-id="runNow"></button>
-            <div data-montage-id="schedule"></div>
+            <button data-montage-id="runNow" class="Button--block"></button>
+            <div data-montage-id="scheduleResultsHeader"></div>
+            <div data-montage-id="scheduleString"></div>
+            <div data-montage-id="scheduleHeader"></div>
+            <div data-montage-id="scheduleOptions" class="RadioButtonFieldGroup--block g-margin-bottom"></div>
+            <div data-montage-id="scheduleOptionsSubstitution">
+                <div data-arg="day">
+                    <p class="g-margin-right--half bold">Occuring at:</p>
+                    <div data-montage-id="dayOptionTime"></div>
+                </div>
+                <div data-arg="week">
+                    <p class="g-margin-right--half bold">On days: </p>
+                    <div data-montage-id="weekOptionDay" class="g-margin-bottom CalendarTask-weekOptionDay"></div>
+                    <p class="g-margin-right--half bold">Occuring at:</p>
+                    <div data-montage-id="weekOptionTime"></div>
+                </div>
+                <div data-arg="month">
+                    <p class="g-margin-right--half bold">On days:</p>
+                    <div data-montage-id="monthOptionDays" class="g-margin-bottom CalendarTask-monthOptionDays"></div>
+                    <p class="g-margin-right--half bold">Occuring at:</p>
+                    <div data-montage-id="monthOptionTime"></div>
+                </div>
+                <div data-arg="custom">
+                    <div data-montage-id="customOptionButton" class="g-negative-margin-sides"></div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
