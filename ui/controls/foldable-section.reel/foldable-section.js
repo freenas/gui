@@ -31,6 +31,9 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
 
     _toggleSection: {
         value: function(event) {
+            if(!this.expanded) {
+                this.sectionContent.style.display = "block";
+            }
             this.isExpanded = !this.isExpanded;
             event.stopPropagation();
         }
@@ -44,7 +47,6 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
                 this._mutationObserver = new MutationObserver(this.handleMutations.bind(this));
                 this.element.addEventListener("transitionend", this, false);
             }
-
 
             this._mutationObserver.observe(this.element, {
                 subtree: true,
@@ -66,13 +68,13 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
 
     prepareForActivationEvents: {
         value: function() {
-                KeyComposer.createKey(this, "enter", "enter").addEventListener("keyPress", this);
+            KeyComposer.createKey(this, "enter", "enter").addEventListener("keyPress", this);
         }
     },
 
     handleEnterKeyPress: {
         value: function(event) {
-            if(document.activeElement == this.element) {
+            if(document.activeElement == this.expandButton) {
                 this._toggleSection(event);
             }
         }
@@ -97,7 +99,6 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
 
     handleExpandButtonAction: {
         value: function(event) {
-            this.sectionContent.style.display = "block";
             this._toggleSection(event);
         }
     },
