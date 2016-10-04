@@ -91,6 +91,17 @@
             "bindings": {
                 "value": {"<->": "@owner.systemAdvancedData.motd"}
             }
+        },
+        "graphiteServer": {
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "properties": {
+                "element": {"#": "graphiteServer"},
+                "label": "Remote Graphite Server",
+                "labelPath": "this"
+            },
+            "bindings": {
+                "values": {"<->": "@owner.systemAdvancedData.graphite_servers"}
+            }
         }
     }
     </script>
@@ -109,6 +120,7 @@
         <div data-montage-id="error_uploads"></div>
         <div data-montage-id="dataset_pool"></div>
         <div data-montage-id="MOTD"></div>
+        <div data-montage-id="graphiteServer"></div>
     </div>
 </body>
 </html>
