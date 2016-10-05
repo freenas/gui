@@ -238,6 +238,17 @@
             "bindings": {
                 "checked": {"<->": "@owner.object.interactive"}
             }
+        },
+
+        "autostart": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "autostart"},
+                "label": "Start at Boot"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.autostart"}
+            }
         }
 
     }
@@ -259,6 +270,7 @@
                 <div data-montage-id="exposePorts"></div>
                 <div data-montage-id="command"></div>
                 <div data-montage-id="interactive"></div>
+                <div data-montage-id="autostart"></div>
             </div>
         </div>
     </div>
