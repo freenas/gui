@@ -9,8 +9,8 @@ var Component = require("montage/ui/component").Component,
 exports.SnmpService = Component.specialize({
     templateDidLoad: {
         value: function() {
-          this.v3authtype = ServiceSnmpV3authtype.members
-          this.v3privacyprotocol = ServiceSnmpV3privacyprotocol.members
+          this.v3AuthTypeOptions = ServiceSnmpV3authtype.members;
+          this.v3PrivacyProtocolOptions = ServiceSnmpV3privacyprotocol.members;
         }
     }
 });
