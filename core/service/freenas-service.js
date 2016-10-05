@@ -234,8 +234,6 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                         args: [taskName, [object.persistedId]]
                     }
                 ).then(function (response) {
-                    return self.notificationCenter.startTrackingTaskWithJobIdAndModel(taskName, response.data, object);
-                }).then(function() {
                     return self._snapshotService.removeSnapshotForTypeNameAndId(type.typeName, object.id);
                 });
             }
@@ -294,8 +292,6 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                     ).then(function (response) {
                         taskId = response.data;
                         self._selectionService.persistTaskSelection(temporaryTaskId, taskId);
-                        return self.notificationCenter.startTrackingTaskWithJobIdAndModel(taskName, taskId, object);
-                    }).then(function() {
                         return self._selectionService.removeTaskSelection(taskId);
                     }, function(error) {
                         return self._selectionService.addErrorToTaskSelection(error.error, taskId);

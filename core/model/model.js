@@ -2,7 +2,6 @@ var Promise = require("montage/core/promise").Promise,
     Services = require("./services").Services,
     ObjectDescriptor = require("montage-data/logic/model/object-descriptor").ObjectDescriptor,
     backendBridge = require("../backend/backend-bridge").defaultBackendBridge,
-    NotificationCenterModule = require("../backend/notification-center"),
     modelsMJSON = require("./models.mjson"),
 
     EMPTY_ARRAY = [];
@@ -141,13 +140,6 @@ function _applyServiceOnPrototype (serviceName, serviceDescriptor, object) {
                     args:  args
                 }
             ).then(function (response) {
-                if (isTask) {
-                    return NotificationCenterModule.defaultNotificationCenter.startTrackingTaskWithJobId(
-                        isTask ? serviceDescriptor.task : serviceDescriptor.name + "." + serviceDescriptor.method,
-                        response.data
-                    );
-                }
-
                 return response.data;
             }).catch(function (response) {
                 console.warn(response.error || response);
