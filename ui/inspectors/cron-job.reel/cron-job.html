@@ -22,21 +22,11 @@
             "properties": {
                 "element": {"#": "months"},
                 "title": "Months",
-                "iteratorLabel": "Every",
-                "options": [
-                    {"value": "Jan", "label": "Jan", "index": "0"},
-                    {"value": "Feb", "label": "Feb", "index": "1"},
-                    {"value": "Mar", "label": "Mar", "index": "2"},
-                    {"value": "Apr", "label": "Apr", "index": "3"},
-                    {"value": "May", "label": "May", "index": "4"},
-                    {"value": "Jun", "label": "Jun", "index": "5"},
-                    {"value": "Jul", "label": "Jul", "index": "6"},
-                    {"value": "Aug", "label": "Aug", "index": "7"},
-                    {"value": "Sep", "label": "Sep", "index": "8"},
-                    {"value": "Oct", "label": "Oct", "index": "9"},
-                    {"value": "Nov", "label": "Nov", "index": "10"},
-                    {"value": "Dec", "label": "Dec", "index": "11"}
-                ]
+                "iteratorLabel": "Every"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.monthOptions"},
+                "selectedValues": {"<-": "@owner.monthSelection"}
             }
         },
         "days": {
@@ -44,40 +34,11 @@
             "properties": {
                 "element": {"#": "days"},
                 "title": "Days",
-                "options": [
-                    {"value": "01"},
-                    {"value": "02"},
-                    {"value": "03"},
-                    {"value": "04"},
-                    {"value": "05"},
-                    {"value": "06"},
-                    {"value": "07"},
-                    {"value": "08"},
-                    {"value": "09"},
-                    {"value": "10"},
-                    {"value": "11"},
-                    {"value": "12"},
-                    {"value": "13"},
-                    {"value": "14"},
-                    {"value": "15"},
-                    {"value": "16"},
-                    {"value": "17"},
-                    {"value": "18"},
-                    {"value": "19"},
-                    {"value": "20"},
-                    {"value": "21"},
-                    {"value": "22"},
-                    {"value": "23"},
-                    {"value": "24"},
-                    {"value": "25"},
-                    {"value": "26"},
-                    {"value": "27"},
-                    {"value": "28"},
-                    {"value": "29"},
-                    {"value": "30"},
-                    {"value": "31"}
-
-                ]
+                "iteratorLabel": "Every"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.dayOptions"},
+                "selectedValues": {"<-": "@owner.daySelection"}
             }
         },
         "hours": {
@@ -85,32 +46,11 @@
             "properties": {
                 "element": {"#": "hours"},
                 "title": "Hours",
-                "options": [
-                    {"value": "00"},
-                    {"value": "01"},
-                    {"value": "02"},
-                    {"value": "03"},
-                    {"value": "04"},
-                    {"value": "05"},
-                    {"value": "06"},
-                    {"value": "07"},
-                    {"value": "08"},
-                    {"value": "09"},
-                    {"value": "10"},
-                    {"value": "11"},
-                    {"value": "12"},
-                    {"value": "13"},
-                    {"value": "14"},
-                    {"value": "15"},
-                    {"value": "16"},
-                    {"value": "17"},
-                    {"value": "18"},
-                    {"value": "19"},
-                    {"value": "20"},
-                    {"value": "21"},
-                    {"value": "22"},
-                    {"value": "23"}
-                ]
+                "iteratorLabel": "Every"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.hourOptions"},
+                "selectedValues": {"<-": "@owner.hourSelection"}
             }
         },
         "Minutes": {
@@ -118,40 +58,11 @@
             "properties": {
                 "element": {"#": "minutes"},
                 "title": "Minutes",
-                "options": [
-                    {"value": "01"},
-                    {"value": "02"},
-                    {"value": "03"},
-                    {"value": "04"},
-                    {"value": "05"},
-                    {"value": "06"},
-                    {"value": "07"},
-                    {"value": "08"},
-                    {"value": "09"},
-                    {"value": "10"},
-                    {"value": "11"},
-                    {"value": "12"},
-                    {"value": "13"},
-                    {"value": "14"},
-                    {"value": "15"},
-                    {"value": "16"},
-                    {"value": "17"},
-                    {"value": "18"},
-                    {"value": "19"},
-                    {"value": "20"},
-                    {"value": "21"},
-                    {"value": "22"},
-                    {"value": "23"},
-                    {"value": "24"},
-                    {"value": "25"},
-                    {"value": "26"},
-                    {"value": "27"},
-                    {"value": "28"},
-                    {"value": "29"},
-                    {"value": "30"},
-                    {"value": "31"}
-
-                ]
+                "iteratorLabel": "Every"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.minuteOptions"},
+                "selectedValues": {"<-": "@owner.minuteSelection"}
             }
         }
     }
