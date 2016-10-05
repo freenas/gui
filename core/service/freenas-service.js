@@ -369,7 +369,7 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                                 type = propertyTypeService.getTypeForObjectProperty(object, data, key);
                             }
 
-                            
+
                             newArray = this.getEmptyCollectionForType(type);
                             for (j = 0, valuesLength = rawValue.length; j < valuesLength; j++) {
                                 this._mapObjectPropertyReferenceFromRawData(propertyDescriptor, newArray, j, rawValue[j], data);
@@ -915,7 +915,7 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                 var alert;
                 for (var i = 0, length = alerts.length; i < length; i++) {
                     alert = alerts[i];
-                    if (!alert.dismissed) {
+                    if (!alert.dismissed && alert.active) {
                         self.notificationCenter.addAlert(alert);
                     }
                 }
