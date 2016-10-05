@@ -20,7 +20,7 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
         value: function NotificationCenter () {
             this._notifications = [];
             this._trackingTasksMap = new Map();
-            this._listenersOnModelChangesMap = new Map();
+            this._listenersOnModelTypeChangesMap = new Map();
         }
     },
 
@@ -95,7 +95,7 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
      */
     isListeningToChangesOnModel: {
         value: function (modelType) {
-            return this._listenersOnModelChangesMap.has(modelType.typeName || modelType);
+            return this._listenersOnModelTypeChangesMap.has(modelType.typeName || modelType);
         }
     },
 
@@ -131,7 +131,7 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
      * @description todo.
      *
      */
-    _listenersOnModelChangesMap: {
+    _listenersOnModelTypeChangesMap: {
         value: null
     },
 
@@ -178,7 +178,7 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
         value: function () {
             var self = this;
 
-            return this.startListenToChangesOnModelIfNeeded(Model.Task).then(function () {
+            return this.startListenToChangesOnModelTypeIfNeeded(Model.Task).then(function () {
                 return self._backendBridge.subscribeToEvent("task.progress", self);
             });
         }
@@ -196,7 +196,7 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
         value: function () {
             var self = this;
 
-            return this.stopListenToChangesOnModel(Model.Task).then(function () {
+            return this.stopListenToChangesOnModelType(Model.Task).then(function () {
                 return self._backendBridge.unSubscribeToEvent("task.progress", self);
             });
         }
@@ -214,7 +214,7 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
         value: function () {
             var self = this;
 
-            return this.startListenToChangesOnModelIfNeeded(Model.Alert);
+            return this.startListenToChangesOnModelTypeIfNeeded(Model.Alert);
         }
     },
 
@@ -230,7 +230,7 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
         value: function () {
             var self = this;
 
-            return this.stopListenToChangesOnModel(Model.Alert);
+            return this.stopListenToChangesOnModelType(Model.Alert);
         }
     },
 
@@ -242,12 +242,12 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
      * @description todo
      *
      */
-    startListenToChangesOnModelIfNeeded: {
+    startListenToChangesOnModelTypeIfNeeded: {
         value: function (modelType) {
             var modelTypeName = modelType.typeName || modelType,
                 eventType = EventTypes[modelTypeName];
 
-            if (eventType && !this._listenersOnModelChangesMap.get(modelTypeName)) {
+            if (eventType && !this._listenersOnModelTypeChangesMap.get(modelTypeName)) {
                 var handlerEventTypeName = "handle" + eventType.toCamelCase(),
                     self = this;
 
@@ -256,7 +256,7 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
                         self[handlerEventTypeName] = self.handleEntityChanged;
                     }
 
-                    self._listenersOnModelChangesMap.set(modelTypeName, true);
+                    self._listenersOnModelTypeChangesMap.set(modelTypeName, true);
                 });
             }
 
@@ -272,16 +272,16 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
      * @description todo
      *
      */
-    stopListenToChangesOnModel: {
+    stopListenToChangesOnModelType: {
         value: function (modelType) {
             var modelTypeName = modelType.typeName || modelType,
                 eventType = EventTypes[modelTypeName];
 
-            if (eventType && this._listenersOnModelChangesMap.get(modelTypeName)) {
+            if (eventType && this._listenersOnModelTypeChangesMap.get(modelTypeName)) {
                 var self = this;
 
                 return this._backendBridge.unSubscribeToEvent(eventType, this).then(function () {
-                    self._listenersOnModelChangesMap.set(modelTypeName, false);
+                    self._listenersOnModelTypeChangesMap.set(modelTypeName, false);
                 });
             }
 
