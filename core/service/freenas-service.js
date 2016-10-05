@@ -819,7 +819,7 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                     ).then(function (response) {
                         var rawData = response.data;
 
-                        self.notificationCenter.startListenToChangesOnModelIfNeeded(type).then(function () {
+                        self.notificationCenter.startListenToChangesOnModelTypeIfNeeded(type).then(function () {
                             self.addRawData(stream, Array.isArray(rawData) ? rawData : [rawData]);
                             self.rawDataDone(stream);
                             //fixme: fix for UIDescriptor and empty array....
