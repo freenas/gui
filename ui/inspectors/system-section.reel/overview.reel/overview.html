@@ -84,7 +84,7 @@
                 "label": "Disks (SSD / HDD)"
             },
             "bindings": {
-                "value": {"<-": "@owner.systemInfo.totalDisks.filter{is_ssd==true}.length + '/' + @owner.systemInfo.totalDisks.filter{is_ssd==false}.length "}
+                "value": {"<-": "@owner.systemInfo.totalDisks.filter{status.is_ssd==true}.length + '/' + @owner.systemInfo.totalDisks.filter{status.is_ssd==false}.length "}
             }
         },
         "totalContainers": {
