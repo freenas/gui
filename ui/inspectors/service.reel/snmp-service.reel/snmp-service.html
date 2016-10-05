@@ -9,12 +9,113 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "location": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "location"},
+                "label": "Location"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.location"}
+            }
+        },
+        "contact": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "contact"},
+                "label": "Contact"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.contact"}
+            }
+        },
+        "v3": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "v3"},
+                "label": "SNMP v3 Support"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.v3"}
+            }
+        },
+        "v3_username": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "v3_username"},
+                "label": "Username"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.v3_username"},
+                "disabled": {"<-": "!@owner.object.v3"}
+            }
+        },
+        "v3_auth_type": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "v3_auth_type"},
+                "label": "Authentication Type"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.v3_auth_type"},
+                "options": {"<-": "@owner.v3authtype"},
+                "disabled": {"<-": "!@owner.object.v3"}
+            }
+        },
+        "v3_password": {
+            "prototype": "blue-shark/ui/field-password.reel",
+            "properties": {
+                "element": {"#": "v3_password"},
+                "validationPath": "v3_password",
+                "label": "Password",
+                "label2": "Confirm Password",
+                "errorMessage": "Passwords don't match"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.v3_password"},
+                "disabled": {"<-": "!@owner.object.v3"}
+            }
+        },
+        "v3_privacy_protocol": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "v3_privacy_protocol"},
+                "label": "Privacy Protocol"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.v3_privacy_protocol"},
+                "options": {"<-": "@owner.v3privacyprotocol"},
+                "disabled": {"<-": "!@owner.object.v3"}
+            }
+        },
+        "v3_privacy_passphrase": {
+            "prototype": "blue-shark/ui/field-password.reel",
+            "properties": {
+                "element": {"#": "v3_privacy_passphrase"},
+                "validationPath": "v3_privacy_passphrase",
+                "label": "Privacy Passphrase",
+                "label2": "Confirm Privacy Passphrase",
+                "errorMessage": "Passphrases don't match"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.v3_privacy_passphrase"},
+                "disabled": {"<-": "!@owner.object.v3"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="SnmpService">
+        <div data-montage-id="location"></div>
+        <div data-montage-id="contact"></div>
+        <div data-montage-id="v3"></div>
+        <div data-montage-id="v3_username"></div>
+        <div data-montage-id="v3_password"></div>
+        <div data-montage-id="v3_auth_type"></div>
+        <div data-montage-id="v3_privacy_protocol"></div>
+        <div data-montage-id="v3_privacy_passphrase"></div>
     </div>
 </body>
 </html>

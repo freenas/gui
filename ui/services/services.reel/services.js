@@ -22,7 +22,7 @@ exports.Services = Component.specialize({
                 self._listServices().then(function (services) {
                     return Promise.all([
                         self._getServicesCategory('Sharing', services, ['smb', 'nfs', 'afp','webdav','iscsi']),
-                        self._getServicesCategory('Management', services, ['sshd', 'smartd'])
+                        self._getServicesCategory('Management', services, ['sshd', 'smartd', 'snmp'])
                     ]);
                 }).then(function(categories) {
                     self.categories = categories;
