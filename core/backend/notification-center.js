@@ -338,7 +338,6 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
                 }
 
                 this.dispatchEventNamed("modelChange", true, true, notification);
-                this._addNotification(notification);
             }
         }
     },
