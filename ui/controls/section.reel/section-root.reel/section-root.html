@@ -30,7 +30,8 @@
                 "element": {"#": "entries"}
             },
             "bindings": {
-                "object": {"<-": "@owner.object.entries"}
+                "object": {"<-": "@owner.object.entries"},
+                "title": {"<-": "@owner.object.entriesTitle"}
             }
         },
         "settings": {
@@ -49,8 +50,8 @@
 </head>
 <body>
     <div data-montage-id="owner" class="SectionRoot">
-        <div data-montage-id="overview"></div>
-        <div data-montage-id="entries"></div>
+        <div data-montage-id="overview" class="SectionRoot-overview"></div>
+        <div data-montage-id="entries" class="SectionRoot-entries"></div>
         <div data-montage-id="settings"></div>
     </div>
 </body>
