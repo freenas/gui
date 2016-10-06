@@ -19,21 +19,35 @@ exports.CalendarSectionService = AbstractSectionService.specialize({
 
     updateScheduleOnTask: {
         value: function(task) {
+            var schedule;
             if (task._simpleSchedule && task._simpleSchedule.type !== this.SCHEDULE_OPTIONS.CUSTOM.value) {
+                schedule = task._simpleSchedule;
                 task.schedule = {
                     year: '*',
                     month: '*',
                     day: '*',
                     day_of_week: '*',
-                    hour: task._simpleSchedule.time ? task._simpleSchedule.time.getHours() : 0,
-                    minute: task._simpleSchedule.time ? task._simpleSchedule.time.getMinutes() : 0,
+                    hour: schedule.time ? schedule.time.getHours() : 0,
+                    minute: schedule.time ? schedule.time.getMinutes() : 0,
+                    second: 0
+
+                };
+                if (schedule.type === this.SCHEDULE_OPTIONS.WEEKLY.value) {
+                    task.schedule.day_of_week = schedule.daysOfWeek.join(',');
+                } else if (schedule.type === this.SCHEDULE_OPTIONS.MONTHLY.value) {
+                    task.schedule.day = schedule.daysOfMonth.join(',');
+                }
+            } else {
+                schedule = task._customSchedule;
+                task.schedule = {
+                    year: '*',
+                    month: schedule.month.length > 0 ? schedule.month.join(',') : '*',
+                    day: schedule.daysOfMonth.length > 0 ? schedule.daysOfMonth.join(',') : '*',
+                    day_of_week: '*',
+                    hour: schedule.hour.length > 0 ? schedule.hour.join(',') : 0,
+                    minute: schedule.minute.length > 0 ? schedule.minute.join(',') : 0,
                     second: 0
                 };
-                if (task._simpleSchedule.type === this.SCHEDULE_OPTIONS.WEEKLY.value) {
-                    task.schedule.day_of_week = task._simpleSchedule.daysOfWeek.join(',');
-                } else if (task._simpleSchedule.type === this.SCHEDULE_OPTIONS.MONTHLY.value) {
-                    task.schedule.day = task._simpleSchedule.daysOfMonth.join(',');
-                }
             }
         }
     },
@@ -54,6 +68,12 @@ exports.CalendarSectionService = AbstractSectionService.specialize({
                         task._simpleSchedule.type = this.SCHEDULE_OPTIONS.MONTHLY.value;
                         task._simpleSchedule.daysOfMonth = this._getValues(task.schedule.day, this.constructor.DAYS);
                         task._simpleSchedule.time = this._getScheduleTime(task.schedule);
+                    } else {
+                        task._simpleSchedule.type = this.SCHEDULE_OPTIONS.CUSTOM.value;
+                        task._customSchedule.month = this._getValues(task.schedule.month, this.constructor.MONTHS);
+                        task._customSchedule.daysOfMonth = this._getValues(task.schedule.day, this.constructor.DAYS);
+                        task._customSchedule.hour = this._getValues(task.schedule.hour, this.constructor.HOURS);
+                        task._customSchedule.minute = this._getValues(task.schedule.minute, this.constructor.MINUTES);
                     }
                 }
             }
@@ -95,25 +115,29 @@ exports.CalendarSectionService = AbstractSectionService.specialize({
 
     _getValues: {
         value: function(string, options) {
-            var values = new Set(),
-                option,
-                entries = string.split(','),
-                entry,
-                j, matchingOptions;
-            for (var i = 0, length = entries.length; i < length; i++) {
-                entry = entries[i];
-                if (entry.indexOf('/') === -1) {
-                    entry = parseInt(entry);
-                    matchingOptions = options.filter(function(x) { return x.index === entry; });
-                    if (matchingOptions.length === 1) {
-                        values.add(matchingOptions[0].value);
+            var values = new Set();
+            if (typeof string === 'string') {
+                var option,
+                    entries = string.split(','),
+                    entry,
+                    j, matchingOptions;
+                for (var i = 0, length = entries.length; i < length; i++) {
+                    entry = entries[i];
+                    if (entry.indexOf('/') === -1) {
+                        entry = parseInt(entry);
+                        matchingOptions = options.filter(function(x) { return x.index === entry; });
+                        if (matchingOptions.length === 1) {
+                            values.add(matchingOptions[0].value);
+                        }
+                    } else {
+                        var frequency = parseInt(entry.split('/')[1]);
+                        options.filter(function(opt, idx) { return idx % frequency === 0; }).map(function(x) {
+                            values.add(x.value);
+                        });
                     }
-                } else {
-                    var frequency = parseInt(entry.split('/')[1]);
-                    options.filter(function(opt, idx) { return idx % frequency === 0; }).map(function(x) {
-                        values.add(x.value);
-                    });
                 }
+            } else if (typeof string === 'number') {
+                values.add(string);
             }
             return Array.from(values);
         }
@@ -202,41 +226,106 @@ exports.CalendarSectionService = AbstractSectionService.specialize({
         }
     },
 
+    MONTHS: {
+        value: [
+            {
+                value: 0, 
+                label: "Jan", 
+                index: 0
+            },
+            {
+                value: 1, 
+                label: "Feb", 
+                index: 1
+            },
+            {
+                value: 2, 
+                label: "Mar", 
+                index: 2
+            },
+            {
+                value: 3, 
+                label: "Apr", 
+                index: 3
+            },
+            {
+                value: 4, 
+                label: "May", 
+                index: 4
+            },
+            {
+                value: 5, 
+                label: "Jun", 
+                index: 5
+            },
+            {
+                value: 6, 
+                label: "Jul", 
+                index: 6
+            },
+            {
+                value: 7, 
+                label: "Aug", 
+                index: 7
+            },
+            {
+                value: 8, 
+                label: "Sep", 
+                index: 8
+            },
+            {
+                value: 9, 
+                label: "Oct", 
+                index: 9
+            },
+            {
+                value: 10, 
+                label: "Nov", 
+                index: 10
+            },
+            {
+                value: 11, 
+                label: "Dec", 
+                index: 11
+            }
+        ]
+    },
+
     DAYS_OF_WEEK: {
         value: [
             {
                 label: "S", 
-                value: "sunday", 
+                value: 0, 
                 index: 0
             },
             {
                 label: "M", 
-                value: "monday", 
+                value: 1, 
                 index: 1
             },
             {
                 label: "T", 
-                value: "tuesday", 
+                value: 2, 
                 index: 2
             },
             {
                 label: "W", 
-                value: "wednesday", 
+                value: 3, 
                 index: 3
             },
             {
                 label: "Th", 
-                value: "thursday", 
+                value: 4, 
                 index: 4
             },
             {
                 label: "F", 
-                value: "friday", 
+                value: 5, 
                 index: 5
             },
             {
                 label: "S", 
-                value: "saturday", 
+                value: 6, 
                 index: 6
             }
         ]

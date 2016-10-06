@@ -48,21 +48,17 @@ exports.CalendarTask = AbstractInspector.specialize({
     enterDocument: {
         value: function(isFirstTime) {
             this.$super.enterDocument(isFirstTime);
+            var self = this;
 
-            this._sectionService.initializeCalendarTask(this.object);
+            this.application.dataService.getNewInstanceForType(Model.CalendarCustomSchedule).then(function (result) {
+                self.object._customSchedule = result;
+                self._sectionService.initializeCalendarTask(self.object);
+                self.addPathChangeListener("object._simpleSchedule.type", self, "_handleSimpleScheduleTypeChange");
+            });
             if (this.object.task) {
                 this.classList.add('type-' + this.object.task.replace('.', '_').toLowerCase());
             }
-            
 
-            if (isFirstTime) {
-                var self = this;
-                this.application.dataService.getNewInstanceForType(Model.CalendarCustomSchedule).then(function (result) {
-                    self.object._customSchedule = result;
-                });
-            }
-
-            this.addPathChangeListener("object._simpleSchedule.type", this, "_handleSimpleScheduleTypeChange");
         }
     },
 

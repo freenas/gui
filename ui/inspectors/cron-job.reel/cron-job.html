@@ -26,7 +26,7 @@
             },
             "bindings": {
                 "options": {"<-": "@owner.monthOptions"},
-                "selectedValues": {"<-": "@owner.monthSelection"}
+                "selectedValues": {"<->": "@owner.object.month"}
             }
         },
         "days": {
@@ -38,7 +38,7 @@
             },
             "bindings": {
                 "options": {"<-": "@owner.dayOptions"},
-                "selectedValues": {"<-": "@owner.daySelection"}
+                "selectedValues": {"<->": "@owner.object.daysOfMonth"}
             }
         },
         "hours": {
@@ -50,7 +50,7 @@
             },
             "bindings": {
                 "options": {"<-": "@owner.hourOptions"},
-                "selectedValues": {"<-": "@owner.hourSelection"}
+                "selectedValues": {"<->": "@owner.object.hour"}
             }
         },
         "Minutes": {
@@ -62,7 +62,7 @@
             },
             "bindings": {
                 "options": {"<-": "@owner.minuteOptions"},
-                "selectedValues": {"<-": "@owner.minuteSelection"}
+                "selectedValues": {"<->": "@owner.object.minute"}
             }
         }
     }
