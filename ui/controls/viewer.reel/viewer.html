@@ -54,12 +54,22 @@
                 "element": {"#": "scrollView"},
                 "overflow": "scrollY"
             }
+        },
+        "title": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "title"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object._meta_data.collectionModelType.constructor.userInterfaceDescriptor.collectionNameExpression"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="Viewer">
+        <div data-montage-id="title" class="Viewer-title"></div>
         <div data-montage-id="scrollView">
             <div class="content">
                 <div data-montage-id="list" class="Viewer-list"></div>

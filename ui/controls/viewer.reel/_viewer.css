@@ -15,6 +15,15 @@
 
 .Viewer-footer { flex-shrink: 0; }
 
+/* Title */
+
+.Viewer-title {
+    padding: .5em 1em;
+    line-height: 2em;
+    background: #0f1213;
+    color: #fff;
+}
+
 /* Create */
 
 .Viewer-createButton {
