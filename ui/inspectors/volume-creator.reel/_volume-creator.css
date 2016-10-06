@@ -9,6 +9,11 @@
     margin-right: 12.2em;
 }
 
+/* maxes out scrollbar */
+.VolumeCreator > .Inspector .Scrollview .Scrollview-transform {
+    max-height: 100%;
+}
+
 .VolumeCreator .Inspector-body {
     margin: 0;
     flex: 1;
