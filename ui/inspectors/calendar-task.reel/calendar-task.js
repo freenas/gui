@@ -54,6 +54,7 @@ exports.CalendarTask = AbstractInspector.specialize({
             this.application.dataService.getNewInstanceForType(Model.CalendarCustomSchedule).then(function (result) {
                 self.object._customSchedule = result;
                 self._sectionService.initializeCalendarTask(self.object, self.context.parentContext.object.view);
+                self.addRangeAtPathChangeListener("object._simpleSchedule.type", self, "_handleScheduleTypeChange");
                 self.addRangeAtPathChangeListener("object._simpleSchedule.type", self, "_handleSimpleScheduleChange");
                 self.addRangeAtPathChangeListener("object._simpleSchedule.time", self, "_handleSimpleScheduleChange");
                 self.addRangeAtPathChangeListener("object._simpleSchedule.daysOfMonth", self, "_handleSimpleScheduleChange");
@@ -112,6 +113,16 @@ exports.CalendarTask = AbstractInspector.specialize({
         value: function () {
             if (!this.object._isNew) {
                 this._calendarTaskService.run(this.object.id);
+            }
+        }
+    },
+
+    _handleScheduleTypeChange: {
+        value: function() {
+            if (!this.object._simpleSchedule || this.object._simpleSchedule.type !== this._sectionService.SCHEDULE_OPTIONS.CUSTOM.value) {
+                this.context.cascadingListItem.selectedObject = null;
+            } else {
+                this.context.cascadingListItem.selectedObject = this.object._customSchedule;
             }
         }
     },
