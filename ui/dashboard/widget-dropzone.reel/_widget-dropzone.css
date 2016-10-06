@@ -1,6 +1,10 @@
 .WidgetDropzone {
     flex: 1;
     display: flex;
+
+    & > .Scrollview .Scrollview-transform {
+        display: block;
+    }
 }
 
 .WidgetDropzone-wrapper {
