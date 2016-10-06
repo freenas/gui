@@ -18,50 +18,59 @@
             }
         },
         "hostname": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
-                "element": {"#": "hostname"}
+                "element": {"#": "hostname"},
+                "label": "Hostname"
             },
             "bindings": {
                 "value": {"<-": "@owner.object.system.hostname"}
             }
         },
         "defaultRouteIpv4": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
-                "element": {"#": "defaultRouteIpv4"}
+                "element": {"#": "defaultRouteIpv4"},
+                "label": "IPv4"
             },
             "bindings": {
                 "value": {"<-": "@owner.object.config.gateway.ipv4"}
             }
         },
         "defaultRouteIpv6": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
-                "element": {"#": "defaultRouteIpv6"}
+                "element": {"#": "defaultRouteIpv6"},
+                "label": "IPv6"
             },
             "bindings": {
                 "value": {"<-": "@owner.object.config.gateway.ipv6"},
                 "classList.has('hide')": {"<-": "!@owner.object.config.gateway.ipv6"}
             }
         },
-        "enabledInterfaces": {
-            "prototype": "montage/ui/repetition.reel",
+        "interfacesSectionTitle": {
+            "prototype": "ui/controls/inspector-section-title.reel",
             "properties": {
-                "element": {"#": "enabledInterfaces"}
-            },
-            "bindings": {
-                "content": {"<-": "@owner.object.interfaces.filter{enabled}"},
-                "classList.has('has-ip6')": {"<-": "@owner.object.interfaces.filter{enabled}.map{status.aliases}.concat(@owner.object.interfaces.filter{enabled}.map{aliases}).some{type == 'INET6'}"}
+                "element": {"#": "interfacesSectionTitle"},
+                "value": "Active Interfaces"
             }
         },
-        "enabledInterface": {
-            "prototype": "./interface-overview-item.reel",
+        "interfaces": {
+            "prototype": "montage/ui/repetition.reel",
             "properties": {
-                "element": {"#": "enabledInterface"}
+                "element": {"#": "interfaces"}
             },
             "bindings": {
-                "object": {"<-": "@enabledInterfaces:iteration.object"}
+                "content": {"<-": "@owner.object.interfaces.filter{!dhcp ? aliases.some{type == 'INET' || type == 'INET6'} : status.aliases.some{type == 'INET' || type == 'INET6'}}"}
+            }
+        },
+        "interface": {
+            "prototype": "./interface-overview-item.reel",
+            "properties": {
+                "element": {"#": "interface"}
+            },
+            "bindings": {
+                "object": {"<-": "@interfaces:iteration.object"}
             }
         },
         "nameserverRepetition": {
@@ -82,53 +91,18 @@
                 "value": {"<-": "@nameserverRepetition:iteration.object"}
             }
         },
-        "disabledInterfacesSection": {
-            "prototype": "ui/controls/foldable-section.reel",
+        "nameserversSectionTitle": {
+            "prototype": "ui/controls/inspector-section-title.reel",
             "properties": {
-                "element": {"#": "disabledInterfacesSection"},
-                "title": "Disabled Interfaces"
-            },
-            "bindings": {
-                "classList.has('hide')": {"<-": "@owner.object.interfaces.filter{!enabled}.length == 0"}
+                "element": {"#": "nameserversSectionTitle"},
+                "value": "Nameservers"
             }
         },
-        "disabledInterfaces": {
-            "prototype": "montage/ui/repetition.reel",
+        "defaultRouteSectionTitle": {
+            "prototype": "ui/controls/inspector-section-title.reel",
             "properties": {
-                "element": {"#": "disabledInterfaces"}
-            },
-            "bindings": {
-                "content": {"<-": "@owner.object.interfaces.filter{!enabled}"},
-                "classList.has('has-ip6')": {"<-": "@owner.object.interfaces.filter{!enabled}.map{status.aliases}.concat(@owner.object.interfaces.filter{!enabled}.map{aliases}).some{type == 'INET6'}"}
-            }
-        },
-        "disabledInterface": {
-            "prototype": "./interface-overview-item.reel",
-            "properties": {
-                "element": {"#": "disabledInterface"}
-            },
-            "bindings": {
-                "object": {"<-": "@disabledInterfaces:iteration.object"}
-            }
-        },
-        "routesSection": {
-            "prototype": "montage/ui/component",
-            "properties": {
-                "element": {"#": "routesSection"},
-                "hasTemplate": false
-            },
-            "bindings": {
-                "classList.has('hide')": {"<-": "!@owner.object.config.gateway.ipv4 &&!@owner.object.config.gateway.ipv6"}
-            }
-        },
-        "nameserverSection": {
-            "prototype": "montage/ui/component",
-            "properties": {
-                "element": {"#": "nameserverSection"},
-                "hasTemplate": false
-            },
-            "bindings": {
-                "classList.has('hide')": {"<-": "@nameserverRepetition.content.length == 0"}
+                "element": {"#": "defaultRouteSectionTitle"},
+                "value": "Default Route"
             }
         }
     }
@@ -138,79 +112,25 @@
     <div data-montage-id="owner" class="Overview">
         <div data-montage-id="scrollView">
             <div>
-                <div class="Overview-overview">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>
-                                    Hostname
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td data-montage-id="hostname"></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="Overview-content">
+                    <div data-montage-id="hostname"></div>
 
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Interface</th>
-                                <th>IPv4</th>
-                                <th class="ip6Address">IPv6</th>
-                            </tr>
-                        </thead>
-                        <tbody data-montage-id="enabledInterfaces">
-                            <tr data-montage-id="enabledInterface"></tr>
-                        </tbody>
-                    </table>
-
-                    <div data-montage-id="disabledInterfacesSection" class="Overview-disabledInterfaces">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Interface</th>
-                                    <th>IPv4</th>
-                                    <th class="ip6Address">IPv6</th>
-                                </tr>
-                            </thead>
-                            <tbody data-montage-id="disabledInterfaces">
-                                <tr data-montage-id="disabledInterface"></tr>
-                            </tbody>
-                        </table>
+                    <div data-montage-id="interfacesSectionTitle" class="g-negative-margin-top"></div>
+                    <div data-montage-id="interfaces">
+                        <div data-montage-id="interface"></div>
                     </div>
 
-                    <table data-montage-id="nameserverSection">
-                        <thead>
-                            <tr>
-                                <th>Nameservers</th>
-                            </tr>
-                        </thead>
-                        <tbody data-montage-id="nameserverRepetition">
-                            <tr>
-                                <td data-montage-id="nameserver"></td>
-                            </tr>
-                        </tbody>
+                    <div data-montage-id="nameserversSectionTitle" class="flush-top"></div>
+                    <div data-montage-id="nameserverRepetition">
+                        <div data-montage-id="nameserver"></div>
+                    </div>
 
-                    </table>
-                    <table data-montage-id="routesSection" class="">
-                        <thead>
-                            <tr>
-                                <th>Default Route</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td data-montage-id="defaultRouteIpv4"></td>
-                            </tr>
-                            <tr>
-                                <td data-montage-id="defaultRouteIpv6"></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div data-montage-id="defaultRouteSectionTitle" class="flush-top"></div>
+                    <div data-montage-id="defaultRouteIpv4"></div>
+                    <div data-montage-id="defaultRouteIpv6"></div>
+
                 </div>
+
                 <div data-montage-id="networkOverview"></div>
                 <div data-montage-id="interfaceViewer"></div>
             </div>

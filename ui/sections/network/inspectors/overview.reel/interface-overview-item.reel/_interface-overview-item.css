@@ -1,15 +1,46 @@
-.InterfaceOverviewItem { display: table-row; }
-
-.InterfaceOverviewItem:nth-child(even) { background-color: rgba(0,0,0,.1); }
-
-.InterfaceOverviewItem > * {
-    display: table-cell;
-    padding: .5em 1em;
-    vertical-align: middle;
+.InterfaceOverviewItem {
     position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
-.InterfaceOverviewItem-name { padding-left: 1.25rem; }
+.InterfaceOverviewItem-overview {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.InterfaceOverviewItem-details {
+    display: none;
+    padding-left: 2em;
+
+    @nest .InterfaceOverviewItem.is-expanded & {
+        display: block;
+    }
+}
+
+.InterfaceOverviewItem-toggle {
+    cursor: pointer;
+    & svg {
+        height: 1rem;
+        width:  1rem;
+    }
+}
+
+.InterfaceOverviewItem-name {
+    width: 10em;
+    padding-left: 1.25rem;
+}
+
+.InterfaceOverviewItem-firstAddress {
+    flex: 1;
+    text-align: right;
+    margin-right: 1em;
+
+    @nest .InterfaceOverviewItem.is-expanded & {
+        visibility: hidden;
+    }
+}
 
 .InterfaceOverviewItem-status {
     position: absolute;

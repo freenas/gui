@@ -1,11 +1,11 @@
 .Overview {
-    width: 26em;
+    width: 22em;
 }
 
 .Overview .ScrollviewContent { width: 100%; }
 
-.Overview-overview {
-    border-bottom: 1px solid rgba(255,255,255,.2);
+.Overview-content {
+    padding: 1em 1em 0em 1em;
 }
 
 .Overview table {
@@ -23,10 +23,6 @@
 .Overview .th {
     color: #E9FDFF;
     padding: .5em 1em;
-}
-
-.Overview .ip6Address {
-    display: none;
 }
 
 .Overview .has-ip6 .ip6Address {
