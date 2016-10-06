@@ -48,11 +48,14 @@ exports.Notifications = AbstractComponentActionDelegate.specialize({
 
     handleDismissButtonAction: {
         value: function (event) {
-            var iteration = this.items._findIterationContainingElement(event.target.element);
+            var iteration = this.items._findIterationContainingElement(event.target.element),
+                self = this;
 
             if (iteration) {
                 return this.application.alertServicePromise.then(function (alertService) {
                     alertService.services.dismiss(iteration.object.jobId);
+                }).then(function () {
+                    self.notificationCenter.removeNotification(iteration.object);
                 });
             }
         }
