@@ -6,7 +6,6 @@
 .SectionRoot-entries {
     display: flex;
     flex-direction: column;
-    min-height: 16.5em;
 }
 
 .SectionRoot-overview {
