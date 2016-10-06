@@ -14,13 +14,5 @@ exports.DynamicDnsService = Component.specialize({
         value: function() {
           this.providerOptions = ServiceDyndnsProvider.members;
         }
-    },
-
-    save: {
-        value: function() {
-            if (this.object.password === "" || this.object.password === null) {
-                delete this.object.password;
-            }
-        }
     }
 });
