@@ -81,12 +81,17 @@ exports.CalendarSectionService = AbstractSectionService.specialize({
             if (!task._simpleSchedule) {
                 task._simpleSchedule = {};
                 if (task._isNew) {
+                    var now = new Date();
+                    task._simpleSchedule.daysOfMonth = this._getValues(now.getDate(), this.constructor.DAYS);
+                    task._simpleSchedule.daysOfWeek = this._getValues(now.getDay(), this.constructor.DAYS_OF_WEEK);
+                    task._customSchedule.month = this._getValues(now.getMonth(), this.constructor.MONTHS);
+                    task._customSchedule.daysOfMonth = this._getValues(now.getDate(), this.constructor.DAYS);
+                    task._customSchedule.hour = this._getValues(now.getHours(), this.constructor.HOURS);
+                    task._customSchedule.minute = this._getValues(now.getMinutes(), this.constructor.MINUTES);
                     if (parentView === 'month') {
                         task._simpleSchedule.type = this.SCHEDULE_OPTIONS.MONTHLY.value;
-                        task._simpleSchedule.daysOfMonth = this._getValues(new Date().getDate(), this.constructor.DAYS);
                     } else if (parentView === 'week') {
                         task._simpleSchedule.type = this.SCHEDULE_OPTIONS.WEEKLY.value;
-                        task._simpleSchedule.daysOfWeek = this._getValues(new Date().getDay(), this.constructor.DAYS_OF_WEEK);
                     } else if (parentView === 'day') {
                         task._simpleSchedule.type = this.SCHEDULE_OPTIONS.DAILY.value;
                     }
@@ -96,17 +101,23 @@ exports.CalendarSectionService = AbstractSectionService.specialize({
                 } else if (task.schedule) {
                     if (this._isDaily(task.schedule)) {
                         task._simpleSchedule.type = this.SCHEDULE_OPTIONS.DAILY.value;
+                        task._simpleSchedule.daysOfMonth = this._getValues(new Date().getDate(), this.constructor.DAYS);
+                        task._simpleSchedule.daysOfWeek = this._getValues(new Date().getDay(), this.constructor.DAYS_OF_WEEK);
                         task._simpleSchedule.time = this._getScheduleTime(task.schedule);
                     } else if (this._isWeekly(task.schedule)) {
                         task._simpleSchedule.type = this.SCHEDULE_OPTIONS.WEEKLY.value;
+                        task._simpleSchedule.daysOfMonth = this._getValues(new Date().getDate(), this.constructor.DAYS);
                         task._simpleSchedule.daysOfWeek = this._getValues(task.schedule.day_of_week, this.constructor.DAYS_OF_WEEK);
                         task._simpleSchedule.time = this._getScheduleTime(task.schedule);
                     } else if (this._isMonthly(task.schedule)) {
                         task._simpleSchedule.type = this.SCHEDULE_OPTIONS.MONTHLY.value;
                         task._simpleSchedule.daysOfMonth = this._getValues(task.schedule.day, this.constructor.DAYS);
+                        task._simpleSchedule.daysOfWeek = this._getValues(new Date().getDay(), this.constructor.DAYS_OF_WEEK);
                         task._simpleSchedule.time = this._getScheduleTime(task.schedule);
                     } else {
                         task._simpleSchedule.type = this.SCHEDULE_OPTIONS.CUSTOM.value;
+                        task._simpleSchedule.daysOfMonth = this._getValues(new Date().getDate(), this.constructor.DAYS);
+                        task._simpleSchedule.daysOfWeek = this._getValues(new Date().getDay(), this.constructor.DAYS_OF_WEEK);
                         task._customSchedule.month = this._getValues(task.schedule.month, this.constructor.MONTHS);
                         task._customSchedule.daysOfMonth = this._getValues(task.schedule.day, this.constructor.DAYS);
                         task._customSchedule.hour = this._getValues(task.schedule.hour, this.constructor.HOURS);
@@ -152,6 +163,7 @@ exports.CalendarSectionService = AbstractSectionService.specialize({
 
     _getValues: {
         value: function(string, options) {
+            string = ''+string;
             var values = new Set();
             if (typeof string === 'string') {
                 var option,
