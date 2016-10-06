@@ -171,16 +171,11 @@
         "scheduleOptions": {
             "prototype": "blue-shark/ui/radio-button-field-group.reel",
             "properties": {
-                "element": {"#": "scheduleOptions"},
-                "options": [
-                    {"value": "month", "label": "every month"},
-                    {"value": "week", "label": "every week"},
-                    {"value": "day", "label": "every day"},
-                    {"value": "custom", "label": "custom"}
-                ]
+                "element": {"#": "scheduleOptions"}
             },
             "bindings": {
-                "selectedValue": {"<-": "@owner.selectedScheduleOption"}
+                "options": {"<-": "@owner.scheduleOptions"},
+                "selectedValue": {"<->": "@owner.object._simpleSchedule.type"}
             }
         },
         "scheduleOptionsSubstitution": {
@@ -190,26 +185,6 @@
             },
             "bindings": {
                 "switchValue": {"<-": "@scheduleOptions.selectedValue"}
-            }
-        },
-        "dayOptionTime": {
-            "prototype": "blue-shark/ui/time.reel",
-            "properties": {
-                "element": {"#": "dayOptionTime"},
-                "intervalInSeconds": 1800,
-                "enabled": false,
-                "pattern": "hh:mm",
-                "isDefaultNow": true
-            }
-        },
-        "weekOptionTime": {
-            "prototype": "blue-shark/ui/time.reel",
-            "properties": {
-                "element": {"#": "weekOptionTime"},
-                "intervalInSeconds": 1800,
-                "enabled": false,
-                "pattern": "hh:mm",
-                "isDefaultNow": true
             }
         },
         "weekOptionDay": {
@@ -227,7 +202,7 @@
                 ]
             },
             "bindings": {
-                "selectedValues": {"<->": "@owner.selectedWeekDays"}
+                "selectedValues": {"<->": "@owner.object._simpleSchedule.daysOfWeek"}
             }
         },
         "monthOptionDays": {
@@ -236,18 +211,8 @@
                 "element": {"#": "monthOptionDays"}
             },
             "bindings": {
-                "options": {"<-": "@owner.daysOfMonth"},
-                "selectedValues": {"<->": "@owner.selectedDaysOfMonth"}
-            }
-        },
-        "monthOptionTime": {
-            "prototype": "blue-shark/ui/time.reel",
-            "properties": {
-                "element": {"#": "monthOptionTime"},
-                "intervalInSeconds": 1800,
-                "enabled": false,
-                "pattern": "hh:mm",
-                "isDefaultNow": true
+                "selectedValues": {"<->": "@owner.object._simpleSchedule.daysOfMonth"},
+                "options": {"<-": "@owner.daysOfMonth"}
             }
         },
         "customOptionButton": {
@@ -258,6 +223,27 @@
             "bindings": {
                 "context": {"<-": "@owner.context"},
                 "object": {"<-": "@owner.object._customSchedule"}
+            }
+        },
+        "optionTimeCondition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "optionTimeCondition"}
+            },
+            "bindings": {
+                "condition": {"<-": "@scheduleOptions.selectedValue != 'custom'"}
+            }
+        },
+        "optionTime": {
+            "prototype": "blue-shark/ui/time.reel",
+            "properties": {
+                "element": {"#": "optionTime"},
+                "intervalInSeconds": 1800,
+                "enabled": false,
+                "pattern": "hh:mm"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object._simpleSchedule.time"}
             }
         }
     }
@@ -283,25 +269,25 @@
             <div data-montage-id="scheduleHeader"></div>
             <div data-montage-id="scheduleOptions" class="RadioButtonFieldGroup--block g-margin-bottom"></div>
             <div data-montage-id="scheduleOptionsSubstitution">
-                <div data-arg="day">
+                <div data-arg="DAILY">
                     <p class="g-margin-right--half bold">Occuring at:</p>
-                    <div data-montage-id="dayOptionTime"></div>
                 </div>
-                <div data-arg="week">
+                <div data-arg="WEEKLY">
                     <p class="g-margin-right--half bold">On days: </p>
                     <div data-montage-id="weekOptionDay" class="g-margin-bottom CalendarTask-weekOptionDay"></div>
                     <p class="g-margin-right--half bold">Occuring at:</p>
-                    <div data-montage-id="weekOptionTime"></div>
                 </div>
-                <div data-arg="month">
+                <div data-arg="MONTHLY">
                     <p class="g-margin-right--half bold">On days:</p>
                     <div data-montage-id="monthOptionDays" class="g-margin-bottom CalendarTask-monthOptionDays"></div>
                     <p class="g-margin-right--half bold">Occuring at:</p>
-                    <div data-montage-id="monthOptionTime"></div>
                 </div>
-                <div data-arg="custom">
+                <div data-arg="CUSTOM">
                     <div data-montage-id="customOptionButton" class="g-negative-margin-sides"></div>
                 </div>
+            </div>
+            <div data-montage-id="optionTimeCondition">
+                <div data-montage-id="optionTime"></div>
             </div>
         </div>
     </div>
