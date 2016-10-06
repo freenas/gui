@@ -4,12 +4,13 @@ exports.CalendarSectionService = AbstractSectionService.specialize({
     init: {
         value: function() {
             this.SCHEDULE_OPTIONS = this.constructor.SCHEDULE_OPTIONS;
+            this.DAYS_OF_WEEK = this.constructor.DAYS_OF_WEEK;
         }
     },
 
     initializeCalendarTask: {
-        value: function(task) {
-            this._extractSchedule(task);
+        value: function(task, parentView) {
+            this._extractSchedule(task, parentView);
             if (!Array.isArray(task.args)) {
                 task.args = [];
             }
@@ -33,7 +34,7 @@ exports.CalendarSectionService = AbstractSectionService.specialize({
 
                 };
                 if (schedule.type === this.SCHEDULE_OPTIONS.WEEKLY.value) {
-                    task.schedule.day_of_week = schedule.daysOfWeek.join(',');
+                    task.schedule.day_of_week = schedule.daysOfWeek.map(function(x) { return x.index; }).join(',');
                 } else if (schedule.type === this.SCHEDULE_OPTIONS.MONTHLY.value) {
                     task.schedule.day = schedule.daysOfMonth.join(',');
                 }
@@ -41,7 +42,7 @@ exports.CalendarSectionService = AbstractSectionService.specialize({
                 schedule = task._customSchedule;
                 task.schedule = {
                     year: '*',
-                    month: schedule.month.length > 0 ? schedule.month.join(',') : '*',
+                    month: schedule.month.length > 0 ? schedule.month.map(function(x) { return x.index; }).join(',') : '*',
                     day: schedule.daysOfMonth.length > 0 ? schedule.daysOfMonth.join(',') : '*',
                     day_of_week: '*',
                     hour: schedule.hour.length > 0 ? schedule.hour.join(',') : 0,
@@ -52,11 +53,47 @@ exports.CalendarSectionService = AbstractSectionService.specialize({
         }
     },
 
-    _extractSchedule: {
+    getScheduleStringForTask: {
         value: function(task) {
+            if (task._simpleSchedule) {
+                var type = task._simpleSchedule.type;
+                if (type === this.SCHEDULE_OPTIONS.CUSTOM.value) {
+                    return this.SCHEDULE_OPTIONS.CUSTOM.stringTemplate;
+                } else if (task._simpleSchedule.time) {
+                    var time = task._simpleSchedule.time.toLocaleTimeString(),
+                        days = type === this.SCHEDULE_OPTIONS.WEEKLY.value ?    
+                                    task._simpleSchedule.daysOfWeek.map(function(x) { return x.label; }) : 
+                                    type === this.SCHEDULE_OPTIONS.MONTHLY.value ? 
+                                        task._simpleSchedule.daysOfMonth.sort(function(a, b) { return parseInt(a) - parseInt(b); }) : 
+                                        [];
+
+                    return this.SCHEDULE_OPTIONS[task._simpleSchedule.type].stringTemplate
+                        .replace('{days}', days.join(', '))
+                        .replace('{time}', time);
+                }
+            }
+            return '';
+        }
+    },
+
+    _extractSchedule: {
+        value: function(task, parentView) {
             if (!task._simpleSchedule) {
                 task._simpleSchedule = {};
-                if (task.schedule) {
+                if (task._isNew) {
+                    if (parentView === 'month') {
+                        task._simpleSchedule.type = this.SCHEDULE_OPTIONS.MONTHLY.value;
+                        task._simpleSchedule.daysOfMonth = this._getValues(new Date().getDate(), this.constructor.DAYS);
+                    } else if (parentView === 'week') {
+                        task._simpleSchedule.type = this.SCHEDULE_OPTIONS.WEEKLY.value;
+                        task._simpleSchedule.daysOfWeek = this._getValues(new Date().getDay(), this.constructor.DAYS_OF_WEEK);
+                    } else if (parentView === 'day') {
+                        task._simpleSchedule.type = this.SCHEDULE_OPTIONS.DAILY.value;
+                    }
+                    var time = new Date();
+                    time.setSeconds(0);
+                    task._simpleSchedule.time = time;
+                } else if (task.schedule) {
                     if (this._isDaily(task.schedule)) {
                         task._simpleSchedule.type = this.SCHEDULE_OPTIONS.DAILY.value;
                         task._simpleSchedule.time = this._getScheduleTime(task.schedule);
@@ -139,7 +176,7 @@ exports.CalendarSectionService = AbstractSectionService.specialize({
             } else if (typeof string === 'number') {
                 values.add(string);
             }
-            return Array.from(values);
+            return Array.from(values).sort();
         }
     },
 
@@ -170,19 +207,23 @@ exports.CalendarSectionService = AbstractSectionService.specialize({
         value: {
             MONTHLY:    {
                 value: 'MONTHLY',
-                label: 'every month'
+                label: 'every month',
+                stringTemplate: "Monthly on {days} at {time}."
             },
             WEEKLY:     {
                 value: 'WEEKLY',
-                label: 'every week'
+                label: 'every week',
+                stringTemplate: "Weekly on {days} at {time}."
             },
             DAILY:      {
                 value: 'DAILY',
-                label: 'every day'
+                label: 'every day',
+                stringTemplate: "Daily at {time}."
             },
             CUSTOM:     {
                 value: 'CUSTOM',
-                label: 'custom'
+                label: 'custom',
+                stringTemplate: "Custom schedule, see dedicated panel."
             }
         }
     },
@@ -229,62 +270,98 @@ exports.CalendarSectionService = AbstractSectionService.specialize({
     MONTHS: {
         value: [
             {
-                value: 0, 
+                value: {
+                    label: "January",
+                    index: 0
+                }, 
                 label: "Jan", 
                 index: 0
             },
             {
-                value: 1, 
+                value: {
+                    label: "February",
+                    index: 1
+                }, 
                 label: "Feb", 
                 index: 1
             },
             {
-                value: 2, 
+                value: {
+                    label: "March",
+                    index: 2
+                }, 
                 label: "Mar", 
                 index: 2
             },
             {
-                value: 3, 
+                value: {
+                    label: "April",
+                    index: 3
+                }, 
                 label: "Apr", 
                 index: 3
             },
             {
-                value: 4, 
+                value: {
+                    label: "May",
+                    index: 4
+                }, 
                 label: "May", 
                 index: 4
             },
             {
-                value: 5, 
+                value: {
+                    label: "June",
+                    index: 5
+                }, 
                 label: "Jun", 
                 index: 5
             },
             {
-                value: 6, 
+                value: {
+                    label: "July",
+                    index: 6
+                }, 
                 label: "Jul", 
                 index: 6
             },
             {
-                value: 7, 
+                value: {
+                    label: "August",
+                    index: 7
+                }, 
                 label: "Aug", 
                 index: 7
             },
             {
-                value: 8, 
+                value: {
+                    label: "September",
+                    index: 8
+                }, 
                 label: "Sep", 
                 index: 8
             },
             {
-                value: 9, 
+                value: {
+                    label: "October",
+                    index: 9
+                }, 
                 label: "Oct", 
                 index: 9
             },
             {
-                value: 10, 
+                value: {
+                    label: "November",
+                    index: 10
+                }, 
                 label: "Nov", 
                 index: 10
             },
             {
-                value: 11, 
+                value: {
+                    label: "December",
+                    index: 11
+                }, 
                 label: "Dec", 
                 index: 11
             }
@@ -294,38 +371,59 @@ exports.CalendarSectionService = AbstractSectionService.specialize({
     DAYS_OF_WEEK: {
         value: [
             {
+                value: {
+                    label: "Sunday",
+                    index: 0
+                },
                 label: "S", 
-                value: 0, 
                 index: 0
             },
             {
+                value: {
+                    label: "Monday",
+                    index: 1
+                },
                 label: "M", 
-                value: 1, 
                 index: 1
             },
             {
+                value: {
+                    label: "Tuesday",
+                    index: 2
+                },
                 label: "T", 
-                value: 2, 
                 index: 2
             },
             {
+                value: {
+                    label: "Wednesday",
+                    index: 3
+                },
                 label: "W", 
-                value: 3, 
                 index: 3
             },
             {
+                value: {
+                    label: "Thursday",
+                    index: 4
+                },
                 label: "Th", 
-                value: 4, 
                 index: 4
             },
             {
+                value: {
+                    label: "Friday",
+                    index: 5
+                },
                 label: "F", 
-                value: 5, 
                 index: 5
             },
             {
+                value: {
+                    label: "Saturday",
+                    index: 6
+                },
                 label: "S", 
-                value: 6, 
                 index: 6
             }
         ]

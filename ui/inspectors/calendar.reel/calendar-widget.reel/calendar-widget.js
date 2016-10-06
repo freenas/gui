@@ -17,6 +17,9 @@ exports.CalendarWidget = Component.specialize({
             if (this._currentView !== currentView) {
                 this._currentView = currentView;
                 this.currentWidget = this.widgets[currentView];
+                if (this.object) {
+                    this.object.view = currentView;
+                }
             }
         }
     },

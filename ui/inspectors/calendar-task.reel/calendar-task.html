@@ -158,7 +158,7 @@
                 "element": {"#": "scheduleString"}
             },
             "bindings": {
-                "value": {"<-": "@scheduleOptions.selectedValue"}
+                "value": {"<-": "@owner.scheduleString"}
             }
         },
         "scheduleHeader": {
@@ -190,19 +190,11 @@
         "weekOptionDay": {
             "prototype": "blue-shark/ui/multiple-select-grid.reel",
             "properties": {
-                "element": {"#": "weekOptionDay"},
-                "options": [
-                    {"label": "S",  "value": 0, "index": 0},
-                    {"label": "M",  "value": 1, "index": 1},
-                    {"label": "T",  "value": 2, "index": 2},
-                    {"label": "W",  "value": 3, "index": 3},
-                    {"label": "Th", "value": 4, "index": 4},
-                    {"label": "F",  "value": 5, "index": 5},
-                    {"label": "S",  "value": 6, "index": 6}
-                ]
+                "element": {"#": "weekOptionDay"}
             },
             "bindings": {
-                "selectedValues": {"<->": "@owner.object._simpleSchedule.daysOfWeek"}
+                "selectedValues": {"<->": "@owner.object._simpleSchedule.daysOfWeek"},
+                "options": {"<-": "@owner.daysOfWeek"}
             }
         },
         "monthOptionDays": {
