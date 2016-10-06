@@ -1,0 +1,12 @@
+.SectionSettings,
+.SectionSettings-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.SectionSettings-content > * {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
