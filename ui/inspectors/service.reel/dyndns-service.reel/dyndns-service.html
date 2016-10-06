@@ -56,13 +56,10 @@
             }
         },
         "password": {
-            "prototype": "blue-shark/ui/field-password.reel",
+            "prototype": "blue-shark/ui/field-password-input.reel",
             "properties": {
                 "element": {"#": "password"},
-                "validationPath": "password",
-                "label": "Password",
-                "label2": "Confirm Password",
-                "errorMessage": "Passwords don't match"
+                "label": "Password"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.password"}
