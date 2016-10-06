@@ -73,6 +73,10 @@
             "type": "BootEnvironment"
         },
         {
+            "modelId": "core/model/models/calendar-custom-schedule.js",
+            "type": "CalendarCustomSchedule"
+        },
+        {
             "modelId": "core/model/models/calendar-task-schedule-anonymous.js",
             "type": "CalendarTaskScheduleAnonymous"
         },

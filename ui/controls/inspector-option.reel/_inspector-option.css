@@ -1,17 +1,23 @@
 .InspectorOption {
     outline: none;
+
+    & > * {
+        border-top:     1px solid rgba(255,255,255,.2);
+        border-bottom:  1px solid rgba(255,255,255,.2);
+    }
+
+    &:only-of-type .ListItem {
+        border-bottom-color: transparent;
+    }
+
+    &.selected > * {
+        border-color: #00A7FF;
+    }
 }
 
-.InspectorOption > * {
-    border-top:     1px solid rgba(255,255,255,.2);
-    border-bottom:  1px solid rgba(255,255,255,.2);
-}
 
 .InspectorOption + .InspectorOption > *,
 .InspectorOption:first-child > * {
     border-top-color: transparent;
 }
 
-.InspectorOption.selected > * {
-    border-color: #00A7FF;
-}

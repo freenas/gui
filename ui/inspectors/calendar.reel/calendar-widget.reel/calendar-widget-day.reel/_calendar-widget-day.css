@@ -5,8 +5,11 @@
     border-top:   1px solid #16171A;
     background: #242628;
     font-size: .8em;
-    cursor: pointer;
-    padding: 0 .25em;
+
+    &.show-more {
+        z-index: 2;
+        background-color: #242628;
+    }
 }
 
 .CalendarWidgetDay-Sunday,
@@ -20,13 +23,8 @@
 }
 
 .CalendarWidgetDay-date {
-    position: absolute;
-    top:    0rem;
-    right:  0rem;
-    line-height: 1.4rem;
-    text-align: center;
-    width:  1.5rem;
-    height: 1.5rem;
+    text-align: right;
+    margin-bottom: .25em;
 }
 
 .CalendarWidgetDay-otherMonth .CalendarWidgetDay-date {
@@ -54,22 +52,52 @@
 }
 
 .CalendarWidgetDay-content {
-    position: relative;
-    top: 1em;
-    width: 100%;
-    height: calc(100% - 1em);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #242628;
+    padding: .25em;
+
+    @nest .CalendarWidgetDay.show-more & {
+        bottom: auto;
+        box-shadow: 0 2px 4px 4px rgba(0,0,0,.5);
+        border-bottom: 1px solid black;
+    }
 }
 
 .CalendarWidgetDay-otherMonth .CalendarWidgetDay-content {
     display: none;
 }
 
-.CalendarWidgetDayContent-more {
-    text-align: right;
+.CalendarWidgetDayContent-moreButton.Button {
+    display: none;
+    width: 100%;
     line-height: 2em;
+    background: none;
+    border: 1px solid transparent;
+    box-shadow: none;
 
     &:hover {
-        color: #FFF;
+        border-color: #2089d3;
+        box-shadow: none;
     }
+
+    &:focus {
+        border-color: #2089d3;
+        box-shadow: none;
+    }
+
+    @nest .CalendarWidgetDay.has-max-tasks & {
+        display: block;
+    }
+}
+
+/* Task */
+
+.CalendarWidgetDay-task {
+    display: none;
+    margin-bottom: .25rem;
 }
 

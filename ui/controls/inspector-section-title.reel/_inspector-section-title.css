@@ -2,9 +2,13 @@
     position: relative;
     margin: 1em -1em;
     margin-bottom: 1em;
-    /*background: blue;*/
-    line-height: 3em;
+    line-height: 1.5em;
+    text-align: left;
     color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 1em;
 }
 
 .InspectorSectionTitle:before {
@@ -16,8 +20,14 @@
     border-bottom: 1px solid rgba(255,255,255,.2);
 }
 
-.InspectorSectionTitle-text {
+.InspectorSectionTitle-title {
     position: relative;
     font-weight: 400;
-    padding: 0 1em;
+    margin-bottom: .2rem;
+}
+
+.InspectorSectionTitle-subtitle {
+    position: relative;
+    font-weight: 200;
+    color: #B1BCBE;
 }

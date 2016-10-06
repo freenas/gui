@@ -98,7 +98,7 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
             this._replaceLabel(this.compressionOptions, label);
             this._replaceLabel(this.dedupOptions, label);
             this._replaceLabel(this.atimeOptions, label);
-            if (this.object.properties) {
+            if ( this.object.properties) {
                 this.compression = (!this.object.properties.compression || this._isInheritedProperty(this.object.properties.compression)) ? "none": this.object.properties.compression.parsed;
                 this.dedup = (!this.object.properties.dedup || this._isInheritedProperty(this.object.properties.dedup)) ? "none": this.object.properties.dedup.parsed;
                 this.atime = (!this.object.properties.atime || this._isInheritedProperty(this.object.properties.atime)) ? "none": this.object.properties.atime.parsed;

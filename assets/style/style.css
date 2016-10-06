@@ -175,14 +175,6 @@ $Icons
     display: none !important;
 }
 
-/* $sample - styles only used on .info samples */
-
-/*.inspector {
-    max-width: 25em;
-    padding: 0 1em;
-    outline: 1px solid grey;
-}*/
-
 /* Type */
 
 .h1 { font-size: 3em; }
@@ -196,9 +188,7 @@ $Icons
 .c-grey-2 { color: #B1BCBE; }
 .c-grey-3 { color: #939E9F; }
 
-.g-padding {
-    padding: 1em;
-}
+.g-padding { padding: 1em; }
 
 .g-negative-margin-sides {
     margin-left:  -1em;
@@ -210,30 +200,25 @@ $Icons
     padding-bottom: 1em;
 }
 
-.g-padding-top {
-    padding-top: 1em;
-}
+.g-padding-top { padding-top: 1em; }
 
 .g-margin-sides {
     margin-left:  1em;
     margin-right: 1em;
 }
 
-.g-margin-bottom {
-    margin-bottom: 1em;
-}
+.g-margin-bottom { margin-bottom: 1em; }
 
 .g-margin-bottom--half {
     margin-bottom: .5em;
 }
 
-.g-negative-margin-top {
-    margin-top: -1em;
-}
+.g-margin-right--half { margin-right: .5em;}
+.g-margin-left--half  { margin-left:  .5em;}
 
-.flush-bottom {
-    margin-bottom: 0;
-}
+.g-negative-margin-top { margin-top: -1em; }
+
+.flush-bottom { margin-bottom: 0; }
 
 /* typography  helpers */
 
@@ -251,6 +236,10 @@ $Icons
     display: initial;
 }
 
+.is-visible {
+    display: block;
+}
+
 /* Flex Helpers */
 
 .flex-row { display: flex; }
@@ -261,8 +250,9 @@ $Icons
 }
 
 .flex-spaceBetween { justify-content: space-between; }
+.flex-justifyContent--spaceBetween { justify-content: space-between; }
 
-.flex-alignItems-center { align-items: center; }
+.flex-alignItems--center { align-items: center; }
 
 /* Table Styles */
 

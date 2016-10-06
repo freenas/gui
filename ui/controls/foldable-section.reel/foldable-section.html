@@ -34,7 +34,8 @@
                 "element": {"#": "sectionTitle"}
             },
             "bindings": {
-                "value": {"<-": "@owner.title"}
+                "value": {"<-": "@owner.title"},
+                "subtitle": {"<-": "@owner.subtitle"}
             }
         }
     }
@@ -43,7 +44,9 @@
 <body>
     <div data-montage-id="owner" class="FoldableSection">
         <button data-montage-id="expandButton" class="FoldableSection-expand">
-            <div data-montage-id="sectionTitle"></div>
+            <div class="FoldableSection-expand-titles">
+                <div data-montage-id="sectionTitle"></div>
+            </div>
             <svg>
                 <use xlink:href="#i-arrow"/>
             </svg>

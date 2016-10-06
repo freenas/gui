@@ -17,6 +17,9 @@ exports.CalendarWidget = Component.specialize({
             if (this._currentView !== currentView) {
                 this._currentView = currentView;
                 this.currentWidget = this.widgets[currentView];
+                if (this.object) {
+                    this.object.view = currentView;
+                }
             }
         }
     },
@@ -53,10 +56,12 @@ exports.CalendarWidget = Component.specialize({
 
     handleCreateTaskAction: {
         value: function(event) {
+            /*
             var self = this;
             this.application.calendarService.getNewTask().then(function(task) {
                 self.selectedTask = task;
             });
+            */
         }
     }
 

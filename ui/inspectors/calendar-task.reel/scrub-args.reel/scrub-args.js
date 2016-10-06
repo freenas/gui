@@ -25,12 +25,6 @@ exports.ScrubArgs = Component.specialize(/** @lends ScrubArgs# */ {
         }
     },
 
-    exitDocument: {
-        value: function() {
-            this.args = null;
-        }
-    },
-
     _handleVolumesChange: {
         value: function() {
             this.volumes = [{id: '---'}].concat(this._volumes);

@@ -9,12 +9,73 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "isFooterHidden": true
+            }
+        },
+        "months": {
+            "prototype": "./cron-job-rule.reel",
+            "properties": {
+                "element": {"#": "months"},
+                "title": "Months",
+                "iteratorLabel": "Every"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.monthOptions"},
+                "selectedValues": {"<->": "@owner.object.month"}
+            }
+        },
+        "days": {
+            "prototype": "./cron-job-rule.reel",
+            "properties": {
+                "element": {"#": "days"},
+                "title": "Days",
+                "iteratorLabel": "Every"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.dayOptions"},
+                "selectedValues": {"<->": "@owner.object.daysOfMonth"}
+            }
+        },
+        "hours": {
+            "prototype": "./cron-job-rule.reel",
+            "properties": {
+                "element": {"#": "hours"},
+                "title": "Hours",
+                "iteratorLabel": "Every"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.hourOptions"},
+                "selectedValues": {"<->": "@owner.object.hour"}
+            }
+        },
+        "Minutes": {
+            "prototype": "./cron-job-rule.reel",
+            "properties": {
+                "element": {"#": "minutes"},
+                "title": "Minutes",
+                "iteratorLabel": "Every"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.minuteOptions"},
+                "selectedValues": {"<->": "@owner.object.minute"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="CronJob">
+        <div data-montage-id="inspector">
+            <div data-montage-id="months" class="CronJob-months"></div>
+            <div data-montage-id="days" class="CronJob-days"></div>
+            <div data-montage-id="hours" class="CronJob-hours"></div>
+            <div data-montage-id="minutes" class="CronJob-minutes"></div>
+        </div>
     </div>
 </body>
 </html>

@@ -2,9 +2,21 @@
     position: relative;
     display: flex;
     flex-direction: column;
+
+    & .Scrollview-transform {
+        flex: none;
+    }
 }
 
 .CalendarList-days {
     padding-top: 1em;
+}
+
+.CalendarList-emptySate {
+    display: none;
+
+    @nest .has-no-events & {
+        display: block;
+    }
 }
 

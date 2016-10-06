@@ -11,7 +11,7 @@
                 "type": {"#": "type"}
             },
             "bindings": {
-                "classList.has('is-displayed')": {"<-": "@owner.taskCategory.isDisplayed"},
+                "classList.has('is-displayed')": {"<-": "@owner.taskCategory.checked"},
                 "classList.has('is-disabled')": {"<-": "!@owner.object.task.enabled"},
                 "classList.has('is-textual-schedule')": {"<-": "@owner.isTextualSchedule"},
                 "classList.has('is-selected')": {"<-": "@owner.object.task == @owner.selectedTask"}

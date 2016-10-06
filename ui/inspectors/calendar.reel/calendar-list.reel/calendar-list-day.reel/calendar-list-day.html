@@ -10,7 +10,7 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "displayedCategories": {"<-": "@owner.taskCategories.filter{isDisplayed}.map{value}"},
+                "displayedCategories": {"<-": "@owner.taskCategories.filter{checked}.map{value}"},
                 "displayedEvents": {"<-": "@owner.events.filter{@owner.displayedCategories.has(.task.task)}"},
                 "classList.has('has-no-event')": {"<-": "@owner.displayedEvents.length == 0"}
             }

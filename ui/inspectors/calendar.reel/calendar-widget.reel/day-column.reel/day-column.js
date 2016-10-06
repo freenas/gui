@@ -20,6 +20,7 @@ exports.DayColumn = Component.specialize({
 
     handlePress: {
         value: function(event) {
+/*
             var self = this,
                 taskDate = new Date(this.data.rawDate),
                 targetBoundingRect = event.targetElement.getBoundingClientRect(),
@@ -30,6 +31,7 @@ exports.DayColumn = Component.specialize({
             this.application.calendarService.getNewTask(taskDate).then(function(task) {
                 self.selectedTask = task;
             });
+*/
         }
     }
 });
