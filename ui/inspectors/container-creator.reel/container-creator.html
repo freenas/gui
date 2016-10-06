@@ -89,8 +89,9 @@
                 "minValue": 1
             }
         },
-        "memoryConverter": {
-            "prototype": "core/converter/validation-only-converter",
+
+         "memoryConverter": {
+            "prototype": "core/converter/string-to-integer-or-null-converter",
             "properties": {
                 "validator": {"@": "memoryValidator"}
             }
