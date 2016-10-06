@@ -145,6 +145,39 @@
                 "value": {"<-": "@owner.object.full_name"}
             }
         },
+        "emailValidator": {
+            "prototype": "core/converter/validator/email-validator",
+            "properties": {
+                "errorMessage": "Invalid email address"
+            }
+        },
+        "emailConverter": {
+            "prototype": "core/converter/validation-only-converter",
+            "properties": {
+                "validator": {"@": "emailValidator"}
+            }
+        },
+        "emailEdit": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "emailEdit"},
+                "label": "Email",
+                "converter": {"@": "emailConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.email"}
+            }
+        },
+        "emailDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "emailDisplay"},
+                "label": "Email"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.email"}
+            }
+        },
         "groupSubstitution": {
             "prototype": "montage/ui/substitution.reel",
             "properties": {

@@ -27,7 +27,7 @@
     padding: .5rem;
     line-height: 1em;
     height: 2.5em;
-    background: #404040;
+    background-color: #404040;
     color: #E0E5E5;
 
     & svg {
@@ -35,6 +35,10 @@
         height: 1.4em;
         margin-right: .5em;
         color: inherit;
+    }
+
+    @nest .flip & {
+        background-color: #0C5688;
     }
 }
 

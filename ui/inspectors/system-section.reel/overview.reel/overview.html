@@ -54,7 +54,7 @@
                 "label": "Total Datasets"
             },
             "bindings": {
-                "value": {"<-": "@owner.systemInfo.totalDatasets"}
+                "value": {"<-": "@owner.systemInfo.datasets.length"}
             }
         },
         "totalVolumes": {
@@ -64,7 +64,7 @@
                 "label": "Total Volumes"
             },
             "bindings": {
-                "value": {"<-": "@owner.systemInfo.totalVolumes"}
+                "value": {"<-": "@owner.systemInfo.volumes.length"}
             }
         },
         "totalVMs": {
@@ -84,7 +84,7 @@
                 "label": "Disks (SSD / HDD)"
             },
             "bindings": {
-                "value": {"<-": "@owner.systemInfo.totalDisks.filter{is_ssd==true}.length + '/' + @owner.systemInfo.totalDisks.filter{is_ssd==false}.length "}
+                "value": {"<-": "@owner.systemInfo.disks.filter{status.is_ssd==true}.length + '/' + @owner.systemInfo.disks.filter{status.is_ssd==false}.length "}
             }
         },
         "totalContainers": {
@@ -94,7 +94,7 @@
                 "label": "Containers (runnging / total)"
             },
             "bindings": {
-                "value": {"<-": "@owner.totalContainers.filter{running == true}.length + '/' + @owner.totalContainers.length"}
+                "value": {"<-": "@owner.containers.filter{running == true}.length + '/' + @owner.containers.length"}
             }
         },
         "totalNetworkInterfaces": {
@@ -114,7 +114,7 @@
                 "label": "Total Snapshots"
             },
             "bindings": {
-                "value": {"<-": "@owner.systemInfo.totalSnapshots"}
+                "value": {"<-": "@owner.systemInfo.snapshots.length"}
             }
         },
         "shares": {
@@ -124,7 +124,7 @@
                 "label": "Total Shares"
             },
             "bindings": {
-                "value": {"<-": "@owner.systemInfo.totalShares"}
+                "value": {"<-": "@owner.systemInfo.shares.length"}
             }
         },
         "peer": {
@@ -134,7 +134,7 @@
                 "label": "Total Peers"
             },
             "bindings": {
-                "value": {"<-": "@owner.systemInfo.totalPeers"}
+                "value": {"<-": "@owner.systemInfo.peers.length"}
             }
         },
         "replication": {
@@ -144,7 +144,7 @@
                 "label": "Total Replications"
             },
             "bindings": {
-                "value": {"<-": "@owner.systemInfo.totalReplications"}
+                "value": {"<-": "@owner.systemInfo.replications.length"}
             }
         },
         "enable_debug_kernel": {

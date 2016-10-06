@@ -7,21 +7,20 @@
     position: relative;
     z-index: 1;
     background: #2F3233;
-    max-height: 22rem;
     display: flex;
     flex-direction: column;
-
-    /* allows data to grow larger than data */
-    &.has-items.Topology-data {
-        flex: 1;
-    }
+    min-height: 2em;
 
     &.has-items.Topology-log {
         border-left: 1px solid #232629;
     }
 }
 
-.TopologyItem-dropZone { flex: 1; }
+.TopologyItem-dropZone {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
 
 /*
 
@@ -40,6 +39,7 @@ Title
     overflow: hidden;
     /* set to hide behind dropZone overlay */
     z-index: -1;
+    flex-shrink: 0;
 
     /* left decoration */
 
@@ -70,6 +70,7 @@ allocation bar
     display: none !important;
     position: relative;
     z-index: -1;
+    flex-shrink: 0;
 
     @nest .TopologyItem.has-items & {
         display: flex !important;
@@ -102,8 +103,7 @@ Grid
     flex: 1;
 
     @nest .TopologyItem.has-items & {
-        max-height: var(--topologyItemMaxHeight);
-        /* using native scrolling */
+        /* FIXME: currently using native scrolling */
         overflow: scroll;
         padding: .25em;
     }

@@ -87,7 +87,7 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
             this.dedupOptions = this._initializePropertyOptions(DEDUP_OPTIONS);
             this.atimeOptions = this._initializePropertyOptions(ATIME_OPTIONS);
             this.volblocksizeOptions = this._initializePropertyOptions(VOLBLOCKSIZE_OPTIONS);
-         }
+        }
     },
 
     enterDocument: {

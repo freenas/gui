@@ -32,31 +32,31 @@ exports.Overview = Component.specialize(/** @lends Overview# */ {
                     self.virtualMachines = virtualMachines;
                 }),
                 this.application.dockerSettingsService.getDockerContainers().then(function (dockerContainers) {
-                    self.totalContainers = dockerContainers;
+                    self.containers = dockerContainers;
                 }),
                 this.application.storageService.listDatasets().then(function (datasetList) {
-                    self.systemInfo.totalDatasets = datasetList.length;
+                    self.systemInfo.datasets = datasetList;
                 }),
                 this.application.storageService.listVolumeSnapshots().then(function (snapshots) {
-                    self.systemInfo.totalSnapshots = snapshots.length;
+                    self.systemInfo.snapshots = snapshots;
                 }),
                 this.application.storageService.getShareData().then(function (shares) {
-                    self.systemInfo.totalShares = shares.length;
+                    self.systemInfo.shares = shares;
                 }),
                 this.application.systemInfoService.getVersion().then(function (version) {
                     self.systemInfo.systemVersion = version;
                 }),
                 this.application.peeringService.listPeers().then(function (peers) {
-                    self.systemInfo.totalPeers = peers.length;
+                    self.systemInfo.peers = peers;
                 }),
                 this.application.replicationService.listReplications().then(function (replications) {
-                    self.systemInfo.totalReplications = replications.length;
+                    self.systemInfo.replications = replications;
                 }),
                 this.application.storageService.listVolumes().then(function (volumes) {
-                    self.systemInfo.totalVolumes = volumes.length;
+                    self.systemInfo.volumes = volumes;
                 }),
                 this.application.storageService.listDisks().then(function (disks) {
-                    self.systemInfo.totalDisks = disks
+                    self.systemInfo.disks = disks
                 }),
                 this.application.systemAdvancedService.getSerialConsoleData().then(function (systemAdvanced) {
                     self.debugkernel = systemAdvanced.debugkernel
