@@ -13,8 +13,8 @@ exports.Settings = Component.specialize({
             if (isFirstTime) {
                 var sectionsPromises = [],
                     i = 0;
-                sectionsPromises.push(this._createSection("overview", "System Overview", "path", i++));
-                sectionsPromises.push(this._createSection("system", "System Preference", "path", i++));
+                sectionsPromises.push(this._createSection("overview", "Overview", "path", i++));
+                sectionsPromises.push(this._createSection("system", "Preference", "path", i++));
                 sectionsPromises.push(this._createSection("bootPool", "Boot Pool", "path", i++));
                 sectionsPromises.push(this._createSection("updates", "Updates", "path", i++));
                 sectionsPromises.push(this._createSection("languageAndRegion", "Language & Region", "path", i++));
