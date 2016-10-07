@@ -12,7 +12,13 @@ exports.DynamicDnsService = Component.specialize({
     
     templateDidLoad: {
         value: function() {
-          this.providerOptions = ServiceDyndnsProvider.members;
+            this.providerOptions = ServiceDyndnsProvider.members.map(function(x) {
+                return {
+                    value: x,
+                    // FIX ME: Ticket: #18103 -- x === "null" is required until fixed
+                    label: x === "null" || !x ? 'None': x
+                };
+            });
         }
     }
 });
