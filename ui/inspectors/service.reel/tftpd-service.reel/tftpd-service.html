@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="tftpd-service.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "filesystemTreeController": {
+            "prototype": "core/controller/filesystem-tree-controller",
+            "properties": {
+                "canListFiles": false,
+                "root": "/mnt"
+            },
+            "bindings": {
+                "service": {"<-": "@owner.application.filesystemService"}
+            }
+        },
+        "path": {
+            "prototype": "ui/controls/field-treeview.reel",
+            "properties": {
+                "element": {"#": "path"},
+                "controller": {"@": "filesystemTreeController"},
+                "validationPath": "path",
+                "label": "Directory"
+            },
+            "bindings": {
+                "selectedPath": {"<->": "@owner.object.path"}
+            }
+        },
+        "allow_new_files": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "allow_new_files"},
+                "label": "Allow new files"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.allow_new_files"}
+            }
+        },
+        "portValidator": {
+            "prototype": "core/converter/validator/integer-range-validator",
+            "properties": {
+                "floor": 1,
+                "ceiling": 65535,
+                "errorMessage": "Value must be an integer between 1 and 65535"
+            }
+        },
+        "portConverter": {
+            "prototype": "core/converter/string-to-integer-converter",
+            "properties": {
+                "validator": {"@": "portValidator"}
+            }
+        },
+        "port": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "port"},
+                "label": "Port",
+                "converter": {"@": "portConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.port"}
+            }
+        },
+        "usersToOptionsConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "labelPropertyName": "username",
+                "valuePropertyName": "username"
+            }
+        },
+        "username": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "username"},
+                "converter": {"@": "usersToOptionsConverter"},
+                "label": "Username"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.users.sorted{builtin + username}"},
+                "selectedValue": {"<->": "@owner.object.username"}
+            }
+        },
+        "umask": {
+            "prototype": "ui/controls/unixPermissions.reel",
+            "properties": {
+                "element": {"#": "umask"},
+                "title": "Umask"
+            },
+            "bindings": {
+                "modes": {"<->": "@owner.umaskModes"}
+            }
+        } 
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="TftpdService">
+        <div data-montage-id="path"></div>
+        <div data-montage-id="user"></div>
+        <div data-montage-id="allow_new_files"></div>
+        <div data-montage-id="port"></div>
+        <div data-montage-id="username"></div>
+        <div data-montage-id="umask"></div>
+    </div>
+</body>
+</html>
