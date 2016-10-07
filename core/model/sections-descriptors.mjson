@@ -65,6 +65,7 @@
         "label": "Containers",
         "id": "containers",
         "index": 10,
-        "icon": "container"
+        "icon": "container",
+        "service": "core/service/section/container-section-service"
     }
 }

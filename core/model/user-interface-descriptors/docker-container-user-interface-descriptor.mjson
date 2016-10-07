@@ -2,11 +2,11 @@
     "root": {
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
-            "inspectorComponentModule": {"%": "ui/inspectors/container.reel"},
+            "inspectorComponentModule": {"%": "ui/sections/containers/inspectors/container.reel"},
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "nameExpression": "id.defined() ? names.join(' ') : 'Create a container'",
             "collectionNameExpression": "'Containers'",
-            "creatorComponentModule": {"%": "ui/inspectors/container-creator.reel"},
+            "creatorComponentModule": {"%": "ui/sections/containers/inspectors/container-creator.reel"},
             "statusColorMapping": {
                 "running": "green",
                 "stopped": "grey"
