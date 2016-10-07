@@ -137,16 +137,15 @@
 }
 
 .MainSidebar-confirmation {
+    display: none;
     position: absolute;
     bottom: 0;
     background: #0F1213;
     padding: .5rem;
     z-index: 1;
-    transform: translateY(100%);
-    transition: transform .35s ease-in-out;
 
     @nest .MainSidebar.has-confirmation & {
-        transform: translateY(0%);
+        display: block;
     }
 
     & .MainSidebar-confirmation-message {
