@@ -193,7 +193,7 @@ exports.User = AbstractInspector.specialize({
         value: function() {
             var self = this;
             return Model.populateObjectPrototypeForType(Model.User).then(function (User) {
-                return User.constructor.services.nextUid();
+                return User.constructor.services.nextUid(true);
             }).then(function(userId) {
                 self.nextUserId = self.object.uid = userId;
             });
