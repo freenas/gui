@@ -8,26 +8,22 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.ScrubArgs = Component.specialize(/** @lends ScrubArgs# */ {
-    enterDocument: {
-        value: function(isFirstTime) {
+    templateDidLoad: {
+        value: function() {
             var self = this;
             this.application.storageService.listVolumes().then(function(volumes) {
-                self._volumes = volumes;
-                if (isFirstTime) {
-                    self.addRangeAtPathChangeListener("volumes", self, "_handleVolumesChange");
-                }
+                self.volumes = volumes;
             });
+        }
+    },
+
+    enterDocument: {
+        value: function(isFirstTime) {
 
             if (!this.args || this.args.length != 1) {
                 this.args = ['---'];
                 this.args.length = 1;
             }
-        }
-    },
-
-    _handleVolumesChange: {
-        value: function() {
-            this.volumes = [{id: '---'}].concat(this._volumes);
         }
     }
 });

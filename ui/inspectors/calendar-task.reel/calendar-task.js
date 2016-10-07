@@ -27,18 +27,13 @@ exports.CalendarTask = AbstractInspector.specialize({
         value: function() {
             var self = this;
             this._canDrawGate.setField(this.constructor._CAN_DRAW_FIELD, false);
-            Promise.all([
-                Model.populateObjectPrototypeForType(Model.CalendarTask).then(function () {
-                    self._calendarTaskService = Model.CalendarTask.objectPrototype.services;
-                }),
-                CalendarSectionService.instance.then(function(sectionService) {
-                    self._sectionService = sectionService;
-                    self.scheduleOptions = Object.keys(sectionService.SCHEDULE_OPTIONS).map(function(x) {
-                        return sectionService.SCHEDULE_OPTIONS[x];
-                    });
-                    self.daysOfWeek = sectionService.DAYS_OF_WEEK;
-                })
-            ]).then(function() {
+            CalendarSectionService.instance.then(function(sectionService) {
+                self._sectionService = sectionService;
+                self.scheduleOptions = Object.keys(sectionService.SCHEDULE_OPTIONS).map(function(x) {
+                    return sectionService.SCHEDULE_OPTIONS[x];
+                });
+                self.daysOfWeek = sectionService.DAYS_OF_WEEK;
+
                 self._canDrawGate.setField(self.constructor._CAN_DRAW_FIELD, true);
             });
 
@@ -111,9 +106,7 @@ exports.CalendarTask = AbstractInspector.specialize({
 
     handleRunNowAction: {
         value: function () {
-            if (!this.object._isNew) {
-                this._calendarTaskService.run(this.object.id);
-            }
+            this._sectionService.runTask(this.object);
         }
     },
 

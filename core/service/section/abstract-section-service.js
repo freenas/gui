@@ -51,10 +51,16 @@ exports.AbstractSectionService = Montage.specialize({
     instance: {
         get: function() {
             if (!this._instance) {
+                var self = this;
                 this._instance = new this();
-                this._instance.init();
                 this._sectionRepository = this._sectionRepository || SectionRepository.instance;
-                return this._instance._load();
+                var initReturn = this._instance.init();
+                if (!Promise.is(initReturn)) {
+                    initReturn = Promise.resolve();
+                }
+                return initReturn.then(function() {
+                    return self._instance._load();
+                });
             } else {
                 return Promise.resolve(this._instance);
              }
