@@ -10,8 +10,7 @@
                 "element": {"#": "owner"},
                 "validationController": {"@": "validationController"},
                 "treeController": {"@": "filesystemTreeController"},
-                "inspector": {"@": "inspector"},
-                "_defaultHomeDirectoryComponent" : {"@": "defaultHomeDirectory"}
+                "inspector": {"@": "inspector"}
             }
         },
         "validationController": {
@@ -297,17 +296,6 @@
                 "classList.has('hide')": {"<-": "@owner.useEmptyHomedir"}
             }
         },
-        "defaultHomeDirectory": {
-            "prototype": "blue-shark/ui/field-checkbox.reel",
-            "properties": {
-                "element": {"#": "defaultHomeDirectory"},
-                "label": "Set as default home directory"
-            },
-            "bindings": {
-                "checked": {"<-": "@owner.homeDirectory == @owner.systemAdvanced.home_directory_root"},
-                "classList.has('hide')": {"<-": "@owner.useEmptyHomedir"}
-            }
-        },
         "emptyHomeDirectory": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -510,7 +498,6 @@
                         <div data-montage-id="homeEdit" data-arg="luser"></div>
                         <div data-montage-id="homeDisplayRoot" data-arg="root"></div>
                     </div>
-                    <div data-montage-id="defaultHomeDirectory"></div>
                     <div data-montage-id="shellSubstitution">
                         <div data-montage-id="shellEdit" data-arg="luser"></div>
                         <div data-montage-id="shellDisplayRoot" data-arg="root"></div>
