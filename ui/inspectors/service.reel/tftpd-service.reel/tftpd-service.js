@@ -18,8 +18,6 @@ exports.TftpdService = Component.specialize({
             this.application.dataService.fetchData(Model.User).then(function(users) {
                 self.users = users;
             });
-
-
         }
     },
 
