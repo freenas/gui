@@ -2,7 +2,6 @@
     position: relative;
     display: flex;
     flex-direction: column;
-
     & .Scrollview-transform {
         flex: none;
     }
@@ -12,11 +11,20 @@
     padding-top: 1em;
 }
 
-.CalendarList-emptySate {
+.CalendarList-emptyState {
     display: none;
 
-    @nest .has-no-events & {
+    @nest .is-empty & {
         display: block;
     }
+}
+
+.CalendarList-emptyState-content {
+    display: inline-block;
+    border: 1px solid #bb8e00;
+    padding: .45em 1em .55em;
+    border-radius: 4px;
+    margin-top: 1em;
+    color: #fff;
 }
 

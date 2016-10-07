@@ -8,6 +8,9 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('is-empty')": {"<-": "!@days.content.some{hasEvents}"}
             }
         },
         "days": {
@@ -26,9 +29,16 @@
             },
             "bindings": {
                 "taskCategories": {"<-": "@owner.taskCategories"},
-                "day": {"<-": "@days:iteration.object"},
+                "object": {"<-": "@days:iteration.object"},
                 "selectedTask": {"<->": "@owner.selectedTask"},
                 "selectedDay": {"<->": "@owner.selectedDay"}
+            }
+        },
+        "emptyMessage": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "emptyMessage"},
+                "value": "No tasks to display. Change the display filter or create a new task above."
             }
         },
         "scrollview": {
@@ -43,8 +53,8 @@
 </head>
 <body>
     <div data-montage-id="owner" class="CalendarList">
-        <div class="CalendarList-emptySate">
-            No tasks to display. Change the filter above or create a new task.
+        <div class="CalendarList-emptyState">
+            <span data-montage-id="emptyMessage" class="CalendarList-emptyState-content"></span>
         </div>
         <div data-montage-id="scrollview" class="">
             <div data-montage-id="days" class="CalendarList-days">
