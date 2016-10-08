@@ -92,12 +92,16 @@ exports.Viewer = AbstractComponentActionDelegate.specialize({
             var self = this;
 
             return this.application.delegate.userInterfaceDescriptorForObject(object).then(function (UIDescriptor) {
-                self.hasCreateEditor = !!UIDescriptor.creatorComponentModule;
+                if (UIDescriptor) {
+                    self.hasCreateEditor = !!UIDescriptor.creatorComponentModule;
 
-                if (UIDescriptor.sortExpression) {
-                    self.sortingKey = UIDescriptor.sortExpression;
-                } else if (UIDescriptor.nameExpression) {
-                    self.sortingKey = UIDescriptor.nameExpression;
+                    if (UIDescriptor.sortExpression) {
+                        self.sortingKey = UIDescriptor.sortExpression;
+                    } else if (UIDescriptor.nameExpression) {
+                        self.sortingKey = UIDescriptor.nameExpression;
+                    }
+                } else {
+                    self.hasCreateEditor = false;
                 }
             });
         }
