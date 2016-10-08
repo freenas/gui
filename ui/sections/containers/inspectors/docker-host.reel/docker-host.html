@@ -9,12 +9,76 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "canSave": false,
+                "canRevert": false,
+                "canDelete": false,
+                "controller": {"@": "owner"}
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"}
+            }
+        },
+
+        "name": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.name"}
+            }
+        },
+
+        "state": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "state"},
+                "label": "State"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.state"}
+            }
+        },
+
+        "os": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "os"},
+                "label": "OS"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.status.os"}
+            }
+        },
+
+         "uniqueId": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "uniqueId"},
+                "label": "Unique ID"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.status.unique_id"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="DockerHost">
+         <div data-montage-id="inspector">
+            <div data-montage-id="name"></div>
+            <div data-montage-id="state"></div>
+            <div data-montage-id="os"></div>
+            <div data-montage-id="uniqueId"></div>
+        </div>
     </div>
 </body>
 </html>
