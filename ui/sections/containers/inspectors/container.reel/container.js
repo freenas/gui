@@ -19,7 +19,6 @@ exports.Container = AbstractInspector.specialize({
         }
     },
 
-
     handleStartAction: {
         value: function() {
             this.object.services.start(this.object.id);

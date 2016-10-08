@@ -5,7 +5,13 @@
             "nameExpression": "name",
             "collectionNameExpression": "'Hosts'",
             "daoModuleId": "core/dao/docker-host-dao",
-            "inspectorComponentModule": {"%": "ui/sections/containers/inspectors/docker-host.reel"}
+            "inspectorComponentModule": {"%": "ui/sections/containers/inspectors/docker-host.reel"},
+            "statusColorMapping": {
+                "RUNNING": "green",
+                "BOOTLOADER": "green",
+                "STOPPED": "grey"
+            },
+            "statusValueExpression": "status.state"
         }
     }
 }

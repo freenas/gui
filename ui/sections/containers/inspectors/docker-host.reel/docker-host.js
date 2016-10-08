@@ -1,16 +1,10 @@
 /**
  * @module ui/docker-host.reel
  */
-var Component = require("montage/ui/component").Component;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
 /**
  * @class DockerHost
  * @extends Component
  */
-exports.DockerHost = Component.specialize(/** @lends DockerHost# */ {
-    constructor: {
-        value: function DockerHost() {
-            this.super();
-        }
-    }
-});
+exports.DockerHost = AbstractInspector.specialize();
