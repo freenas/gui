@@ -2,6 +2,7 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
     ContainerRepository = require("core/repository/container-repository").ContainerRepository;
 
 exports.ContainerSectionService = AbstractSectionService.specialize({
+
     init: {
         value: function (containerRepository) {
             this._containerRepository = containerRepository || ContainerRepository.instance;
@@ -10,7 +11,20 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
 
     loadEntries: {
         value: function() {
-            return this._containerRepository.listContainers();
+            return this._containerRepository.listContainerSections();
+        }
+    },
+    
+
+    listDockerContainers: {
+        value: function () {
+            return this._containerRepository.listDockerContainers();
+        }
+    },
+
+    listDockerImages: {
+        value: function () {
+            return this._containerRepository.listDockerImages();
         }
     }
 

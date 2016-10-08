@@ -334,11 +334,8 @@ exports.DockerContainer = Montage.specialize({
             inspectorComponentModule: {
                 id: 'ui/sections/containers/inspectors/container.reel'
             },
-            collectionInspectorComponentModule: {
-                id: 'ui/controls/viewer.reel'
-            },
             nameExpression: "id.defined() ? names.join(' ') : 'Create a container'",
-            collectionNameExpression: "'Containers'",
+            collectionNameExpression: "'Docker Containers'",
             creatorComponentModule: {
                 id: 'ui/sections/containers/inspectors/container-creator.reel'
             },
@@ -346,7 +343,8 @@ exports.DockerContainer = Montage.specialize({
                 "running": "green",
                 "stopped": "grey"
             },
-            statusValueExpression: "running ? 'running' : 'stopped'"
+            statusValueExpression: "running ? 'running' : 'stopped'",
+            daoModuleId: "core/dao/docker-container-dao"
         }
     }
 });

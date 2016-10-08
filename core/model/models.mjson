@@ -173,6 +173,10 @@
             "type": "DockerConfig"
         },
         {
+            "modelId": "core/model/models/docker-container-section.js",
+            "type": "DockerContainerSection"
+        },
+        {
             "modelId": "core/model/models/docker-container.js",
             "type": "DockerContainer"
         },

@@ -1,0 +1,11 @@
+{
+    "root": {
+        "prototype": "montage/core/meta/user-interface-descriptor",
+        "properties": {
+            "nameExpression": "names.join(' ')",
+            "collectionNameExpression": "'Images'",
+            "daoModuleId": "core/dao/docker-image-dao",
+            "inspectorComponentModule": {"%": "ui/sections/containers/inspectors/docker-image.reel"}
+        }
+    }
+}

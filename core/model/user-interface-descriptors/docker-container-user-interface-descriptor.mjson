@@ -3,15 +3,15 @@
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
             "inspectorComponentModule": {"%": "ui/sections/containers/inspectors/container.reel"},
-            "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "nameExpression": "id.defined() ? names.join(' ') : 'Create a container'",
-            "collectionNameExpression": "'Containers'",
+            "collectionNameExpression": "'Docker Containers'",
             "creatorComponentModule": {"%": "ui/sections/containers/inspectors/container-creator.reel"},
             "statusColorMapping": {
                 "running": "green",
                 "stopped": "grey"
             },
-            "statusValueExpression": "running ? 'running' : 'stopped'"
+            "statusValueExpression": "running ? 'running' : 'stopped'",
+            "daoModuleId": "core/dao/docker-container-dao"
         }
     }
 }

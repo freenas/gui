@@ -74,5 +74,15 @@ exports.DockerHost = Montage.specialize({
             valueObjectPrototypeName: "DockerHostStatus",
             valueType: "object"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            nameExpression: "name",
+            collectionNameExpression: "'Hosts'",
+            daoModuleId: "core/dao/docker-host-dao",
+            inspectorComponentModule: {
+                id: 'ui/sections/containers/inspectors/docker-host.reel'
+            }
+        }
     }
 });

@@ -106,5 +106,15 @@ exports.DockerImage = Montage.specialize({
             name: "size",
             valueType: "number"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            nameExpression: "names.join(' ')",
+            collectionNameExpression: "'Images'",
+            daoModuleId: "core/dao/docker-image-dao",
+            inspectorComponentModule: {
+                id: 'ui/sections/containers/inspectors/docker-image.reel'
+            }
+        }
     }
 });
