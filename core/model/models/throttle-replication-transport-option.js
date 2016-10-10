@@ -1,6 +1,6 @@
 var Montage = require("montage").Montage;
 
-exports.AlertEmitterEmail = Montage.specialize({
+exports.ThrottleReplicationTransportOption = Montage.specialize({
     "_%type": {
         value: null
     },
@@ -14,17 +14,17 @@ exports.AlertEmitterEmail = Montage.specialize({
             return this["_%type"];
         }
     },
-    _addresses: {
+    _buffer_size: {
         value: null
     },
-    addresses: {
+    buffer_size: {
         set: function (value) {
-            if (this._addresses !== value) {
-                this._addresses = value;
+            if (this._buffer_size !== value) {
+                this._buffer_size = value;
             }
         },
         get: function () {
-            return this._addresses;
+            return this._buffer_size;
         }
     }
 }, {
@@ -34,8 +34,8 @@ exports.AlertEmitterEmail = Montage.specialize({
             name: "%type"
         }, {
             mandatory: false,
-            name: "addresses",
-            valueType: "array"
+            name: "buffer_size",
+            valueType: "number"
         }]
     }
 });

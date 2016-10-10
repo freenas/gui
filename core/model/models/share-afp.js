@@ -1,6 +1,19 @@
 var Montage = require("montage").Montage;
 
 exports.ShareAfp = Montage.specialize({
+    "_%type": {
+        value: null
+    },
+    "%type": {
+        set: function (value) {
+            if (this["_%type"] !== value) {
+                this["_%type"] = value;
+            }
+        },
+        get: function () {
+            return this["_%type"];
+        }
+    },
     _afp3_privileges: {
         value: null
     },
@@ -209,19 +222,6 @@ exports.ShareAfp = Montage.specialize({
             return this._time_machine;
         }
     },
-    _type: {
-        value: null
-    },
-    type: {
-        set: function (value) {
-            if (this._type !== value) {
-                this._type = value;
-            }
-        },
-        get: function () {
-            return this._type;
-        }
-    },
     _users_allow: {
         value: null
     },
@@ -264,6 +264,9 @@ exports.ShareAfp = Montage.specialize({
 }, {
     propertyBlueprints: {
         value: [{
+            mandatory: false,
+            name: "%type"
+        }, {
             mandatory: false,
             name: "afp3_privileges",
             valueType: "boolean"
@@ -330,9 +333,6 @@ exports.ShareAfp = Montage.specialize({
             mandatory: false,
             name: "time_machine",
             valueType: "boolean"
-        }, {
-            mandatory: false,
-            name: "type"
         }, {
             mandatory: false,
             name: "users_allow",

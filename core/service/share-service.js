@@ -63,7 +63,7 @@ var ShareService = exports.ShareService = Montage.specialize({
 
                 populatedSharePromise = this._dataService.getNewInstanceForType(propertiesModel).then(function(properties) {
                     shareObject.properties = properties;
-                    shareObject.properties.type = 'share-' + shareObject.type;
+                    shareObject.properties["%type"] = 'share-' + shareObject.type;
                     return self._dataService.getNewInstanceForType(Model.Permissions);
 
                 }).then(function(permissions) {

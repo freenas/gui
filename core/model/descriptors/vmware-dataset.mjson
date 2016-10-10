@@ -1,74 +1,73 @@
 {
-  "propertyblueprint": {
+  "blueprint_vmwaredataset_dataset": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "%type",
-      "blueprint": {"@": "root"},
-      "enumValues": [
-        "ssh-credentials"
-      ]
-    }
-  },
-  "blueprint_sshcredentials_address": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "address",
+      "name": "dataset",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_sshcredentials_hostkey": {
+  "blueprint_vmwaredataset_datastore": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "hostkey",
+      "name": "datastore",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_sshcredentials_password": {
+  "blueprint_vmwaredataset_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "password",
+      "name": "id",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_sshcredentials_port": {
+  "blueprint_vmwaredataset_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "port",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "blueprint_sshcredentials_privkey": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "privkey",
+      "name": "name",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_sshcredentials_username": {
+  "blueprint_vmwaredataset_peer": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "username",
+      "name": "peer",
       "blueprint": {"@": "root"},
       "valueType": "String"
+    }
+  },
+  "blueprint_vmwaredataset_vm_filter_entries": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "vm_filter_entries",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_vmwaredataset_vm_filter_op": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "vm_filter_op",
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VmwareDatasetFilterOp"
     }
   },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "SshCredentials",
+      "name": "VmwareDataset",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "blueprint_sshcredentials_address"},
-        {"@": "blueprint_sshcredentials_hostkey"},
-        {"@": "blueprint_sshcredentials_password"},
-        {"@": "blueprint_sshcredentials_port"},
-        {"@": "blueprint_sshcredentials_privkey"},
-        {"@": "blueprint_sshcredentials_username"}
+        {"@": "blueprint_vmwaredataset_dataset"},
+        {"@": "blueprint_vmwaredataset_datastore"},
+        {"@": "blueprint_vmwaredataset_id"},
+        {"@": "blueprint_vmwaredataset_name"},
+        {"@": "blueprint_vmwaredataset_peer"},
+        {"@": "blueprint_vmwaredataset_vm_filter_entries"},
+        {"@": "blueprint_vmwaredataset_vm_filter_op"}
       ]
     }
   }

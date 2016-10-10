@@ -7,12 +7,12 @@
       "valueType": "String"
     }
   },
-  "blueprint_dockerimage_host": {
+  "blueprint_dockerimage_hosts": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "host",
+      "name": "hosts",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "array"
     }
   },
   "blueprint_dockerimage_id": {
@@ -53,7 +53,7 @@
       "name": "DockerImage",
       "propertyBlueprints": [
         {"@": "blueprint_dockerimage_created_at"},
-        {"@": "blueprint_dockerimage_host"},
+        {"@": "blueprint_dockerimage_hosts"},
         {"@": "blueprint_dockerimage_id"},
         {"@": "blueprint_dockerimage_names"},
         {"@": "blueprint_dockerimage_presets"},

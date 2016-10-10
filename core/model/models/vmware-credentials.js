@@ -1,6 +1,6 @@
 var Montage = require("montage").Montage;
 
-exports.VmDeviceDisk = Montage.specialize({
+exports.VmwareCredentials = Montage.specialize({
     "_%type": {
         value: null
     },
@@ -14,62 +14,61 @@ exports.VmDeviceDisk = Montage.specialize({
             return this["_%type"];
         }
     },
-    _mode: {
+    _address: {
         value: null
     },
-    mode: {
+    address: {
         set: function (value) {
-            if (this._mode !== value) {
-                this._mode = value;
+            if (this._address !== value) {
+                this._address = value;
             }
         },
         get: function () {
-            return this._mode;
+            return this._address;
         }
     },
-    _size: {
+    _password: {
         value: null
     },
-    size: {
+    password: {
         set: function (value) {
-            if (this._size !== value) {
-                this._size = value;
+            if (this._password !== value) {
+                this._password = value;
             }
         },
         get: function () {
-            return this._size;
+            return this._password;
         }
     },
-    _source: {
+    _username: {
         value: null
     },
-    source: {
+    username: {
         set: function (value) {
-            if (this._source !== value) {
-                this._source = value;
+            if (this._username !== value) {
+                this._username = value;
             }
         },
         get: function () {
-            return this._source;
+            return this._username;
         }
     }
 }, {
     propertyBlueprints: {
         value: [{
-            mandatory: true,
+            mandatory: false,
             name: "%type"
         }, {
-            mandatory: true,
-            name: "mode",
-            valueObjectPrototypeName: "VmDeviceDiskMode",
-            valueType: "object"
+            mandatory: false,
+            name: "address",
+            valueType: "String"
         }, {
             mandatory: false,
-            name: "size",
-            valueType: "number"
+            name: "password",
+            valueType: "String"
         }, {
-            mandatory: true,
-            name: "source",
+            mandatory: false,
+            name: "username",
             valueType: "String"
         }]
     }

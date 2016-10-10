@@ -1,6 +1,19 @@
 var Montage = require("montage").Montage;
 
 exports.ShareIscsi = Montage.specialize({
+    "_%type": {
+        value: null
+    },
+    "%type": {
+        set: function (value) {
+            if (this["_%type"] !== value) {
+                this["_%type"] = value;
+            }
+        },
+        get: function () {
+            return this["_%type"];
+        }
+    },
     _available_space_threshold: {
         value: null
     },
@@ -131,19 +144,6 @@ exports.ShareIscsi = Montage.specialize({
             return this._tpc;
         }
     },
-    _type: {
-        value: null
-    },
-    type: {
-        set: function (value) {
-            if (this._type !== value) {
-                this._type = value;
-            }
-        },
-        get: function () {
-            return this._type;
-        }
-    },
     _vendor_id: {
         value: null
     },
@@ -160,6 +160,9 @@ exports.ShareIscsi = Montage.specialize({
 }, {
     propertyBlueprints: {
         value: [{
+            mandatory: false,
+            name: "%type"
+        }, {
             mandatory: false,
             name: "available_space_threshold",
             valueType: "number"
@@ -201,9 +204,6 @@ exports.ShareIscsi = Montage.specialize({
             mandatory: false,
             name: "tpc",
             valueType: "boolean"
-        }, {
-            mandatory: false,
-            name: "type"
         }, {
             mandatory: false,
             name: "vendor_id",

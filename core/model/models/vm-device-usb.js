@@ -1,17 +1,17 @@
 var Montage = require("montage").Montage;
 
 exports.VmDeviceUsb = Montage.specialize({
-    "_@type": {
+    "_%type": {
         value: null
     },
-    "@type": {
+    "%type": {
         set: function (value) {
-            if (this["_@type"] !== value) {
-                this["_@type"] = value;
+            if (this["_%type"] !== value) {
+                this["_%type"] = value;
             }
         },
         get: function () {
-            return this["_@type"];
+            return this["_%type"];
         }
     },
     _config: {
@@ -44,7 +44,7 @@ exports.VmDeviceUsb = Montage.specialize({
     propertyBlueprints: {
         value: [{
             mandatory: true,
-            name: "@type"
+            name: "%type"
         }, {
             mandatory: true,
             name: "config",

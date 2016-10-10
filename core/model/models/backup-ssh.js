@@ -1,6 +1,19 @@
 var Montage = require("montage").Montage;
 
 exports.BackupSsh = Montage.specialize({
+    "_%type": {
+        value: null
+    },
+    "%type": {
+        set: function (value) {
+            if (this["_%type"] !== value) {
+                this["_%type"] = value;
+            }
+        },
+        get: function () {
+            return this["_%type"];
+        }
+    },
     _directory: {
         value: null
     },
@@ -26,23 +39,13 @@ exports.BackupSsh = Montage.specialize({
         get: function () {
             return this._peer;
         }
-    },
-    _type: {
-        value: null
-    },
-    type: {
-        set: function (value) {
-            if (this._type !== value) {
-                this._type = value;
-            }
-        },
-        get: function () {
-            return this._type;
-        }
     }
 }, {
     propertyBlueprints: {
         value: [{
+            mandatory: false,
+            name: "%type"
+        }, {
             mandatory: false,
             name: "directory",
             valueType: "String"
@@ -50,9 +53,6 @@ exports.BackupSsh = Montage.specialize({
             mandatory: false,
             name: "peer",
             valueType: "String"
-        }, {
-            mandatory: false,
-            name: "type"
         }]
     }
 });

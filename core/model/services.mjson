@@ -343,6 +343,11 @@
                 "name": "call",
                 "namespace": "rpc"
             },
+            "createExec": {
+                "method": "containerd.docker.create_exec",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "delete": {
                 "method": "containerd.docker.delete",
                 "name": "call",
@@ -654,6 +659,11 @@
     },
     "DockerContainer": {
         "class": {
+            "createExec": {
+                "method": "docker.container.create_exec",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "requestSerialConsole": {
                 "method": "docker.container.request_serial_console",
                 "name": "call",
@@ -1662,6 +1672,15 @@
         "instance": {
             "read": {
                 "method": "peer.ssh.query",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
+    "PeerVmware": {
+        "instance": {
+            "read": {
+                "method": "peer.vmware.query",
                 "name": "call",
                 "namespace": "rpc"
             }
@@ -3152,11 +3171,62 @@
         }
     },
     "VmTemplate": {
+        "class": {
+            "getAllocationSize": {
+                "method": "vm.template.get_allocation_size",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        },
         "instance": {
             "read": {
                 "method": "vm.template.query",
                 "name": "call",
                 "namespace": "rpc"
+            }
+        }
+    },
+    "Vmware": {
+        "class": {
+            "getDatastores": {
+                "method": "vmware.get_datastores",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
+    "VmwareDataset": {
+        "instance": {
+            "create": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "restrictions": {
+                    "requiredFields": [
+                        "name",
+                        "dataset",
+                        "datastore",
+                        "peer"
+                    ]
+                },
+                "task": "vmware.dataset.create"
+            },
+            "delete": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vmware.dataset.delete"
+            },
+            "read": {
+                "method": "vmware.dataset.query",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "update": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vmware.dataset.update"
             }
         }
     },

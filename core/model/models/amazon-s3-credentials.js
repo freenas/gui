@@ -1,6 +1,19 @@
 var Montage = require("montage").Montage;
 
 exports.AmazonS3Credentials = Montage.specialize({
+    "_%type": {
+        value: null
+    },
+    "%type": {
+        set: function (value) {
+            if (this["_%type"] !== value) {
+                this["_%type"] = value;
+            }
+        },
+        get: function () {
+            return this["_%type"];
+        }
+    },
     _access_key: {
         value: null
     },
@@ -65,23 +78,13 @@ exports.AmazonS3Credentials = Montage.specialize({
         get: function () {
             return this._secret_key;
         }
-    },
-    _type: {
-        value: null
-    },
-    type: {
-        set: function (value) {
-            if (this._type !== value) {
-                this._type = value;
-            }
-        },
-        get: function () {
-            return this._type;
-        }
     }
 }, {
     propertyBlueprints: {
         value: [{
+            mandatory: false,
+            name: "%type"
+        }, {
             mandatory: false,
             name: "access_key",
             valueType: "String"
@@ -101,9 +104,6 @@ exports.AmazonS3Credentials = Montage.specialize({
             mandatory: false,
             name: "secret_key",
             valueType: "String"
-        }, {
-            mandatory: false,
-            name: "type"
         }]
     }
 });

@@ -1,17 +1,17 @@
 var Montage = require("montage").Montage;
 
 exports.VmDeviceVolume = Montage.specialize({
-    "_@type": {
+    "_%type": {
         value: null
     },
-    "@type": {
+    "%type": {
         set: function (value) {
-            if (this["_@type"] !== value) {
-                this["_@type"] = value;
+            if (this["_%type"] !== value) {
+                this["_%type"] = value;
             }
         },
         get: function () {
-            return this["_@type"];
+            return this["_%type"];
         }
     },
     _auto: {
@@ -70,7 +70,7 @@ exports.VmDeviceVolume = Montage.specialize({
     propertyBlueprints: {
         value: [{
             mandatory: false,
-            name: "@type"
+            name: "%type"
         }, {
             mandatory: false,
             name: "auto",

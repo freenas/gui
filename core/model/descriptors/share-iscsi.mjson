@@ -1,4 +1,14 @@
 {
+  "propertyblueprint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "%type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "share-iscsi"
+      ]
+    }
+  },
   "blueprint_shareiscsi_available_space_threshold": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -81,16 +91,6 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_shareiscsi_type": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "type",
-      "blueprint": {"@": "root"},
-      "enumValues": [
-        "share-iscsi"
-      ]
-    }
-  },
   "blueprint_shareiscsi_vendor_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -104,6 +104,7 @@
     "properties": {
       "name": "ShareIscsi",
       "propertyBlueprints": [
+        {"@": "propertyblueprint"},
         {"@": "blueprint_shareiscsi_available_space_threshold"},
         {"@": "blueprint_shareiscsi_block_size"},
         {"@": "blueprint_shareiscsi_ctl_lun"},
@@ -114,7 +115,6 @@
         {"@": "blueprint_shareiscsi_serial"},
         {"@": "blueprint_shareiscsi_size"},
         {"@": "blueprint_shareiscsi_tpc"},
-        {"@": "blueprint_shareiscsi_type"},
         {"@": "blueprint_shareiscsi_vendor_id"}
       ]
     }

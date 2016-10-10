@@ -101,7 +101,8 @@ exports.Mail = Montage.specialize({
         }, {
             mandatory: false,
             name: "encryption",
-            valueType: "String"
+            valueObjectPrototypeName: "MailEncryptionType",
+            valueType: "object"
         }, {
             mandatory: false,
             name: "from",

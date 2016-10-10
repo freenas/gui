@@ -1,48 +1,45 @@
 {
-  "blueprint_throttleplugin_buffer_size": {
+  "blueprint_vmwaredatastore_free_space": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "buffer_size",
+      "name": "free_space",
       "blueprint": {"@": "root"},
       "valueType": "number"
     }
   },
-  "blueprint_throttleplugin_name": {
+  "blueprint_vmwaredatastore_id": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_vmwaredatastore_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "name",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "throttle"
-      ]
+      "valueType": "String"
     }
   },
-  "blueprint_throttleplugin_read_fd": {
+  "blueprint_vmwaredatastore_virtual_machines": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "read_fd",
+      "name": "virtual_machines",
       "blueprint": {"@": "root"},
-      "valueType": "fd"
-    }
-  },
-  "blueprint_throttleplugin_write_fd": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "write_fd",
-      "blueprint": {"@": "root"},
-      "valueType": "fd"
+      "valueType": "array"
     }
   },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "ThrottlePlugin",
+      "name": "VmwareDatastore",
       "propertyBlueprints": [
-        {"@": "blueprint_throttleplugin_buffer_size"},
-        {"@": "blueprint_throttleplugin_name"},
-        {"@": "blueprint_throttleplugin_read_fd"},
-        {"@": "blueprint_throttleplugin_write_fd"}
+        {"@": "blueprint_vmwaredatastore_free_space"},
+        {"@": "blueprint_vmwaredatastore_id"},
+        {"@": "blueprint_vmwaredatastore_name"},
+        {"@": "blueprint_vmwaredatastore_virtual_machines"}
       ]
     }
   }

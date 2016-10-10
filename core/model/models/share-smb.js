@@ -1,6 +1,19 @@
 var Montage = require("montage").Montage;
 
 exports.ShareSmb = Montage.specialize({
+    "_%type": {
+        value: null
+    },
+    "%type": {
+        set: function (value) {
+            if (this["_%type"] !== value) {
+                this["_%type"] = value;
+            }
+        },
+        get: function () {
+            return this["_%type"];
+        }
+    },
     _browseable: {
         value: null
     },
@@ -131,19 +144,6 @@ exports.ShareSmb = Montage.specialize({
             return this._show_hidden_files;
         }
     },
-    _type: {
-        value: null
-    },
-    type: {
-        set: function (value) {
-            if (this._type !== value) {
-                this._type = value;
-            }
-        },
-        get: function () {
-            return this._type;
-        }
-    },
     _vfs_objects: {
         value: null
     },
@@ -160,6 +160,9 @@ exports.ShareSmb = Montage.specialize({
 }, {
     propertyBlueprints: {
         value: [{
+            mandatory: false,
+            name: "%type"
+        }, {
             mandatory: false,
             name: "browseable",
             valueType: "boolean"
@@ -199,9 +202,6 @@ exports.ShareSmb = Montage.specialize({
             mandatory: false,
             name: "show_hidden_files",
             valueType: "boolean"
-        }, {
-            mandatory: false,
-            name: "type"
         }, {
             mandatory: false,
             name: "vfs_objects",

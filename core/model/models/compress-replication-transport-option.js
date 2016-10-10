@@ -1,42 +1,41 @@
 var Montage = require("montage").Montage;
 
-exports.EncryptTransportOption = Montage.specialize({
-    _name: {
+exports.CompressReplicationTransportOption = Montage.specialize({
+    "_%type": {
         value: null
     },
-    name: {
+    "%type": {
         set: function (value) {
-            if (this._name !== value) {
-                this._name = value;
+            if (this["_%type"] !== value) {
+                this["_%type"] = value;
             }
         },
         get: function () {
-            return this._name;
+            return this["_%type"];
         }
     },
-    _type: {
+    _level: {
         value: null
     },
-    type: {
+    level: {
         set: function (value) {
-            if (this._type !== value) {
-                this._type = value;
+            if (this._level !== value) {
+                this._level = value;
             }
         },
         get: function () {
-            return this._type;
+            return this._level;
         }
     }
 }, {
     propertyBlueprints: {
         value: [{
             mandatory: false,
-            name: "name",
-            valueType: "String"
+            name: "%type"
         }, {
             mandatory: false,
-            name: "type",
-            valueObjectPrototypeName: "EncryptPluginType",
+            name: "level",
+            valueObjectPrototypeName: "CompressPluginLevel",
             valueType: "object"
         }]
     }

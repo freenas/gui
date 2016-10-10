@@ -1,4 +1,14 @@
 {
+  "propertyblueprint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "%type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "share-afp"
+      ]
+    }
+  },
   "blueprint_shareafp_afp3_privileges": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -130,16 +140,6 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_shareafp_type": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "type",
-      "blueprint": {"@": "root"},
-      "enumValues": [
-        "share-afp"
-      ]
-    }
-  },
   "blueprint_shareafp_users_allow": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -169,6 +169,7 @@
     "properties": {
       "name": "ShareAfp",
       "propertyBlueprints": [
+        {"@": "propertyblueprint"},
         {"@": "blueprint_shareafp_afp3_privileges"},
         {"@": "blueprint_shareafp_comment"},
         {"@": "blueprint_shareafp_default_directory_perms"},
@@ -185,7 +186,6 @@
         {"@": "blueprint_shareafp_rw_groups"},
         {"@": "blueprint_shareafp_rw_users"},
         {"@": "blueprint_shareafp_time_machine"},
-        {"@": "blueprint_shareafp_type"},
         {"@": "blueprint_shareafp_users_allow"},
         {"@": "blueprint_shareafp_users_deny"},
         {"@": "blueprint_shareafp_zero_dev_numbers"}

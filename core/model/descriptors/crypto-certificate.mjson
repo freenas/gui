@@ -82,6 +82,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_cryptocertificate_id": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_cryptocertificate_key_length": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -236,6 +244,7 @@
         {"@": "blueprint_cryptocertificate_digest_algorithm"},
         {"@": "blueprint_cryptocertificate_dn"},
         {"@": "blueprint_cryptocertificate_email"},
+        {"@": "blueprint_cryptocertificate_id"},
         {"@": "blueprint_cryptocertificate_key_length"},
         {"@": "blueprint_cryptocertificate_lifetime"},
         {"@": "blueprint_cryptocertificate_name"},

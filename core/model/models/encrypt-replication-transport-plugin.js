@@ -1,6 +1,19 @@
 var Montage = require("montage").Montage;
 
-exports.EncryptPlugin = Montage.specialize({
+exports.EncryptReplicationTransportPlugin = Montage.specialize({
+    "_%type": {
+        value: null
+    },
+    "%type": {
+        set: function (value) {
+            if (this["_%type"] !== value) {
+                this["_%type"] = value;
+            }
+        },
+        get: function () {
+            return this["_%type"];
+        }
+    },
     _auth_token: {
         value: null
     },
@@ -25,19 +38,6 @@ exports.EncryptPlugin = Montage.specialize({
         },
         get: function () {
             return this._buffer_size;
-        }
-    },
-    _name: {
-        value: null
-    },
-    name: {
-        set: function (value) {
-            if (this._name !== value) {
-                this._name = value;
-            }
-        },
-        get: function () {
-            return this._name;
         }
     },
     _read_fd: {
@@ -109,16 +109,15 @@ exports.EncryptPlugin = Montage.specialize({
     propertyBlueprints: {
         value: [{
             mandatory: false,
+            name: "%type"
+        }, {
+            mandatory: false,
             name: "auth_token",
             valueType: "String"
         }, {
             mandatory: false,
             name: "buffer_size",
             valueType: "number"
-        }, {
-            mandatory: false,
-            name: "name",
-            valueType: "String"
         }, {
             mandatory: false,
             name: "read_fd",

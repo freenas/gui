@@ -1,4 +1,20 @@
 {
+  "blueprint_networkinterfacestatus_active_media_subtype": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "active_media_subtype",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_networkinterfacestatus_active_media_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "active_media_type",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_networkinterfacestatus_aliases": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -138,7 +154,7 @@
     "properties": {
       "name": "tag",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "number"
     }
   },
   "root": {
@@ -146,6 +162,8 @@
     "properties": {
       "name": "NetworkInterfaceStatus",
       "propertyBlueprints": [
+        {"@": "blueprint_networkinterfacestatus_active_media_subtype"},
+        {"@": "blueprint_networkinterfacestatus_active_media_type"},
         {"@": "blueprint_networkinterfacestatus_aliases"},
         {"@": "blueprint_networkinterfacestatus_capabilities"},
         {"@": "blueprint_networkinterfacestatus_cloned"},

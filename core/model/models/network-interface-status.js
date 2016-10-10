@@ -1,6 +1,32 @@
 var Montage = require("montage").Montage;
 
 exports.NetworkInterfaceStatus = Montage.specialize({
+    _active_media_subtype: {
+        value: null
+    },
+    active_media_subtype: {
+        set: function (value) {
+            if (this._active_media_subtype !== value) {
+                this._active_media_subtype = value;
+            }
+        },
+        get: function () {
+            return this._active_media_subtype;
+        }
+    },
+    _active_media_type: {
+        value: null
+    },
+    active_media_type: {
+        set: function (value) {
+            if (this._active_media_type !== value) {
+                this._active_media_type = value;
+            }
+        },
+        get: function () {
+            return this._active_media_type;
+        }
+    },
     _aliases: {
         value: null
     },
@@ -226,6 +252,14 @@ exports.NetworkInterfaceStatus = Montage.specialize({
     propertyBlueprints: {
         value: [{
             mandatory: false,
+            name: "active_media_subtype",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "active_media_type",
+            valueType: "String"
+        }, {
+            mandatory: false,
             name: "aliases",
             valueObjectPrototypeName: "NetworkInterfaceAlias",
             valueType: "array"
@@ -297,7 +331,7 @@ exports.NetworkInterfaceStatus = Montage.specialize({
         }, {
             mandatory: false,
             name: "tag",
-            valueType: "String"
+            valueType: "number"
         }]
     }
 });
