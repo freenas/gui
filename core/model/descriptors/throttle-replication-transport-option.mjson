@@ -5,25 +5,25 @@
       "name": "%type",
       "blueprint": {"@": "root"},
       "enumValues": [
-        "alert-emitter-email"
+        "throttle-replication-transport-option"
       ]
     }
   },
-  "blueprint_alertemitteremail_addresses": {
+  "blueprint_throttlereplicationtransportoption_buffer_size": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "addresses",
+      "name": "buffer_size",
       "blueprint": {"@": "root"},
-      "valueType": "array"
+      "valueType": "number"
     }
   },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "AlertEmitterEmail",
+      "name": "ThrottleReplicationTransportOption",
       "propertyBlueprints": [
         {"@": "propertyblueprint"},
-        {"@": "blueprint_alertemitteremail_addresses"}
+        {"@": "blueprint_throttlereplicationtransportoption_buffer_size"}
       ]
     }
   }

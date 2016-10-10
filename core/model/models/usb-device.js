@@ -1,6 +1,6 @@
 var Montage = require("montage").Montage;
 
-exports.FreenasAuthCredentials = Montage.specialize({
+exports.UsbDevice = Montage.specialize({
     _address: {
         value: null
     },
@@ -14,82 +14,81 @@ exports.FreenasAuthCredentials = Montage.specialize({
             return this._address;
         }
     },
-    _auth_code: {
+    _bus: {
         value: null
     },
-    auth_code: {
+    bus: {
         set: function (value) {
-            if (this._auth_code !== value) {
-                this._auth_code = value;
+            if (this._bus !== value) {
+                this._bus = value;
             }
         },
         get: function () {
-            return this._auth_code;
+            return this._bus;
         }
     },
-    _key_auth: {
+    _class: {
         value: null
     },
-    key_auth: {
+    class: {
         set: function (value) {
-            if (this._key_auth !== value) {
-                this._key_auth = value;
+            if (this._class !== value) {
+                this._class = value;
             }
-        },
-        get: function () {
-            return this._key_auth;
+        }, get: function () {
+            return this._class;
         }
     },
-    _password: {
+    _manufacturer: {
         value: null
     },
-    password: {
+    manufacturer: {
         set: function (value) {
-            if (this._password !== value) {
-                this._password = value;
+            if (this._manufacturer !== value) {
+                this._manufacturer = value;
             }
         },
         get: function () {
-            return this._password;
+            return this._manufacturer;
         }
     },
-    _port: {
+    _pid: {
         value: null
     },
-    port: {
+    pid: {
         set: function (value) {
-            if (this._port !== value) {
-                this._port = value;
+            if (this._pid !== value) {
+                this._pid = value;
             }
         },
         get: function () {
-            return this._port;
+            return this._pid;
         }
     },
-    _type: {
+    _product: {
         value: null
     },
-    type: {
+    product: {
         set: function (value) {
-            if (this._type !== value) {
-                this._type = value;
+            if (this._product !== value) {
+                this._product = value;
             }
         },
         get: function () {
-            return this._type;
+            return this._product;
         }
     },
-    _username: {
+    _vid: {
         value: null
     },
-    username: {
+    vid: {
         set: function (value) {
-            if (this._username !== value) {
-                this._username = value;
+            if (this._vid !== value) {
+                this._vid = value;
             }
         },
         get: function () {
-            return this._username;
+            return this._vid;
         }
     }
 }, {
@@ -97,30 +96,31 @@ exports.FreenasAuthCredentials = Montage.specialize({
         value: [{
             mandatory: false,
             name: "address",
-            valueType: "String"
-        }, {
-            mandatory: false,
-            name: "auth_code",
             valueType: "number"
         }, {
             mandatory: false,
-            name: "key_auth",
-            valueType: "boolean"
-        }, {
-            mandatory: false,
-            name: "password",
-            valueType: "String"
-        }, {
-            mandatory: false,
-            name: "port",
+            name: "bus",
             valueType: "number"
         }, {
             mandatory: false,
-            name: "type"
+            name: "class",
+            valueType: "number"
         }, {
             mandatory: false,
-            name: "username",
+            name: "manufacturer",
             valueType: "String"
+        }, {
+            mandatory: false,
+            name: "pid",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "product",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "vid",
+            valueType: "number"
         }]
     }
 });

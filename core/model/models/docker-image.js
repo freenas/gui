@@ -14,17 +14,17 @@ exports.DockerImage = Montage.specialize({
             return this._created_at;
         }
     },
-    _host: {
+    _hosts: {
         value: null
     },
-    host: {
+    hosts: {
         set: function (value) {
-            if (this._host !== value) {
-                this._host = value;
+            if (this._hosts !== value) {
+                this._hosts = value;
             }
         },
         get: function () {
-            return this._host;
+            return this._hosts;
         }
     },
     _id: {
@@ -87,8 +87,8 @@ exports.DockerImage = Montage.specialize({
             valueType: "String"
         }, {
             mandatory: false,
-            name: "host",
-            valueType: "String"
+            name: "hosts",
+            valueType: "array"
         }, {
             mandatory: false,
             name: "id",

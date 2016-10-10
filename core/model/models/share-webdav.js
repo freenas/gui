@@ -1,6 +1,19 @@
 var Montage = require("montage").Montage;
 
 exports.ShareWebdav = Montage.specialize({
+    "_%type": {
+        value: null
+    },
+    "%type": {
+        set: function (value) {
+            if (this["_%type"] !== value) {
+                this["_%type"] = value;
+            }
+        },
+        get: function () {
+            return this["_%type"];
+        }
+    },
     _permission: {
         value: null
     },
@@ -26,23 +39,13 @@ exports.ShareWebdav = Montage.specialize({
         get: function () {
             return this._read_only;
         }
-    },
-    _type: {
-        value: null
-    },
-    type: {
-        set: function (value) {
-            if (this._type !== value) {
-                this._type = value;
-            }
-        },
-        get: function () {
-            return this._type;
-        }
     }
 }, {
     propertyBlueprints: {
         value: [{
+            mandatory: false,
+            name: "%type"
+        }, {
             mandatory: false,
             name: "permission",
             valueType: "boolean"
@@ -50,9 +53,6 @@ exports.ShareWebdav = Montage.specialize({
             mandatory: false,
             name: "read_only",
             valueType: "boolean"
-        }, {
-            mandatory: false,
-            name: "type"
         }]
     }
 });

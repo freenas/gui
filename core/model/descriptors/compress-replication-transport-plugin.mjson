@@ -5,54 +5,53 @@
       "name": "%type",
       "blueprint": {"@": "root"},
       "enumValues": [
-        "vm-device-nic"
+        "compress-replication-transport-plugin"
       ]
     }
   },
-  "blueprint_vmdevicenic_bridge": {
+  "blueprint_compressreplicationtransportplugin_buffer_size": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "bridge",
+      "name": "buffer_size",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "number"
     }
   },
-  "blueprint_vmdevicenic_device": {
+  "blueprint_compressreplicationtransportplugin_level": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "device",
+      "name": "level",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VmDeviceNicDevice"
+      "valueObjectPrototypeName": "CompressPluginLevel"
     }
   },
-  "blueprint_vmdevicenic_link_address": {
+  "blueprint_compressreplicationtransportplugin_read_fd": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "link_address",
+      "name": "read_fd",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "fd"
     }
   },
-  "blueprint_vmdevicenic_mode": {
+  "blueprint_compressreplicationtransportplugin_write_fd": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "mode",
+      "name": "write_fd",
       "blueprint": {"@": "root"},
-      "valueType": "object",
-      "valueObjectPrototypeName": "VmDeviceNicMode"
+      "valueType": "fd"
     }
   },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "VmDeviceNic",
+      "name": "CompressReplicationTransportPlugin",
       "propertyBlueprints": [
         {"@": "propertyblueprint"},
-        {"@": "blueprint_vmdevicenic_bridge"},
-        {"@": "blueprint_vmdevicenic_device"},
-        {"@": "blueprint_vmdevicenic_link_address"},
-        {"@": "blueprint_vmdevicenic_mode"}
+        {"@": "blueprint_compressreplicationtransportplugin_buffer_size"},
+        {"@": "blueprint_compressreplicationtransportplugin_level"},
+        {"@": "blueprint_compressreplicationtransportplugin_read_fd"},
+        {"@": "blueprint_compressreplicationtransportplugin_write_fd"}
       ]
     }
   }

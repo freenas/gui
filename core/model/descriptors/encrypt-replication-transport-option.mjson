@@ -5,25 +5,26 @@
       "name": "%type",
       "blueprint": {"@": "root"},
       "enumValues": [
-        "alert-emitter-email"
+        "encrypt-replication-transport-option"
       ]
     }
   },
-  "blueprint_alertemitteremail_addresses": {
+  "blueprint_encryptreplicationtransportoption_type": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "addresses",
+      "name": "type",
       "blueprint": {"@": "root"},
-      "valueType": "array"
+      "valueType": "object",
+      "valueObjectPrototypeName": "EncryptPluginType"
     }
   },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "AlertEmitterEmail",
+      "name": "EncryptReplicationTransportOption",
       "propertyBlueprints": [
         {"@": "propertyblueprint"},
-        {"@": "blueprint_alertemitteremail_addresses"}
+        {"@": "blueprint_encryptreplicationtransportoption_type"}
       ]
     }
   }

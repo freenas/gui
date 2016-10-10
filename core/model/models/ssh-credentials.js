@@ -1,6 +1,19 @@
 var Montage = require("montage").Montage;
 
 exports.SshCredentials = Montage.specialize({
+    "_%type": {
+        value: null
+    },
+    "%type": {
+        set: function (value) {
+            if (this["_%type"] !== value) {
+                this["_%type"] = value;
+            }
+        },
+        get: function () {
+            return this["_%type"];
+        }
+    },
     _address: {
         value: null
     },
@@ -66,19 +79,6 @@ exports.SshCredentials = Montage.specialize({
             return this._privkey;
         }
     },
-    _type: {
-        value: null
-    },
-    type: {
-        set: function (value) {
-            if (this._type !== value) {
-                this._type = value;
-            }
-        },
-        get: function () {
-            return this._type;
-        }
-    },
     _username: {
         value: null
     },
@@ -95,6 +95,9 @@ exports.SshCredentials = Montage.specialize({
 }, {
     propertyBlueprints: {
         value: [{
+            mandatory: false,
+            name: "%type"
+        }, {
             mandatory: false,
             name: "address",
             valueType: "String"
@@ -114,9 +117,6 @@ exports.SshCredentials = Montage.specialize({
             mandatory: false,
             name: "privkey",
             valueType: "String"
-        }, {
-            mandatory: false,
-            name: "type"
         }, {
             mandatory: false,
             name: "username",

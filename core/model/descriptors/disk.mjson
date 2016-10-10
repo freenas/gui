@@ -16,14 +16,6 @@
       "valueType": "number"
     }
   },
-  "blueprint_disk_description": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "description",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_disk_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -112,7 +104,6 @@
       "propertyBlueprints": [
         {"@": "blueprint_disk_acoustic_level"},
         {"@": "blueprint_disk_apm_mode"},
-        {"@": "blueprint_disk_description"},
         {"@": "blueprint_disk_id"},
         {"@": "blueprint_disk_mediasize"},
         {"@": "blueprint_disk_name"},

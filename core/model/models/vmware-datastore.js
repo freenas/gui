@@ -1,75 +1,76 @@
 var Montage = require("montage").Montage;
 
-exports.BackupS3 = Montage.specialize({
-    "_%type": {
+exports.VmwareDatastore = Montage.specialize({
+    _free_space: {
         value: null
     },
-    "%type": {
+    free_space: {
         set: function (value) {
-            if (this["_%type"] !== value) {
-                this["_%type"] = value;
+            if (this._free_space !== value) {
+                this._free_space = value;
             }
         },
         get: function () {
-            return this["_%type"];
+            return this._free_space;
         }
     },
-    _bucket: {
+    _id: {
         value: null
     },
-    bucket: {
+    id: {
         set: function (value) {
-            if (this._bucket !== value) {
-                this._bucket = value;
+            if (this._id !== value) {
+                this._id = value;
             }
         },
         get: function () {
-            return this._bucket;
+            return this._id;
         }
     },
-    _folder: {
+    _name: {
         value: null
     },
-    folder: {
+    name: {
         set: function (value) {
-            if (this._folder !== value) {
-                this._folder = value;
+            if (this._name !== value) {
+                this._name = value;
             }
         },
         get: function () {
-            return this._folder;
+            return this._name;
         }
     },
-    _peer: {
+    _virtual_machines: {
         value: null
     },
-    peer: {
+    virtual_machines: {
         set: function (value) {
-            if (this._peer !== value) {
-                this._peer = value;
+            if (this._virtual_machines !== value) {
+                this._virtual_machines = value;
             }
         },
         get: function () {
-            return this._peer;
+            return this._virtual_machines;
         }
     }
 }, {
     propertyBlueprints: {
         value: [{
             mandatory: false,
-            name: "%type"
+            name: "free_space",
+            valueType: "number"
         }, {
             mandatory: false,
-            name: "bucket",
+            name: "id",
             valueType: "String"
         }, {
             mandatory: false,
-            name: "folder",
+            name: "name",
             valueType: "String"
         }, {
             mandatory: false,
-            name: "peer",
-            valueType: "String"
+            name: "virtual_machines",
+            valueType: "array"
         }]
     }
 });

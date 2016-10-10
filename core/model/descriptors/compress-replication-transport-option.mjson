@@ -1,31 +1,30 @@
 {
-  "blueprint_encrypttransportoption_name": {
+  "propertyblueprint": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "name",
+      "name": "%type",
       "blueprint": {"@": "root"},
-      "valueType": "String",
       "enumValues": [
-        "encrypt"
+        "compress-replication-transport-option"
       ]
     }
   },
-  "blueprint_encrypttransportoption_type": {
+  "blueprint_compressreplicationtransportoption_level": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "type",
+      "name": "level",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "EncryptPluginType"
+      "valueObjectPrototypeName": "CompressPluginLevel"
     }
   },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "EncryptTransportOption",
+      "name": "CompressReplicationTransportOption",
       "propertyBlueprints": [
-        {"@": "blueprint_encrypttransportoption_name"},
-        {"@": "blueprint_encrypttransportoption_type"}
+        {"@": "propertyblueprint"},
+        {"@": "blueprint_compressreplicationtransportoption_level"}
       ]
     }
   }

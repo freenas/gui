@@ -65,7 +65,8 @@
         "file",
         "local",
         "winbind",
-        "freeipa"
+        "freeipa",
+        "ldap"
       ]
     }
   },

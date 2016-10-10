@@ -1,4 +1,14 @@
 {
+  "propertyblueprint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "%type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "backup-ssh"
+      ]
+    }
+  },
   "blueprint_backupssh_directory": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -15,24 +25,14 @@
       "valueType": "String"
     }
   },
-  "blueprint_backupssh_type": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "type",
-      "blueprint": {"@": "root"},
-      "enumValues": [
-        "backup-ssh"
-      ]
-    }
-  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "BackupSsh",
       "propertyBlueprints": [
+        {"@": "propertyblueprint"},
         {"@": "blueprint_backupssh_directory"},
-        {"@": "blueprint_backupssh_peer"},
-        {"@": "blueprint_backupssh_type"}
+        {"@": "blueprint_backupssh_peer"}
       ]
     }
   }

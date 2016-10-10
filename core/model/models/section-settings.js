@@ -31,10 +31,12 @@ exports.SectionSettings = Montage.specialize({
     propertyBlueprints: {
         value: [{
             mandatory: false,
-            name: "section"
+            name: "section",
+            valueType: "object"
         }, {
             mandatory: false,
-            name: "settings"
+            name: "settings",
+            valueType: "object"
         }]
     },
     userInterfaceDescriptor: {
@@ -42,7 +44,7 @@ exports.SectionSettings = Montage.specialize({
             inspectorComponentModule: {
                 id: 'ui/controls/section.reel/section-settings.reel'
             },
-            nameExpression: "section.label + ' settings'"
+            nameExpression: "section.label = ' settings'"
         }
     }
 });

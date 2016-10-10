@@ -1,5 +1,15 @@
 {
-  "blueprint_encryptplugin_auth_token": {
+  "propertyblueprint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "%type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "encrypt-replication-transport-plugin"
+      ]
+    }
+  },
+  "blueprint_encryptreplicationtransportplugin_auth_token": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "auth_token",
@@ -7,7 +17,7 @@
       "valueType": "String"
     }
   },
-  "blueprint_encryptplugin_buffer_size": {
+  "blueprint_encryptreplicationtransportplugin_buffer_size": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "buffer_size",
@@ -15,15 +25,7 @@
       "valueType": "number"
     }
   },
-  "blueprint_encryptplugin_name": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "name",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_encryptplugin_read_fd": {
+  "blueprint_encryptreplicationtransportplugin_read_fd": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "read_fd",
@@ -31,7 +33,7 @@
       "valueType": "fd"
     }
   },
-  "blueprint_encryptplugin_remote": {
+  "blueprint_encryptreplicationtransportplugin_remote": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "remote",
@@ -39,7 +41,7 @@
       "valueType": "String"
     }
   },
-  "blueprint_encryptplugin_renewal_interval": {
+  "blueprint_encryptreplicationtransportplugin_renewal_interval": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "renewal_interval",
@@ -47,7 +49,7 @@
       "valueType": "number"
     }
   },
-  "blueprint_encryptplugin_type": {
+  "blueprint_encryptreplicationtransportplugin_type": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "type",
@@ -56,7 +58,7 @@
       "valueObjectPrototypeName": "EncryptPluginType"
     }
   },
-  "blueprint_encryptplugin_write_fd": {
+  "blueprint_encryptreplicationtransportplugin_write_fd": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "write_fd",
@@ -67,16 +69,16 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "EncryptPlugin",
+      "name": "EncryptReplicationTransportPlugin",
       "propertyBlueprints": [
-        {"@": "blueprint_encryptplugin_auth_token"},
-        {"@": "blueprint_encryptplugin_buffer_size"},
-        {"@": "blueprint_encryptplugin_name"},
-        {"@": "blueprint_encryptplugin_read_fd"},
-        {"@": "blueprint_encryptplugin_remote"},
-        {"@": "blueprint_encryptplugin_renewal_interval"},
-        {"@": "blueprint_encryptplugin_type"},
-        {"@": "blueprint_encryptplugin_write_fd"}
+        {"@": "propertyblueprint"},
+        {"@": "blueprint_encryptreplicationtransportplugin_auth_token"},
+        {"@": "blueprint_encryptreplicationtransportplugin_buffer_size"},
+        {"@": "blueprint_encryptreplicationtransportplugin_read_fd"},
+        {"@": "blueprint_encryptreplicationtransportplugin_remote"},
+        {"@": "blueprint_encryptreplicationtransportplugin_renewal_interval"},
+        {"@": "blueprint_encryptreplicationtransportplugin_type"},
+        {"@": "blueprint_encryptreplicationtransportplugin_write_fd"}
       ]
     }
   }

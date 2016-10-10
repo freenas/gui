@@ -1,6 +1,19 @@
 var Montage = require("montage").Montage;
 
-exports.ThrottlePlugin = Montage.specialize({
+exports.CompressReplicationTransportPlugin = Montage.specialize({
+    "_%type": {
+        value: null
+    },
+    "%type": {
+        set: function (value) {
+            if (this["_%type"] !== value) {
+                this["_%type"] = value;
+            }
+        },
+        get: function () {
+            return this["_%type"];
+        }
+    },
     _buffer_size: {
         value: null
     },
@@ -14,17 +27,17 @@ exports.ThrottlePlugin = Montage.specialize({
             return this._buffer_size;
         }
     },
-    _name: {
+    _level: {
         value: null
     },
-    name: {
+    level: {
         set: function (value) {
-            if (this._name !== value) {
-                this._name = value;
+            if (this._level !== value) {
+                this._level = value;
             }
         },
         get: function () {
-            return this._name;
+            return this._level;
         }
     },
     _read_fd: {
@@ -57,12 +70,16 @@ exports.ThrottlePlugin = Montage.specialize({
     propertyBlueprints: {
         value: [{
             mandatory: false,
+            name: "%type"
+        }, {
+            mandatory: false,
             name: "buffer_size",
             valueType: "number"
         }, {
             mandatory: false,
-            name: "name",
-            valueType: "String"
+            name: "level",
+            valueObjectPrototypeName: "CompressPluginLevel",
+            valueType: "object"
         }, {
             mandatory: false,
             name: "read_fd",

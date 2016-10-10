@@ -40,6 +40,19 @@ exports.DockerContainer = Montage.specialize({
             return this._environment;
         }
     },
+    _exec_ids: {
+        value: null
+    },
+    exec_ids: {
+        set: function (value) {
+            if (this._exec_ids !== value) {
+                this._exec_ids = value;
+            }
+        },
+        get: function () {
+            return this._exec_ids;
+        }
+    },
     _expose_ports: {
         value: null
     },
@@ -221,6 +234,19 @@ exports.DockerContainer = Montage.specialize({
         get: function () {
             return this._volumes;
         }
+    },
+    _web_ui_url: {
+        value: null
+    },
+    web_ui_url: {
+        set: function (value) {
+            if (this._web_ui_url !== value) {
+                this._web_ui_url = value;
+            }
+        },
+        get: function () {
+            return this._web_ui_url;
+        }
     }
 }, {
     propertyBlueprints: {
@@ -235,6 +261,10 @@ exports.DockerContainer = Montage.specialize({
         }, {
             mandatory: false,
             name: "environment",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "exec_ids",
             valueType: "array"
         }, {
             mandatory: false,
@@ -293,6 +323,10 @@ exports.DockerContainer = Montage.specialize({
             name: "volumes",
             valueObjectPrototypeName: "DockerVolume",
             valueType: "array"
+        }, {
+            mandatory: false,
+            name: "web_ui_url",
+            valueType: "String"
         }]
     },
     userInterfaceDescriptor: {

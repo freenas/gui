@@ -131,6 +131,19 @@ exports.CryptoCertificate = Montage.specialize({
             return this._email;
         }
     },
+    _id: {
+        value: null
+    },
+    id: {
+        set: function (value) {
+            if (this._id !== value) {
+                this._id = value;
+            }
+        },
+        get: function () {
+            return this._id;
+        }
+    },
     _key_length: {
         value: null
     },
@@ -396,6 +409,10 @@ exports.CryptoCertificate = Montage.specialize({
         }, {
             mandatory: false,
             name: "email",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "id",
             valueType: "String"
         }, {
             mandatory: false,

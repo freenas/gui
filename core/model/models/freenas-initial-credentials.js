@@ -1,6 +1,6 @@
 var Montage = require("montage").Montage;
 
-exports.VmDeviceNic = Montage.specialize({
+exports.FreenasInitialCredentials = Montage.specialize({
     "_%type": {
         value: null
     },
@@ -14,56 +14,56 @@ exports.VmDeviceNic = Montage.specialize({
             return this["_%type"];
         }
     },
-    _bridge: {
+    _auth_code: {
         value: null
     },
-    bridge: {
+    auth_code: {
         set: function (value) {
-            if (this._bridge !== value) {
-                this._bridge = value;
+            if (this._auth_code !== value) {
+                this._auth_code = value;
             }
         },
         get: function () {
-            return this._bridge;
+            return this._auth_code;
         }
     },
-    _device: {
+    _key_auth: {
         value: null
     },
-    device: {
+    key_auth: {
         set: function (value) {
-            if (this._device !== value) {
-                this._device = value;
+            if (this._key_auth !== value) {
+                this._key_auth = value;
             }
         },
         get: function () {
-            return this._device;
+            return this._key_auth;
         }
     },
-    _link_address: {
+    _password: {
         value: null
     },
-    link_address: {
+    password: {
         set: function (value) {
-            if (this._link_address !== value) {
-                this._link_address = value;
+            if (this._password !== value) {
+                this._password = value;
             }
         },
         get: function () {
-            return this._link_address;
+            return this._password;
         }
     },
-    _mode: {
+    _username: {
         value: null
     },
-    mode: {
+    username: {
         set: function (value) {
-            if (this._mode !== value) {
-                this._mode = value;
+            if (this._username !== value) {
+                this._username = value;
             }
         },
         get: function () {
-            return this._mode;
+            return this._username;
         }
     }
 }, {
@@ -73,22 +73,20 @@ exports.VmDeviceNic = Montage.specialize({
             name: "%type"
         }, {
             mandatory: false,
-            name: "bridge",
+            name: "auth_code",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "key_auth",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "password",
             valueType: "String"
         }, {
             mandatory: false,
-            name: "device",
-            valueObjectPrototypeName: "VmDeviceNicDevice",
-            valueType: "object"
-        }, {
-            mandatory: false,
-            name: "link_address",
+            name: "username",
             valueType: "String"
-        }, {
-            mandatory: false,
-            name: "mode",
-            valueObjectPrototypeName: "VmDeviceNicMode",
-            valueType: "object"
         }]
     }
 });

@@ -1,6 +1,19 @@
 var Montage = require("montage").Montage;
 
 exports.ShareNfs = Montage.specialize({
+    "_%type": {
+        value: null
+    },
+    "%type": {
+        set: function (value) {
+            if (this["_%type"] !== value) {
+                this["_%type"] = value;
+            }
+        },
+        get: function () {
+            return this["_%type"];
+        }
+    },
     _alldirs: {
         value: null
     },
@@ -104,23 +117,13 @@ exports.ShareNfs = Montage.specialize({
         get: function () {
             return this._security;
         }
-    },
-    _type: {
-        value: null
-    },
-    type: {
-        set: function (value) {
-            if (this._type !== value) {
-                this._type = value;
-            }
-        },
-        get: function () {
-            return this._type;
-        }
     }
 }, {
     propertyBlueprints: {
         value: [{
+            mandatory: false,
+            name: "%type"
+        }, {
             mandatory: false,
             name: "alldirs",
             valueType: "boolean"
@@ -153,9 +156,6 @@ exports.ShareNfs = Montage.specialize({
             name: "security",
             valueObjectPrototypeName: "ShareNfsSecurityItems",
             valueType: "array"
-        }, {
-            mandatory: false,
-            name: "type"
         }]
     }
 });

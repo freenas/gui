@@ -27,19 +27,6 @@ exports.Disk = Montage.specialize({
             return this._apm_mode;
         }
     },
-    _description: {
-        value: null
-    },
-    description: {
-        set: function (value) {
-            if (this._description !== value) {
-                this._description = value;
-            }
-        },
-        get: function () {
-            return this._description;
-        }
-    },
     _id: {
         value: null
     },
@@ -181,10 +168,6 @@ exports.Disk = Montage.specialize({
             mandatory: false,
             name: "apm_mode",
             valueType: "number"
-        }, {
-            mandatory: false,
-            name: "description",
-            valueType: "String"
         }, {
             mandatory: false,
             name: "id",

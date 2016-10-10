@@ -93,12 +93,12 @@
             "type": "Calendar"
         },
         {
-            "modelId": "core/model/models/compress-plugin.js",
-            "type": "CompressPlugin"
+            "modelId": "core/model/models/compress-replication-transport-option.js",
+            "type": "CompressReplicationTransportOption"
         },
         {
-            "modelId": "core/model/models/compress-transport-option.js",
-            "type": "CompressTransportOption"
+            "modelId": "core/model/models/compress-replication-transport-plugin.js",
+            "type": "CompressReplicationTransportPlugin"
         },
         {
             "modelId": "core/model/models/cpu-device.js",
@@ -205,12 +205,12 @@
             "type": "Enclosure"
         },
         {
-            "modelId": "core/model/models/encrypt-plugin.js",
-            "type": "EncryptPlugin"
+            "modelId": "core/model/models/encrypt-replication-transport-option.js",
+            "type": "EncryptReplicationTransportOption"
         },
         {
-            "modelId": "core/model/models/encrypt-transport-option.js",
-            "type": "EncryptTransportOption"
+            "modelId": "core/model/models/encrypt-replication-transport-plugin.js",
+            "type": "EncryptReplicationTransportPlugin"
         },
         {
             "modelId": "core/model/models/error.js",
@@ -225,12 +225,12 @@
             "type": "FreeipaDirectoryParams"
         },
         {
-            "modelId": "core/model/models/freenas-auth-credentials.js",
-            "type": "FreenasAuthCredentials"
-        },
-        {
             "modelId": "core/model/models/freenas-credentials.js",
             "type": "FreenasCredentials"
+        },
+        {
+            "modelId": "core/model/models/freenas-initial-credentials.js",
+            "type": "FreenasInitialCredentials"
         },
         {
             "modelId": "core/model/models/get-stats-params.js",
@@ -649,12 +649,12 @@
             "type": "Task"
         },
         {
-            "modelId": "core/model/models/throttle-plugin.js",
-            "type": "ThrottlePlugin"
+            "modelId": "core/model/models/throttle-replication-transport-option.js",
+            "type": "ThrottleReplicationTransportOption"
         },
         {
-            "modelId": "core/model/models/throttle-transport-option.js",
-            "type": "ThrottleTransportOption"
+            "modelId": "core/model/models/throttle-replication-transport-plugin.js",
+            "type": "ThrottleReplicationTransportPlugin"
         },
         {
             "modelId": "core/model/models/tunable.js",
@@ -695,6 +695,10 @@
         {
             "modelId": "core/model/models/update.js",
             "type": "Update"
+        },
+        {
+            "modelId": "core/model/models/usb-device.js",
+            "type": "UsbDevice"
         },
         {
             "modelId": "core/model/models/user-attributes-anonymous.js",
@@ -775,6 +779,18 @@
         {
             "modelId": "core/model/models/vm.js",
             "type": "Vm"
+        },
+        {
+            "modelId": "core/model/models/vmware-credentials.js",
+            "type": "VmwareCredentials"
+        },
+        {
+            "modelId": "core/model/models/vmware-dataset.js",
+            "type": "VmwareDataset"
+        },
+        {
+            "modelId": "core/model/models/vmware-datastore.js",
+            "type": "VmwareDatastore"
         },
         {
             "modelId": "core/model/models/volume-attributes-anonymous.js",

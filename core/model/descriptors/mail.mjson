@@ -12,12 +12,8 @@
     "properties": {
       "name": "encryption",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "PLAIN",
-        "TLS",
-        "SSL"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "MailEncryptionType"
     }
   },
   "blueprint_mail_from": {

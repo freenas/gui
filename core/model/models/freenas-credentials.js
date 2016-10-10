@@ -1,6 +1,19 @@
 var Montage = require("montage").Montage;
 
 exports.FreenasCredentials = Montage.specialize({
+    "_%type": {
+        value: null
+    },
+    "%type": {
+        set: function (value) {
+            if (this["_%type"] !== value) {
+                this["_%type"] = value;
+            }
+        },
+        get: function () {
+            return this["_%type"];
+        }
+    },
     _address: {
         value: null
     },
@@ -52,23 +65,13 @@ exports.FreenasCredentials = Montage.specialize({
         get: function () {
             return this._pubkey;
         }
-    },
-    _type: {
-        value: null
-    },
-    type: {
-        set: function (value) {
-            if (this._type !== value) {
-                this._type = value;
-            }
-        },
-        get: function () {
-            return this._type;
-        }
     }
 }, {
     propertyBlueprints: {
         value: [{
+            mandatory: false,
+            name: "%type"
+        }, {
             mandatory: false,
             name: "address",
             valueType: "String"
@@ -84,9 +87,6 @@ exports.FreenasCredentials = Montage.specialize({
             mandatory: false,
             name: "pubkey",
             valueType: "String"
-        }, {
-            mandatory: false,
-            name: "type"
         }]
     }
 });
