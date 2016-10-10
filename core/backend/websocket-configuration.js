@@ -4,6 +4,7 @@ var WebSocketConfiguration = exports.WebSocketConfiguration =  function WebSocke
     this._store = new Map();
 };
 
+WebSocketConfiguration.SERVER_HOST = "freenas.local"
 
 WebSocketConfiguration.KEYS = {
     SECURE: "SECURE",
@@ -78,7 +79,7 @@ Object.defineProperties(WebSocketConfiguration, {
 
                 _defaultConfiguration._store.set(
                     WebSocketConfiguration.KEYS.HOST,
-                    (domain === "localhost" || domain === "127.0.0.1") ? "freenas.local" : domain
+                    (domain === "localhost" || domain === "127.0.0.1") ? WebSocketConfiguration.SERVER_HOST : domain
                 );
             }
 
@@ -100,7 +101,7 @@ Object.defineProperties(WebSocketConfiguration, {
 
                 _shellConfiguration._store.set(
                     WebSocketConfiguration.KEYS.HOST,
-                    (domain === "localhost" || domain === "127.0.0.1") ? "freenas.local" : domain
+                    (domain === "localhost" || domain === "127.0.0.1") ? WebSocketConfiguration.SERVER_HOST : domain
                 );
             }
 
