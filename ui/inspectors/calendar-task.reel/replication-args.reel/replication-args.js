@@ -68,11 +68,11 @@ exports.ReplicationArgs = Component.specialize(/** @lends ReplicationArgs# */ {
                 length = transportOptions ? transportOptions.length || Object.keys(transportOptions).length : 0;
             for (var i = 0; i < length; i++) {
                 option = transportOptions[i];
-                if (option.name === "compress") {
+                if (option["%type"] === "compress-replication-transport-plugin") {
                     this.compress = option.level;
-                } else if (option.name === "encrypt") {
+                } else if (option["%type"] === "encrypt-replication-transport-plugin") {
                     this.encrypt = option.type;
-                } else if (option.name === "throttle") {
+                } else if (option["%type"] === "throttle-replication-transport-plugin") {
                     this.throttle = option.buffer_size;
                 }
             }
@@ -84,19 +84,19 @@ exports.ReplicationArgs = Component.specialize(/** @lends ReplicationArgs# */ {
             var transportOptions = [];
             if (this.encrypt) {
                 transportOptions.push({
-                    name: 'encrypt',
+                    "%type": "encrypt-replication-transport-plugin",
                     type: this.encrypt
                 });
             }
             if (this.compress) {
                 transportOptions.push({
-                    name: 'compress',
+                    "%type": "compress-replication-transport-plugin",
                     level: this.compress
                 });
             }
             if (this.throttle) {
                 transportOptions.push({
-                    name: 'throttle',
+                    "%type": "throttle-replication-transport-plugin",
                     buffer_size: this.throttle
                 });
             }
