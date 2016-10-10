@@ -23,7 +23,7 @@ exports.AbstractSectionService = Montage.specialize({
             ]).then(function(data) {
                 self.section = data[0];
                 self.section.settings = data[1];
-                self.section.entries = data[2];
+                self.entries = self.section.entries = data[2];
                 self.section.overview = data[4];
                 self.section.settings.section = self.section;
                 self.section.settings.settings = data[3];
