@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="dyndns-service.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "provider": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "provider"},
+                "label": "Provider"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.provider"},
+                "options": {"<-": "@owner.providerOptions"}
+            }
+        },
+        "ipserver": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "ipserver"},
+                "label": "IP server",
+                "placeholderValue": "eg. checkip.dyndns.org:80 /."
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.ipserver"}
+            }
+        },
+        "domains": {
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "properties": {
+                "element": {"#": "domains"},
+                "label": "Domains",
+                "labelPath": "this",
+                "isDraggable": true,
+                "placeholderValue": "eg. mydomain.ddnsprovider.net"
+            },
+            "bindings": {
+                "values": {"<->": "@owner.object.domains"}
+            }
+        },
+        "username": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "username"},
+                "label": "Username"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.username"}
+            }
+        },
+        "password": {
+            "prototype": "blue-shark/ui/field-password-input.reel",
+            "properties": {
+                "element": {"#": "password"},
+                "label": "Password"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.password"}
+            }
+        },
+        "updatePeriodValidator": {
+            "prototype": "core/converter/validator/integer-range-validator",
+            "properties": {
+                "floor": 30,
+                "ceiling": 864000,
+                "errorMessage": "Value must be an integer between 30 and 864000"
+            }
+        },
+        "updatePeriodConverter": {
+            "prototype": "core/converter/string-to-integer-or-null-converter",
+            "properties": {
+                "validator": {"@": "updatePeriodValidator"}
+            }
+        },
+        "update_period": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "update_period"},
+                "label": "Update Period",
+                "converter": {"@": "updatePeriodConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.update_period"}
+            }
+        },
+        "forceUpdatePeriodValidator": {
+            "prototype": "core/converter/validator/integer-range-validator",
+            "properties": {
+                "floor": 30,
+                "ceiling": 2592000,
+                "errorMessage": "Value must be an integer between 30 and 2592000"
+            }
+        },
+        "forceUpdatePeriodConverter": {
+            "prototype": "core/converter/string-to-integer-or-null-converter",
+            "properties": {
+                "validator": {"@": "forceUpdatePeriodValidator"}
+            }
+        },
+        "force_update_period": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "force_update_period"},
+                "label": "Force Update Period",
+                "converter": {"@": "forceUpdatePeriodConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.force_update_period"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="DynDnsService">
+        <div data-montage-id="provider"></div>
+        <div data-montage-id="ipserver"></div>
+        <div data-montage-id="domains"></div>
+        <div data-montage-id="username"></div>
+        <div data-montage-id="password"></div>
+        <div data-montage-id="update_period"></div>
+        <div data-montage-id="force_update_period"></div>
+    </div>
+</body>
+</html>
