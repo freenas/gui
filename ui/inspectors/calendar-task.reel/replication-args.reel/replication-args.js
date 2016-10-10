@@ -68,11 +68,11 @@ exports.ReplicationArgs = Component.specialize(/** @lends ReplicationArgs# */ {
                 length = transportOptions ? transportOptions.length || Object.keys(transportOptions).length : 0;
             for (var i = 0; i < length; i++) {
                 option = transportOptions[i];
-                if (option.name === "compress-replication-transport-plugin") {
+                if (option["%type"] === "compress-replication-transport-plugin") {
                     this.compress = option.level;
-                } else if (option.name === "encrypt-replication-transport-plugin") {
+                } else if (option["%type"] === "encrypt-replication-transport-plugin") {
                     this.encrypt = option.type;
-                } else if (option.name === "throttle-replication-transport-plugin") {
+                } else if (option["%type"] === "throttle-replication-transport-plugin") {
                     this.throttle = option.buffer_size;
                 }
             }
