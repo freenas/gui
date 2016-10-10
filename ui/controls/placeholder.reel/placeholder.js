@@ -121,9 +121,8 @@ exports.Placeholder = Slot.specialize({
 
     _loadComponentIfNeeded: {
         value: function () {
-            var promises = [],
-                promise,
-                moduleId = this._moduleId;
+            var moduleId = this._moduleId,
+                promises = [];
 
             if (this._needsLoadComponent && typeof moduleId === "string" && moduleId.length) {
                 var self = this,
@@ -168,8 +167,6 @@ exports.Placeholder = Slot.specialize({
                 this.content.context = this.context;
                 this.content.object = this.object;
             }
-
-            return promise;
         }
     },
 
