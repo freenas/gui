@@ -51,6 +51,12 @@ exports.ContainerRepository = AbstractRepository.specialize({
         }
     },
 
+    listDockerHosts: {
+        value: function () {
+            return this._dockerHostDao.list();
+        }
+    },
+
     listDockerContainers: {
         value: function () {
             return this._dockerContainerDao.list();

@@ -12,34 +12,51 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
     
     templateDidLoad: {
         value: function () {
-            var self = this;
-            this._environement = {};
+            var self = this,
+                promises = [];
 
+            this._environment = {};
             this._canDrawGate.setField("serviceLoaded", false);
 
-            Model.populateObjectPrototypeForType(Model.DockerImage).then(function (DockerImage) {
-                self._dockerImageService = DockerImage.constructor.services;
+            promises.push(this._sectionService.listTemplateDockerImages());
+            promises.push(this._sectionService.listDockerHosts());
+
+            Promise.all(promises).then(function (data) {
+                var templates = data[0],
+                    templatesNames = Object.keys(templates);
+
+                self._templates = templates;
+
+                self._images = templatesNames.map(function (x) {
+                    return {
+                        label: x,
+                        value: templates[x].image
+                    };
+                });
+
+                self._availablesDockers = data[1].map(function (dockerHost) {
+                    var dockerHostName = dockerHost.name;
+                    
+                    return {
+                        label: dockerHostName,
+                        value: dockerHostName
+                    };
+                });
+
                 self._canDrawGate.setField("serviceLoaded", true);
             });
         }
     },
 
     enterDocument: {
-        value: function(firsTime) {
+        value: function (firsTime) {
             this.super();
-            this._fetchDataIfNeeded();
+            this._reset();
 
             if (firsTime) {
                 this.addPathChangeListener("_imageComponent.selectedValue", this, "_handleImageChange");
             }
         }  
-    },
-
-    exitDocument: {
-        value: function() {
-            this.super();
-            this._reset();
-        }
     },
 
     _handleImageChange: {
@@ -61,28 +78,11 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
         }
     },
 
-    _fetchDataIfNeeded: {
-        value: function () {
-            if (!this._images) {
-                var self = this;
-                this._dockerImageService.getTemplates().then(function(templates) {
-                    var templatesNames = Object.keys(templates);
-                    self._images = templatesNames.map(function(x) {
-                        return {
-                            label: x,
-                            value: templates[x].image
-                        };
-                    });
-
-                    self._templates = templates;
-                });
-            }
-        } 
-    },
-
     _reset: {
         value: function () {
-            this._environement.clear();
+            if (this._environment) {
+                this._environment.clear();
+            }
         }
     },
 
@@ -118,7 +118,7 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
 
             if (string) {
                 var data = string.split(/ |=/);
-                env = this._environement;
+                env = this._environment;
 
                 for (var i = 0, length = data.length; i + 2 <= length; i = i + 2) {
                     env[data[i]] = data[i + 1];

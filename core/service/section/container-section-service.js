@@ -1,5 +1,6 @@
 var AbstractSectionService = require("core/service/section/abstract-section-service").AbstractSectionService,
-    ContainerRepository = require("core/repository/container-repository").ContainerRepository;
+    ContainerRepository = require("core/repository/container-repository").ContainerRepository,
+    Model = require("core/model/model").Model;
 
 exports.ContainerSectionService = AbstractSectionService.specialize({
 
@@ -14,7 +15,6 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
             return this._containerRepository.listContainerSections();
         }
     },
-    
 
     listDockerContainers: {
         value: function () {
@@ -25,6 +25,33 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
     listDockerImages: {
         value: function () {
             return this._containerRepository.listDockerImages();
+        }
+    },
+
+     listDockerHosts: {
+        value: function () {
+            return this._containerRepository.listDockerHosts();
+        }
+    },
+
+    listTemplateDockerImages: {
+        value: function () {
+            var self = this,
+                promise;
+
+            return new Promise(function (resolve, reject) {
+                if (!self._dockerImageService) {
+                    promise = Model.populateObjectPrototypeForType(Model.DockerImage).then(function (DockerImage) {
+                        self._dockerImageService = DockerImage.constructor.services;
+
+                        return self._dockerImageService.getTemplates();
+                    });
+                } else {
+                    promise = self._dockerImageService.getTemplates();
+                }
+
+                resolve(promise);
+            });
         }
     }
 

@@ -22,17 +22,6 @@
             }
         },
 
-        "fileTreeController": {
-            "prototype": "core/controller/filesystem-tree-controller",
-            "properties": {
-                "canListFiles": true,
-                "root": "/"
-            },
-            "bindings": {
-                "service": {"<-": "@owner.application.filesystemService"}
-            }
-        },
-
         "validationController": {
             "prototype": "core/controller/validation-controller",
             "properties": {
@@ -40,6 +29,7 @@
                 }
             }
         },
+
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
@@ -78,6 +68,18 @@
             }
         },
 
+        "dockerHost": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "dockerHost"},
+                "label": "Docker host"
+            },
+            "bindings": {
+                "options": {"<-": "[{label: 'default', value: null}].concat(@owner._availablesDockers)"},
+                "value": {"<->": "@owner.object.host"}
+            }
+        },
+
         "memoryValidator": {
             "prototype": "core/converter/validator/minimum-bytes-validator",
             "properties": {
@@ -104,18 +106,6 @@
             },
             "bindings": {
                 "value": {"<->": "@owner.object.memory_limit"}
-            }
-        },
-
-        "volumeHostPath": {
-            "prototype": "ui/controls/field-treeview.reel",
-            "properties": {
-                "element": {"#": "volumeHostPath"},
-                "controller": {"@": "fileTreeController"},
-                "label": "Host path"
-            },
-            "bindings": {
-                "selectedPath": {"<->": "@owner.object.parent_directory"}
             }
         },
 
@@ -268,7 +258,7 @@
         <div data-montage-id="inspector">
             <div data-montage-id="image"></div>
             <div data-montage-id="name"></div>
-            <div data-montage-id="volumeHostPath"></div>
+            <div data-montage-id="dockerHost"></div>
 
             <div data-montage-id="advancedSection">
                 <div data-montage-id="hostname"></div>
