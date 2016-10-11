@@ -7,7 +7,6 @@ exports.CascadingList = Component.specialize({
     constructor: {
         value: function () {
             this._stack = [];
-            this._selectionService = this.application.selectionService;
         }
     },
 
@@ -23,47 +22,38 @@ exports.CascadingList = Component.specialize({
         get: function () {
             return this._root;
         },
-        set: function (value) {
-            this._root = value;
+        set: function (root) {
+            if (this._root !== root) {
+                this._root = root;
+                this.popAll(true);
 
-            if (value) {
-                this.expand(value);
+                this._restoreSelection();
             }
         }
     },
 
-    _defaultSelection: {
-        value: null
-    },
-
-    _push: {
-        value: function (object) {
-            this._stack.push(object);
-            if (this._defaultSelection && this._defaultSelection.path.length > 0) {
-                this.cascadingListItemAtIndex(this._stack.length - 1).selectedObject = this._defaultSelection.path.shift();
-            } else {
-                this._selectionService.saveSectionSelection(this.application.section, this._getSelectionPath());
-            }
-            this.needsDraw = true;
+    templateDidLoad: {
+        value: function() {
+            this._selectionService = this.application.selectionService;
         }
     },
 
-    _pop: {
+    enterDocument: {
+        value: function() {
+            this._restoreSelection();
+            this.addPathChangeListener("_selectionService.needsRefresh", this, "_handleNeedsRefreshChange"); 
+        }
+    },
+
+    exitDocument: {
         value: function () {
-            this._resetCascadingListItemAtIndex(this._currentIndex);
-            this._stack.pop();
-            this._currentIndex--;
-            this._defaultSelection = null;
-            this._selectionService.saveSectionSelection(this.application.section, this._getSelectionPath());
-        }
-    },
+            if (this.getPathChangeDescriptor("_selectionService.needsRefresh", this)) {
+                this.removePathChangeListener("_selectionService.needsRefresh", this);
+            }
+            this._resetCascadingListItemAtIndex(0);
 
-    _resetCascadingListItemAtIndex: {
-        value: function (index) {
-            var cascadingListItem = this.cascadingListItemAtIndex(index);
-
-            if (cascadingListItem) {
-                cascadingListItem.resetSelection();
+            if (this._currentIndex > 0) {
+                this.popAtIndex(1, true);
             }
         }
     },
@@ -76,38 +66,17 @@ exports.CascadingList = Component.specialize({
     },
 
     popAll: {
-        value: function () {
+        value: function (isSelectionSaved) {
             while (this._stack.length) {
-                this._pop();
-            }
-        }
-    },
-
-    enterDocument: {
-        value: function(isFirstTime) {
-            if (!isFirstTime && this.repetition) {
-                this._defaultSelection = this._selectionService.getSectionSelection(this.application.section);
-                if (this._defaultSelection && this._defaultSelection.path.length > 0) {
-                    this.cascadingListItemAtIndex(0).selectedObject = this._defaultSelection.path.shift();
-                }
-            }
-        }
-    },
-
-    exitDocument: {
-        value: function () {
-            this._resetCascadingListItemAtIndex(0);
-
-            if (this._currentIndex > 0) {
-                this.popAtIndex(1);
+                this._pop(isSelectionSaved);
             }
         }
     },
 
     popAtIndex: {
-        value: function (index) {
+        value: function (index, isSelectionSaved) {
             if (index <= this._currentIndex && this._currentIndex !== -1) {
-                this._pop();
+                this._pop(isSelectionSaved);
 
                 // the value of the property _currentIndex changed when _pop() has been called.
                 if (index <= this._currentIndex) {
@@ -129,11 +98,10 @@ exports.CascadingList = Component.specialize({
                 this.popAll();
             }
 
-            this._populateColumnWithObjectAndIndex(object, columnIndex);
             this._currentIndex = columnIndex;
+            return this._populateColumnWithObjectAndIndex(object, columnIndex);
         }
     },
-
 
     cascadingListItemAtIndex: {
         value: function (index) {
@@ -145,12 +113,67 @@ exports.CascadingList = Component.specialize({
         }
     },
 
+    _handleNeedsRefreshChange: {
+        value: function() {
+            if (this._selectionService.needsRefresh) {
+                this._restoreSelection();
+                this._selectionService.needsRefresh = false;
+            }
+        }
+    },
+
+    _restoreSelection: {
+        value: function() {
+            if (this._root) {
+                var self = this;
+                this._selection = this._selectionService.getSelection(this.application.section);
+                return this.expand(this._root).then(function() {
+                    if (self._selection && self._selection.length > 0) {
+                        return Promise.mapSeries(self._selection, function(selectedObject) {
+                            return self.expand(selectedObject, self._selection.indexOf(selectedObject) + 1).then(function(context) {
+                                self.cascadingListItemAtIndex(context.columnIndex - 1).selectedObject = context.object;
+                            });
+                        });
+                    } else return Promise.resolve();
+                });
+            }
+        }
+    },
+
+    _push: {
+        value: function (context) {
+            this._stack.push(context);
+            this._selectionService.saveSelection(this.application.section, this._stack);
+            this.needsDraw = true;
+        }
+    },
+
+    _pop: {
+        value: function (isSelectionSaved) {
+            this._resetCascadingListItemAtIndex(this._currentIndex);
+            this._stack.pop();
+            if (!isSelectionSaved) {
+                this._selectionService.saveSelection(this.application.section, this._stack);
+            }
+            this._currentIndex--;
+        }
+    },
+
+    _resetCascadingListItemAtIndex: {
+        value: function (index) {
+            var cascadingListItem = this.cascadingListItemAtIndex(index);
+
+            if (cascadingListItem) {
+                cascadingListItem.resetSelection();
+            }
+        }
+    },
 
     _populateColumnWithObjectAndIndex: {
         value: function (object, columnIndex) {
             var self = this;
 
-            this.application.delegate.userInterfaceDescriptorForObject(object).then(function (userInterfaceDescriptor) {
+            return this.application.delegate.userInterfaceDescriptorForObject(object).then(function (userInterfaceDescriptor) {
                 var currentStackLength = self._stack.length;
                 columnIndex = Math.min(currentStackLength, columnIndex);
                 var context = {
@@ -158,31 +181,16 @@ exports.CascadingList = Component.specialize({
                     userInterfaceDescriptor: userInterfaceDescriptor,
                     columnIndex: columnIndex,
                 };
-                if (self._defaultSelection && self._defaultSelection.error && self._defaultSelection.path.length == 0) {
-                    context.error = self._defaultSelection.error;
-                }
                 if (currentStackLength > 0) {
                     context.parentContext = self._stack[currentStackLength - 1];
                 }
                 self._push(context);
-
+                return context;
             });
-        }
-    },
-
-    _getSelectionPath: {
-        value: function() {
-            var selectionPath = [];
-            for (var i = 0, length = this._stack.length-1; i < length; i++) {
-                selectionPath.push(this.cascadingListItemAtIndex(i).selectedObject);
-            }
-            return selectionPath;
         }
     }
 
 }, {
-
-
     findCascadingListItemContextWithComponent: {
         value: function (component) {
             var parentComponent = component.parentComponent;
@@ -219,6 +227,4 @@ exports.CascadingList = Component.specialize({
             return previousCascadingListItem ? previousCascadingListItem.data : null;
         }
     }
-
-
 });

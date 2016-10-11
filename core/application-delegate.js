@@ -85,8 +85,6 @@ exports.ApplicationDelegate = Montage.specialize({
             app.validationService = ValidationService.instance;
             app.bytesService = BytesService.instance;
 
-            app.addOwnPropertyChangeListener("section", this);
-
             app.sectionsDescriptors = SectionsDescriptors;
 
             Object.defineProperties(app, {
@@ -111,14 +109,6 @@ exports.ApplicationDelegate = Montage.specialize({
             });
 
             app.isDrawerOpen = false;
-        }
-    },
-
-    handleSectionChange: {
-        value: function(section, propertyName, app) {
-            if (!app.selectionService.getSectionSelection(section)) {
-                app.selectionService.saveSectionSelection(section, EMPTY_ARRAY);
-            }
         }
     },
 

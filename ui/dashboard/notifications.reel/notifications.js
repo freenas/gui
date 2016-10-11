@@ -19,7 +19,12 @@ exports.Notifications = AbstractComponentActionDelegate.specialize({
             var iteration = this.items._findIterationContainingElement(event.target.element);
 
             if (iteration) {
-                this.application.section = this.application.selectionService.restoreTaskSelection(iteration.object.jobId);
+                var taskSection = this.application.selectionService.restoreTaskSelection(iteration.object.jobId, iteration.object.taskReport);
+                if (this.application.section !== taskSection) {
+                    this.application.section = taskSection;
+                } else {
+                    this.application.selectionService.needsRefresh = true;
+                }
             }
         }
     },

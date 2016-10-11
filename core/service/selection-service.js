@@ -2,91 +2,67 @@ var Montage = require("montage").Montage,
     Uuid = require("montage/core/uuid").Uuid;
 
 var SelectionService = exports.SelectionService = Montage.specialize({
-    _selection: {
-        value: {
-            sections: {},
-            tasks: {}
-        }
-    },
-
-    _currentSection: {
+    _tasks: {
         value: null
     },
 
-    getCurrentSelection: {
+    _sections: {
+        value:  null
+    },
+
+    needsRefresh: {
+        value: false
+    },
+
+    constructor: {
         value: function() {
-            return this.getSectionSelection(this._currentSection);
+            this._sections = new Map();
+            this._tasks = new Map();
         }
     },
 
-    getSectionSelection: {
-        value: function(sectionName) {
-            return this._selection.sections[sectionName];
+    saveSelection: {
+        value: function(section, selection) {
+            if (section && selection && selection.length > 0) {
+                this._section = section;
+                this._sections.set(
+                    section, 
+                    selection.slice(1).map(function(x) { return x.object; })
+                );
+            }
         }
     },
 
-    saveSectionSelection: {
-        value: function(sectionName, selection) {
-            this._selection.sections[sectionName] = {
-                path: selection
-            };
-            this._currentSection = sectionName;
-        }
-    },
-
-    getTaskSelection: {
-        value: function(taskId) {
-            return this._selection.tasks[taskId];
+    getSelection: {
+        value: function(section) {
+            return this._sections.get(section);
         }
     },
 
     saveTemporaryTaskSelection: {
-        value: function(object) {
+        value: function() {
             var temporaryId = Uuid.generate();
-            this._selection.tasks[temporaryId] = {
-                section: this._currentSection,
-                path: this._selection.sections[this._currentSection].path.slice()
-            };
+            this._tasks.set(temporaryId, {
+                path: this._sections.get(this._section).slice(),
+                section: this._section
+            });
             return temporaryId;
         }
     },
 
     persistTaskSelection: {
         value: function(temporaryId, taskId) {
-            var taskSelection = this._selection.tasks[temporaryId];
-            if (taskSelection) {
-                this._selection.tasks[taskId] = taskSelection;
-                delete this._selection.tasks[temporaryId];
-            }
-        }
-    },
-
-    removeTaskSelection: {
-        value: function(taskId) {
-            delete this._selection.tasks[taskId];
+            this._tasks.set(taskId, this._tasks.get(temporaryId));
+            this._tasks.delete(temporaryId);
         }
     },
 
     restoreTaskSelection: {
         value: function(taskId) {
-            var section,
-                taskSelection = this._selection.tasks[taskId];
+            var taskSelection = this._tasks.get(taskId);
             if (taskSelection) {
-                section = taskSelection.section;
-                this._selection.sections[section] = {
-                    path: taskSelection.path.slice(),
-                    error: taskSelection.error
-                };
-            }
-            return section;
-        }
-    },
-
-    addErrorToTaskSelection: {
-        value: function(error, taskId) {
-            var taskSelection = this._selection.tasks[taskId];
-            if (taskSelection) {
-                taskSelection.error = error;
+                this._sections.set(taskSelection.section, taskSelection.path);
+                return taskSelection.section;
             }
         }
     }

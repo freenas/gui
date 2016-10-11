@@ -34,6 +34,7 @@ exports.Accounts = Component.specialize({
                     self = this;
 
                 return this._loadDataPromise = dataService.getNewInstanceForType(Model.AccountCategory).then(function (accountCategory) {
+                    accountCategory._isNew = false;
                     accountCategories = self.accountCategories = accountCategory;
                     accountCategories.isLoading = true;
                     accountCategories.user = dataService.getEmptyCollectionForType(Model.User);
