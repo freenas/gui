@@ -22,6 +22,7 @@
                 "disabled": {"<-": "@owner.object.status.toLowerCase().startsWith('up')"}
             }
         },
+        
         "stop": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
@@ -119,14 +120,6 @@
             },
             "bindings": {
                 "value": {"<-": "@owner.object.parent_directory"}
-            }
-        },
-
-        "advancedSection": {
-            "prototype": "ui/controls/foldable-section.reel",
-            "properties": {
-                "element": {"#": "advancedSection"},
-                "title": "Advanced"
             }
         },
 
@@ -232,17 +225,14 @@
             <div data-montage-id="image"></div>
             <div data-montage-id="name"></div>
             <div data-montage-id="volumeHostPath"></div>
-
-            <div data-montage-id="advancedSection">
-                <div data-montage-id="hostname"></div>
-                <div data-montage-id="host"></div>
-                <div data-montage-id="memoryLimit"></div>
-                <div data-montage-id="environment"></div>
-                <div data-montage-id="ports"></div>
-                <div data-montage-id="exposePorts"></div>
-                <div data-montage-id="command"></div>
-                <div data-montage-id="interactive"></div>
-            </div>
+            <div data-montage-id="hostname"></div>
+            <div data-montage-id="host"></div>
+            <div data-montage-id="memoryLimit"></div>
+            <div data-montage-id="environment"></div>
+            <div data-montage-id="ports"></div>
+            <div data-montage-id="exposePorts"></div>
+            <div data-montage-id="command"></div>
+            <div data-montage-id="interactive"></div>
         </div>
     </div>
 </body>

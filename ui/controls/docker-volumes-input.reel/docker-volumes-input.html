@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="docker-volumes-input.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        
+        "variable": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "variable"},
+                "placeholderValue": "variable"
+            }
+        },
+
+        "value": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "value"},
+                "placeholderValue": "value"
+            }
+        },
+
+        "readOnly": {
+            "prototype": "blue-shark/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "readOnly"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="DockerVolumesInput">
+        <input data-montage-id="variable" />
+        <input data-montage-id="value" />
+        <div data-montage-id="readOnly"></div>
+    </div>
+</body>
+</html>

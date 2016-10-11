@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="docker-port-input.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "hostPortPortComponent": {"@": "hostPort"},
+                "protocolsComponent": {"@": "protocols"},
+                "containerPortComponent": {"@": "containerPort"}
+            }
+        },
+
+        "hostPort": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "hostPort"},
+                "placeholderValue": "host port"
+            }
+        },
+
+        "containerPort": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "containerPort"},
+                "placeholderValue": "container port"
+            }
+        },
+
+        "protocols": {
+            "prototype": "blue-shark/ui/select.reel",
+            "properties": {
+                "element": {"#": "protocols"},
+                "options": ["TCP", "UDP"],
+                "selectedValue": "TCP"
+            }
+        },
+
+        "add": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "add"},
+                "label": "+"
+            },
+            "bindings": {
+                "disabled": {"<-": "!@owner.protocols && !@hostPort.value"}
+            }
+        }
+
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="DockerPortInput">
+        <input data-montage-id="hostPort" />
+        <input data-montage-id="containerPort" />
+        <div data-montage-id="protocols"></div>
+        <div data-montage-id="add"></div>
+    </div>
+</body>
+</html>

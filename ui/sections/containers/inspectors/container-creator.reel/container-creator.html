@@ -13,9 +13,7 @@
                 "_nameComponent": {"@": "name"},
                 "_imageComponent": {"@": "image"},
                 "_portsComponent": {"@": "ports"},
-                "_environmentComponent": {"@": "environment"},
-                "_portsValidator": {"@": "portsValidator"},
-                "_environmentValidator": {"@": "environmentValidator"}
+                "_environmentComponent": {"@": "environment"}
             },
             "bindings": {
                 "currentTemplate": {"<-": "@owner._templates[@owner.selectedImageKey]"},
@@ -174,45 +172,25 @@
             }
         },
 
-        "environmentValidator": {
-            "prototype": "core/converter/validator/docker-container-env-validator",
-            "properties": {
-                "errorMessage": "VAR=VALUE"
-            }
-        },
-
-        "environmentConverter": {
-            "prototype": "core/converter/validation-only-converter",
-            "properties": {
-                "validator": {"@": "environmentValidator"}
-            }
-        },
-
         "environment": {
             "prototype": "blue-shark/ui/field-multiple-select.reel",
             "properties": {
                 "element": {"#": "environment"},
-                "converter": {"@": "environmentConverter"},
                 "label": "Environment",
                 "labelPath": "this"
             },
             "bindings": {
-                "values": {"<-": "@owner.currentTemplate.environment || []"},
-                "placeholderValue": {"<-": "'eg. VAR=VALUE'"}
+                "values": {"<-": "@owner.currentTemplate.environment || []"}
             }
         },
 
-        "portsValidator": {
-            "prototype": "core/converter/validator/docker-container-ports-validator",
+        "environmentInput": {
+            "prototype": "ui/controls/docker-environment-input.reel",
             "properties": {
-                "errorMessage": "extPort:intPort/<tcp|udp>"
-            }
-        },
-
-        "portsConverter": {
-            "prototype": "core/converter/validation-only-converter",
-            "properties": {
-                "validator": {"@": "portsValidator"}
+                "element": {"#": "environmentInput"}
+            },
+            "bindings": {
+                "valuesController": {"<-": "@environment.valuesController"}
             }
         },
 
@@ -220,13 +198,40 @@
             "prototype": "blue-shark/ui/field-multiple-select.reel",
             "properties": {
                 "element": {"#": "ports"},
-                "converter": {"@": "portsConverter"},
                 "label": "Ports",
                 "labelPath": "this"
             },
             "bindings": {
-                "values": {"<-": "@owner.currentTemplate.ports.map{container_port + ':' + host_port + (protocol.defined() ? '/' + protocol : '/TCP')}"},
-                "placeholderValue": {"<-": "'eg. extPort:intPort/<tcp|udp>'"}
+                "values": {"<-": "@owner.currentTemplate.ports.map{container_port + ':' + host_port + (protocol.defined() ? '/' + protocol : '/TCP')}"}
+            }
+        },
+        
+        "portInput": {
+            "prototype": "ui/controls/docker-port-input.reel",
+            "properties": {
+                "element": {"#": "portInput"}
+            },
+            "bindings": {
+                "valuesController": {"<-": "@ports.valuesController"}
+            }
+        },
+
+        "volumes": {
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "properties": {
+                "element": {"#": "volumes"},
+                "label": "Volumes",
+                "labelPath": "this"
+            }
+        },
+
+         "volumeInput": {
+            "prototype": "ui/controls/docker-volumes-input.reel",
+            "properties": {
+                "element": {"#": "volumeInput"}
+            },
+            "bindings": {
+                "valuesController": {"<-": "@volumes.valuesController"}
             }
         },
 
@@ -266,11 +271,18 @@
                 <div data-montage-id="hostname"></div>
                 <div data-montage-id="host"></div>
                 <div data-montage-id="memoryLimit"></div>
-                <div data-montage-id="environment"></div>
-                <div data-montage-id="ports"></div>
+                <div data-montage-id="environment">
+                    <div data-montage-id="environmentInput"></div>
+                </div>
+                <div data-montage-id="ports">
+                    <div data-montage-id="portInput"></div>
+                </div>
                 <div data-montage-id="exposePorts"></div>
-                <div data-montage-id="command"></div>
+                <div data-montage-id="volumes">
+                    <div data-montage-id="volumeInput"></div>
+                </div>
                 <div data-montage-id="interactive"></div>
+                <div data-montage-id="command"></div>
                 <div data-montage-id="autostart"></div>
             </div>
         </div>
