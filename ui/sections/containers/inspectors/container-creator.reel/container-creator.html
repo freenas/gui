@@ -205,7 +205,7 @@
                 "labelPath": "this"
             },
             "bindings": {
-                "values": {"<-": "@owner.currentTemplate.ports.map{container_port + ':' + host_port + (protocol.defined() ? '/' + protocol : '/TCP')}"}
+                "values": {"<-": "@owner.currentTemplate.ports.map{host_port + ' -> ' + container_port + ' ' + (protocol.defined() ? protocol : 'TCP')} || []"}
             }
         },
 
