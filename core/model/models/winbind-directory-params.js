@@ -1,6 +1,19 @@
 var Montage = require("montage").Montage;
 
 exports.WinbindDirectoryParams = Montage.specialize({
+    "_%type": {
+        value: null
+    },
+    "%type": {
+        set: function (value) {
+            if (this["_%type"] !== value) {
+                this["_%type"] = value;
+            }
+        },
+        get: function () {
+            return this["_%type"];
+        }
+    },
     _allow_dns_updates: {
         value: null
     },
@@ -92,19 +105,6 @@ exports.WinbindDirectoryParams = Montage.specialize({
             return this._site_name;
         }
     },
-    _type: {
-        value: null
-    },
-    type: {
-        set: function (value) {
-            if (this._type !== value) {
-                this._type = value;
-            }
-        },
-        get: function () {
-            return this._type;
-        }
-    },
     _username: {
         value: null
     },
@@ -121,6 +121,9 @@ exports.WinbindDirectoryParams = Montage.specialize({
 }, {
     propertyBlueprints: {
         value: [{
+            mandatory: false,
+            name: "%type"
+        }, {
             mandatory: false,
             name: "allow_dns_updates",
             valueType: "boolean"
@@ -148,9 +151,6 @@ exports.WinbindDirectoryParams = Montage.specialize({
             mandatory: false,
             name: "site_name",
             valueType: "String"
-        }, {
-            mandatory: false,
-            name: "type"
         }, {
             mandatory: false,
             name: "username",

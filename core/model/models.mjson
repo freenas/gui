@@ -113,10 +113,6 @@
             "type": "DetachedVolume"
         },
         {
-            "modelId": "core/model/models/directory-parameters-anonymous.js",
-            "type": "DirectoryParametersAnonymous"
-        },
-        {
             "modelId": "core/model/models/directory-services.js",
             "type": "DirectoryServices"
         },
@@ -267,6 +263,10 @@
         {
             "modelId": "core/model/models/kerberos-realm.js",
             "type": "KerberosRealm"
+        },
+        {
+            "modelId": "core/model/models/ldap-directory-params.js",
+            "type": "LdapDirectoryParams"
         },
         {
             "modelId": "core/model/models/mail-message-extra-headers-anonymous.js",

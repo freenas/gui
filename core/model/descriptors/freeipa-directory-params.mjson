@@ -1,4 +1,14 @@
 {
+  "propertyblueprint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "%type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "freeipa-directory-params"
+      ]
+    }
+  },
   "blueprint_freeipadirectoryparams_certificate": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -60,16 +70,6 @@
       "valueType": "String"
     }
   },
-  "blueprint_freeipadirectoryparams_type": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "type",
-      "blueprint": {"@": "root"},
-      "enumValues": [
-        "ldap-directory-params"
-      ]
-    }
-  },
   "blueprint_freeipadirectoryparams_user_suffix": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -91,6 +91,7 @@
     "properties": {
       "name": "FreeipaDirectoryParams",
       "propertyBlueprints": [
+        {"@": "propertyblueprint"},
         {"@": "blueprint_freeipadirectoryparams_certificate"},
         {"@": "blueprint_freeipadirectoryparams_encryption"},
         {"@": "blueprint_freeipadirectoryparams_group_suffix"},
@@ -98,7 +99,6 @@
         {"@": "blueprint_freeipadirectoryparams_password"},
         {"@": "blueprint_freeipadirectoryparams_realm"},
         {"@": "blueprint_freeipadirectoryparams_server"},
-        {"@": "blueprint_freeipadirectoryparams_type"},
         {"@": "blueprint_freeipadirectoryparams_user_suffix"},
         {"@": "blueprint_freeipadirectoryparams_username"}
       ]
