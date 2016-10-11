@@ -9,19 +9,11 @@ var AbstractComponentActionDelegate = require("ui/abstract/abstract-component-ac
  */
 exports.DockerPortInput = AbstractComponentActionDelegate.specialize(/** @lends DockerPortInput# */ {
 
-    handleAddAction: {
-        value: function (event) {
-            if (this.valuesController) {
-                this.valuesController.push(this._extractCurrentEntry());
-            }
-        }
-    },
-
     _extractCurrentEntry: {
         value: function () {
             var formattedCurrentEntry = this._getFormattedCurrentEntry();
 
-            this.hostPortPortComponent.value = 
+            this.hostPortPortComponent.value =
                 this.containerPortComponent.value = null;
             this.protocolsComponent.selectedValue = "TCP";
 

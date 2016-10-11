@@ -198,14 +198,17 @@
             "prototype": "blue-shark/ui/field-multiple-select.reel",
             "properties": {
                 "element": {"#": "ports"},
-                "label": "Ports",
+                "label": "Configure Ports",
+                "inputTitle": "Add a port",
+                "valuesTitle": "Added Ports",
+                "emptyMessage": "No ports added :(",
                 "labelPath": "this"
             },
             "bindings": {
                 "values": {"<-": "@owner.currentTemplate.ports.map{container_port + ':' + host_port + (protocol.defined() ? '/' + protocol : '/TCP')}"}
             }
         },
-        
+
         "portInput": {
             "prototype": "ui/controls/docker-port-input.reel",
             "properties": {

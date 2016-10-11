@@ -14,38 +14,30 @@
         },
 
         "hostPort": {
-            "prototype": "blue-shark/ui/text-field.reel",
+            "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "hostPort"},
-                "placeholderValue": "host port"
+                "placeholderValue": ":8000",
+                "label": "Host Port"
             }
         },
 
         "containerPort": {
-            "prototype": "blue-shark/ui/text-field.reel",
+            "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "containerPort"},
-                "placeholderValue": "container port"
+                "placeholderValue": ":8000",
+                "label": "Container Port"
             }
         },
 
         "protocols": {
-            "prototype": "blue-shark/ui/select.reel",
+            "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "protocols"},
                 "options": ["TCP", "UDP"],
-                "selectedValue": "TCP"
-            }
-        },
-
-        "add": {
-            "prototype": "blue-shark/ui/button.reel",
-            "properties": {
-                "element": {"#": "add"},
-                "label": "+"
-            },
-            "bindings": {
-                "disabled": {"<-": "!@owner.protocols && !@hostPort.value"}
+                "selectedValue": "TCP",
+                "label": "Protocols"
             }
         }
 
@@ -57,7 +49,6 @@
         <input data-montage-id="hostPort" />
         <input data-montage-id="containerPort" />
         <div data-montage-id="protocols"></div>
-        <div data-montage-id="add"></div>
     </div>
 </body>
 </html>
