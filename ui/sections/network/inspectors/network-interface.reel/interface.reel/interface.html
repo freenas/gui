@@ -31,13 +31,14 @@
             }
         },
         "capabilities": {
-            "prototype": "blue-shark/ui/field-text.reel",
+            "prototype": "blue-shark/ui/field-scrollable-list.reel",
             "properties": {
                 "element": {"#": "capabilities"},
-                "label": "Capabilities"
+                "label": "Capabilities",
+                "height": 6.5
             },
             "bindings": {
-                "value": {"<-": "@owner.object.status.capabilities"}
+                "content": {"<-": "@owner.object.status.capabilities.map{{value: this}}"}
             }
         }
     }
