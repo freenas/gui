@@ -84,11 +84,10 @@ exports.DockerHost = Montage.specialize({
                 id: 'ui/sections/containers/inspectors/docker-host.reel'
             },
             statusColorMapping: {
-                "RUNNING": "green",
-                "BOOTLOADER": "green",
-                "STOPPED": "grey"
+                "UP": "green",
+                "DOWN": "grey"
             },
-            statusValueExpression: "status.state"
+            statusValueExpression: "state"
         }
     }
 });

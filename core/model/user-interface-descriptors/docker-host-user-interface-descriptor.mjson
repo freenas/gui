@@ -7,11 +7,10 @@
             "daoModuleId": "core/dao/docker-host-dao",
             "inspectorComponentModule": {"%": "ui/sections/containers/inspectors/docker-host.reel"},
             "statusColorMapping": {
-                "RUNNING": "green",
-                "BOOTLOADER": "green",
-                "STOPPED": "grey"
+                "UP": "green",
+                "DOWN": "grey"
             },
-            "statusValueExpression": "status.state"
+            "statusValueExpression": "state"
         }
     }
 }
