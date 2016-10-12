@@ -26,7 +26,7 @@ checksum:
 
 fetch:
 	${MKDIR} ${WRKDIR}
-	(cd ${WRKSRC} && sed -i .env "s/##dev##/production/" index.html && sed -i .sha "s/##git_sha##/$(git log --pretty=format:"%H" HEAD |head -1)/" index.html)
+	(cd ${WRKSRC} && sed -i .env "s/##dev##/production/" index.html && sed -i .sha "s/##git_sha##/$(git rev-parse HEAD)/" index.html)
 	(cd ${WRKSRC} && ${LOCALBASE}/bin/npm install)
 	(cd ${WRKSRC}/serial-console-app && ${LOCALBASE}/bin/npm install)
 
