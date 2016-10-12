@@ -35,6 +35,20 @@
                 "selectedValue": {"<->": "@owner.object.serial_port"}
             }
         },
+        "tokenLiftTimeConverter": {
+            "prototype": "core/converter/string-to-integer-converter"
+        },
+        "freenas_token_lifetime": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "freenas_token_lifetime"},
+                "label": "Token Lifetime",
+                "converter" : {"@": "tokenLiftTimeConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.freenas_token_lifetime"}
+            }
+        },
         "serial_port_speed": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
@@ -77,6 +91,7 @@
         <div data-montage-id="serial_port_speed"></div>
         <div data-montage-id="enable_screensaver"></div>
         <div data-montage-id="keymaps"></div>
+        <div data-montage-id="freenas_token_lifetime"></div>
     </div>
 </body>
 </html>
