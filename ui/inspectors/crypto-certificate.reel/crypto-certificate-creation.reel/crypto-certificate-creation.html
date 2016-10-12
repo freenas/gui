@@ -38,15 +38,11 @@
                 "condition": {"<-": "@owner.object.type == 'CA_INTERMEDIATE' || @owner.object.type == 'CERT_INTERNAL'"}
             }
         },
-        "keyLenghtOptionConverter": {
-            "prototype": "core/converter/select-option-converter"
-        },
         "key_length": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "key_length"},
-                "label": "Key Length",
-                "converter": {"@": "keyLenghtOptionConverter"}
+                "label": "Key Length"
             },
             "bindings": {
                 "options" : {"<-": "@owner.keyLenghtOptions"},
@@ -54,7 +50,7 @@
             }
         },
         "numberConverter": {
-            "prototype": "core/converter/integer-converter"
+            "prototype": "core/converter/string-to-integer-converter"
         },
         "lifetime": {
             "prototype": "blue-shark/ui/field-text-input.reel",
