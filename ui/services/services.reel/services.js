@@ -33,7 +33,8 @@ exports.Services = Component.specialize({
                             'smartd', 
                             'dyndns', 
                             'snmp',
-                            'tftpd'
+                            'tftpd',
+                            'ftp'
                         ])
                     ]);
                 }).then(function(categories) {
