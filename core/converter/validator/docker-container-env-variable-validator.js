@@ -3,14 +3,14 @@
  */
 var Validator = require("montage/core/converter/converter").Validator;
 
-exports.DockerContainerEnvValidator = Validator.specialize({
+exports.DockerContainerEnvVariableValidator = Validator.specialize({
 
     errorMessage: {
         value: null
     },
 
     _regexEnvironmentVariable: {
-        value: /^\w+=\w+$/
+        value: /^[a-zA-Z][a-zA-Z0-9_-]*$/
     },
 
     _isValidEnvironmentVariableString: {

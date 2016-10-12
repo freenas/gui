@@ -12,15 +12,29 @@
             }
         },
 
+        "memoryValidator": {
+            "prototype": "core/converter/validator/docker-container-env-variable-validator",
+            "properties": {
+                "errorMessage": "Variable names accept alphanumeric, '_', '-' characters and must start with a letter"
+            }
+        },
+
         "trimConverter": {
             "prototype": "montage/core/converter/trim-converter"
+        },
+
+        "variableConverter": {
+            "prototype": "core/converter/validation-only-converter",
+            "properties": {
+                "validator": {"@": "memoryValidator"}
+            }
         },
 
         "variable": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "variable"},
-                "converter": {"@": "trimConverter"},
+                "converter": {"@": "variableConverter"},
                 "label": "Variable"
             }
         },
