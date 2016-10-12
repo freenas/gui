@@ -198,12 +198,14 @@
                 "element": {"#": "aliases"},
                 "converter": {"@": "interface_alias_converter"},
                 "label": "Aliases",
+                "inputTitle": "Add Aliases",
+                "valuesTitle": "Added Aliases",
                 "labelPath": "address + '/' + netmask",
                 "inputErrorMessage": "Please enter a valid IP address and netmask."
             },
             "bindings": {
                 "values": {"<->": "@owner.object._otherAliases"},
-                "enabled": {"<-": "!@owner.object.dhcp"},
+                "disabled": {"<-": "@owner.object.dhcp"},
                 "placeholderValue": {"<-": "!@owner.object.dhcp ? 'eg. 1.2.3.4/16' : ''"}
             }
         }
