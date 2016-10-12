@@ -1,8 +1,7 @@
 /**
  * @module ui/container-creator.reel
  */
-var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Model = require("core/model/model").Model;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
 /**
  * @class ContainerCreator
@@ -26,23 +25,18 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
                     templatesNames = Object.keys(templates);
 
                 self._templates = templates;
-
                 self._images = templatesNames.map(function (x) {
                     return {
                         label: x,
                         value: templates[x].image
                     };
                 });
-
-                self._availablesDockers = data[1].map(function (dockerHost) {
-                    var dockerHostName = dockerHost.name;
-                    
+                self._availablesDockers = data[1].map(function (dockerHost) {                    
                     return {
-                        label: dockerHostName,
-                        value: dockerHostName
+                        label: dockerHost.name,
+                        value: dockerHost.id
                     };
                 });
-
                 self._canDrawGate.setField("serviceLoaded", true);
             });
         }
