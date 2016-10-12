@@ -4,6 +4,13 @@ var Component = require("montage/ui/component").Component,
     CryptoCertificateDigestalgorithm = require("core/model/enumerations/crypto-certificate-digestalgorithm").CryptoCertificateDigestalgorithm;
 
 exports.CryptoCertificate = Component.specialize({
+    enterDocument: {
+        value: function () {
+            if (!this.object._action && !this.object._isNew) {
+                this.object._action = 'creation';
+            }
+        }
+    },
     save: {
         value: function () {
             if (this.object._action === 'import') {
