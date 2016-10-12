@@ -486,5 +486,20 @@ exports.CryptoCertificate = Montage.specialize({
             readOnly: true,
             valueType: "String"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            inspectorComponentModule: {
+                id: 'ui/inspectors/crypto-certificate.reel'
+            },
+            collectionInspectorComponentModule: {
+                id: 'ui/controls/viewer.reel'
+            },
+            collectionNameExpression: "'Certificates'",
+            creatorComponentModule: {
+                id: 'ui/inspectors/crypto-certificate-creator.reel'
+            },
+            nameExpression: "!!id ? !!name ? name : id : !!_label ? _label: 'Choose a certificate type'"
+        }
     }
 });
