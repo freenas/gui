@@ -16,6 +16,12 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         }
     },
 
+    loadSettings: {
+        value: function () {
+            return this._containerRepository.getDockerContainerSettings();
+        }
+    },
+
     listDockerContainers: {
         value: function () {
             return this._containerRepository.listDockerContainers();
@@ -28,7 +34,7 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         }
     },
 
-     listDockerHosts: {
+    listDockerHosts: {
         value: function () {
             return this._containerRepository.listDockerHosts();
         }
@@ -52,6 +58,12 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
 
                 resolve(promise);
             });
+        }
+    },
+
+    saveSettings: {
+        value: function (settings) {
+            return this._containerRepository.saveSettings(settings);
         }
     }
 

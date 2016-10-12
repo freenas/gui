@@ -2,16 +2,18 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
     DockerContainerSectionDao = require("core/dao/docker-container-section-dao").DockerContainerSectionDao,
     DockerImageDao = require("core/dao/docker-image-dao").DockerImageDao,
     DockerHostDao = require("core/dao/docker-host-dao").DockerHostDao,
+    DockerConfigDao = require("core/dao/docker-config-dao").DockerConfigDao,
     DockerContainerDao = require("core/dao/docker-container-dao").DockerContainerDao;
 
 exports.ContainerRepository = AbstractRepository.specialize({
 
     init: {
-        value: function (dockerContainerSectionDao, dockerContainerDao, dockerImageDao, dockerHostDao) {
+        value: function (dockerContainerSectionDao, dockerContainerDao, dockerImageDao, dockerHostDao, dockerConfigDao) {
             this._dockerContainerSectionDao = dockerContainerSectionDao || DockerContainerSectionDao.instance;
             this._dockerContainerDao = dockerContainerDao || DockerContainerDao.instance;
             this._dockerImageDao = dockerImageDao || DockerImageDao.instance;
             this._dockerHostDao = dockerHostDao || DockerHostDao.instance;
+            this._dockerConfigDao = dockerConfigDao || DockerConfigDao.instance;
         }
     },
 
@@ -48,6 +50,12 @@ exports.ContainerRepository = AbstractRepository.specialize({
     getNewEmptyDockerHostList: {
         value: function() {
             return this._dockerHostDao.getEmptyList();
+        }
+    },
+
+    getDockerContainerSettings: {
+        value: function () {
+            return this._dockerConfigDao.get();
         }
     },
 
@@ -89,6 +97,12 @@ exports.ContainerRepository = AbstractRepository.specialize({
     listDockerImages: {
         value: function () {
             return this._dockerImageDao.list();
+        }
+    },
+
+    saveSettings: {
+        value: function (settings) {
+            return this._dockerConfigDao.save(settings);
         }
     }
 

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="settings.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "canSave": true,
+                "canDelete": false,
+                "canRevert": true,
+                "controller": {"@": "owner"}
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"}
+            }
+        },
+
+        "defaultHost": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "defaultHost"},
+                "label": "Default Docker Host"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.settings.default_host"},
+                "options": {"<-": "@owner._availablesDockers"}
+            }
+        },
+
+        "apiForwarding": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "apiForwarding"},
+                "label": "API forwarding"
+            },
+            "bindings": {
+                "disabled": {"<-": "!@apiForwardingEnable.checked"},
+                "options": {"<-": "[{label: '---'}].concat(@owner._availablesDockers)"},
+                "selectedValue": {"<->": "@owner.object.settings.api_forwarding"}
+            }
+        },
+
+        "apiForwardingEnable": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "apiForwardingEnable"},
+                "label": "Enable API Forwarding"
+            },
+            "bindings": {
+                "checked": {"<->": "!!@owner.object.settings.api_forwarding_enable"}
+            }
+        }
+
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="ContainerSettings">
+        <div data-montage-id="inspector">
+            <div data-montage-id="defaultHost"></div>
+            <div data-montage-id="apiForwardingEnable"></div>
+            <div data-montage-id="apiForwarding"></div>
+        </div>
+    </div>
+</body>
+</html>
