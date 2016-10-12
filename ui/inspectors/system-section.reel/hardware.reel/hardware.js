@@ -19,7 +19,7 @@ exports.Hardware = Component.specialize(/** @lends Hardware# */ {
             var self = this;
             if(isFirstTime) {
                 this.isLoading = true;
-                this.application.systemAdvancedService.getSerialConsoleData().then(function(consoleData) {
+                this.application.systemAdvancedService.getSystemAdvanced().then(function(consoleData) {
                     self.consoleData = consoleData;
                     self.object = consoleData.systemAdvanced;
                 });
