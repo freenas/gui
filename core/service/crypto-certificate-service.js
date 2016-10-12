@@ -27,37 +27,37 @@ var CryptoCertificateService = exports.CryptoCertificateService = Montage.specia
             this.TYPE_TO_LABEL[ CryptoCertificateType.CA_EXISTING] = "Import CA";
         }
     },
-    createCertInternal: {
+    populateObjectCertInternal: {
         value: function () {
             return this._createNewCryptoCert(CryptoCertificateType.CERT_INTERNAL);
         }
     },
 
-    createCertCSR: {
+    populateObjectCertCSR: {
         value: function () {
             return this._createNewCryptoCert(CryptoCertificateType.CERT_CSR);
         }
     },
 
-    importCert: {
+    populateObjectCertExisting: {
         value: function () {
             return this._createNewCryptoCert(CryptoCertificateType.CERT_EXISTING);
         }
     },
 
-    createCaInternal: {
+    populateObjectCaInternal: {
         value: function () {
             return this._createNewCryptoCert(CryptoCertificateType.CA_INTERNAL);
         }
     },
 
-    createCaIntermediate: {
+    populateObjectCaIntermediate: {
         value: function () {
             return this._createNewCryptoCert(CryptoCertificateType.CA_INTERMEDIATE);
         }
     },
 
-    importCa: {
+    populateObjectCaExisting: {
         value: function () {
             return this._createNewCryptoCert(CryptoCertificateType.CA_EXISTING);
         }
