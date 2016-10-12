@@ -6,9 +6,9 @@ var Component = require("montage/ui/component").Component,
 exports.CryptoCertificateCreation = Component.specialize(/** @lends CryptoCertificateCreation# */ {
     keyLenghtOptions: {
         value: [
-            1024,
-            2048,
-            4096
+            {label: 1024, value: 1024},
+            {label: 2048, value: 2048},
+            {label: 4096, value: 4096}
         ]
     },
 
