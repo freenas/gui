@@ -10,6 +10,16 @@
                 "element": {"#": "owner"}
             }
         },
+        "active_media_type": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "active_media_type"},
+                "label": "Media Type"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.active_media_type"}
+            }
+        },
         "link_address": {
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
@@ -19,13 +29,25 @@
             "bindings": {
                 "value": {"<-": "@owner.object.status.link_address"}
             }
+        },
+        "capabilities": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "capabilities"},
+                "label": "Capabilities"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.status.capabilities"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="Interface">
+        <div data-montage-id="active_media_type"></div>
         <div data-montage-id="link_address"></div>
+        <div data-montage-id="capabilities"></div>
     </div>
 </body>
 </html>
