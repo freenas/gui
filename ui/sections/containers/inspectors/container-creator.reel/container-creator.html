@@ -167,6 +167,9 @@
             "properties": {
                 "element": {"#": "environment"},
                 "label": "Environment",
+                "inputTitle": "Add a variable",
+                "valuesTitle": "Added Variables",
+                "emptyMessage": "No variables added :(",
                 "labelPath": "this"
             },
             "bindings": {
@@ -177,10 +180,8 @@
         "environmentInput": {
             "prototype": "ui/controls/docker-environment-input.reel",
             "properties": {
-                "element": {"#": "environmentInput"}
-            },
-            "bindings": {
-                "valuesController": {"<-": "@environment.valuesController"}
+                "element": {"#": "environmentInput"},
+                "fieldMultipleSelect": {"@": "environment"}
             }
         },
 
@@ -202,10 +203,8 @@
         "portInput": {
             "prototype": "ui/controls/docker-port-input.reel",
             "properties": {
-                "element": {"#": "portInput"}
-            },
-            "bindings": {
-                "valuesController": {"<-": "@ports.valuesController"}
+                "element": {"#": "portInput"},
+                "fieldMultipleSelect": {"@": "ports"}
             }
         },
 
@@ -214,6 +213,9 @@
             "properties": {
                 "element": {"#": "volumes"},
                 "label": "Volumes",
+                "inputTitle": "Add a volume",
+                "valuesTitle": "Added Volumes",
+                "emptyMessage": "No volumes added :(",
                 "labelPath": "this"
             }
         },
@@ -221,10 +223,8 @@
          "volumeInput": {
             "prototype": "ui/controls/docker-volumes-input.reel",
             "properties": {
-                "element": {"#": "volumeInput"}
-            },
-            "bindings": {
-                "valuesController": {"<-": "@volumes.valuesController"}
+                "element": {"#": "volumeInput"},
+                "fieldMultipleSelect": {"@": "volumes"}
             }
         },
 

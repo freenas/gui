@@ -1,29 +1,29 @@
 /**
  * @module ui/docker-port-input.reel
  */
-var AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate;
+var AbstractMultipleSelectInputController = require("ui/abstract/abstract-multiple-select-input-controller").AbstractMultipleSelectInputController;
 
 /**
  * @class DockerPortInput
  * @extends AbstractComponentActionDelegate
  */
-exports.DockerPortInput = AbstractComponentActionDelegate.specialize(/** @lends DockerPortInput# */ {
+exports.DockerPortInput = AbstractMultipleSelectInputController.specialize(/** @lends DockerPortInput# */ {
 
-    _extractCurrentEntry: {
+    canAddNewEntryExpression: {
+        value: "this.containerPortComponent.hasError || this.hostPortComponent.hasError || !this.containerPortComponent.value || !this.hostPortComponent.value"
+    },
+
+    cleanCurrenEntry: {
         value: function () {
-            var formattedCurrentEntry = this._getFormattedCurrentEntry();
-
-            this.hostPortPortComponent.value =
-                this.containerPortComponent.value = null;
+            this.hostPortComponent.value = null;
+            this.containerPortComponent.value = null;
             this.protocolsComponent.selectedValue = "TCP";
-
-            return formattedCurrentEntry;
         }
     },
 
-    _getFormattedCurrentEntry: {
+    getFormattedCurrentEntry: {
         value: function () {
-            return this.hostPortPortComponent.value + " -> " + this.containerPortComponent.value + " " +
+            return this.hostPortComponent.value + " -> " + this.containerPortComponent.value + " " +
                 this.protocolsComponent.selectedValue;
         }
     }

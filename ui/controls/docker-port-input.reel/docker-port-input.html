@@ -7,9 +7,25 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
-                "hostPortPortComponent": {"@": "hostPort"},
+                "hostPortComponent": {"@": "hostPort"},
                 "protocolsComponent": {"@": "protocols"},
                 "containerPortComponent": {"@": "containerPort"}
+            }  
+        },
+
+        "portValidator": {
+            "prototype": "core/converter/validator/integer-range-validator",
+            "properties": {
+                "floor": 1,
+                "ceiling": 65535,
+                "errorMessage": "Value must be an integer between 1 and 65535"
+            }
+        },
+
+        "portConverter": {
+            "prototype": "core/converter/string-to-integer-or-null-converter",
+            "properties": {
+                "validator": {"@": "portValidator"}
             }
         },
 
@@ -17,6 +33,7 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "hostPort"},
+                "converter": {"@": "portConverter"},
                 "placeholderValue": ":8000",
                 "label": "Host Port"
             }
@@ -26,6 +43,7 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "containerPort"},
+                "converter": {"@": "portConverter"},
                 "placeholderValue": ":8000",
                 "label": "Container Port"
             }

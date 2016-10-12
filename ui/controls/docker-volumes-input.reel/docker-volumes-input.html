@@ -6,30 +6,35 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "hostPathComponent": {"@": "hostPath"},
+                "containerPathComponent": {"@": "containerPath"},
+                "readOnlyComponent": {"@": "readOnly"}
             }
         },
         
-        "variable": {
-            "prototype": "blue-shark/ui/text-field.reel",
+        "hostPath": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
-                "element": {"#": "variable"},
-                "placeholderValue": "variable"
+                "element": {"#": "hostPath"},
+                "label": "Host Path"
             }
         },
 
-        "value": {
-            "prototype": "blue-shark/ui/text-field.reel",
+        "containerPath": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
-                "element": {"#": "value"},
-                "placeholderValue": "value"
+                "element": {"#": "containerPath"},
+                "label": "Container Path"
             }
         },
+
 
         "readOnly": {
-            "prototype": "blue-shark/ui/checkbox.reel",
+            "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
-                "element": {"#": "readOnly"}
+                "element": {"#": "readOnly"},
+                "label": "Read Only"
             }
         }
     }
@@ -37,8 +42,8 @@
 </head>
 <body>
     <div data-montage-id="owner" class="DockerVolumesInput">
-        <input data-montage-id="variable" />
-        <input data-montage-id="value" />
+        <input data-montage-id="hostPath" />
+        <input data-montage-id="containerPath" />
         <div data-montage-id="readOnly"></div>
     </div>
 </body>

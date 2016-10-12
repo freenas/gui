@@ -6,23 +6,31 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "variableComponent": {"@": "variable"},
+                "valueComponent": {"@": "value"}
             }
         },
 
+        "trimConverter": {
+            "prototype": "montage/core/converter/trim-converter"
+        },
+
         "variable": {
-            "prototype": "blue-shark/ui/text-field.reel",
+            "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "variable"},
-                "placeholderValue": "variable"
+                "converter": {"@": "trimConverter"},
+                "label": "Variable"
             }
         },
 
         "value": {
-            "prototype": "blue-shark/ui/text-field.reel",
+            "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "value"},
-                "placeholderValue": "value"
+                "converter": {"@": "trimConverter"},
+                "label": "Value"
             }
         }
     }
