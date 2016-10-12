@@ -29,7 +29,7 @@ exports.NetworkInterface = AbstractInspector.specialize({
         }
     },
 
-    templateDidLoad: {
+    _templateDidLoad: {
         value: function() {
             this.interfaces = this._sectionService.entries;
         }

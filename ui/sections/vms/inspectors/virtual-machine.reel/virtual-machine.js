@@ -24,13 +24,13 @@ exports.VirtualMachine = AbstractInspector.specialize({
         }
     },
 
-    templateDidLoad: {
+    _templateDidLoad: {
         value: function() {
             var self = this;
-            this._dependenciesLoadingPromise = this._load();
             this.DEFAULT_STRING = this._sectionService.DEFAULT_STRING;
             this.guestTypeOptions = this._sectionService.GUEST_TYPES;
             this.bootloaderOptions = this._sectionService.BOOTLOADERS;
+            return this._dependenciesLoadingPromise = this._load();
         }
     },
 

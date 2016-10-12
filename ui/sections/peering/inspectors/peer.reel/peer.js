@@ -18,7 +18,7 @@ exports.Peer = AbstractInspector.specialize(/** @lends Peer# */ {
         }
     },
 
-    templateDidLoad: {
+    _templateDidLoad: {
         value: function() {
             this._peeringService = this.application.peeringService;
             this.typeOptions = this._peeringService.getSupportedTypes().map(function(x) {
