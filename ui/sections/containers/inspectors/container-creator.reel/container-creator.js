@@ -111,24 +111,6 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
         }
     },
 
-    _getEnvironmentVariableFromArray: {
-        value: function (array) {
-            var env = null,
-                string = array.join(" ");
-
-            if (string) {
-                var data = string.split(/ |=/);
-                env = this._environment;
-
-                for (var i = 0, length = data.length; i + 2 <= length; i = i + 2) {
-                    env[data[i]] = data[i + 1];
-                }
-            }
-
-            return env;
-        }
-    },
-
     save: {
         value: function () {
             var environmentComponentValues = this._environmentComponent.values,
