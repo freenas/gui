@@ -7,7 +7,8 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "inspector": {"@": "inspector"}
             },
             "listeners": [
                 {
@@ -16,22 +17,14 @@
                 }
             ]
         },
-        "typeSubstitution": {
-            "prototype": "montage/ui/substitution.reel",
-            "properties": {
-                "element": {"#": "typeSubstitution"}
-            },
-            "bindings": {
-                "switchValue": {"<-": "@owner.object.creationType"}
-            }
-        },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
                 "canDelete": true,
                 "canSave": true,
-                "canRevert": true
+                "canRevert": true,
+                "controller": {"@": "owner"}
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
@@ -39,155 +32,24 @@
                 "confirmationMessage": {"<-": "'Are you sure you want to delete ' + @owner.object.var + '?'"}
             }
         },
-        "signing_ca_id": {
-            "prototype": "blue-shark/ui/field-select.reel",
-            "properties": {
-                "element": {"#": "signing_ca_id"},
-                "label": "Signing Certificate Authority"
-            },
-            "bindings": {
-                "options" : {"<-": "@owner.caIdOptions"},
-                "selectedValue": {"<->": "@owner.object.certificate.signing_ca_id"}
-            }
-        },
         "name": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "name"},
-                "label": "name"
+                "label": "Name"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.certificate.name"}
+                "value": {"<->": "@owner.object.name"}
             }
         },
-        "keyLenghtOptionConverter": {
-            "prototype": "core/converter/select-option-converter"
-        },
-        "key_length": {
-            "prototype": "blue-shark/ui/field-select.reel",
+        "certificateActionPlaceHolder": {
+            "prototype": "ui/controls/placeholder.reel",
             "properties": {
-                "element": {"#": "key_length"},
-                "label": "Key Length",
-                "converter": {"@": "keyLenghtOptionConverter"}
+                "element": {"#": "certificateActionPlaceHolder"}
             },
             "bindings": {
-                "options" : {"<-": "@owner.keyLenghtOptions"},
-                "selectedValue": {"<->": "@owner.object.certificate.key_length"}
-            }
-        },
-        "algorithm": {
-            "prototype": "blue-shark/ui/field-select.reel",
-            "properties": {
-                "element": {"#": "algorithm"},
-                "label": "Algorithm"
-            },
-            "bindings": {
-                "options" : {"<-": "@owner.algorithmOptions"},
-                "selectedValue": {"<->": "@owner.object.certificate.algorithm"}
-            }
-        },
-        "lifetime": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
-            "properties": {
-                "element": {"#": "lifetime"},
-                "label": "lifetime"
-            },
-            "bindings": {
-                "value": {"<->": "@owner.object.certificate.lifetime"}
-            }
-        },
-        "country": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
-            "properties": {
-                "element": {"#": "country"},
-                "label": "Country"
-            },
-            "bindings": {
-                "selectedValue": {"<->": "@owner.object.certificate.country"}
-            }
-        },
-        "state": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
-            "properties": {
-                "element": {"#": "state"},
-                "label": "State"
-            },
-            "bindings": {
-                "value": {"<->": "@owner.object.certificate.state"}
-            }
-        },
-        "locality": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
-            "properties": {
-                "element": {"#": "locality"},
-                "label": "Locality(city)"
-            },
-            "bindings": {
-                "value": {"<->": "@owner.object.certificate.city"}
-            }
-        },
-        "oranization": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
-            "properties": {
-                "element": {"#": "oranization"},
-                "label": "Oranization"
-            },
-            "bindings": {
-                "value": {"<->": "@owner.object.certificate.oranization"}
-            }
-        },
-        "email": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
-            "properties": {
-                "element": {"#": "email"},
-                "label": "email"
-            },
-            "bindings": {
-                "value": {"<->": "@owner.object.certificate.email"}
-            }
-        },
-        "commonName": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
-            "properties": {
-                "element": {"#": "commonName"},
-                "label": "commonName"
-            },
-            "bindings": {
-                "value": {"<->": "@owner.object.certificate.common"}
-            }
-        },
-        "certificate_path": {
-            "prototype": "blue-shark/ui/field-text-area.reel",
-            "properties": {
-                "element": {"#": "certificate_path"},
-                "label": "Certificate Path"
-            },
-            "bindings": {
-                "value": {"<->": "@owner.object.certificate.certificate_path"}
-            }
-        },
-        "privatekey_path": {
-            "prototype": "blue-shark/ui/field-text-area.reel",
-            "properties": {
-                "element": {"#": "privatekey_path"},
-                "label": "Privatekey Path"
-            },
-            "bindings": {
-                "value": {"<->": "@owner.object.certificate.privatekey_path"}
-            }
-        },
-        "importCertificate": {
-            "prototype": "blue-shark/ui/button.reel",
-            "properties": {
-                "element": {"#": "importCertificate"},
-                "value": "Import Certificate"
-            }
-        },
-        "createCertificate": {
-            "prototype": "blue-shark/ui/button.reel",
-            "properties": {
-                "element": {"#": "createCertificate"},
-                "value": "Create Certificate"
+                "moduleId": {"<-": "'ui/inspectors/crypto-certificate.reel/crypto-certificate-' + @owner.object._action + '.reel'"},
+                "object": {"<-": "@owner.object"}
             }
         }
     }
@@ -195,28 +57,9 @@
 </head>
 <body>
     <div data-montage-id="owner" class="CryptoCertificate">
-        <div data-montage-id="importCertificate"></div>
-        <div data-montage-id="createCertificate"></div>
         <div data-montage-id="inspector">
             <div data-montage-id="name"></div>
-            <div data-montage-id="typeSubstitution">
-                <div data-arg="CREATE">
-                    <div data-montage-id="signing_ca_id"></div>
-                    <div data-montage-id="key_length"></div>
-                    <div data-montage-id="algorithm"></div>
-                    <div data-montage-id="lifetime"></div>
-                    <div data-montage-id="country"></div>
-                    <div data-montage-id="state"></div>
-                    <div data-montage-id="locality"></div>
-                    <div data-montage-id="oranization"></div>
-                    <div data-montage-id="email"></div>
-                    <div data-montage-id="commonName"></div>
-                </div>
-                <div data-arg="IMPORT">
-                    <div data-montage-id="certificate_path"></div>
-                    <div data-montage-id="privatekey_path"></div>
-                </div>
-            </div>
+            <div data-montage-id="certificateActionPlaceHolder"></div>
         </div>
     </div>
 </body>
