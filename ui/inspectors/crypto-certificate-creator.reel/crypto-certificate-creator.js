@@ -69,12 +69,12 @@ exports.CryptoCertificateCreator = Component.specialize(/** @lends CryptoCertifi
                 cryptoService = this._cryptoService;
 
             Promise.all([
-                cryptoService.importCert(),
-                cryptoService.createCertInternal(),
-                cryptoService.createCertCSR(),
-                cryptoService.importCa(),
-                cryptoService.createCaInternal(),
-                cryptoService.createCaIntermediate()
+                cryptoService.populateObjectCertExisting(),
+                cryptoService.populateObjectCertInternal(),
+                cryptoService.populateObjectCertCSR(),
+                cryptoService.populateObjectCaExisting(),
+                cryptoService.populateObjectCaInternal(),
+                cryptoService.populateObjectCaIntermediate()
             ]).bind(this).then(function (cryptoCertificates) {
                 this.newImportCert = cryptoCertificates[0];
                 this.newCreateCertInternal = cryptoCertificates[1];
