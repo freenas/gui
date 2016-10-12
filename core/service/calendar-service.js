@@ -154,7 +154,9 @@ var CalendarService = exports.CalendarService = Montage.specialize({
             var self = this,
                 date = date || new Date();
             return this._dataService.getNewInstanceForType(Model.CalendarTask).then(function(task) {
+                task.task = type;
                 task.schedule = self._dateToSchedule(date);
+                task.args = [];
                 return task;
             });
         }
@@ -163,13 +165,11 @@ var CalendarService = exports.CalendarService = Montage.specialize({
     _dateToSchedule: {
         value: function(date) {
             return {
-                year:   date.getFullYear(),
-                month:  date.getMonth()+1,
+                month:  date.getMonth(),
                 day:    date.getDate(),
                 hour:   date.getHours(),
                 minute: date.getMinutes(),
-                week: '*',
-                day_of_week: '*'
+                day_of_week: date.getDay()
             };
         }
     },

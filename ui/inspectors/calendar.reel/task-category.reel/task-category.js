@@ -1,13 +1,6 @@
-/**
- * @module ui/task-object.reel
- */
-var Component = require("montage/ui/component").Component;
+var AbstractDraggableComponent = require("blue-shark/core/drag-drop/abstract-draggable-component").AbstractDraggableComponent;
 
-/**
- * @class TaskCategory
- * @extends Component
- */
-exports.TaskCategory = Component.specialize(/** @lends TaskCategory# */ {
+exports.TaskCategory = AbstractDraggableComponent.specialize({
     enterDocument: {
         value: function () {
             this.classList.add('type-' + this.object.value.replace('.', '_'));

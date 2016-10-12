@@ -1,14 +1,6 @@
-/**
- * @module ui/calendar-widget-day.reel
- */
-var Component = require("montage/ui/component").Component,
-    PressComposer = require("montage/composer/press-composer").PressComposer;
+var AbstractDropZoneComponent = require("blue-shark/core/drag-drop/abstract-dropzone-component").AbstractDropZoneComponent;
 
-/**
- * @class CalendarWidgetDay
- * @extends Component
- */
-exports.CalendarWidgetDay = Component.specialize({
+exports.CalendarWidgetDay = AbstractDropZoneComponent.specialize({
     _tasks: {
         value: null
     },
@@ -74,32 +66,19 @@ exports.CalendarWidgetDay = Component.specialize({
         }
     },
 
+    templateDidLoad: {
+        value: function() {
+            this.super();
+            this._calendarService = this.application.calendarService;
+        }
+    },
+
     enterDocument: {
         value: function() {
+            this.super();
             this.addRangeAtPathChangeListener("taskCategories", this, "_filterDistinctTasks");
             this.addRangeAtPathChangeListener("tasks", this, "_filterDistinctTasks");
             this._setMaxDisplayedLines();
-        }
-    },
-
-    prepareForActivationEvents: {
-        value: function() {
-            var pressComposer = new PressComposer();
-            this.addComposer(pressComposer);
-            pressComposer.addEventListener("press", this);
-            this.element.addEventListener("mouseover", this);
-        }
-    },
-
-    handlePress: {
-        value: function () {
-/*
-            var self = this;
-            this.selectedDay = this.data;
-            this.application.calendarService.getNewTask(this.data.rawDate).then(function(task) {
-                self.selectedTask = task;
-            });
-*/
         }
     },
 
@@ -137,5 +116,21 @@ exports.CalendarWidgetDay = Component.specialize({
         value: function () {
             this._allTasksVisible = !this._allTasksVisible;
         }
+    },
+
+    shouldAcceptComponent: {
+        value: function() {
+            return this.data.isCurrentMonth;
+        }
+    },
+
+    handleComponentDrop: {
+        value: function(taskCategoryComponent) {
+            var self = this;
+            this._calendarService.getNewTask(this.data.rawDate, taskCategoryComponent.object.value).then(function(task) {
+                self.selectedTask = task;
+            });
+        }
     }
+
 });

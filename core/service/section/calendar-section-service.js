@@ -66,17 +66,17 @@ exports.CalendarSectionService = AbstractSectionService.specialize({
 
     getScheduleStringForTask: {
         value: function(task) {
-            if (task._simpleSchedule) {
+            if (task._simpleSchedule && task._simpleSchedule.type) {
                 var type = task._simpleSchedule.type;
                 if (type === this.SCHEDULE_OPTIONS.CUSTOM.value) {
                     return this.SCHEDULE_OPTIONS.CUSTOM.stringTemplate;
                 } else if (task._simpleSchedule.time) {
                     var time = task._simpleSchedule.time.toLocaleTimeString(),
                         days = type === this.SCHEDULE_OPTIONS.WEEKLY.value ?    
-                                    task._simpleSchedule.daysOfWeek.map(function(x) { return x.label; }) : 
-                                    type === this.SCHEDULE_OPTIONS.MONTHLY.value ? 
-                                        task._simpleSchedule.daysOfMonth.sort(function(a, b) { return parseInt(a) - parseInt(b); }) : 
-                                        [];
+                        task._simpleSchedule.daysOfWeek.map(function(x) { return x.label; }) : 
+                        type === this.SCHEDULE_OPTIONS.MONTHLY.value ? 
+                        task._simpleSchedule.daysOfMonth.sort(function(a, b) { return parseInt(a) - parseInt(b); }) : 
+                        [];
 
                     return this.SCHEDULE_OPTIONS[task._simpleSchedule.type].stringTemplate
                         .replace('{days}', days.join(', '))
@@ -106,83 +106,144 @@ exports.CalendarSectionService = AbstractSectionService.specialize({
             if (!task._simpleSchedule) {
                 task._simpleSchedule = {};
                 if (task._isNew) {
-                    var now = new Date();
-                    task._simpleSchedule.daysOfMonth = this._getValues(now.getDate(), this.constructor.DAYS);
-                    task._simpleSchedule.daysOfWeek = this._getValues(now.getDay(), this.constructor.DAYS_OF_WEEK);
-                    task._customSchedule.month = this._getValues(now.getMonth(), this.constructor.MONTHS);
-                    task._customSchedule.daysOfMonth = this._getValues(now.getDate(), this.constructor.DAYS);
-                    task._customSchedule.hour = this._getValues(now.getHours(), this.constructor.HOURS);
-                    task._customSchedule.minute = this._getValues(now.getMinutes(), this.constructor.MINUTES);
-                    if (parentView === 'month') {
-                        task._simpleSchedule.type = this.SCHEDULE_OPTIONS.MONTHLY.value;
-                    } else if (parentView === 'week') {
-                        task._simpleSchedule.type = this.SCHEDULE_OPTIONS.WEEKLY.value;
-                    } else if (parentView === 'day') {
-                        task._simpleSchedule.type = this.SCHEDULE_OPTIONS.DAILY.value;
-                    }
-                    var time = new Date();
-                    time.setSeconds(0);
-                    task._simpleSchedule.time = time;
-                } else if (task.schedule) {
-                    if (this._isDaily(task.schedule)) {
-                        task._simpleSchedule.type = this.SCHEDULE_OPTIONS.DAILY.value;
-                        task._simpleSchedule.daysOfMonth = this._getValues(new Date().getDate(), this.constructor.DAYS);
-                        task._simpleSchedule.daysOfWeek = this._getValues(new Date().getDay(), this.constructor.DAYS_OF_WEEK);
-                        task._simpleSchedule.time = this._getScheduleTime(task.schedule);
-                    } else if (this._isWeekly(task.schedule)) {
-                        task._simpleSchedule.type = this.SCHEDULE_OPTIONS.WEEKLY.value;
-                        task._simpleSchedule.daysOfMonth = this._getValues(new Date().getDate(), this.constructor.DAYS);
-                        task._simpleSchedule.daysOfWeek = this._getValues(task.schedule.day_of_week, this.constructor.DAYS_OF_WEEK);
-                        task._simpleSchedule.time = this._getScheduleTime(task.schedule);
-                    } else if (this._isMonthly(task.schedule)) {
-                        task._simpleSchedule.type = this.SCHEDULE_OPTIONS.MONTHLY.value;
-                        task._simpleSchedule.daysOfMonth = this._getValues(task.schedule.day, this.constructor.DAYS);
-                        task._simpleSchedule.daysOfWeek = this._getValues(new Date().getDay(), this.constructor.DAYS_OF_WEEK);
-                        task._simpleSchedule.time = this._getScheduleTime(task.schedule);
+                    if (task.schedule) {
+                        this._extractNewSchedule(task, parentView);
                     } else {
-                        task._simpleSchedule.type = this.SCHEDULE_OPTIONS.CUSTOM.value;
-                        task._simpleSchedule.daysOfMonth = this._getValues(new Date().getDate(), this.constructor.DAYS);
-                        task._simpleSchedule.daysOfWeek = this._getValues(new Date().getDay(), this.constructor.DAYS_OF_WEEK);
-                        task._customSchedule.month = this._getValues(task.schedule.month, this.constructor.MONTHS);
-                        task._customSchedule.daysOfMonth = this._getValues(task.schedule.day, this.constructor.DAYS);
-                        task._customSchedule.hour = this._getValues(task.schedule.hour, this.constructor.HOURS);
-                        task._customSchedule.minute = this._getValues(task.schedule.minute, this.constructor.MINUTES);
+                        this._setDefaultSchedule(task, parentView);
                     }
+                } else if (task.schedule) {
+                    this._extractExistingSchedule(task);
                 }
             }
+        }
+    },
+
+    _setDefaultSchedule: {
+        value: function(task, parentView) {
+            if (parentView === 'month') {
+                task._simpleSchedule.type = this.SCHEDULE_OPTIONS.MONTHLY.value;
+            } else if (parentView === 'week') {
+                task._simpleSchedule.type = this.SCHEDULE_OPTIONS.WEEKLY.value;
+            } else if (parentView === 'day') {
+                task._simpleSchedule.type = this.SCHEDULE_OPTIONS.DAILY.value;
+            }
+            var now = new Date();
+            task._simpleSchedule.daysOfMonth = this._getValues(now.getDate(), this.constructor.DAYS);
+            task._simpleSchedule.daysOfWeek = this._getValues(now.getDay(), this.constructor.DAYS_OF_WEEK);
+            task._customSchedule.daysOfMonth = this._getValues(now.getDate(), this.constructor.DAYS);
+            task._customSchedule.month = this._getValues(now.getMonth(), this.constructor.MONTHS);
+            task._customSchedule.hour = this._getValues(now.getHours(), this.constructor.HOURS);
+            task._customSchedule.minute = this._getValues(now.getMinutes(), this.constructor.MINUTES);
+            var time = new Date();
+            time.setSeconds(0);
+            task._simpleSchedule.time = time;
+        }
+    },
+
+    _extractNewSchedule: {
+        value: function(task, parentView) {
+            if (parentView === 'month') {
+                task._simpleSchedule.type = this.SCHEDULE_OPTIONS.MONTHLY.value;
+                var time = new Date();
+                time.setSeconds(0);
+                task._simpleSchedule.time = time;
+            } else {
+                task._simpleSchedule.time = this._getScheduleTime(task.schedule);
+                if (parentView === 'week') {
+                    task._simpleSchedule.type = this.SCHEDULE_OPTIONS.WEEKLY.value;
+                } else if (parentView === 'day') {
+                    task._simpleSchedule.type = this.SCHEDULE_OPTIONS.DAILY.value;
+                }
+            }
+            var now = new Date();
+            task._simpleSchedule.daysOfMonth = this._getValues(task.schedule.day, this.constructor.DAYS);
+            task._simpleSchedule.daysOfWeek = this._getValues(task.schedule.day_of_week, this.constructor.DAYS_OF_WEEK);
+        }
+    },
+
+    _extractExistingSchedule: {
+        value: function(task) {
+            if (this._isDaily(task.schedule)) {
+                this._extractExistingDailySchedule(task);
+            } else if (this._isWeekly(task.schedule)) {
+                this._extractExistingWeeklySchedule(task);
+            } else if (this._isMonthly(task.schedule)) {
+                this._extractExistingMonthlySchedule(task);
+            } else {
+                this._extractExistingCustomSchedule(task);
+            }
+        }
+    },
+
+    _extractExistingDailySchedule: {
+        value: function(task) {
+            task._simpleSchedule.type = this.SCHEDULE_OPTIONS.DAILY.value;
+            task._simpleSchedule.daysOfMonth = this._getValues(new Date().getDate(), this.constructor.DAYS);
+            task._simpleSchedule.daysOfWeek = this._getValues(new Date().getDay(), this.constructor.DAYS_OF_WEEK);
+            task._simpleSchedule.time = this._getScheduleTime(task.schedule);
+        }
+    },
+
+    _extractExistingWeeklySchedule: {
+        value: function(task) {
+            task._simpleSchedule.type = this.SCHEDULE_OPTIONS.WEEKLY.value;
+            task._simpleSchedule.daysOfMonth = this._getValues(new Date().getDate(), this.constructor.DAYS);
+            task._simpleSchedule.daysOfWeek = this._getValues(task.schedule.day_of_week, this.constructor.DAYS_OF_WEEK);
+            task._simpleSchedule.time = this._getScheduleTime(task.schedule);
+        }
+    },
+
+    _extractExistingMonthlySchedule: {
+        value: function(task) {
+            task._simpleSchedule.type = this.SCHEDULE_OPTIONS.MONTHLY.value;
+            task._simpleSchedule.daysOfMonth = this._getValues(task.schedule.day, this.constructor.DAYS);
+            task._simpleSchedule.daysOfWeek = this._getValues(new Date().getDay(), this.constructor.DAYS_OF_WEEK);
+            task._simpleSchedule.time = this._getScheduleTime(task.schedule);
+        }
+    },
+
+    _extractExistingCustomSchedule: {
+        value: function(task) {
+            task._simpleSchedule.type = this.SCHEDULE_OPTIONS.CUSTOM.value;
+            task._simpleSchedule.daysOfMonth = this._getValues(new Date().getDate(), this.constructor.DAYS);
+            task._simpleSchedule.daysOfWeek = this._getValues(new Date().getDay(), this.constructor.DAYS_OF_WEEK);
+            task._customSchedule.month = this._getValues(task.schedule.month, this.constructor.MONTHS);
+            task._customSchedule.daysOfMonth = this._getValues(task.schedule.day, this.constructor.DAYS);
+            task._customSchedule.hour = this._getValues(task.schedule.hour, this.constructor.HOURS);
+            task._customSchedule.minute = this._getValues(task.schedule.minute, this.constructor.MINUTES);
         }
     },
 
     _isMonthly: {
         value: function(schedule) {
             return  !this._isEvery(schedule.day) &&
-                    this._isEvery(schedule.day_of_week) &&
-                    this._isEvery(schedule.month) &&
-                    this._isSingleValue(schedule.hour) &&
-                    this._isSingleValue(schedule.minute) &&
-                    this._isSingleValue(schedule.second);
+                this._isEvery(schedule.day_of_week) &&
+                this._isEvery(schedule.month) &&
+                this._isSingleValue(schedule.hour) &&
+                this._isSingleValue(schedule.minute) &&
+                this._isSingleValue(schedule.second);
         }
     },
 
     _isWeekly: {
         value: function(schedule) {
             return  this._isEvery(schedule.day) &&
-                    !this._isEvery(schedule.day_of_week) &&
-                    this._isEvery(schedule.month) &&
-                    this._isSingleValue(schedule.hour) &&
-                    this._isSingleValue(schedule.minute) &&
-                    this._isSingleValue(schedule.second);
+                !this._isEvery(schedule.day_of_week) &&
+                this._isEvery(schedule.month) &&
+                this._isSingleValue(schedule.hour) &&
+                this._isSingleValue(schedule.minute) &&
+                this._isSingleValue(schedule.second);
         }
     },
 
     _isDaily: {
         value: function(schedule) {
             return  this._isEvery(schedule.day) &&
-                    this._isEvery(schedule.day_of_week) &&
-                    this._isEvery(schedule.month) &&
-                    this._isSingleValue(schedule.hour) &&
-                    this._isSingleValue(schedule.minute) &&
-                    this._isSingleValue(schedule.second);
+                this._isEvery(schedule.day_of_week) &&
+                this._isEvery(schedule.month) &&
+                this._isSingleValue(schedule.hour) &&
+                this._isSingleValue(schedule.minute) &&
+                this._isSingleValue(schedule.second);
         }
     },
 
@@ -235,8 +296,8 @@ exports.CalendarSectionService = AbstractSectionService.specialize({
     _isSingleValue: {
         value: function(value) {
             return  typeof value === 'string' &&
-                    value.indexOf('/') === -1 &&
-                    value.indexOf(',') === -1;
+                value.indexOf('/') === -1 &&
+                value.indexOf(',') === -1;
         }
     }
 }, {
