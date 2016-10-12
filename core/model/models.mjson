@@ -369,6 +369,10 @@
             "type": "NetworkStatus"
         },
         {
+            "modelId": "core/model/models/nis-directory-params.js",
+            "type": "NisDirectoryParams"
+        },
+        {
             "modelId": "core/model/models/ntp-server.js",
             "type": "NtpServer"
         },

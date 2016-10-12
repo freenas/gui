@@ -53,6 +53,19 @@ exports.SystemAdvanced = Montage.specialize({
             return this._debugkernel;
         }
     },
+    _freenas_token_lifetime: {
+        value: null
+    },
+    freenas_token_lifetime: {
+        set: function (value) {
+            if (this._freenas_token_lifetime !== value) {
+                this._freenas_token_lifetime = value;
+            }
+        },
+        get: function () {
+            return this._freenas_token_lifetime;
+        }
+    },
     _graphite_servers: {
         value: null
     },
@@ -201,6 +214,10 @@ exports.SystemAdvanced = Montage.specialize({
             mandatory: false,
             name: "debugkernel",
             valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "freenas_token_lifetime",
+            valueType: "number"
         }, {
             mandatory: false,
             name: "graphite_servers",
