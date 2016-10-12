@@ -46,7 +46,7 @@ exports.SerialConsole = Component.specialize(/** @lends SerialConsole# */ {
                 }
                 this.serialSpeedOptions.unshift({label: "---", value: "none"});
                 loadingPromises.push(
-                    this.application.systemAdvancedService.getSerialConsoleData().then(function(systemAdvanced) {
+                    this.application.systemAdvancedService.getSystemAdvanced().then(function(systemAdvanced) {
                         self.object = systemAdvanced;
                     }),
                     this.application.systemGeneralService.getSystemGeneral().then(function(generalData) {

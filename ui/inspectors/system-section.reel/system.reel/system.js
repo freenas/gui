@@ -38,7 +38,7 @@ exports.System = Component.specialize(/** @lends System# */ {
             if(isFirstTime) {
                 this.isLoading = true;
                 loadingPromises.push(
-                    this.application.systemAdvancedService.getSerialConsoleData().then(function(consoleData) {
+                    this.application.systemAdvancedService.getSystemAdvanced().then(function(consoleData) {
                         self.systemAdvancedData = consoleData;
                     }),
                     this.application.dataService.fetchData(Model.SystemGeneral).then(function(systemGeneral) {
