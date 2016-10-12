@@ -10,10 +10,10 @@
             }
         },
 
-        "serverAddress": {
+        "server": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
-                "element": {"#": "serverAddress"},
+                "element": {"#": "server"},
                 "label": "Server Address"
             },
             "bindings": {
@@ -21,7 +21,7 @@
             }
         },
 
-        "domainName": {
+        "base_dn": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "baseDn"},
@@ -32,7 +32,7 @@
             }
         },
 
-        "domainAccountName": {
+        "bind_dn": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "bindDn"},
@@ -43,7 +43,7 @@
             }
         },
 
-        "domainAccountPassword": {
+        "password": {
             "prototype": "blue-shark/ui/field-password-input.reel",
             "properties": {
                 "element": {"#": "bindPassword"},
@@ -78,7 +78,7 @@
             }
         },
 
-        "userSuffix": {
+        "user_suffix": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "userSuffix"},
@@ -89,7 +89,7 @@
             }
         },
 
-        "groupSuffix": {
+        "group_suffix": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "groupSuffix"},
@@ -111,7 +111,7 @@
             }
         },
 
-        "verifyCertificate": {
+        "verify_certificate": {
             "prototype": "blue-shark/ui/checkbox.reel",
             "properties": {
                 "element": {"#": "verifyCertificate"},
@@ -126,7 +126,7 @@
 </head>
 <body>
     <div data-montage-id="owner" class="LdapService">
-        <div data-montage-id="serverAddress"></div>
+        <div data-montage-id="server"></div>
         <div data-montage-id="baseDn"></div>
         <div data-montage-id="bindDn"></div>
         <div data-montage-id="bindPassword"></div>

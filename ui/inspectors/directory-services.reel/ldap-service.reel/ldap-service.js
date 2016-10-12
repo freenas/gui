@@ -22,7 +22,7 @@ exports.LdapService = Component.specialize(/** @lends LdapService# */ {
                 var self = this;
 
                 return this.application.dataService.getNewInstanceForType(Model.LdapDirectoryParams).then(function (ldapDirectoryParams) {
-                    return (self.object.parameters = ldapDirectoryParams);
+                    return self.object.parameters = ldapDirectoryParams;
                 });
             }
         }
