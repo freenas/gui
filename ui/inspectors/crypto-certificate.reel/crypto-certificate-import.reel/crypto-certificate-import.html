@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="crypto-certificate-import.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "certificatePathTreeController": {
+            "prototype": "core/controller/filesystem-tree-controller",
+            "properties": {
+                "canListFiles": true
+            },
+            "bindings": {
+                "service": {"<-": "@owner.application.filesystemService"}
+            }
+        },
+        "privateKeyPathTreeController": {
+            "prototype": "core/controller/filesystem-tree-controller",
+            "properties": {
+                "canListFiles": true
+            },
+            "bindings": {
+                "service": {"<-": "@owner.application.filesystemService"}
+            }
+        },
+        "certificate_path": {
+            "prototype": "ui/controls/field-treeview.reel",
+            "properties": {
+                "element": {"#": "certificate_path"},
+                "label": "Certificate",
+                "readOnly": false,
+                "controller": {"@": "certificatePathTreeController"}
+            },
+            "bindings": {
+                "selectedPath": {"<->": "@owner.object.certificate_path"}
+            }
+        },
+        "privatekey_path": {
+            "prototype": "ui/controls/field-treeview.reel",
+            "properties": {
+                "element": {"#": "privatekey_path"},
+                "label": "Private Key",
+                "readOnly": false,
+                "controller": {"@": "privateKeyPathTreeController"}
+            },
+            "bindings": {
+                "selectedPath": {"<->": "@owner.object.privatekey_path"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="CryptoCertificateImport">
+        <div data-montage-id="certificate_path"></div>
+        <div data-montage-id="privatekey_path"></div>
+    </div>
+</body>
+</html>
