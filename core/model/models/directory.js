@@ -143,6 +143,7 @@ exports.Directory = Montage.specialize({
         }, {
             mandatory: false,
             name: "parameters",
+            valueObjectPrototypeName: "DirectoryParams",
             valueType: "object"
         }, {
             mandatory: false,

@@ -44,7 +44,8 @@
     "properties": {
       "name": "parameters",
       "blueprint": {"@": "root"},
-      "valueType": "object"
+      "valueType": "object",
+      "valueObjectPrototypeName": "DirectoryParams"
     }
   },
   "blueprint_directory_status": {
@@ -66,7 +67,8 @@
         "local",
         "winbind",
         "freeipa",
-        "ldap"
+        "ldap",
+        "nis"
       ]
     }
   },

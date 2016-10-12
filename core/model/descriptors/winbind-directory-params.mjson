@@ -1,4 +1,14 @@
 {
+  "propertyblueprint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "%type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "winbind-directory-params"
+      ]
+    }
+  },
   "blueprint_winbinddirectoryparams_allow_dns_updates": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -55,16 +65,6 @@
       "valueType": "String"
     }
   },
-  "blueprint_winbinddirectoryparams_type": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "type",
-      "blueprint": {"@": "root"},
-      "enumValues": [
-        "winbind-directory-params"
-      ]
-    }
-  },
   "blueprint_winbinddirectoryparams_username": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -78,6 +78,7 @@
     "properties": {
       "name": "WinbindDirectoryParams",
       "propertyBlueprints": [
+        {"@": "propertyblueprint"},
         {"@": "blueprint_winbinddirectoryparams_allow_dns_updates"},
         {"@": "blueprint_winbinddirectoryparams_dc_address"},
         {"@": "blueprint_winbinddirectoryparams_gcs_address"},
@@ -85,7 +86,6 @@
         {"@": "blueprint_winbinddirectoryparams_password"},
         {"@": "blueprint_winbinddirectoryparams_realm"},
         {"@": "blueprint_winbinddirectoryparams_site_name"},
-        {"@": "blueprint_winbinddirectoryparams_type"},
         {"@": "blueprint_winbinddirectoryparams_username"}
       ]
     }

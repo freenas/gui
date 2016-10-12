@@ -21,7 +21,7 @@
       "name": "state",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "DockerHostStatus"
+      "valueObjectPrototypeName": "DockerHostState"
     }
   },
   "blueprint_dockerhost_status": {

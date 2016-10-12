@@ -115,14 +115,16 @@ exports.DirectoryServices = AbstractInspector.specialize({
     DIRECTORY_TYPES_LABELS: {
         value: {
             winbind: "Active Directory",
-            freeipa: "FreeIPA"
+            freeipa: "FreeIPA",
+            ldap: "LDAP"
         }
     },
 
     DIRECTORY_TYPES_KEY_VALUES: {
         value: {
             ACTIVE_DIRECTORY: "winbind",
-            FREE_IPA: "freeipa"
+            FREE_IPA: "freeipa",
+            LDAP: "ldap"
         }
     },
 

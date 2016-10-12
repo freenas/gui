@@ -66,7 +66,7 @@ exports.DockerHost = Montage.specialize({
         }, {
             mandatory: false,
             name: "state",
-            valueObjectPrototypeName: "DockerHostStatus",
+            valueObjectPrototypeName: "DockerHostState",
             valueType: "object"
         }, {
             mandatory: false,

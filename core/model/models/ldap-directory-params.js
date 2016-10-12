@@ -1,6 +1,6 @@
 var Montage = require("montage").Montage;
 
-exports.FreeipaDirectoryParams = Montage.specialize({
+exports.LdapDirectoryParams = Montage.specialize({
     "_%type": {
         value: null
     },
@@ -12,6 +12,32 @@ exports.FreeipaDirectoryParams = Montage.specialize({
         },
         get: function () {
             return this["_%type"];
+        }
+    },
+    _base_dn: {
+        value: null
+    },
+    base_dn: {
+        set: function (value) {
+            if (this._base_dn !== value) {
+                this._base_dn = value;
+            }
+        },
+        get: function () {
+            return this._base_dn;
+        }
+    },
+    _bind_dn: {
+        value: null
+    },
+    bind_dn: {
+        set: function (value) {
+            if (this._bind_dn !== value) {
+                this._bind_dn = value;
+            }
+        },
+        get: function () {
+            return this._bind_dn;
         }
     },
     _certificate: {
@@ -53,17 +79,30 @@ exports.FreeipaDirectoryParams = Montage.specialize({
             return this._group_suffix;
         }
     },
-    _kdc: {
+    _krb_principal: {
         value: null
     },
-    kdc: {
+    krb_principal: {
         set: function (value) {
-            if (this._kdc !== value) {
-                this._kdc = value;
+            if (this._krb_principal !== value) {
+                this._krb_principal = value;
             }
         },
         get: function () {
-            return this._kdc;
+            return this._krb_principal;
+        }
+    },
+    _krb_realm: {
+        value: null
+    },
+    krb_realm: {
+        set: function (value) {
+            if (this._krb_realm !== value) {
+                this._krb_realm = value;
+            }
+        },
+        get: function () {
+            return this._krb_realm;
         }
     },
     _password: {
@@ -77,19 +116,6 @@ exports.FreeipaDirectoryParams = Montage.specialize({
         },
         get: function () {
             return this._password;
-        }
-    },
-    _realm: {
-        value: null
-    },
-    realm: {
-        set: function (value) {
-            if (this._realm !== value) {
-                this._realm = value;
-            }
-        },
-        get: function () {
-            return this._realm;
         }
     },
     _server: {
@@ -118,17 +144,17 @@ exports.FreeipaDirectoryParams = Montage.specialize({
             return this._user_suffix;
         }
     },
-    _username: {
+    _verify_certificate: {
         value: null
     },
-    username: {
+    verify_certificate: {
         set: function (value) {
-            if (this._username !== value) {
-                this._username = value;
+            if (this._verify_certificate !== value) {
+                this._verify_certificate = value;
             }
         },
         get: function () {
-            return this._username;
+            return this._verify_certificate;
         }
     }
 }, {
@@ -138,27 +164,36 @@ exports.FreeipaDirectoryParams = Montage.specialize({
             name: "%type"
         }, {
             mandatory: false,
+            name: "base_dn",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "bind_dn",
+            valueType: "String"
+        }, {
+            mandatory: false,
             name: "certificate",
             valueType: "String"
         }, {
             mandatory: false,
             name: "encryption",
-            valueType: "String"
+            valueObjectPrototypeName: "LdapDirectoryParamsEncryption",
+            valueType: "object"
         }, {
             mandatory: false,
             name: "group_suffix",
             valueType: "String"
         }, {
             mandatory: false,
-            name: "kdc",
+            name: "krb_principal",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "krb_realm",
             valueType: "String"
         }, {
             mandatory: false,
             name: "password",
-            valueType: "String"
-        }, {
-            mandatory: false,
-            name: "realm",
             valueType: "String"
         }, {
             mandatory: false,
@@ -170,8 +205,8 @@ exports.FreeipaDirectoryParams = Montage.specialize({
             valueType: "String"
         }, {
             mandatory: false,
-            name: "username",
-            valueType: "String"
+            name: "verify_certificate",
+            valueType: "boolean"
         }]
     }
 });
