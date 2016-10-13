@@ -21,7 +21,7 @@ exports.List = Component.specialize({
                     var self = this;
 
                     this.application.delegate.userInterfaceDescriptorForObject(content).then(function (UIDescriptor) {
-                        var collectionItemComponentModule = UIDescriptor.collectionItemComponentModule;
+                        var collectionItemComponentModule = UIDescriptor ? UIDescriptor.collectionItemComponentModule : null;
 
                         self.listItemModuleId = collectionItemComponentModule ?
                             collectionItemComponentModule.id : DEFAULT_LIST_ITEM_MODULE_ID;

@@ -12,6 +12,12 @@ exports.Placeholder = Slot.specialize({
         }
     },
 
+    _daoMap: {
+        get: function () {
+            return this.constructor.daoMap;
+        }
+    },
+
     hasTemplate: {
         value: true
     },
@@ -115,28 +121,31 @@ exports.Placeholder = Slot.specialize({
 
     _loadComponentIfNeeded: {
         value: function () {
-            var promise,
-                moduleId = this._moduleId;
+            var moduleId = this._moduleId,
+                promises = [];
 
             if (this._needsLoadComponent && typeof moduleId === "string" && moduleId.length) {
-                var self = this;
+                var self = this,
+                    userInterfaceDescriptor = this.context ? this.context.userInterfaceDescriptor : null;
+                
                 this.content = null;
-
                 this._isLoadingComponent = true;
                 this._needsLoadComponent = false;
 
-                if (this._componentsMap.has(moduleId)) {
-                    promise = Promise.resolve(this._componentsMap.get(moduleId));
-                } else {
-                    promise = require.async(moduleId).then(function (exports) {
-                        var component = new exports[Object.keys(exports)[0]]();
-                        self._componentsMap.set(moduleId, component);
+                promises.push(this._getComponentModule(moduleId));
 
-                        return component;
-                    });
+                if (userInterfaceDescriptor && userInterfaceDescriptor.daoModuleId) {
+                    promises.push(this._getDaoModule(userInterfaceDescriptor.daoModuleId));
                 }
 
-                promise.then(function (component) {
+                Promise.all(promises).then(function (data) {
+                    var component = data[0],
+                        daoModule = data[1];
+
+                    if (daoModule && typeof component.initWithDao === "function") {
+                        component.initWithDao(daoModule);
+                    }
+
                     self.component = component;
                     self._isLoadingComponent = false;
                     component.object = self.object;
@@ -158,6 +167,44 @@ exports.Placeholder = Slot.specialize({
                 this.content.context = this.context;
                 this.content.object = this.object;
             }
+        }
+    },
+
+    _getComponentModule: {
+        value: function (moduleId) {
+            var self = this,
+                promise;
+
+            if (this._componentsMap.has(moduleId)) {
+                promise = Promise.resolve(this._componentsMap.get(moduleId));
+            } else {
+                promise = require.async(moduleId).then(function (exports) {
+                    var component = new exports[Object.keys(exports)[0]]();
+                    self._componentsMap.set(moduleId, component);
+
+                    return component;
+                });
+            }
+
+            return promise;
+        }
+    },
+
+    _getDaoModule: {
+        value: function (moduleId) {
+            var self = this,
+                promise;
+
+            if (this._daoMap.has(moduleId)) {
+                promise = Promise.resolve(this._daoMap.get(moduleId));
+            } else {
+                promise = require.async(moduleId).then(function (exports) {
+                    var daoModuleSingleton = exports[Object.keys(exports)[0]].instance;
+                    self._daoMap.set(moduleId, daoModuleSingleton);
+
+                    return daoModuleSingleton;
+                });
+            }
 
             return promise;
         }
@@ -173,6 +220,13 @@ exports.Placeholder = Slot.specialize({
             }
             this._loadComponentIfNeeded();
         }
+    }
+
+}, {
+
+    //Map of singletons 
+    daoMap: {
+        value: new Map()
     }
 
 });

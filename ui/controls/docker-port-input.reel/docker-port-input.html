@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="docker-port-input.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "hostPortComponent": {"@": "hostPort"},
+                "protocolsComponent": {"@": "protocols"},
+                "containerPortComponent": {"@": "containerPort"}
+            }  
+        },
+
+        "portValidator": {
+            "prototype": "core/converter/validator/integer-range-validator",
+            "properties": {
+                "floor": 1,
+                "ceiling": 65535,
+                "errorMessage": "Value must be an integer between 1 and 65535"
+            }
+        },
+
+        "portConverter": {
+            "prototype": "core/converter/string-to-integer-or-null-converter",
+            "properties": {
+                "validator": {"@": "portValidator"}
+            }
+        },
+
+        "hostPort": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "hostPort"},
+                "converter": {"@": "portConverter"},
+                "placeholderValue": "8000",
+                "label": "Host Port"
+            }
+        },
+
+        "containerPort": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "containerPort"},
+                "converter": {"@": "portConverter"},
+                "placeholderValue": "8000",
+                "label": "Container Port"
+            }
+        },
+
+        "protocols": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "protocols"},
+                "options": ["TCP", "UDP"],
+                "selectedValue": "TCP",
+                "label": "Protocols"
+            }
+        }
+
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="DockerPortInput">
+        <input data-montage-id="hostPort" />
+        <input data-montage-id="containerPort" />
+        <div data-montage-id="protocols"></div>
+    </div>
+</body>
+</html>

@@ -2,16 +2,16 @@
     "root": {
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
-            "inspectorComponentModule": {"%": "ui/inspectors/container.reel"},
-            "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
+            "inspectorComponentModule": {"%": "ui/sections/containers/inspectors/container.reel"},
             "nameExpression": "id.defined() ? names.join(' ') : 'Create a container'",
-            "collectionNameExpression": "'Containers'",
-            "creatorComponentModule": {"%": "ui/inspectors/container-creator.reel"},
+            "collectionNameExpression": "'Docker Containers'",
+            "creatorComponentModule": {"%": "ui/sections/containers/inspectors/container-creator.reel"},
             "statusColorMapping": {
                 "running": "green",
                 "stopped": "grey"
             },
-            "statusValueExpression": "running ? 'running' : 'stopped'"
+            "statusValueExpression": "running ? 'running' : 'stopped'",
+            "daoModuleId": "core/dao/docker-container-dao"
         }
     }
 }

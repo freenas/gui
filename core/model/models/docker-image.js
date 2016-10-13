@@ -106,5 +106,19 @@ exports.DockerImage = Montage.specialize({
             name: "size",
             valueType: "number"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            nameExpression: "names.defined() ? names.join(' ') : 'Pull'",
+            collectionNameExpression: "'Images'",
+            daoModuleId: "core/dao/docker-image-dao",
+            inspectorComponentModule: {
+                id: 'ui/sections/containers/inspectors/docker-image.reel'
+            },
+            creatorComponentModule: {
+                id: 'ui/sections/containers/inspectors/docker-image-pull.reel'
+            },
+            createLabel: "Pull"
+        }
     }
 });

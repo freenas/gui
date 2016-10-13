@@ -7,6 +7,12 @@ var AbstractComponentActionDelegate = require("ui/abstract/abstract-component-ac
  */
 exports.Viewer = AbstractComponentActionDelegate.specialize({
 
+    initWithDao: {
+        value: function (dao) {
+            this._dao = dao;
+        }
+    },
+
     _object: {
         value: null
     },
@@ -25,18 +31,29 @@ exports.Viewer = AbstractComponentActionDelegate.specialize({
                 }
 
                 if (object) {
-                    var self = this;
+                    var self = this,
+                        promise;
 
-                    this.application.delegate.userInterfaceDescriptorForObject(object).then(function (UIDescriptor) {
-                        self.hasCreateEditor = !!UIDescriptor.creatorComponentModule;
+                    if (Array.isArray(object) && !object.length && this._dao) {
+                        promise = this._dao.list().then(function (data) {
+                            if (data !== object) {
+                                self._object = data;
+                                self.dispatchOwnPropertyChange("object", data);
+                            }
 
-                        if (UIDescriptor.sortExpression) {
-                            self.sortingKey = UIDescriptor.sortExpression;
-                        } else if (UIDescriptor.nameExpression) {
-                            self.sortingKey = UIDescriptor.nameExpression;
-                        }
+                            return data;
+                        });
+                    }
 
-                    }).catch(function (error) {
+                    if (Promise.is(promise)) {
+                        promise.then(function (object) {
+                            return self._setViewerMetaDataWithObject(object);
+                        });
+                    } else {
+                        promise = this._setViewerMetaDataWithObject(object);
+                    }
+
+                    promise.catch(function (error) {
                         console.warn(error);
                     });
                 }
@@ -67,6 +84,28 @@ exports.Viewer = AbstractComponentActionDelegate.specialize({
                     });
                 }
             }
+        }
+    },
+    
+    _setViewerMetaDataWithObject: {
+        value: function (object) {
+            var self = this;
+
+            return this.application.delegate.userInterfaceDescriptorForObject(object).then(function (UIDescriptor) {
+                if (UIDescriptor) {
+                    self.hasCreateEditor = !!UIDescriptor.creatorComponentModule;
+
+                    if (UIDescriptor.sortExpression) {
+                        self.sortingKey = UIDescriptor.sortExpression;
+                    } else if (UIDescriptor.nameExpression) {
+                        self.sortingKey = UIDescriptor.nameExpression;
+                    }
+
+                    self.createLabel = UIDescriptor.createLabel ? UIDescriptor.createLabel : null;
+                } else {
+                    self.hasCreateEditor = false;
+                }
+            });
         }
     },
 

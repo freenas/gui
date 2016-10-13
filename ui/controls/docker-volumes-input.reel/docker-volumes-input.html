@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="docker-volumes-input.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "hostPathComponent": {"@": "hostPath"},
+                "containerPathComponent": {"@": "containerPath"},
+                "readOnlyComponent": {"@": "readOnly"}
+            }
+        },
+        
+        "hostPath": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "hostPath"},
+                "label": "Host Path"
+            }
+        },
+
+        "containerPath": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "containerPath"},
+                "label": "Container Path"
+            }
+        },
+
+
+        "readOnly": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "readOnly"},
+                "label": "Read Only"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="DockerVolumesInput">
+        <input data-montage-id="hostPath" />
+        <input data-montage-id="containerPath" />
+        <div data-montage-id="readOnly"></div>
+    </div>
+</body>
+</html>

@@ -12,26 +12,14 @@
                 "_commandComponent": {"@": "command"},
                 "_nameComponent": {"@": "name"},
                 "_imageComponent": {"@": "image"},
+                "_volumesComponent": {"@": "volumes"},
                 "_portsComponent": {"@": "ports"},
-                "_environmentComponent": {"@": "environment"},
-                "_portsValidator": {"@": "portsValidator"},
-                "_environmentValidator": {"@": "environmentValidator"}
+                "_environmentComponent": {"@": "environment"}
             },
             "bindings": {
                 "currentTemplate": {"<-": "@owner._templates[@owner.selectedImageKey]"},
                 "object.interactive": {"<-": "@owner.currentTemplate.interactive"},
                 "object.expose_ports": {"<-": "!!@owner.currentTemplate.expose_ports"}
-            }
-        },
-
-        "fileTreeController": {
-            "prototype": "core/controller/filesystem-tree-controller",
-            "properties": {
-                "canListFiles": true,
-                "root": "/"
-            },
-            "bindings": {
-                "service": {"<-": "@owner.application.filesystemService"}
             }
         },
 
@@ -42,18 +30,19 @@
                 }
             }
         },
+
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
                 "canSave": true,
+                "canDelete": false,
+                "canRevert": false,
                 "controller": {"@": "owner"},
                 "validationController": {"@": "validationController"}
             },
             "bindings": {
-                "context": {"<-": "@owner.context"},
-                "canDelete": {"<-": "!@owner.object._isNew"},
-                "canRevert": {"<-": "@inspector.canDelete"}
+                "context": {"<-": "@owner.context"}
             }
         },
 
@@ -80,6 +69,18 @@
             }
         },
 
+        "dockerHost": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "dockerHost"},
+                "label": "Docker host"
+            },
+            "bindings": {
+                "options": {"<-": "[{label: 'default', value: null}].concat(@owner._availablesDockers)"},
+                "selectedValue": {"<->": "@owner.object.host"}
+            }
+        },
+
         "memoryValidator": {
             "prototype": "core/converter/validator/minimum-bytes-validator",
             "properties": {
@@ -90,7 +91,7 @@
             }
         },
 
-         "memoryConverter": {
+        "memoryConverter": {
             "prototype": "core/converter/string-to-integer-or-null-converter",
             "properties": {
                 "validator": {"@": "memoryValidator"}
@@ -106,18 +107,6 @@
             },
             "bindings": {
                 "value": {"<->": "@owner.object.memory_limit"}
-            }
-        },
-
-        "volumeHostPath": {
-            "prototype": "ui/controls/field-treeview.reel",
-            "properties": {
-                "element": {"#": "volumeHostPath"},
-                "controller": {"@": "fileTreeController"},
-                "label": "Host path"
-            },
-            "bindings": {
-                "selectedPath": {"<->": "@owner.object.parent_directory"}
             }
         },
 
@@ -174,45 +163,26 @@
             }
         },
 
-        "environmentValidator": {
-            "prototype": "core/converter/validator/docker-container-env-validator",
-            "properties": {
-                "errorMessage": "VAR=VALUE"
-            }
-        },
-
-        "environmentConverter": {
-            "prototype": "core/converter/validation-only-converter",
-            "properties": {
-                "validator": {"@": "environmentValidator"}
-            }
-        },
-
         "environment": {
             "prototype": "blue-shark/ui/field-multiple-select.reel",
             "properties": {
                 "element": {"#": "environment"},
-                "converter": {"@": "environmentConverter"},
                 "label": "Environment",
+                "inputTitle": "Add a variable",
+                "valuesTitle": "Added Variables",
+                "emptyMessage": "No variables added :(",
                 "labelPath": "this"
             },
             "bindings": {
-                "values": {"<-": "@owner.currentTemplate.environment || []"},
-                "placeholderValue": {"<-": "'eg. VAR=VALUE'"}
+                "values": {"<-": "@owner.currentTemplate.environment || []"}
             }
         },
 
-        "portsValidator": {
-            "prototype": "core/converter/validator/docker-container-ports-validator",
+        "environmentInput": {
+            "prototype": "ui/controls/docker-environment-input.reel",
             "properties": {
-                "errorMessage": "extPort:intPort/<tcp|udp>"
-            }
-        },
-
-        "portsConverter": {
-            "prototype": "core/converter/validation-only-converter",
-            "properties": {
-                "validator": {"@": "portsValidator"}
+                "element": {"#": "environmentInput"},
+                "fieldMultipleSelect": {"@": "environment"}
             }
         },
 
@@ -220,13 +190,42 @@
             "prototype": "blue-shark/ui/field-multiple-select.reel",
             "properties": {
                 "element": {"#": "ports"},
-                "converter": {"@": "portsConverter"},
-                "label": "Ports",
+                "label": "Configure Ports",
+                "inputTitle": "Add a port",
+                "valuesTitle": "Added Ports",
+                "emptyMessage": "No ports added :(",
                 "labelPath": "this"
             },
             "bindings": {
-                "values": {"<-": "@owner.currentTemplate.ports.map{container_port + ':' + host_port + (protocol.defined() ? '/' + protocol : '/TCP')}"},
-                "placeholderValue": {"<-": "'eg. extPort:intPort/<tcp|udp>'"}
+                "values": {"<-": "@owner.currentTemplate.ports.map{host_port + ' -> ' + container_port + ' ' + (protocol.defined() ? protocol : 'TCP')} || []"}
+            }
+        },
+
+        "portInput": {
+            "prototype": "ui/controls/docker-port-input.reel",
+            "properties": {
+                "element": {"#": "portInput"},
+                "fieldMultipleSelect": {"@": "ports"}
+            }
+        },
+
+        "volumes": {
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "properties": {
+                "element": {"#": "volumes"},
+                "label": "Volumes",
+                "inputTitle": "Add a volume",
+                "valuesTitle": "Added Volumes",
+                "emptyMessage": "No volumes added :(",
+                "labelPath": "this"
+            }
+        },
+
+         "volumeInput": {
+            "prototype": "ui/controls/docker-volumes-input.reel",
+            "properties": {
+                "element": {"#": "volumeInput"},
+                "fieldMultipleSelect": {"@": "volumes"}
             }
         },
 
@@ -260,17 +259,24 @@
         <div data-montage-id="inspector">
             <div data-montage-id="image"></div>
             <div data-montage-id="name"></div>
-            <div data-montage-id="volumeHostPath"></div>
+            <div data-montage-id="dockerHost"></div>
 
             <div data-montage-id="advancedSection">
                 <div data-montage-id="hostname"></div>
                 <div data-montage-id="host"></div>
                 <div data-montage-id="memoryLimit"></div>
-                <div data-montage-id="environment"></div>
-                <div data-montage-id="ports"></div>
+                <div data-montage-id="environment">
+                    <div data-montage-id="environmentInput"></div>
+                </div>
+                <div data-montage-id="ports">
+                    <div data-montage-id="portInput"></div>
+                </div>
                 <div data-montage-id="exposePorts"></div>
-                <div data-montage-id="command"></div>
+                <div data-montage-id="volumes">
+                    <div data-montage-id="volumeInput"></div>
+                </div>
                 <div data-montage-id="interactive"></div>
+                <div data-montage-id="command"></div>
                 <div data-montage-id="autostart"></div>
             </div>
         </div>

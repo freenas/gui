@@ -9,6 +9,20 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
  */
 exports.Container = AbstractInspector.specialize({
 
+    templateDidLoad: {
+        value: function () {
+            var self = this,
+                blockGateKey = this.constructor.DATA_GATE_BLOCK_KEY;
+
+            this._canDrawGate.setField(blockGateKey, false);
+
+            this._sectionService.listDockerHosts().then(function (dockersHost) {
+                self._dockerHosts = dockersHost;
+                self._canDrawGate.setField(blockGateKey, true);
+            });
+        }
+    },
+
     enterDocument: {
         value: function (isFirstTime) {
             this.super();
@@ -18,7 +32,6 @@ exports.Container = AbstractInspector.specialize({
             }
         }
     },
-
 
     handleStartAction: {
         value: function() {
@@ -40,6 +53,12 @@ exports.Container = AbstractInspector.specialize({
                 window.open("/serial-console-app/#" + token, self.object.names[0] + " Serial Console");
             });
         }
+    }
+
+}, {
+
+    DATA_GATE_BLOCK_KEY: {
+        value: "dataLoaded"
     }
 
 });

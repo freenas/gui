@@ -133,7 +133,11 @@ exports.ApplicationDelegate = Montage.specialize({
             if (!userInterfaceDescriptorPromise) {
                 userInterfaceDescriptorPromise = new Promise(function (resolve, reject) {
                     Model.populateObjectPrototypeForType(key).then(function (objectPrototype) {
-                        resolve(objectPrototype.constructor.userInterfaceDescriptor)
+                        if (objectPrototype.constructor.userInterfaceDescriptor) {
+                            resolve(objectPrototype.constructor.userInterfaceDescriptor);
+                        } else {
+                            reject("no user interface descriptor for: " + key);
+                        }
                     });
                 });
 

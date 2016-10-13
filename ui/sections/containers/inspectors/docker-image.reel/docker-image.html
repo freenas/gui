@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="docker-image.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "_availableHosts": {"<-": "@owner._dockerHosts.filter{!@owner.object.hosts.has(id)}"}
+            }
+        },
+
+        "dateConverter": {
+            "prototype": "montage/core/converter/date-converter",
+            "properties": {
+                "pattern": "MM/dd/yyyy hh:mm:ss tt"
+            }
+        },
+        
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "canDelete": true,
+                "controller": {"@": "owner"}
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"}
+            }
+        },
+
+        "collection": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "collection"},
+                "label": "Collection"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.collection"},
+                "classList.has('is-hidden')": {"<-": "!@owner.object.collection"}
+            }
+        },
+
+        "name": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.names.join(' ')"}
+            }
+        },
+
+        "bytesConverter": {
+            "prototype": "montage/core/converter/bytes-converter"
+        },
+
+        "size": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "size"},
+                "label": "Size",
+                "converter": {"@": "bytesConverter"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.size"}
+            }
+        },
+
+        "createdAt": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "createdAt"},
+                "label": "Created At",
+                "converter": {"@": "dateConverter"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.createdAtDate"}
+            }
+        },
+
+        "hosts": {
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "properties": {
+                "element": {"#": "hosts"},
+                "controller": {"@": "owner"},
+                "label": "Hosts",
+                "inputTitle": "Install image",
+                "valuesTitle": "Image installed on hosts",
+                "emptyMessage": "Image installed on no hosts :("
+            },
+            "bindings": {
+                "values": {"<-": "@owner._dockerHosts.filter{@owner.object.hosts.has(id)}.map{name}"},
+                "canAddNewEntry": {"<-": "@owner._availableHosts.length > 0 && !!@dockerHostSelect.selectedValue"}
+            }
+        },
+
+        "dockerHostSelect": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "dockerHostSelect"},
+                "label": "Available Hosts"
+            },
+            "bindings": {
+                "options": {"<-": "[{label: '---', value: null}].concat(@owner._availableHosts.map{{label: name, value: id}})"},
+                "selectedValue": {"<-": "@dockerHostSelect.options.one().value"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="DockerImage">
+        <div data-montage-id="inspector">
+            <div data-montage-id="collection"></div>
+            <div data-montage-id="name"></div>
+            <div data-montage-id="size"></div>
+            <div data-montage-id="createdAt"></div>
+            <div data-montage-id="hosts">
+                <div data-montage-id="dockerHostSelect"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
