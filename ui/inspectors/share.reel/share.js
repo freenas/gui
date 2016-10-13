@@ -206,9 +206,9 @@ exports.Share = AbstractInspector.specialize({
         value: function() {
             if (this.context) {
                 var currentSelection = this.application.selectionService.getCurrentSelection();
-                for (var i = currentSelection.path.length - 1; i >= 0; i--) {
-                    if (currentSelection.path[i].constructor.Type == Model.Volume) {
-                        return currentSelection.path[i];
+                for (var i = currentSelection.length - 1; i >= 0; i--) {
+                    if (currentSelection[i].constructor.Type == Model.Volume) {
+                        return currentSelection[i];
                     }
                 }
             }
