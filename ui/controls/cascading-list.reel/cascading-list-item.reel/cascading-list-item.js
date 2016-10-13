@@ -92,7 +92,7 @@ exports.CascadingListItem = Component.specialize({
                     this.cascadingList.expand(selectedObject, this.data.columnIndex + 1);
 
                 } else if (this.data.columnIndex < this.cascadingList._currentIndex) {
-                    this.cascadingList.popAtIndex(this.data.columnIndex + 1);
+                    this.cascadingList.popAtIndex(this.data.columnIndex + 1, this._isResetting);
                 }
             }
         }
@@ -121,11 +121,13 @@ exports.CascadingListItem = Component.specialize({
 
     resetSelection: {
         value: function () {
+            this._isResetting = true;
             this.selectedObject = null;
 
             if (this.content && this.content.component && this.content.component.selectedObject) {
                 this.content.component.selectedObject = null;
             }
+            this._isResetting = false;
         }
     },
 

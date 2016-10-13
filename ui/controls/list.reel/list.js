@@ -38,6 +38,13 @@ exports.List = Component.specialize({
         get: function () {
             return this._object;
         }
-    }
+    },
 
+    enterDocument: {
+        value: function() {
+            if (this.selectedObject && this.controller.selection[0] !== this.selectedObject) {
+                this.dispatchOwnPropertyChange("selectedObject", this.selectedObject); 
+            }
+        }
+    }
 });
