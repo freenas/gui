@@ -1,37 +1,42 @@
-/**
- * @module ui/calendar/week.reel/day-column.reel
- */
-var Component = require("montage/ui/component").Component,
-    PressComposer = require("montage/composer/press-composer").PressComposer;
+var AbstractDropZoneComponent = require("blue-shark/core/drag-drop/abstract-dropzone-component").AbstractDropZoneComponent;
 
-/**
- * @class DayColumn
- * @extends Component
- */
-exports.DayColumn = Component.specialize({
-    prepareForActivationEvents: {
+exports.DayColumn = AbstractDropZoneComponent.specialize({
+    templateDidLoad: {
         value: function() {
-            var pressComposer = new PressComposer();
-            this.addComposer(pressComposer);
-            pressComposer.addEventListener("press", this);
-            this.element.addEventListener("mouseover", this);
+            this.super();
+            this._calendarService = this.application.calendarService;
         }
     },
 
-    handlePress: {
-        value: function(event) {
-/*
-            var self = this,
-                taskDate = new Date(this.data.rawDate),
-                targetBoundingRect = event.targetElement.getBoundingClientRect(),
-                timeInMinutes = (event.pageY - targetBoundingRect.top) / targetBoundingRect.height * 1440;
-            taskDate.setHours(Math.floor(timeInMinutes / 60));
-            taskDate.setMinutes(timeInMinutes % 60);
-            this.selectedDay = this.data;
-            this.application.calendarService.getNewTask(taskDate).then(function(task) {
+    handleComponentDrop: {
+        value: function(taskCategoryComponent, event) {
+            var self = this;
+            this._calendarService.getNewTask(this._getDateFromEvent(event), taskCategoryComponent.object.value).then(function(task) {
                 self.selectedTask = task;
             });
-*/
+        }
+    },
+
+    _getDateFromEvent: {
+        value: function(event) {
+            var self = this,
+                date = new Date(this.data.rawDate),
+                targetBoundingRect = this.element.getBoundingClientRect(),
+                dropPosition = this._getDropPosition(event),
+                timeInMinutes = (dropPosition.y - targetBoundingRect.top) / targetBoundingRect.height * 1440;
+            date.setHours(Math.floor(timeInMinutes / 60));
+            date.setMinutes(timeInMinutes % 60);
+            return date;
+        }
+    },
+
+    _getDropPosition: {
+        value: function(event) {
+            var targetBoundingRect = event.target.element.getBoundingClientRect();
+            return {
+                x: event.translateX + targetBoundingRect.left,
+                y: event.translateY + targetBoundingRect.top
+            };
         }
     }
 });
