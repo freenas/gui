@@ -9,7 +9,7 @@ exports.AbstractMultipleSelectController = AbstractComponentActionDelegate.speci
             this.defineBinding("fieldMultipleSelect.control.controller", {"<-": "this"});
 
             if (this.canAddNewEntryExpression) {
-                this.defineBinding("fieldMultipleSelect.control.addButtonDisabled", {"<-": this.canAddNewEntryExpression});
+                this.defineBinding("fieldMultipleSelect.canAddNewEntry", {"<-": this.canAddNewEntryExpression});
             }
         }
     },

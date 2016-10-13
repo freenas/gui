@@ -10,7 +10,7 @@ var AbstractMultipleSelectController = require("ui/abstract/abstract-multiple-se
 exports.DockerVolumesInput = AbstractMultipleSelectController.specialize(/** @lends DockerVolumesInput# */ {
 
     canAddNewEntryExpression: {
-        value: "this.containerPathComponent.hasError || this.hostPathComponent.hasError || !this.containerPathComponent.value || !this.hostPathComponent.value"
+        value: "!this.containerPathComponent.hasError && !this.hostPathComponent.hasError && !!this.containerPathComponent.value && !!this.hostPathComponent.value"
     },
 
     cleanCurrenEntry: {

@@ -10,7 +10,7 @@ var AbstractMultipleSelectController = require("ui/abstract/abstract-multiple-se
 exports.DockerPortInput = AbstractMultipleSelectController.specialize(/** @lends DockerPortInput# */ {
 
     canAddNewEntryExpression: {
-        value: "this.containerPortComponent.hasError || this.hostPortComponent.hasError || !this.containerPortComponent.value || !this.hostPortComponent.value"
+        value: "!this.containerPortComponent.hasError && !this.hostPortComponent.hasError && !!this.containerPortComponent.value && !!this.hostPortComponent.value"
     },
 
     cleanCurrenEntry: {
