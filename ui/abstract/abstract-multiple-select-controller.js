@@ -2,17 +2,20 @@ var AbstractComponentActionDelegate = require("ui/abstract/abstract-component-ac
     TextInput = require("montage/ui/text-input").TextInput;
 
 
-exports.AbstractMultipleSelectInputController = AbstractComponentActionDelegate.specialize({
+exports.AbstractMultipleSelectController = AbstractComponentActionDelegate.specialize({
 
     templateDidLoad: {
         value: function () {
-            this.defineBinding("fieldMultipleSelect.control.inputController", {"<-": "this"});
-            this.defineBinding("fieldMultipleSelect.control.addButtonDisabled", {"<-": this.canAddNewEntryExpression});
+            this.defineBinding("fieldMultipleSelect.control.controller", {"<-": "this"});
+
+            if (this.canAddNewEntryExpression) {
+                this.defineBinding("fieldMultipleSelect.control.addButtonDisabled", {"<-": this.canAddNewEntryExpression});
+            }
         }
     },
 
     canAddNewEntryExpression: {
-        value: "true"
+        value: null
     },
 
     handleAction: {
@@ -23,7 +26,7 @@ exports.AbstractMultipleSelectInputController = AbstractComponentActionDelegate.
         }
     },
 
-    handleMultipleSelectAddButtonAction: {
+    handleMultipleSelectAddAction: {
         value: function (multipleSelect, event) {
             this._addNewEntry();
         }

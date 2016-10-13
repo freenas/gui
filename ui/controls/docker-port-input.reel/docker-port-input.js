@@ -1,13 +1,13 @@
 /**
  * @module ui/docker-port-input.reel
  */
-var AbstractMultipleSelectInputController = require("ui/abstract/abstract-multiple-select-input-controller").AbstractMultipleSelectInputController;
+var AbstractMultipleSelectController = require("ui/abstract/abstract-multiple-select-controller").AbstractMultipleSelectController;
 
 /**
  * @class DockerPortInput
- * @extends AbstractComponentActionDelegate
+ * @extends AbstractMultipleSelectController
  */
-exports.DockerPortInput = AbstractMultipleSelectInputController.specialize(/** @lends DockerPortInput# */ {
+exports.DockerPortInput = AbstractMultipleSelectController.specialize(/** @lends DockerPortInput# */ {
 
     canAddNewEntryExpression: {
         value: "this.containerPortComponent.hasError || this.hostPortComponent.hasError || !this.containerPortComponent.value || !this.hostPortComponent.value"

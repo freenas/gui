@@ -1,13 +1,13 @@
 /**
  * @module ui/docker-volumes-input.reel
  */
-var AbstractMultipleSelectInputController = require("ui/abstract/abstract-multiple-select-input-controller").AbstractMultipleSelectInputController;
+var AbstractMultipleSelectController = require("ui/abstract/abstract-multiple-select-controller").AbstractMultipleSelectController;
 
 /**
  * @class DockerVolumesInput
- * @extends AbstractMultipleSelectInputController
+ * @extends AbstractMultipleSelectController
  */
-exports.DockerVolumesInput = AbstractMultipleSelectInputController.specialize(/** @lends DockerVolumesInput# */ {
+exports.DockerVolumesInput = AbstractMultipleSelectController.specialize(/** @lends DockerVolumesInput# */ {
 
     canAddNewEntryExpression: {
         value: "this.containerPathComponent.hasError || this.hostPathComponent.hasError || !this.containerPathComponent.value || !this.hostPathComponent.value"
