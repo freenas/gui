@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="crypto-certificate-creation.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "optionsConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "labelPropertyName": "name",
+                "valuePropertyName": "name"
+            }
+        },
+        "signing_ca_name": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "signing_ca_name"},
+                "label": "Signing Certificate Authority",
+                "converter": {"@": "optionsConverter"}
+            },
+            "bindings": {
+                "options" : {"<-": "[{name:'---'}].concat(@owner.certificates.filter{type=='CA_INTERNAL' || type=='CA_INTERMEDIATE'})"},
+                "selectedValue": {"<->": "@owner.object.signing_ca_name"}
+            }
+        },
+        "showSigningName": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "showSigningName"}
+            },
+            "bindings": {
+                "condition": {"<-": "@owner.object.type == 'CA_INTERMEDIATE' || @owner.object.type == 'CERT_INTERNAL'"}
+            }
+        },
+        "key_length": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "key_length"},
+                "label": "Key Length"
+            },
+            "bindings": {
+                "options" : {"<-": "@owner.keyLenghtOptions"},
+                "selectedValue": {"<->": "@owner.object.key_length"}
+            }
+        },
+        "numberConverter": {
+            "prototype": "core/converter/string-to-integer-converter"
+        },
+        "lifetime": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "lifetime"},
+                "label": "lifetime",
+                "converter": {"@": "numberConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.lifetime"}
+            }
+        },
+        "country": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "country"},
+                "label": "Country code"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.country"}
+            }
+        },
+        "state": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "state"},
+                "label": "State"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.state"}
+            }
+        },
+        "locality": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "locality"},
+                "label": "Locality(city)"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.city"}
+            }
+        },
+        "organization": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "organization"},
+                "label": "Organization"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.organization"}
+            }
+        },
+        "email": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "email"},
+                "label": "email"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.email"}
+            }
+        },
+        "commonName": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "commonName"},
+                "label": "Common Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.common"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="CryptoCertificateCreation">
+        <div data-montage-id="showSigningName">
+            <div data-montage-id="signing_ca_name"></div>
+        </div>
+        <div data-montage-id="key_length"></div>
+        <div data-montage-id="algorithm"></div>
+        <div data-montage-id="lifetime"></div>
+        <div data-montage-id="type"></div>
+        <div data-montage-id="country"></div>
+        <div data-montage-id="state"></div>
+        <div data-montage-id="locality"></div>
+        <div data-montage-id="organization"></div>
+        <div data-montage-id="email"></div>
+        <div data-montage-id="commonName"></div>
+    </div>
+</body>
+</html>

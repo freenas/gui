@@ -19,6 +19,7 @@ exports.Settings = Component.specialize({
                 sectionsPromises.push(this._createSection("updates", "Updates", "path", i++));
                 sectionsPromises.push(this._createSection("languageAndRegion", "Language & Region", "path", i++));
                 sectionsPromises.push(this._createSection("WebUI", "WebUI", "path", i++));
+                sectionsPromises.push(this._createSection("certificates", "Certificates", "path", i++));
                 sectionsPromises.push(this._createSection("mail", "Alerts & Reporting", "path", i++));
                 sectionsPromises.push(this._createSection("serialConsole", "Console", "path", i++));
                 sectionsPromises.push(this._createSection("dockerSettings", "Docker", "path", i++));
