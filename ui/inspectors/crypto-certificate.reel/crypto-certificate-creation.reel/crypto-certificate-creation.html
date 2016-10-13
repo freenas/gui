@@ -14,7 +14,7 @@
             "prototype": "core/converter/select-option-converter",
             "properties": {
                 "labelPropertyName": "name",
-                "valuePropertyName": "id"
+                "valuePropertyName": "name"
             }
         },
         "signing_ca_id": {
@@ -25,8 +25,8 @@
                 "converter": {"@": "optionsConverter"}
             },
             "bindings": {
-                "options" : {"<-": "[{name:'---'}].concat(@owner.certificates)"},
-                "selectedValue": {"<->": "@owner.object.signing_ca_id"}
+                "options" : {"<-": "[{name:'---'}].concat(@owner.certificates.filter{type=='CA_INTERNAL' || type=='CA_INTERMEDIATE'})"},
+                "selectedValue": {"<->": "@owner.object.signing_ca_name"}
             }
         },
         "showSigningId": {
@@ -67,7 +67,7 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "country"},
-                "label": "Country"
+                "label": "Country code"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.country"}
