@@ -116,7 +116,8 @@ exports.DirectoryServices = AbstractInspector.specialize({
         value: {
             winbind: "Active Directory",
             freeipa: "FreeIPA",
-            ldap: "LDAP"
+            ldap: "LDAP",
+            nis: "NIS"
         }
     },
 
@@ -124,7 +125,8 @@ exports.DirectoryServices = AbstractInspector.specialize({
         value: {
             ACTIVE_DIRECTORY: "winbind",
             FREE_IPA: "freeipa",
-            LDAP: "ldap"
+            LDAP: "ldap",
+            NIS: "nis"
         }
     },
 
