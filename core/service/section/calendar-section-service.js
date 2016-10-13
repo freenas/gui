@@ -1,10 +1,21 @@
-var AbstractSectionService = require("core/service/section/abstract-section-service").AbstractSectionService;
+var AbstractSectionService = require("core/service/section/abstract-section-service").AbstractSectionService,
+    MiddlewareTaskRepository = require("core/repository/middleware-task-repository").MiddlewareTaskRepository,
+    Model = require("core/model/model").Model;
 
 exports.CalendarSectionService = AbstractSectionService.specialize({
     init: {
-        value: function() {
+        value: function(middlewareTaskRepository) {
+            this._middlewareTaskRepository = middlewareTaskRepository || MiddlewareTaskRepository.instance;
             this.SCHEDULE_OPTIONS = this.constructor.SCHEDULE_OPTIONS;
             this.DAYS_OF_WEEK = this.constructor.DAYS_OF_WEEK;
+            this.MONTHS = this.constructor.MONTHS;
+            this.DAYS = this.constructor.DAYS;
+            this.HOURS = this.constructor.HOURS;
+            this.MINUTES = this.constructor.MINUTES;
+            var self = this;
+            return Model.populateObjectPrototypeForType(Model.CalendarTask).then(function () {
+                self._calendarTaskService = Model.CalendarTask.objectPrototype.services;
+            });
         }
     },
 
@@ -73,6 +84,20 @@ exports.CalendarSectionService = AbstractSectionService.specialize({
                 }
             }
             return '';
+        }
+    },
+
+    runTask: {
+        value: function(task) {
+            if (task._isNew) {
+                var self = this;
+                this._middlewareTaskRepository.getNewMiddlewareTaskWithNameAndArgs(task.task, task.args).then(function(middlewareTask) {
+                    return self._middlewareTaskRepository.runMiddlewareTask(middlewareTask);
+                });
+                
+            } else {
+                return this._calendarTaskService.run(task.id);
+            }
         }
     },
 

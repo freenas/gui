@@ -13,8 +13,8 @@
         "optionConverter": {
             "prototype": "core/converter/select-option-converter",
             "properties": {
-                "valuePropertyName": "this",
-                "labelPropertyName": "this"
+                "valuePropertyName": "id",
+                "labelPropertyName": "path"
             }
         },
         "disks": {
@@ -25,7 +25,7 @@
                 "converter": {"@": "optionConverter"}
             },
             "bindings": {
-                "options": {"<-": "@owner.disks.map{path}"},
+                "options": {"<-": "@owner.disks.map{{ label: path, value: id }}"},
                 "selectedValues": {"<->": "@owner.args.0"}
             }
         },

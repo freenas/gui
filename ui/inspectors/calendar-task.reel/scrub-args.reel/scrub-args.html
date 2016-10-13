@@ -25,7 +25,7 @@
                 "converter": {"@": "optionConverter"}
             },
             "bindings": {
-                "options": {"<-": "@owner.volumes"},
+                "options": {"<-": "[{id: '---'}].concat(@owner.volumes)"},
                 "selectedValue": {"<->": "@owner.args.0"}
             }
         }

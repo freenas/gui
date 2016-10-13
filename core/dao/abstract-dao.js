@@ -1,5 +1,6 @@
 var Montage = require("montage/core/core").Montage,
-    FreeNASService = require("core/service/freenas-service").FreeNASService;
+    FreeNASService = require("core/service/freenas-service").FreeNASService,
+    Model = require("core/model/model").Model;
 
 exports.AbstractDao = Montage.specialize({
     _instance: {
@@ -86,6 +87,7 @@ exports.AbstractDao = Montage.specialize({
     instance: {
         get: function() {
             if (!this._instance) {
+                this.Model = Model;
                 this._instance = new this();
                 this._instance._dataService = FreeNASService.instance;
                 this._instance.init();

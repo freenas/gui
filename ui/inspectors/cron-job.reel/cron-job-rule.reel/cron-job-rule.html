@@ -8,6 +8,9 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "hasObjectValue": {"<-": "@owner.options.0.value.label.defined()"}
             }
         },
         "ruleSectionTitle": {
@@ -17,7 +20,7 @@
             },
             "bindings": {
                 "title": {"<-": "@owner.title"},
-                "subtitle": {"<-": "!@owner.selectedValues.length ? 'No values selected' : @owner.selectedValues.length == @owner.options.length ? 'Every ' + @owner.title.toLowerCase().slice(0, -1) + ' selected' : @owner.selectedValues.join(', ')"}
+                "subtitle": {"<-": "!@owner.selectedValues.length ? 'No values selected' : @owner.selectedValues.length == @owner.options.length ? 'Every ' + @owner.title.toLowerCase().slice(0, -1) + ' selected' : @owner.hasObjectValue ? @owner.selectedValues.map{label}.join(', ') : @owner.selectedValues.join(', ')"}
             }
         },
         "ruleOptionSelector": {
