@@ -6,7 +6,8 @@
             "collectionNameExpression": "'Images'",
             "daoModuleId": "core/dao/docker-image-dao",
             "inspectorComponentModule": {"%": "ui/sections/containers/inspectors/docker-image.reel"},
-            "creatorComponentModule": {"%": "ui/sections/containers/inspectors/docker-image-pull.reel"}
+            "creatorComponentModule": {"%": "ui/sections/containers/inspectors/docker-image-pull.reel"},
+            "createLabel": 'Pull'
         }
     }
 }
