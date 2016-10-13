@@ -8,7 +8,7 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
  * @class DockerImagePull
  * @extends AbstractInspector
  */
-var DockerImagePull = exports.DockerImagePull = AbstractInspector.specialize(/** @lends DockerImagePull# */ {
+exports.DockerImagePull = AbstractInspector.specialize(/** @lends DockerImagePull# */ {
     
     templateDidLoad: {
         value: function () {

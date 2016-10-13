@@ -12,7 +12,7 @@
             }
         },
 
-        "memoryValidator": {
+        "envVariableValidator": {
             "prototype": "core/converter/validator/docker-container-env-variable-validator",
             "properties": {
                 "errorMessage": "Variable names accept alphanumeric, '_', '-' characters and must start with a letter"
@@ -26,7 +26,7 @@
         "variableConverter": {
             "prototype": "core/converter/validation-only-converter",
             "properties": {
-                "validator": {"@": "memoryValidator"}
+                "validator": {"@": "envVariableValidator"}
             }
         },
 
