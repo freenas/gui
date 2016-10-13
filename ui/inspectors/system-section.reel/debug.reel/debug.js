@@ -18,7 +18,7 @@ exports.Debug = Component.specialize(/** @lends Debug# */ {
             var self = this;
             if (isFirstTime) {
                 this.isLoading = true;
-                this.application.systemAdvancedService.getSerialConsoleData().then(function(consoleData) {
+                this.application.systemAdvancedService.getSystemAdvanced().then(function(consoleData) {
                     self.object = consoleData;
                     self._snapshotDataObjectsIfNecessary();
                 });

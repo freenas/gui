@@ -58,7 +58,7 @@ exports.Overview = Component.specialize(/** @lends Overview# */ {
                 this.application.storageService.listDisks().then(function (disks) {
                     self.systemInfo.disks = disks
                 }),
-                this.application.systemAdvancedService.getSerialConsoleData().then(function (systemAdvanced) {
+                this.application.systemAdvancedService.getSystemAdvanced().then(function (systemAdvanced) {
                     self.debugkernel = systemAdvanced.debugkernel
                 }),
                 this.application.networkInterfacesSevice.getNetworkInterfaces().then(function (totalNetworkInterfaces) {

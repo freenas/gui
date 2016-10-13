@@ -18,7 +18,7 @@ var SystemAdvancedService = exports.SystemAdvancedService = Montage.specialize({
         value: null
     },
 
-    getSerialConsoleData: {
+    getSystemAdvanced: {
         value: function() {
                 return this._dataService.fetchData(Model.SystemAdvanced).then(function(systemAdvanced) {
                     return systemAdvanced[0];
