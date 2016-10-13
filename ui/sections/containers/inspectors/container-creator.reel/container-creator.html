@@ -18,6 +18,7 @@
             },
             "bindings": {
                 "currentTemplate": {"<-": "@owner._templates[@owner.selectedImageKey]"},
+                "_availablesDockers": {"<-": "@owner._hostDockers.map{{label: name, value: id}}"},
                 "object.interactive": {"<-": "@owner.currentTemplate.interactive"},
                 "object.expose_ports": {"<-": "!!@owner.currentTemplate.expose_ports"}
             }
