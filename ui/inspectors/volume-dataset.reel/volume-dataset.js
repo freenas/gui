@@ -87,8 +87,8 @@ exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# *
             if (this.context) {
                 var currentSelection = this.application.selectionService.getCurrentSelection();
                 for (var i = this.context.columnIndex - 1; i >= 0; i--) {
-                    if (currentSelection.path[i].constructor.Type == Model.Volume) {
-                        return currentSelection.path[i];
+                    if (currentSelection[i].constructor.Type == Model.Volume) {
+                        return currentSelection[i];
                     }
                 }
             }

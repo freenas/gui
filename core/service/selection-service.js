@@ -39,6 +39,12 @@ var SelectionService = exports.SelectionService = Montage.specialize({
         }
     },
 
+    getCurrentSelection: {
+        value: function() {
+            return this._sections.get(this._section);
+        }
+    },
+
     saveTemporaryTaskSelection: {
         value: function() {
             var temporaryId = Uuid.generate();

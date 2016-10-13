@@ -55,9 +55,9 @@ exports.CryptoCertificateCreator = Component.specialize(/** @lends CryptoCertifi
         value: function() {
             var currentSelection = this._selectionService.getCurrentSelection();
 
-            for (var i = currentSelection.path.length - 1; i >= 0; i--) {
-                if (currentSelection.path[i].constructor.Type == Model.Volume) {
-                    return currentSelection.path[i];
+            for (var i = currentSelection.length - 1; i >= 0; i--) {
+                if (currentSelection[i].constructor.Type == Model.Volume) {
+                    return currentSelection[i];
                 }
             }
         }
