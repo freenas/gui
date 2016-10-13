@@ -604,6 +604,78 @@
                 "namespace": "rpc",
                 "task": "disk.erase"
             },
+            "formatBoot": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "disk.format.boot"
+            },
+            "formatGpt": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "disk.format.gpt"
+            },
+            "geliAttach": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "disk.geli.attach"
+            },
+            "geliDetach": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "disk.geli.detach"
+            },
+            "geliInit": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "disk.geli.init"
+            },
+            "geliKill": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "disk.geli.kill"
+            },
+            "geliMkeyBackup": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "disk.geli.mkey.backup"
+            },
+            "geliMkeyRestore": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "disk.geli.mkey.restore"
+            },
+            "geliUkeyDel": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "disk.geli.ukey.del"
+            },
+            "geliUkeySet": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "disk.geli.ukey.set"
+            },
+            "installBootloader": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "disk.install_bootloader"
+            },
+            "parallelTest": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "disk.parallel_test"
+            },
             "read": {
                 "method": "disk.query",
                 "name": "call",
@@ -693,6 +765,12 @@
                 "method": "docker.container.query",
                 "name": "call",
                 "namespace": "rpc"
+            },
+            "recursiveDelete": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "docker.container.recursive_delete"
             },
             "start": {
                 "method": "task.submit",
@@ -1592,6 +1670,24 @@
             }
         },
         "instance": {
+            "amazonS3Create": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "peer.amazon-s3.create"
+            },
+            "amazonS3Delete": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "peer.amazon-s3.delete"
+            },
+            "amazonS3Update": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "peer.amazon-s3.update"
+            },
             "create": {
                 "method": "task.submit",
                 "name": "call",
@@ -1610,16 +1706,88 @@
                 "namespace": "rpc",
                 "task": "peer.delete"
             },
+            "freenasCreate": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "peer.freenas.create"
+            },
+            "freenasCreateLocal": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "peer.freenas.create_local"
+            },
+            "freenasDelete": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "peer.freenas.delete"
+            },
+            "freenasDeleteLocal": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "peer.freenas.delete_local"
+            },
+            "freenasUpdate": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "peer.freenas.update"
+            },
+            "freenasUpdateRemote": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "peer.freenas.update_remote"
+            },
             "read": {
                 "method": "peer.query",
                 "name": "call",
                 "namespace": "rpc"
+            },
+            "sshCreate": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "peer.ssh.create"
+            },
+            "sshDelete": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "peer.ssh.delete"
+            },
+            "sshUpdate": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "peer.ssh.update"
             },
             "update": {
                 "method": "task.submit",
                 "name": "call",
                 "namespace": "rpc",
                 "task": "peer.update"
+            },
+            "vmwareCreate": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "peer.vmware.create"
+            },
+            "vmwareDelete": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "peer.vmware.delete"
+            },
+            "vmwareUpdate": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "peer.vmware.update"
             }
         }
     },
@@ -1732,6 +1900,18 @@
     },
     "Replication": {
         "instance": {
+            "calculateDelta": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "replication.calculate_delta"
+            },
+            "checkDatasets": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "replication.check_datasets"
+            },
             "create": {
                 "method": "task.submit",
                 "name": "call",
@@ -1752,10 +1932,40 @@
                 "namespace": "rpc",
                 "task": "replication.delete"
             },
+            "getLatestLink": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "replication.get_latest_link"
+            },
+            "prepareSlave": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "replication.prepare_slave"
+            },
             "read": {
                 "method": "replication.query",
                 "name": "call",
                 "namespace": "rpc"
+            },
+            "replicateDataset": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "replication.replicate_dataset"
+            },
+            "reserveServices": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "replication.reserve_services"
+            },
+            "roleUpdate": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "replication.role_update"
             },
             "sync": {
                 "method": "task.submit",
@@ -1768,6 +1978,12 @@
                 "name": "call",
                 "namespace": "rpc",
                 "task": "replication.update"
+            },
+            "updateLink": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "replication.update_link"
             }
         }
     },
@@ -1961,6 +2177,12 @@
                 "namespace": "rpc",
                 "task": "service.openvpn.bridge"
             },
+            "genKey": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "service.openvpn.gen_key"
+            },
             "read": {
                 "method": "service.openvpn.get_config",
                 "name": "call",
@@ -1990,6 +2212,24 @@
     },
     "ServiceRsyncd": {
         "instance": {
+            "moduleCreate": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "service.rsyncd.module.create"
+            },
+            "moduleDelete": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "service.rsyncd.module.delete"
+            },
+            "moduleUpdate": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "service.rsyncd.module.update"
+            },
             "update": {
                 "method": "task.submit",
                 "name": "call",
@@ -2177,11 +2417,23 @@
                 "namespace": "rpc",
                 "task": "share.delete"
             },
+            "deleteDependent": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "share.delete_dependent"
+            },
             "export": {
                 "method": "task.submit",
                 "name": "call",
                 "namespace": "rpc",
                 "task": "share.export"
+            },
+            "immutableSet": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "share.immutable.set"
             },
             "import": {
                 "method": "task.submit",
@@ -2194,11 +2446,23 @@
                 "name": "call",
                 "namespace": "rpc"
             },
+            "terminateConnection": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "share.terminate_connection"
+            },
             "update": {
                 "method": "task.submit",
                 "name": "call",
                 "namespace": "rpc",
                 "task": "share.update"
+            },
+            "updateRelated": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "share.update_related"
             }
         }
     },
@@ -2221,6 +2485,12 @@
                 "name": "call",
                 "namespace": "rpc",
                 "task": "share.afp.import"
+            },
+            "terminateConnection": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "share.afp.terminate_connection"
             },
             "update": {
                 "method": "task.submit",
@@ -2376,6 +2646,12 @@
                 "namespace": "rpc",
                 "task": "share.nfs.import"
             },
+            "terminateConnection": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "share.nfs.terminate_connection"
+            },
             "update": {
                 "method": "task.submit",
                 "name": "call",
@@ -2403,6 +2679,12 @@
                 "name": "call",
                 "namespace": "rpc",
                 "task": "share.smb.import"
+            },
+            "terminateConnection": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "share.smb.terminate_connection"
             },
             "update": {
                 "method": "task.submit",
@@ -2525,6 +2807,12 @@
             }
         },
         "instance": {
+            "alertUpdate": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "stat.alert_update"
+            },
             "read": {
                 "method": "stat.query",
                 "name": "call",
@@ -3055,6 +3343,24 @@
             }
         },
         "instance": {
+            "cacheDelete": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.cache.delete"
+            },
+            "cacheFlush": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.cache.flush"
+            },
+            "cacheUpdate": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.cache.update"
+            },
             "create": {
                 "method": "task.submit",
                 "name": "call",
@@ -3078,6 +3384,24 @@
                 "name": "call",
                 "namespace": "rpc",
                 "task": "vm.export"
+            },
+            "fileDownload": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.file.download"
+            },
+            "fileInstall": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.file.install"
+            },
+            "immutableSet": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.immutable.set"
             },
             "import": {
                 "method": "task.submit",
@@ -3107,6 +3431,24 @@
                 "name": "call",
                 "namespace": "rpc",
                 "task": "vm.stop"
+            },
+            "templateDelete": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.template.delete"
+            },
+            "templateFetch": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.template.fetch"
+            },
+            "templateIpfsFetch": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.template.ipfs.fetch"
             },
             "update": {
                 "method": "task.submit",
@@ -3323,11 +3665,23 @@
                 },
                 "task": "volume.create"
             },
+            "createAuto": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "volume.create_auto"
+            },
             "delete": {
                 "method": "task.submit",
                 "name": "call",
                 "namespace": "rpc",
                 "task": "volume.delete"
+            },
+            "deleteExported": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "volume.delete_exported"
             },
             "export": {
                 "method": "task.submit",
@@ -3340,6 +3694,24 @@
                 "name": "call",
                 "namespace": "rpc",
                 "task": "volume.import"
+            },
+            "importDisk": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "volume.import_disk"
+            },
+            "keysBackup": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "volume.keys.backup"
+            },
+            "keysRestore": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "volume.keys.restore"
             },
             "lock": {
                 "method": "task.submit",
@@ -3381,6 +3753,24 @@
                 "name": "call",
                 "namespace": "rpc",
                 "task": "volume.upgrade"
+            },
+            "vdevOffline": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "volume.vdev.offline"
+            },
+            "vdevOnline": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "volume.vdev.online"
+            },
+            "vdevReplace": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "volume.vdev.replace"
             }
         }
     },
@@ -3408,6 +3798,18 @@
                 "method": "volume.dataset.query",
                 "name": "call",
                 "namespace": "rpc"
+            },
+            "temporaryMount": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "volume.dataset.temporary.mount"
+            },
+            "temporaryUmount": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "volume.dataset.temporary.umount"
             },
             "update": {
                 "method": "task.submit",
@@ -3549,6 +3951,12 @@
                 "namespace": "rpc",
                 "task": "zfs.pool.destroy"
             },
+            "destroyExported": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "zfs.pool.destroy_exported"
+            },
             "detach": {
                 "method": "task.submit",
                 "name": "call",
@@ -3572,6 +3980,18 @@
                 "name": "call",
                 "namespace": "rpc",
                 "task": "zfs.pool.import"
+            },
+            "offlineDisk": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "zfs.pool.offline_disk"
+            },
+            "onlineDisk": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "zfs.pool.online_disk"
             },
             "read": {
                 "method": "zfs.pool.query",
