@@ -133,6 +133,7 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
                             path = self._service.dirname(path);
                         }
                     }
+                    self.dispatchOwnPropertyChange("parent", self.parent);
                     return self.entry;
                 },
                 function() {
