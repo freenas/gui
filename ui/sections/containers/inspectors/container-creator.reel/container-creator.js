@@ -79,6 +79,10 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
         value: function () {
             if (this._environment) {
                 this._environment.clear();
+                
+                if (this._volumesComponent.values) {
+                    this._volumesComponent.values.clear();
+                }
             }
         }
     },
