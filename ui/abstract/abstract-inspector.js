@@ -7,6 +7,22 @@ var AbstractInspector = exports.AbstractInspector = AbstractComponentActionDeleg
         }
     },
 
+    templateDidLoad: {
+        value: function() {
+            if (typeof this._inspectorTemplateDidLoad === 'function') {
+                var self = this;
+                this._canDrawGate.setField(this.constructor.ABSTRACT_DRAW_GATE_FIELD, false);
+                var templateDidLoadPromise = this._inspectorTemplateDidLoad();
+                if (!Promise.is(templateDidLoadPromise)) {
+                    templateDidLoadPromise = Promise.resolve(templateDidLoadPromise);
+                }
+                templateDidLoadPromise.then(function() {
+                    self._canDrawGate.setField(self.constructor.ABSTRACT_DRAW_GATE_FIELD, true);
+                });
+            }
+        }
+    },
+
     enterDocument: {
         value: function(isFirstTime) {
             this.super();
@@ -22,5 +38,9 @@ var AbstractInspector = exports.AbstractInspector = AbstractComponentActionDeleg
         value: function() {
             this.validationController.load(this);
         }
+    }
+}, {
+    ABSTRACT_DRAW_GATE_FIELD: {
+        value: "templateLoaded"
     }
 });
