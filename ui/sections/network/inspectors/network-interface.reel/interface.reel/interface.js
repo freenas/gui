@@ -9,10 +9,10 @@ exports.Interface = Component.specialize({
         value: null
     },
 
-    templateDidLoad: {
+    enterDocument: {
         value: function () {
             var self = this;
-            self.active_media_type = this.object.status.active_media_type.concat(" ", this.object.status.active_media_subtype);
+            self.active_media_type = this.object.status.active_media_type + " " + this.object.status.active_media_subtype;
         }
     }
 });
