@@ -116,13 +116,19 @@ var _findTaskDescriptorForTaskName = function _findTaskDescriptorForTaskName (op
 
     return promise.then(function (models) {
         var part = taskName.split(/\.|_|-|\s/),
-            modelCandidate = part.slice(0, part.length -1).join('.').toCamelCase(),
+            ignoredParts = 1,
+            modelCandidate = part.slice(0, part.length - ignoredParts).join('.').toCamelCase(),
             model;
 
-        if (models.indexOf(modelCandidate) > -1) { // case -> model name + task
+
+        while (models.indexOf(modelCandidate) == -1 && ignoredParts < part.length) { // case -> model name + task
+            ignoredParts++;
+            modelCandidate = part.slice(0, part.length - ignoredParts).join('.').toCamelCase();
+        }
+        if (ignoredParts < part.length) {
             model = {
                 name: modelCandidate,
-                taskType: part[part.length -1],
+                taskType: part.slice(part.length - ignoredParts).join('.').toLowerCamelCase(),
                 task: taskName,
                 schema: schema
             };
