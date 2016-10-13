@@ -7,6 +7,9 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "_availableHosts": {"<-": "@owner._dockerHosts.filter{!@owner.object.hosts.has(id)}"}
             }
         },
 
@@ -21,8 +24,6 @@
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
-                "canSave": false,
-                "canRevert": false,
                 "canDelete": true,
                 "controller": {"@": "owner"}
             },
@@ -80,6 +81,34 @@
             "bindings": {
                 "value": {"<-": "@owner.createdAtDate"}
             }
+        },
+
+        "hosts": {
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "properties": {
+                "element": {"#": "hosts"},
+                "controller": {"@": "owner"},
+                "label": "Hosts",
+                "inputTitle": "Install image",
+                "valuesTitle": "Image installed on hosts",
+                "emptyMessage": "Image installed on no hosts :("
+            },
+            "bindings": {
+                "values": {"<-": "@owner._dockerHosts.filter{@owner.object.hosts.has(id)}.map{name}"},
+                "canAddNewEntry": {"<-": "@owner._availableHosts.length > 0 && !!@dockerHostSelect.selectedValue"}
+            }
+        },
+
+        "dockerHostSelect": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "dockerHostSelect"},
+                "label": "Available Hosts"
+            },
+            "bindings": {
+                "options": {"<-": "[{label: '---', value: null}].concat(@owner._availableHosts.map{{label: name, value: id}})"},
+                "selectedValue": {"<-": "@dockerHostSelect.options.one().value"}
+            }
         }
     }
     </script>
@@ -91,6 +120,9 @@
             <div data-montage-id="name"></div>
             <div data-montage-id="size"></div>
             <div data-montage-id="createdAt"></div>
+            <div data-montage-id="hosts">
+                <div data-montage-id="dockerHostSelect"></div>
+            </div>
         </div>
     </div>
 </body>
