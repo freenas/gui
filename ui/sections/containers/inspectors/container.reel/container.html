@@ -118,7 +118,7 @@
                 "label": "Host"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.host"}
+                "value": {"<-": "@owner._dockerHosts.filter{id == @owner.object.host}.one().name"}
             }
         },
 
