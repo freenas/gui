@@ -24,7 +24,7 @@ exports.VirtualMachine = AbstractInspector.specialize({
         }
     },
 
-    _templateDidLoad: {
+    _inspectorTemplateDidLoad: {
         value: function() {
             var self = this;
             this.DEFAULT_STRING = this._sectionService.DEFAULT_STRING;

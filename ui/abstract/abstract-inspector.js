@@ -9,10 +9,10 @@ var AbstractInspector = exports.AbstractInspector = AbstractComponentActionDeleg
 
     templateDidLoad: {
         value: function() {
-            if (typeof this._templateDidLoad === 'function') {
+            if (typeof this._inspectorTemplateDidLoad === 'function') {
                 var self = this;
                 this._canDrawGate.setField(this.constructor.ABSTRACT_DRAW_GATE_FIELD, false);
-                var templateDidLoadPromise = this._templateDidLoad();
+                var templateDidLoadPromise = this._inspectorTemplateDidLoad();
                 if (!Promise.is(templateDidLoadPromise)) {
                     templateDidLoadPromise = Promise.resolve(templateDidLoadPromise);
                 }
