@@ -50,17 +50,9 @@ exports.CalendarListDay = Component.specialize(/** @lends CalendarListDay# */ {
         }
     },
 
-    hasEvents: {
-        value: null
-    },
-
     _setHasEvents: {
         value: function() {
-            if (this.displayedEvents.length) {
-                this.object.hasEvents = true;
-            } else {
-                this.object.hasEvents = false;
-            }
+            this.object._hasEvents = !!this.displayedEvents.length;
         }
     },
 
