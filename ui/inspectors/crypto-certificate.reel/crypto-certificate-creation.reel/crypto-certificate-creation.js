@@ -18,12 +18,13 @@ exports.CryptoCertificateCreation = Component.specialize(/** @lends CryptoCertif
 
     templateDidLoad: {
         value: function () {
+            var self = this;
             this.algorithmOptions = [];
             for (var i = 0; i < CryptoCertificateDigestalgorithm.members.length; i++) {
                 this.algorithmOptions.push({label: CryptoCertificateDigestalgorithm.members[i], value: CryptoCertificateDigestalgorithm[CryptoCertificateDigestalgorithm.members[i]]});
             };
             this.application.cryptoCertificateService.listCertificates().then(function (certificates) {
-                this.certificates = certificates;
+                self.certificates = certificates;
             })
         }
     },
