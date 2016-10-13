@@ -10,6 +10,7 @@ body {
     display: flex;
     flex-direction: column;
     outline: 1px solid #aaa;
+    padding: 0 1em;
 }
 
 .Main.inspector {

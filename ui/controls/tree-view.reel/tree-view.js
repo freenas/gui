@@ -41,6 +41,22 @@ exports.TreeView = AbstractComponentActionDelegate.specialize({
         }
     },
 
+    _selectedNode: {
+        value: null
+    },
+
+    selectedNode: {
+        get: function() {
+            return this._selectedNode;
+        },
+        set: function(selectedNode) {
+            console.log('set', selectedNode);
+            if (this._selectedNode !== selectedNode) {
+                this._selectedNode = selectedNode;
+            }
+        }
+    },
+
     _controller: {
         value: null
     },
@@ -54,7 +70,7 @@ exports.TreeView = AbstractComponentActionDelegate.specialize({
                 this._controller = controller;
 
                 if (controller) {
-                   this._setDefaultSelectedPath(); 
+                   this._setDefaultSelectedPath();
                 }
             }
         }
@@ -62,7 +78,7 @@ exports.TreeView = AbstractComponentActionDelegate.specialize({
 
     enterDocument: {
         value: function() {
-            this._setDefaultSelectedPath(); 
+            this._setDefaultSelectedPath();
         }
     },
 
@@ -88,7 +104,7 @@ exports.TreeView = AbstractComponentActionDelegate.specialize({
 
     handleSelectAction: {
         value: function () {
-            this.selectedPath = this.controller.selectedPath;
+            this.selectedPath = this.selectedNode;
             this.isExpanded = false;
         }
     },
@@ -96,7 +112,7 @@ exports.TreeView = AbstractComponentActionDelegate.specialize({
     _setDefaultSelectedPath: {
         value: function() {
             if (!this._selectedPath && this._controller && this._controller.root) {
-                this.selectedPath = this._controller.selectedPath;
+                this.selectedPath = this.selectedNode = this._controller.selectedPath;
             }
         }
     },

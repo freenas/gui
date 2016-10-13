@@ -8,32 +8,41 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.CurrentNode = Component.specialize(/** @lends CurrentNode# */ {
-    _selectedChild: {
+
+    enterDocument: {
+        value: function () {
+            this.selectedNode = this.selectedPath;
+        }
+    },
+
+    _selectedPath: {
         value: null
     },
 
-    selectedChild: {
-        get: function() {
-            return this._selectedChild;
+    selectedPath: {
+        get: function () {
+            return this._selectedPath;
         },
-        set: function(selectedChild) {
-            if (selectedChild) {
-                this._selectedChild = selectedChild
+        set: function (path) {
+            this.selectedNode = path;
+            this._selectedPath = path;
+        }
+    },
+
+    handleOpenButtonAction: {
+        value: function (event) {
+            var iteration = this.items._findIterationContainingElement(event.target.element);
+
+            if (iteration) {
+                this.controller.open(iteration.object.path);
             }
         }
     },
 
-    prepareForActivationEvents: {
-        value: function() {
-            this.addRangeAtPathChangeListener('selectedChild', this, 'handleSelectionChange');
-        }
-    },
-
-    handleSelectionChange: {
-        value: function (plus) {
-            if (plus.length > 0) {
-                this.controller.open(plus[0].path);
-            }
+    handleCheckboxAction: {
+        value: function (event) {
+            var iteration = this.items._findIterationContainingElement(event.target.element);
+            this.selectedNode = iteration.object.path;
         }
     }
 });

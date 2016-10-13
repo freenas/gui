@@ -28,13 +28,28 @@
                 "value": {"<-": "@owner.data.name"}
             }
         },
-        "arrowConditional": {
-            "prototype": "montage/ui/condition.reel",
+        "checkbox": {
+            "prototype": "blue-shark/ui/checkbox.reel",
             "properties": {
-                "element": {"#": "arrowConditional"}
+                "element": {"#": "checkbox"}
             },
             "bindings": {
-                "condition": {"<-": "@owner.data.type != 'FILE'"}
+                "checked": {"<->": "@owner.checked"}
+            }
+        },
+        "homeCondition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "homeCondition"}
+            },
+            "bindings": {
+                "condition": {"<-": "@owner.data.home"}
+            }
+        },
+        "openButton": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "openButton"}
             }
         }
     }
@@ -42,15 +57,18 @@
 </head>
 <body>
     <div data-montage-id="owner" class="ChildNode">
-        <div data-montage-id="iconSubstitution" class="ChildNode-typeIcon">
-            <svg data-arg="DIRECTORY"><use xlink:href="#i-folder"/></svg>
-            <svg data-arg="FILE"><use xlink:href="#i-file"/></svg>
-            <svg data-arg="DATASET"><use xlink:href="#i-dataset"/></svg>
+        <div data-montage-id="openButton" class="ChildNode-openButton">
+            <div data-montage-id="iconSubstitution" class="ChildNode-typeIcon">
+                <svg data-arg="DIRECTORY"><use xlink:href="#i-folder"/></svg>
+                <svg data-arg="FILE"><use xlink:href="#i-file"/></svg>
+                <svg data-arg="DATASET"><use xlink:href="#i-dataset"/></svg>
+            </div>
+            <div data-montage-id="name" class="ChildNode-name"></div>
+            <div data-montage-id="homeCondition" class="ChildNode-homeIcon">
+                <svg><use xlink:href="#i-home"/></svg>
+            </div>
         </div>
-        <div data-montage-id="name" class="ChildNode-name"></div>
-        <div data-montage-id="arrowConditional" class="ChildNode-arrow">
-            <svg><use xlink:href="#i-arrow"/></svg>
-        </div>
+        <div data-montage-id="checkbox" class="ChildNode-checkbox"></div>
     </div>
 </body>
 </html>
