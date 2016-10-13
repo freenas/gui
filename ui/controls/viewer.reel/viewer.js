@@ -100,6 +100,8 @@ exports.Viewer = AbstractComponentActionDelegate.specialize({
                     } else if (UIDescriptor.nameExpression) {
                         self.sortingKey = UIDescriptor.nameExpression;
                     }
+
+                    self.createLabel = UIDescriptor.createLabel ? UIDescriptor.createLabel : null;
                 } else {
                     self.hasCreateEditor = false;
                 }

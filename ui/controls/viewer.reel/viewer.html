@@ -37,6 +37,17 @@
                 "classList.has('hide')": {"<-": "!@owner.hasCreateEditor"}
             }
         },
+
+        "createLabel": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "createLabel"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.createLabel || 'Create'"}
+            }
+        },
+
         "scrollView": {
             "prototype": "blue-shark/ui/scrollview.reel",
             "properties": {
@@ -58,7 +69,7 @@
                     <div class="Viewer-createButton-plus">
                         <svg><use xlink:href="#i-plus"/></svg>
                     </div>
-                    <span class="Viewer-createButton-label">Create</span>
+                    <span data-montage-id="createLabel" class="Viewer-createButton-label"></span>
                     <div class="Viewer-createButton-arrow">
                         <svg><use xlink:href="#i-arrow"/></svg>
                     </div>
