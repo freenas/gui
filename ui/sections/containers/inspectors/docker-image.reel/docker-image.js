@@ -54,18 +54,18 @@ exports.DockerImage = AbstractInspector.specialize({
             // this._sectionService.removeImageFromHost().then(function () {
             // });
 
-            var host;
+            // var host;
 
-            for (var i = 0, length = this._dockerHosts.length; i < length; i++) {
-                if (this._dockerHosts[i].name === hostName) {
-                    host = this._dockerHosts[i];
-                    break;
-                }
-            }
+            // for (var i = 0, length = this._dockerHosts.length; i < length; i++) {
+            //     if (this._dockerHosts[i].name === hostName) {
+            //         host = this._dockerHosts[i];
+            //         break;
+            //     }
+            // }
 
-            if (host) {
-                this.object.hosts.splice(this.object.hosts.indexOf(host.id), 1);
-            }
+            // if (host) {
+            //     this.object.hosts.splice(this.object.hosts.indexOf(host.id), 1);
+            // }
         }
     }
 
