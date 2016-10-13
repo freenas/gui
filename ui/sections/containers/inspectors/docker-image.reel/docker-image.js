@@ -28,9 +28,6 @@ exports.DockerImage = AbstractInspector.specialize({
             if (this._object !== object) {
                 this._object = object;
                 this.dispatchOwnPropertyChange("createdAtDate", this.createdAtDate);
-                
-                // //frb...
-                // this.dispatchOwnPropertyChange("_dockerHosts", this._dockerHosts);
             }
         },
         get: function () {
