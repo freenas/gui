@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="docker-image-pull.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "_selectedImageHosts": {"<-": "@owner._dockerImages.filter{names.has(@owner._selectedImage)}.one().hosts"},
+                "_availablesDockersOptions": {"<-": "@owner._availablesDockers.filter{!@owner._selectedImageHosts || !@owner._selectedImageHosts.has(this.value)}"}
+            }
+        },
+
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "canDelete": false,
+                "canSave": true,
+                "canRevert": false,
+                "controller": {"@": "owner"}
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"}
+            }
+        },
+
+        "image": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "image"},
+                "label": "Image"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner._selectedImage"},
+                "options": {"<-": "[{label: '---', value: null}].concat(@owner._images)"}
+            }
+        },
+
+        "dockerHost": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "dockerHost"},
+                "label": "Docker host"
+            },
+            "bindings": {
+                "options": {"<-": "[{label: '---', value: null}].concat(@owner._availablesDockersOptions)"},
+                "disabled": {"<-": "!@owner._selectedImage || @owner._availablesDockersOptions.length == 0"},
+                "selectedValue": {"<->": "@owner._selectedHost"}
+            }
+        }
+
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="DockerImagePull">
+        <div data-montage-id="inspector">
+            <div data-montage-id="image"></div>
+            <div data-montage-id="dockerHost"></div>
+        </div>
+    </div>
+</body>
+</html>

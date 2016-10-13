@@ -2,10 +2,11 @@
     "root": {
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
-            "nameExpression": "names.join(' ')",
+            "nameExpression": "names.defined() ? names.join(' ') : 'Pull'",
             "collectionNameExpression": "'Images'",
             "daoModuleId": "core/dao/docker-image-dao",
-            "inspectorComponentModule": {"%": "ui/sections/containers/inspectors/docker-image.reel"}
+            "inspectorComponentModule": {"%": "ui/sections/containers/inspectors/docker-image.reel"},
+            "creatorComponentModule": {"%": "ui/sections/containers/inspectors/docker-image-pull.reel"}
         }
     }
 }

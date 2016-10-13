@@ -35,13 +35,13 @@
             "properties": {
                 "element": {"#": "inspector"},
                 "canSave": true,
+                "canDelete": false,
+                "canRevert": false,
                 "controller": {"@": "owner"},
                 "validationController": {"@": "validationController"}
             },
             "bindings": {
-                "context": {"<-": "@owner.context"},
-                "canDelete": {"<-": "!@owner.object._isNew"},
-                "canRevert": {"<-": "@inspector.canDelete"}
+                "context": {"<-": "@owner.context"}
             }
         },
 

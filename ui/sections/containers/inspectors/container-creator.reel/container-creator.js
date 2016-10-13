@@ -9,18 +9,20 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
  */
 exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCreator# */ {
     
+    //Method used by docker-image-pull.reel
     templateDidLoad: {
         value: function () {
             var self = this,
+                blockGateKey = this.constructor.DATA_GATE_BLOCK_KEY;
                 promises = [];
 
             this._environment = {};
-            this._canDrawGate.setField("serviceLoaded", false);
+            this._canDrawGate.setField(blockGateKey, false);
 
             promises.push(this._sectionService.listTemplateDockerImages());
             promises.push(this._sectionService.listDockerHosts());
 
-            Promise.all(promises).then(function (data) {
+            return Promise.all(promises).then(function (data) {
                 var templates = data[0],
                     templatesNames = Object.keys(templates);
 
@@ -37,7 +39,8 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
                         value: dockerHost.id
                     };
                 });
-                self._canDrawGate.setField("serviceLoaded", true);
+            }).finally(function () {
+                self._canDrawGate.setField(blockGateKey, true);
             });
         }
     },
@@ -147,6 +150,12 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
                 self._reset();
             });
         }
+    }
+
+}, {
+
+    DATA_GATE_BLOCK_KEY: {
+        value: "dataLoaded"
     }
 
 });
