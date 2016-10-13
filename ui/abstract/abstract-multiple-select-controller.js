@@ -49,7 +49,7 @@ exports.AbstractMultipleSelectController = AbstractComponentActionDelegate.speci
     _canAddCurrentEntry: {
         value: function () {
             return this.fieldMultipleSelect && this.fieldMultipleSelect.control ? 
-                !this.fieldMultipleSelect.control.addButtonDisabled: true;
+                this.fieldMultipleSelect.control.canAddNewEntry: true;
         }
     },
 
