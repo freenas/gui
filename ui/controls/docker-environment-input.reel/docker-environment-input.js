@@ -13,7 +13,7 @@ exports.DockerEnvironmentInput = AbstractMultipleSelectController.specialize(/**
         value: "!this.variableComponent.hasError && !this.valueComponent.hasError && !!this.variableComponent.value && !!this.valueComponent.value"
     },
 
-    cleanCurrenEntry: {
+    cleanCurrentEntry: {
         value: function () {
             this.variableComponent.value = null;
             this.valueComponent.value = null;

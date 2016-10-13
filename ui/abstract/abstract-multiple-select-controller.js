@@ -68,7 +68,7 @@ exports.AbstractMultipleSelectController = AbstractComponentActionDelegate.speci
                 document.activeElement.blur();
             }
 
-            this.cleanCurrenEntry();
+            this.cleanCurrentEntry();
 
             return formattedCurrentEntry;
         }

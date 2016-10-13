@@ -13,7 +13,7 @@ exports.DockerVolumesInput = AbstractMultipleSelectController.specialize(/** @le
         value: "!this.containerPathComponent.hasError && !this.hostPathComponent.hasError && !!this.containerPathComponent.value && !!this.hostPathComponent.value"
     },
 
-    cleanCurrenEntry: {
+    cleanCurrentEntry: {
         value: function () {
             this.hostPathComponent.value = null;
             this.containerPathComponent.value = null;
