@@ -17,10 +17,10 @@
                 "valuePropertyName": "name"
             }
         },
-        "signing_ca_id": {
+        "signing_ca_name": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
-                "element": {"#": "signing_ca_id"},
+                "element": {"#": "signing_ca_name"},
                 "label": "Signing Certificate Authority",
                 "converter": {"@": "optionsConverter"}
             },
@@ -29,10 +29,10 @@
                 "selectedValue": {"<->": "@owner.object.signing_ca_name"}
             }
         },
-        "showSigningId": {
+        "showSigningName": {
             "prototype": "montage/ui/condition.reel",
             "properties": {
-                "element": {"#": "showSigningId"}
+                "element": {"#": "showSigningName"}
             },
             "bindings": {
                 "condition": {"<-": "@owner.object.type == 'CA_INTERMEDIATE' || @owner.object.type == 'CERT_INTERNAL'"}
@@ -128,8 +128,8 @@
 </head>
 <body>
     <div data-montage-id="owner" class="CryptoCertificateCreation">
-        <div data-montage-id="showSigningId">
-            <div data-montage-id="signing_ca_id"></div>
+        <div data-montage-id="showSigningName">
+            <div data-montage-id="signing_ca_name"></div>
         </div>
         <div data-montage-id="key_length"></div>
         <div data-montage-id="algorithm"></div>
