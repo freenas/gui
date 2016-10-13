@@ -23,7 +23,8 @@ exports.DockerVolumesInput = AbstractMultipleSelectController.specialize(/** @le
 
     getFormattedCurrentEntry: {
         value: function () {
-            return this.hostPathComponent.value + " -> " + this.containerPathComponent.value;
+            return this.hostPathComponent.value + " -> " + this.containerPathComponent.value + 
+                (this.readOnlyComponent.checked ? " (ro)" : "");
         }
     }
 

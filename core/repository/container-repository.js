@@ -104,6 +104,12 @@ exports.ContainerRepository = AbstractRepository.specialize({
         value: function (settings) {
             return this._dockerConfigDao.save(settings);
         }
+    },
+
+    saveContainer: {
+        value: function (container) {
+            return this._dockerContainerDao.save(container);
+        }
     }
 
 });

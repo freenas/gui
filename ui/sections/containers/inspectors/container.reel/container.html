@@ -45,17 +45,6 @@
             }
         },
 
-         "fileTreeController": {
-            "prototype": "core/controller/filesystem-tree-controller",
-            "properties": {
-                "canListFiles": true,
-                "root": "/"
-            },
-            "bindings": {
-                "service": {"<-": "@owner.application.filesystemService"}
-            }
-        },
-
         "validationController": {
             "prototype": "core/controller/validation-controller",
             "properties": {
@@ -111,18 +100,6 @@
             }
         },
 
-        "volumeHostPath": {
-            "prototype": "blue-shark/ui/field-text.reel",
-            "properties": {
-                "element": {"#": "volumeHostPath"},
-                "controller": {"@": "fileTreeController"},
-                "label": "Host path"
-            },
-            "bindings": {
-                "value": {"<-": "@owner.object.parent_directory"}
-            }
-        },
-
         "hostname": {
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
@@ -164,7 +141,8 @@
                 "label": "Command"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.command.join(' ')"}
+                "value": {"<-": "@owner.object.command.join(' ')"},
+                "classList.has('is-hidden')": {"<-": "!@owner.object.command.length"}
             }
         },
 
@@ -174,11 +152,12 @@
                 "element": {"#": "environment"},
                 "label": "Environment",
                 "labelPath": "this",
+                "valuesTitle": "Added Variables",
                 "disabled": true
             },
             "bindings": {
                 "values": {"<-": "@owner.object.environment"},
-                "placeholderValue": {"<-": "'eg. VAR=VALUE'"}
+                "classList.has('is-hidden')": {"<-": "!@owner.object.environment.length"}
             }
         },
 
@@ -187,12 +166,28 @@
             "properties": {
                 "element": {"#": "ports"},
                 "label": "Ports",
+                "valuesTitle": "Added Ports",
                 "labelPath": "this",
                 "disabled": true
             },
             "bindings": {
-                "values": {"<-": "@owner.object.ports.map{container_port + ':' + host_port + (protocol.defined() ? '/' + protocol : '/TCP')}"},
-                "placeholderValue": {"<-": "'eg. extPort:intPort/<tcp|udp>'"}
+                "values": {"<-": "@owner.object.ports.map{host_port + ' -> ' + container_port + (protocol.defined() ? ' ' + protocol : '/TCP')}"},
+                "classList.has('is-hidden')": {"<-": "!@owner.object.ports.length"}
+            }
+        },
+
+        "volumes": {
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "properties": {
+                "element": {"#": "volumes"},
+                "label": "Volumes",
+                "valuesTitle": "Added Volumes",
+                "labelPath": "this",
+                "disabled": true
+            },
+            "bindings": {
+                "values": {"<-": "@owner.object.volumes.map{host_path + ' -> ' + container_path + (!!readonly ? ' (ro)' : '')}"},
+                "classList.has('is-hidden')": {"<-": "!@owner.object.volumes.length"}
             }
         },
 
@@ -224,13 +219,19 @@
 
             <div data-montage-id="image"></div>
             <div data-montage-id="name"></div>
-            <div data-montage-id="volumeHostPath"></div>
-            <div data-montage-id="hostname"></div>
             <div data-montage-id="host"></div>
+            <div data-montage-id="hostname"></div>
             <div data-montage-id="memoryLimit"></div>
-            <div data-montage-id="environment"></div>
-            <div data-montage-id="ports"></div>
+            <div data-montage-id="environment">
+                <div></div>
+            </div>
+            <div data-montage-id="ports">
+                <div></div>
+            </div>
             <div data-montage-id="exposePorts"></div>
+            <div data-montage-id="volumes">
+                <div></div>
+            </div>
             <div data-montage-id="command"></div>
             <div data-montage-id="interactive"></div>
         </div>

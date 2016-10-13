@@ -83,30 +83,7 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
         }
     },
 
-    _getPortsFromArray: {
-        value: function (array) {
-            var ports = null,
-                string = array.join(" "),
-                error;
-
-            if (string) {
-                var data = string.split(/:|\/| /),
-                    port, containerPort, hostPort;
-
-                ports = [];
-
-                for (var i = 0, length = data.length; i + 3 <= length; i = i + 3) {
-                    ports.push({ 
-                        container_port: +data[i],
-                        host_port: +data[i + 1],
-                        protocol: data[i + 2].toUpperCase()
-                    });
-                }
-            }
-
-            return ports;
-        }
-    },
+    
 
     save: {
         value: function () {
@@ -114,11 +91,11 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
                 commandString = this._commandComponent.value,
                 namesString = this._nameComponent.value,
                 portsValues = this._portsComponent.values,
-                spaceString = " ",
+                volumesValues = this._volumesComponent.values,
                 self = this;
 
             if (commandString) {
-                this.object.command = commandString.split(spaceString);
+                this.object.command = commandString.split(" ");
             }
 
             if (namesString) {
@@ -127,10 +104,6 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
                 } else {
                     this.object.names = [namesString];
                 }
-            }
-
-            if (this.object.parent_directory === "/") {
-                this.object.parent_directory = void 0;
             }
 
             if (this.object.memory_limit) {
@@ -146,9 +119,65 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
                 this.object.ports = this._getPortsFromArray(portsValues);
             }
 
-            return this.application.dataService.saveDataObject(this.object).then(function () {
+            if (volumesValues.length) {
+                this.object.volumes = this._getVolumesFromArray(volumesValues);
+            }
+
+            return this._sectionService.saveContainer(this.object).then(function () {
                 self._reset();
             });
+        }
+    },
+
+    //@deprecated will be removed with the new Table UI
+    _getPortsFromArray: {
+        value: function (array) {
+            var regEx = new RegExp(/^([0-9]+) -> ([0-9]+) (TCP|UDP)$/),
+                ports = null;
+
+            if (array && array.length) {
+                ports = [];
+
+                for (var i = 0, length = array.length; i < length; i++) {
+                    data = array[0].match(regEx);
+
+                    if (data.length === 4) {
+                        ports.push({
+                            host_port: +data[1],
+                            container_port: +data[2],
+                            protocol: data[3].toUpperCase()
+                        });
+                    }
+                }
+            }               
+
+            return ports;
+        }
+    },
+
+    //@deprecated will be removed with the new Table UI
+    _getVolumesFromArray: {
+        value: function (array) {
+            var regEx = new RegExp(/^([^ ]+) -> ([^ ]+) ?(\(ro\))?$/),
+                ports = null;
+
+            if (array && array.length) {
+                ports = [];
+
+                for (var i = 0, length = array.length; i < length; i++) {
+                    data = array[0].match(regEx);
+
+                    if (data.length >= 3) {
+                        ports.push({
+                            host_path: data[1],
+                            container_path: data[2],
+                            readonly: !!data[3]
+                        });
+                    }
+                }
+            }               
+
+            return ports;
         }
     }
 

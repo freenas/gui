@@ -65,6 +65,12 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         value: function (settings) {
             return this._containerRepository.saveSettings(settings);
         }
+    },
+
+    saveContainer: {
+        value: function (container) {
+            return this._containerRepository.saveContainer(container);
+        }
     }
 
 });
