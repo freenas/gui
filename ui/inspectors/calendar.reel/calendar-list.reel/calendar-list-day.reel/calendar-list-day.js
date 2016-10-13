@@ -13,19 +13,19 @@ exports.CalendarListDay = Component.specialize(/** @lends CalendarListDay# */ {
         value: null
     },
 
-    _day: {
+    _object: {
         value: null
     },
 
-    day: {
+    object: {
         get: function() {
-            return this._day;
+            return this._object;
         },
-        set: function(day) {
-            if (this._day !== day) {
-                this._day = day;
-                if (day) {
-                    this.fullDate = monthNames[day.month] + " " + day.date;
+        set: function(object) {
+            if (this._object !== object) {
+                this._object = object;
+                if (object) {
+                    this.fullDate = monthNames[object.month] + " " + object.date;
                     this._loadTasks();
                 }
             }
@@ -43,24 +43,32 @@ exports.CalendarListDay = Component.specialize(/** @lends CalendarListDay# */ {
         set: function(selectedDay) {
             if (this._selectedDay !== selectedDay) {
                 this._selectedDay = selectedDay;
-                if (selectedDay == this._day) {
+                if (selectedDay == this._object) {
                     this.element.scrollIntoView();
                 }
             }
         }
     },
 
+    _setHasEvents: {
+        value: function() {
+            this.object._hasEvents = !!this.displayedEvents.length;
+        }
+    },
+
     enterDocument: {
         value: function() {
+            this.addRangeAtPathChangeListener("displayedEvents", this, "_setHasEvents");
             this._loadTasks();
         }
     },
 
+
     _loadTasks: {
         value: function() {
-            if (this._day) {
+            if (this._object) {
                 var self = this;
-                this.application.calendarService.getTasksScheduleOnDay(this._day).then(function(tasks) {
+                this.application.calendarService.getTasksScheduleOnDay(this._object).then(function(tasks) {
                     self.events = tasks;
                 });
             }
