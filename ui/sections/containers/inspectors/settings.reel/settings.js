@@ -17,13 +17,7 @@ exports.Settings = AbstractInspector.specialize(/** @lends Settings# */ {
             this._canDrawGate.setField(blockGateKey, false);
 
             this._sectionService.listDockerHosts().then(function (dockersHost) {
-                self._availablesDockers = dockersHost.map(function (dockerHost) {                    
-                    return {
-                        label: dockerHost.name,
-                        value: dockerHost.id
-                    };
-                });
-
+                self._availablesDockers = dockersHost;
                 self._canDrawGate.setField(blockGateKey, true);
             });
         }

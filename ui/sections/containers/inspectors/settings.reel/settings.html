@@ -7,6 +7,10 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.settings.default_host"},
+                "_availablesDockersOptions": {"<-": "@owner._availablesDockers.map{{label: name, value: id}}"}
             }
         },
         
@@ -32,7 +36,7 @@
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.object.settings.default_host"},
-                "options": {"<-": "@owner._availablesDockers"}
+                "options": {"<-": "@owner._availablesDockersOptions"}
             }
         },
 
@@ -44,7 +48,7 @@
             },
             "bindings": {
                 "disabled": {"<-": "!@apiForwardingEnable.checked"},
-                "options": {"<-": "[{label: '---'}].concat(@owner._availablesDockers)"},
+                "options": {"<-": "[{label: '---'}].concat(@owner._availablesDockersOptions)"},
                 "selectedValue": {"<->": "@owner.object.settings.api_forwarding"}
             }
         },
