@@ -9,6 +9,7 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
+                "_availablesDockers": {"<-": "@owner._hostDockers.map{{label: name, value: id}}"},
                 "_selectedImageHosts": {"<-": "@owner._dockerImages.filter{names.has(@owner._selectedImage)}.one().hosts"},
                 "_availablesDockersOptions": {"<-": "@owner._availablesDockers.filter{!@owner._selectedImageHosts || !@owner._selectedImageHosts.has(this.value)}"}
             }
@@ -19,11 +20,12 @@
             "properties": {
                 "element": {"#": "inspector"},
                 "canDelete": false,
-                "canSave": false,
+                "canSave": true,
                 "canRevert": false,
                 "controller": {"@": "owner"}
             },
             "bindings": {
+                "canSave": {"<-": "!!@owner._selectedImage && !!@owner._selectedHost"},
                 "context": {"<-": "@owner.context"}
             }
         },

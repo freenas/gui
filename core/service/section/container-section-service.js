@@ -1,11 +1,13 @@
 var AbstractSectionService = require("core/service/section/abstract-section-service").AbstractSectionService,
     ContainerRepository = require("core/repository/container-repository").ContainerRepository,
+    MiddlewareTaskRepository = require("core/repository/middleware-task-repository").MiddlewareTaskRepository,
     Model = require("core/model/model").Model;
 
 exports.ContainerSectionService = AbstractSectionService.specialize({
 
     init: {
-        value: function (containerRepository) {
+        value: function (containerRepository, middlewareTaskRepository) {
+            this._middlewareTaskRepository = middlewareTaskRepository || MiddlewareTaskRepository.instance;
             this._containerRepository = containerRepository || ContainerRepository.instance;
         }
     },
@@ -70,6 +72,26 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
     saveContainer: {
         value: function (container) {
             return this._containerRepository.saveContainer(container);
+        }
+    },
+
+    pullImageToContainer: {
+        value: function (imageName, containerId) {
+            var self = this;
+
+            this._middlewareTaskRepository.getNewMiddlewareTaskWithNameAndArgs("docker.image.pull", [imageName, containerId]).then(function(middlewareTask) {
+                return self._middlewareTaskRepository.runMiddlewareTask(middlewareTask);
+            });
+        }
+    },
+
+    deleteImageFromContainer: {
+        value: function (imageName, containerId) {
+            var self = this;
+
+            this._middlewareTaskRepository.getNewMiddlewareTaskWithNameAndArgs("docker.image.delete", [imageName, containerId]).then(function(middlewareTask) {
+                return self._middlewareTaskRepository.runMiddlewareTask(middlewareTask);
+            });
         }
     }
 

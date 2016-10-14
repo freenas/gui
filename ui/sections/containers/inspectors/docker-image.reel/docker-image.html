@@ -107,7 +107,7 @@
             },
             "bindings": {
                 "options": {"<-": "[{label: '---', value: null}].concat(@owner._availableHosts.map{{label: name, value: id}})"},
-                "selectedValue": {"<-": "@dockerHostSelect.options.one().value"}
+                "selectedValue": {"<->": "@owner._selectedHost"}
             }
         }
     }
