@@ -118,7 +118,7 @@ exports.DockerImage = Montage.specialize({
             creatorComponentModule: {
                 id: 'ui/sections/containers/inspectors/docker-image-pull.reel'
             },
-            createLabel: "Pull"
+            createLabel: "'Pull'"
         }
     }
 });
