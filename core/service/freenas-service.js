@@ -278,8 +278,7 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                         payload,
                         taskName = serviceDescriptor.task,
                         taskId;
-
-                    payload = this._snapshotService.getDifferenceWithSnapshotForTypeNameAndId(rawData, type.typeName, object.id);
+                    payload = isUpdate ? this._snapshotService.getDifferenceWithSnapshotForTypeNameAndId(rawData, type.typeName, object.id) : rawData;
 
                     var temporaryTaskId = this._selectionService.saveTemporaryTaskSelection();
 
