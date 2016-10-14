@@ -74,13 +74,14 @@
             }
         },
         "country": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "country"},
                 "label": "Country code"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.country"}
+                "options" : {"<-": "@owner.countryCodes"},
+                "selectedValue": {"<->": "@owner.object.country"}
             }
         },
         "state": {
