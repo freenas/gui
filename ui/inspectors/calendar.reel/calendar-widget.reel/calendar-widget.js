@@ -27,7 +27,6 @@ exports.CalendarWidget = Component.specialize({
     enterDocument: {
         value: function() {
             this.currentView = "month";
-            window.addEventListener("resize", function() { console.log("resize"); });
         }
     },
 
