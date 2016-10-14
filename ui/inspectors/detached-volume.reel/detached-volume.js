@@ -25,42 +25,13 @@ exports.DetachedVolume = AbstractInspector.specialize(/** @lends DetachedVolume#
 
     delete: {
         value: function() {
-            var topology = this.object.topology;
-            this._eraseVdevsDisks(topology.data);
-            this._eraseVdevsDisks(topology.cache);
-            this._eraseVdevsDisks(topology.log);
+            this._volumeService.deleteExported(this.object.name);
         }
     },
 
     handleImportAction: {
         value: function () {
             this._volumeService.import(this.object.id, this.object.name);
-        }
-    },
-
-    _eraseVdevsDisks: {
-        value: function(vdevs) {
-            if (vdevs) {
-                var self = this,
-                    i, vdevLength, vdev,
-                    j, disksLength, disk,
-                    path;
-                for (i = 0, vdevLength = vdevs.length; i < vdevLength; i++) {
-                    vdev = vdevs[i];
-                    if (vdev.path) {
-                        this._diskConstructorService.pathToId(vdev.path).then(function(diskId) {
-                            self._diskService.erase(diskId, DiskEraseMethod.QUICK);
-                        })
-                    } else {
-                        for (j = 0, disksLength = vdev.children.length; j < disksLength; j++) {
-                            disk = vdev.children[j];
-                            this._diskConstructorService.pathToId(disk.path).then(function(diskId) {
-                                self._diskService.erase(diskId, DiskEraseMethod.QUICK);
-                            })
-                        }
-                    }
-                }
-            }
         }
     }
 });
