@@ -63,6 +63,14 @@ var CryptoCertificateService = exports.CryptoCertificateService = Montage.specia
         }
     },
 
+    listCountryCodes: {
+        value: function () {
+            return Model.populateObjectPrototypeForType(Model.CryptoCertificate).then(function (CryptoCertificate) {
+                return CryptoCertificate.constructor.services.getCountryCodes();
+            });
+        }
+    },
+
     import: {
         value: function (cryptoCertificate) {
             var payload = {},
