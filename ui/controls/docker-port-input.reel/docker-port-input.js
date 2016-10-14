@@ -13,7 +13,7 @@ exports.DockerPortInput = AbstractMultipleSelectController.specialize(/** @lends
         value: "!this.containerPortComponent.hasError && !this.hostPortComponent.hasError && !!this.containerPortComponent.value && !!this.hostPortComponent.value"
     },
 
-    cleanCurrenEntry: {
+    cleanCurrentEntry: {
         value: function () {
             this.hostPortComponent.value = null;
             this.containerPortComponent.value = null;

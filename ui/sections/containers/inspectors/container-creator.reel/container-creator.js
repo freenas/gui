@@ -33,12 +33,7 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
                         value: templates[x].image
                     };
                 });
-                self._availablesDockers = data[1].map(function (dockerHost) {                    
-                    return {
-                        label: dockerHost.name,
-                        value: dockerHost.id
-                    };
-                });
+                self._hostDockers = data[1];
             }).finally(function () {
                 self._canDrawGate.setField(blockGateKey, true);
             });
@@ -79,6 +74,10 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
         value: function () {
             if (this._environment) {
                 this._environment.clear();
+                
+                if (this._volumesComponent.values) {
+                    this._volumesComponent.values.clear();
+                }
             }
         }
     },

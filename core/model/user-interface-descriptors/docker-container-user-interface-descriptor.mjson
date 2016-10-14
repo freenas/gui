@@ -3,7 +3,7 @@
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
             "inspectorComponentModule": {"%": "ui/sections/containers/inspectors/container.reel"},
-            "nameExpression": "id.defined() ? names.join(' ') : 'Create a container'",
+            "nameExpression": "id.defined() ? names.0 : 'Create a container'",
             "collectionNameExpression": "'Docker Containers'",
             "creatorComponentModule": {"%": "ui/sections/containers/inspectors/container-creator.reel"},
             "statusColorMapping": {

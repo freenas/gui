@@ -71,10 +71,10 @@
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
                 "element": {"#": "name"},
-                "label": "Name"
+                "label": "Names"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.names.0"}
+                "value": {"<-": "@owner.object.names.join(' ')"}
             }
         },
 
