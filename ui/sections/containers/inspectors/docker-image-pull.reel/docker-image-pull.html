@@ -20,11 +20,12 @@
             "properties": {
                 "element": {"#": "inspector"},
                 "canDelete": false,
-                "canSave": false,
+                "canSave": true,
                 "canRevert": false,
                 "controller": {"@": "owner"}
             },
             "bindings": {
+                "canSave": {"<-": "!!@owner._selectedImage && !!@owner._selectedHost"},
                 "context": {"<-": "@owner.context"}
             }
         },

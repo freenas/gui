@@ -32,8 +32,26 @@ exports.DockerImagePull = AbstractInspector.specialize(/** @lends DockerImagePul
 
     enterDocument: {
         value: function (firstTime) {
+            this.super();
+            
             if (firstTime) {
                 this.addRangeAtPathChangeListener("_dockerImages", this, "_handleDockerImagesChange");
+            }
+        }
+    },
+
+    exitDocument: {
+        value: function () {
+            this.super();
+            this._selectedHost = null;
+            this._selectedImage = null;
+        }
+    },
+
+    save: {
+        value: function () {
+            if (!!this._selectedImage && !!this._selectedHost) {
+                this._sectionService.pullImageToContainer(this._selectedImage, this._selectedHost);
             }
         }
     },
@@ -60,5 +78,4 @@ exports.DockerImagePull = AbstractInspector.specialize(/** @lends DockerImagePul
     DATA_GATE_BLOCK_KEY: {
         value: "dataLoaded"
     }
-
 });
