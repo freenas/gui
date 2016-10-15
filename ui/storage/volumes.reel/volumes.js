@@ -256,9 +256,11 @@ exports.Volumes = Component.specialize({
                         for (i = 0, disksLength = disks.length; i < disksLength; i++) {
                             disk = disks[i];
                             if (disksAllocations[disk._devicePath]) {
-                                self._getDiskLabel(disk);
-                                disk.volume = self._volumesById[disksAllocations[disk._devicePath].name];
                                 disk.isBoot = disksAllocations[disk._devicePath].type == 'BOOT';
+                                if (!disk.isBoot) {
+                                    self._getDiskLabel(disk);
+                                    disk.volume = self._volumesById[disksAllocations[disk._devicePath].name];
+                                }
                             }
                             delete self._diskAllocationPromises[disk._devicePath];
                         }
