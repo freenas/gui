@@ -50,7 +50,6 @@ exports.TreeView = AbstractComponentActionDelegate.specialize({
             return this._selectedNode;
         },
         set: function(selectedNode) {
-            console.log('set', selectedNode);
             if (this._selectedNode !== selectedNode) {
                 this._selectedNode = selectedNode;
             }

@@ -8,6 +8,9 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('is-selected')": {"<-": "@owner.selected"}
             }
         },
         "iconSubstitution": {
@@ -26,15 +29,6 @@
             },
             "bindings": {
                 "value": {"<-": "@owner.data.name"}
-            }
-        },
-        "checkbox": {
-            "prototype": "blue-shark/ui/checkbox.reel",
-            "properties": {
-                "element": {"#": "checkbox"}
-            },
-            "bindings": {
-                "checked": {"<->": "@owner.checked"}
             }
         },
         "homeCondition": {
@@ -68,7 +62,6 @@
                 <svg><use xlink:href="#i-home"/></svg>
             </div>
         </div>
-        <div data-montage-id="checkbox" class="ChildNode-checkbox"></div>
     </div>
 </body>
 </html>

@@ -15,6 +15,27 @@ exports.CurrentNode = Component.specialize(/** @lends CurrentNode# */ {
         }
     },
 
+    prepareForActivationEvents: {
+        value: function () {
+            this.element.addEventListener('dblclick', this, false);
+        }
+    },
+
+    exitDocument: {
+        value: function () {
+            this.element.removeEventListener('dblclick', this, false);
+        }
+    },
+
+    handleDblclick: {
+        value: function (event) {
+            var iteration = this.items._findIterationContainingElement(event.target);
+            if (iteration) {
+                this.controller.open(iteration.object.path);
+            }
+        }
+    },
+
     _selectedPath: {
         value: null
     },
@@ -30,16 +51,6 @@ exports.CurrentNode = Component.specialize(/** @lends CurrentNode# */ {
     },
 
     handleOpenButtonAction: {
-        value: function (event) {
-            var iteration = this.items._findIterationContainingElement(event.target.element);
-
-            if (iteration) {
-                this.controller.open(iteration.object.path);
-            }
-        }
-    },
-
-    handleCheckboxAction: {
         value: function (event) {
             var iteration = this.items._findIterationContainingElement(event.target.element);
             this.selectedNode = iteration.object.path;
