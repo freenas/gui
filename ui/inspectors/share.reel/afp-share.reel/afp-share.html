@@ -18,8 +18,11 @@
             "properties": {
                 "element": {"#": "hostAllow"},
                 "label": "Hosts Allow",
-                "placeholderValue": "eg. 1.2.3.4 or hostname.local",
-                "labelPath": "this"
+                "placeholder": "eg. 1.2.3.4 or hostname.local",
+                "labelPath": "this",
+                "inputTitle": "Add Allowed Host",
+                "valuesTitle": "Allowed Hosts",
+                "emptyMessage": "No allowed hosts added"
             },
             "bindings": {
                 "values": {"<->": "@owner.properties.hosts_allow"}
@@ -30,8 +33,11 @@
             "properties": {
                 "element": {"#": "hostDeny"},
                 "label": "Hosts Deny",
-                "placeholderValue": "eg. 1.2.3.4 or hostname.local",
-                "labelPath": "this"
+                "placeholder": "eg. 1.2.3.4 or hostname.local",
+                "labelPath": "this",
+                "inputTitle": "Add a Denied Host",
+                "valuesTitle": "Denied Hosts",
+                "emptyMessage": "No hosts denied"
             },
             "bindings": {
                 "values": {"<->": "@owner.properties.hosts_deny"}

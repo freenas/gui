@@ -58,12 +58,15 @@
                 "element": {"#": "netwait_addresses"},
                 "label": "Netwait Addresses",
                 "labelPath": "this",
-                "isDraggable": true
+                "isDraggable": true,
+                "inputTitle": "Add Netwait Address",
+                "valuesTitle": "Added Netwait Addresses",
+                "emptyMessage": "No Netwait Addresses added"
             },
             "bindings": {
                 "values": {"<->": "@owner.object.netwait.addresses"},
                 "disabled": {"<-": "!@owner.object.netwait.enabled"},
-                "placeholderValue": {"<-": "@owner.object.netwait.enabled ? 'eg. 1.2.3.4' : ''"}
+                "placeholder": {"<-": "@owner.object.netwait.enabled ? 'eg. 1.2.3.4' : ''"}
             }
         },
         "netwait_settings": {
@@ -192,12 +195,16 @@
                 "element": {"#": "dns_search"},
                 "label": "Search Domains",
                 "labelPath": "this",
-                "isDraggable": true
+                "isDraggable": true,
+                "inputTitle": "Add Domains",
+                "valuesTitle": "Added Domains",
+                "emptyMessage": "No domains added"
+
             },
             "bindings": {
                 "values": {"<->": "@owner.object.dns.search"},
                 "disabled": {"<-": "@owner.object.dhcp.assign_dns"},
-                "placeholderValue": {"<-": "!@owner.object.dhcp.assign_dns ? 'eg. example.com' : ''"}
+                "placeholder": {"<-": "!@owner.object.dhcp.assign_dns ? 'eg. example.com' : ''"}
             }
         },
         "dns_addresses": {
@@ -206,12 +213,15 @@
                 "element": {"#": "dns_addresses"},
                 "label": "IP Addresses",
                 "labelPath": "this",
-                "isDraggable": true
+                "isDraggable": true,
+                "inputTitle": "Add DNS address",
+                "valuesTitle": "DNS Addresses",
+                "emptyMessage": "no DNS addresses added"
             },
             "bindings": {
                 "values": {"<->": "@owner.object.dns.addresses"},
                 "disabled": {"<-": "@owner.object.dhcp.assign_dns"},
-                "placeholderValue": {"<-": "!@owner.object.dhcp.assign_dns ? 'eg. 1.2.3.4' : ''"}
+                "placeholder": {"<-": "!@owner.object.dhcp.assign_dns ? 'eg. 1.2.3.4' : ''"}
             }
         }
     }

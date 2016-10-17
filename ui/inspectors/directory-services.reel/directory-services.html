@@ -49,11 +49,12 @@
                 "element": {"#": "searchOrder"},
                 "label": "Search order",
                 "labelPath": "this",
-                "isDraggable": true
+                "isDraggable": true,
+                "valuesTitle": "Drag to change search order"
             },
             "bindings": {
                 "values": {"<->": "@owner.directoryServiceConfig.search_order"},
-                "enabled": {"<-": "@owner.directoryServices.filter{enabled}.length > 0"}
+                "disabled": {"<-": "@owner.directoryServices.filter{enabled}.length == 0"}
             }
         },
 

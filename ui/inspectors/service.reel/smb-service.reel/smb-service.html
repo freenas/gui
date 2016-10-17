@@ -242,8 +242,11 @@
             "properties": {
                 "element": {"#": "bindAddresses"},
                 "label": "Bind IP Addresses",
-                "placeholderValue": "eg. 1.2.3.4",
-                "delegate": {"@": "owner"}
+                "placeholder": "eg. 1.2.3.4",
+                "delegate": {"@": "owner"},
+                "inputTitle": "Add an IP address",
+                "valuesTitle": "Added IP addresses",
+                "emptyMessage": "No IP addresses added :("
             },
             "bindings": {
                 "options": {"<-": "@owner.networkInterfacesAliases.map{address}.filter{!@owner.object.bind_addresses.has(this)}"},
