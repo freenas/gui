@@ -2,6 +2,10 @@
     margin-bottom: 1em;
 }
 
+.Permissions-title.InspectorSectionTitle {
+    margin: 0 !important;
+}
+
 .Permissions-flags {
     text-align: center;
     width: 100%;
