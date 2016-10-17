@@ -46,7 +46,7 @@
         },
 
         "password": {
-            "prototype": "blue-shark/ui/text-field.reel",
+            "prototype": "blue-shark/ui/password.reel",
             "properties": {
                 "element": {"#": "password"},
                 "placeholder": "password"
@@ -97,13 +97,9 @@
             <div data-montage-id="browserMessage" class="SignIn-browserMessage"></div>
             <img src="../../assets/images/logo.png" class="SignIn-logo" alt="FreeNas Logo">
             <div data-montage-id="infoText" class="SignIn-infoText"></div>
-            <div data-montage-id="errorMessage" class="SignIn-error-message "></div>
-            <div class="field">
-                <input type="text" data-montage-id="userName" class="SignIn-userName"></input>
-            </div>
-            <div class="field">
-                <input type="password" data-montage-id="password" class="SignIn-userName"></input>
-            </div>
+            <div data-montage-id="errorMessage" class="error-message"></div>
+            <div data-montage-id="userName" class="SignIn-userName g-margin-bottom--half"></div>
+            <div data-montage-id="password" class="SignIn-userName"></div>
             <button data-montage-id="submit" class="SignIn-submit Button--primary Button--block Button--large Button--loader">
                 <svg><use xlink:href="#i-freenasIcon"/></svg>
             </button>

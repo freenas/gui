@@ -166,7 +166,7 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
         value: function () {
             if (this.errorMessage) {
                 this.passwordTextField.value = null;
-                this.passwordTextField.element.focus();
+                this.passwordTextField.templateObjects.input.focus();
 
                 this.element.removeEventListener(
                     typeof WebKitAnimationEvent !== "undefined" ? "webkitAnimationEnd" : "animationend", this, false
