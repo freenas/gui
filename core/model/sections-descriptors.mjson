@@ -62,7 +62,7 @@
         "service": "core/service/section/vms-section-service"
     },
     "containers": {
-        "label": "Containers",
+        "label": "Docker",
         "id": "containers",
         "index": 10,
         "icon": "container",
