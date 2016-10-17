@@ -130,15 +130,15 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
 
             if (isFirstTime) {
                 this._topologyService = this.application.topologyService;
+                this.addRangeAtPathChangeListener("children", this, "handleChildrenChange");
+                this.addPathChangeListener("object.isExistingVDev", this, "handleIsExistingVDevChange");
+                this.addRangeAtPathChangeListener("object.type", this, "_handleObjectTypeChange");
+                this.addRangeAtPathChangeListener("selectedDisk", this, "_handleSelectedDiskChange");
             }
 
             this._populateDiskWithinVDevIfNeeded();
-            this._cancelRangeAtPathChangeListener = this.addRangeAtPathChangeListener("children", this, "handleChildrenChange");
-            this._cancelIsNewVDevChangeListener = this.addPathChangeListener("object.isExistingVDev", this, "handleIsExistingVDevChange");
             this._defineVDevContext();
             this._hasUserDefinedType = false;
-            this._cancelSelectedDiskListener = this.addRangeAtPathChangeListener("selectedDisk", this, "_handleSelectedDiskChange");
-            this.addRangeAtPathChangeListener("object.type", this, "_handleObjectTypeChange");
         }
     },
 
@@ -153,16 +153,6 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
         value: function () {
             AbstractDropZoneComponent.prototype.exitDocument.call(this);
             AbstractComponentActionDelegate.prototype.exitDocument.call(this);
-            if (typeof this._cancelRangeAtPathChangeListener === 'function') {
-                this._cancelRangeAtPathChangeListener();
-                this._cancelRangeAtPathChangeListener = null;
-            }
-            if (typeof this._cancelSelectedDiskListener === "function") {
-                this._cancelSelectedDiskListener();
-                this._cancelSelectedDiskListener = null;
-            }
-            //FIXME: need investigation here, raise an error.
-            //this._cancelIsNewVDevChangeListener();
             this._topologyItem = void 0;
         }
     },
