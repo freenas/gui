@@ -82,8 +82,6 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
         }
     },
 
-    
-
     save: {
         value: function () {
             var environmentComponentValues = this._environmentComponent.values,
