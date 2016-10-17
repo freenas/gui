@@ -42,7 +42,9 @@ var PeeringService = exports.PeeringService = Montage.specialize({
 
     getSupportedTypes: {
         value: function() {
-            return Object.keys(this._CREDENTIALS_PER_TYPE);
+            return Model.populateObjectPrototypeForType(Model.Peer).then(function (Peer) {
+                return Peer.constructor.services.peerTypes();
+            })
         }
     },
 
