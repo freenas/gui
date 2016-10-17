@@ -401,6 +401,13 @@
         }
     },
     "CryptoCertificate": {
+        "class": {
+            "getCountryCodes": {
+                "method": "crypto.certificate.get_country_codes",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        },
         "instance": {
             "create": {
                 "method": "task.submit",
