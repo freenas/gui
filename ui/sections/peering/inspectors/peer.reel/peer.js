@@ -20,13 +20,11 @@ exports.Peer = AbstractInspector.specialize(/** @lends Peer# */ {
 
     _inspectorTemplateDidLoad: {
         value: function() {
+            var self = this;
             this._peeringService = this.application.peeringService;
-            this.typeOptions = this._peeringService.getSupportedTypes().map(function(x) {
-                return {
-                    label: x,
-                    value: x
-                };
-            });
+            this._peeringService.getSupportedTypes().then(function (peerTypes) {
+                self.typeOptions = peerTypes;
+            })
         }
     },
 
