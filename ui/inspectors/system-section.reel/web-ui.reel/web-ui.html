@@ -49,11 +49,14 @@
                 "element": {"#": "AllowAllIPAddress"},
                 "label": "Allow Access IP Address",
                 "labelPath": "this",
-                "isDraggable": true
+                "isDraggable": true,
+                "inputTitle": "Add Allowed IP Address",
+                "valuesTitle": "Allowed IP Addresses",
+                "emptyMessage": "No IP addresses allowed"
             },
             "bindings": {
                 "values": {"<->": "@owner.object.webui_listen"},
-                "placeholderValue": {"<-": "!@owner.object.webui_listen ? 'eg. example.com' : ''"}
+                "placeholder": {"<-": "!@owner.object.webui_listen ? 'eg. example.com' : ''"}
             }
         },
         "RedirectHTTP": {

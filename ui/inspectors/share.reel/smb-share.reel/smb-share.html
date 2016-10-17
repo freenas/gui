@@ -78,8 +78,11 @@
             "properties": {
                 "element": {"#": "hostAllow"},
                 "label": "Hosts allow",
-                "placeholderValue": "eg. 1.2.3.4 or hostname.local",
-                "labelPath": "this"
+                "placeholder": "eg. 1.2.3.4 or hostname.local",
+                "labelPath": "this",
+                "inputTitle": "Add Allowed Host",
+                "valuesTitle": "Allowed Hosts",
+                "emptyMessage": "No allowed hosts added"
             },
             "bindings": {
                 "values": {"<->": "@owner.properties.hosts_allow"}
@@ -90,8 +93,11 @@
             "properties": {
                 "element": {"#": "hostDeny"},
                 "label": "Hosts deny",
-                "placeholderValue": "eg. 1.2.3.4 or hostname.local",
-                "labelPath": "this"
+                "placeholder": "eg. 1.2.3.4 or hostname.local",
+                "labelPath": "this",
+                "inputTitle": "Add a Denied Host",
+                "valuesTitle": "Denied Hosts",
+                "emptyMessage": "No hosts denied"
             },
             "bindings": {
                 "values": {"<->": "@owner.properties.hosts_deny"}
@@ -102,7 +108,10 @@
             "properties": {
                 "element": {"#": "vfsObjects"},
                 "label": "VFS objects",
-                "placeholderValue": "vfs value"
+                "placeholder": "eg. vfs value",
+                "inputTitle": "Add a vfs object",
+                "valuesTitle": "VFS objects",
+                "emptyMessage": "No vfs objects added"
             },
             "bindings": {
                 "values": {"<->": "@owner.properties.vfs_objects"}

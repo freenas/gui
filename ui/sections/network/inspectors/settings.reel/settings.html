@@ -61,12 +61,15 @@
                 "element": {"#": "netwait_addresses"},
                 "label": "Netwait Addresses",
                 "labelPath": "this",
-                "isDraggable": true
+                "isDraggable": true,
+                "inputTitle": "Add Netwait Address",
+                "valuesTitle": "Added Netwait Addresses",
+                "emptyMessage": "No netwait addresses added"
             },
             "bindings": {
                 "values": {"<->": "@owner.object.settings.config.netwait.addresses"},
                 "disabled": {"<-": "!@owner.object.settings.config.netwait.enabled"},
-                "placeholderValue": {"<-": "@owner.object.settings.config.netwait.enabled ? 'eg. 1.2.3.4' : ''"}
+                "placeholder": {"<-": "@owner.object.settings.config.netwait.enabled ? 'eg. 1.2.3.4' : ''"}
             }
         },
         "netwait_settings": {
@@ -160,12 +163,15 @@
                 "element": {"#": "dns_search"},
                 "label": "Search Domains",
                 "labelPath": "this",
-                "isDraggable": true
+                "isDraggable": true,
+                "inputTitle": "Add Search Domain",
+                "valuesTitle": "Added Search Domains",
+                "emptyMessage": "No Search Domains added"
             },
             "bindings": {
                 "values": {"<->": "@owner.object.settings.config.dns.search"},
                 "disabled": {"<-": "@owner.object.settings.config.dhcp.assign_dns"},
-                "placeholderValue": {"<-": "!@owner.object.settings.config.dhcp.assign_dns ? 'eg. example.com' : ''"}
+                "placeholder": {"<-": "!@owner.object.settings.config.dhcp.assign_dns ? 'eg. example.com' : ''"}
             }
         },
         "dns_addresses": {
@@ -174,12 +180,15 @@
                 "element": {"#": "dns_addresses"},
                 "label": "IP Addresses",
                 "labelPath": "this",
-                "isDraggable": true
+                "isDraggable": true,
+                "inputTitle": "Add DNS Address",
+                "valuesTitle": "Added DNS Addresses",
+                "emptyMessage": "No DNS addresses added"
             },
             "bindings": {
                 "values": {"<->": "@owner.object.settings.config.dns.addresses"},
                 "disabled": {"<-": "@owner.object.settings.config.dhcp.assign_dns"},
-                "placeholderValue": {"<-": "!@owner.object.settings.config.dhcp.assign_dns ? 'eg. 1.2.3.4' : ''"}
+                "placeholder": {"<-": "!@owner.object.settings.config.dhcp.assign_dns ? 'eg. 1.2.3.4' : ''"}
             }
         }
     }
