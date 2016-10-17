@@ -3,6 +3,10 @@
     background: #2F3233;
 }
 
+.Overview .InspectorSectionTitle {
+    margin-bottom: .5em;
+}
+
 .Overview .ScrollviewContent { width: 100%; }
 
 .Overview-content {
@@ -40,6 +44,10 @@
 
 .Overview-disabledInterface:nth-child(even) {
     background: rgba(0,0,0,.05);
+}
+
+.Overview-listItem {
+    line-height: 1.5em;
 }
 
 /* Foldable Section Overriedes */
