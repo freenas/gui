@@ -3,7 +3,7 @@
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
             "nameExpression": "name",
-            "collectionNameExpression": "'Hosts'",
+            "collectionNameExpression": "'Docker Hosts'",
             "daoModuleId": "core/dao/docker-host-dao",
             "inspectorComponentModule": {"%": "ui/sections/containers/inspectors/docker-host.reel"},
             "statusColorMapping": {
