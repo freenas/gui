@@ -316,7 +316,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
                 var storageSize = totalSize - this.object._paritySize;
                 this.object._usedSize = 0;
                 this.object._availableSize = storageSize - this.object._usedSize;
-            } else if (this.object.stats) {
+            } else if (this.object && this.object.stats) {
                 var allocatedSize = this.object.stats.allocated;
                 this.object._paritySize = this._topologyService.getParitySizeOnAllocated(this.children.length, this.object.type, allocatedSize);
                 this.object._usedSize = allocatedSize - this.object._paritySize;

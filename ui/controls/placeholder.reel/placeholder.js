@@ -151,6 +151,8 @@ exports.Placeholder = Slot.specialize({
                     component.object = self.object;
                     component.context = self.context;
                     self.content = component;
+                    //if the component comes from the cache we need to reset this property.
+                    component._firstDraw = true;
 
                     var oldEnterDocument = self.component.enterDocument;
 
