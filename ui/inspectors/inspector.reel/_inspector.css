@@ -11,7 +11,13 @@
     &.confirmation-is-visible { position: initial; }
 }
 
-.Inspector-body { margin: 1em; }
+.Inspector-body {
+    margin: 1em;
+
+    & .ListItem {
+        margin: 0 -1em;
+    }
+}
 
 .Inspector.is-loading .Inspector-body,
 .Inspector.is-loading .Inspector-footer {
