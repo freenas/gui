@@ -218,9 +218,8 @@ $Icons
 
 .g-negative-margin-top { margin-top: -1em; }
 
-.flush-bottom { margin-bottom: 0; }
-
-.flush-top { margin-top: 0 }
+.flush-bottom   { margin-bottom:    0  !important; }
+.flush-top      { margin-top:       0  !important; }
 
 /* typography  helpers */
 
