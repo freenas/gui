@@ -41,6 +41,16 @@ exports.DisksCategory = AbstractDropZoneComponent.specialize({
                 disk.volume = null;
             }
         }
+    },
+
+    isExpanded: {
+        value: true
+    },
+
+    handleButtonAction: {
+        value: function () {
+            this.isExpanded = !this.isExpanded;
+        }
     }
 
 });
