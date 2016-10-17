@@ -6,7 +6,7 @@
 
 .VolumeCreator .Inspector {
     /* magic number tided to sidebar width */
-    margin-right: 12.2em;
+    margin-right: 12.3em;
 }
 
 /* maxes out scrollbar */
@@ -33,12 +33,14 @@
 }
 
 .VolumeCreator-sidebar {
+    display: flex;
+    flex-direction: column;
     position: absolute;
     top: 0;
     bottom: 0;
     right: 0;
     /* magic number tied to inspector margin */
-    width: 12.2em;
+    width: 12.3em;
     background-color: #2F3233;
     overflow: hidden;
     border-left: 2px solid #232629;

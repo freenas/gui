@@ -1,3 +1,41 @@
+.AvailableDisksCategory {
+    flex: 0.000000001;
+
+    &.is-expanded {
+        flex: 1;
+    }
+
+    & .Scrollview-transform {
+        display: block;
+    }
+
+}
+
+.AvailableDisksCategory-toggle.Button {
+    flex-shrink: 0;
+    text-align: left;
+    height: 2rem;
+    line-height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #0F1213;
+    cursor: pointer;
+
+    &:hover {
+        background-color: color(#0F1213 l(12%));
+    }
+
+    & svg {
+        order: 1;
+        margin-right: -2px;
+
+        @nest .AvailableDisksCategory.is-expanded & {
+            transform: rotate(180deg);
+        }
+    }
+}
+
 .AvailableDisksCategory.willAcceptDrop .FoldableSection-content:before,
 .AvailableDisksCategory.acceptDrop .FoldableSection-content:before {
     content: '';
@@ -10,9 +48,7 @@
     border: 1px dashed transparent;
 }
 
-.AvailableDisksCategory-grid {
-    min-height: 6.5em;
-}
+.AvailableDisksCategory-grid { padding: .5em; }
 
 .AvailableDisksCategory.willAcceptDrop .FoldableSection-content:before {
     -webkit-animation-direction: normal;

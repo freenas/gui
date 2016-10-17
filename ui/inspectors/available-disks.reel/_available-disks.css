@@ -1,5 +1,9 @@
 .AvailableDisks {
     position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    outline: 1px solid red;
 }
 
 .AvailableDisks-header {
@@ -7,11 +11,18 @@
     padding: .75em 1em;
     background-color: rgba(255,255,255,.1);
     color: #B1BCBE;
+
+    & p {
+        margin-bottom: 0;
+    }
 }
 
-.AvailableDisks-header p {
-    margin-bottom: 0;
+.AvailableDisks-category {
+    /* flex: 1; */
+    display: flex;
+    flex-direction: column;
 }
+
 
 /* edits to remove offsets for lack of padding*/
 
@@ -32,7 +43,6 @@
 .AvailableDisks .FoldableSection-expand svg { right: 1em; }
 
 .AvailableDisks .FoldableSection-content { padding: 0; }
-.AvailableDisks .FoldableSection-contentContainer { padding: .5em 0 .5em .5em; }
 
 
 .AvailableDisks-category.is-hidden { display: none; }

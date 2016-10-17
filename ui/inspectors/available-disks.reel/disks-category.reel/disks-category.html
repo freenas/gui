@@ -8,16 +8,15 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
-            }
-        },
-        "section": {
-            "prototype": "ui/controls/foldable-section.reel",
-            "properties": {
-                "element": {"#": "section"},
-                "isExpanded": "true"
             },
+            "listeners": [
+                {
+                    "listener": {"@": "owner"},
+                    "type": "action"
+                }
+            ],
             "bindings": {
-                "title": {"<-": "@owner.title"}
+                "classList.has('is-expanded')": {"<-": "@owner.isExpanded"}
             }
         },
         "controller": {
@@ -39,13 +38,33 @@
                 "icon": {"<-": "@owner.icon"},
                 "identifier": {"<-": "@owner.identifier"}
             }
+        },
+        "scrollview": {
+            "prototype": "blue-shark/ui/scrollview.reel",
+            "properties": {
+                "element": {"#": "scrollview"},
+                "overflow": "scrollY"
+            }
+        },
+        "button": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "button"},
+                "value": "toggle"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.title"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="AvailableDisksCategory">
-        <div data-montage-id="section">
+        <div data-montage-id="button" class="AvailableDisksCategory-toggle Button--naked">
+            <svg><use xlink:href="#i-triangle-down"/></svg>
+        </div>
+        <div data-montage-id="scrollview">
             <div data-montage-id="grid" class="AvailableDisksCategory-grid"></div>
         </div>
     </div>

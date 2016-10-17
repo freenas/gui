@@ -6,7 +6,7 @@
 
 .TopologyEdit .Inspector {
     /* magic number tided to sidebar width */
-    margin-right: 12.2em;
+    margin-right: 12.3em;
 }
 
 .TopologyEdit .Inspector-body {
@@ -25,7 +25,7 @@
     bottom: 0;
     right: 0;
     /* magic number tied to inspector margin */
-    width: 12.2em;
+    width: 12.3em;
     background-color: #2F3233;
     overflow: hidden;
     border-left: 2px solid #232629;
