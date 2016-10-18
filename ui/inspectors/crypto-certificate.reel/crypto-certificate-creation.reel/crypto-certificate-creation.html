@@ -49,7 +49,7 @@
                 "selectedValue": {"<->": "@owner.object.key_length"}
             }
         },
-        "liftTimeConverterValidator": {
+        "lifeTimeConverterValidator": {
             "prototype": "core/converter/validator/integer-range-validator",
             "properties": {
                 "floor": 0,
@@ -59,7 +59,7 @@
         "numberConverter": {
             "prototype": "core/converter/string-to-integer-converter",
             "properties": {
-                "validator": {"@": "liftTimeConverterValidator"}
+                "validator": {"@": "lifeTimeConverterValidator"}
             }
         },
         "lifetime": {
