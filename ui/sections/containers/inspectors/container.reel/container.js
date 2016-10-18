@@ -53,6 +53,14 @@ exports.Container = AbstractInspector.specialize({
                 window.open("/serial-console-app/#" + token, self.object.names[0] + " Serial Console");
             });
         }
+    },
+
+    handleWebUIAction: {
+        value: function () {
+            if (this.object.web_ui_url) {
+                window.open(this.object.web_ui_url);
+            }
+        }
     }
 
 }, {
