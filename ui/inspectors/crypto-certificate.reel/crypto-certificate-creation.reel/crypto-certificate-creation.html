@@ -49,8 +49,18 @@
                 "selectedValue": {"<->": "@owner.object.key_length"}
             }
         },
+        "lifeTimeConverterValidator": {
+            "prototype": "core/converter/validator/integer-range-validator",
+            "properties": {
+                "floor": 0,
+                "errorMessage": "Value must be an integer"
+            }
+        },
         "numberConverter": {
-            "prototype": "core/converter/string-to-integer-converter"
+            "prototype": "core/converter/string-to-integer-converter",
+            "properties": {
+                "validator": {"@": "lifeTimeConverterValidator"}
+            }
         },
         "lifetime": {
             "prototype": "blue-shark/ui/field-text-input.reel",
@@ -64,13 +74,14 @@
             }
         },
         "country": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "country"},
                 "label": "Country code"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.country"}
+                "options" : {"<-": "@owner.countryCodes"},
+                "selectedValue": {"<->": "@owner.object.country"}
             }
         },
         "state": {
