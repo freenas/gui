@@ -52,7 +52,7 @@ exports.DockerImage = AbstractInspector.specialize({
     handleMultipleSelectAddAction: {
         value: function (multipleSelect) {
             if (this._selectedHost) {
-                this._sectionService.pullImageToContainer(this.object.names[0], this._selectedHost);
+                this._sectionService.pullDockerImageToDockerHost(this.object.names[0], this._selectedHost);
             }
         }
     },
@@ -62,7 +62,7 @@ exports.DockerImage = AbstractInspector.specialize({
             var dockerHost = this._findDockerWithName(dockerName);
 
             if (dockerHost) {
-                this._sectionService.deleteImageFromContainer(this.object.names[0], dockerHost.id);
+                this._sectionService.deleteDockerImageFromDockerHost(this.object.names[0], dockerHost.id);
             }
         }
     },
@@ -74,6 +74,12 @@ exports.DockerImage = AbstractInspector.specialize({
                     return this._dockerHosts[i];
                 }
             }
+        }
+    },
+
+    delete: {
+        value: function () {
+            return this._sectionService.deleteDockerImage(this.object);
         }
     }
 
