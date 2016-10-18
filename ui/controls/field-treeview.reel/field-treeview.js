@@ -34,8 +34,8 @@ exports.FieldTreeview = AbstractComponentActionDelegate.specialize(/** @lends Fi
     _checkForEmptyPath: {
         value: function () {
             if (!this.pathInput.value) {
-                this.selectedPath = "none";
-                this.pathInput.value = this.selectedPath;
+                this.selectedPath = null;
+                this.dispatchOwnPropertyChange("selectedPath",this.selectedPath);
             }
         }
     }

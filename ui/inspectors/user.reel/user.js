@@ -43,30 +43,30 @@ exports.User = AbstractInspector.specialize({
         }
     },
 
-    homeDirectory: {
-        get: function () {
-            if (!this._homeDirectory) {
-                if (this._object._isNew) {
-                    if (this._object.home) {
-                        this._homeDirectory = this._object.home;
-                    } else if (this.systemAdvanced && this.systemAdvanced.home_directory_root) {
-                        this._homeDirectory = this.systemAdvanced.home_directory_root;
-                    } else {
-                        this._homeDirectory = "/mnt";
-                    }
-                } else if (this._object.home) {
-                    this._homeDirectory = this._object.home.slice(0, this._object.home.indexOf("/" + this._object.username));
-                } else {
-                    this._homeDirectory = this._object.home;
-                }
-            }
+    // homeDirectory: {
+    //     get: function () {
+    //         if (!this._homeDirectory) {
+    //             if (this._object._isNew) {
+    //                 if (this._object.home) {
+    //                     this._homeDirectory = this._object.home;
+    //                 } else if (this.systemAdvanced && this.systemAdvanced.home_directory_root) {
+    //                     this._homeDirectory = this.systemAdvanced.home_directory_root;
+    //                 } else {
+    //                     this._homeDirectory = "/mnt";
+    //                 }
+    //             } else if (this._object.home) {
+    //                 this._homeDirectory = this._object.home.slice(0, this._object.home.indexOf("/" + this._object.username));
+    //             } else {
+    //                 this._homeDirectory = this._object.home;
+    //             }
+    //         }
 
-            return this._homeDirectory;
-        },
-        set: function (home) {
-            this._homeDirectory = home;
-        }
-    },
+    //         return this._homeDirectory;
+    //     },
+    //     set: function (home) {
+    //         this._homeDirectory = home;
+    //     }
+    // },
 
     additionalGroups: {
         value: null
@@ -96,13 +96,11 @@ exports.User = AbstractInspector.specialize({
 
             this.isLoading = true;
 
-            if (this._object._isNew) {
-                loadingPromises.push(this._openHomeDirectory(this._object));
-            } else {
-                if (this.object.home === "/nonexistent") {
-                    this.useEmptyHomedir = true;
+            this.treeController.open().then(function(){
+                if (self._object._isNew || self.object.home === "/nonexistent") {
+                    self.object.home = null;
                 }
-            }
+            });
 
             if (isFirstTime) {
                 loadingPromises.push(this._getShellOptions());
@@ -163,21 +161,21 @@ exports.User = AbstractInspector.specialize({
         }
     },
 
-    _openHomeDirectory: {
-        value: function(user) {
-            if (this.treeController) {
-                var self = this,
-                    path = user.home || this.homeDirectory;
-                    if (path === "/nonexistent") {
-                        path = systemAdvanced.home_directory_root || "/mnt";
-                    }
+    // _openHomeDirectory: {
+    //     value: function(user) {
+    //         if (this.treeController) {
+    //             var self = this,
+    //                 path = user.home || this.homeDirectory;
+    //                 if (path === "/nonexistent") {
+    //                     path = systemAdvanced.home_directory_root || "/mnt";
+    //                 }
 
-                return this.treeController.open(path).then(function() {
-                    return user.home = self.treeController.selectedPath;
-                });
-            }
-        }
-    },
+    //             return this.treeController.open(path).then(function() {
+    //                 return user.home = self.treeController.selectedPath;
+    //             });
+    //         }
+    //     }
+    // },
 
     _loadGroups: {
         value: function() {
