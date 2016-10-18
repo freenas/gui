@@ -58,11 +58,11 @@ exports.SystemTime = Montage.specialize({
         value: [{
             mandatory: false,
             name: "boot_time",
-            valueType: "String"
+            valueType: "datetime"
         }, {
             mandatory: false,
             name: "system_time",
-            valueType: "String"
+            valueType: "datetime"
         }, {
             mandatory: false,
             name: "timezone",
@@ -70,7 +70,7 @@ exports.SystemTime = Montage.specialize({
         }, {
             mandatory: false,
             name: "uptime",
-            valueType: "String"
+            valueType: "number"
         }]
     }
 });

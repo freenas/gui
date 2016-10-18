@@ -489,13 +489,13 @@ exports.CryptoCertificate = Montage.specialize({
     },
     userInterfaceDescriptor: {
         value: {
-            inspectorComponentModule: {
-                id: 'ui/inspectors/crypto-certificate.reel'
-            },
             collectionInspectorComponentModule: {
                 id: 'ui/controls/viewer.reel'
             },
             collectionNameExpression: "'Certificates'",
+            inspectorComponentModule: {
+                id: 'ui/inspectors/crypto-certificate.reel'
+            },
             creatorComponentModule: {
                 id: 'ui/inspectors/crypto-certificate-creator.reel'
             },

@@ -8,7 +8,9 @@ var ENUM_FILE_TEMPLATE = "var Enum = require(\"montage/core/enum\").Enum;\n\nexp
 
 
 exports.createEnumerationWithNameAndValues = function (name, values, type) {
-    values = values.sort().map(function (value) {
+    values = values.filter(function (value) {
+        return value !== null;
+    }).sort().map(function (value) {
         if (type === "integer") {
             return +value;
         }

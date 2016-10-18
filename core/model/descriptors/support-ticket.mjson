@@ -59,7 +59,11 @@
       "name": "type",
       "blueprint": {"@": "root"},
       "mandatory": true,
-      "valueType": "String"
+      "valueType": "String",
+      "enumValues": [
+        "bug",
+        "feature"
+      ]
     }
   },
   "blueprint_supportticket_username": {
