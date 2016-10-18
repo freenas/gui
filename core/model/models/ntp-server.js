@@ -79,6 +79,19 @@ exports.NtpServer = Montage.specialize({
             return this._minpoll;
         }
     },
+    _pool: {
+        value: null
+    },
+    pool: {
+        set: function (value) {
+            if (this._pool !== value) {
+                this._pool = value;
+            }
+        },
+        get: function () {
+            return this._pool;
+        }
+    },
     _prefer: {
         value: null
     },
@@ -118,6 +131,10 @@ exports.NtpServer = Montage.specialize({
             mandatory: false,
             name: "minpoll",
             valueType: "number"
+        }, {
+            mandatory: false,
+            name: "pool",
+            valueType: "boolean"
         }, {
             mandatory: false,
             name: "prefer",

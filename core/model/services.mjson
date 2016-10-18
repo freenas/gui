@@ -773,12 +773,6 @@
                 "name": "call",
                 "namespace": "rpc"
             },
-            "recursiveDelete": {
-                "method": "task.submit",
-                "name": "call",
-                "namespace": "rpc",
-                "task": "docker.container.recursive_delete"
-            },
             "start": {
                 "method": "task.submit",
                 "name": "call",
@@ -806,11 +800,6 @@
         "class": {
             "getCollectionImages": {
                 "method": "docker.image.get_collection_images",
-                "name": "call",
-                "namespace": "rpc"
-            },
-            "getTemplates": {
-                "method": "docker.image.get_templates",
                 "name": "call",
                 "namespace": "rpc"
             },
@@ -2040,6 +2029,39 @@
             }
         }
     },
+    "RsyncdModule": {
+        "instance": {
+            "create": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "restrictions": {
+                    "requiredFields": [
+                        "name",
+                        "path"
+                    ]
+                },
+                "task": "rsyncd.module.create"
+            },
+            "delete": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "rsyncd.module.delete"
+            },
+            "read": {
+                "method": "rsyncd.module.query",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "update": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "rsyncd.module.update"
+            }
+        }
+    },
     "Service": {
         "class": {
             "getServiceConfig": {
@@ -2219,38 +2241,11 @@
     },
     "ServiceRsyncd": {
         "instance": {
-            "moduleCreate": {
-                "method": "task.submit",
-                "name": "call",
-                "namespace": "rpc",
-                "task": "service.rsyncd.module.create"
-            },
-            "moduleDelete": {
-                "method": "task.submit",
-                "name": "call",
-                "namespace": "rpc",
-                "task": "service.rsyncd.module.delete"
-            },
-            "moduleUpdate": {
-                "method": "task.submit",
-                "name": "call",
-                "namespace": "rpc",
-                "task": "service.rsyncd.module.update"
-            },
             "update": {
                 "method": "task.submit",
                 "name": "call",
                 "namespace": "rpc",
                 "task": "service.rsyncd.update"
-            }
-        }
-    },
-    "ServiceRsyncdModule": {
-        "instance": {
-            "read": {
-                "method": "service.rsyncd.module.query",
-                "name": "call",
-                "namespace": "rpc"
             }
         }
     },

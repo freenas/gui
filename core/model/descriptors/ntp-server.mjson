@@ -47,6 +47,14 @@
       "valueType": "number"
     }
   },
+  "blueprint_ntpserver_pool": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "pool",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_ntpserver_prefer": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -66,6 +74,7 @@
         {"@": "blueprint_ntpserver_id"},
         {"@": "blueprint_ntpserver_maxpoll"},
         {"@": "blueprint_ntpserver_minpoll"},
+        {"@": "blueprint_ntpserver_pool"},
         {"@": "blueprint_ntpserver_prefer"}
       ]
     }
