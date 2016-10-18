@@ -75,21 +75,31 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         }
     },
 
-    pullImageToContainer: {
-        value: function (imageName, containerId) {
+    pullDockerImageToDockerHost: {
+        value: function (imageName, dockerHostId) {
             var self = this;
 
-            this._middlewareTaskRepository.getNewMiddlewareTaskWithNameAndArgs("docker.image.pull", [imageName, containerId]).then(function(middlewareTask) {
+            this._middlewareTaskRepository.getNewMiddlewareTaskWithNameAndArgs("docker.image.pull", [imageName, dockerHostId]).then(function(middlewareTask) {
                 return self._middlewareTaskRepository.runMiddlewareTask(middlewareTask);
             });
         }
     },
 
-    deleteImageFromContainer: {
-        value: function (imageName, containerId) {
+    deleteDockerImageFromDockerHost: {
+        value: function (imageName, dockerHostId) {
             var self = this;
 
-            this._middlewareTaskRepository.getNewMiddlewareTaskWithNameAndArgs("docker.image.delete", [imageName, containerId]).then(function(middlewareTask) {
+            this._middlewareTaskRepository.getNewMiddlewareTaskWithNameAndArgs("docker.image.delete", [imageName, dockerHostId]).then(function(middlewareTask) {
+                return self._middlewareTaskRepository.runMiddlewareTask(middlewareTask);
+            });
+        }
+    },
+
+    deleteDockerImage: {
+        value: function (dockerImage) {
+            var self = this;
+
+            this._middlewareTaskRepository.getNewMiddlewareTaskWithNameAndArgs("docker.image.delete", [dockerImage.names[0], null]).then(function(middlewareTask) {
                 return self._middlewareTaskRepository.runMiddlewareTask(middlewareTask);
             });
         }

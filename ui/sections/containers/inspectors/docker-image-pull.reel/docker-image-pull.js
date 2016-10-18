@@ -33,7 +33,7 @@ exports.DockerImagePull = AbstractInspector.specialize(/** @lends DockerImagePul
     save: {
         value: function () {
             if (!!this._selectedImage && !!this._selectedHost) {
-                this._sectionService.pullImageToContainer(this._selectedImage, this._selectedHost);
+                this._sectionService.pullDockerImageToDockerHost(this._selectedImage, this._selectedHost);
             }
         }
     }
