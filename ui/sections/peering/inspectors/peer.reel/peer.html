@@ -10,7 +10,7 @@
                 "element": {"#": "owner"},
                 "validationController": {"@": "validationController"},
                 "inspector": {"@": "inspector"}
-                
+
             },
             "bindings": {
                 "credentialsComponent": {"<-": "@credentials.component"}
@@ -60,8 +60,8 @@
                 "element": {"#": "credentials"}
             },
             "bindings": {
-                "moduleId": {"<-": "'ui/sections/peering/inspectors/' + @owner.credentialsType + '-credentials.reel'"},
-                "object": {"<-": "@owner.object.credentials"}
+                "moduleId": {"<-": "'ui/sections/peering/inspectors/' + @owner.object.type + '-credentials.reel'"},
+                "object": {"<-": "@owner.object"}
             }
         }
     }

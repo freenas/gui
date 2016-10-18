@@ -10,11 +10,7 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
 exports.Peer = AbstractInspector.specialize(/** @lends Peer# */ {
     credentialsType: {
         get: function() {
-            var type;
-            if (this.object) {
-                type = this.object.type === "freenas" && this.object._isNew ? "ssh" : this.object.type;
-            }
-            return type;
+            return this.object.type;
         }
     },
 
