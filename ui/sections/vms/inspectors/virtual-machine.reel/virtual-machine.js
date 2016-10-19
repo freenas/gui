@@ -166,7 +166,7 @@ exports.VirtualMachine = AbstractInspector.specialize({
                 this._sectionService.populateVmWithTemplate(this.object, this.object._selectedTemplate).then(function() {
                     self.isLoading = false;
                 });
-            } else {
+            } else if (this.object._isNew) {
                 this._sectionService.clearTemplateFromVm(this.object);
             }
         }
