@@ -10,23 +10,17 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
 exports.Peer = AbstractInspector.specialize(/** @lends Peer# */ {
     credentialsType: {
         get: function() {
-            var type;
-            if (this.object) {
-                type = this.object.type === "freenas" && this.object._isNew ? "ssh" : this.object.type;
-            }
-            return type;
+            return this.object.type;
         }
     },
 
     _inspectorTemplateDidLoad: {
         value: function() {
+            var self = this;
             this._peeringService = this.application.peeringService;
-            this.typeOptions = this._peeringService.getSupportedTypes().map(function(x) {
-                return {
-                    label: x,
-                    value: x
-                };
-            });
+            this._peeringService.getSupportedTypes().then(function (peerTypes) {
+                self.typeOptions = peerTypes;
+            })
         }
     },
 
@@ -48,7 +42,7 @@ exports.Peer = AbstractInspector.specialize(/** @lends Peer# */ {
             if (this.credentialsComponent && typeof this.credentialsComponent.save === "function") {
                 this.credentialsComponent.save();
             }
-            this.inspector.save();
+            this.inspector.save({username: this.object.credentials.username, password: this.object.credentials.password});
         }
     }
 });

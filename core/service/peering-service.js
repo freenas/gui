@@ -12,8 +12,8 @@ var PeeringService = exports.PeeringService = Montage.specialize({
     _CREDENTIALS_PER_TYPE: {
         value: {
             "freenas": {
-                model: Model.SshCredentials,
-                type: "ssh"
+                model: Model.FreenasCredentials,
+                type: "freenas-credentials"
             }
         }
     },
@@ -42,7 +42,9 @@ var PeeringService = exports.PeeringService = Montage.specialize({
 
     getSupportedTypes: {
         value: function() {
-            return Object.keys(this._CREDENTIALS_PER_TYPE);
+            return Model.populateObjectPrototypeForType(Model.Peer).then(function (Peer) {
+                return Peer.constructor.services.peerTypes();
+            })
         }
     },
 
@@ -75,7 +77,7 @@ var PeeringService = exports.PeeringService = Montage.specialize({
             var self = this;
             return this._getNewCredentialsForType(this._DEFAULT_TYPE).then(function(credentials) {
                 object.credentials = credentials;
-                object.type = self._DEFAULT_TYPE;
+                object['%type'] = self._DEFAULT_TYPE;
                 return object;
             });
         }
@@ -85,7 +87,7 @@ var PeeringService = exports.PeeringService = Montage.specialize({
         value: function(type) {
             var credentialsType = this._CREDENTIALS_PER_TYPE[type];
             return this._dataService.getNewInstanceForType(credentialsType.model).then(function(credentials) {
-                credentials.type = credentialsType.type;
+                credentials['%type'] = credentialsType.type;
                 return credentials;
             });
         }
