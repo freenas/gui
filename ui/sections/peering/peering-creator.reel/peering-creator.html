@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="peering-creator.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "ssh": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "ssh"},
+                "isNewObject": "true"
+            },
+            "bindings": {
+                "object": {"<-": "@owner.newSsh"}
+            }
+        },
+        "amazonS3": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "amazon-s3"},
+                "isNewObject": "true"
+            },
+            "bindings": {
+                "object": {"<-": "@owner.newAmazonS3"}
+            }
+        },
+        "freenas": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "freenas"},
+                "isNewObject": "true"
+            },
+            "bindings": {
+                "object": {"<-": "@owner.newFreenas"}
+            }
+        },
+        "vmware": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "vmware"},
+                "isNewObject": "true"
+            },
+            "bindings": {
+                "object": {"<-": "@owner.newVmware"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="PeeringCreator">
+        <div data-montage-id="ssh"></div>
+        <div data-montage-id="amazon-s3"></div>
+        <div data-montage-id="freenas"></div>
+        <div data-montage-id="vmware"></div
+    </div>
+</body>
+</html>
