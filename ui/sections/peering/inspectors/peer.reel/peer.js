@@ -42,7 +42,7 @@ exports.Peer = AbstractInspector.specialize(/** @lends Peer# */ {
             if (this.credentialsComponent && typeof this.credentialsComponent.save === "function") {
                 this.credentialsComponent.save();
             }
-            this.inspector.save();
+            this.inspector.save({username: this.object.credentials.username, password: this.object.credentials.password});
         }
     }
 });
