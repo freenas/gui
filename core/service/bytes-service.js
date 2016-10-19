@@ -7,7 +7,7 @@ exports.BytesService = Montage.specialize({
         value: function (string, unit) {
             unit = unit || this.UNITS.K;
             if (typeof string === "string") {
-                var parts = string.match(this.constructor._HUMAN_READABLE_REGEX);
+                var parts = string.toUpperCase().match(this.constructor._HUMAN_READABLE_REGEX);
                 if (parts) {
                     var value = parseInt(parts[1]),
                         suffix = parts[2];
@@ -30,8 +30,8 @@ exports.BytesService = Montage.specialize({
                 suffixIndex++;
                 abbreviatedValue = abbreviatedValue / this.constructor._MULTIPLE;
             }
-            
-            return abbreviatedValue ? abbreviatedValue + this._SUFFIXES[suffixIndex] + "iB": '';
+            var suffix = this.constructor._PREFIX_TO_EXPONENT[this._SUFFIXES[suffixIndex]] > 0 ? this._SUFFIXES[suffixIndex] + "iB" : '';
+            return abbreviatedValue ? abbreviatedValue + suffix: '';
         }
     }
 
@@ -51,6 +51,7 @@ exports.BytesService = Montage.specialize({
 
     UNITS: {
         value: {
+            B: 'B',
             K: 'K',
             M: 'M',
             G: 'G',
@@ -72,6 +73,7 @@ exports.BytesService = Montage.specialize({
 
     _PREFIX_TO_EXPONENT: {
         value: {
+            B: 0,
             K: 1,
             M: 2,
             G: 3,

@@ -225,13 +225,13 @@ exports.VmsSectionService = AbstractSectionService.specialize({
 
     convertDiskSizeToString: {
         value: function(size) {
-            return this._bytesService.convertSizeToString(size, this._bytesService.UNITS.K);
+            return this._bytesService.convertSizeToString(size, this._bytesService.UNITS.B);
         }
     },
 
     convertDiskSizeStringToSize: {
         value: function(sizeString) {
-            return this._bytesService.convertStringToSize(sizeString, this._bytesService.UNITS.K);
+            return this._bytesService.convertStringToSize(sizeString, this._bytesService.UNITS.B);
         }
     },
 
