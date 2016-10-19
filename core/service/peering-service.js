@@ -18,6 +18,19 @@ var PeeringService = exports.PeeringService = Montage.specialize({
         }
     },
 
+    TYPE_TO_LABEL: {
+        value: {}
+    },
+
+    constructor: {
+        value: function () {
+            this.TYPE_TO_LABEL[ "freenas" ] = "Create Freenas Peering";
+            this.TYPE_TO_LABEL[ "amazon-s3" ] = "Create amazon-s3 Peering";
+            this.TYPE_TO_LABEL[ "ssh" ] = "Create ssh Peering";
+            this.TYPE_TO_LABEL[ "vmware" ] = "Create vmware Peering";
+        }
+    },
+
     _instance: {
         value: null
     },
@@ -37,6 +50,30 @@ var PeeringService = exports.PeeringService = Montage.specialize({
     constructor: {
         value: function() {
             this._dataService = FreeNASService.instance;
+        }
+    },
+
+    populateObjectPeeringSsh: {
+        value: function () {
+            return this._createNewPeer("ssh");
+        }
+    },
+
+    populateObjectPeeringFreenas: {
+        value: function () {
+            return this._createNewPeer("freenas");
+        }
+    },
+
+    populateObjectPeeringAmazonS3: {
+        value: function () {
+            return this._createNewPeer("amazon-s3");
+        }
+    },
+
+    populateObjectPeeringVmware: {
+        value: function () {
+            return this._createNewPeer("vmware");
         }
     },
 
@@ -80,6 +117,19 @@ var PeeringService = exports.PeeringService = Montage.specialize({
                 object['%type'] = self._DEFAULT_TYPE;
                 return object;
             });
+        }
+    },
+
+    _createNewPeer: {
+        value: function (peerType) {
+            var self = this;
+            return this._dataService.getNewInstanceForType(Model.Peer).then(function (peering) {
+                peering._isNewObject = true;
+                peering.type = peerType;
+                peering._action = peerType;
+                peering._label = self.TYPE_TO_LABEL[peerType];
+                return peering;
+            })
         }
     },
 
