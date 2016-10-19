@@ -26,7 +26,6 @@ exports.TreeView = AbstractComponentActionDelegate.specialize({
         }
     },
 
-
     _controller: {
         value: null
     },
@@ -38,23 +37,7 @@ exports.TreeView = AbstractComponentActionDelegate.specialize({
         set: function(controller) {
             if (this._controller !== controller) {
                 this._controller = controller;
-
-                if (controller) {
-                   this._setDefaultSelectedPath();
-                }
             }
-        }
-    },
-
-    enterDocument: {
-        value: function() {
-            this._setDefaultSelectedPath();
-        }
-    },
-
-    exitDocument: {
-        value: function() {
-            this._close()
         }
     },
 
@@ -76,14 +59,6 @@ exports.TreeView = AbstractComponentActionDelegate.specialize({
         value: function () {
             this.selectedPath = this.selectedNode;
             this.isExpanded = false;
-        }
-    },
-
-    _setDefaultSelectedPath: {
-        value: function() {
-            if (!this.selectedPath && this._controller && this._controller.root) {
-                this.selectedPath = this.selectedNode = this._controller.selectedPath;
-            }
         }
     },
 

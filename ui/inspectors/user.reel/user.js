@@ -43,31 +43,6 @@ exports.User = AbstractInspector.specialize({
         }
     },
 
-    // homeDirectory: {
-    //     get: function () {
-    //         if (!this._homeDirectory) {
-    //             if (this._object._isNew) {
-    //                 if (this._object.home) {
-    //                     this._homeDirectory = this._object.home;
-    //                 } else if (this.systemAdvanced && this.systemAdvanced.home_directory_root) {
-    //                     this._homeDirectory = this.systemAdvanced.home_directory_root;
-    //                 } else {
-    //                     this._homeDirectory = "/mnt";
-    //                 }
-    //             } else if (this._object.home) {
-    //                 this._homeDirectory = this._object.home.slice(0, this._object.home.indexOf("/" + this._object.username));
-    //             } else {
-    //                 this._homeDirectory = this._object.home;
-    //             }
-    //         }
-
-    //         return this._homeDirectory;
-    //     },
-    //     set: function (home) {
-    //         this._homeDirectory = home;
-    //     }
-    // },
-
     additionalGroups: {
         value: null
     },
@@ -96,13 +71,10 @@ exports.User = AbstractInspector.specialize({
 
             this.isLoading = true;
 
-            this.treeController.open().then(function(){
-                if (self._object._isNew || self.object.home === "/nonexistent") {
-                    self.object.home = null;
-                }
-            });
+            this._cleanupHomeDirectory(this.object);
 
             if (isFirstTime) {
+                this.addPathChangeListener('object.home', this, '_handleHomeChange');
                 loadingPromises.push(this._getShellOptions());
             }
 
@@ -131,6 +103,7 @@ exports.User = AbstractInspector.specialize({
             }
         }
     },
+
     save: {
         value: function() {
             var self = this;
@@ -161,21 +134,19 @@ exports.User = AbstractInspector.specialize({
         }
     },
 
-    // _openHomeDirectory: {
-    //     value: function(user) {
-    //         if (this.treeController) {
-    //             var self = this,
-    //                 path = user.home || this.homeDirectory;
-    //                 if (path === "/nonexistent") {
-    //                     path = systemAdvanced.home_directory_root || "/mnt";
-    //                 }
+    _handleHomeChange: {
+        value: function() {
+            this._cleanupHomeDirectory(this.object);
+        }
+    },
 
-    //             return this.treeController.open(path).then(function() {
-    //                 return user.home = self.treeController.selectedPath;
-    //             });
-    //         }
-    //     }
-    // },
+    _cleanupHomeDirectory: {
+        value: function(object) {
+            if (object && (object._isNew || object.home === "/nonexistent")) {
+                object.home = null;
+            }
+        }
+    },
 
     _loadGroups: {
         value: function() {

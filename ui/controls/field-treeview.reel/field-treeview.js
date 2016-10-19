@@ -16,6 +16,8 @@ exports.FieldTreeview = AbstractComponentActionDelegate.specialize(/** @lends Fi
 
     enterDocument: {
         value: function () {
+            this.super();
+            this.isExpanded = false;
             this._checkForEmptyPath();
         }
     },
