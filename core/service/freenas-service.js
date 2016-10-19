@@ -15,6 +15,23 @@ var DataService = require("montage-data/logic/service/data-service").DataService
     ACTION_CREATE = 'CREATE';
 
 
+//FIXME: workaround for montage-data
+DataService.prototype.saveDataObject = function (object) {
+    if (arguments.length === 1) {
+        return this._updateDataObject(object, "saveDataObject");
+    } else {
+        var self = this,
+            dataObject = object[0],
+            service = this.getChildServiceForObject(dataObject);
+
+        return service.saveDataObject.apply(service, arguments).then(function () {
+            self.createdDataObjects.delete(dataObject);
+            return null;
+        });
+    }
+};
+
+
 /**
  * The interface to all services used by FreeNAS.
  *
@@ -242,6 +259,15 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
         }
     },
 
+    saveDataObject: {
+        value: function (object) {
+            var record = {};
+            this.mapToRawData(object, record);
+            Array.prototype.unshift.call(arguments, record);
+            return this.saveRawData.apply(this, arguments);
+        }
+    },
+
 
     /**
      * @function
@@ -275,18 +301,29 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
 
                 if (serviceDescriptor) {
                     var self = this,
-                        payload,
+                        payload, rpcArgs,
                         taskName = serviceDescriptor.task,
                         taskId;
+
                     payload = isUpdate ? this._snapshotService.getDifferenceWithSnapshotForTypeNameAndId(rawData, type.typeName, object.id) : rawData;
 
                     var temporaryTaskId = this._selectionService.saveTemporaryTaskSelection();
+
+                    if (isUpdate && !modelHasNoId) {
+                        rpcArgs = [object.persistedId, payload];
+                    } else {
+                        rpcArgs = [payload];
+                    }
+
+                    if (arguments.length > 2) {
+                        rpcArgs = rpcArgs.concat(Array.prototype.slice.call(arguments, 2, arguments.length));
+                    }
 
                     return this.backendBridge.send(
                         serviceDescriptor.namespace,
                         serviceDescriptor.name, {
                             method: serviceDescriptor.method,
-                            args: [taskName, isUpdate && !modelHasNoId ? [object.persistedId, payload] : [payload]]
+                            args: [taskName, rpcArgs]
                         }
                     ).then(function (response) {
                         taskId = response.data;
