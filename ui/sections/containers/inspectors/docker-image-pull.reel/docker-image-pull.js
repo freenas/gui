@@ -20,6 +20,22 @@ exports.DockerImagePull = AbstractInspector.specialize(/** @lends DockerImagePul
                 self._dockerImages = dockerImages;
             });
         }
+    },
+
+    exitDocument: {
+        value: function () {
+            this.super();
+            this._selectedHost = null;
+            this._selectedImage = null;
+        }
+    },
+
+    save: {
+        value: function () {
+            if (!!this._selectedImage && !!this._selectedHost) {
+                this._sectionService.pullDockerImageToDockerHost(this._selectedImage, this._selectedHost);
+            }
+        }
     }
 
 });

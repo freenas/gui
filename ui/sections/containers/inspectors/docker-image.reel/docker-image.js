@@ -23,6 +23,13 @@ exports.DockerImage = AbstractInspector.specialize({
         }
     },
 
+    exitDocument: {
+        value: function () {
+            this.super();
+            this._selectedHost = null;
+        }
+    },
+
     object: {
         set: function (object) {
             if (this._object !== object) {
@@ -44,28 +51,35 @@ exports.DockerImage = AbstractInspector.specialize({
 
     handleMultipleSelectAddAction: {
         value: function (multipleSelect) {
-            // this._sectionService.addImageToHost().then(function () {
-            // });
+            if (this._selectedHost) {
+                this._sectionService.pullDockerImageToDockerHost(this.object.names[0], this._selectedHost);
+            }
         }
     },
 
     handleMultipleSelectDeleteAction: {
-        value: function (multipleSelect, multipleSelectValue, hostName) {
-            // this._sectionService.removeImageFromHost().then(function () {
-            // });
+        value: function (multipleSelect, multipleSelectValue, dockerName) {
+            var dockerHost = this._findDockerWithName(dockerName);
 
-            // var host;
+            if (dockerHost) {
+                this._sectionService.deleteDockerImageFromDockerHost(this.object.names[0], dockerHost.id);
+            }
+        }
+    },
 
-            // for (var i = 0, length = this._dockerHosts.length; i < length; i++) {
-            //     if (this._dockerHosts[i].name === hostName) {
-            //         host = this._dockerHosts[i];
-            //         break;
-            //     }
-            // }
+    _findDockerWithName: {
+        value: function (dockerName) {
+            for (var i = 0, length = this._dockerHosts.length; i < length; i++) {
+                if (this._dockerHosts[i].name === dockerName) {
+                    return this._dockerHosts[i];
+                }
+            }
+        }
+    },
 
-            // if (host) {
-            //     this.object.hosts.splice(this.object.hosts.indexOf(host.id), 1);
-            // }
+    delete: {
+        value: function () {
+            return this._sectionService.deleteDockerImage(this.object);
         }
     }
 
