@@ -175,7 +175,7 @@
                 "labelPath": "this"
             },
             "bindings": {
-                "values": {"<-": "@owner.currentTemplate.environment || []"}
+                "values": {"<-": "@owner.currentTemplate.environment.toArray() || []"}
             }
         },
 
@@ -219,6 +219,9 @@
                 "valuesTitle": "Added Volumes",
                 "emptyMessage": "No volumes added :(",
                 "labelPath": "this"
+            },
+            "bindings": {
+                "values": {"<-": "@owner.currentTemplate.volumes.map{host_path + ' -> ' + container_path + (!!readonly ? ' (ro)' : '')} || []"}
             }
         },
 
