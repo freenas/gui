@@ -8,9 +8,16 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.AmazonS3Credentials = Component.specialize(/** @lends AmazonS3Credentials# */ {
-    constructor: {
-        value: function AmazonS3Credentials() {
-            this.super();
+    enterDocument: {
+        value: function() {
+            this.object.credentials = {};
+            this.object.credentials['%type'] = this.object.type + '-credentials';
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            this.object.credentials.password = null;
         }
     }
 });
