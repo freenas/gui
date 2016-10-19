@@ -131,7 +131,15 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
 
     save: {
         value: function() {
-            return this.application.dataService.saveDataObject(this.object).catch(this._logError);
+            if (arguments && arguments.length > 0) {
+                var args = [this.object];
+                for (var i = 0, length = arguments.length; i < length; i++) {
+                    args.push(arguments[i]);
+                }
+                return this.application.dataService.saveDataObject.apply(this.application.dataService, args).catch(this._logError);
+            }else {
+                return this.application.dataService.saveDataObject(this.object).catch(this._logError);
+            }
         }
     },
 
