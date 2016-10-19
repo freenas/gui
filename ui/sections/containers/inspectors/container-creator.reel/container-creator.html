@@ -11,13 +11,12 @@
                 "inspector": {"@": "inspector"},
                 "_commandComponent": {"@": "command"},
                 "_nameComponent": {"@": "name"},
-                "_imageComponent": {"@": "image"},
                 "_volumesComponent": {"@": "volumes"},
                 "_portsComponent": {"@": "ports"},
                 "_environmentComponent": {"@": "environment"}
             },
             "bindings": {
-                "currentTemplate": {"<-": "@owner._templates[@owner.selectedImageKey]"},
+                "currentTemplate": {"<-": "@imageSearch.currentPreset"},
                 "_availablesDockers": {"<-": "@owner._hostDockers.map{{label: name, value: id}}"},
                 "object.interactive": {"<-": "@owner.currentTemplate.interactive"},
                 "object.expose_ports": {"<-": "!!@owner.currentTemplate.expose_ports"}
@@ -47,6 +46,17 @@
             }
         },
 
+        "imageSearch": {
+            "prototype": "ui/sections/containers/controls/docker-image-search.reel",
+            "properties": {
+                "element": {"#": "imageSearch"}
+            },
+            "bindings": {
+                "_sectionService": {"<-": "@owner._sectionService"},
+                "imageComponent.selectedValue": {"<->": "@owner.object.image"}
+            }
+        },
+
         "name": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
@@ -55,18 +65,6 @@
             },
             "bindings": {
                 "value": {"<-": "@owner.currentTemplate.names.0"}
-            }
-        },
-
-        "image": {
-            "prototype": "blue-shark/ui/field-select.reel",
-            "properties": {
-                "element": {"#": "image"},
-                "label": "Image"
-            },
-            "bindings": {
-                "selectedValue": {"<->": "@owner.object.image"},
-                "options": {"<-": "[{label: '---'}].concat(@owner._images)"}
             }
         },
 
@@ -261,7 +259,7 @@
 <body>
     <div data-montage-id="owner" class="ContainerCreator">
         <div data-montage-id="inspector">
-            <div data-montage-id="image"></div>
+            <div data-montage-id="imageSearch"></div>
             <div data-montage-id="name"></div>
             <div data-montage-id="dockerHost"></div>
 

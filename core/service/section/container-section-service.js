@@ -40,8 +40,8 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         }
     },
 
-    listTemplateDockerImages: {
-        value: function () {
+    getDockerImagesWithCollectionName: {
+        value: function (collectionName) {
             var self = this,
                 promise;
 
@@ -50,10 +50,10 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
                     promise = Model.populateObjectPrototypeForType(Model.DockerImage).then(function (DockerImage) {
                         self._dockerImageService = DockerImage.constructor.services;
 
-                        return self._dockerImageService.getTemplates();
+                        return self._dockerImageService.getCollectionImages(collectionName.trim());
                     });
                 } else {
-                    promise = self._dockerImageService.getTemplates();
+                    promise = self._dockerImageService.getCollectionImages(collectionName.trim());
                 }
 
                 resolve(promise);
