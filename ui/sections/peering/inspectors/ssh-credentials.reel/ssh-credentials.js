@@ -8,23 +8,17 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.SshCredentials = Component.specialize(/** @lends SshCredentials# */ {
+
     enterDocument: {
         value: function() {
-            this.password = this.object.password;
+            this.object.credentials = {};
+            this.object.credentials['%type'] = this.object.type + '-credentials';
         }
     },
 
     exitDocument: {
         value: function() {
-            this.password = null;
+            this.object.credentials.password = null;
         }
-    },
-
-    save: {
-        value: function() {
-            if (this.password) {
-                this.object.password = this.password;
-            }
-        }
-    }     
+    }
 });
