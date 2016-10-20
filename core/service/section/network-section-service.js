@@ -1,7 +1,8 @@
 var AbstractSectionService = require("core/service/section/abstract-section-service").AbstractSectionService,
     NetworkRepository = require("core/repository/network-repository").NetworkRepository,
     SystemRepository = require("core/repository/system-repository").SystemRepository,
-    NetworkInterfaceAliasType = require("core/model/enumerations/network-interface-alias-type").NetworkInterfaceAliasType;
+    NetworkInterfaceAliasType = require("core/model/enumerations/network-interface-alias-type").NetworkInterfaceAliasType,
+    NetworkInterfaceType = require("core/model/enumerations/network-interface-type").NetworkInterfaceType;
 
 exports.NetworkSectionService = AbstractSectionService.specialize({
     init: {
@@ -95,7 +96,21 @@ exports.NetworkSectionService = AbstractSectionService.specialize({
     saveInterface: {
         value: function(interface) {
             this._flattenAliasesOnInterface(interface);
+            if (interface.type === NetworkInterfaceType.VLAN) {
+                this._cleanupVlanInterface(interface);
+            }
             return this._networkRepository.saveNetworkInterface(interface);
+        }
+    },
+
+    _cleanupVlanInterface: {
+        value: function(interface) {
+            if (typeof interface.vlan.tag !== 'number') {
+                interface.vlan = {
+                    tag: null,
+                    parent: null
+                };
+            }
         }
     },
 
