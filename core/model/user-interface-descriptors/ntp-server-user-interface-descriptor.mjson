@@ -2,18 +2,18 @@
     "root": {
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
-            inspectorComponentModule: {
-                id: 'ui/inspectors/ntpserver.reel'
+            "inspectorComponentModule": {
+                "id": "ui/inspectors/ntpserver.reel"
             },
-            collectionInspectorComponentModule: {
-                id: 'ui/controls/viewer.reel'
+            "collectionInspectorComponentModule": {
+                "id": "ui/controls/viewer.reel"
             },
-            collectionNameExpression: "'NTP Servers'",
-            creatorComponentModule: {
-                id: 'ui/inspectors/ntpserver.reel'
+            "collectionNameExpression": "'NTP Servers'",
+            "creatorComponentModule": {
+                "id": "ui/inspectors/ntpserver.reel"
             },
-            nameExpression: "!!_isNew ? 'Add an NTP Server' : address",
-            sortExpression: "address" 
+            "nameExpression": "!!_isNew ? 'Add an NTP Server' : address",
+            "sortExpression": "address" 
         }
     }
 }
