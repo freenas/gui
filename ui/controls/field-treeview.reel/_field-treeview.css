@@ -1,44 +1,23 @@
 .FieldTreeview {}
 
-.FieldTreeview-pathButton[role="button"] {
+.FieldTreeview-path {
     position: relative;
-    display: flex;
-    align-items: center;
-    font-size: 1em;
-    line-height: 2em;
-    height: 2em;
-    padding: 0 .5em;
-    background-image: none;
-    text-align: left;
-    width: 100%;
-    transition-property: color, background-color, opacity;
-    transition-timing-function: ease-in-out;
-    transition-duration: .25s;
 
-    &:hover:not(.montage--disabled) {
-        color: #fff;
-        background: #7c7c7c;
-    }
-
-    &:active:not(.montage--disabled) {
-        color: #fff;
-        background: #7c7c7c;
-        background-image: none;
+    & input {
+        /* padding-left: 1.75em; */
     }
 }
 
-.FieldTreeview-pathButton.montage--disabled {
-    opacity: .5;
-}
-
-.FieldTreeview-pathButton:hover {
-    color: #DFE4E4;
-    background: #2F3233;
-}
 
 .FieldTreeview-icon {
     display: flex;
+    display: none;
     align-items: center;
+    position: absolute;
+    top: 50%;
+    left: .25rem;
+    transform: translateY(-50%);
+    pointer-events: none;
 
     /* button overrides */
     margin-top:     0 !important;
@@ -59,64 +38,10 @@
 .FieldTreeview-treeView {
     position: absolute;
     visibility: hidden;
-}
 
-.FieldTreeview.is-expanded .FieldTreeview-treeView {
-    position: relative;
-    visibility: visible;
-    margin-bottom: 1em;
-}
-
-/* selected path */
-
-.FieldTreeview .FieldTreeview-selectedPath {
-    position: absolute;
-    left: 1.5em;
-    right: .5em;
-    height:         calc(2em - 2px);
-    line-height:    calc(2em - 2px);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: clip;
-    background-color: inherit;
-
-    /* button overrides */
-    margin-top:     0 !important;
-    margin-right:   0 !important;
-    max-height: none !important;
-    max-width:  none !important;
-}
-
-.FieldTreeview-selectedPath:before {
-    content: '\02026';
-    position: absolute;
-    z-index: 1;
-    left: -1em;
-    background-color: inherit;
-    padding-left: 1em;
-    margin-left: 0.5em;
-}
-
-.FieldTreeview-selectedPath span {
-    min-width: 100%;
-    position: relative;
-    display: inline-block;
-    float: right;
-    overflow: visible;
-    background-color: inherit;
-    text-indent: 1.5em;
-}
-
-.FieldTreeview-selectedPath span:before {
-    content: '';
-    position: absolute;
-    display: inline-block;
-    top: 50%;
-    margin-top: -.5em;
-    bottom: 0;
-    width:  1em;
-    height: 1em;
-    background-color: inherit;
-    z-index: 200;
-    left: .25em;
+    @nest .FieldTreeview.is-expanded & {
+        position: relative;
+        visibility: visible;
+        margin-bottom: 1em;
+    }
 }

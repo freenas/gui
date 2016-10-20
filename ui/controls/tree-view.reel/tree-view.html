@@ -13,17 +13,17 @@
             "bindings": {
                 "entry": {"<-": "@owner.controller.entry"},
                 "type": {"<-": "@owner.controller.type"},
-                "isPathInvalid": {"<-": "@owner.controller.isPathInvalid"},
                 "classList.has('is-disabled')": {"<-": "@owner.disabled"}
             }
         },
-        "currentPath": {
-            "prototype": "blue-shark/ui/text-field.reel",
+        "currentNodeName": {
+            "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "currentPath"}
+                "element": {"#": "currentNodeName"}
             },
             "bindings": {
-                "value": {"<-": "(@owner.entry.path + (!!@owner.suffix ? '/' + @owner.suffix : '')).replace((!!@owner.removePrefix ? @owner.removePrefix: ''), '')"}
+                "value": {"<-": "@owner.entry.path == @owner.selectedPath ? @owner.entry.name + ' ✓': @owner.entry.name"},
+                "classList.has('is-selected')": {"<-": "@owner.entry.path == @owner.selectedPath"}
             }
         },
         "currentNode": {
@@ -32,13 +32,19 @@
                 "element": {"#": "currentNode"}
             },
             "bindings": {
-                "controller": {"<-": "@owner.controller"}
+                "controller": {"<-": "@owner.controller"},
+                "selectedPath": {"<->": "@owner.selectedPath"},
+                "selectedNode": {"<->": "@owner.selectedNode"}
             }
         },
         "backButton": {
-            "prototype": "montage/ui/button.reel",
+            "prototype": "blue-shark/ui/button.reel",
             "properties": {
                 "element": {"#": "backButton"}
+            },
+            "bindings": {
+                "value": {"<-": "!!@owner.controller.parent && @owner.controller.parent.name.length < 10 ? @owner.controller.parent.name : 'Back'"},
+                "disabled": {"<-": "!!!@owner.controller.parent"}
             }
         },
         "cancel": {
@@ -61,10 +67,10 @@
 <body>
     <div data-montage-id="owner" class="TreeView">
         <div class="TreeView-header">
-            <div data-montage-id="backButton" class="TreeView-backButton">
+            <div data-montage-id="backButton" class="TreeView-backButton Button--naked">
                 <svg><use xlink:href="#i-arrow"/></svg>
             </div>
-            <div data-montage-id="currentPath" class="TreeView-currentPath"></div>
+            <div data-montage-id="currentNodeName" class="TreeView-currentNodeName"></div>
         </div>
         <div class="TreeView-body">
             <div data-montage-id="currentNode" class="TreeView-currentNode"></div>

@@ -296,16 +296,6 @@
                 "classList.has('hide')": {"<-": "@owner.useEmptyHomedir"}
             }
         },
-        "emptyHomeDirectory": {
-            "prototype": "blue-shark/ui/field-checkbox.reel",
-            "properties": {
-                "element": {"#": "emptyHomeDirectory"},
-                "label": "No Home Directory"
-            },
-            "bindings": {
-                "checked": {"<->": "@owner.useEmptyHomedir"}
-            }
-        },
         "homeDisplay": {
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
@@ -493,7 +483,6 @@
                             <div data-montage-id="groups"></div>
                         </div>
                     </div>
-                    <div data-montage-id="emptyHomeDirectory"></div>
                     <div data-montage-id="homeSubstitution">
                         <div data-montage-id="homeEdit" data-arg="luser"></div>
                         <div data-montage-id="homeDisplayRoot" data-arg="root"></div>

@@ -7,12 +7,19 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "items": {"@": "childNodes"}
             },
             "bindings": {
-                "selectedChild": {"<-": "@childNodes.selection"},
-                "entry": {"<-": "@owner.controller.entry"}
-            }
+                "entry": {"<-": "@owner.controller.entry"},
+                "classList.has('is-empty')": {"<-": "@owner.entry.children.length == 0"}
+            },
+            "listeners": [
+                {
+                    "listener": {"@": "owner"},
+                    "type": "action"
+                }
+            ]
         },
         "childNodesController": {
             "prototype": "montage/core/range-controller",
@@ -21,31 +28,6 @@
             },
             "bindings": {
                 "content": {"<-": "@owner.entry.children"}
-            }
-        },
-        "iconSubstitution": {
-            "prototype": "montage/ui/substitution.reel",
-            "properties": {
-                "element": {"#": "iconSubstitution"}
-            },
-            "bindings": {
-                "switchValue": {"<-": "@owner.controller.type"}
-            }
-        },
-        "parentNode": {
-            "prototype": "montage/ui/component",
-            "properties": {
-                "element": {"#": "parentNode"},
-                "hasTemplate": false
-            }
-        },
-        "parentNodeName": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "parentNodeName"}
-            },
-            "bindings": {
-                "value": {"<-": "@owner.entry.name || @owner.entry.path"}
             }
         },
         "scrollview": {
@@ -59,7 +41,6 @@
             "prototype": "montage/ui/repetition.reel",
             "properties": {
                 "element": {"#": "childNodes"},
-                "isSelectionEnabled": true,
                 "contentController": {"@": "childNodesController"}
             }
         },
@@ -69,7 +50,25 @@
                 "element": {"#": "childNode"}
             },
             "bindings": {
-                "data": {"<-": "@childNodes:iteration.object"}
+                "data": {"<-": "@childNodes:iteration.object"},
+                "selected": {"<-": "data.path == @owner.selectedNode"},
+                "isSelectedPath": {"<-": "data.path == @owner.selectedPath"}
+            }
+        },
+        "currentNodeName": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "currentNodeName"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.entry.name"}
+            }
+        },
+        "emptyMessage": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "emptyMessage"},
+                "value": "is empty"
             }
         }
     }
@@ -77,18 +76,12 @@
 </head>
 <body>
     <div data-montage-id="owner" class="CurrentNode">
-        <div data-montage-id="parentNode" class="CurrentNode-parentNode">
-            <div data-montage-id="parentNodeIcon" >
-                <div data-montage-id="iconSubstitution" class="CurrentNode-parentNode-icon">
-                    <svg data-arg="DATASET"><use xlink:href="#i-dataset"/></svg>
-                    <svg data-arg="DIRECTORY"><use xlink:href="#i-folderOpen"/></svg>
-                    <svg data-arg="FILE"><use xlink:href="#i-file"/></svg>
-                </div>
-            </div>
-            <div data-montage-id="parentNodeName" class="CurrentNode-parentNode-name"></div>
-        </div>
         <div class="CurrentNode-scrollview">
             <div data-montage-id="scrollview">
+                <div class="CurrentNode-emptyState">
+                    <span data-montage-id="currentNodeName"></span>
+                    <span data-montage-id="emptyMessage"></span>
+                </div>
                 <div data-montage-id="childNodes" class="CurrentNode-childNodes">
                     <div data-montage-id="childNode" class="CurrentNode-childNode"></div>
                 </div>

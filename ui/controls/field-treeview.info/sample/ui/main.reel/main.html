@@ -23,27 +23,13 @@
             "prototype": "gui/ui/controls/field-treeview.reel",
             "properties": {
                 "element": {"#": "default"},
-                "label": "test",
+                "label": "Home Directory",
                 "disabled": false,
-                "readOnly": false,
-                "currentNode": {
-                    "name": "parentNode",
-                    "path": "/parentNode"
-                },
-                "data": [
-                    {"name": "item one", "path": "/parentNode/itemOne"},
-                    {"name": "item two", "path": "/parentNode/itemTwo"},
-                    {"name": "item three", "path": "/parentNode/itemThree"},
-                    {"name": "item four", "path": "/parentNode/itemFour"},
-                    {"name": "item five", "path": "/parentNode/itemFive"}
-                ]
-            }
-        },
-        "text": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
-            "properties": {
-                "element": {"#": "text"},
-                "label": "test"
+                "readOnly": false
+            },
+            "bindings": {
+                "controller": {"<-": "@owner.controller"},
+                "selectedPath": {"<->": "@owner.selectedPath"}
             }
         }
     }
@@ -55,8 +41,6 @@
         <div data-montage-id="icons"></div>
         <!-- end -->
         <div data-montage-id="default"></div>
-        <div data-montage-id="text"></div>
-        <p>test this text</p>
     </div>
 </body>
 </html>

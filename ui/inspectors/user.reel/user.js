@@ -18,10 +18,6 @@ exports.User = AbstractInspector.specialize({
         value: null
     },
 
-    useEmptyHomedir: {
-        value: null
-    },
-
     _object: {
         value: null
     },
@@ -40,31 +36,6 @@ exports.User = AbstractInspector.specialize({
                     this._getNextAvailableUserId();
                 }
             }
-        }
-    },
-
-    homeDirectory: {
-        get: function () {
-            if (!this._homeDirectory) {
-                if (this._object._isNew) {
-                    if (this._object.home) {
-                        this._homeDirectory = this._object.home;
-                    } else if (this.systemAdvanced && this.systemAdvanced.home_directory_root) {
-                        this._homeDirectory = this.systemAdvanced.home_directory_root;
-                    } else {
-                        this._homeDirectory = "/mnt";
-                    }
-                } else if (this._object.home) {
-                    this._homeDirectory = this._object.home.slice(0, this._object.home.indexOf("/" + this._object.username));
-                } else {
-                    this._homeDirectory = this._object.home;
-                }
-            }
-
-            return this._homeDirectory;
-        },
-        set: function (home) {
-            this._homeDirectory = home;
         }
     },
 
@@ -96,15 +67,10 @@ exports.User = AbstractInspector.specialize({
 
             this.isLoading = true;
 
-            if (this._object._isNew) {
-                loadingPromises.push(this._openHomeDirectory(this._object));
-            } else {
-                if (this.object.home === "/nonexistent") {
-                    this.useEmptyHomedir = true;
-                }
-            }
+            this._cleanupHomeDirectory(this.object);
 
             if (isFirstTime) {
+                this.addPathChangeListener('object.home', this, '_handleHomeChange');
                 loadingPromises.push(this._getShellOptions());
             }
 
@@ -120,7 +86,6 @@ exports.User = AbstractInspector.specialize({
         value: function() {
             this.super();
             this.userType = null;
-            this.useEmptyHomedir = null;
         }
     },
 
@@ -133,17 +98,14 @@ exports.User = AbstractInspector.specialize({
             }
         }
     },
+
     save: {
         value: function() {
             var self = this;
 
             this.object.groups = this.additionalGroups.map(function(x) { return x.id; });
             if (this.object._isNew) {
-                if (!this.useEmptyHomedir) {
-                    this.object.home += '/' + this.object.username;
-                } else {
-                    this.object.home = null;
-                }
+                this.object.home = null;
             }
 
             return this.application.dataService.saveDataObject(this.object);
@@ -163,18 +125,16 @@ exports.User = AbstractInspector.specialize({
         }
     },
 
-    _openHomeDirectory: {
-        value: function(user) {
-            if (this.treeController) {
-                var self = this,
-                    path = user.home || this.homeDirectory;
-                    if (path === "/nonexistent") {
-                        path = systemAdvanced.home_directory_root || "/mnt";
-                    }
+    _handleHomeChange: {
+        value: function() {
+            this._cleanupHomeDirectory(this.object);
+        }
+    },
 
-                return this.treeController.open(path).then(function() {
-                    return user.home = self.treeController.selectedPath;
-                });
+    _cleanupHomeDirectory: {
+        value: function(object) {
+            if (object && (object._isNew || object.home === "/nonexistent")) {
+                object.home = null;
             }
         }
     },

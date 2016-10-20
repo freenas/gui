@@ -7,11 +7,18 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "pathInput": {"@": "pathInput"}
             },
             "bindings": {
                 "classList.has('is-expanded')": {"<-": "@owner.isExpanded"}
-            }
+            },
+            "listeners": [
+                {
+                    "listener": {"@": "owner"},
+                    "type": "action"
+                }
+            ]
         },
         "field": {
             "prototype": "blue-shark/ui/field.reel",
@@ -28,22 +35,16 @@
                 "isMandatory": {"<-": "@owner.isMandatory"}
             }
         },
-        "pathButton": {
-            "prototype": "blue-shark/ui/button.reel",
+        "pathInput": {
+            "prototype": "blue-shark/ui/text-field.reel",
             "properties": {
-                "element": {"#": "pathButton"}
+                "element": {"#": "pathInput"}
             },
             "bindings": {
-                "disabled": {"<-": "@owner.disabled || @owner.readOnly"}
-            }
-        },
-        "selectedPath": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "selectedPath"}
-            },
-            "bindings": {
-                "value": {"<-": "(@owner.selectedPath + (!!@owner.suffix ? '/' + @owner.suffix : '')).replace(@owner.removePrefix || '', '')"}
+                "disabled": {"<-": "@owner.disabled || @owner.readOnly"},
+                "value": {"<-": "!@owner.selectedPath ? 'none' : (@owner.selectedPath + (!!@owner.suffix ? '/' + @owner.suffix : '')).replace(@owner.removePrefix || '', '')"},
+                "disabled": {"<-": "@owner.isExpanded"},
+                "delegate": {"<-": "@owner.pathInputDelegate"}
             }
         },
         "treeview": {
@@ -67,7 +68,17 @@
                 "element": {"#": "iconSubstitution"}
             },
             "bindings": {
-                "switchValue": {"<-": "@owner.controller.type"}
+                "switchValue": {"<-": "@owner.selectedPath.type"}
+            }
+        },
+        "browseButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "browseButton"},
+                "value": "Browse"
+            },
+            "bindings": {
+                "disabled": {"<-": "@owner.isExpanded"}
             }
         }
     }
@@ -76,16 +87,16 @@
 <body>
     <div data-montage-id="owner" class="FieldTreeview">
         <div data-montage-id="field">
-            <div data-montage-id="pathButton" class="FieldTreeview-pathButton" tabindex="0">
-                <div class="FieldTreeview-selectedPath">
-                    <span data-montage-id="selectedPath"></span>
-                </div>
+            <div class="FieldTreeview-path flex-row">
+                <div data-montage-id="pathInput" tabindex="0" class="g-margin-right--half"></div>
                 <div data-montage-id="iconSubstitution" class="FieldTreeview-icon">
                     <svg data-arg="FILE"><use xlink:href="#i-file"/></svg>
                     <svg data-arg="DATASET"><use xlink:href="#i-dataset"/></svg>
                     <svg data-arg="DIRECTORY"><use xlink:href="#i-folder"/></svg>
                     <svg data-arg="ZVOL"><use xlink:href="#i-zvol"/></svg>
+                    <svg data-arg="NONE"><use xlink:href="#i-alert"/></svg>
                 </div>
+                <button data-montage-id="browseButton"></button>
             </div>
         </div>
         <div data-montage-id="treeview" class="FieldTreeview-treeView"></div>
