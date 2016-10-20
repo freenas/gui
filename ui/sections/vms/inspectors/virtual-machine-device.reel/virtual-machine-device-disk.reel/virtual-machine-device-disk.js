@@ -18,7 +18,9 @@ exports.VirtualMachineDeviceDisk = AbstractInspector.specialize({
 
     _handleDiskSizeChange: {
         value: function() {
-            this.object.size = this._sectionService.convertDiskSizeStringToSize(this.object._diskSize);
+            if (this._inDocument) {
+                this.object.size = this._sectionService.convertDiskSizeStringToSize(this.object._diskSize);
+            }
         }
     }
 });

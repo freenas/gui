@@ -225,13 +225,13 @@ exports.VmsSectionService = AbstractSectionService.specialize({
 
     convertDiskSizeToString: {
         value: function(size) {
-            return this._bytesService.convertSizeToString(size, this._bytesService.UNITS.K);
+            return this._bytesService.convertSizeToString(size, this._bytesService.UNITS.B);
         }
     },
 
     convertDiskSizeStringToSize: {
         value: function(sizeString) {
-            return this._bytesService.convertStringToSize(sizeString, this._bytesService.UNITS.K);
+            return this._bytesService.convertStringToSize(sizeString, this._bytesService.UNITS.B);
         }
     },
 
@@ -366,9 +366,8 @@ exports.VmsSectionService = AbstractSectionService.specialize({
         value: function(vm) {
             if (vm._isNew) {
                 this._initializeNewVm(vm);    
-            } else {
-                this._initializeExistingVm(vm);
             }
+            this._setMemoryOnVm(vm);
             vm._bootDevice = vm.config.boot_device;
             return vm;
         }
@@ -381,13 +380,9 @@ exports.VmsSectionService = AbstractSectionService.specialize({
             vm.devices = this._vmRepository.getNewVmDeviceList();
             vm._nonVolumeDevices = this._vmRepository.getNewVmDeviceList();
             vm._volumeDevices = this._vmRepository.getNewVmVolumeList();
+            vm.config.ncpus = 1;
+            vm.config.memsize = 512;
             vm.template = {};
-        }
-    },
-
-    _initializeExistingVm: {
-        value: function(vm) {
-            this._setMemoryOnVm(vm);
         }
     },
 
