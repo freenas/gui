@@ -8,40 +8,29 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
-                "validationController": {"@": "validationController"},
                 "inspector": {"@": "inspector"}
 
             },
-            "bindings": {
-                "credentialsComponent": {"<-": "@credentials.component"}
-            }
-        },
-        "validationController": {
-            "prototype": "core/controller/validation-controller"
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
         },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
-                "validationController": {"@": "validationController"},
                 "canSave": true,
                 "canRevert": true,
                 "canDelete": true,
                 "controller": {"@": "owner"}
             },
             "bindings": {
-                "context": {"<-": "@owner.context"}
-            }
-        },
-        "type": {
-            "prototype": "blue-shark/ui/field-select.reel",
-            "properties": {
-                "element": {"#": "type"},
-                "label": "Type"
-            },
-            "bindings": {
-                "selectedValue": {"<->": "@owner.object.type"},
-                "options": {"<-": "@owner.typeOptions"}
+                "context": {"<-": "@owner.context"},
+                "isConfirmationVisible": {"<-": "@owner.isConfirmationVisible"},
+                "confirmationMessage": {"<-": "'Are you sure you want to delete ' + @owner.object.var + '?'"}
             }
         },
         "credentials": {

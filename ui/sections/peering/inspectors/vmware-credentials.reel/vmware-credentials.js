@@ -8,9 +8,5 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.VmwareCredentials = Component.specialize(/** @lends VmwareCredentials# */ {
-    constructor: {
-        value: function VmwareCredentials() {
-            this.super();
-        }
-    }
+
 });

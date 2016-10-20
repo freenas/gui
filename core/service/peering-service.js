@@ -14,7 +14,32 @@ var PeeringService = exports.PeeringService = Montage.specialize({
             "freenas": {
                 model: Model.FreenasCredentials,
                 type: "freenas-credentials"
+            },
+            "ssh": {
+                model: Model.SshCredentials,
+                type: "ssh-credentials"
+            },
+            "vmware": {
+                model: Model.VmwareCredentials,
+                type: "vmware-credentials"
+            },
+            "amazon-s3": {
+                model: Model.AmazonS3Credentials,
+                type: "amazon-s3-credentials"
             }
+        }
+    },
+
+    TYPE_TO_LABEL: {
+        value: {}
+    },
+
+    constructor: {
+        value: function () {
+            this.TYPE_TO_LABEL[ "freenas" ] = "Create Freenas Peering";
+            this.TYPE_TO_LABEL[ "amazon-s3" ] = "Create amazon-s3 Peering";
+            this.TYPE_TO_LABEL[ "ssh" ] = "Create ssh Peering";
+            this.TYPE_TO_LABEL[ "vmware" ] = "Create vmware Peering";
         }
     },
 
@@ -37,6 +62,36 @@ var PeeringService = exports.PeeringService = Montage.specialize({
     constructor: {
         value: function() {
             this._dataService = FreeNASService.instance;
+        }
+    },
+
+    createSshPeer: {
+        value: function () {
+            return this._createNewPeer("ssh").then(function (peer) {
+                peer.credentials.port = 22;
+                return peer;
+            });
+        }
+    },
+
+    createFreenasPeer: {
+        value: function () {
+            return this._createNewPeer("freenas").then(function (peer) {
+                peer.credentials.port = 22;
+                return peer;
+            });
+        }
+    },
+
+    createAmazonS3Peer: {
+        value: function () {
+            return this._createNewPeer("amazon-s3");
+        }
+    },
+
+    createVmwarePeer: {
+        value: function () {
+            return this._createNewPeer("vmware");
         }
     },
 
@@ -72,14 +127,19 @@ var PeeringService = exports.PeeringService = Montage.specialize({
         }
     },
 
-    populateDefaultType: {
-        value: function(object) {
+    _createNewPeer: {
+        value: function (peerType) {
             var self = this;
-            return this._getNewCredentialsForType(this._DEFAULT_TYPE).then(function(credentials) {
-                object.credentials = credentials;
-                object['%type'] = self._DEFAULT_TYPE;
-                return object;
-            });
+            return this._dataService.getNewInstanceForType(Model.Peer).then(function (peering) {
+                peering._isNewObject = true;
+                peering.type = peerType;
+                peering._action = peerType;
+                peering._label = self.TYPE_TO_LABEL[peerType];
+                return self._getNewCredentialsForType(peerType).then(function (credentials) {
+                    peering.credentials = credentials;
+                    return peering;
+                });
+            })
         }
     },
 
