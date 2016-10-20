@@ -18,10 +18,6 @@ exports.User = AbstractInspector.specialize({
         value: null
     },
 
-    useEmptyHomedir: {
-        value: null
-    },
-
     _object: {
         value: null
     },
@@ -90,7 +86,6 @@ exports.User = AbstractInspector.specialize({
         value: function() {
             this.super();
             this.userType = null;
-            this.useEmptyHomedir = null;
         }
     },
 
@@ -110,11 +105,7 @@ exports.User = AbstractInspector.specialize({
 
             this.object.groups = this.additionalGroups.map(function(x) { return x.id; });
             if (this.object._isNew) {
-                if (!this.useEmptyHomedir) {
-                    this.object.home += '/' + this.object.username;
-                } else {
-                    this.object.home = null;
-                }
+                this.object.home = null;
             }
 
             return this.application.dataService.saveDataObject(this.object);

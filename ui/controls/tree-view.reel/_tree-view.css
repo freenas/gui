@@ -46,11 +46,11 @@
 .TreeView-currentNodeName {
     display: inline-block;
     position: absolute;
+    line-height: 1em;
     padding: .15em .35em;
     border-radius: 4px;
-    top:  calc(50% - 1px);
+    top:  calc(50%);
     left: 50%;
-    line-height: 1em;
     transform: translate(-50%, -50%);
     vertical-align: middle;
     font-weight: 400;
