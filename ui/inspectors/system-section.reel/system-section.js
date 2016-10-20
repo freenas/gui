@@ -21,17 +21,14 @@ exports.SystemSection = AbstractInspector.specialize({
                 case "WebUI":
                 case "mail":
                 case "system":
-                case "dockerSettings":
                     this.canSave = true;
                     this.canRevert = true;
-                    // this.hasTable = false;
                     break;
                 case "updates":
                 case "bootPool":
                 case "overview":
                     this.canSave = false;
                     this.canRevert = false;
-                    // this.hasTable = true;
                     break;
             }
             this._object = object;

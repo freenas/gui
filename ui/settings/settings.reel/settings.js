@@ -22,7 +22,6 @@ exports.Settings = Component.specialize({
                 sectionsPromises.push(this._createSection("certificates", "Certificates", "path", i++));
                 sectionsPromises.push(this._createSection("mail", "Alerts & Reporting", "path", i++));
                 sectionsPromises.push(this._createSection("serialConsole", "Console", "path", i++));
-                sectionsPromises.push(this._createSection("dockerSettings", "Docker", "path", i++));
                 sectionsPromises.push(this._createSection("debug", "Debug", "path", i++));
                 sectionsPromises.push(this._createSection("tunable", "Tunables", "path", i++));
                 sectionsPromises.push(this._createSection("ntpservers", "NTP", "path", i++));
