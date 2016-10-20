@@ -25,6 +25,10 @@
         height: 1rem;
         width:  1rem;
     }
+
+    @nest .InterfaceOverviewItem.is-expanded & svg {
+        transform: rotate(180deg);
+    }
 }
 
 .InterfaceOverviewItem-name {
