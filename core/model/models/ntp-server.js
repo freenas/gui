@@ -140,5 +140,21 @@ exports.NtpServer = Montage.specialize({
             name: "prefer",
             valueType: "boolean"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            inspectorComponentModule: {
+                id: 'ui/inspectors/ntpserver.reel'
+            },
+            collectionInspectorComponentModule: {
+                id: 'ui/controls/viewer.reel'
+            },
+            collectionNameExpression: "'NTP Servers'",
+            creatorComponentModule: {
+                id: 'ui/inspectors/ntpserver.reel'
+            },
+            nameExpression: "!!_isNew ? 'Add an NTP Server' : address",
+            sortExpression: "address" 
+        }
     }
 });
