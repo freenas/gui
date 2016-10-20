@@ -21,12 +21,6 @@ exports.CurrentNode = Component.specialize(/** @lends CurrentNode# */ {
         }
     },
 
-    exitDocument: {
-        value: function () {
-            this.element.removeEventListener('dblclick', this, false);
-        }
-    },
-
     handleDblclick: {
         value: function (event) {
             var iteration = this.items._findIterationContainingElement(event.target);
