@@ -45,6 +45,17 @@
             }
         },
 
+        "webUI": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "webUI"},
+                "value": "Web UI"
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "!@owner.object.web_ui_url"}
+            }
+        },
+
         "validationController": {
             "prototype": "core/controller/validation-controller",
             "properties": {
@@ -217,6 +228,7 @@
                 <div data-montage-id="start"></div>
                 <div data-montage-id="stop"></div>
                 <div data-montage-id="serialConsole"></div>
+                <div data-montage-id="webUI"></div>
             </div>
 
             <div data-montage-id="image"></div>

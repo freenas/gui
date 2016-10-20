@@ -335,7 +335,7 @@ exports.DockerContainer = Montage.specialize({
                 id: 'ui/sections/containers/inspectors/container.reel'
             },
             nameExpression: "id.defined() ? names.0 : 'Create a container'",
-            collectionNameExpression: "'Docker Containers'",
+            collectionNameExpression: "'Containers'",
             creatorComponentModule: {
                 id: 'ui/sections/containers/inspectors/container-creator.reel'
             },

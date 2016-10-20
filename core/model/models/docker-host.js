@@ -78,7 +78,7 @@ exports.DockerHost = Montage.specialize({
     userInterfaceDescriptor: {
         value: {
             nameExpression: "name",
-            collectionNameExpression: "'Hosts'",
+            collectionNameExpression: "'Docker Hosts'",
             daoModuleId: "core/dao/docker-host-dao",
             inspectorComponentModule: {
                 id: 'ui/sections/containers/inspectors/docker-host.reel'

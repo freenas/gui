@@ -9,31 +9,16 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
  */
 exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCreator# */ {
     
-    //Method used by docker-image-pull.reel
     templateDidLoad: {
         value: function () {
             var self = this,
                 blockGateKey = this.constructor.DATA_GATE_BLOCK_KEY;
-                promises = [];
 
             this._environment = {};
             this._canDrawGate.setField(blockGateKey, false);
 
-            promises.push(this._sectionService.listTemplateDockerImages());
-            promises.push(this._sectionService.listDockerHosts());
-
-            return Promise.all(promises).then(function (data) {
-                var templates = data[0],
-                    templatesNames = Object.keys(templates);
-
-                self._templates = templates;
-                self._images = templatesNames.map(function (x) {
-                    return {
-                        label: x,
-                        value: templates[x].image
-                    };
-                });
-                self._hostDockers = data[1];
+            return this._sectionService.listDockerHosts().then(function (hostDockers) {                
+                self._hostDockers = hostDockers;
             }).finally(function () {
                 self._canDrawGate.setField(blockGateKey, true);
             });
@@ -44,41 +29,29 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
         value: function (firsTime) {
             this.super();
             this._reset();
-
-            if (firsTime) {
-                this.addPathChangeListener("_imageComponent.selectedValue", this, "_handleImageChange");
-            }
         }  
     },
-
-    _handleImageChange: {
-        value: function (value) {
-            var selectedImageKey = null;
-
-            if (typeof value === "string") {
-                var images = this._images;
-
-                for (var i = 0, length = images.length; i < length; i++) {
-                    if (images[i].value === value) {
-                        selectedImageKey = images[i].label;
-                        break;
-                    }
-                }
-            }
-            
-            this.selectedImageKey = selectedImageKey;
-        }
-    },
-
+    
     _reset: {
         value: function () {
             if (this._environment) {
                 this._environment.clear();
-                
-                if (this._volumesComponent.values) {
-                    this._volumesComponent.values.clear();
-                }
             }
+
+            if (this._volumesComponent.values) {
+                this._volumesComponent.values.clear();
+            }
+
+            if (this._portsComponent.values) {
+                this._portsComponent.values.clear();
+            }
+
+            if (this._environmentComponent.values) {
+                this._environmentComponent.values.clear();
+            }
+
+            this._nameComponent.value = null;
+            this._commandComponent.value = null;
         }
     },
 

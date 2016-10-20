@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="docker-image-search.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "imageComponent": {"@": "image"}
+            },
+            "bindings": {
+                "currentPreset": {"<-": "@owner._templates.filter{name == @image.selectedValue}.one().presets"}
+            }
+        },
+        
+        "collection": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "collection"},
+                "label": "Collection"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.collectionValue"}
+            }
+        },
+
+        "image": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "image"},
+                "label": "Image"
+            },
+            "bindings": {
+                "disabled": {"<-": "@owner._isSearchingDockerImages"},
+                "options": {"<-": "[{label: '---', value: null}].concat(@owner._images)"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="DockerImageSearch">
+        <div data-montage-id="collection"></div>
+        <div data-montage-id="image"></div>
+    </div>
+</body>
+</html>

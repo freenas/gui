@@ -9,8 +9,9 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "_selectedImageHosts": {"<-": "@owner._dockerImages.filter{names.has(@owner._selectedImage)}.one().hosts"},
-                "_availablesDockersOptions": {"<-": "@owner._availablesDockers.filter{!@owner._selectedImageHosts || !@owner._selectedImageHosts.has(this.value)}"}
+                "_selectedImageHosts": {"<-": "@owner._installedDockerImages.filter{name == @owner._selectedImage}.one().hosts"},
+                "_availablesDockers": {"<-": "@owner._dockerHosts.filter{!@owner._selectedImageHosts || !@owner._selectedImageHosts.has(this.id)}"},
+                "_availablesDockersOptions": {"<-": "@owner._availablesDockers.map{{label: name, value: id}}"}
             }
         },
 
@@ -19,24 +20,24 @@
             "properties": {
                 "element": {"#": "inspector"},
                 "canDelete": false,
-                "canSave": false,
+                "canSave": true,
                 "canRevert": false,
                 "controller": {"@": "owner"}
             },
             "bindings": {
+                "isSaveDisabled": {"<-": "!@owner._selectedImage || !@owner._selectedHost"},
                 "context": {"<-": "@owner.context"}
             }
         },
 
-        "image": {
-            "prototype": "blue-shark/ui/field-select.reel",
+        "imageSearch": {
+            "prototype": "ui/sections/containers/controls/docker-image-search.reel",
             "properties": {
-                "element": {"#": "image"},
-                "label": "Image"
+                "element": {"#": "imageSearch"}
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner._selectedImage"},
-                "options": {"<-": "[{label: '---', value: null}].concat(@owner._images)"}
+                "_sectionService": {"<-": "@owner._sectionService"},
+                "imageComponent.selectedValue": {"<->": "@owner._selectedImage"}
             }
         },
 
@@ -59,7 +60,7 @@
 <body>
     <div data-montage-id="owner" class="DockerImagePull">
         <div data-montage-id="inspector">
-            <div data-montage-id="image"></div>
+            <div data-montage-id="imageSearch"></div>
             <div data-montage-id="dockerHost"></div>
         </div>
     </div>
