@@ -13,6 +13,10 @@ exports.Viewer = AbstractComponentActionDelegate.specialize({
         }
     },
 
+    displayTitle: {
+        value: false
+    },
+
     _object: {
         value: null
     },
@@ -86,7 +90,7 @@ exports.Viewer = AbstractComponentActionDelegate.specialize({
             }
         }
     },
-    
+
     _setViewerMetaDataWithObject: {
         value: function (object) {
             var self = this;
@@ -115,7 +119,7 @@ exports.Viewer = AbstractComponentActionDelegate.specialize({
 
     parentCascadingListItem: {
         get: function () {
-            return this._parentCascadingListItem || 
+            return this._parentCascadingListItem ||
                 (this._parentCascadingListItem = CascadingList.findCascadingListItemContextWithComponent(this));
         }
     }
