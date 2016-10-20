@@ -8,9 +8,5 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.FreenasCredentials = Component.specialize(/** @lends FreenasCredentials# */ {
-    constructor: {
-        value: function FreenasCredentials() {
-            this.super();
-        }
-    }
+
 });
