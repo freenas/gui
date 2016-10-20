@@ -10,7 +10,9 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "classList.has('is-expanded')": {"<-": "@owner.isExpanded"}
+                "classList.has('is-expanded')": {"<-": "@owner.isExpanded"},
+                "activeAddresses": {"<-": "!@owner.object.dhcp ? @owner.object.aliases.filter{type == 'INET' || type == 'INET6'}.map{address} : @owner.object.status.aliases.filter{type == 'INET' || type == 'INET6'}.map{address}"}
+
             },
             "listeners": [
                 {
@@ -34,7 +36,7 @@
                 "element": {"#": "firstAddress"}
             },
             "bindings": {
-                "value": {"<-": "!@owner.object.dhcp ? @owner.object.aliases.filter{type == 'INET' || type == 'INET6'}.map{address}[0] : @owner.object.status.aliases.filter{type == 'INET' || type == 'INET6'}.map{address}[0]"}
+                "value": {"<-": "@owner.activeAddresses[0]"}
             }
         },
         "interfaceIpv4Repetition": {
@@ -43,7 +45,7 @@
                 "element": {"#": "interfaceIpv4Repetition"}
             },
             "bindings": {
-                "content": {"<-": "!@owner.object.dhcp ? @owner.object.aliases.filter{type == 'INET' || type == 'INET6'}.map{address} : @owner.object.status.aliases.filter{type == 'INET' || type == 'INET6'}.map{address}"}
+                "content": {"<-": "@owner.activeAddresses"}
             }
         },
         "interfaceIpv4": {
@@ -72,7 +74,7 @@
                 "element": {"#": "toggle"}
             },
             "bindings": {
-                "classList.has('is-hidden')": {"<-": "!@owner.object.dhcp ? !@owner.object.aliases.some{type == 'INET' || type == 'INET6'} : !@owner.object.status.aliases.some{type == 'INET' || type == 'INET6'}"}
+                "classList.has('is-hidden')": {"<-": "!@owner.activeAddresses"}
             }
         }
     }
