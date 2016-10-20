@@ -11,7 +11,7 @@
             },
             "bindings": {
                 "classList.has('is-expanded')": {"<-": "@owner.isExpanded"},
-                "activeAddresses": {"<-": "!@owner.object.dhcp ? @owner.object.aliases.filter{type == 'INET' || type == 'INET6'}.map{address} : @owner.object.status.aliases.filter{type == 'INET' || type == 'INET6'}.map{address}"}
+                "activeAddresses": {"<-": "!@owner.object.dhcp ? @owner.object.aliases.filter{type == 'INET' || type == 'INET6'}.sorted{type} : @owner.object.status.aliases.filter{type == 'INET' || type == 'INET6'}.sorted{type}"}
 
             },
             "listeners": [
@@ -36,7 +36,7 @@
                 "element": {"#": "firstAddress"}
             },
             "bindings": {
-                "value": {"<-": "@owner.activeAddresses[0]"}
+                "value": {"<-": "@owner.activeAddresses[0].address"}
             }
         },
         "interfaceIpv4Repetition": {
@@ -54,7 +54,7 @@
                 "element": {"#": "interfaceIpv4"}
             },
             "bindings": {
-                "value": {"<-": "@interfaceIpv4Repetition:iteration.object"}
+                "value": {"<-": "@interfaceIpv4Repetition:iteration.object.address"}
             }
         },
 
