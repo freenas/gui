@@ -28,7 +28,7 @@
                 "element": {"#": "name"}
             },
             "bindings": {
-                "value": {"<-": "@owner.isSelectedPath ? @owner.data.name + ' ✓' : @owner.data.name"}
+                "value": {"<-": "!!@owner.isSelectedPath ? @owner.data.name + ' ✓' : @owner.data.name"}
             }
         },
         "homeCondition": {
