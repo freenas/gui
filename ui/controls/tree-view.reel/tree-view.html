@@ -22,7 +22,8 @@
                 "element": {"#": "currentNodeName"}
             },
             "bindings": {
-                "value": {"<-": "@owner.entry.path == @owner.selectedNode ? @owner.entry.name + ' ✓': @owner.entry.name"}
+                "value": {"<-": "@owner.entry.path == @owner.selectedPath ? @owner.entry.name + ' ✓': @owner.entry.name"},
+                "classList.has('is-selected')": {"<-": "@owner.entry.path == @owner.selectedPath"}
             }
         },
         "currentNode": {
