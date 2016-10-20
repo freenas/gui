@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="rsyncd-module.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "validationController": {"@": "validationController"},
+                "inspector": {"@": "inspector"}
+            }
+        },
+       "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
+            }
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "validationController": {"@": "validationController"},
+                "canRevert":    true,
+                "canSave":      true,
+                "controller": {"@": "owner"}
+            },
+            "bindings": {
+                "canDelete": {"<-": "!@owner.object._isNew"},
+                "context": {"<-": "@owner.context"}
+            }
+        },
+        "name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.name"}
+            }
+        },
+        "description": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "description"},
+                "label": "Description"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.description"}
+            }
+        },
+        "path": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "path"},
+                "label": "Path"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.path"}
+            }
+        },
+        "mode": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "mode"},
+                "label": "Mode"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.mode"},
+                "options": {"<-": "@owner.rsyncdModeOptions"}
+            }
+        },
+        "maxConValidator": {
+            "prototype": "core/converter/validator/integer-floor-validator",
+            "properties": {
+                "floor": 1,
+                "errorMessage": "Value must be an positive integer"
+            }
+        },
+        "maxConConverter": {
+            "prototype": "core/converter/string-to-integer-converter",
+            "properties": {
+                "validator": {"@": "maxConValidator"}
+            }
+        },
+        "max_connections": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "max_connections"},
+                "label": "Max Connections",
+                "converter": {"@": "maxConConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.max_connections"}
+            }
+        },
+        "user": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "user"},
+                "label": "User"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.user"}
+            }
+        },
+        "group": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "group"},
+                "label": "Group"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.group"}
+            }
+        },
+        "hosts_allow": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "hosts_allow"},
+                "label": "Hosts Allowed"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.hosts_allow"}
+            }
+        },
+        "hosts_deny": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "hosts_deny"},
+                "label": "Hosts Denied"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.hosts_deny"}
+            }
+        },
+        "auxiliary": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "auxiliary"},
+                "label": "Auxiliary Parameters"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.auxiliary"}
+            }
+        }
+
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="RsyncdModule">
+        <div data-montage-id="inspector">
+            <div data-montage-id="name"></div>
+            <div data-montage-id="description"></div>
+            <div data-montage-id="path"></div>
+            <div data-montage-id="mode"></div>
+            <div data-montage-id="max_connections"></div>
+            <div data-montage-id="user"></div>
+            <div data-montage-id="group"></div>
+            <div data-montage-id="hosts_allow"></div>
+            <div data-montage-id="hosts_deny"></div>
+            <div data-montage-id="auxiliary"></div>
+        </div>
+    </div>
+</body>
+</html>

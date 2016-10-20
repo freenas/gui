@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="rsyncd-service.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "rsyncdModules": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "rsyncdModules"},
+                "name": "Rsync Modules"
+            },
+            "bindings": {
+                "object": {"<-": "@owner.rsyncdModules"}
+            }
+        },
+        "portValidator": {
+            "prototype": "core/converter/validator/integer-range-validator",
+            "properties": {
+                "floor": 1,
+                "ceiling": 65535,
+                "errorMessage": "Value must be an integer between 1 and 65535"
+            }
+        },
+        "portConverter": {
+            "prototype": "core/converter/string-to-integer-converter",
+            "properties": {
+                "validator": {"@": "portValidator"}
+            }
+        },
+        "port": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "port"},
+                "label": "Port",
+                "converter": {"@": "portConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.port"}
+            }
+        },
+        "auxiliary": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "auxiliary"},
+                "label": "Auxiliary Parameters"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.auxiliary"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="RsyncdService">
+        <div data-montage-id="port"></div>
+        <div data-montage-id="auxiliary"></div>
+        <div data-montage-id="rsyncdModules"></div>
+    </div>
+</body>
+</html>
