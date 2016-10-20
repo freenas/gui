@@ -20,7 +20,7 @@ exports.TreeView = AbstractComponentActionDelegate.specialize({
             this._isExpanded = isExpanded;
             if (isExpanded) {
                 if (this._controller) {
-                    this._controller.open(this._selectedPath);
+                    this._controller.open(this.selectedPath);
                 }
             }
         }
