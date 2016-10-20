@@ -4,7 +4,7 @@ var WebSocketConfiguration = exports.WebSocketConfiguration =  function WebSocke
     this._store = new Map();
 };
 
-WebSocketConfiguration.SERVER_HOST = "freenas.local"
+WebSocketConfiguration.SERVER_HOST = "surfn10.local"
 
 WebSocketConfiguration.KEYS = {
     SECURE: "SECURE",
