@@ -61,10 +61,10 @@ exports.PeeringCreator = Component.specialize(/** @lends PeeringCreator# */ {
                 peeringService = this._peeringService;
 
             Promise.all([
-                peeringService.populateObjectPeeringSsh(),
-                peeringService.populateObjectPeeringFreenas(),
-                peeringService.populateObjectPeeringAmazonS3(),
-                peeringService.populateObjectPeeringVmware(),
+                peeringService.createSshPeer(),
+                peeringService.createFreenasPeer(),
+                peeringService.createAmazonS3Peer(),
+                peeringService.createVmwarePeer(),
             ]).bind(this).then(function (peeringCredentials) {
                 this.newSsh = peeringCredentials[0];
                 this.newFreenas = peeringCredentials[1];
