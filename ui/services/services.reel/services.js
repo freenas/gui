@@ -29,9 +29,10 @@ exports.Services = Component.specialize({
                             'iscsi'
                         ]),
                         self._getServicesCategory('Management', services, [
-                            'sshd', 
-                            'smartd', 
-                            'dyndns', 
+                            'rsyncd',
+                            'sshd',
+                            'smartd',
+                            'dyndns',
                             'snmp',
                             'tftpd',
                             'ftp'
