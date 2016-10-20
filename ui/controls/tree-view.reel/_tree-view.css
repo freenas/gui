@@ -43,15 +43,21 @@
 
 /* current path */
 
-.TreeView .TreeView-currentNodeName {
+.TreeView-currentNodeName {
     display: inline-block;
     position: absolute;
+    padding: .15em .35em;
+    border-radius: 4px;
     top:  calc(50% - 1px);
     left: 50%;
     line-height: 1em;
     transform: translate(-50%, -50%);
     vertical-align: middle;
     font-weight: 400;
+
+    &.is-selected {
+        background-color: #2089d3;
+    }
 }
 
 /* Body */
