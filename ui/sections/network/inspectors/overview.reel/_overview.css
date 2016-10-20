@@ -1,11 +1,16 @@
 .Overview {
-    width: 26em;
+    width: 22em;
+    background: #2F3233;
+}
+
+.Overview .InspectorSectionTitle {
+    margin-bottom: .5em;
 }
 
 .Overview .ScrollviewContent { width: 100%; }
 
-.Overview-overview {
-    border-bottom: 1px solid rgba(255,255,255,.2);
+.Overview-content {
+    padding: 1em 1em 0em 1em;
 }
 
 .Overview table {
@@ -25,10 +30,6 @@
     padding: .5em 1em;
 }
 
-.Overview .ip6Address {
-    display: none;
-}
-
 .Overview .has-ip6 .ip6Address {
     display: inherit;
 }
@@ -43,6 +44,10 @@
 
 .Overview-disabledInterface:nth-child(even) {
     background: rgba(0,0,0,.05);
+}
+
+.Overview-listItem {
+    line-height: 1.5em;
 }
 
 /* Foldable Section Overriedes */

@@ -9,7 +9,10 @@ var Component = require("montage/ui/component").Component,
  * @extends Component
  */
 exports.InterfaceOverviewItem = Component.specialize(/** @lends InterfaceOverviewItem# */ {
-    
+    isExpanded: {
+        value: false
+    },
+
     userInterfaceDescriptor: {
         value: null
     },
@@ -17,10 +20,16 @@ exports.InterfaceOverviewItem = Component.specialize(/** @lends InterfaceOvervie
     enterDocument: {
         value: function () {
             var self = this;
-            
+
             this.application.delegate.userInterfaceDescriptorForObject(Model.NetworkInterface).then(function (userInterfaceDescriptor) {
                 self.userInterfaceDescriptor = userInterfaceDescriptor;
             });
+        }
+    },
+
+    handleToggleAction: {
+        value: function () {
+            this.isExpanded = !this.isExpanded;
         }
     }
 
