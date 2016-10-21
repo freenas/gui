@@ -205,7 +205,7 @@ exports.RsyncdModule = Montage.specialize({
             creatorComponentModule: {
                 id: 'ui/inspectors/rsyncd-module.reel'
             },
-            nameExpression: "!!name ? name : 'Create a Rsyncd Module!'"
+            nameExpression: "!!name ? name : 'Create a Rsyncd Module'"
         }
     }
 });
