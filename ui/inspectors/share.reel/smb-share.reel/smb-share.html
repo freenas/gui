@@ -117,6 +117,16 @@
                 "values": {"<->": "@owner.properties.vfs_objects"}
             }
         },
+        "previousVersions": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "previousVersions"},
+                "label": "Previous Versions"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.properties.previous_versions"}
+            }
+        },
         "advancedSection": {
             "prototype": "ui/controls/foldable-section.reel",
             "properties": {
@@ -150,6 +160,7 @@
             <div data-montage-id="hostAllow"></div>
             <div data-montage-id="hostDeny"></div>
             <div data-montage-id="vfsObjects"></div>
+            <div data-montage-id="previousVersions"></div>
         </div>
     </div>
 </body>
