@@ -4,9 +4,19 @@ FreeNAS 10 is a ground-up rewrite of FreeNAS, and we're looking for
 contributors who are prepared to work with an entirely new code base.
 Our dev environment is designed to make iterating quick and easy.
 
+## Prerequisites
+
+1. You will need a reasonably up-to-date FreeNAS 10 instance running, either in a VM or on a physical machine:
+    1a. Go to http://download.freenas.org/10/MASTER/latest/x64 and grab the ISO installation image.
+    1b. You will need at least 8GB of memory on the machine and at least one boot device (USB stick or virtual disk), 16GB or larger.
+
+2. Once you have FreeNAS 10 installed, you can use the built-in updater to keep it up to date.  We release multiple builds a day on the 10-Nightlies update "train" and you can stay as up to date as you wish, using the System -> Boot Pool UI (or the _boot_ command if you are restricted to the CLI) to roll backwards as necessary from any bad updates (it sometimes happens, but updates can also be easily rolled back so it's not a show-stopper).
+
+3. Now that you have FreeNAS 10 installed, you can use the UI directly from the installation or, as described below, run a copy of the GUI locally on your development machine, pointing at the middleware remotely.  This is the preferred method of doing UI development, since you can use the very latest UI sources before they're actually checked into the master branch and incorporated into a build.
+
 ## Getting Started
 
-FreeNAS 10 development is currently supported on FreeBSD, Mac OS X, and some
+FreeNAS 10 GUI development is currently supported on FreeBSD, Mac OS X, and some
 Linux distributions. Windows users might be able to get it working, but it's not
 and will not be an officially supported platform for development.
 
