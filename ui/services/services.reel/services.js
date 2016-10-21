@@ -33,8 +33,10 @@ exports.Services = Component.specialize({
                             'smartd', 
                             'dyndns', 
                             'snmp',
-                            'tftpd',
-                            'ftp'
+                        ]),
+                        self._getServicesCategory('File Transfer', services, [
+                            'ftp',
+                            'tftpd'
                         ])
                     ]);
                 }).then(function(categories) {
