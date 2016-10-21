@@ -58,6 +58,14 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_shareiscsi_read_only": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "read_only",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_shareiscsi_rpm": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -99,6 +107,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_shareiscsi_xen_compat": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "xen_compat",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
@@ -111,11 +127,13 @@
         {"@": "blueprint_shareiscsi_device_id"},
         {"@": "blueprint_shareiscsi_naa"},
         {"@": "blueprint_shareiscsi_physical_block_size"},
+        {"@": "blueprint_shareiscsi_read_only"},
         {"@": "blueprint_shareiscsi_rpm"},
         {"@": "blueprint_shareiscsi_serial"},
         {"@": "blueprint_shareiscsi_size"},
         {"@": "blueprint_shareiscsi_tpc"},
-        {"@": "blueprint_shareiscsi_vendor_id"}
+        {"@": "blueprint_shareiscsi_vendor_id"},
+        {"@": "blueprint_shareiscsi_xen_compat"}
       ]
     }
   }

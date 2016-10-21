@@ -24,6 +24,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_bootenvironment_keep": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "keep",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_bootenvironment_mountpoint": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -68,6 +76,7 @@
         {"@": "blueprint_bootenvironment_active"},
         {"@": "blueprint_bootenvironment_created"},
         {"@": "blueprint_bootenvironment_id"},
+        {"@": "blueprint_bootenvironment_keep"},
         {"@": "blueprint_bootenvironment_mountpoint"},
         {"@": "blueprint_bootenvironment_on_reboot"},
         {"@": "blueprint_bootenvironment_realname"},

@@ -40,6 +40,19 @@ exports.BootEnvironment = Montage.specialize({
             return this._id;
         }
     },
+    _keep: {
+        value: null
+    },
+    keep: {
+        set: function (value) {
+            if (this._keep !== value) {
+                this._keep = value;
+            }
+        },
+        get: function () {
+            return this._keep;
+        }
+    },
     _mountpoint: {
         value: null
     },
@@ -107,6 +120,10 @@ exports.BootEnvironment = Montage.specialize({
             mandatory: false,
             name: "id",
             valueType: "String"
+        }, {
+            mandatory: false,
+            name: "keep",
+            valueType: "boolean"
         }, {
             mandatory: false,
             name: "mountpoint",
