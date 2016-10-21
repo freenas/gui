@@ -65,6 +65,14 @@
       "valueType": "array"
     }
   },
+  "blueprint_sharesmb_previous_versions": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "previous_versions",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_sharesmb_read_only": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -110,6 +118,7 @@
         {"@": "blueprint_sharesmb_guest_only"},
         {"@": "blueprint_sharesmb_hosts_allow"},
         {"@": "blueprint_sharesmb_hosts_deny"},
+        {"@": "blueprint_sharesmb_previous_versions"},
         {"@": "blueprint_sharesmb_read_only"},
         {"@": "blueprint_sharesmb_recyclebin"},
         {"@": "blueprint_sharesmb_show_hidden_files"},
