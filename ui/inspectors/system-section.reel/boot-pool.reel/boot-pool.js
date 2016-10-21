@@ -114,6 +114,19 @@ exports.BootPool = Component.specialize(/** @lends BootPool# */ {
         }
     },
 
+    handleKeepAction: {
+        value: function (event) {
+            var bootEnvironment = this._findBootEnvironmentFromActionEvent(event);
+
+            if (bootEnvironment) {
+                return this._performAction(
+                    event,
+                    this._bootEnvironmentService.toggleKeepBootEnvironment(bootEnvironment)
+                );
+            }
+        }
+    },
+
     _performAction: {
         value: function (actionEvent, promise) {
             var bootEnvironmentRow = this._findBootEnvironmentRowComponentWithElement(actionEvent.target.element);

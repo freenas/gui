@@ -47,6 +47,16 @@
             "bindings": {
                 "disabled": {"<-": "!!@owner.object.active && !!@owner.object.onReboot"}
             }
+        },
+
+        "keep": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "keep"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.keep ? 'Keep: Yes' : 'Keep: No'"}
+            }
         }
     }
     </script>
@@ -57,6 +67,7 @@
         <button data-montage-id="clone"></button>
         <button data-montage-id="rename"></button>
         <button data-montage-id="delete" class="Button--alert"></button>
+        <button data-montage-id="keep"></button>
     </div>
 </body>
 </html>
