@@ -18,11 +18,11 @@ documents the process for contributing to the GI.
 
 ## Other resources
 
-# Montage repo
+* Montage repo
 http://github.com/montagejs
 
-# Montage-based widget set for FreeNAS 10 development
+* Montage-based widget set for FreeNAS 10 development
 https://github.com/freenas/blue-shark
 
-# Persistent data framework used to communicate between Montage and FreeNAS Middleware
+* Persistent data framework used to communicate between Montage and FreeNAS Middleware
 https://github.com/montagestudio/montage-data
