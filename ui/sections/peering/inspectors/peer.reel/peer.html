@@ -18,6 +18,16 @@
                 }
             ]
         },
+        "type": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "type"},
+                "label": "Peer Type"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object._type"}
+            }
+        },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
