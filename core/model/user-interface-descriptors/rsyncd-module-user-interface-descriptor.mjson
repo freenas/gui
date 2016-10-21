@@ -1,0 +1,12 @@
+{
+    "root": {
+        "prototype": "montage/core/meta/user-interface-descriptor",
+        "properties": {
+            "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
+            "collectionNameExpression": "'Rsyncd Modules'",
+            "inspectorComponentModule": {"%": "ui/inspectors/rsyncd-module.reel"},
+            "creatorComponentModule": {"%": "ui/inspectors/rsyncd-module.reel"},
+            "nameExpression": "!!name ? name : 'Create a Rsyncd Module!'"
+        }
+    }
+}

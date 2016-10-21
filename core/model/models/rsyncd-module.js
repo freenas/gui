@@ -175,5 +175,20 @@ exports.RsyncdModule = Montage.specialize({
             name: "user",
             valueType: "String"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            collectionInspectorComponentModule: {
+                id: 'ui/controls/viewer.reel'
+            },
+            collectionNameExpression: "'Rsync Modules'",
+            inspectorComponentModule: {
+                id: 'ui/inspectors/rsyncd-module.reel'
+            },
+            creatorComponentModule: {
+                id: 'ui/inspectors/rsyncd-module.reel'
+            },
+            nameExpression: "!!name ? name : 'Create a Rsyncd Module!'"
+        }
     }
 });
