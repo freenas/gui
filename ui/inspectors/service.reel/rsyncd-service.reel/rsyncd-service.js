@@ -1,5 +1,4 @@
-var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+var Component = require("montage/ui/component").Component;
 
 /**
  * @class RsyncdService
@@ -14,7 +13,7 @@ exports.RsyncdService = Component.specialize({
     templateDidLoad: {
         value: function() {
             var self = this;
-             return this.application.dataService.fetchData(Model.RsyncdModule).then(function (rsyncdModules) {
+             return this.application.rsyncdModuleService.list().then(function (rsyncdModules) {
                 self.rsyncdModules = rsyncdModules;
             });
         }
