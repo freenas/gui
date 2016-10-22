@@ -1,6 +1,5 @@
 var Montage = require("montage").Montage,
     FreeNASService = require("core/service/freenas-service").FreeNASService,
-    Promise = require("montage/core/promise").Promise,
     Model = require("core/model/model").Model;
 
 var RsyncdModuleService = exports.RsyncdModuleService = Montage.specialize({
@@ -13,10 +12,6 @@ var RsyncdModuleService = exports.RsyncdModuleService = Montage.specialize({
     },
 
     _methods: {
-        value: null
-    },
-
-    _remoteService: {
         value: null
     },
 
@@ -54,7 +49,6 @@ var RsyncdModuleService = exports.RsyncdModuleService = Montage.specialize({
         get: function() {
             if (!this._instance) {
                 this._instance = new RsyncdModuleService();
-                this._instance._dataService = FreeNASService.instance
             }
             return this._instance;
         }
