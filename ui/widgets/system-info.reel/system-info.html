@@ -77,7 +77,7 @@
                 "converter": {"@": "iso8601ToStringConverter"}
             },
             "bindings": {
-                "value": {"<-": "@owner.systemInfo.time.system_time"}
+                "value": {"<-": "@owner.systemInfo.time.system_time['$date']"}
             }
         },
         "cpuCount": {
