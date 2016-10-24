@@ -104,7 +104,7 @@ exports.Peer = Montage.specialize({
             creatorComponentModule: {
                 id: 'ui/sections/peering/inspectors/peer.reel'
             },
-            nameExpression: "!_isNew && name.defined() ? name : !!type ? 'Create a new ' + type + ' peer' : 'Create a peer'"
+            nameExpression: "!_isNew && name.defined() ? name : !!type ? 'New ' + type : 'Create a peer'"
         }
     }
 });
