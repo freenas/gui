@@ -97,44 +97,72 @@
                 "value": {"<->": "@owner.object.max_connections"}
             }
         },
+        "usersToOptionsConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "labelPropertyName": "username",
+                "valuePropertyName": "username"
+            }
+        },
         "user": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "user"},
+                "converter": {"@": "usersToOptionsConverter"},
                 "label": "User"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.user"}
+                "options": {"<-": "[{username: ' - '}].concat(@owner.users.sorted{builtin + user})"},
+                "selectedValue": {"<->": "owner.object.user"}
+            }
+        },
+        "groupsOptionsConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "labelPropertyName": "name",
+                "valuePropertyName": "name"
             }
         },
         "group": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "group"},
+                "converter": {"@": "groupsOptionsConverter"},
                 "label": "Group"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.group"}
+                "options": {"<-": "[{name: ' - '}].concat(@owner.groups.sorted{builtin + name})"},
+                "selectedValue": {"<->": "owner.object.group"}
             }
         },
         "hosts_allow": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
             "properties": {
                 "element": {"#": "hosts_allow"},
-                "label": "Hosts Allowed"
+                "label": "Hosts allow",
+                "placeholder": "eg. 1.2.3.4 or hostname.local",
+                "labelPath": "this",
+                "inputTitle": "Add Allowed Host",
+                "valuesTitle": "Allowed Hosts",
+                "emptyMessage": "No allowed hosts added"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.hosts_allow"}
+                "values": {"<->": "@owner.object.hosts_allow"}
             }
         },
         "hosts_deny": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
             "properties": {
                 "element": {"#": "hosts_deny"},
-                "label": "Hosts Denied"
+                "label": "Hosts deny",
+                "placeholder": "eg. 1.2.3.4 or hostname.local",
+                "labelPath": "this",
+                "inputTitle": "Add a Denied Host",
+                "valuesTitle": "Denied Hosts",
+                "emptyMessage": "No hosts denied"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.hosts_deny"}
+                "values": {"<->": "@owner.object.hosts_deny"}
             }
         },
         "auxiliary": {
