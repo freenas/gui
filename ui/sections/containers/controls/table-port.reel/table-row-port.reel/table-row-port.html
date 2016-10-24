@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="table-row-port.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "object.protocol": {"<-": "@owner.object.protocol.defined() ? @owner.object.protocol : 'TCP'"}
+            }
+        },
+
+        "hostPort": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "hostPort"},
+                "placeholder": "e.g. host port"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.host_port"}
+            }
+        },
+
+        "containerPort": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "containerPort"},
+                "placeholder": "e.g. container port"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.container_port"}
+            }
+        },
+
+        "protocol": {
+            "prototype": "blue-shark/ui/select.reel",
+            "properties": {
+                "element": {"#": "protocol"},
+                "placeholder": "e.g. protocol",
+                "options": [
+                    {
+                        "label": "TCP",
+                        "value": "TCP"
+                    },
+                    {
+                        "label": "UDP",
+                        "value": "UDP"
+                    }
+                ]
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.protocol"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="TableRowPort">
+        <div data-montage-id="hostPort"></div>
+        <div data-montage-id="containerPort"></div>
+        <div data-montage-id="protocol"></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="table-row-volume.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+        "hostPath": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "hostPath"},
+                "placeholder": "e.g. host path"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.host_path"}
+            }
+        },
+
+        "containerPath": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "containerPath"},
+                "placeholder": "e.g. container port"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.container_path"}
+            }
+        },
+
+        "readOnly": {
+            "prototype": "blue-shark/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "readOnly"}
+            },
+            "bindings": {
+                "checked": {"<->": "!!@owner.object.read_only"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="TableRowVolume">
+        <div data-montage-id="hostPath"></div>
+        <div data-montage-id="containerPath"></div>
+        <div data-montage-id="readOnly"></div>
+    </div>
+</body>
+</html>

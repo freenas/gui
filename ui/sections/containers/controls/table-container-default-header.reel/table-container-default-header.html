@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="table-container-default-header.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+        "addButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "addButton"},
+                "value": "add"
+            },
+            "bindings": {
+                "disabled": {"<-": "@owner.table.isAddingNewEntry"}
+            }
+        },
+
+        "deleteButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "deleteButton"},
+                "value": "delete"
+            },
+            "bindings": {
+                "disabled": {"<-": "!@owner.table.selectedRows.length"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="TableContainerDefaultHeader">
+        <div data-montage-id="deleteButton" class="Button--alert"></div>
+        <div data-montage-id="addButton" class="Button--create"><svg><use xlink:href="#i-circle-plus" x="" y=""/></svg></div>
+    </div>
+</body>
+</html>
