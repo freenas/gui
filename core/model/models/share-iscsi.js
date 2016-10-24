@@ -92,6 +92,19 @@ exports.ShareIscsi = Montage.specialize({
             return this._physical_block_size;
         }
     },
+    _read_only: {
+        value: null
+    },
+    read_only: {
+        set: function (value) {
+            if (this._read_only !== value) {
+                this._read_only = value;
+            }
+        },
+        get: function () {
+            return this._read_only;
+        }
+    },
     _rpm: {
         value: null
     },
@@ -156,6 +169,19 @@ exports.ShareIscsi = Montage.specialize({
         get: function () {
             return this._vendor_id;
         }
+    },
+    _xen_compat: {
+        value: null
+    },
+    xen_compat: {
+        set: function (value) {
+            if (this._xen_compat !== value) {
+                this._xen_compat = value;
+            }
+        },
+        get: function () {
+            return this._xen_compat;
+        }
     }
 }, {
     propertyBlueprints: {
@@ -189,6 +215,10 @@ exports.ShareIscsi = Montage.specialize({
             valueType: "boolean"
         }, {
             mandatory: false,
+            name: "read_only",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
             name: "rpm",
             valueObjectPrototypeName: "ShareIscsiRpm",
             valueType: "object"
@@ -208,6 +238,10 @@ exports.ShareIscsi = Montage.specialize({
             mandatory: false,
             name: "vendor_id",
             valueType: "String"
+        }, {
+            mandatory: false,
+            name: "xen_compat",
+            valueType: "boolean"
         }]
     }
 });

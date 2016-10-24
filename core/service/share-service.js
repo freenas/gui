@@ -74,6 +74,7 @@ var ShareService = exports.ShareService = Montage.specialize({
                         shareObject.properties._browseable = true;
                         shareObject.properties.hosts_allow = [];
                         shareObject.properties.hosts_deny = [];
+                        shareObject.properties._previous_versions = true;
                     } else if (shareTypes.NFS === shareObject.type) {
                         shareObject.properties.hosts = [];
                         shareObject.properties.security = [];

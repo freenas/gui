@@ -105,6 +105,19 @@ exports.ShareSmb = Montage.specialize({
             return this._hosts_deny;
         }
     },
+    _previous_versions: {
+        value: null
+    },
+    previous_versions: {
+        set: function (value) {
+            if (this._previous_versions !== value) {
+                this._previous_versions = value;
+            }
+        },
+        get: function () {
+            return this._previous_versions;
+        }
+    },
     _read_only: {
         value: null
     },
@@ -190,6 +203,10 @@ exports.ShareSmb = Montage.specialize({
             mandatory: false,
             name: "hosts_deny",
             valueType: "array"
+        }, {
+            mandatory: false,
+            name: "previous_versions",
+            valueType: "boolean"
         }, {
             mandatory: false,
             name: "read_only",
