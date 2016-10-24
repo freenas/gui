@@ -52,13 +52,17 @@ exports.CalendarListDay = Component.specialize(/** @lends CalendarListDay# */ {
 
     _setHasEvents: {
         value: function() {
-            this.object._hasEvents = !!this.displayedEvents.length;
+            if (this.object) {
+                this.object._hasEvents = !!this.displayedEvents.length;
+            }
         }
     },
 
     enterDocument: {
-        value: function() {
-            this.addRangeAtPathChangeListener("displayedEvents", this, "_setHasEvents");
+        value: function(isFirstTime) {
+            if (isFirstTime) {
+                this.addRangeAtPathChangeListener("displayedEvents", this, "_setHasEvents");
+            }
             this._loadTasks();
         }
     },
