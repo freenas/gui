@@ -58,12 +58,12 @@ var CalendarService = exports.CalendarService = Montage.specialize({
 // FIXME: Should be a middleware provided enum
     taskCategories: {
         value: [
-            { name: "Scrub", value: "volume.scrub", isDisplayed: true },
-            { name: "Replication", value: "replication.replicate_dataset", isDisplayed: true },
-            { name: "Smart", value: "disk.parallel_test", isDisplayed: true },
-            { name: "Update", value: "update.checkfetch", isDisplayed: false },
-            { name: "Cron job", value: "calendar_task.command", isDisplayed: true },
-            { name: "Snapshot", value: "volume.snapshot_dataset", isDisplayed: true }
+            { name: "Scrub", value: "volume.scrub", checked: true },
+            { name: "Replication", value: "replication.replicate_dataset", checked: true },
+            { name: "Smart", value: "disk.parallel_test", checked: true },
+            { name: "Update", value: "update.checkfetch", checked: false },
+            { name: "Cron job", value: "calendar_task.command", checked: true },
+            { name: "Snapshot", value: "volume.snapshot_dataset", checked: true }
         ]
     },
 
