@@ -14,8 +14,7 @@
         "addButton": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
-                "element": {"#": "addButton"},
-                "value": "add"
+                "element": {"#": "addButton"}
             },
             "bindings": {
                 "disabled": {"<-": "@owner.table.isAddingNewEntry"}
@@ -29,7 +28,7 @@
                 "value": "delete"
             },
             "bindings": {
-                "disabled": {"<-": "!@owner.table.selectedRows.length"}
+                "classList.has('is-hidden')": {"<-": "!@owner.table.selectedRows.length"}
             }
         }
     }
@@ -37,8 +36,8 @@
 </head>
 <body>
     <div data-montage-id="owner" class="TableContainerDefaultHeader">
-        <div data-montage-id="deleteButton" class="Button--alert"></div>
-        <div data-montage-id="addButton" class="Button--create"><svg><use xlink:href="#i-circle-plus" x="" y=""/></svg></div>
+        <div data-montage-id="deleteButton" class="Button--alert Button--icon"><svg><use xlink:href="#i-trashCan"/></svg></div>
+        <div data-montage-id="addButton" class="Button--create Button--icon"><svg><use xlink:href="#i-plus"/></svg></div>
     </div>
 </body>
 </html>
