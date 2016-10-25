@@ -765,6 +765,14 @@
             "type": "VmDevice"
         },
         {
+            "modelId": "core/model/models/vm-guest-info-interfaces-anonymous.js",
+            "type": "VmGuestInfoInterfacesAnonymous"
+        },
+        {
+            "modelId": "core/model/models/vm-guest-info.js",
+            "type": "VmGuestInfo"
+        },
+        {
             "modelId": "core/model/models/vm-readme.js",
             "type": "VmReadme"
         },
