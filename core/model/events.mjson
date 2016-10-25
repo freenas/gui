@@ -24,6 +24,7 @@
     "Peer": "entity-subscriber.peer.changed",
     "Power": "entity-subscriber.power.changed",
     "Replication": "entity-subscriber.replication.changed",
+    "RsyncdModule": "entity-subscriber.rsyncd.module.changed",
     "Service": "entity-subscriber.service.changed",
     "Session": "entity-subscriber.session.changed",
     "Share": "entity-subscriber.share.changed",

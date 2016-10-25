@@ -66,6 +66,19 @@ exports.RsyncdModule = Montage.specialize({
             return this._hosts_deny;
         }
     },
+    _id: {
+        value: null
+    },
+    id: {
+        set: function (value) {
+            if (this._id !== value) {
+                this._id = value;
+            }
+        },
+        get: function () {
+            return this._id;
+        }
+    },
     _max_connections: {
         value: null
     },
@@ -148,10 +161,14 @@ exports.RsyncdModule = Montage.specialize({
         }, {
             mandatory: false,
             name: "hosts_allow",
-            valueType: "String"
+            valueType: "array"
         }, {
             mandatory: false,
             name: "hosts_deny",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "id",
             valueType: "String"
         }, {
             mandatory: false,
