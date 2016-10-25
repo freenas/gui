@@ -2,8 +2,8 @@
     "root": {
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
-            "inspectorComponentModule": {"%": "ui/inspectors/volume-dataset.reel"},
-            "creatorComponentModule": {"%": "ui/inspectors/volume-dataset.reel"},
+            "inspectorComponentModule": {"%": "ui/sections/storage/inspectors/volume-dataset.reel"},
+            "creatorComponentModule": {"%": "ui/sections/storage/inspectors/volume-dataset.reel"},
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "collectionNameExpression": "'Datasets'",
             "nameExpression": "name"

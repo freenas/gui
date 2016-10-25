@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="share.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "validationController": {"@": "validationController"},
+                "inspector": {"@": "inspector"},
+                "_shareTypePlaceHolder": {"@": "shareTypePlaceHolder"},
+                "treeControllers": {
+                    "DATASET":      {"@": "datasetTreeController"},
+                    "ZVOL":         {"@": "datasetTreeController"},
+                    "DIRECTORY":    {"@": "directoryTreeController"},
+                    "FILE":         {"@": "fileTreeController"}
+                }
+            },
+            "bindings": {
+                "volumePath": {"<-": "'/mnt/' + @owner.volume.id"}
+            }
+        },
+        "datasetTreeController": {
+            "prototype": "core/controller/dataset-tree-controller",
+            "bindings": {
+                "service": {"<-": "@owner.application.dataService"},
+                "root": {"<-": "@owner.volume.id"}
+            }
+        },
+        "directoryTreeController": {
+            "prototype": "core/controller/filesystem-tree-controller",
+            "properties": {
+                "canListFiles": false
+            },
+            "bindings": {
+                "service": {"<-": "@owner.application.filesystemService"},
+                "root": {"<-": "@owner.volumePath"}
+            }
+        },
+        "fileTreeController": {
+            "prototype": "core/controller/filesystem-tree-controller",
+            "properties": {
+                "canListFiles": true
+            },
+            "bindings": {
+                "service": {"<-": "@owner.application.filesystemService"},
+                "root": {"<-": "@owner.volumePath"}
+            }
+        },
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
+            }
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "validationController": {"@": "validationController"},
+                "canRevert":    true,
+                "canSave":      true,
+                "controller": {"@": "owner"}
+            },
+            "bindings": {
+                "canDelete": {"<-": "!@owner.object._isNew"},
+                "context": {"<-": "@owner.context"}
+            }
+        },
+        "overview": {
+            "prototype": "./share-overview.reel",
+            "properties": {
+                "element": {"#": "overview"}
+            },
+            "bindings": {
+                "title": {"<-": "@owner.object.type"},
+                "targetType": {"<-": "@owner.targetType"}
+            }
+        },
+        "enabled": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "enabled"},
+                "label": "Enabled"
+            },
+            "bindings": {
+                "checked": {"<->": "!!@owner.object.enabled"}
+            }
+        },
+        "serviceEnabled": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "serviceEnabled"}
+            },
+            "bindings": {
+                "checked": {"<->": "!!@owner.serviceEnabled"},
+                "label": {"<-": "'Enable ' + @owner.object.type.toUpperCase() + ' Service'"}
+            }
+        },
+        "name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "validationPath": "name",
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.name"}
+            }
+        },
+        "description": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "description"},
+                "label": "Description"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.description"}
+            }
+        },
+        "target": {
+            "prototype": "ui/controls/field-treeview.reel",
+            "properties": {
+                "element": {"#": "target"},
+                "validationPath": "target_path"
+            },
+            "bindings": {
+                "selectedPath": {"<->": "@owner.object.target_path"},
+                "label": {"<-": "@owner.targetType != 'DATASET' || @owner.targetType != 'ZVOL' ? 'Target' : 'Create target'"},
+                "readOnly": {"<-": "@owner.isPathReadOnly"},
+                "suffix": {"<-": "(@owner.targetType == 'DATASET' || @owner.targetType == 'ZVOL') && !@owner.isPathReadOnly ? @name.value || '' : ''"},
+                "controller": {"<-": "@owner.treeControllers[@owner.targetType]"}
+            }
+        },
+        "shareTypePlaceHolder": {
+            "prototype": "ui/controls/placeholder.reel",
+            "properties": {
+                "element": {"#": "shareTypePlaceHolder"}
+            },
+            "bindings": {
+                "moduleId": {"<-": "@owner._montage_metadata.moduleId + '/' + @owner.object.type + '-share.reel'"},
+                "object": {"<-": "@owner.object"}
+            }
+        },
+        "targetTypeSelect": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "targetTypeSelect"},
+                "label": "Create share for"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.possibleTargetTypes"},
+                "selectedValue": {"<->": "@owner.targetType"},
+                "classList.has('hide')": {"<-": "!@owner.object._isNew"}
+            }
+        },
+        "targetType": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "targetType"},
+                "validationPath": "target_type", 
+                "label": "Target Type"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.targetType"},
+                "classList.has('hide')": {"<-": "!!@owner.object._isNew"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Share">
+        <div data-montage-id="inspector">
+            <div data-montage-id="overview"></div>
+            <div data-montage-id="targetTypeSelect"></div>
+            <div data-montage-id="targetType"></div>
+            <div data-montage-id="enabled"></div>
+            <div data-montage-id="serviceEnabled"></div>
+            <div data-montage-id="name"></div>
+            <div data-montage-id="target"></div>
+            <div data-montage-id="description"></div>
+            <div data-montage-id="shareTypePlaceHolder"></div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,166 @@
+var AbstractShareInspector = require("../abstract-share-inspector").AbstractShareInspector,
+    ShareIscsiRpm = require("core/model/enumerations/share-iscsi-rpm").ShareIscsiRpm,
+    ShareIscsiBlocksize = require("core/model/enumerations/share-iscsi-blocksize").ShareIscsiBlocksize,
+    Model = require("core/model/model").Model;
+
+/**
+ * @class IscsiShare
+ * @extends Component
+ */
+exports.IscsiShare = AbstractShareInspector.specialize({
+
+    _iscsiRpm: {
+        value: null
+    },
+
+    iscsiRpm: {
+        get: function () {
+            return this._iscsiRpm || (this._iscsiRpm = ShareIscsiRpm.members);
+        }
+    },
+
+    _iscsiBlocksize: {
+        value: null
+    },
+
+    iscsiBlocksize: {
+        get: function () {
+            return this._iscsiBlocksize || (this._iscsiBlocksize = ShareIscsiBlocksize.members);
+        }
+    },
+
+    templateDidLoad: {
+        value: function () {
+            this.networkInterfacesAliases = this.application.networkInterfacesSevice.networkInterfacesAliases;
+            this._targetName = { label: null, value: null };
+            this.targetNames = [];
+
+            var self = this;
+
+            this._findServiceIscsi().then(function (serviceIscsi) {
+                self.serviceIscsi = serviceIscsi;
+            });
+        }
+    },
+
+    _targetName: {
+        value: null
+    },
+
+    targetNames: {
+        value: null
+    },
+
+    enterDocument: {
+        value: function () {
+            if (this.object._isNewObject && !this._cancelPathChangeListener) {
+                this._resetTargetName();
+                this._cancelPathChangeListener = this.addPathChangeListener("object.name", this, "handleNameChange");
+            } else if (!this.object._isNewObject && !this._isTargetNameSelected) { //FIXME: _isNewObject can be undefined
+                this._populateIscsiTargets();
+                this._convertExtentSize();
+            }
+        }
+    },
+
+    exitDocument: {
+        value: function () {
+            if (this._cancelPathChangeListener) {
+                //FIXME: bug in collections?
+                //this._cancelPathChangeListener();
+                this._cancelPathChangeListener = null;
+            }
+
+            this._resetTargetName();
+            this.targetNames.length = 0;
+        }
+    },
+
+    handleNameChange: {
+        value: function () {
+            if (this.object._isNewObject) { //FIXME: Bug with collection can't remove the PathChangeListener
+                var index = this.targetNames.indexOf(this._targetName),
+                    shareName = this.object.name;
+
+                if (shareName) {
+                    var concatString = this.serviceIscsi.base_name + "." + shareName;
+                    this._targetName.value = this._targetName.label = concatString;
+                    this.targetIscsiNameSelectComponent.selectedValue = this._targetName.value;
+
+                    if (index === -1) {
+                        this.targetNames.push(this._targetName);
+                    }
+                } else {
+                    this.targetNames.splice(index, 1);
+                }
+            }
+        }
+    },
+
+    _findServiceIscsi: {
+        value: function() {
+            return this.application.dataService.fetchData(Model.ServiceIscsi).then(function (serviceIscsiCollection) {
+                return serviceIscsiCollection[0];
+            });
+        }
+    },
+
+    _resetTargetName: {
+        value: function () {
+            this._targetName.label = null;
+            this._targetName.value = null;
+
+            return this._targetName;
+        }
+    },
+
+    _isTargetNameSelected: {
+        get: function () {
+            return !!this._targetName.label && !!this._targetName.value;
+        }
+    },
+
+    _populateIscsiTargets: {
+        value: function () {
+            var self = this;
+
+            this.application.shareService.fetchShareIscsiTarget().then(function (shareIscsiTargetCollection) {
+                var shareIscsiTarget, shareIscsiTargetExtent,  ii, ll;
+
+                for (var i = 0, l = shareIscsiTargetCollection.length; i < l; i++) {
+                    shareIscsiTarget = shareIscsiTargetCollection[i];
+
+                    if (shareIscsiTarget.extents.length) {
+                        if (!this._isTargetNameSelected) {
+                            for (ii = 0, ll = shareIscsiTarget.extents.length; ii < ll; ii++) {
+                                shareIscsiTargetExtent = shareIscsiTarget.extents[ii];
+
+                                //TODO: support more than one extent?
+                                if (shareIscsiTargetExtent.name === self.object.name) {
+                                    // Populate __extent property of the share object.
+                                    // Not the best place for doing that.
+                                    self.object.__extent = { id: shareIscsiTarget.id, lun: shareIscsiTargetExtent.number };
+
+                                    self._targetName.value = self._targetName.label = shareIscsiTarget.id;
+                                    self.targetNames.push(self._targetName);
+                                    break;
+                                }
+                            }
+                        }
+                    } else { //push "free" target iscsi.
+                        self.targetNames.push({ label: shareIscsiTarget.name, value: shareIscsiTarget.name });
+                    }
+                }
+            });
+        }
+    },
+
+    _convertExtentSize: {
+        value: function () {
+            if (this.object.properties && typeof this.object.properties.size === "number") {
+                this.object.properties.size = this.application.storageService.convertBytesToSizeString(this.object.properties.size);
+            }
+        }
+    }
+
+});

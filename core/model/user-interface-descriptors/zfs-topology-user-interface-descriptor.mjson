@@ -2,7 +2,7 @@
     "root": {
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
-            "inspectorComponentModule": {"%": "ui/inspectors/topology.reel"},
+            "inspectorComponentModule": {"%": "ui/sections/storage/inspectors/topology.reel"},
             "nameExpression": "'Topology'"
         }
     }

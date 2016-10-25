@@ -80,7 +80,7 @@ exports.ZfsTopology = Montage.specialize({
     userInterfaceDescriptor: {
         value: {
             inspectorComponentModule: {
-                id: 'ui/inspectors/topology.reel'
+                id: 'ui/sections/storage/inspectors/topology.reel'
             },
             nameExpression: "'Topology'"
         }

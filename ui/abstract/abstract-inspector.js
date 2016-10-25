@@ -1,9 +1,16 @@
 var AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate;
 
 var AbstractInspector = exports.AbstractInspector = AbstractComponentActionDelegate.specialize({
+    __sectionService: {
+        value: null
+    },
+
     _sectionService: {
         get: function() {
-            return this.application.sectionService;
+            if (!this.__sectionService) {
+                this.__sectionService = this.application.sectionService;
+            }
+            return this.__sectionService;
         }
     },
 
@@ -36,7 +43,9 @@ var AbstractInspector = exports.AbstractInspector = AbstractComponentActionDeleg
 
     _reloadValidationController: {
         value: function() {
-            this.validationController.load(this);
+            if (this.context && this.context.object) {
+                this.validationController.load(this);
+            }
         }
     }
 }, {

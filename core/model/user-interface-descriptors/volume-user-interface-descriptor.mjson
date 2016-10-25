@@ -4,8 +4,8 @@
         "properties": {
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "collectionNameExpression": "'Volumes'",
-            "inspectorComponentModule": {"%": "ui/inspectors/volume.reel"},
-            "creatorComponentModule": {"%": "ui/inspectors/volume-creator.reel"},
+            "inspectorComponentModule": {"%": "ui/sections/storage/inspectors/volume.reel"},
+            "creatorComponentModule": {"%": "ui/sections/storage/inspectors/volume-creator.reel"},
             "nameExpression": "name.defined() ? name : id.defined() ? id : 'Create a volume'",
             "sortExpression": "name.defined() + '' + id"
         }

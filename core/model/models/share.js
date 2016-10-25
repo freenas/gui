@@ -203,10 +203,10 @@ exports.Share = Montage.specialize({
             },
             collectionNameExpression: "'Shares'",
             inspectorComponentModule: {
-                id: 'ui/inspectors/share.reel'
+                id: 'ui/sections/storage/inspectors/share.reel'
             },
             creatorComponentModule: {
-                id: 'ui/inspectors/share-creator.reel'
+                id: 'ui/sections/storage/inspectors/share-creator.reel'
             },
             nameExpression: "!!id ? !!name ? name : id : !!type ? 'New ' + type.toUpperCase() + ' share' : 'Choose a share type'"
         }

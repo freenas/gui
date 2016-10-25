@@ -16,7 +16,8 @@
             },
             "bindings": {
                 "name": {"<-": "@owner.name"},
-                "object": {"<-": "@owner.object"}
+                "object": {"<-": "@owner.object"},
+                "objectType": {"<-": "@owner.objectType ?? @owner.object.Type"}
             }
         }
     }

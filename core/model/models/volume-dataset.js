@@ -216,10 +216,10 @@ exports.VolumeDataset = Montage.specialize({
     userInterfaceDescriptor: {
         value: {
             inspectorComponentModule: {
-                id: 'ui/inspectors/volume-dataset.reel'
+                id: 'ui/sections/storage/inspectors/volume-dataset.reel'
             },
             creatorComponentModule: {
-                id: 'ui/inspectors/volume-dataset.reel'
+                id: 'ui/sections/storage/inspectors/volume-dataset.reel'
             },
             collectionInspectorComponentModule: {
                 id: 'ui/controls/viewer.reel'

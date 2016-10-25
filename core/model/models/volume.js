@@ -258,10 +258,10 @@ exports.Volume = Montage.specialize({
             },
             collectionNameExpression: "'Volumes'",
             inspectorComponentModule: {
-                id: 'ui/inspectors/volume.reel'
+                id: 'ui/sections/storage/inspectors/volume.reel'
             },
             creatorComponentModule: {
-                id: 'ui/inspectors/volume-creator.reel'
+                id: 'ui/sections/storage/inspectors/volume-creator.reel'
             },
             nameExpression: "name.defined() ? name : id.defined() ? id : 'Create a volume'",
             sortExpression: "name.defined() + '' + id"

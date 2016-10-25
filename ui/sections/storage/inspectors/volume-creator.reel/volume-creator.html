@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="volume-creator.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "validationController": {"@": "validationController"},
+                "inspector": {"@": "inspector"},
+
+                "topologizer": {"@": "topologizer"}
+            }
+        },
+
+        "validationController": {
+            "prototype": "core/controller/validation-controller"
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "validationController": {"@": "validationController"},
+                "canRevert": true,
+                "scrollViewDelegate": {"@": "owner"},
+                "controller": {"@": "owner"},
+                "canSave": true
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"},
+                "isSaveDisabled": {"<-": "@owner.object.topology.data.length == 0"}
+            }
+        },
+
+        "name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Name",
+                "validationPath": "id",
+                "placeholderValue": "enter volume name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.id"}
+            }
+        },
+
+        "topologizer": {
+            "prototype": "ui/controls/topologizer.reel",
+            "properties": {
+                "element": {"#": "topologizer"}
+            },
+            "bindings": {
+                "topology": {"<-": "@owner.object.topology"},
+                "disks": {"<-": "@owner.disks"}
+            }
+        },
+
+        "topology": {
+            "prototype": "ui/controls/topology.reel",
+            "properties": {
+                "element": {"#": "topology"},
+                "mode": "CREATE"
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.topology"},
+                "selectedDisk": {"<->": "@owner.topologySelectedDisk"}
+            }
+        },
+
+        "availableDisks": {
+            "prototype": "ui/sections/storage/inspectors/available-disks.reel",
+            "properties": {
+                "element": {"#": "availableDisks"},
+                "topology": {"@": "topology"}
+            },
+            "bindings": {
+                "disks": {"<-": "@owner.availableDisks"},
+                "selectedDisk": {"<->": "@owner.availableSelectedDisk"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="VolumeCreator">
+        <div data-montage-id="inspector">
+            <div class="VolumeCreator-content">
+                <div class="g-margin-sides g-padding-top">
+                    <div data-montage-id="name"></div>
+                </div>
+                <div data-montage-id="topologizer"></div>
+                <div data-montage-id="topology" class="VolumeCreator-Topology"></div>
+            </div>
+        </div>
+        <div class="VolumeCreator-sidebar">
+            <div data-montage-id="availableDisks" class="VolumeCreator-availableDisks"></div>
+        </div>
+    </div>
+</body>
+</html>

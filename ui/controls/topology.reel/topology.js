@@ -64,6 +64,8 @@ var Topology = exports.Topology = Component.specialize({
 
             this.spareTopologyItemComponent.gridIdentifier = identifiers.SPARE;
             this.spareTopologyItemComponent.maxVdevType = vDevTypes.DISK;
+
+            this._sectionService = this.application.sectionService;
         }
     },
 
@@ -99,24 +101,26 @@ var Topology = exports.Topology = Component.specialize({
                     topologyIdentifiers = Topology.IDENTIFIERS;
 
                 if (topologyIdentifiers[gridId]) {
-                    var collectionSource = this._findTopologyCollectionWithIdentifier(gridId),
+                    var collectionSource = this.findTopologyCollectionWithIdentifier(gridId),
                         dropZoneId = detail.dropZoneComponent.identifier;
 
                     if (topologyIdentifiers[dropZoneId]) {
-                        var collectionTarget = this._findTopologyCollectionWithIdentifier(dropZoneId),
+                        var collectionTarget = this.findTopologyCollectionWithIdentifier(dropZoneId),
                             disk = detail.disk,
                             self = this;
 
                         //Fixme: getDataObject needs to return a promise
                         self.application.dataService.getNewInstanceForType(Model.ZfsVdev).then(function (vDev) {
+                            var promise = collectionSource ? self.removeDiskFromTopologyCollection(disk, collectionSource) : Promise.resolve();
+                            
+                            promise.then(function() {
+                                self._sectionService.markDiskAsReserved(disk);
+                            });
+
                             //here: disk can be a model disk or ZfsVdev
                             vDev.children = [
                                 disk.constructor.Type === Model.ZfsVdev ? disk : self._topologyService.diskToVdev(disk)
                             ];
-
-                            if (collectionSource) {
-                                self._removeDiskFromTopologyCollection(disk, collectionSource);
-                            }
 
                             collectionTarget.push(vDev);
                         });
@@ -140,15 +144,17 @@ var Topology = exports.Topology = Component.specialize({
                     topologyIdentifiers = Topology.IDENTIFIERS;
 
                 if (topologyIdentifiers[gridId]) {
-                    var collectionSource = this._findTopologyCollectionWithIdentifier(gridId),
+                    var collectionSource = this.findTopologyCollectionWithIdentifier(gridId),
                         dropZoneId = detail.dropZoneComponent.gridIdentifier;
 
                     if (topologyIdentifiers[dropZoneId]) {
-                        var disk = detail.disk;
+                        var disk = detail.disk,
+                            self = this,
+                            promise = collectionSource ? this.removeDiskFromTopologyCollection(disk, collectionSource) : Promise.resolve();
 
-                        if (collectionSource) {
-                            this._removeDiskFromTopologyCollection(disk, collectionSource);
-                        }
+                        promise.then(function() {
+                            self._sectionService.markDiskAsReserved(disk);
+                        });
 
                         detail.vDevTarget.children.push(
                             disk.constructor.Type === Model.ZfsVdev ?
@@ -169,7 +175,7 @@ var Topology = exports.Topology = Component.specialize({
             var vDevComponent = event.target.vDevComponent;
 
             if (vDevComponent && vDevComponent.canRemove) {
-                var collection = this._findTopologyCollectionWithIdentifier(vDevComponent.gridIdentifier),
+                var collection = this.findTopologyCollectionWithIdentifier(vDevComponent.gridIdentifier),
                     vDev = vDevComponent.object,
                     index;
 
@@ -179,6 +185,7 @@ var Topology = exports.Topology = Component.specialize({
 
                     for (var i = 0, length = vDevChildren.length; i < length; i++) {
                         if (vDevChildren[i]._disk) {
+                            this._sectionService.markDiskAsAvailable(vDevChildren[i]._disk, !vDev._isNew);
                             vDevChildren[i]._disk.volume = null;
                         }
                     }
@@ -187,7 +194,7 @@ var Topology = exports.Topology = Component.specialize({
         }
     },
 
-    _findTopologyCollectionWithIdentifier: {
+    findTopologyCollectionWithIdentifier: {
         value: function (identifier) {
             var topologyIdentifiers = Topology.IDENTIFIERS,
                 topology = this.object;
@@ -200,37 +207,43 @@ var Topology = exports.Topology = Component.specialize({
     },
 
 
-    _removeDiskFromTopologyCollection: {
+    removeDiskFromTopologyCollection: {
         value: function (disk, topologyCollection) {
             /* the argument disk can be vdev or disk here */
             var ZfsVdevType = Model.ZfsVdev,
-                ii, ll, vDev, vDevDisks, vDevDisk;
+                ii, ll, vDev, vDevDisks, vDevDisk,
+                promise;
 
-            loop1:
-                for (var i = 0, l = topologyCollection.length; i < l; i++) {
-                    vDev = topologyCollection[i];
+            promise = this._sectionService.markDiskAsAvailable(disk, disk.Type === ZfsVdevType ? !disk._isNew : !this.object._isNew);
 
-                    if (vDev.constructor.Type === ZfsVdevType && vDev.children && vDev.children.length > 0) {
-                        vDevDisks = vDev.children;
+            return promise.then(function() {
+                loop1:
+                    for (var i = 0, l = topologyCollection.length; i < l; i++) {
+                        vDev = topologyCollection[i];
 
-                        for (ii = 0, ll = vDevDisks.length; ii < ll ; ii++) {
-                            vDevDisk = vDevDisks[ii];
+                        if (vDev.constructor.Type === ZfsVdevType && vDev.children && vDev.children.length > 0) {
+                            vDevDisks = vDev.children;
 
-                            if (vDevDisk === disk) {
-                                if (ll === 1) {
-                                    topologyCollection.splice(i, 1);
-                                } else {
-                                    vDevDisks.splice(ii, 1);
+                            for (ii = 0, ll = vDevDisks.length; ii < ll ; ii++) {
+                                vDevDisk = vDevDisks[ii];
+
+                                if (vDevDisk === disk) {
+                                    if (ll === 1) {
+                                        topologyCollection.splice(i, 1);
+                                    } else {
+                                        vDevDisks.splice(ii, 1);
+                                    }
+
+                                    break loop1;
                                 }
-
-                                break loop1;
                             }
+                        } else if (vDev === disk || vDev.path === disk.path) {
+                            topologyCollection.splice(i, 1);
+                            break;
                         }
-                    } else if (vDev === disk || vDev.path === disk.path) {
-                        topologyCollection.splice(i, 1);
-                        break;
                     }
-                }
+            });
+
         }
     },
 
