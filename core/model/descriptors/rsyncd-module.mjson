@@ -28,13 +28,21 @@
     "properties": {
       "name": "hosts_allow",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "array"
     }
   },
   "blueprint_rsyncdmodule_hosts_deny": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "hosts_deny",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_rsyncdmodule_id": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "id",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -90,6 +98,7 @@
         {"@": "blueprint_rsyncdmodule_group"},
         {"@": "blueprint_rsyncdmodule_hosts_allow"},
         {"@": "blueprint_rsyncdmodule_hosts_deny"},
+        {"@": "blueprint_rsyncdmodule_id"},
         {"@": "blueprint_rsyncdmodule_max_connections"},
         {"@": "blueprint_rsyncdmodule_mode"},
         {"@": "blueprint_rsyncdmodule_name"},

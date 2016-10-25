@@ -39,6 +39,19 @@ exports.VmStatus = Montage.specialize({
         get: function () {
             return this._state;
         }
+    },
+    _vm_tools_available: {
+        value: null
+    },
+    vm_tools_available: {
+        set: function (value) {
+            if (this._vm_tools_available !== value) {
+                this._vm_tools_available = value;
+            }
+        },
+        get: function () {
+            return this._vm_tools_available;
+        }
     }
 }, {
     propertyBlueprints: {
@@ -57,6 +70,10 @@ exports.VmStatus = Montage.specialize({
             name: "state",
             valueObjectPrototypeName: "VmStatusState",
             valueType: "object"
+        }, {
+            mandatory: false,
+            name: "vm_tools_available",
+            valueType: "boolean"
         }]
     }
 });

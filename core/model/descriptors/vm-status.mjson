@@ -26,6 +26,14 @@
       "valueObjectPrototypeName": "VmStatusState"
     }
   },
+  "blueprint_vmstatus_vm_tools_available": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "vm_tools_available",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
@@ -33,7 +41,8 @@
       "propertyBlueprints": [
         {"@": "blueprint_vmstatus_management_lease"},
         {"@": "blueprint_vmstatus_nat_lease"},
-        {"@": "blueprint_vmstatus_state"}
+        {"@": "blueprint_vmstatus_state"},
+        {"@": "blueprint_vmstatus_vm_tools_available"}
       ]
     }
   }

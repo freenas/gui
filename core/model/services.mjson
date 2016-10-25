@@ -2907,6 +2907,11 @@
                 "method": "support.categories",
                 "name": "call",
                 "namespace": "rpc"
+            },
+            "categoriesNoAuth": {
+                "method": "support.categories_no_auth",
+                "name": "call",
+                "namespace": "rpc"
             }
         }
     },
@@ -3333,6 +3338,11 @@
     },
     "Vm": {
         "class": {
+            "getGuestInfo": {
+                "method": "vm.get_guest_info",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "requestSerialConsole": {
                 "method": "vm.request_serial_console",
                 "name": "call",

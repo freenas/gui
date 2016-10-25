@@ -221,10 +221,6 @@
             "type": "FileIndex"
         },
         {
-            "modelId": "core/model/models/freeipa-directory-params.js",
-            "type": "FreeipaDirectoryParams"
-        },
-        {
             "modelId": "core/model/models/freenas-credentials.js",
             "type": "FreenasCredentials"
         },
@@ -267,10 +263,6 @@
         {
             "modelId": "core/model/models/kerberos-realm.js",
             "type": "KerberosRealm"
-        },
-        {
-            "modelId": "core/model/models/ldap-directory-params.js",
-            "type": "LdapDirectoryParams"
         },
         {
             "modelId": "core/model/models/mail-message-extra-headers-anonymous.js",
@@ -371,10 +363,6 @@
         {
             "modelId": "core/model/models/network-status.js",
             "type": "NetworkStatus"
-        },
-        {
-            "modelId": "core/model/models/nis-directory-params.js",
-            "type": "NisDirectoryParams"
         },
         {
             "modelId": "core/model/models/ntp-server.js",
@@ -765,6 +753,14 @@
             "type": "VmDevice"
         },
         {
+            "modelId": "core/model/models/vm-guest-info-interfaces-anonymous.js",
+            "type": "VmGuestInfoInterfacesAnonymous"
+        },
+        {
+            "modelId": "core/model/models/vm-guest-info.js",
+            "type": "VmGuestInfo"
+        },
+        {
             "modelId": "core/model/models/vm-readme.js",
             "type": "VmReadme"
         },
@@ -1039,14 +1035,6 @@
         {
             "modelId": "core/model/models/volume.js",
             "type": "Volume"
-        },
-        {
-            "modelId": "core/model/models/winbind-directory-params.js",
-            "type": "WinbindDirectoryParams"
-        },
-        {
-            "modelId": "core/model/models/winbind-directory-status.js",
-            "type": "WinbindDirectoryStatus"
         },
         {
             "modelId": "core/model/models/zfs-dataset-properties-anonymous.js",
