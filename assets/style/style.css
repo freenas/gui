@@ -208,6 +208,7 @@ $Icons
 }
 
 .g-margin-bottom { margin-bottom: 1em; }
+.g-margin-bottom--double { margin-bottom: 2rem; }
 
 .g-margin-bottom--half {
     margin-bottom: .5em;
