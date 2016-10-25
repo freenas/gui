@@ -166,6 +166,9 @@
             "prototype": "ui/sections/containers/controls/table-environment.reel",
             "properties": {
                 "element": {"#": "environmentsTable"}
+            },
+            "bindings": {
+                "values": {"<-": "@owner.currentTemplate.settings.map{{ variable: id, value: value, description: description }}"}
             }
         },
 
@@ -173,6 +176,9 @@
             "prototype": "ui/sections/containers/controls/table-port.reel",
             "properties": {
                 "element": {"#": "portsTable"}
+            },
+            "bindings": {
+                "values": {"<-": "@owner.currentTemplate.ports.map{{ host_port: host_port, container_port: container_port, protocol: protocol }}"}
             }
         },
 
@@ -180,6 +186,9 @@
             "prototype": "ui/sections/containers/controls/table-volume.reel",
             "properties": {
                 "element": {"#": "volumesTable"}
+            },
+            "bindings": {
+                "values": {"<-": "@owner.currentTemplate.volumes.map{{ host_path: host_path, container_path: container_path, readonly: readonly }}"}
             }
         },
 
