@@ -1,3 +1,8 @@
 .TableVolume {
 
 }
+
+.TableVolume .Table-cells > div:nth-child(3),
+.TableVolume .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(3) {
+    max-width: 5.2em;
+}
