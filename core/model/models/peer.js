@@ -102,9 +102,16 @@ exports.Peer = Montage.specialize({
                 id: 'ui/sections/peering/inspectors/peer.reel'
             },
             creatorComponentModule: {
-                id: 'ui/sections/peering/inspectors/peer.reel'
+                id: 'ui/sections/peering/inspectors/peering-creator.reel'
             },
-            nameExpression: "!_isNew && name.defined() ? name : !!type ? 'Create a new ' + type + ' peer' : 'Create a peer'"
+            nameExpression: "!_isNew && name.defined() ? name : !!type ? 'New ' + type: 'Create a peer'",
+            statusColorMapping: {
+                "ONLINE": "green",
+                "NOT_SUPPORTED": "grey",
+                "OFFLINE": "red",
+                "UNKNOWN": "yellow"
+            },
+            statusValueExpression: "!!_isNew ? 'NOT_SUPPORTED' : status.state"
         }
     }
 });

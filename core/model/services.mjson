@@ -3333,6 +3333,11 @@
     },
     "Vm": {
         "class": {
+            "getGuestInfo": {
+                "method": "vm.get_guest_info",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "requestSerialConsole": {
                 "method": "vm.request_serial_console",
                 "name": "call",

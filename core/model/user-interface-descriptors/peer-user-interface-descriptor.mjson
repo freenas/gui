@@ -5,8 +5,15 @@
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "collectionNameExpression": "'Peers'",
             "inspectorComponentModule": {"%": "ui/sections/peering/inspectors/peer.reel"},
-            "creatorComponentModule": {"%": "ui/sections/peering/inspectors/peer.reel"},
-            "nameExpression": "!_isNew && name.defined() ? name : !!type ? 'Create a new ' + type + ' peer' : 'Create a peer'"
+            "creatorComponentModule": {"%": "ui/sections/peering/inspectors/peering-creator.reel"},
+            "nameExpression": "!_isNew && name.defined() ? name : !!type ? 'New ' + type: 'Create a peer'",
+            "statusColorMapping": {
+                "ONLINE": "green",
+                "NOT_SUPPORTED": "grey",
+                "OFFLINE": "red",
+                "UNKNOWN": "yellow"
+            },
+            "statusValueExpression": "!!_isNew ? 'NOT_SUPPORTED' : status.state"
         }
     }
 }
