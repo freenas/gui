@@ -63,7 +63,7 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
                 portsValues = this._portsComponent.values,
                 volumesValues = this._volumesComponent.values,
                 settingsValues = this._settingsComponent.values,
-                environements = [],
+                environments = [],
                 self = this;
 
             if (commandString) {
@@ -85,18 +85,18 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
 
             if (settingsValues && settingsValues.length) {
                 try {
-                    environements = this._getVariablesFromArray(settingsValues);
+                    environments = this._getVariablesFromArray(settingsValues);
                 } catch (e) {
                     //TODO
                 }
             }
 
             if (environmentComponentValues && environmentComponentValues.length) {
-                environements = environements.concat(this._getVariablesFromArray(environmentComponentValues));
+                environments = environments.concat(this._getVariablesFromArray(environmentComponentValues));
             }
 
-            if (environements.length) {
-                this.object.environement = environements;
+            if (environments.length) {
+                this.object.environement = environments;
             }
 
             if (portsValues && portsValues.length) {
