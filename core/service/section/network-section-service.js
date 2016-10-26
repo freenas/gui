@@ -129,7 +129,7 @@ exports.NetworkSectionService = AbstractSectionService.specialize({
 
     _splitAliasesOnInterface: {
         value: function(interface) {
-            interface._ipAddress = interface.aliases[0];
+            interface._ipAddress = interface.aliases[0] || {};
             interface._otherAliases = interface.aliases.slice(1);
         }
     }
