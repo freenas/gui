@@ -13,11 +13,16 @@
             }
         },
 
+        "portConverter": {
+            "prototype": "core/converter/string-to-integer-or-null-converter"
+        },
+
         "hostPort": {
             "prototype": "blue-shark/ui/text-field.reel",
             "properties": {
                 "element": {"#": "hostPort"},
-                "placeholder": "e.g. host port"
+                "placeholder": "e.g. host port",
+                "converter": {"@": "portConverter"}
             },
             "bindings": {
                 "value": {"<->": "@owner.object.host_port"}
@@ -28,7 +33,8 @@
             "prototype": "blue-shark/ui/text-field.reel",
             "properties": {
                 "element": {"#": "containerPort"},
-                "placeholder": "e.g. container port"
+                "placeholder": "e.g. container port",
+                "converter": {"@": "portConverter"}
             },
             "bindings": {
                 "value": {"<->": "@owner.object.container_port"}
