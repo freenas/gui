@@ -23,9 +23,42 @@ exports.Settings = AbstractInspector.specialize(/** @lends Settings# */ {
         }
     },
 
+    enterDocument: {
+        value: function () {
+            this.super();
+
+            if (!this._getDefaultDockerCollectionPromise) {
+                var self = this;
+                this.isLoading = true;
+
+                this._getDefaultDockerCollectionPromise = this._sectionService.getDefaultDockerCollection()
+                .then(function (defaultCollection) {
+                    self.defaultCollection = defaultCollection;
+                }).finally(function () {
+                    self.isLoading = false;
+                    self._getDefaultDockerCollectionPromise = null;
+                });
+            }
+        }
+    },
+
+    defaultCollection: {
+        value: null
+    },
+
     save: {
         value: function () {
-            this._sectionService.saveSettings(this.object.settings);
+            var self = this;
+
+            return Promise.all([
+                this._sectionService.getCurrentUser().then(function (user) {
+                    if (user && user.attributes && user.attributes.defaultCollection !== self.defaultCollection) {
+                        user.attributes.defaultCollection = self._defaultCollection;
+                        return this._sectionService.saveCurrentUser();
+                    }
+                }), 
+                this._sectionService.saveSettings(this.object.settings)
+            ]);
         }
     }
 
