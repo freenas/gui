@@ -78,17 +78,37 @@
                 "value": {"<->": "@owner.object.name"}
             }
         },
-        "ipAddress": {
+        "ipv4_address_validator": {
+            "prototype": "core/converter/validator/ipv4-validator"
+        },
+        "address": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
-                "element": {"#": "ipAddress"},
+                "element": {"#": "address"},
                 "label": "IPv4 Address",
-                "converter": {"@": "interface_alias_converter"}
+                "validator": {"@": "ipv4_address_validator"},
+                "errorMessage": "Invalid IP address"
             },
             "bindings": {
-                "value": {"<->": "@owner.object._ipAddress"},
+                "value": {"<->": "@owner.object._ipAddress.address"},
                 "disabled": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp"},
-                "placeholderValue": {"<-": "!@owner.object.dhcp ? 'eg. 1.2.3.4/16' : ''"}
+                "placeholderValue": {"<-": "!@owner.object.dhcp ? 'eg. 1.2.3.4' : ''"}
+            }
+        },
+        "ipv4_netmask_converter": {
+            "prototype": "core/converter/ipv4-netmask-converter"
+        },
+        "netmask": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "netmask"},
+                "label": "Subnet Mask",
+                "converter": {"@": "ipv4_netmask_converter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object._ipAddress.netmask"},
+                "disabled": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp"},
+                "placeholderValue": {"<-": "!@owner.object.dhcp ? 'eg. 255.255.255.0' : ''"}
             }
         },
         "dhcp": {
@@ -221,7 +241,8 @@
             </div>
             <div data-montage-id="enabled"></div>
             <div data-montage-id="description"></div>
-            <div data-montage-id="ipAddress"></div>
+            <div data-montage-id="address"></div>
+            <div data-montage-id="netmask"></div>
             <div data-montage-id="dhcp"></div>
             <div data-montage-id="rtadv"></div>
             <div data-montage-id="mtu"></div>
