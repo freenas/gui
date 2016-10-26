@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="table-settings.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+        "table": {
+            "prototype": "blue-shark/ui/tables/table-editable.reel",
+            "properties": {
+                "element": {"#": "table"},
+                "delegate": {"@": "owner"},
+                "label": "Settings",
+                "columns":  [
+                    {
+                        "value": "name"
+                    },
+                    {
+                        "value": "value"
+                    },
+                    {
+                        "value": "optional"
+                    }
+                ]
+            },
+            "bindings": {
+                "rows": {"<->": "@owner.values"}
+            }
+        },
+
+        "entry": {
+            "prototype": "./table-row-settings.reel",
+            "properties": {
+                "element": {"#": "entry"}
+            },
+            "bindings": {
+                "object": {"<-": "@table:rowIteration.object.object"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="TableSettings">
+        <div data-montage-id="table">
+            <div data-arg="row-entry" data-montage-id="entry" class="Table-row"></div>
+        </div>
+    </div>
+</body>
+</html>

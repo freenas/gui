@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="table-row-environment.css">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="table-row-settings.css">
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -11,13 +12,12 @@
         },
 
         "variable": {
-            "prototype": "blue-shark/ui/text-field.reel",
+            "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "variable"},
-                "placeholder": "e.g. variable"
+                "element": {"#": "variable"}
             },
             "bindings": {
-                "value": {"<->": "@owner.object.variable"}
+                "value": {"<-": "@owner.object.variable"}
             }
         },
 
@@ -30,15 +30,26 @@
             "bindings": {
                 "value": {"<->": "@owner.object.value"}
             }
-        }
+        },
 
+        "optional": {
+            "prototype": "blue-shark/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "optional"},
+                "disabled": true
+            },
+            "bindings": {
+                "checked": {"<->": "!!@owner.object.optional"}
+            }
+        }
     }
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="TableRowEnvironment Table-cells">
+    <div data-montage-id="owner" class="TableRowSettings">
         <div><div data-montage-id="variable"></div></div>
         <div><div data-montage-id="value"></div></div>
+        <div><div data-montage-id="optional"></div></div>
     </div>
 </body>
 </html>

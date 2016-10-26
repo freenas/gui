@@ -12,6 +12,7 @@
                 "_commandComponent": {"@": "command"},
                 "_nameComponent": {"@": "name"},
                 "_volumesComponent": {"@": "volumesTable"},
+                "_settingsComponent": {"@": "settingsTable"},
                 "_portsComponent": {"@": "portsTable"},
                 "_environmentComponent": {"@": "environmentsTable"}
             },
@@ -162,13 +163,20 @@
             }
         },
 
+        "settingsTable": {
+            "prototype": "ui/sections/containers/controls/table-settings.reel",
+            "properties": {
+                "element": {"#": "settingsTable"}
+            },
+            "bindings": {
+                "values": {"<-": "@owner.currentTemplate.settings.map{{ variable: id, value: value, description: description, optional: optional }}"}
+            }
+        },
+
         "environmentsTable": {
             "prototype": "ui/sections/containers/controls/table-environment.reel",
             "properties": {
                 "element": {"#": "environmentsTable"}
-            },
-            "bindings": {
-                "values": {"<-": "@owner.currentTemplate.settings.map{{ variable: id, value: value, description: description }}"}
             }
         },
 
@@ -228,6 +236,7 @@
                 <div data-montage-id="hostname"></div>
                 <div data-montage-id="host"></div>
                 <div data-montage-id="memoryLimit"></div>
+                <div data-montage-id="settingsTable" class="g-margin-bottom--double"></div>
                 <div data-montage-id="environmentsTable" class="g-margin-bottom--double"></div>
                 <div data-montage-id="portsTable" class="g-margin-bottom"></div>
                 <div data-montage-id="exposePorts" class="g-margin-bottom--double"></div>

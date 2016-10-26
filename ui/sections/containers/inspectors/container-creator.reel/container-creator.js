@@ -62,6 +62,8 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
                 namesString = this._nameComponent.value,
                 portsValues = this._portsComponent.values,
                 volumesValues = this._volumesComponent.values,
+                settingsValues = this._settingsComponent.values,
+                environements = [],
                 self = this;
 
             if (commandString) {
@@ -81,12 +83,20 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
                 this.object.memory_limit = memoryLimit || void 0;
             }
 
+            if (settingsValues && settingsValues.length) {
+                try {
+                    environements = this._getVariablesFromArray(settingsValues);
+                } catch (e) {
+                    //TODO
+                }
+            }
+
             if (environmentComponentValues && environmentComponentValues.length) {
-                this.object.environment = environmentComponentValues.filter(function (entry) {
-                    return entry.variable && entry.value;
-                }).map(function (entry) {
-                    return entry.variable + "=" + entry.value;
-                });
+                environements = environements.concat(this._getVariablesFromArray(environmentComponentValues));
+            }
+
+            if (environements.length) {
+                this.object.environement = environements;
             }
 
             if (portsValues && portsValues.length) {
@@ -103,6 +113,22 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
 
             return this._sectionService.saveContainer(this.object).then(function () {
                 self._reset();
+            });
+        }
+    },
+
+    _getVariablesFromArray: {
+        value: function (array) {
+            return array.filter(function (entry) {
+                var shouldKeep = entry.variable && entry.value;
+
+                if (!shouldKeep && entry.optional !== void 0 && entry.optional === true) {
+                    throw new Error("missing setting");
+                }
+
+                return shouldKeep;
+            }).map(function (entry) {
+                return entry.variable + "=" + entry.value;
             });
         }
     }
