@@ -54,7 +54,8 @@
             },
             "bindings": {
                 "topology": {"<-": "@owner.object.topology"},
-                "disks": {"<-": "@owner.disks"}
+                "disks": {"<-": "@owner.availableDisks"},
+                "controller": {"<-": "@owner._sectionService"}
             }
         },
 

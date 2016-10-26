@@ -1,5 +1,6 @@
 var AbstractSectionService = require("core/service/section/abstract-section-service").AbstractSectionService,
     StorageRepository = require("core/repository/storage-repository").StorageRepository,
+    TopologyService = require("core/service/topology-service").TopologyService,
     Model = require("core/model/model").Model;
 
 exports.StorageSectionService = AbstractSectionService.specialize({
@@ -16,9 +17,10 @@ exports.StorageSectionService = AbstractSectionService.specialize({
     },
 
     init: {
-        value: function(storageRepository) {
+        value: function(storageRepository, topologyService) {
             this._rootDatasetPerVolumeId = new Map();
             this._storageRepository = storageRepository || StorageRepository.instance;
+            this._topologyService = topologyService || TopologyService.instance;
         }
     },
 
@@ -89,22 +91,43 @@ exports.StorageSectionService = AbstractSectionService.specialize({
     },
 
     markDiskAsReserved: {
-        value: function(disk) {
-            console.trace('reserved', disk);
-            return this._storageRepository.markDiskAsReserved(disk);
+        value: function(disk, isRefreshBlocked) {
+            return this._storageRepository.markDiskAsReserved(disk, isRefreshBlocked);
         }
     },
 
     markDiskAsAvailable: {
         value: function(disk, isTransient) {
-            console.trace('available', disk, isTransient);
             return this._storageRepository.markDiskAsAvailable(disk, isTransient);
         }
     },
 
     clearReservedDisks: {
-        value: function() {
-            return this._storageRepository.clearReservedDisks();
+        value: function(isRefreshBlocked) {
+            return this._storageRepository.clearReservedDisks(isRefreshBlocked);
+        }
+    },
+
+    generateTopology: {
+        value: function(topology, disks, redundancy, speed, storage) {
+            var self = this;
+            return this.clearReservedDisks().then(function() {
+                var vdev, j, disksLength,
+                    priorities = self._topologyService.generateTopology(topology, disks, redundancy, speed, storage);
+                for (var i = 0, vdevsLength = topology.data.length; i < vdevsLength; i++) {
+                    vdev = topology.data[i];
+                    if (Array.isArray(vdev.children)) {
+                        for (j = 0, disksLength = vdev.children.length; j < disksLength; j++) {
+                            self.markDiskAsReserved(vdev.children[j], true);
+                        }
+                    } else {
+                        self.markDiskAsReserved(vdev, true);
+                    }
+                }
+                return self._storageRepository.refreshAvailableDisks(true).then(function() {
+                    return priorities;
+                }); 
+            });
         }
     },
 

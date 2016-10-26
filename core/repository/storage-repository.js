@@ -78,15 +78,16 @@ exports.StorageRepository = AbstractRepository.specialize({
         value: function() {
             return this._availableDisks ?
                     Promise.resolve(this._availableDisks) : 
-                    this._cacheAvailableDisks();
+                    this.refreshAvailableDisks();
         }
     },
 
     markDiskAsReserved: {
-        value: function(disk) {
+        value: function(disk, isRefreshBlocked) {
             disk = disk.Type === Model.ZfsVdev ? disk._disk : disk;
             this._reservedDisks.add(disk);
-            return this._handleDiskAssignationChange();
+
+            return isRefreshBlocked ? Promise.resolve() : this._handleDiskAssignationChange();
         }
     },
 
@@ -124,14 +125,12 @@ exports.StorageRepository = AbstractRepository.specialize({
         }
     },
 
-    _cacheAvailableDisks: {
-        value: function() {
+    refreshAvailableDisks: {
+        value: function(isRefreshBlocked) {
             var self = this,
                 disksPromise = this._disksPromise || this.listDisks();
             return Promise.all([
-                this._volumeServices.then(function(volumeServices) {
-                    return volumeServices.getAvailableDisks();
-                }),
+                this._listKnownAvailableDisks(!isRefreshBlocked),
                 disksPromise
             ]).then(function(results) {
                 var availablePaths = results[0],
@@ -151,6 +150,38 @@ exports.StorageRepository = AbstractRepository.specialize({
                 self._updateAvailableDisksPromise = null;
                 return self._availableDisks;
             });
+        }
+    },
+
+    _handleDiskAssignationChange: {
+        value: function() {
+            var promise;
+            if (this._updateAvailableDisksPromise) {
+                var self = this;
+                promise = this._updateAvailableDisksPromise.then(function() {
+                    self._updateAvailableDisksPromise = self.refreshAvailableDisks();
+                });
+            } else {
+                promise = this._updateAvailableDisksPromise = this.refreshAvailableDisks();
+            }
+            return promise;
+        }
+    },
+
+    _listKnownAvailableDisks: {
+        value: function(isRefreshNeeded) {
+            var self = this,
+                promise;
+            if (isRefreshNeeded || !this._knownAvailableDisks || this._knownAvailableDisks.length === 0) {
+                promise = this._volumeServices.then(function(volumeServices) {
+                    return volumeServices.getAvailableDisks();
+                }).then(function(availableDisks) {
+                    return self._knownAvailableDisks = availableDisks;
+                });
+            } else {
+                promise = Promise.resolve(this._knownAvailableDisks);
+            }
+            return promise;
         }
     }
 });
