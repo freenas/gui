@@ -1,6 +1,24 @@
 var AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate;
 
 var AbstractInspector = exports.AbstractInspector = AbstractComponentActionDelegate.specialize({
+    _selectedObject: {
+        value: null
+    },
+
+    selectedObject: {
+        get: function() {
+            return this._selectedObject;
+        },
+        set: function(selectedObject) {
+            if (this._selectedObject !== selectedObject) {
+                this._selectedObject = selectedObject
+                if (this.context && this.context.cascadingListItem) {
+                    this.context.cascadingListItem.selectedObject = selectedObject;
+                }
+            }
+        }
+    },
+
     __sectionService: {
         value: null
     },

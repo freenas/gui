@@ -61,7 +61,7 @@
                 "element": {"#": "title"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object._meta_data.collectionModelType.constructor.userInterfaceDescriptor.collectionNameExpression.slice(1,-1)"}
+                "value": {"<-": "!!@owner.title ? @owner.title : @owner.object._meta_data.collectionModelType.constructor.userInterfaceDescriptor.collectionNameExpression.slice(1,-1)"}
             }
         },
         "headerCondition": {

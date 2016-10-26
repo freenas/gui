@@ -4,6 +4,8 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
     VolumeSnapshotDao = require("core/dao/volume-snapshot-dao").VolumeSnapshotDao,
     DiskDao = require("core/dao/disk-dao").DiskDao,
     ShareDao = require("core/dao/share-dao").ShareDao,
+    VolumeImporterDao = require("core/dao/volume-importer-dao").VolumeImporterDao,
+    DetachedVolumeDao = require("core/dao/detached-volume-dao").DetachedVolumeDao,
     Model = require("core/model/model").Model;
 
 exports.StorageRepository = AbstractRepository.specialize({
@@ -23,12 +25,14 @@ exports.StorageRepository = AbstractRepository.specialize({
     },
 
     init: {
-        value: function(volumeDao, shareDao, volumeDatasetDao, volumeSnapshotDao, diskDao) {
+        value: function(volumeDao, shareDao, volumeDatasetDao, volumeSnapshotDao, diskDao, volumeImporterDao, detachedVolumeDao) {
             this._volumeDao = volumeDao || VolumeDao.instance;
             this._shareDao = shareDao || ShareDao.instance;
             this._volumeDatasetDao = volumeDatasetDao || VolumeDatasetDao.instance;
             this._volumeSnapshotDao = volumeSnapshotDao || VolumeSnapshotDao.instance;
             this._diskDao = diskDao || DiskDao.instance;
+            this._volumeImporterDao = volumeImporterDao || VolumeImporterDao.instance;
+            this._detachedVolumeDao = detachedVolumeDao || DetachedVolumeDao.instance;
 
             this._availableDisks = [];
             this._reservedDisks = new Set();
@@ -62,6 +66,12 @@ exports.StorageRepository = AbstractRepository.specialize({
     listVolumeDatasets: {
         value: function() {
             return this._volumeDatasetDao.list();
+        }
+    },
+
+    listDetachedVolumes: {
+        value: function() {
+            return this._detachedVolumeDao.list();
         }
     },
 
@@ -106,22 +116,19 @@ exports.StorageRepository = AbstractRepository.specialize({
         value: function() {
             this._reservedDisks.clear();    
             this._temporarilyAvailableDisks.clear();
+
             return this._handleDiskAssignationChange();
         }
     },
 
-    _handleDiskAssignationChange: {
+    getVolumeImporter: {
         value: function() {
-            var promise;
-            if (this._updateAvailableDisksPromise) {
-                var self = this;
-                promise = this._updateAvailableDisksPromise.then(function() {
-                    self._updateAvailableDisksPromise = self._cacheAvailableDisks();
-                });
-            } else {
-                promise = this._updateAvailableDisksPromise = this._cacheAvailableDisks();
-            }
-            return promise;
+            return this._volumeImporterPromise || (this._volumeImporterPromise = this._volumeImporterDao.getNewInstance().then(function(volumeImporter) {
+                volumeImporter._isNew = false;
+                volumeImporter.id = '';
+                volumeImporter.name = "Import volumes";
+                return volumeImporter;
+            }));
         }
     },
 

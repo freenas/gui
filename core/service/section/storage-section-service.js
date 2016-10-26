@@ -26,7 +26,13 @@ exports.StorageSectionService = AbstractSectionService.specialize({
 
     loadEntries: {
         value: function() {
-            return this._storageRepository.listVolumes();
+            return Promise.all([
+                this._storageRepository.listVolumes(),
+                this._storageRepository.getVolumeImporter()
+            ]).then(function(results) {
+                results[0].push(results[1]);
+                return results[0];
+            });
         }
     },
 
@@ -81,6 +87,12 @@ exports.StorageSectionService = AbstractSectionService.specialize({
             return promise.then(function() {
                 return self._rootDatasetPerVolumeId.get(volume.id);
             });
+        }
+    },
+
+    listDetachedVolumes: {
+        value: function() {
+            return this._storageRepository.listDetachedVolumes();
         }
     },
 

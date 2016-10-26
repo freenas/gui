@@ -1,0 +1,10 @@
+{
+    "root": {
+        "prototype": "montage/core/meta/user-interface-descriptor",
+        "properties": {
+            "inspectorComponentModule": {"%": "ui/sections/storage/inspectors/volume-importer.reel"},
+            "nameExpression": "'Import volumes'"
+        }
+    }
+}
+

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="volume-importer.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "selectedObject": {"<->": "@detachedVolumes.selectedObject"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
+        },
+        "detachedVolumes": {
+            "prototype": "ui/controls/viewer.reel",
+            "properties": {
+                "element": {"#": "detachedVolumes"},
+                "title": "No detached volume found"
+            },
+            "bindings": {
+                "object": {"<-": "@owner.detachedVolumes"},
+                "displayTitle": {"<-": "@owner.detachedVolumes.length == 0"}
+            }
+        },
+        "refresh": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "refresh"},
+                "value": "Refresh"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="VolumeImporter">
+        <div data-montage-id="detachedVolumes"></div>
+        <div data-montage-id="refresh"></div>
+    </div>
+</body>
+</html>
