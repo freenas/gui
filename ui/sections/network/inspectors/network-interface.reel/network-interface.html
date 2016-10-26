@@ -81,10 +81,10 @@
         "ipv4_address_validator": {
             "prototype": "core/converter/validator/ipv4-validator"
         },
-        "ipAddress": {
+        "address": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
-                "element": {"#": "ipAddress"},
+                "element": {"#": "address"},
                 "label": "IPv4 Address",
                 "validator": {"@": "ipv4_address_validator"},
                 "errorMessage": "Invalid IP address"
@@ -98,10 +98,10 @@
         "ipv4_netmask_converter": {
             "prototype": "core/converter/ipv4-netmask-converter"
         },
-        "ipAddressNetMask": {
+        "netmask": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
-                "element": {"#": "ipAddressNetMask"},
+                "element": {"#": "netmask"},
                 "label": "Subnet Mask",
                 "converter": {"@": "ipv4_netmask_converter"}
             },
@@ -241,8 +241,8 @@
             </div>
             <div data-montage-id="enabled"></div>
             <div data-montage-id="description"></div>
-            <div data-montage-id="ipAddress"></div>
-            <div data-montage-id="ipAddressNetMask"></div>
+            <div data-montage-id="address"></div>
+            <div data-montage-id="netmask"></div>
             <div data-montage-id="dhcp"></div>
             <div data-montage-id="rtadv"></div>
             <div data-montage-id="mtu"></div>
