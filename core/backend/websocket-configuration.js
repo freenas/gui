@@ -4,9 +4,7 @@ var WebSocketConfiguration = exports.WebSocketConfiguration =  function WebSocke
     this._store = new Map();
 };
 
-//WebSocketConfiguration.SERVER_HOST = "z30ref-b.sjlab1.ixsystems.com"
-WebSocketConfiguration.SERVER_HOST = "pch-mini.local"
-//WebSocketConfiguration.SERVER_HOST = "pch-vm.local"
+WebSocketConfiguration.SERVER_HOST = "freenas.local"
 
 WebSocketConfiguration.KEYS = {
     SECURE: "SECURE",
