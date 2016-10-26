@@ -2,15 +2,15 @@
  * @requires montage/core/converter/converter
  */
 var Validator = require("montage/core/converter/converter").Validator;
-var IPv4Validator = require("core/converter/validator/ipv4-validator").IPv4Validator;
+var Ipv4Validator = require("core/converter/validator/ipv4-validator").Ipv4Validator;
 
 /**
   * Verifies that a string is a valid ipv4 address with a netmask separated by a slash
-  * @class IPv4WithNetmaskValidator
+  * @class Ipv4WithNetmaskValidator
   * @extends Validator
   */
 
-exports.IPv4WithNetmaskValidator = Validator.specialize({
+exports.Ipv4WithNetmaskValidator = Validator.specialize({
 
     validate: {
         value: function (value) {
@@ -21,7 +21,7 @@ exports.IPv4WithNetmaskValidator = Validator.specialize({
                 var splitValue = value.split("/");
                 // There may only be one "/", no more and no less
                 if (splitValue.length === 2) {
-                    if (new IPv4Validator().validate(splitValue[0])
+                    if (new Ipv4Validator().validate(splitValue[0])
                      // "" >= 0, catch this case
                      && splitValue[1] !== ""
                      // IPv4 netmasks range from 0 to 32

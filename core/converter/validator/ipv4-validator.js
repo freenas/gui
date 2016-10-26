@@ -6,11 +6,11 @@ var Montage = require("montage/core/core").Montage;
 
 /**
   * Verifies that a string is a valid ipv4 address
-  * @class IPv4Validator
+  * @class Ipv4Validator
   * @extends Validator
   */
 
-var IPv4Validator = exports.IPv4Validator = Validator.specialize({
+var Ipv4Validator = exports.Ipv4Validator = Validator.specialize({
 
     validate: {
         value: function (address) {
