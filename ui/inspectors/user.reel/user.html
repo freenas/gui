@@ -116,11 +116,13 @@
                 "element": {"#": "password"},
                 "validationPath": "password",
                 "label": "Password",
-                "label2": "Confirm password",
+                "placeholder": "enter password",
+                "placeholder2": "confirm password",
                 "errorMessage": "Passwords don't match"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.password"}
+                "value": {"<->": "@owner.object.password"},
+                "editEnabled": {"<-": "!!@owner.object._isNew"}
             }
         },
         "fullNameEdit": {
