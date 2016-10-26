@@ -154,7 +154,8 @@
                 "converter": {"@": "mtuConverter"}
             },
             "bindings": {
-                "value": {"<->": "@owner.object.mtu"}
+                "value": {"<->": "@owner.object.mtu"},
+                "disabled": {"<-": "@owner.object.type == 'LAGG' + ''"}
             }
         },
         "interfaceTypeSubstitution": {
