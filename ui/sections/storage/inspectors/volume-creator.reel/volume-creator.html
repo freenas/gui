@@ -10,8 +10,11 @@
                 "element": {"#": "owner"},
                 "validationController": {"@": "validationController"},
                 "inspector": {"@": "inspector"},
-
                 "topologizer": {"@": "topologizer"}
+            },
+            "bindings": {
+                "availableSelectedDisk": {"<->": "@availableDisks.selectedDisk"},
+                "topologySelectedDisk": {"<->": "@topology.selectedDisk"}
             }
         },
 
@@ -66,8 +69,7 @@
                 "mode": "CREATE"
             },
             "bindings": {
-                "object": {"<-": "@owner.object.topology"},
-                "selectedDisk": {"<->": "@owner.topologySelectedDisk"}
+                "object": {"<-": "@owner.object.topology"}
             }
         },
 
@@ -78,8 +80,7 @@
                 "topology": {"@": "topology"}
             },
             "bindings": {
-                "disks": {"<-": "@owner.availableDisks"},
-                "selectedDisk": {"<->": "@owner.availableSelectedDisk"}
+                "disks": {"<-": "@owner.availableDisks"}
             }
         }
     }

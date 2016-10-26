@@ -11,7 +11,9 @@
             },
             "bindings": {
                 "hdds": {"<-": "@owner.disks.filter{status.defined() && !status.is_ssd}.sorted{name}"},
-                "ssds": {"<-": "@owner.disks.filter{status.defined() && status.is_ssd}.sorted{name}"}
+                "ssds": {"<-": "@owner.disks.filter{status.defined() && status.is_ssd}.sorted{name}"},
+                "selectedHdd": {"<->": "@hddsCategory.selectedDisk.0"},
+                "selectedSsd": {"<->": "@ssdsCategory.selectedDisk.0"}
             }
         },
         "hddsCategory": {
@@ -25,7 +27,6 @@
             "bindings": {
                 "disks": {"<-": "@owner.hdds"},
                 "classList.has('is-hidden_')": {"<-": "@owner.hdds.length == 0"},
-                "selectedDisk": {"<->": "@owner.selectedDisk"},
                 "topology": {"<-": "@owner.topology"}
             }
         },
@@ -40,7 +41,6 @@
             "bindings": {
                 "disks": {"<-": "@owner.ssds"},
                 "classList.has('is-hidden_')": {"<-": "@owner.ssds.length == 0"},
-                "selectedDisk": {"<->": "@owner.selectedDisk"},
                 "topology": {"<-": "@owner.topology"}
             }
         }
