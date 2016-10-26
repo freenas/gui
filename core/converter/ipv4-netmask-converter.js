@@ -21,7 +21,6 @@ var Ipv4NetmaskValidator = require("core/converter/validator/ipv4-netmask-valida
 
     convert: {
         value: function (prefix) {
-            // Invalid input
             if (typeof prefix !== 'number') {
                 return prefix;
             }
@@ -30,12 +29,11 @@ var Ipv4NetmaskValidator = require("core/converter/validator/ipv4-netmask-valida
             var long = prefix > 0 ? (-1 << (32 - prefix)) : 0;
             var result;
 
+            // Convert long to 4 parts, separated by dot
             for (var i = 0; i < 4; i++) {
-                // Convert last 8 digits to decimal format and 
-                // append it to the result with '.'
-                result = i == 0 ? '' : ('.' + result);
-                result = (long & 255).toString() + result;
-                // Shift to right and discard last 8 digits
+                result = (i == 0) ? '' : ('.' + result);
+                result = (long & 255) + result;
+                
                 long = long >>> 8;
             }
             return result;
@@ -44,7 +42,6 @@ var Ipv4NetmaskValidator = require("core/converter/validator/ipv4-netmask-valida
 
     revert: {
         value: function (value) {
-            // Invalid input
             if (typeof value !== 'string' || !this.validator.validate(value)) {
                 return value;
             }
@@ -55,7 +52,7 @@ var Ipv4NetmaskValidator = require("core/converter/validator/ipv4-netmask-valida
             for (var i = 0; i < d.length; i++) {
                 // Sum up the number of occurrences of '1's 
                 // in the binary representations of each decimal part
-                result += (parseInt(d[i]).toString(2).match(/1/g) || []).length;
+                result += ((+d[i]).toString(2).match(/1/g) || []).length;
             }
 
             return result;
