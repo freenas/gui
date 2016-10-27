@@ -121,7 +121,7 @@ exports.StorageRepository = AbstractRepository.specialize({
         value: function(disk, isTransient) {
             disk = disk.Type === Model.ZfsVdev ? disk._disk : disk;
             this._reservedDisks.delete(disk);
-            if (isTransient) {
+            if (isTransient && this._knownAvailableDisks.indexOf(disk.path) === -1) {
                 this._temporarilyAvailableDisks.add(disk);
             }
             return this._handleDiskAssignationChange();
@@ -158,7 +158,7 @@ exports.StorageRepository = AbstractRepository.specialize({
             ]).then(function(results) {
                 var availablePaths = results[0],
                     disks = results[1],
-                    availableDisks = disks.filter(function(disk) { return availablePaths.indexOf(disk.path) != -1 }),
+                    availableDisks = disks.filter(function(disk) { return availablePaths.indexOf(disk.path) != -1 }).sort(availableDisksSorter),
                     disk;
                 self._availableDisks.clear();
                 for (var i = 0, length = availableDisks.length; i < length; i++) {
@@ -208,3 +208,11 @@ exports.StorageRepository = AbstractRepository.specialize({
         }
     }
 });
+
+function availableDisksSorter(a, b) {
+    return a.status.is_ssd ? 
+                b.status.is_ssd ?
+                    a.name > b.name ? 1 : -1 :
+                    1 :
+                -1;
+}
