@@ -1,14 +1,15 @@
 .AvailableDisksCategory {
-    flex: 0.000000001;
-
     &.is-expanded {
         flex: 1;
+
+        & .Scrollview-transform {
+            display: block;
+        }
     }
 
     & .Scrollview-transform {
-        display: block;
+        display: none;
     }
-
 }
 
 .AvailableDisksCategory-toggle.Button {
