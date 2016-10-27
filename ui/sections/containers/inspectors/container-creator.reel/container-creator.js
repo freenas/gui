@@ -29,6 +29,19 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
         value: function (firsTime) {
             this.super();
             this._reset();
+
+            if (!this._getDefaultDockerCollectionPromise) {
+                var self = this;
+                this.isLoading = true;
+
+                this._getDefaultDockerCollectionPromise = this._sectionService.getDefaultDockerCollection()
+                .then(function (defaultCollection) {
+                    self.defaultCollection = defaultCollection;
+                }).finally(function () {
+                    self.isLoading = false;
+                    self._getDefaultDockerCollectionPromise = null;
+                });
+            }
         }  
     },
     

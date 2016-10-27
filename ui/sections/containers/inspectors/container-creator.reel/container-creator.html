@@ -42,7 +42,8 @@
                 "validationController": {"@": "validationController"}
             },
             "bindings": {
-                "context": {"<-": "@owner.context"}
+                "context": {"<-": "@owner.context"},
+                "classList.has('has-loading-spinner')": {"<-": "@owner.isLoading"}
             }
         },
 
@@ -53,6 +54,7 @@
             },
             "bindings": {
                 "_sectionService": {"<-": "@owner._sectionService"},
+                "collectionValue": {"<-": "@owner.defaultCollection"},
                 "imageComponent.selectedValue": {"<->": "@owner.object.image"}
             }
         },

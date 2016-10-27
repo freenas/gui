@@ -1,14 +1,18 @@
 var AbstractSectionService = require("core/service/section/abstract-section-service").AbstractSectionService,
     ContainerRepository = require("core/repository/container-repository").ContainerRepository,
     MiddlewareTaskRepository = require("core/repository/middleware-task-repository").MiddlewareTaskRepository,
+    UserRepository = require("core/repository/user-repository").UserRepository,
+    ApplicationContextService = require("core/service/application-context-service").ApplicationContextService
     Model = require("core/model/model").Model;
 
 exports.ContainerSectionService = AbstractSectionService.specialize({
 
     init: {
-        value: function (containerRepository, middlewareTaskRepository) {
+        value: function (containerRepository, middlewareTaskRepository, applicationContextService, userRepository) {
             this._middlewareTaskRepository = middlewareTaskRepository || MiddlewareTaskRepository.instance;
             this._containerRepository = containerRepository || ContainerRepository.instance;
+            this._applicationContextService = applicationContextService || ApplicationContextService.instance;
+            this._userRepository = userRepository || UserRepository.instance;
         }
     },
 
@@ -60,6 +64,27 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
 
                 resolve(promise);
             });
+        }
+    },
+
+    getDefaultDockerCollection: {
+        value: function () {
+            return this.getCurrentUser().then(function (user) {
+                return user && user.attributes && user.attributes.defaultCollection ? 
+                    user.attributes.defaultCollection : "freenas";
+            });
+        }
+    },
+
+    getCurrentUser: {
+        value: function () {
+            return this._applicationContextService.findCurrentUser();
+        }
+    },
+
+    saveCurrentUser: {
+        value: function (user) {
+            return this._userRepository.saveUser(user);
         }
     },
 
