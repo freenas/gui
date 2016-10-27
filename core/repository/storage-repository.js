@@ -42,12 +42,28 @@ exports.StorageRepository = AbstractRepository.specialize({
         }
     },
 
-    listVolumes: {
+    getStorageOverview: {
         value: function() {
             var self = this;
-            return this._volumeDao.list().then(function(volumes) {
-                return self._volumes = volumes;
+            this._storageOverview = {};
+            return Promise.all([
+                this.listVolumes()
+            ]).then(function(results) {
+                self._storageOverview.volumes = results[0];
+                return self._storageOverview;
             });
+
+        }
+    },
+
+    listVolumes: {
+        value: function() {
+            var self = this,
+                promise;
+            return this._volumesPromise || 
+                (this._volumesPromise = this._volumeDao.list().then(function(volumes) {
+                    return self._volumes = volumes;
+                }));
         }
     },
 

@@ -38,6 +38,7 @@ exports.StorageSectionService = AbstractSectionService.specialize({
 
     loadOverview: {
         value: function() {
+            return this._storageRepository.getStorageOverview();
         }
     },
 
