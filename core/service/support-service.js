@@ -1,5 +1,4 @@
 var Montage = require("montage").Montage,
-    FreeNASService = require("core/service/freenas-service").FreeNASService,
     Model = require("core/model/model").Model,
     SupportCategoryDao = require("core/dao/support-category-dao").SupportCategoryDao,
     SupportTicketDao = require("core/dao/support-ticket-dao").SupportTicketDao;
@@ -46,7 +45,6 @@ var SupportService = exports.SupportService = Montage.specialize({
                 this._instance = new this();
                 this._instance._supportCategoryDao = SupportCategoryDao.instance;
                 this._instance._supportTicketDao = SupportTicketDao.instance;
-				        this._dataService = FreeNASService.instance;
             }
             return this._instance;
         }

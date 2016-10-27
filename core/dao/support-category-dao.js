@@ -1,13 +1,11 @@
 var AbstractDao = require("core/dao/abstract-dao").AbstractDao,
 	Model = require("core/model/model").Model,
-	BackEndBridgeModule = require("../backend/backend-bridge"),
-	FreeNASService = require("core/service/freenas-service").FreeNASService;
+	BackEndBridgeModule = require("../backend/backend-bridge");
 
 exports.SupportCategoryDao = AbstractDao.specialize(/** @lends SupportCategoryDao# */ {
 	init: {
         value: function(backendBridge, dataService) {
             this._backendBridge = backendBridge || BackEndBridgeModule.defaultBackendBridge;
-            this._dataService = dataService || FreeNASService.instance;
         }
 	},
 	list: {
