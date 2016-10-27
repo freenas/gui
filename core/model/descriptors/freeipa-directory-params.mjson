@@ -1,0 +1,107 @@
+{
+  "propertyblueprint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "%type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "freeipa-directory-params"
+      ]
+    }
+  },
+  "blueprint_freeipadirectoryparams_certificate": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "certificate",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_freeipadirectoryparams_encryption": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "encryption",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "enumValues": [
+        "NONE",
+        "SSL",
+        "TLS"
+      ]
+    }
+  },
+  "blueprint_freeipadirectoryparams_group_suffix": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "group_suffix",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_freeipadirectoryparams_kdc": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "kdc",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_freeipadirectoryparams_password": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "password",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_freeipadirectoryparams_realm": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "realm",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_freeipadirectoryparams_server": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "server",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_freeipadirectoryparams_user_suffix": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "user_suffix",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_freeipadirectoryparams_username": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "username",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "FreeipaDirectoryParams",
+      "propertyBlueprints": [
+        {"@": "propertyblueprint"},
+        {"@": "blueprint_freeipadirectoryparams_certificate"},
+        {"@": "blueprint_freeipadirectoryparams_encryption"},
+        {"@": "blueprint_freeipadirectoryparams_group_suffix"},
+        {"@": "blueprint_freeipadirectoryparams_kdc"},
+        {"@": "blueprint_freeipadirectoryparams_password"},
+        {"@": "blueprint_freeipadirectoryparams_realm"},
+        {"@": "blueprint_freeipadirectoryparams_server"},
+        {"@": "blueprint_freeipadirectoryparams_user_suffix"},
+        {"@": "blueprint_freeipadirectoryparams_username"}
+      ]
+    }
+  }
+}
