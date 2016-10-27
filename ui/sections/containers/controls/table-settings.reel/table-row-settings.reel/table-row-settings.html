@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="table-row-settings.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+        "variable": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "variable"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.variable"}
+            }
+        },
+
+        "value": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "value"},
+                "placeholder": "e.g. value"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.value"}
+            }
+        },
+
+        "optional": {
+            "prototype": "blue-shark/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "optional"},
+                "disabled": true
+            },
+            "bindings": {
+                "checked": {"<->": "!!@owner.object.optional"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="TableRowSettings Table-cells">
+        <div><div data-montage-id="variable"></div></div>
+        <div><div data-montage-id="value"></div></div>
+        <div><div data-montage-id="optional"></div></div>
+    </div>
+</body>
+</html>

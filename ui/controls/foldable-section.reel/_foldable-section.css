@@ -18,7 +18,6 @@ title
 .FoldableSection .InspectorSectionTitle {
     margin-top:     0;
     margin-bottom:  0;
-    /* padding: 0 1rem; */
 }
 
 /* Title / Icon button container */
@@ -80,7 +79,7 @@ title
 }
 
 /* removes underline */
-.FoldableSection .InspectorSectionTitle:before { display: none;}
+.FoldableSection-expand-titles > .InspectorSectionTitle:before { display: none;}
 
 
 /* content */

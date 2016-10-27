@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="table-volume.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+        "table": {
+            "prototype": "blue-shark/ui/tables/table-editable.reel",
+            "properties": {
+                "element": {"#": "table"},
+                "delegate": {"@": "owner"},
+                "label": "Volumes",
+                "columns":  [
+                    {
+                        "value": "host path"
+                    },
+                    {
+                        "value": "container path"
+                    },
+                    {
+                        "value": "read-only"
+                    }
+                ]
+            },
+            "bindings": {
+                "rows": {"<->": "@owner.values"}
+            }
+        },
+
+        "defaultHeader": {
+            "prototype": "../table-container-default-header.reel",
+            "properties": {
+                "element": {"#": "tableHeader"},
+                "table": {"@": "table"}
+            }
+        },
+
+        "newEntry": {
+            "prototype": "./table-row-volume.reel",
+            "properties": {
+                "element": {"#": "newEntry"}
+            },
+            "bindings": {
+                "object": {"<-": "@table.currentNewEntry.object"}
+            }
+        },
+
+        "entry": {
+            "prototype": "./table-row-volume.reel",
+            "properties": {
+                "element": {"#": "entry"}
+            },
+            "bindings": {
+                "object": {"<-": "@table:rowIteration.object.object"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="TableVolume">
+        <div data-montage-id="table">
+            <div data-arg="table-editable-header-toolbar" data-montage-id="tableHeader"></div>
+            <div data-arg="row-new" data-montage-id="newEntry" class="Table-row"></div>
+            <div data-arg="row-entry" data-montage-id="entry" class="Table-row"></div>
+        </div>
+    </div>
+</body>
+</html>

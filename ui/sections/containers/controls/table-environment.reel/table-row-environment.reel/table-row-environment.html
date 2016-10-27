@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="table-row-environment.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+        "variable": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "variable"},
+                "placeholder": "e.g. variable"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.variable"}
+            }
+        },
+
+        "value": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "value"},
+                "placeholder": "e.g. value"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.value"}
+            }
+        }
+
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="TableRowEnvironment Table-cells">
+        <div><div data-montage-id="variable"></div></div>
+        <div><div data-montage-id="value"></div></div>
+    </div>
+</body>
+</html>

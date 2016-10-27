@@ -63,7 +63,6 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
                 this._environmentComponent.values.clear();
             }
 
-            this._nameComponent.value = null;
             this._commandComponent.value = null;
         }
     },
@@ -72,21 +71,14 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
         value: function () {
             var environmentComponentValues = this._environmentComponent.values,
                 commandString = this._commandComponent.value,
-                namesString = this._nameComponent.value,
                 portsValues = this._portsComponent.values,
                 volumesValues = this._volumesComponent.values,
+                settingsValues = this._settingsComponent.values,
+                environments = [],
                 self = this;
 
             if (commandString) {
                 this.object.command = commandString.split(" ");
-            }
-
-            if (namesString) {
-                if (Array.isArray(this.object.names)) {
-                    this.object.names[0] = namesString;
-                } else {
-                    this.object.names = [namesString];
-                }
             }
 
             if (this.object.memory_limit) {
@@ -94,16 +86,32 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
                 this.object.memory_limit = memoryLimit || void 0;
             }
 
-            if (environmentComponentValues) {
-                this.object.environment = environmentComponentValues;
+            if (settingsValues && settingsValues.length) {
+                try {
+                    environments = this._getVariablesFromArray(settingsValues);
+                } catch (e) {
+                    //TODO
+                }
             }
 
-            if (portsValues.length) {
-                this.object.ports = this._getPortsFromArray(portsValues);
+            if (environmentComponentValues && environmentComponentValues.length) {
+                environments = environments.concat(this._getVariablesFromArray(environmentComponentValues));
             }
 
-            if (volumesValues.length) {
-                this.object.volumes = this._getVolumesFromArray(volumesValues);
+            if (environments.length) {
+                this.object.environement = environments;
+            }
+
+            if (portsValues && portsValues.length) {
+                this.object.ports = portsValues.filter(function (entry) {
+                    return entry.host_port && entry.container_port;
+                });
+            }
+
+            if (volumesValues && volumesValues.length) {
+                this.object.volumes = volumesValues.filter(function (entry) {
+                    return entry.host_path && entry.container_path;
+                });
             }
 
             return this._sectionService.saveContainer(this.object).then(function () {
@@ -112,55 +120,19 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
         }
     },
 
-    //@deprecated will be removed with the new Table UI
-    _getPortsFromArray: {
+    _getVariablesFromArray: {
         value: function (array) {
-            var regEx = new RegExp(/^([0-9]+) -> ([0-9]+) (TCP|UDP)$/),
-                ports = null;
+            return array.filter(function (entry) {
+                var shouldKeep = entry.variable && entry.value;
 
-            if (array && array.length) {
-                ports = [];
-
-                for (var i = 0, length = array.length; i < length; i++) {
-                    data = array[0].match(regEx);
-
-                    if (data.length === 4) {
-                        ports.push({
-                            host_port: +data[1],
-                            container_port: +data[2],
-                            protocol: data[3].toUpperCase()
-                        });
-                    }
+                if (!shouldKeep && entry.optional !== void 0 && entry.optional === true) {
+                    throw new Error("missing setting");
                 }
-            }               
 
-            return ports;
-        }
-    },
-
-    //@deprecated will be removed with the new Table UI
-    _getVolumesFromArray: {
-        value: function (array) {
-            var regEx = new RegExp(/^([^ ]+) -> ([^ ]+) ?(\(ro\))?$/),
-                ports = null;
-
-            if (array && array.length) {
-                ports = [];
-
-                for (var i = 0, length = array.length; i < length; i++) {
-                    data = array[0].match(regEx);
-
-                    if (data.length >= 3) {
-                        ports.push({
-                            host_path: data[1],
-                            container_path: data[2],
-                            readonly: !!data[3]
-                        });
-                    }
-                }
-            }               
-
-            return ports;
+                return shouldKeep;
+            }).map(function (entry) {
+                return entry.variable + "=" + entry.value;
+            });
         }
     }
 

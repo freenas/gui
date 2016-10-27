@@ -10,16 +10,17 @@
                 "validationController": {"@": "validationController"},
                 "inspector": {"@": "inspector"},
                 "_commandComponent": {"@": "command"},
-                "_nameComponent": {"@": "name"},
-                "_volumesComponent": {"@": "volumes"},
-                "_portsComponent": {"@": "ports"},
-                "_environmentComponent": {"@": "environment"}
+                "_volumesComponent": {"@": "volumesTable"},
+                "_settingsComponent": {"@": "settingsTable"},
+                "_portsComponent": {"@": "portsTable"},
+                "_environmentComponent": {"@": "environmentsTable"}
             },
             "bindings": {
                 "currentTemplate": {"<-": "@imageSearch.currentPreset"},
                 "_availablesDockers": {"<-": "@owner._hostDockers.map{{label: name, value: id}}"},
                 "object.interactive": {"<-": "@owner.currentTemplate.interactive"},
-                "object.expose_ports": {"<-": "!!@owner.currentTemplate.expose_ports"}
+                "object.expose_ports": {"<-": "!!@owner.currentTemplate.expose_ports"},
+                "object.names": {"<-": "@names.value.split(' ')"}
             }
         },
 
@@ -59,14 +60,11 @@
             }
         },
 
-        "name": {
+        "names": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "name"},
                 "label": "Name"
-            },
-            "bindings": {
-                "value": {"<-": "@owner.currentTemplate.names.0"}
             }
         },
 
@@ -164,72 +162,40 @@
             }
         },
 
-        "environment": {
-            "prototype": "blue-shark/ui/field-multiple-select.reel",
+        "settingsTable": {
+            "prototype": "ui/sections/containers/controls/table-settings.reel",
             "properties": {
-                "element": {"#": "environment"},
-                "label": "Environment",
-                "inputTitle": "Add a variable",
-                "valuesTitle": "Added Variables",
-                "emptyMessage": "No variables added :(",
-                "labelPath": "this"
+                "element": {"#": "settingsTable"}
             },
             "bindings": {
-                "values": {"<-": "@owner.currentTemplate.environment.toArray() || []"}
+                "values": {"<-": "@owner.currentTemplate.settings.map{{ variable: id, value: value, description: description, optional: optional }}"}
             }
         },
 
-        "environmentInput": {
-            "prototype": "ui/controls/docker-environment-input.reel",
+        "environmentsTable": {
+            "prototype": "ui/sections/containers/controls/table-environment.reel",
             "properties": {
-                "element": {"#": "environmentInput"},
-                "fieldMultipleSelect": {"@": "environment"}
+                "element": {"#": "environmentsTable"}
             }
         },
 
-        "ports": {
-            "prototype": "blue-shark/ui/field-multiple-select.reel",
+        "portsTable": {
+            "prototype": "ui/sections/containers/controls/table-port.reel",
             "properties": {
-                "element": {"#": "ports"},
-                "label": "Configure Ports",
-                "inputTitle": "Add a port",
-                "valuesTitle": "Added Ports",
-                "emptyMessage": "No ports added :(",
-                "labelPath": "this"
+                "element": {"#": "portsTable"}
             },
             "bindings": {
-                "values": {"<-": "@owner.currentTemplate.ports.map{host_port + ' -> ' + container_port + ' ' + (protocol.defined() ? protocol : 'TCP')} || []"}
+                "values": {"<-": "@owner.currentTemplate.ports.map{{ host_port: host_port, container_port: container_port, protocol: protocol }}"}
             }
         },
 
-        "portInput": {
-            "prototype": "ui/controls/docker-port-input.reel",
+        "volumesTable": {
+            "prototype": "ui/sections/containers/controls/table-volume.reel",
             "properties": {
-                "element": {"#": "portInput"},
-                "fieldMultipleSelect": {"@": "ports"}
-            }
-        },
-
-        "volumes": {
-            "prototype": "blue-shark/ui/field-multiple-select.reel",
-            "properties": {
-                "element": {"#": "volumes"},
-                "label": "Volumes",
-                "inputTitle": "Add a volume",
-                "valuesTitle": "Added Volumes",
-                "emptyMessage": "No volumes added :(",
-                "labelPath": "this"
+                "element": {"#": "volumesTable"}
             },
             "bindings": {
-                "values": {"<-": "@owner.currentTemplate.volumes.map{host_path + ' -> ' + container_path + (!!readonly ? ' (ro)' : '')} || []"}
-            }
-        },
-
-         "volumeInput": {
-            "prototype": "ui/controls/docker-volumes-input.reel",
-            "properties": {
-                "element": {"#": "volumeInput"},
-                "fieldMultipleSelect": {"@": "volumes"}
+                "values": {"<-": "@owner.currentTemplate.volumes.map{{ host_path: host_path, container_path: container_path, readonly: readonly }}"}
             }
         },
 
@@ -269,16 +235,11 @@
                 <div data-montage-id="hostname"></div>
                 <div data-montage-id="host"></div>
                 <div data-montage-id="memoryLimit"></div>
-                <div data-montage-id="environment">
-                    <div data-montage-id="environmentInput"></div>
-                </div>
-                <div data-montage-id="ports">
-                    <div data-montage-id="portInput"></div>
-                </div>
-                <div data-montage-id="exposePorts"></div>
-                <div data-montage-id="volumes">
-                    <div data-montage-id="volumeInput"></div>
-                </div>
+                <div data-montage-id="settingsTable" class="g-margin-bottom--double"></div>
+                <div data-montage-id="environmentsTable" class="g-margin-bottom--double"></div>
+                <div data-montage-id="portsTable" class="g-margin-bottom"></div>
+                <div data-montage-id="exposePorts" class="g-margin-bottom--double"></div>
+                <div data-montage-id="volumesTable" class="g-margin-bottom--double"></div>
                 <div data-montage-id="interactive"></div>
                 <div data-montage-id="command"></div>
                 <div data-montage-id="autostart"></div>
