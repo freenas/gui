@@ -19,7 +19,8 @@
                     "mail": {"@": "mail"},
                     "certificates": {"@": "certificates"},
                     "dockerSettings": {"@": "dockerSettings"},
-                    "tunable": {"@": "tunable"}
+                    "tunable": {"@": "tunable"},
+                    "support": {"@": "support"}
                 }
             }
         },
@@ -164,6 +165,15 @@
             "properties": {
                 "element": {"#": "ntpservers"}
             }
+        },
+        "support": {
+            "prototype": "./support.reel",
+            "properties": {
+                "element": {"#": "support"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.support"}
+            }
         }
     }
     </script>
@@ -189,6 +199,7 @@
                 <div data-montage-id="mail" data-arg="mail"></div>
                 <div data-montage-id="tunable" data-arg="tunable"></div>
                 <div data-montage-id="ntpservers" data-arg="ntpservers"></div>
+                <div data-montage-id="support" data-arg="support"></div>
             </div>
         </div>
     </div>

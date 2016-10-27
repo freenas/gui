@@ -21,6 +21,7 @@ exports.SystemSection = AbstractInspector.specialize({
                 case "WebUI":
                 case "mail":
                 case "system":
+                case "support":
                     this.canSave = true;
                     this.canRevert = true;
                     break;
