@@ -299,6 +299,16 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                     };
                 }
 
+                // me hates this hack but me has to do it
+                if (type === Model.SupportTicket) {
+                    serviceDescriptor = {
+                        "method": "task.submit",
+                        "name": "call",
+                        "namespace": "rpc",
+                        "task": "support.submit"
+                    };
+                }
+
                 if (serviceDescriptor) {
                     var self = this,
                         payload, rpcArgs,

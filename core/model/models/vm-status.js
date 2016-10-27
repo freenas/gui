@@ -1,6 +1,19 @@
 var Montage = require("montage").Montage;
 
 exports.VmStatus = Montage.specialize({
+    _health: {
+        value: null
+    },
+    health: {
+        set: function (value) {
+            if (this._health !== value) {
+                this._health = value;
+            }
+        },
+        get: function () {
+            return this._health;
+        }
+    },
     _management_lease: {
         value: null
     },
@@ -56,6 +69,11 @@ exports.VmStatus = Montage.specialize({
 }, {
     propertyBlueprints: {
         value: [{
+            mandatory: false,
+            name: "health",
+            valueObjectPrototypeName: "VmStatusHealth",
+            valueType: "object"
+        }, {
             mandatory: false,
             name: "management_lease",
             valueObjectPrototypeName: "VmStatusLease",

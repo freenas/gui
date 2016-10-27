@@ -25,6 +25,7 @@ exports.Settings = Component.specialize({
                 sectionsPromises.push(this._createSection("debug", "Debug", "path", i++));
                 sectionsPromises.push(this._createSection("tunable", "Tunables", "path", i++));
                 sectionsPromises.push(this._createSection("ntpservers", "NTP", "path", i++));
+                sectionsPromises.push(this._createSection("support", "Support", "path", i++));
 /* FIXME: Uncomment when implemented
                 sectionsPromises.push(this._createSection("kernel", "kernel", "path", i++));
                 sectionsPromises.push(this._createSection("hardware", "Hardware", "path", i++));

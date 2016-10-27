@@ -2907,6 +2907,11 @@
                 "method": "support.categories",
                 "name": "call",
                 "namespace": "rpc"
+            },
+            "categoriesNoAuth": {
+                "method": "support.categories_no_auth",
+                "name": "call",
+                "namespace": "rpc"
             }
         }
     },

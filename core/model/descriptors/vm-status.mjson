@@ -1,4 +1,13 @@
 {
+  "blueprint_vmstatus_health": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "health",
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VmStatusHealth"
+    }
+  },
   "blueprint_vmstatus_management_lease": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -39,6 +48,7 @@
     "properties": {
       "name": "VmStatus",
       "propertyBlueprints": [
+        {"@": "blueprint_vmstatus_health"},
         {"@": "blueprint_vmstatus_management_lease"},
         {"@": "blueprint_vmstatus_nat_lease"},
         {"@": "blueprint_vmstatus_state"},
