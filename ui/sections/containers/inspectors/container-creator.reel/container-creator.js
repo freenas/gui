@@ -50,7 +50,6 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
                 this._environmentComponent.values.clear();
             }
 
-            this._nameComponent.value = null;
             this._commandComponent.value = null;
         }
     },
@@ -59,7 +58,6 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
         value: function () {
             var environmentComponentValues = this._environmentComponent.values,
                 commandString = this._commandComponent.value,
-                namesString = this._nameComponent.value,
                 portsValues = this._portsComponent.values,
                 volumesValues = this._volumesComponent.values,
                 settingsValues = this._settingsComponent.values,
@@ -68,14 +66,6 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
 
             if (commandString) {
                 this.object.command = commandString.split(" ");
-            }
-
-            if (namesString) {
-                if (Array.isArray(this.object.names)) {
-                    this.object.names[0] = namesString;
-                } else {
-                    this.object.names = [namesString];
-                }
             }
 
             if (this.object.memory_limit) {

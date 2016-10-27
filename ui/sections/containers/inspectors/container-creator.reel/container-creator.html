@@ -10,7 +10,6 @@
                 "validationController": {"@": "validationController"},
                 "inspector": {"@": "inspector"},
                 "_commandComponent": {"@": "command"},
-                "_nameComponent": {"@": "names"},
                 "_volumesComponent": {"@": "volumesTable"},
                 "_settingsComponent": {"@": "settingsTable"},
                 "_portsComponent": {"@": "portsTable"},
@@ -20,7 +19,8 @@
                 "currentTemplate": {"<-": "@imageSearch.currentPreset"},
                 "_availablesDockers": {"<-": "@owner._hostDockers.map{{label: name, value: id}}"},
                 "object.interactive": {"<-": "@owner.currentTemplate.interactive"},
-                "object.expose_ports": {"<-": "!!@owner.currentTemplate.expose_ports"}
+                "object.expose_ports": {"<-": "!!@owner.currentTemplate.expose_ports"},
+                "object.names": {"<-": "@names.value.split(' ')"}
             }
         },
 
