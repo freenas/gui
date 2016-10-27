@@ -17,21 +17,15 @@ exports.Mail = Component.specialize(/** @lends Mail# */ {
         }
     },
 
-    encryptionOptions: {
-        value: null
-    },
-
-    templateDidLoad: {
-        value: function() {
-            this.encryptionOptions = MailEncryptionType.members;
-        }
-    },
-
     enterDocument: {
         value: function(isFirstTime) {
             var self = this;
             if(isFirstTime) {
                 this.isLoading = true;
+                this.encryptionOptions = [];
+                for (var i = 0; i < MailEncryptionType.members.length; i++) {
+                    this.encryptionOptions.push({label: MailEncryptionType.members[i], value: MailEncryptionType[MailEncryptionType.members[i]]});
+                }
                 this.application.mailService.getMailData().then(function(mailData) {
                     self.object = mailData.mail;
                     self._snapshotDataObjectsIfNecessary();
