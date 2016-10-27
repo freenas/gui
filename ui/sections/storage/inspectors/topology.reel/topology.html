@@ -14,7 +14,9 @@
             "bindings": {
                 "availableDisks": {"<-": "@availableDisks.availableDisks"},
                 "classList.has('has-availableDisks')": {"<-": "@availableDisks.availableDisks.length > 0"},
-                "classList.has('is-detached')": {"<-": "!!@owner.object._isDetached"}
+                "classList.has('is-detached')": {"<-": "!!@owner.object._isDetached"},
+                "availableSelectedDisk": {"<->": "@availableDisks.selectedDisk"},
+                "topologySelectedDisk": {"<->": "@topology.selectedDisk"}
             }
         },
         "validationController": {
@@ -46,8 +48,7 @@
                 "mode": "UPDATE"
             },
             "bindings": {
-                "object": {"<-": "@owner.topologyProxy"},
-                "selectedDisk": {"<->": "@owner.topologySelectedDisk"}
+                "object": {"<-": "@owner.topologyProxy"}
             }
         },
 
@@ -59,8 +60,7 @@
             },
             "bindings": {
                 "disks": {"<-": "@owner.availableDisks"},
-                "object": {"<-": "@owner.topologyProxy"},
-                "selectedDisk": {"<->": "@owner.availableSelectedDisk"}
+                "object": {"<-": "@owner.topologyProxy"}
             }
         }
     }

@@ -26,7 +26,6 @@ var Topology = exports.Topology = AbstractInspector.specialize(/** @lends Topolo
 
     object: {
         set: function (object) {
-console.trace(object);
             if (this._object !== object) {
                 this._object = object;
                 this._topologyProxy = null;
@@ -69,10 +68,12 @@ console.trace(object);
     },
 
     enterDocument: {
-        value: function() {
+        value: function(isFirstTime) {
             this.super();
-            this._cancelTopologySelectedDiskListener = this.addRangeAtPathChangeListener("topologySelectedDisk", this, "_handleTopologySelectedDiskChange");
-            this._cancelAvailableSelectedDiskListener = this.addRangeAtPathChangeListener("availableSelectedDisk", this, "_handleAvailableSelectedDiskChange");
+            if (isFirstTime) {
+                this.addPathChangeListener("topologySelectedDisk", this, "_handleSelectedDiskChange");
+                this.addPathChangeListener("availableSelectedDisk", this, "_handleSelectedDiskChange");
+            }
 
             this._parentCascadingListItem = CascadingList.findCascadingListItemContextWithComponent(this);
             if (this._parentCascadingListItem) {
@@ -88,14 +89,6 @@ console.trace(object);
     exitDocument: {
         value: function() {
             this.super();
-            if (typeof this._cancelAvailableSelectedDiskListener === "function") {
-                this._cancelAvailableSelectedDiskListener();
-                this._cancelAvailableSelectedDiskListener = null;
-            }
-            if (typeof this._cancelTopologySelectedDiskListener === "function") {
-                this._cancelTopologySelectedDiskListener();
-                this._cancelTopologySelectedDiskListener = null;
-            }
             this._clearDisk();
             this._freeTopologyProxy();
             
@@ -105,6 +98,20 @@ console.trace(object);
 
             this._object = null;
         }
+    },
+
+    _handleSelectedDiskChange: {
+        value: function(value) {
+            if (this.topologySelectedDisk && this.topologySelectedDisk === value) {
+                this.selectedObject = this.topologySelectedDisk._disk;
+                this.availableSelectedDisk = null;
+            } else if (this.availableSelectedDisk && this.availableSelectedDisk === value) {
+                this.selectedObject = this.availableSelectedDisk;
+                this.topologySelectedDisk = null;
+            } else if (!this.topologySelectedDisk && !this.availableSelectedDisk) {
+                this.selectedObject = null;
+            }
+        } 
     },
 
     _handleAvailableSelectedDiskChange: {
