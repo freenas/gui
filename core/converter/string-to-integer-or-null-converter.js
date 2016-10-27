@@ -24,14 +24,15 @@ exports.StringToIntegerOrNullConverter = Converter.specialize({
                 try {
                     this.validator.validate(valueToRevert);
                 } catch (e) {
-                    if (valueToRevert === "") {
+                    if (valueToRevert === this._EMPTY_STRING) {
                         return null;
                     }
                     throw e;
                 }
             }
             if (isValid) {
-                return parseInt(valueToRevert);
+                return isNaN(valueToRevert) || valueToRevert === this._EMPTY_STRING ? 
+                    null : parseInt(valueToRevert);
             } else {
                 return valueToRevert;
             }
