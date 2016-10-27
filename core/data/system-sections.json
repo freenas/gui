@@ -1,0 +1,67 @@
+[
+    {
+        "id": "overview",
+        "label": "Overview",
+        "icon": "path"
+    },
+    {
+        "id": "preferences",
+        "label": "Preferences",
+        "icon": "path"
+    },
+    {
+        "id": "boot-pool",
+        "label": "Boot Pool",
+        "icon": "path"
+    },
+    {
+        "id": "updates",
+        "label": "Updates",
+        "icon": "path"
+    },
+    {
+        "id": "language-and-region",
+        "label": "Language & Region",
+        "icon": "path"
+    },
+    {
+        "id": "web-ui",
+        "label": "Web UI",
+        "icon": "path"
+    },
+    {
+        "id": "certificates",
+        "label": "Certificates",
+        "icon": "path"
+    },
+    {
+        "id": "mail",
+        "label": "Alerts & Reporting",
+        "icon": "path"
+    },
+    {
+        "id": "serial-console",
+        "label": "Console",
+        "icon": "path"
+    },
+    {
+        "id": "debug",
+        "label": "Debug",
+        "icon": "path"
+    },
+    {
+        "id": "tunables",
+        "label": "Tunables",
+        "icon": "path"
+    },
+    {
+        "id": "ntpservers",
+        "label": "NTP",
+        "icon": "path"
+    },
+    {
+        "id": "support",
+        "label": "Support",
+        "icon": "path"
+    }
+]

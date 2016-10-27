@@ -4,8 +4,8 @@
         "properties": {
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "collectionNameExpression": "'Certificates'",
-            "inspectorComponentModule": {"%": "ui/inspectors/crypto-certificate.reel"},
-            "creatorComponentModule": {"%": "ui/inspectors/crypto-certificate-creator.reel"},
+            "inspectorComponentModule": {"%": "ui/sections/system/inspectors/crypto-certificate.reel"},
+            "creatorComponentModule": {"%": "ui/sections/system/inspectors/crypto-certificate-creator.reel"},
             "nameExpression": "!!id ? !!name ? name : id : !!_label ? _label: 'Choose a certificate type'"
         }
     }

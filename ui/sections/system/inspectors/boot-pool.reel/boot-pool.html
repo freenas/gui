@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="boot-pool.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "bootEnvironmentTable": {"@": "bootEnvironmentTable"}
+            }
+        },
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
+            }
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "validationController": {"@": "validationController"},
+                "controller": {"@": "owner"}
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"}
+            }
+        },
+        "bytesSizeConverter": {
+            "prototype": "montage/core/converter/bytes-converter"
+        },
+        "bootVolumeSize": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "bootVolumeSize"},
+                "label": "Capacity",
+                "converter": {"@": "bytesSizeConverter"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.bootVolume.properties.size.rawvalue"}
+            }
+        },
+        "bootVolumeUsed": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "bootVolumeUsed"},
+                "label": "Space Used",
+                "converter": {"@": "bytesSizeConverter"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.bootVolume.properties.allocated.rawvalue"}
+            }
+        },
+        "bootVolumeCapacityUsed": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "bootVolumeCapacityUsed"},
+                "label": "Capacity Used"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.bootVolume.properties.capacity.value"}
+            }
+        },
+        "bootVolumeCondition": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "bootVolumeCondition"},
+                "label": "Condition"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.bootVolume.status"}
+            }
+        },
+        "bootVolumeScrub": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "bootVolumeScrub"},
+                "value": "Scrub Now"
+            }
+        },
+        "bootEnvironmentTable": {
+            "prototype": "blue-shark/ui/tables/table-editable.reel",
+            "properties": {
+                "element": {"#": "bootEnvironmentTable"},
+                "label": "Boot Environments",
+                "contentMaxHeight": 25,
+                "columns": [
+                    {
+                        "value": "Name"
+                    },
+                    {
+                        "value": "Active"
+                    },
+                    {
+                        "value": "Space Used"
+                    },
+                    {
+                        "value": "Date Created"
+                    },
+                    {
+                        "value": "Keep"
+                    }
+                ]
+            },
+            "bindings": {
+                "rows": {"<-": "@owner.bootEnvironments"}
+            }
+        },
+
+        "rowEntry": {
+            "prototype": "./boot-environment-row.reel",
+            "properties": {
+                "element": {"#": "rowEntry"}
+            },
+            "bindings": {
+                "object": {"<-": "@bootEnvironmentTable:rowIteration.object.object"}
+            }
+        },
+
+        "actions": {
+            "prototype": "./boot-pool-action.reel",
+            "properties": {
+                "element": {"#": "actions"}
+            },
+            "bindings": {
+                "selectedRows": {"<-": "@bootEnvironmentTable.selectedRows"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="BootPool">
+        <div data-montage-id="inspector">
+            <div data-montage-id="bootVolumeSize"></div>
+            <div data-montage-id="bootVolumeUsed"></div>
+            <div data-montage-id="bootVolumeCapacityUsed"></div>
+            <div data-montage-id="bootVolumeCondition"></div>
+            <p class="hide"><div data-montage-id="bootVolumeScrub" class="hide"></div></p>
+            <div data-montage-id="bootEnvironmentTable" class="BootPool-table">
+                <div data-arg="table-editable-header-toolbar">
+                    <div data-montage-id="actions"></div>
+                </div>
+                <div data-arg="row-new" data-montage-id="newEntry"></div>
+                <div data-arg="row-entry" data-montage-id="rowEntry"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

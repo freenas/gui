@@ -47,9 +47,15 @@ exports.SystemSection = AbstractInspector.specialize({
         value: null
     },
 
-
     enterDocument: {
         value: function(isFirstTime) {
+            this.super();
+            this.classList.toggle(this.object.identifier);
+        }
+    },
+
+    exitDocument: {
+        value: function() {
             this.super();
             this.classList.toggle(this.object.identifier);
         }

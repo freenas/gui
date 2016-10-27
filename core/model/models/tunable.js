@@ -111,14 +111,14 @@ exports.Tunable = Montage.specialize({
     userInterfaceDescriptor: {
         value: {
             inspectorComponentModule: {
-                id: 'ui/inspectors/tunable.reel'
+                id: 'ui/sections/system/inspectors/tunable.reel'
             },
             collectionInspectorComponentModule: {
                 id: 'ui/controls/viewer.reel'
             },
             collectionNameExpression: "'Tunables'",
             creatorComponentModule: {
-                id: 'ui/inspectors/tunable.reel'
+                id: 'ui/sections/system/inspectors/tunable.reel'
             },
             nameExpression: "_isNew.defined() && _isNew ? 'Add a Tunable' : var"
         }

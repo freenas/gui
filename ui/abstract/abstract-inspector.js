@@ -53,12 +53,23 @@ var AbstractInspector = exports.AbstractInspector = AbstractComponentActionDeleg
             this.super();
             
             if (this.validationController && !this._hasContextObjectListener) {
+                this.context.validationController = this.validationController;
                 this.addPathChangeListener("context.object", this, "_reloadValidationController");
                 this._hasContextObjectListener = true;
             }
         }
     },
 
+    exitDocument: {
+        value: function() {
+            this.super();
+            if (this._hasContextObjectListener) {
+                this.removePathChangeListener("context.object", this);
+                this._hasContextObjectListener = false;
+            }
+        }
+    },
+    
     _reloadValidationController: {
         value: function() {
             if (this.context && this.context.object) {

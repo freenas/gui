@@ -7,172 +7,17 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"},
-                "validationController": {"@": "validationController"},
-                "inspector": {"@": "inspector"},
-                "sectionComponent": {
-                    "WebUI": {"@": "WebUI"},
-                    "languageAndRegion": {"@": "languageAndRegion"},
-                    "system": {"@": "system"},
-                    "serialConsole": {"@": "serialConsole"},
-                    "debug": {"@": "debug"},
-                    "mail": {"@": "mail"},
-                    "certificates": {"@": "certificates"},
-                    "dockerSettings": {"@": "dockerSettings"},
-                    "tunable": {"@": "tunable"},
-                    "support": {"@": "support"}
-                }
+                "element": {"#": "owner"}
             }
         },
-        "validationController": {
-            "prototype": "core/controller/validation-controller",
+        "sectionInspector": {
+            "prototype": "ui/controls/placeholder.reel",
             "properties": {
-                "fields": {
-                }
-            }
-        },
-        "inspector": {
-            "prototype": "ui/inspectors/inspector.reel",
-            "properties": {
-                "element": {"#": "inspector"},
-                "controller": {"@": "owner"},
-                "validationController": {"@": "validationController"},
-                "canDelete": false
+                "element": {"#": "systemSectionInspector"}
             },
             "bindings": {
-                "context": {"<-": "@owner.context"},
-                "isLoading": {"<-": "@owner.isLoading"},
-                "canSave": {"<-": "@owner.canSave"},
-                "canRevert": {"<-": "@owner.canRevert"}
-            }
-        },
-        "substitution": {
-            "prototype": "montage/ui/substitution.reel",
-            "properties": {
-                "element": {"#": "substitution"}
-            },
-            "bindings": {
-                "switchValue": {"<-": "@owner.object.identifier"}
-            }
-        },
-        "bootPool": {
-            "prototype": "./boot-pool.reel",
-            "properties": {
-                "element": {"#": "bootPool"}
-            }
-        },
-        "updates": {
-            "prototype": "./updates/updates.reel",
-            "properties": {
-                "element": {"#": "updates"}
-            },
-            "bindings": {
-                "isLoading": {"<->": "@owner.isLoading"}
-            }
-        },
-        "dateAndTime": {
-            "prototype": "./date-and-time.reel",
-            "properties": {
-                "element": {"#": "dateAndTime"}
-            }
-        },
-        "languageAndRegion": {
-            "prototype": "./language-and-region.reel",
-            "properties": {
-                "element": {"#": "languageAndRegion"}
-            }
-        },
-        "dockerSettings": {
-            "prototype": "./docker-settings.reel",
-            "properties": {
-                "element": {"#": "dockerSettings"}
-            }
-        },
-        "debug": {
-            "prototype": "./debug.reel",
-            "properties": {
-                "element": {"#": "debug"}
-            }
-        },
-        "powerManagement": {
-            "prototype": "./power-management.reel",
-            "properties": {
-                "element": {"#": "powerManagement"}
-            }
-        },
-        "serialConsole": {
-            "prototype": "./serial-console.reel",
-            "properties": {
-                "element": {"#": "serialConsole"}
-            }
-        },
-        "advanced": {
-            "prototype": "./advanced.reel",
-            "properties": {
-                "element": {"#": "advanced"}
-            }
-        },
-        "hardware": {
-            "prototype": "./hardware.reel",
-            "properties": {
-                "element": {"#": "hardware"}
-            }
-        },
-        "WebUI": {
-            "prototype": "./web-ui.reel",
-            "properties": {
-                "element": {"#": "WebUI"}
-            }
-        },
-        "mail": {
-            "prototype": "./mail.reel",
-            "properties": {
-                "element": {"#": "mail"}
-            }
-        },
-        "system": {
-            "prototype": "./system.reel",
-            "properties": {
-                "element": {"#": "system"}
-            }
-        },
-        "certificates": {
-            "prototype": "./certificates.reel",
-            "properties": {
-                "element": {"#": "certificates"}
-            },
-            "bindings": {
-                "object": {"<-": "@owner.certificates"}
-            }
-        },
-        "tunable": {
-            "prototype": "./tunable.reel",
-            "properties": {
-                "element": {"#": "tunable"}
-            },
-            "bindings": {
-                "object": {"<-": "@owner.tunables"}
-            }
-        },
-        "overview": {
-            "prototype": "./overview.reel",
-            "properties": {
-                "element": {"#": "overview"}
-            }
-        },
-        "ntpservers": {
-            "prototype": "./ntpservers.reel",
-            "properties": {
-                "element": {"#": "ntpservers"}
-            }
-        },
-        "support": {
-            "prototype": "./support.reel",
-            "properties": {
-                "element": {"#": "support"}
-            },
-            "bindings": {
-                "object": {"<-": "@owner.support"}
+                "moduleId": {"<-": "'ui/sections/system/inspectors/' + @owner.object.identifier + '.reel'"},
+                "context": {"<-": "@owner.context"}
             }
         }
     }
@@ -180,28 +25,7 @@
 </head>
 <body>
     <div data-montage-id="owner" class="SystemSection">
-        <div data-montage-id="inspector">
-            <div data-montage-id="substitution" class="System-substitution">
-                <div data-montage-id="overview" data-arg="overview"></div>
-                <div data-montage-id="WebUI" data-arg="WebUI"></div>
-                <div data-montage-id="bootPool" data-arg="bootPool"></div>
-                <div data-montage-id="updates" data-arg="updates">U</div>
-                <div data-montage-id="dateAndTime" data-arg="dateAndTime"></div>
-                <div data-montage-id="languageAndRegion" data-arg="languageAndRegion"></div>
-                <div data-montage-id="system" data-arg="system"></div>
-                <div data-montage-id="certificates" data-arg="certificates"></div>
-                <div data-montage-id="dockerSettings" data-arg="dockerSettings"></div>
-                <div data-montage-id="powerManagement" data-arg="powerManagement"></div>
-                <div data-montage-id="serialConsole" data-arg="serialConsole"></div>
-                <div data-montage-id="advanced" data-arg="advanced"></div>
-                <div data-montage-id="hardware" data-arg="hardware"></div>
-                <div data-montage-id="debug" data-arg="debug"></div>
-                <div data-montage-id="mail" data-arg="mail"></div>
-                <div data-montage-id="tunable" data-arg="tunable"></div>
-                <div data-montage-id="ntpservers" data-arg="ntpservers"></div>
-                <div data-montage-id="support" data-arg="support"></div>
-            </div>
-        </div>
+        <div data-montage-id="systemSectionInspector"></div>
     </div>
 </body>
 </html>
