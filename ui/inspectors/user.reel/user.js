@@ -104,8 +104,8 @@ exports.User = AbstractInspector.specialize({
             var self = this;
 
             this.object.groups = this.additionalGroups.map(function(x) { return x.id; });
-            if (this.object._isNew) {
-                this.object.home = null;
+            if (this.object._isNew && this.object.home) {
+                this.object.home += '/' + this.object.username;
             }
 
             return this.application.dataService.saveDataObject(this.object);
@@ -133,7 +133,7 @@ exports.User = AbstractInspector.specialize({
 
     _cleanupHomeDirectory: {
         value: function(object) {
-            if (object && (object._isNew || object.home === "/nonexistent")) {
+            if (object && object.home === "/nonexistent") {
                 object.home = null;
             }
         }
