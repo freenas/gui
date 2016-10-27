@@ -68,11 +68,19 @@
         "serialPortOptionConverter": {
             "prototype": "core/converter/select-option-converter"
         },
+        "mailEncryptionTypeconverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "labelPropertyName": "this",
+                "valuePropertyName": "this"
+            }
+        },
         "encryption": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "encryption"},
-                "label": "TLS/SSL"
+                "label": "TLS/SSL",
+                "converter": {"@": "mailEncryptionTypeconverter"}
             },
             "bindings": {
                 "options" : {"<-": "@owner.encryptionOptions"},
