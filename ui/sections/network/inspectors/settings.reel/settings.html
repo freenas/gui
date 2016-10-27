@@ -22,6 +22,9 @@
                 }
             }
         },
+        "stringOrNullConverter": {
+            "prototype": "core/converter/string-or-null-validation-converter"
+        },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
@@ -84,7 +87,8 @@
             "properties": {
                 "element": {"#": "http_proxy"},
                 "label": "HTTP Proxy",
-                "placeholderValue": "eg. http://a.com:1234"
+                "placeholderValue": "eg. http://a.com:1234",
+                "converter": {"@": "stringOrNullConverter"}
             },
             "bindings": {
                 "value": {"<->": "@owner.object.settings.config.http_proxy"}
@@ -130,7 +134,8 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "gatewayIpv4"},
-                "label": "IPv4"
+                "label": "IPv4",
+                "converter": {"@": "stringOrNullConverter"}
             },
             "bindings": {
                 "value": {"<->": "@owner.object.settings.config.gateway.ipv4"},
@@ -142,7 +147,8 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "gatewayIpv6"},
-                "label": "IPv6"
+                "label": "IPv6",
+                "converter": {"@": "stringOrNullConverter"}
             },
             "bindings": {
                 "value": {"<->": "@owner.object.settings.config.gateway.ipv6"},
