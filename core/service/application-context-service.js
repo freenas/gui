@@ -1,5 +1,6 @@
 var Montage = require("montage").Montage,
     Model = require("core/model/model").Model,
+    UserRepository = require("core/repository/user-repository").UserRepository,
     application = require("montage/core/application").application,
     FreeNASService = require("core/service/freenas-service").FreeNASService,
     WidgetService = require("core/service/widget-service").WidgetService,
@@ -10,6 +11,7 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
 
     constructor: {
         value: function () {
+            this._userRepository = UserRepository.instance;
             application.addEventListener("userLogged", this, false);
         }
     },
@@ -70,13 +72,7 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
 
                 this._currentUser = null;
 
-                return this._dataService.fetchData(Model.User).then(function (users) {
-                    for (var i = 0, length = users.length; i < length; i++) {
-                        if (users[i].username === sessionUsername) {
-                            return users[i];
-                        }
-                    }
-                }).then(function (user) {
+                return this._userRepository.findUserWithName(sessionUsername).then(function (user) {
                     currentUser = user;
 
                     if (user.attributes && user.attributes.dashboardContext) {

@@ -24,7 +24,19 @@
                 "controller": {"@": "owner"}
             },
             "bindings": {
-                "context": {"<-": "@owner.context"}
+                "context": {"<-": "@owner.context"},
+                "classList.has('has-loading-spinner')": {"<-": "@owner.isLoading"}
+            }
+        },
+
+        "defaultCollection": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "defaultCollection"},
+                "label": "Default Docker Collection"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.defaultCollection"}
             }
         },
 
@@ -70,6 +82,7 @@
 <body>
     <div data-montage-id="owner" class="ContainerSettings">
         <div data-montage-id="inspector">
+            <div data-montage-id="defaultCollection"></div>
             <div data-montage-id="defaultHost"></div>
             <div data-montage-id="apiForwardingEnable"></div>
             <div data-montage-id="apiForwarding"></div>
