@@ -10,7 +10,7 @@
                 "validationController": {"@": "validationController"},
                 "inspector": {"@": "inspector"},
                 "_commandComponent": {"@": "command"},
-                "_nameComponent": {"@": "name"},
+                "_nameComponent": {"@": "names"},
                 "_volumesComponent": {"@": "volumesTable"},
                 "_settingsComponent": {"@": "settingsTable"},
                 "_portsComponent": {"@": "portsTable"},
@@ -58,14 +58,11 @@
             }
         },
 
-        "name": {
+        "names": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "name"},
                 "label": "Name"
-            },
-            "bindings": {
-                "value": {"<-": "@owner.currentTemplate.names.0"}
             }
         },
 
