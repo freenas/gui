@@ -31,6 +31,30 @@ DataService.prototype.saveDataObject = function (object) {
     }
 };
 
+DataService.prototype._updateDataObject = function (object, action) {
+    var self = this,
+        service = action && this.getChildServiceForObject(object),
+        promise = this.nullPromise;
+    if (!action) {
+        self.createdDataObjects.delete(object);
+    } else if (service) {
+        promise = service[action](object).then(function () {
+            var argumentsLength = arguments.length;
+            self.createdDataObjects.delete(object);
+
+            if (argumentsLength) {
+                if (argumentsLength === 1) {
+                    return arguments[0];
+                } else {
+                    return arguments;
+                }
+            }
+
+            return null;
+        });
+    }
+    return promise;
+};
 
 /**
  * The interface to all services used by FreeNAS.
@@ -338,7 +362,9 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                     ).then(function (response) {
                         taskId = response.data;
                         self._selectionService.persistTaskSelection(temporaryTaskId, taskId);
-                    }, function(error) {
+
+                        return taskId;
+                    }, function (error) {
                         return self._selectionService.addErrorToTaskSelection(error.error, taskId);
                     });
                 } else {
