@@ -41,6 +41,15 @@ exports.TreeView = AbstractComponentActionDelegate.specialize({
         }
     },
 
+    enterDocument: {
+        value: function(isFirstTime) {
+            this.super();
+            if (isFirstTime) {
+                this.addPathChangeListener("entry", this, "_handleEntryChange");
+            }
+        }
+    },
+
     handleBackButtonAction: {
         value: function () {
             if (this.controller.parent) {
@@ -59,6 +68,12 @@ exports.TreeView = AbstractComponentActionDelegate.specialize({
         value: function () {
             this.selectedPath = this.selectedNode;
             this.isExpanded = false;
+        }
+    },
+
+    _handleEntryChange: {
+        value: function(value) {
+            this.selectedNode = value.path;
         }
     },
 
