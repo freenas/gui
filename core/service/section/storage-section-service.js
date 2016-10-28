@@ -26,13 +26,15 @@ exports.StorageSectionService = AbstractSectionService.specialize({
 
     loadEntries: {
         value: function() {
+            return this._storageRepository.listVolumes();
+        }
+    },
+
+    loadExtraEntries: {
+        value: function() {
             return Promise.all([
-                this._storageRepository.listVolumes(),
                 this._storageRepository.getVolumeImporter()
-            ]).then(function(results) {
-                results[0].push(results[1]);
-                return results[0];
-            });
+            ]);
         }
     },
 

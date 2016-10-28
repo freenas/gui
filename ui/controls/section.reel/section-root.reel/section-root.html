@@ -10,7 +10,8 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "selectedObject": {"<->": "@entries.selectedObject"}
+                "selectedEntry": {"<->": "@entries.selectedObject"},
+                "selectedExtraEntry": {"<->": "@extraEntries.selectedObject"}
             }
         },
         "overview": {
@@ -35,6 +36,16 @@
                 "title": {"<-": "@owner.object.entriesTitle"}
             }
         },
+        "extraEntries": {
+            "prototype": "ui/controls/viewer.reel",
+            "properties": {
+                "element": {"#": "extraEntries"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.extraEntries"},
+                "classList.has('hide')": {"<-": "!@owner.object.extraEntries"}
+            }
+        },
         "settings": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
@@ -53,6 +64,7 @@
     <div data-montage-id="owner" class="SectionRoot">
         <div data-montage-id="overview" class="SectionRoot-overview"></div>
         <div data-montage-id="entries" class="SectionRoot-entries"></div>
+        <div data-montage-id="extraEntries" class="SectionRoot-extraEntries"></div>
         <div data-montage-id="settings"></div>
     </div>
 </body>
