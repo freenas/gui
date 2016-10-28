@@ -33,34 +33,20 @@ exports.Volume = AbstractInspector.specialize({
     _handleObjectChange: {
         value: function() {
             if (this.object) {
-                var self = this;
-                this._sectionService.getRootDatasetForVolume(this.object).then(function(rootDataset) {
-                    self.object._rootDataset = rootDataset;
-                });
-            }
-        }
-    },
-
-    _getRootDataset: {
-        value: function (volume) {
-            var datasets = this.datasets;
-            for (var i=0, length=datasets.length; i<length; i++) {
-                if (datasets[i].id === volume.id) {
-                    return datasets[i];
-                }
+                this._sectionService.setRootDatasetForVolume(this.object);
             }
         }
     },
 
     handleExportAction: {
         value: function () {
-            this.object.services.export(this.object.id);
+            this._sectionService.exportVolume(this.object);
         }
     },
 
     handleScrubAction: {
         value: function () {
-            this.object.services.scrub(this.object.id);
+            this._sectionService.scrubVolume(this.object);
         }
     }
 });

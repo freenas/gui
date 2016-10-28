@@ -81,7 +81,7 @@ exports.DetachedVolume = Montage.specialize({
             },
             collectionNameExpression: "'Volumes'",
             inspectorComponentModule: {
-                id: 'ui/inspectors/detached-volume.reel'
+                id: 'ui/sections/storage/inspectors/detached-volume.reel'
             },
             nameExpression: "name + ' (detached)'",
             sortExpression: "name.defined() + '' + id"

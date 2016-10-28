@@ -42,7 +42,7 @@
                 "element": {"#": "warningConditional"}
             },
             "bindings": {
-                "condition": {"<-": "@owner.disk.label.defined() && (!@owner.disk.volume || @owner.disk.label.volume_id != @owner.disk.volume.id)"}
+                "condition": {"<-": "@owner.disk._allocation.defined()"}
             }
         }
     }

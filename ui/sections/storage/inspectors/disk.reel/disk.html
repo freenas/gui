@@ -126,7 +126,7 @@
                 "label": "Allocation"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.label.defined() ? @owner.object.label.volume_id : 'None'"}
+                "value": {"<-": "@owner.object._allocation.defined() ? @owner.object._allocation.name : 'None'"}
             }
         },
         "stanbyMode": {

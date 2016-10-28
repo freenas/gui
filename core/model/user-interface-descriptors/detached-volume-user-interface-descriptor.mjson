@@ -4,7 +4,7 @@
         "properties": {
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "collectionNameExpression": "'Volumes'",
-            "inspectorComponentModule": {"%": "ui/inspectors/detached-volume.reel"},
+            "inspectorComponentModule": {"%": "ui/sections/storage/inspectors/detached-volume.reel"},
             "nameExpression": "name + ' (detached)'",
             "sortExpression": "name.defined() + '' + id"
         }

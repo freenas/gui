@@ -78,7 +78,7 @@ exports.StorageSectionService = AbstractSectionService.specialize({
         }
     },
 
-    getRootDatasetForVolume: {
+    setRootDatasetForVolume: {
         value: function(volume) {
             var self = this,
                 promise;
@@ -89,6 +89,8 @@ exports.StorageSectionService = AbstractSectionService.specialize({
             }
             return promise.then(function() {
                 return self._rootDatasetPerVolumeId.get(volume.id);
+            }).then(function(rootDataset) {
+                volume._rootDataset = rootDataset;
             });
         }
     },
@@ -96,6 +98,30 @@ exports.StorageSectionService = AbstractSectionService.specialize({
     listDetachedVolumes: {
         value: function() {
             return this._storageRepository.listDetachedVolumes();
+        }
+    },
+
+    importDetachedVolume: {
+        value: function(detachedVolume) {
+            return this._storageRepository.importDetachedVolume(detachedVolume);
+        }
+    },
+
+    deleteDetachedVolume: {
+        value: function(detachedVolume) {
+            return this._storageRepository.deleteDetachedVolume(detachedVolume);
+        }
+    },
+
+    exportVolume: {
+        value: function(volume) {
+            return this._storageRepository.exportVolume(volume);
+        }
+    },
+
+    scrubVolume: {
+        value: function(volume) {
+            return this._storageRepository.scrubVolume(volume);
         }
     },
 

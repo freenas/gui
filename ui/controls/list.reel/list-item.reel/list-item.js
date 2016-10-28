@@ -40,18 +40,22 @@ exports.ListItem = Component.specialize({
             var self = this;
             this.isCollection = Array.isArray(this.object);
 
-            if (this.objectType) {
-                if (this.isCollection && !this.object._meta_data) {
+            var hasType = this.object.Type || this.isCollection && this.object._meta_data;
+            if (!hasType && this.objectType) {
+                if (this.isCollection) {
                     this.object._meta_data = {
                         collectionModelType: this.objectType
                     };
-                } else if (!this.object.Type) {
+                } else {
                     this.object.Type = this.objectType;
                 }
+                hasType = true;
             }
-            return this.application.delegate.userInterfaceDescriptorForObject(this.object).then(function (userInterfaceDescriptor) {
-                self.userInterfaceDescriptor = userInterfaceDescriptor;
-            });
+            if (hasType) {
+                return this.application.delegate.userInterfaceDescriptorForObject(this.object).then(function (userInterfaceDescriptor) {
+                    self.userInterfaceDescriptor = userInterfaceDescriptor;
+                });
+            }
         }
     }
 }, {
