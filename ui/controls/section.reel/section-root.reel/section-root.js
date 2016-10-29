@@ -23,6 +23,8 @@ exports.SectionRoot = Component.specialize({
             }
             if (this.selectedObject !== value) {
                 this.selectedObject = value;
+            } else {
+                this.selectedEntry = this.selectedExtraEntry = value;
             }
         }
     }
