@@ -18,21 +18,28 @@ exports.AbstractSectionService = Montage.specialize({
                 self.constructor._sectionRepository.getNewSection(),
                 self.constructor._sectionRepository.getNewSectionSettings(),
                 self.loadEntries(),
+                self.loadExtraEntries(),
                 self.loadSettings(),
                 self.loadOverview()
             ]).then(function(data) {
                 self.section = data[0];
                 self.section.settings = data[1];
                 self.entries = self.section.entries = data[2];
-                self.section.overview = data[4];
+                self.extraEntries = self.section.extraEntries = data[3]
                 self.section.settings.section = self.section;
-                self.section.settings.settings = data[3];
+                self.section.settings.settings = data[4];
+                self.section.overview = data[5];
                 return self;
             });
         }
     },
     
     loadEntries: {
+        value: function() {
+        }
+    },
+    
+    loadExtraEntries: {
         value: function() {
         }
     },

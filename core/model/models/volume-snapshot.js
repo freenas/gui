@@ -166,10 +166,10 @@ exports.VolumeSnapshot = Montage.specialize({
             },
             collectionNameExpression: "'Snapshots'",
             inspectorComponentModule: {
-                id: 'ui/inspectors/snapshot.reel'
+                id: 'ui/sections/storage/inspectors/snapshot.reel'
             },
             creatorComponentModule: {
-                id: 'ui/inspectors/snapshot.reel'
+                id: 'ui/sections/storage/inspectors/snapshot.reel'
             },
             nameExpression: "id.defined() ? id : 'Create a snapshot'"
         }

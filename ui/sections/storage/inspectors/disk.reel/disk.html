@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="disk.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "validationController": {"@": "validationController"},
+                "inspector": {"@": "inspector"},
+
+                "standbyModeOptions": [
+                    {"label": "Always on", "value": 0},
+                    {"label": "5",      "value": 5},
+                    {"label": "10",     "value": 10},
+                    {"label": "20",     "value": 20},
+                    {"label": "30",     "value": 30},
+                    {"label": "60",     "value": 60},
+                    {"label": "120",    "value": 120},
+                    {"label": "180",    "value": 180},
+                    {"label": "240",    "value": 240},
+                    {"label": "300",    "value": 300},
+                    {"label": "330",    "value": 330}
+                ],
+                "powerManagementModeOptions": [
+                    {"label": "Disabled",                                                       "value": 0},
+                    {"label": "Level 1 - Minimum power usage with Standby (spindown)",          "value": 1},
+                    {"label": "Level 64 - Intermediate power usage with Standby",               "value": 64},
+                    {"label": "Level 127 - Intermediate power usage with Standby",              "value": 127},
+                    {"label": "Level 128 - Minimum power usage without Standby (no spindown)",  "value": 128},
+                    {"label": "Level 192 - Intermediate power usage without Standby",           "value": 192},
+                    {"label": "Level 254 - Maximum performance, maximum power usage",           "value": 254}
+                ]
+            }
+        },
+        "bytesSizeConverter": {
+            "prototype": "montage/core/converter/bytes-converter"
+        },
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
+            }
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "validationController": {"@": "validationController"},
+                "canRevert": true,
+                "canSave": true,
+                "controller": {"@": "owner"}
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"}
+            }
+        },
+        "name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.name"}
+            }
+        },
+        "description": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "description"},
+                "label": "Description"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.description"}
+            }
+        },
+        "size": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "size"},
+                "converter": {"@": "bytesSizeConverter"},
+                "label": "Size"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.mediasize"}
+            }
+        },
+        "diskDescription": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "diskDescription"},
+                "label": "Disk description"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.status.description"}
+            }
+        },
+        "serial": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "serial"},
+                "label": "Serial #"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.serial"}
+            }
+        },
+        "empty": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "empty"},
+                "label": "Partitioned"
+            },
+            "bindings": {
+                "value": {"<-": "!@owner.object.status.empty ? 'Yes': 'No'"}
+            }
+        },
+        "allocation": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "allocation"},
+                "label": "Allocation"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object._allocation.defined() ? @owner.object._allocation.name : 'None'"}
+            }
+        },
+        "stanbyMode": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "standbyMode"},
+                "label": "Standby after (mins)"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.standby_mode"},
+                "options": {"<-": "@owner.standbyModeOptions"}
+            }
+        },
+        "powerManagementMode": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "powerManagementMode"},
+                "label": "Power management"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.apm_mode"},
+                "options": {"<-": "@owner.powerManagementModeOptions"}
+            }
+        },
+        "acousticLevel": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "acousticLevel"},
+                "label": "Acoustic level"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.acoustic_level"},
+                "options": {"<-": "@owner.acousticLevelOptions"}
+            }
+        },
+        "smart": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "smart"},
+                "label": "SMART enabled"
+            },
+            "bindings": {
+                "checked": {"<->": "!!@owner.object.smart"},
+                "disabled": {"<-": "!@owner.object.status.smart_capable"}
+            }
+        },
+        "smartOptions": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "smartOptions"},
+                "label": "SMART options"
+            },
+            "bindings": {
+                "enabled": {"<-": "!@smart.disabled && @smart.checked"},
+                "value": {"<->": "@owner.object.smart_options"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Disk">
+        <div data-montage-id="inspector">
+            <div data-montage-id="name"></div>
+            <div data-montage-id="description"></div>
+            <div data-montage-id="size"></div>
+            <div data-montage-id="diskDescription"></div>
+            <div data-montage-id="serial"></div>
+            <div data-montage-id="empty"></div>
+            <div data-montage-id="allocation"></div>
+            <div data-montage-id="standbyMode"></div>
+            <div data-montage-id="powerManagementMode"></div>
+            <div data-montage-id="acousticLevel"></div>
+            <div data-montage-id="smart"></div>
+            <div data-montage-id="smartOptions"></div>
+        </div>
+    </div>
+</body>
+</html>

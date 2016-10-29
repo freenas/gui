@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="volume.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "validationController": {"@": "validationController"},
+                "inspector": {"@":"inspector"}
+            },
+            "bindings": {
+                "directoryShares": {"<-": "@owner.shares.filter{(target_type == 'DIRECTORY' || target_type == 'FILE') && (target_path.indexOf('/mnt/' + @owner.object.id + '/') == 0 || target_path == '/mnt/' + @owner.object.id)}"},
+                "datasetShares": {"<-": "@owner.shares.filter{(target_type == 'DATASET' || target_type == 'ZVOL') && (target_path.indexOf(@owner.object.id + '/') == 0 || target_path == @owner.object.id)}"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
+        },
+
+        "bytesConverter": {
+            "prototype": "montage/core/converter/bytes-converter"
+        },
+
+        "size": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "size"},
+                "converter": {"@": "bytesConverter"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object._properties.size.parsed"}
+            }
+        },
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
+            }
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "validationController": {"@": "validationController"},
+                "canDelete": true,
+                "controller": {"@": "owner"}
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"},
+                "isConfirmationVisible": {"<-": "@owner.isConfirmationVisible"}
+            }
+        },
+        "shares": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "shares"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.datasetShares.concat(@owner.directoryShares)"},
+                "objectType": {"<-": "@owner.shareType"}
+            }
+        },
+        "snapshots": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "snapshots"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.snapshots.filter{volume == @owner.object.id}"},
+                "objectType": {"<-": "@owner.snapshotType"}
+            }
+        },
+        "topology": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "topology"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.topology"}
+            }
+        },
+        "datasets": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "datasets"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.datasets.filter{volume == @owner.object.id}"},
+                "objectType": {"<-": "@owner.datasetType"}
+            }
+        },
+        "volumeIcon": {
+            "prototype": "ui/icons/volume.reel",
+            "properties": {
+                "element": {"#": "volumeIcon"}
+            }
+        },
+        "allocationBar": {
+            "prototype": "ui/controls/allocation-bar.reel",
+            "properties": {
+                "element": {"#": "allocationBar"}
+            },
+            "bindings": {
+                "totalSize": {"<-": "@owner.object._properties.size.parsed"},
+                "usedSize": {"<-": "@owner.object._properties.allocated.parsed"},
+                "available": {"<-": "@owner.object._properties.free.parsed"}
+            }
+        },
+        "scrub": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "scrub"},
+                "value": "Scrub"
+            }
+        },
+        "export": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "export"},
+                "value": "Detach"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Volume">
+        <div class="Volume-header">
+            <div data-montage-id="volumeIcon" class="Volume-header-icon"></div>
+            <div class="Volume-header-info">
+                <div data-montage-id="size" class="Volume-header-diskSize"></div>
+                <small class="flush-bottom">Size</small>
+            </div>
+        </div>
+        <div data-montage-id="allocationBar" class="Volume-allocationBar"></div>
+        <div data-montage-id="inspector">
+            <div data-montage-id="shares" class="g-negative-margin-top"></div>
+            <div data-montage-id="snapshots"></div>
+            <div data-montage-id="topology"></div>
+            <div data-montage-id="datasets"></div>
+            <div data-arg="footer-additional-button" class="ActionButtons">
+                <div data-montage-id="export"></div>
+                <div data-montage-id="scrub"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

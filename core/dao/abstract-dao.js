@@ -31,7 +31,7 @@ exports.AbstractDao = Montage.specialize({
     getEmptyList: {
         value: function() {
             this._checkModelIsInitialized();
-            return this._dataService.getEmptyCollectionForType(this._model);
+            return Promise.resolve(this._dataService.getEmptyCollectionForType(this._model));
         }
     },
 

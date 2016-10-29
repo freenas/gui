@@ -2,8 +2,8 @@
     "root": {
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
-            "inspectorComponentModule": {"%": "ui/inspectors/disk.reel"},
-            "collectionInspectorComponentModule": {"%": "ui/inspectors/available-disks.reel"},
+            "inspectorComponentModule": {"%": "ui/sections/storage/inspectors/disk.reel"},
+            "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "collectionNameExpression": "'Available disks'",
             "nameExpression": "path",
             "nameExpression": "path"

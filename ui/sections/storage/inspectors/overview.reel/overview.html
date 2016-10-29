@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="overview.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "scrollView": {
+            "prototype": "blue-shark/ui/scrollview.reel",
+            "properties": {
+                "element": {"#": "scrollView"},
+                "overflow": "scrollY"
+            }
+        },
+        "volumesSectionTitle": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+            "properties": {
+                "element": {"#": "volumesSectionTitle"},
+                "value": "Attached volumes"
+            }
+        },
+        "volumes": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "volumes"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.object.volumes.filter{properties}"}
+            }
+        },
+        "volume": {
+            "prototype": "./volume-overview-item.reel",
+            "properties": {
+                "element": {"#": "volume"}
+            },
+            "bindings": {
+                "object": {"<-": "@volumes:iteration.object"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Overview">
+        <div data-montage-id="scrollView">
+            <div>
+                <div class="Overview-content">
+                    <div data-montage-id="volumesSectionTitle"></div>
+                    <div data-montage-id="volumes">
+                        <div data-montage-id="volume"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

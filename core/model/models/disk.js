@@ -214,10 +214,10 @@ exports.Disk = Montage.specialize({
     userInterfaceDescriptor: {
         value: {
             inspectorComponentModule: {
-                id: 'ui/inspectors/disk.reel'
+                id: 'ui/sections/storage/inspectors/disk.reel'
             },
             collectionInspectorComponentModule: {
-                id: 'ui/inspectors/available-disks.reel'
+                id: 'ui/controls/viewer.reel'
             },
             collectionNameExpression: "'Available disks'",
             nameExpression: "path"

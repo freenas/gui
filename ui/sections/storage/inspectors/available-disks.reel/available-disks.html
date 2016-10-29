@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="available-disks.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "hdds": {"<-": "@owner.disks.filter{status.defined() && !status.is_ssd}.sorted{name}"},
+                "ssds": {"<-": "@owner.disks.filter{status.defined() && status.is_ssd}.sorted{name}"},
+                "selectedHdd": {"<->": "@hddsCategory.selectedDisk.0"},
+                "selectedSsd": {"<->": "@ssdsCategory.selectedDisk.0"}
+            }
+        },
+        "hddsCategory": {
+            "prototype": "./disks-category.reel",
+            "properties": {
+                "element": {"#": "hddsCategory"},
+                "title": "Hard Drives",
+                "icon": "ui/icons/disk.reel",
+                "identifier": "HDDS"
+            },
+            "bindings": {
+                "disks": {"<-": "@owner.hdds"},
+                "classList.has('is-hidden_')": {"<-": "@owner.hdds.length == 0"},
+                "topology": {"<-": "@owner.topology"}
+            }
+        },
+        "ssdsCategory": {
+            "prototype": "./disks-category.reel",
+            "properties": {
+                "element": {"#": "ssdsCategory"},
+                "title": "Solid State Drives",
+                "icon": "ui/icons/disk.reel",
+                "identifier": "SSDS"
+            },
+            "bindings": {
+                "disks": {"<-": "@owner.ssds"},
+                "classList.has('is-hidden_')": {"<-": "@owner.ssds.length == 0"},
+                "topology": {"<-": "@owner.topology"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="AvailableDisks">
+        <div class="AvailableDisks-header">
+            <p>Drag disks to areas on the left</p>
+        </div>
+        <div data-montage-id="hddsCategory" class="AvailableDisks-category"></div>
+        <div data-montage-id="ssdsCategory" class="AvailableDisks-category"></div>
+    </div>
+</body>
+</html>

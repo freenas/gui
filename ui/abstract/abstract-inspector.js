@@ -1,9 +1,34 @@
 var AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate;
 
 var AbstractInspector = exports.AbstractInspector = AbstractComponentActionDelegate.specialize({
+    _selectedObject: {
+        value: null
+    },
+
+    selectedObject: {
+        get: function() {
+            return this._selectedObject;
+        },
+        set: function(selectedObject) {
+            if (this._selectedObject !== selectedObject) {
+                this._selectedObject = selectedObject
+                if (this.context && this.context.cascadingListItem) {
+                    this.context.cascadingListItem.selectedObject = selectedObject;
+                }
+            }
+        }
+    },
+
+    __sectionService: {
+        value: null
+    },
+
     _sectionService: {
         get: function() {
-            return this.application.sectionService;
+            if (!this.__sectionService) {
+                this.__sectionService = this.application.sectionService;
+            }
+            return this.__sectionService;
         }
     },
 
@@ -36,7 +61,9 @@ var AbstractInspector = exports.AbstractInspector = AbstractComponentActionDeleg
 
     _reloadValidationController: {
         value: function() {
-            this.validationController.load(this);
+            if (this.context && this.context.object) {
+                this.validationController.load(this);
+            }
         }
     }
 }, {

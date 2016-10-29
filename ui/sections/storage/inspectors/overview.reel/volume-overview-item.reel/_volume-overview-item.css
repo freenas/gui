@@ -1,0 +1,65 @@
+.VolumeOverviewItem {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.VolumeOverviewItem-overview {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.VolumeOverviewItem-details {
+    display: none;
+    padding-left: 2em;
+
+    @nest .VolumeOverviewItem.is-expanded & {
+        display: block;
+    }
+}
+
+.VolumeOverviewItem-toggle {
+    cursor: pointer;
+    & svg {
+        height: 1rem;
+        width:  1rem;
+    }
+
+    @nest .VolumeOverviewItem.is-expanded & svg {
+        transform: rotate(180deg);
+    }
+}
+
+.VolumeOverviewItem-name {
+    width: 10em;
+    padding-left: 1.25rem;
+}
+
+.VolumeOverviewItem-size {
+    flex: 1;
+    text-align: right;
+    margin-right: 1em;
+
+    @nest .VolumeOverviewItem.is-expanded & {
+        visibility: hidden;
+    }
+}
+
+.VolumeOverviewItem-status {
+    position: absolute;
+    font-size: .5em;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0;
+    padding: 0;
+}
+
+.VolumeOverviewItem-details .Field {
+    margin-bottom: inherit;
+}
+
+.VolumeOverviewItem-status .TrafficLight-legend {
+    display: none;
+}
+

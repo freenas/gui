@@ -56,9 +56,9 @@
     "generate-events": "node ./tools/cli/generate-events.js -t ./core/model",
     "build": "node ./tools/build.js",
     "warnings": "node ./tools/cli/generate.js descriptors -w --no-save",
+    "create-inspector": "minit create:component --extends-name AbstractInspector --extends-module-id ui/abstract/abstract-inspector -n",
     "create-dao": "minit create:module --extends-name AbstractDao --extends-module-id core/dao/abstract-dao -d core/dao -n",
     "create-repository": "minit create:module --extends-name AbstractRepository --extends-module-id core/repository/abstract-repository -d core/repository -n",
     "create-section-service": "minit create:module --extends-name AbstractSectionService --extends-module-id core/service/section/abstract-section-service -d core/service/section -n"
-
   }
 }

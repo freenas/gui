@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="volume-overview-item.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('is-expanded')": {"<-": "@owner.isExpanded"}
+            },
+            "listeners": [
+                {
+                    "listener": {"@": "owner"},
+                    "type": "action"
+                }
+            ]
+        },
+        "bytesConverter": {
+            "prototype": "montage/core/converter/bytes-converter"
+        },
+        "name": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "name"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.path(@owner.object.Type.constructor.userInterfaceDescriptor.nameExpression)"}
+            }
+        },
+        "size": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "size"},
+                "converter": {"@": "bytesConverter"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object._properties.size.parsed"}
+            }
+        },
+        "totalDetail": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "totalDetail"},
+                "converter": {"@": "bytesConverter"},
+                "label": "Total"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object._properties.size.parsed"}
+            }
+        },
+        "usedDetail": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "usedDetail"},
+                "converter": {"@": "bytesConverter"},
+                "label": "Used"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object._properties.allocated.parsed"}
+            }
+        },
+        "availableDetail": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "availableDetail"},
+                "converter": {"@": "bytesConverter"},
+                "label": "Free"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object._properties.free.parsed"}
+            }
+        },
+        "status": {
+            "prototype": "ui/controls/traffic-light.reel",
+            "properties": {
+                "element": {"#": "status"}
+            },
+            "bindings": {
+                "colorMapping": {"<-": "@owner.userInterfaceDescriptor.statusColorMapping"},
+                "value": {"<-": "@owner.object.path(@owner.userInterfaceDescriptor.statusValueExpression)"}
+            }
+        },
+        "toggle": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "toggle"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="VolumeOverviewItem">
+        <div class="VolumeOverviewItem-overview">
+            <div data-montage-id="status" class="VolumeOverviewItem-status"></div>
+            <div data-montage-id="name" class="VolumeOverviewItem-name"></div>
+            <div data-montage-id="size" class="VolumeOverviewItem-size"></div>
+            <div data-montage-id="toggle" class="VolumeOverviewItem-toggle">
+                <svg><use xlink:href="#i-triangle-down"/></svg>
+            </div>
+        </div>
+        <div class="VolumeOverviewItem-details">
+            <div data-montage-id="totalDetail"></div>
+            <div data-montage-id="usedDetail"></div>
+            <div data-montage-id="availableDetail"></div>
+        </div>
+    </div>
+</body>
+</html>
+

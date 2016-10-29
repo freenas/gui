@@ -133,7 +133,8 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
                 this.addRangeAtPathChangeListener("children", this, "handleChildrenChange");
                 this.addPathChangeListener("object.isExistingVDev", this, "handleIsExistingVDevChange");
                 this.addRangeAtPathChangeListener("object.type", this, "_handleObjectTypeChange");
-                this.addRangeAtPathChangeListener("selectedDisk", this, "_handleSelectedDiskChange");
+                this.addPathChangeListener("selectedDisk", this, "_handleSelectedDiskChange");
+                this.addPathChangeListener("topologyItem.selectedDisk", this, "_handleSelectedDiskChange");
             }
 
             this._populateDiskWithinVDevIfNeeded();
@@ -183,9 +184,13 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
     },
 
     _handleSelectedDiskChange: {
-        value: function() {
-            if (this.selectedDisk && this.selectedDisk.length == 1 && this.topologyItem) {
-                this.topologyItem.selectedDisk = this.selectedDisk;
+        value: function(value, source) {
+            if (this.topologyItem && this.topologyItem.selectedDisk !== this.selectedDisk) {
+                if (source === 'selectedDisk' && value) {
+                    this.topologyItem.selectedDisk = this.selectedDisk;
+                } else {
+                    this.selectedDisk = null;
+                }
             }
         }
     },

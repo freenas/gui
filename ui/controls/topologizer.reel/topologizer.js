@@ -7,10 +7,6 @@ var Component = require("montage/ui/component").Component,
  */
 exports.Topologizer = Component.specialize({
 
-    _topologyService: {
-        value: null
-    },
-
     priorities: {
         value: []
     },
@@ -78,7 +74,6 @@ exports.Topologizer = Component.specialize({
     enterDocument: {
         value: function(isFirstTime) {
             if (isFirstTime) {
-                this._topologyService = this.application.topologyService;
 
                 if (!this.constructor.cssTransform) {// check for transform support
                     if("webkitTransform" in this._element.style) {
@@ -205,6 +200,7 @@ exports.Topologizer = Component.specialize({
             this._translateComposer.addEventListener("translate", this, false);
             this._translateComposer.addEventListener("translateEnd", this, false);
 
+            this.controller.clearReservedDisks();
             this.profile = "";
             this.needsDraw = true;
 
@@ -222,9 +218,11 @@ exports.Topologizer = Component.specialize({
     },
 
     handleTranslateEnd: {
-        value: function () {
+        value: function (event) {
             this._isMoving = false;
 
+            this.needsDraw = true;
+            
             this._translateComposer.removeEventListener("translate", this, false);
             this._translateComposer.removeEventListener("translateEnd", this, false);
         }
@@ -241,33 +239,39 @@ exports.Topologizer = Component.specialize({
 
     draw: {
         value: function () {
-            if (this._targePosition && (this._isMoving || this.profileHasChanged)) {
-                //fixme: @joshua hacky
-                if (!this.handleElement.style.left) {
-                    this.handleElement.style.left = "0px";
-                    this.handleElement.style.top = "0px";
-                }
+            if (this._targePosition) {
+                if (this._isMoving || this.profileHasChanged) {
+                    //fixme: @joshua hacky
+                    if (!this.handleElement.style.left) {
+                        this.handleElement.style.left = "0px";
+                        this.handleElement.style.top = "0px";
+                    }
 
-                this.profileHasChanged = false;
-                this.handlePosition = this._targePosition;
-                this._positionHandle();
+                    this.profileHasChanged = false;
+                    this.handlePosition = this._targePosition;
+                    this._positionHandle();
+                } 
+                if (!this._isMoving) {
+                    var previousBarycentricValues = this._previousBarycentricValues,
+                        barycentricValues = this.barycentricValues;
+
+                    if (!previousBarycentricValues || 
+                        !this._areBarycentricValuesEqual(previousBarycentricValues, barycentricValues)) {
+                            var self = this;
+                            this.controller.generateTopology(
+                                this.topology, 
+                                this.disks, 
+                                barycentricValues[0], 
+                                barycentricValues[1], 
+                                barycentricValues[2]
+                            ).then(function(priorities) {
+                                self.priorities = priorities;
+                            });
+                        }
+
+                    this._previousBarycentricValues = barycentricValues;
+                }
                 
-                var previousBarycentricValues = this._previousBarycentricValues,
-                    barycentricValues = this.barycentricValues;
-
-                if (!previousBarycentricValues || 
-                    !this._areBarycentricValuesEqual(previousBarycentricValues, barycentricValues)) {
-                    //this.priorities?
-                    this.priorities = this._topologyService.generateTopology(
-                        this.topology, 
-                        this.disks, 
-                        barycentricValues[0], 
-                        barycentricValues[1], 
-                        barycentricValues[2]
-                    );
-                }
-
-                this._previousBarycentricValues = barycentricValues;
             }
         }
     },
