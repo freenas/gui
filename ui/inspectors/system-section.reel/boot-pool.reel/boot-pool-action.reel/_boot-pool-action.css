@@ -1,14 +1,51 @@
 .BootPoolAction {
-    display: flex;
-    flex-wrap: wrap;
-    width: 11em;
-    margin-bottom: -.25em;
+    /* display: flex; */
+    /* flex-wrap: wrap; */
+    /* width: 15em; */
+/*     margin-bottom: -.25em;
     margin-right: -.25em;
-    justify-content: space-between;
+    justify-content: space-between; */
+
+    &.actions-state-1 {
+
+        & .BootPoolAction-delete,
+        & .BootPoolAction-keep,
+        & .BootPoolAction-activate,
+        & .BootPoolAction-clone {
+            display: inline-block;
+        }
+    }
+
+    &.actions-state-2 {
+
+        & .BootPoolAction-delete,
+        & .BootPoolAction-keep,
+        & .BootPoolAction-clone {
+            display: inline-block;
+        }
+    }
+
+    &.actions-state-3 {
+
+        & .BootPoolAction-keep,
+        & .BootPoolAction-clone {
+            display: inline-block;
+        }
+    }
 }
 
+.BootPoolAction .BootPoolAction-delete,
+.BootPoolAction .BootPoolAction-keep,
+.BootPoolAction .BootPoolAction-activate,
+.BootPoolAction .BootPoolAction-clone {
+    display: none;
+}
+
+
+
 .BootPoolAction > * {
-    flex: 1;
-    margin-bottom: .25em !important;
-    margin-right: .25em !important;
+    /* flex: 1; */
+    /* margin-bottom: .25em !important; */
+    display: inline-block;
+    /* margin-right: .25em !important; */
 }
