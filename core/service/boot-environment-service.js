@@ -90,15 +90,8 @@ var BootEnvironmentService = exports.BootEnvironmentService = Montage.specialize
         }
     },
 
-    persistBootEnvironmentRenaming: {
+    saveBootEnvironment: {
         value: function(bootEnvironment) {
-            return this._dataService.saveDataObject(bootEnvironment);
-        }
-    },
-
-    toggleKeepBootEnvironment: {
-        value: function(bootEnvironment) {
-            bootEnvironment.keep = !bootEnvironment.keep;
             return this._dataService.saveDataObject(bootEnvironment);
         }
     },
