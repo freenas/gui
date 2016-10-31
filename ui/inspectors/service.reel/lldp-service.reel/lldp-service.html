@@ -9,12 +9,46 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "enable": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "enable"},
+                "label": "Interface Description"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.enable"}
+            }
+        },
+        "location": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "location"},
+                "label": "location"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.location"}
+            }
+        },
+
+        "country_code": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "country_code"},
+                "label": "Country Code"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.country_code"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="LldpService">
+        <div data-montage-id="enable"></div>
+        <div data-montage-id="location"></div>
+        <div data-montage-id="country_code"></div>
     </div>
 </body>
 </html>
