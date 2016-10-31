@@ -33,7 +33,8 @@ exports.Services = Component.specialize({
                             'smartd',
                             'dyndns',
                             'snmp',
-                            'lldp'
+                            'lldp',
+                            'ups'
                         ]),
                         self._getServicesCategory('File Transfer', services, [
                             'ftp',
