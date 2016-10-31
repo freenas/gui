@@ -73,7 +73,9 @@ exports.TreeView = AbstractComponentActionDelegate.specialize({
 
     _handleEntryChange: {
         value: function(value) {
-            this.selectedNode = value.path;
+            if (value) {
+                this.selectedNode = value.path;
+            }
         }
     },
 
