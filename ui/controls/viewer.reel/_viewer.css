@@ -97,3 +97,18 @@
     cursor: default;
     color: white;
 }
+
+/* Empty State */
+.Viewer-emptyState {
+    text-align: center;
+    background-color: rgba(47, 50, 51, 1);
+    @nest .Viewer.has-items & {
+        display: none;
+    }
+}
+
+.Viewer-emptyMessage {
+    display: inline-block;
+    max-width: 15em;
+    padding: 1em 1em;
+}

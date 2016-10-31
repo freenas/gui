@@ -4,7 +4,6 @@
     position: relative;
     font-family: 'lato';
     border-right: 1px solid rgba(255,255,255,.15);
-    /* flex-basis: 16em; */
 }
 
 .CascadingListItem-title {
@@ -19,6 +18,7 @@
     background-color: #0F1213;
     text-shadow: 0 1px rgba(0,0,0,.2);
     font-weight: 400;
+    border-bottom: 1px solid #2F3233;
 }
 
 .CascadingListItem-content {
@@ -35,9 +35,3 @@
         min-width: 16em;
     }
 }
-
-
-/* sets up scrolling only on inspectors */
-/* .CascadingListItem-content.Inspector-scroll {
-    overflow: hidden;
-} */
