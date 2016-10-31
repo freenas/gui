@@ -61,7 +61,8 @@
                 "element": {"#": "title"}
             },
             "bindings": {
-                "value": {"<-": "!!@owner.title ? @owner.title : @owner.object._meta_data.collectionModelType.constructor.userInterfaceDescriptor.collectionNameExpression.slice(1,-1)"}
+                "value": {"<-": "!!@owner.title ? @owner.title : @owner.object._meta_data.collectionModelType.constructor.userInterfaceDescriptor.collectionNameExpression.slice(1,-1)"},
+                "classList.has('is-hidden')": {"<-": "!value.length"}
             }
         },
         "headerCondition": {
