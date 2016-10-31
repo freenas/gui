@@ -6,13 +6,6 @@
         cursor: grab;
     }
 
-    @nest .Sideboard & {
-        margin-left:    0;
-        margin-right:   0;
-        margin-top:     0;
-        width: 100%;
-        max-width: 100%;
-    }
 
     &.isDragging {
         opacity: .75;
@@ -42,7 +35,11 @@
     }
 
     @nest .Sideboard & {
+        margin-left:    0;
+        margin-right:   0;
+        margin-top:     0;
         width: 100%;
+        max-width: 100%;
     }
 }
 
