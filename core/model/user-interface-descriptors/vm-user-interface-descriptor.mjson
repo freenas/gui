@@ -6,7 +6,6 @@
             "collectionNameExpression": "'Virtual Machines'",
             "inspectorComponentModule": {"%": "ui/sections/vms/inspectors/virtual-machine.reel"},
             "creatorComponentModule": {"%": "ui/sections/vms/inspectors/virtual-machine.reel"},
-            "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "nameExpression": "_isNew.defined() && _isNew ? 'New VM' : name",
             "statusColorMapping": {
                 "RUNNING": "green",
