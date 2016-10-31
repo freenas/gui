@@ -73,6 +73,15 @@
             "bindings": {
                 "condition": {"<-": "@owner.displayTitle"}
             }
+        },
+        "emptyMessage": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "emptyMessage"}
+            },
+            "bindings": {
+                "value": {"<-": "!!@owner.emptyMessage ? @owner.emptyMessage : 'There are currently no items in ' + @title.value"}
+            }
         }
     }
     </script>
@@ -84,6 +93,9 @@
         </div>
         <div data-montage-id="scrollView">
             <div class="content">
+                <div class="Viewer-emptyState">
+                    <div data-montage-id="emptyMessage" class="Viewer-emptyMessage"></div>
+                </div>
                 <div data-montage-id="list" class="Viewer-list"></div>
             </div>
             <div class="Viewer-footer">
