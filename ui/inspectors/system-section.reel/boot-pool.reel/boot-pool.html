@@ -63,41 +63,51 @@
                 "value": "Scrub Now"
             }
         },
-        "controller": {
-            "prototype": "montage/core/range-controller",
-            "bindings": {
-                "content": {"<-": "@owner.bootEnvironments"}
-            }
-        },
         "bootEnvironmentTable": {
-            "prototype": "ui/controls/table.reel",
+            "prototype": "blue-shark/ui/tables/table-editable.reel",
             "properties": {
                 "element": {"#": "bootEnvironmentTable"},
-                "dataController": {"@": "controller"},
+                "label": "Boot Environments",
                 "columns": [
                     {
-                        "label": "Name",
-                        "expression": "id",
-                        "componentModuleId": "blue-shark/ui/text-field.reel"
+                        "value": "Name"
                     },
                     {
-                        "label": "Active",
-                        "expression": "(active ? 'Current' : 'Inactive') + (onReboot ? ', Next Reboot' : '')"
+                        "value": "Active"
                     },
                     {
-                        "label": "Space Used",
-                        "expression": "space",
-                        "componentModuleId": "ui/inspectors/system-section.reel/boot-pool.reel/size-cell.reel"
+                        "value": "Space Used"
                     },
                     {
-                        "label": "Date Created",
-                        "expression": "created['$date']"
+                        "value": "Date Created"
                     },
                     {
-                        "label": "Actions",
-                        "componentModuleId": "ui/inspectors/system-section.reel/boot-pool.reel/boot-pool-action.reel"
+                        "value": "Keep"
                     }
                 ]
+            },
+            "bindings": {
+                "rows": {"<-": "@owner.bootEnvironments"}
+            }
+        },
+
+        "rowEntry": {
+            "prototype": "./boot-environment-row.reel",
+            "properties": {
+                "element": {"#": "rowEntry"}
+            },
+            "bindings": {
+                "object": {"<-": "@bootEnvironmentTable:rowIteration.object.object"}
+            }
+        },
+
+        "actions": {
+            "prototype": "./boot-pool-action.reel",
+            "properties": {
+                "element": {"#": "actions"}
+            },
+            "bindings": {
+                "selectedRows": {"<-": "@bootEnvironmentTable.selectedRows"}
             }
         }
     }
@@ -109,10 +119,14 @@
         <div data-montage-id="bootVolumeUsed"></div>
         <div data-montage-id="bootVolumeCapacityUsed"></div>
         <div data-montage-id="bootVolumeCondition"></div>
-        <p class="hide">
-            <div data-montage-id="bootVolumeScrub" class="hide"></div>
-        </p>
-        <div data-montage-id="bootEnvironmentTable"></div>
+        <p class="hide"><div data-montage-id="bootVolumeScrub" class="hide"></div></p>
+        <div data-montage-id="bootEnvironmentTable" class="BootPool-table">
+            <div data-arg="table-editable-header-toolbar">
+                <div data-montage-id="actions"></div>
+            </div>
+            <div data-arg="row-new" data-montage-id="newEntry"></div>
+            <div data-arg="row-entry" data-montage-id="rowEntry"></div>
+        </div>
     </div>
 </body>
 </html>

@@ -50,6 +50,22 @@ exports.BootPool = Component.specialize(/** @lends BootPool# */ {
         }
     },
 
+    handleDeleteAction: {
+        value: function () {
+            return this._performAction( this.bootEnvironmentTable.selectedRows,
+                                        this._bootEnvironmentService.delete,
+                                        this._bootEnvironmentService);
+        }
+    },
+
+    handleActivateAction: {
+        value: function () {
+            this._performAction(this.bootEnvironmentTable.selectedRows,
+                                this._bootEnvironmentService.activateBootEnvironment,
+                                this._bootEnvironmentService);
+        }
+    },
+
     handleCustomTableCellLoaded: {
         value: function (event) {
             var detail = event.detail,
@@ -62,85 +78,57 @@ exports.BootPool = Component.specialize(/** @lends BootPool# */ {
         }
     },
 
-    handleDeleteAction: {
-        value: function (event) {
-            var bootEnvironment = this._findBootEnvironmentFromActionEvent(event);
-
-            if (this._bootEnvironmentService.canDeleteBootEnvironment(bootEnvironment)) {
-                return this._performAction(
-                    event,
-                    this._bootEnvironmentService.delete(bootEnvironment)
-                );
-            }
-        }
-    },
-
-    handleActivateAction: {
-        value: function (event) {
-            var nextBootEnvironment = this._findBootEnvironmentFromActionEvent(event);
-
-            if (this._bootEnvironmentService.canActivateBootEnvironment(nextBootEnvironment)) {
-                return this._performAction(
-                    event,
-                    this._bootEnvironmentService.activateBootEnvironment(nextBootEnvironment)
-                );
-            }
-        }
-    },
-
-    handleRenameAction: {
-        value: function (event) {
-            var bootEnvironment = this._findBootEnvironmentFromActionEvent(event);
-
-            if (bootEnvironment) {
-                return this._performAction(
-                    event,
-                    this._bootEnvironmentService.persistBootEnvironmentRenaming(bootEnvironment)
-                );
-            }
-        }
-    },
-
     handleCloneAction: {
-        value: function (event) {
-            var bootEnvironment = this._findBootEnvironmentFromActionEvent(event);
-
-            if (bootEnvironment) {
-                return this._performAction(
-                    event,
-                    this._bootEnvironmentService.cloneBootEnvironment(bootEnvironment)
-                );
-            }
+        value: function () {
+            this._performAction(this.bootEnvironmentTable.selectedRows,
+                                this._bootEnvironmentService.cloneBootEnvironment,
+                                this._bootEnvironmentService);
         }
     },
 
     handleKeepAction: {
-        value: function (event) {
-            var bootEnvironment = this._findBootEnvironmentFromActionEvent(event);
+        value: function (arr) {
+            this._performAction(arr,
+                                this._bootEnvironmentService.saveBootEnvironment,
+                                this._bootEnvironmentService);
+        }
+    },
 
-            if (bootEnvironment) {
-                return this._performAction(
-                    event,
-                    this._bootEnvironmentService.toggleKeepBootEnvironment(bootEnvironment)
-                );
+    handleAction: {
+        value: function (event) {
+
+            if(event.detail && event.detail.get('eventName') == 'textValueChanged') {
+                var bootEnvironment = this._findBootEnvironmentFromActionEvent(event);
+                this._performAction([bootEnvironment],
+                                this._bootEnvironmentService.saveBootEnvironment,
+                                this._bootEnvironmentService);
             }
+
+            if(event.target.ownerComponent.identifier == "keep") {
+                var bootEnvironment = this._findBootEnvironmentFromActionEvent(event);
+                this.handleKeepAction([bootEnvironment]);
+            }
+
         }
     },
 
     _performAction: {
-        value: function (actionEvent, promise) {
-            var bootEnvironmentRow = this._findBootEnvironmentRowComponentWithElement(actionEvent.target.element);
+        value: function (selectedRows, action, context) {
 
-            if (bootEnvironmentRow) {
-                var className = this.constructor.ROW_PENDING_ACTION_CLASS_NAME;
-                bootEnvironmentRow.classList.add(className);
+            if (selectedRows.length) {
+                var promises = [];
+                for (i = 0; i < selectedRows.length; i++) {
+                    selectedRows[i].object.isProcessing = true;
+                    promises.push(action.call(context, selectedRows[i].object));
+                }
 
-                promise.finally(function () {
-                    bootEnvironmentRow.classList.remove(className);
+                Promise.all(promises).then(function(response){
+                    for (i = 0; i < selectedRows.length; i++) {
+                        selectedRows[i].object.isProcessing = false;
+                    }
                 });
             }
 
-            return promise;
         }
     },
 
@@ -166,10 +154,6 @@ exports.BootPool = Component.specialize(/** @lends BootPool# */ {
 
     REAL_NAME_COMPONENT_MODULE_ID: {
         value: "blue-shark/ui/text-field.reel"
-    },
-
-    ROW_PENDING_ACTION_CLASS_NAME: {
-        value: "is-pending"
     }
 
 });
