@@ -196,6 +196,22 @@
                 "disabled": {"<-": "@owner.object.settings.config.dhcp.assign_dns"},
                 "placeholder": {"<-": "!@owner.object.settings.config.dhcp.assign_dns ? 'eg. 1.2.3.4' : ''"}
             }
+        },
+        "static_route_settings": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "static_route_settings"},
+                "title": "Static Routes"
+            }
+        },
+        "routes": {
+            "prototype": "ui/sections/network/controls/table-routes.reel",
+            "properties": {
+                "element": {"#": "routes"}
+            },
+            "bindings": {
+                "values": {"<-": "@owner.routes"}
+            }
         }
     }
     </script>
@@ -220,6 +236,11 @@
             <div data-montage-id="netwait_settings">
                 <div data-montage-id="netwait_enabled"></div>
                 <div data-montage-id="netwait_addresses"></div>
+            </div>
+            <div data-montage-id="static_route_settings">
+                <div data-montage-id="routes">
+                    <div></div>
+                </div>
             </div>
         </div>
     </div>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="table-row-route.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+        "id": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "id"},
+                "placeholder": "e.g. local"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.id"}
+            }
+        },
+
+        "networkConverter": {
+            "prototype": "core/converter/interface-alias-converter"
+        },
+
+        "network": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "network"},
+                "placeholder": "e.g. 1.2.3.4/16",
+                "converter": {"@": "networkConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.network"}
+            }
+        },
+
+        "gateway": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "gateway"},
+                "placeholder": "e.g. 1.2.3.4"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.gateway"}
+            }
+        }
+
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="TableRowRoute Table-cells">
+        <div><div data-montage-id="id"></div></div>
+        <div><div data-montage-id="network"></div></div>
+        <div><div data-montage-id="gateway"></div></div>
+    </div>
+</body>
+</html>

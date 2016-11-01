@@ -275,7 +275,9 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                         args: [taskName, [object.persistedId]]
                     }
                 ).then(function (response) {
-                    return self._snapshotService.removeSnapshotForTypeNameAndId(type.typeName, object.id);
+                    self._snapshotService.removeSnapshotForTypeNameAndId(type.typeName, object.id);
+                    // return taskId for consistency
+                    return response.data;
                 });
             }
 
@@ -1034,6 +1036,20 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
      * @function
      * @private
      *
+     * @description clear model collection cache of a given model type.
+     *
+     */
+    _clearModelCacheForType: {
+        value: function (type) {
+            return this.modelsCache.delete(type.typeName || type);
+        }
+    },
+
+
+    /**
+     * @function
+     * @private
+     *
      * @description try to find a Model Object according to its type and its id within the models cache.
      *
      * @returns {Object.<Model>|null}
@@ -1134,6 +1150,10 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                 instance.clone = FreeNASService.prototype.clone;
                 instance._getArrayClone = FreeNASService.prototype._getArrayClone;
                 instance._isSameValue = FreeNASService.prototype._isSameValue;
+
+                // Fixme: It's not desirable to expose internal behavior, but there
+                // seems to be no way to control caching behavior at the moment.
+                instance.clearModelCacheForType = FreeNASService.prototype._clearModelCacheForType.bind(freeNASService);
 
                 DataService.mainService.addChildService(freeNASService);
                 NotificationCenterModule.defaultNotificationCenter = notificationCenter;

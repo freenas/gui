@@ -1,12 +1,14 @@
 var AbstractRepository = require("core/repository/abstract-repository").AbstractRepository,
     NetworkInterfaceDao = require("core/dao/network-interface-dao").NetworkInterfaceDao,
-    NetworkConfigDao = require("core/dao/network-config-dao").NetworkConfigDao;
+    NetworkConfigDao = require("core/dao/network-config-dao").NetworkConfigDao,
+    NetworkRouteDao = require("core/dao/network-route-dao").NetworkRouteDao;
 
 exports.NetworkRepository = AbstractRepository.specialize({
     init: {
-        value: function(networkInterfaceDao, networkConfigDao) {
+        value: function(networkInterfaceDao, networkConfigDao, networkRouteDao) {
             this._networkInterfaceDao = networkInterfaceDao || NetworkInterfaceDao.instance;
             this._networkConfigDao = networkConfigDao || NetworkConfigDao.instance;
+            this._networkRouteDao = networkRouteDao || NetworkRouteDao.instance;
         }
     },
 
@@ -19,6 +21,24 @@ exports.NetworkRepository = AbstractRepository.specialize({
     saveNetworkInterface: {
         value: function(networkInterface) {
             return this._networkInterfaceDao.save(networkInterface);
+        }
+    },
+
+    listNetworkStaticRoutes: {
+        value: function() {
+            return this._networkRouteDao.list();
+        }
+    },
+
+    saveNetworkStaticRoute: {
+        value: function(route) {
+            return this._networkRouteDao.save(route);
+        }
+    },
+
+    deleteNetworkStaticRoute: {
+        value: function(route) {
+            return this._networkRouteDao.delete(route);
         }
     },
 

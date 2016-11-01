@@ -103,6 +103,24 @@ exports.NetworkSectionService = AbstractSectionService.specialize({
         }
     },
 
+    loadStaticRoutes: {
+        value: function() {
+            return this._networkRepository.listNetworkStaticRoutes();
+        }
+    },
+
+    saveStaticRoute: {
+        value: function(route) {
+            return this._networkRepository.saveNetworkStaticRoute(route);
+        }
+    },
+
+    deleteStaticRoute: {
+        value: function(route) {
+            return this._networkRepository.deleteNetworkStaticRoute(route);
+        }
+    },   
+
     _cleanupVlanInterface: {
         value: function(interface) {
             if (typeof interface.vlan.tag !== 'number') {
