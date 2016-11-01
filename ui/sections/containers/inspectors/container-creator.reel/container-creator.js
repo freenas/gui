@@ -8,7 +8,7 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
  * @extends Component
  */
 exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCreator# */ {
-    
+
     templateDidLoad: {
         value: function () {
             var self = this,
@@ -17,7 +17,7 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
             this._environment = {};
             this._canDrawGate.setField(blockGateKey, false);
 
-            return this._sectionService.listDockerHosts().then(function (hostDockers) {                
+            return this._sectionService.listDockerHosts().then(function (hostDockers) {
                 self._hostDockers = hostDockers;
             }).finally(function () {
                 self._canDrawGate.setField(blockGateKey, true);
@@ -42,9 +42,9 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
                     self._getDefaultDockerCollectionPromise = null;
                 });
             }
-        }  
+        }
     },
-    
+
     _reset: {
         value: function () {
             if (this._environment) {
@@ -123,7 +123,7 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
     _getVariablesFromArray: {
         value: function (array) {
             return array.filter(function (entry) {
-                var shouldKeep = entry.variable && entry.value;
+                var shouldKeep = !!(entry.variable && entry.value);
 
                 if (!shouldKeep && entry.optional !== void 0 && entry.optional === true) {
                     throw new Error("missing setting");
