@@ -155,7 +155,7 @@ exports.NetworkSectionService = AbstractSectionService.specialize({
                 else if (alias.type === NetworkInterfaceAliasType.INET6 && interface._ipv6Address === null) {
                     interface._ipv6Address = alias;
                 } else {
-                    interface._otherAliases.concat(alias);
+                    interface._otherAliases.push(alias);
                 }
             }
         }
