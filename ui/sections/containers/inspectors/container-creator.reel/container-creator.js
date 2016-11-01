@@ -30,18 +30,25 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
             this.super();
             this._reset();
 
-            if (!this._getDefaultDockerCollectionPromise) {
+            if (!this._loadDataPromise) {
                 var self = this;
                 this.isLoading = true;
 
-                this._getDefaultDockerCollectionPromise = this._sectionService.getDefaultDockerCollection()
-                .then(function (defaultCollection) {
-                    self.defaultCollection = defaultCollection;
+                this._loadDataPromise = this._sectionService.getDockerSettings()
+                .then(function (dockerSettings) {
+                    self._dockerSettings = dockerSettings;
                 }).finally(function () {
                     self.isLoading = false;
-                    self._getDefaultDockerCollectionPromise = null;
+                    self._loadDataPromise = null;
                 });
             }
+        }
+    },
+
+    exitDocument: {
+        value: function () {
+            this.super();
+            self._loadDataPromise = null;
         }
     },
 
