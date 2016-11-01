@@ -23,6 +23,25 @@ exports.Container = AbstractInspector.specialize({
         }
     },
 
+    _object: {
+        value: null
+    },
+
+    object: {
+        set: function (object) {
+            if (this._object !== object) {
+                this._object = object;
+
+                if (object) {
+                    this._mapObjectEnvironments(object.environment);
+                }
+            }
+        },
+        get: function () {
+            return this._object;
+        }
+    },
+
     enterDocument: {
         value: function (isFirstTime) {
             this.super();
@@ -59,6 +78,23 @@ exports.Container = AbstractInspector.specialize({
         value: function () {
             if (this.object.web_ui_url) {
                 window.open(this.object.web_ui_url);
+            }
+        }
+    },
+
+    _mapObjectEnvironments: {
+        value: function (environments) {
+            if (environments) {
+                var data;
+
+                this.environments = environments.map(function (environment) {
+                    data = environment.match(/^(.+)=(.+)$/);
+
+                    return {
+                        variable: data[1],
+                        value: data[2]
+                    };
+                });
             }
         }
     }
