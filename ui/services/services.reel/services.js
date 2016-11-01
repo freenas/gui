@@ -22,17 +22,18 @@ exports.Services = Component.specialize({
                 self._listServices().then(function (services) {
                     return Promise.all([
                         self._getServicesCategory('Sharing', services, [
-                            'smb', 
-                            'nfs', 
+                            'smb',
+                            'nfs',
                             'afp',
                             'webdav',
                             'iscsi'
                         ]),
                         self._getServicesCategory('Management', services, [
-                            'sshd', 
-                            'smartd', 
-                            'dyndns', 
+                            'sshd',
+                            'smartd',
+                            'dyndns',
                             'snmp',
+                            'lldp'
                         ]),
                         self._getServicesCategory('File Transfer', services, [
                             'ftp',
