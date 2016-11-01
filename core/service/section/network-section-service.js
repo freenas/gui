@@ -119,7 +119,7 @@ exports.NetworkSectionService = AbstractSectionService.specialize({
         value: function(route) {
             return this._networkRepository.deleteNetworkStaticRoute(route);
         }
-    },   
+    },
 
     _cleanupVlanInterface: {
         value: function(interface) {

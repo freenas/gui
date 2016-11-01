@@ -7,4 +7,14 @@ var Component = require("montage/ui/component").Component;
  * @class TableRowRoute
  * @extends Component
  */
-exports.TableRowRoute = Component.specialize();
+exports.TableRowRoute = Component.specialize({
+    constructor: {
+        value: function() {
+        }
+    },
+
+    enterDocument: {
+        value: function() {
+        }
+    }
+});

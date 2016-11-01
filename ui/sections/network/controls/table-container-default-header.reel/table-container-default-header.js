@@ -23,9 +23,6 @@ exports.TableContainerDefaultHeader = Component.specialize(/** @lends TableConta
 
     handleDeleteButtonAction: {
         value: function () {
-            this.table.selectedRows.forEach(function(row) {
-                row.object.status = 'd';
-            });
             this.table.deleteSelectedRows();
         }
     }

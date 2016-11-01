@@ -44,10 +44,12 @@
         "newEntry": {
             "prototype": "./table-row-route.reel",
             "properties": {
-                "element": {"#": "newEntry"}
+                "element": {"#": "newEntry"},
+                "disableId": false
             },
             "bindings": {
-                "object": {"<-": "@table.currentNewEntry.object"}
+                "object": {"<-": "@table.currentNewEntry.object"},
+                "object.disableId": {"<-": "false"}
             }
         },
 
@@ -57,7 +59,8 @@
                 "element": {"#": "entry"}
             },
             "bindings": {
-                "object": {"<-": "@table:rowIteration.object.object"}
+                "object": {"<-": "@table:rowIteration.object.object"},
+                "object.disableId": {"<-": "true"}
             }
         }
     }
