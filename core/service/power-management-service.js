@@ -17,6 +17,14 @@ var PowerManagementService = exports.PowerManagementService = Montage.specialize
                 return ServiceUps.constructor.services.drivers();
             });
         }
+    },
+
+    listUsbDevices: {
+        value: function () {
+            return Model.populateObjectPrototypeForType(Model.ServiceUps).then(function (ServiceUps) {
+                return ServiceUps.constructor.services.getUsbDevices();
+            })
+        }
     }
 }, {
     instance: {
