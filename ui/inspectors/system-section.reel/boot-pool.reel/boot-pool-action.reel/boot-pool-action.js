@@ -21,7 +21,7 @@ exports.BootPoolAction = Component.specialize({
         value: function (plus,minus,x) {
             if (this.selectedRows.length) {
                 var length = this.selectedRows.length;
-                if (!this._checkForActivePool(this.selectedRows)) {
+                if (!this._checkOnRebootPool(this.selectedRows)) {
                     if (length == 1) {
                         this.classList.remove('actions-state-2');
                         this.classList.remove('actions-state-3');
@@ -44,10 +44,10 @@ exports.BootPoolAction = Component.specialize({
         }
     },
 
-    _checkForActivePool: {
+    _checkOnRebootPool: {
         value: function (selectedRows) {
             return selectedRows.some(function(row){
-                return row.object.active == true;
+                return row.object.onReboot == true;
             });
         }
     }
