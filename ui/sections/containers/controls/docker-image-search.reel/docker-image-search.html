@@ -10,10 +10,10 @@
                 "imageComponent": {"@": "image"}
             },
             "bindings": {
-                "currentPreset": {"<-": "@owner._templates.filter{name == @image.selectedValue}.one().presets"}
+                "selectedValue": {"<-": "@image.selectedRow"}
             }
         },
-        
+
         "collection": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
@@ -25,15 +25,37 @@
             }
         },
 
-        "image": {
-            "prototype": "blue-shark/ui/field-select.reel",
+        "searching": {
+            "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "image"},
-                "label": "Image"
+                "element": {"#": "searching"},
+                "value": "searching"
             },
             "bindings": {
-                "disabled": {"<-": "@owner._isSearchingDockerImages"},
-                "options": {"<-": "[{label: '---', value: null}].concat(@owner._images)"}
+                "classList.has('is-hidden')": {"<-": "!@owner._isSearchingDockerImages"}
+            }
+        },
+
+        "image": {
+            "prototype": "blue-shark/ui/tables/table-read-only.reel",
+            "properties": {
+                "element": {"#": "image"},
+                "isSelectionEnabled": "true",
+                "label": "Images",
+                "columns":  [
+                    {
+                        "value": "name",
+                        "path": "name"
+                    },
+                    {
+                        "value": "description",
+                        "path": "description"
+                    }
+                ]
+            },
+            "bindings": {
+                "rows": {"<-": "@owner._templates"},
+                "classList.has('is-hidden')": {"<-": "@owner._isSearchingDockerImages || !@owner._templates.length"}
             }
         }
     }
@@ -43,6 +65,7 @@
     <div data-montage-id="owner" class="DockerImageSearch">
         <div data-montage-id="collection"></div>
         <div data-montage-id="image"></div>
+        <div data-montage-id="searching"></div>
     </div>
 </body>
 </html>

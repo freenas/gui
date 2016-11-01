@@ -27,20 +27,13 @@ exports.DockerImageSearch = Component.specialize(/** @lends DockerImageSearch# *
             if (value && value.length) {
                 var self = this;
                 this._isSearchingDockerImages = true;
-                
+
                 this._searchCollectionTimeoutId = setTimeout(function () {
                     var promise;
 
                     self._searchPromise = promise = self._sectionService.getDockerImagesWithCollectionName(value).then(function (templates) {
                         if (promise === self._searchPromise && self._isSearchingDockerImages) {
                             self._templates = templates;
-                            self._images = templates.map(function (template) {
-                                return {
-                                    label: template.name,
-                                    value: template.name
-                                };
-                            });
-
                             self._searchPromise = null;
                             self._isSearchingDockerImages = false;
                         }
