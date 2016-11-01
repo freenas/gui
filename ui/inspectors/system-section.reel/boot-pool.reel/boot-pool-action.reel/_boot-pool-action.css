@@ -1,10 +1,4 @@
 .BootPoolAction {
-    /* display: flex; */
-    /* flex-wrap: wrap; */
-    /* width: 15em; */
-/*     margin-bottom: -.25em;
-    margin-right: -.25em;
-    justify-content: space-between; */
 
     &.actions-state-1 {
 
@@ -44,8 +38,5 @@
 
 
 .BootPoolAction > * {
-    /* flex: 1; */
-    /* margin-bottom: .25em !important; */
     display: inline-block;
-    /* margin-right: .25em !important; */
 }
