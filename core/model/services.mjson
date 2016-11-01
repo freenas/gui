@@ -849,6 +849,11 @@
     },
     "DockerImage": {
         "class": {
+            "collectionQuery": {
+                "method": "docker.image.collection_query",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "getCollectionImages": {
                 "method": "docker.image.get_collection_images",
                 "name": "call",
