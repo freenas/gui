@@ -27,6 +27,7 @@
             },
             "bindings": {
                 "isSaveDisabled": {"<-": "!@owner._selectedImage || !@owner._selectedHost"},
+                "classList.has('has-loading-spinner')": {"<-": "@owner.isLoading"},
                 "context": {"<-": "@owner.context"}
             }
         },
@@ -37,7 +38,8 @@
                 "element": {"#": "imageSearch"}
             },
             "bindings": {
-                "_sectionService": {"<-": "@owner._sectionService"}
+                "_sectionService": {"<-": "@owner._sectionService"},
+                "collectionValue": {"<-": "@owner._dockerSettings.default_collection.defined() ? @owner._dockerSettings.default_collection : 'freenas'"}
             }
         },
 
