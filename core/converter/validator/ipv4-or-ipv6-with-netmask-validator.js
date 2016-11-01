@@ -23,7 +23,10 @@ exports.Ipv4OrIpv6WithNetmaskValidator = Validator.specialize({
 
     validate: {
         value: function (value) {
-            if (this.v4validator.validate(value) || this.v6validator.validate(value)) {
+            if (value.indexOf(':') != -1 && this.v6validator.validate(value)) {
+                return true;
+            }
+            else if (this.v4validator.validate(value)) {
                 return true;
             }
             else {
