@@ -25,23 +25,14 @@
             }
         },
 
-        "searching": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "searching"},
-                "value": "searching"
-            },
-            "bindings": {
-                "classList.has('is-hidden')": {"<-": "!@owner._isSearchingDockerImages"}
-            }
-        },
-
         "image": {
             "prototype": "blue-shark/ui/tables/table-read-only.reel",
             "properties": {
                 "element": {"#": "image"},
                 "isSelectionEnabled": "true",
-                "label": "Images",
+                "label": "Choose an image",
+                "loadingMessage": "Searching for images...",
+                "contentMaxHeight": 22,
                 "columns":  [
                     {
                         "value": "name",
@@ -55,7 +46,7 @@
             },
             "bindings": {
                 "rows": {"<-": "@owner._templates"},
-                "classList.has('is-hidden')": {"<-": "@owner._isSearchingDockerImages || !@owner._templates.length"}
+                "isLoading": {"<-": "@owner._isSearchingDockerImages"}
             }
         }
     }
@@ -69,3 +60,6 @@
     </div>
 </body>
 </html>
+
+<!-- ,
+                "classList.has('is-hidden')": {"<-": "@owner._isSearchingDockerImages || !@owner._templates.length"} -->
