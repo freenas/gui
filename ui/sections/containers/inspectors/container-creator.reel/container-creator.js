@@ -99,7 +99,7 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
             }
 
             if (environments.length) {
-                this.object.environement = environments;
+                this.object.environment = environments;
             }
 
             if (portsValues && portsValues.length) {
