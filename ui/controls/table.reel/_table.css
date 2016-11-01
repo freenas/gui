@@ -1,4 +1,4 @@
-.Table { border: 1px solid #16171A; }
+/* .Table { border: 1px solid #16171A; } */
 
 .Table-header {
     cursor: pointer;
@@ -25,7 +25,7 @@
 
 }
 
-.Table-label {
+/* .Table-label {
     position: relative;
     font-size: .8em;
     padding: .5rem;
@@ -33,13 +33,13 @@
     background: #16171A;
     color: #E0E5E5;
     font-weight: 200;
-}
+} */
 
-.Table-label:not(:last-child) { border-right: 1px solid #242628; }
+/* .Table-label:not(:last-child) { border-right: 1px solid #242628; } */
 
-.Table-label:hover {
+/* .Table-label:hover {
     background-image: linear-gradient(rgba(2555,2555,2555,.05), rgba(2555,2555,2555,.05));
-}
+} */
 
 /* Selected Column */
 
