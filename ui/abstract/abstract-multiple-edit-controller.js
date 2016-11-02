@@ -123,9 +123,9 @@ exports.AbstractMultipleEditController = Component.specialize({
     },
 
     /**
-     * Returns model type for the objects currently edited
+     * Returns model type for the objects currently being edited
      * 
-     * @return {Model}
+     * @return {ModelType}
      */
     getModelType: {
         value: Function.noop
@@ -161,7 +161,7 @@ exports.AbstractMultipleEditController = Component.specialize({
     },
 
     /**
-     * Creates raw data from model object
+     * Creates raw data object from model object
      * 
      * @param  {Model} object Model object to map
      * @return {Object}
@@ -171,10 +171,11 @@ exports.AbstractMultipleEditController = Component.specialize({
     },
 
     /**
-     * Merge raw data back to object
+     * Merge raw data back to model object
      * 
      * @param  {Object} data   Data to be merged
      * @param  {Model}  object Model object
+     * @return {Model}
      */
     mergeRawDataToObject: {
         value: Function.noop
@@ -183,7 +184,7 @@ exports.AbstractMultipleEditController = Component.specialize({
     /**
      * Check if the value is updated from initial model object
      * 
-     * @param  {Object} value  Potentionally updated object
+     * @param  {Object} value  Potentionally updated value
      * @param  {Model}  object Original model object
      * @return {bool}
      */

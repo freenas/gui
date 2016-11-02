@@ -133,7 +133,6 @@ exports.NetworkSectionService = AbstractSectionService.specialize({
         }
     },
 
-
     loadHosts: {
         value: function() {
             return this._networkRepository.listNetworkHosts();

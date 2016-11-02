@@ -1,7 +1,5 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    NetworkRoute = require('core/model/models/network-route').NetworkRoute,
-    Model = require("core/model/model").Model,
-    NotificationCenterModule = require("core/backend/notification-center");
+    Model = require("core/model/model").Model;
 
 exports.Settings = AbstractInspector.specialize({
 
