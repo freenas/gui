@@ -2,8 +2,9 @@
     "root": {
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
-            "inspectorComponentModule": {"%": "ui/inspectors/ipmi.reel"},
-            "nameExpression": "'IPMI'"
+            "collectionNameExpression": "'IPMI'",
+            "inspectorComponentModule": {"%": "ui/sections/network/inspectors/ipmi.reel"},
+            "nameExpression": "'IPMI Channel ' + id"
         }
     }
 }

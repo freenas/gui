@@ -126,10 +126,11 @@ exports.Ipmi = Montage.specialize({
     },
     userInterfaceDescriptor: {
         value: {
+            collectionNameExpression: "'IPMI'",
             inspectorComponentModule: {
-                id: 'ui/inspectors/ipmi.reel'
+                id: 'ui/sections/network/inspectors/ipmi.reel'
             },
-            nameExpression: "'IPMI'"
+            nameExpression: "'IPMI Channel ' + id"
         }
     }
 });
