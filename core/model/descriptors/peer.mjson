@@ -8,6 +8,14 @@
       "valueObjectPrototypeName": "PeerCredentials"
     }
   },
+  "blueprint_peer_health_check_interval": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "health_check_interval",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
   "blueprint_peer_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -47,6 +55,7 @@
       "name": "Peer",
       "propertyBlueprints": [
         {"@": "blueprint_peer_credentials"},
+        {"@": "blueprint_peer_health_check_interval"},
         {"@": "blueprint_peer_id"},
         {"@": "blueprint_peer_name"},
         {"@": "blueprint_peer_status"},

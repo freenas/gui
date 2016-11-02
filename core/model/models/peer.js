@@ -14,6 +14,19 @@ exports.Peer = Montage.specialize({
             return this._credentials;
         }
     },
+    _health_check_interval: {
+        value: null
+    },
+    health_check_interval: {
+        set: function (value) {
+            if (this._health_check_interval !== value) {
+                this._health_check_interval = value;
+            }
+        },
+        get: function () {
+            return this._health_check_interval;
+        }
+    },
     _id: {
         value: null
     },
@@ -73,6 +86,10 @@ exports.Peer = Montage.specialize({
             name: "credentials",
             valueObjectPrototypeName: "PeerCredentials",
             valueType: "object"
+        }, {
+            mandatory: false,
+            name: "health_check_interval",
+            valueType: "number"
         }, {
             mandatory: false,
             name: "id",

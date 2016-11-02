@@ -49,6 +49,15 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_volume_mountpoint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "mountpoint",
+      "blueprint": {"@": "root"},
+      "readOnly": true,
+      "valueType": "String"
+    }
+  },
   "blueprint_volume_params": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -102,6 +111,15 @@
       "valueObjectPrototypeName": "ZfsScan"
     }
   },
+  "blueprint_volume_status": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "status",
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeStatus"
+    }
+  },
   "blueprint_volume_topology": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -122,6 +140,15 @@
       ]
     }
   },
+  "blueprint_volume_upgraded": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "upgraded",
+      "blueprint": {"@": "root"},
+      "readOnly": true,
+      "valueType": "boolean"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
@@ -133,14 +160,17 @@
         {"@": "blueprint_volume_guid"},
         {"@": "blueprint_volume_id"},
         {"@": "blueprint_volume_key_encrypted"},
+        {"@": "blueprint_volume_mountpoint"},
         {"@": "blueprint_volume_params"},
         {"@": "blueprint_volume_password_encrypted"},
         {"@": "blueprint_volume_properties"},
         {"@": "blueprint_volume_providers_presence"},
         {"@": "blueprint_volume_rname"},
         {"@": "blueprint_volume_scan"},
+        {"@": "blueprint_volume_status"},
         {"@": "blueprint_volume_topology"},
-        {"@": "blueprint_volume_type"}
+        {"@": "blueprint_volume_type"},
+        {"@": "blueprint_volume_upgraded"}
       ]
     }
   }

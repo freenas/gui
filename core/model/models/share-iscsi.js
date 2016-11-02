@@ -92,6 +92,19 @@ exports.ShareIscsi = Montage.specialize({
             return this._physical_block_size;
         }
     },
+    _product_id: {
+        value: null
+    },
+    product_id: {
+        set: function (value) {
+            if (this._product_id !== value) {
+                this._product_id = value;
+            }
+        },
+        get: function () {
+            return this._product_id;
+        }
+    },
     _read_only: {
         value: null
     },
@@ -213,6 +226,10 @@ exports.ShareIscsi = Montage.specialize({
             mandatory: false,
             name: "physical_block_size",
             valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "product_id",
+            valueType: "String"
         }, {
             mandatory: false,
             name: "read_only",

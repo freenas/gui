@@ -1,32 +1,32 @@
 {
-  "blueprint_dockerconfig_api_forwarding": {
+  "blueprint_dockercollection_collection": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "api_forwarding",
+      "name": "collection",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_dockerconfig_api_forwarding_enable": {
+  "blueprint_dockercollection_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "api_forwarding_enable",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "blueprint_dockerconfig_default_collection": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "default_collection",
+      "name": "id",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_dockerconfig_default_host": {
+  "blueprint_dockercollection_match_expr": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "default_host",
+      "name": "match_expr",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_dockercollection_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -34,12 +34,12 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "DockerConfig",
+      "name": "DockerCollection",
       "propertyBlueprints": [
-        {"@": "blueprint_dockerconfig_api_forwarding"},
-        {"@": "blueprint_dockerconfig_api_forwarding_enable"},
-        {"@": "blueprint_dockerconfig_default_collection"},
-        {"@": "blueprint_dockerconfig_default_host"}
+        {"@": "blueprint_dockercollection_collection"},
+        {"@": "blueprint_dockercollection_id"},
+        {"@": "blueprint_dockercollection_match_expr"},
+        {"@": "blueprint_dockercollection_name"}
       ]
     }
   }

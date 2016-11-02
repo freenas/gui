@@ -14,6 +14,32 @@ exports.VolumeDataset = Montage.specialize({
             return this._id;
         }
     },
+    _last_replicated_at: {
+        value: null
+    },
+    last_replicated_at: {
+        set: function (value) {
+            if (this._last_replicated_at !== value) {
+                this._last_replicated_at = value;
+            }
+        },
+        get: function () {
+            return this._last_replicated_at;
+        }
+    },
+    _last_replicated_by: {
+        value: null
+    },
+    last_replicated_by: {
+        set: function (value) {
+            if (this._last_replicated_by !== value) {
+                this._last_replicated_by = value;
+            }
+        },
+        get: function () {
+            return this._last_replicated_by;
+        }
+    },
     _mounted: {
         value: null
     },
@@ -162,6 +188,14 @@ exports.VolumeDataset = Montage.specialize({
         value: [{
             mandatory: false,
             name: "id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "last_replicated_at",
+            valueType: "datetime"
+        }, {
+            mandatory: false,
+            name: "last_replicated_by",
             valueType: "String"
         }, {
             mandatory: false,
