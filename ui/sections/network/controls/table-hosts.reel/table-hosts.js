@@ -1,36 +1,36 @@
 /**
- * @module ui/table-routes.reel
+ * @module ui/table-hosts.reel
  */
 var AbstractMultipleEditController = require('ui/abstract/abstract-multiple-edit-controller').AbstractMultipleEditController,
     Model = require("core/model/model").Model;
 
 /**
- * @class TableRoutes
+ * @class TableHosts
  * @extends Component
  */
-exports.TableRoutes = AbstractMultipleEditController.specialize({
+exports.TableHosts = AbstractMultipleEditController.specialize({
 
     getModelType: {
         value: function() {
-            return Model.NetworkRoute;
+            return Model.NetworkHost;
         }
     },
 
     loadObjects: {
         value: function() {
-            return this._sectionService.loadStaticRoutes();
+            return this._sectionService.loadHosts();
         }
     },
 
     saveObject: {
         value: function(object) {
-            return this._sectionService.saveStaticRoute(object);
+            return this._sectionService.saveHost(object);
         }
     },
 
     deleteObject: {
         value: function(object) {
-            return this._sectionService.deleteStaticRoute(object);
+            return this._sectionService.deleteHost(object);
         }
     },
 
@@ -38,12 +38,7 @@ exports.TableRoutes = AbstractMultipleEditController.specialize({
         value: function(object) {
             return {
                 id: object.id,
-                network: {
-                    address: object.network,
-                    netmask: object.netmask,
-                    type: object.type
-                },
-                gateway: object.gateway,
+                addresses: object.addresses.clone(),
                 persistedId: object.persistedId
             };
         }
@@ -52,10 +47,7 @@ exports.TableRoutes = AbstractMultipleEditController.specialize({
     mergeRawDataToObject: {
         value: function(data, object) {
             object.id = data.id;
-            object.network = data.network.address;
-            object.netmask = data.network.netmask;
-            object.gateway = data.gateway;
-            object.type = data.network.type;
+            object.addresses = data.addresses;
             object.persistedId = data.persistedId;
 
             return object;
@@ -65,10 +57,7 @@ exports.TableRoutes = AbstractMultipleEditController.specialize({
     isValueUpdated: {
         value: function(value, object) {
             return object.id !== value.id
-                || object.type !== value.network.type
-                || object.network !== value.network.address
-                || object.netmask !== value.network.netmask
-                || object.gateway !== value.gateway;
+                || !object.addresses.equals(value.addresses);
         }
     }
 });

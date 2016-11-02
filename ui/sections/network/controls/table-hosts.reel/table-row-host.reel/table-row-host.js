@@ -4,7 +4,7 @@
 var Component = require("montage/ui/component").Component;
 
 /**
- * @class TableRowRoute
+ * @class TableRowHost
  * @extends Component
  */
-exports.TableRowRoute = Component.specialize();
+exports.TableRowHost = Component.specialize();

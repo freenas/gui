@@ -9,7 +9,11 @@
             "properties": {
                 "element": {"#": "owner"},
                 "validationController": {"@": "validationController"},
-                "inspector": {"@": "inspector"}
+                "inspector": {"@": "inspector"},
+                "controllers": {
+                    "routes": {"@": "routes"},
+                    "hosts": {"@": "hosts"}
+                }
             },
             "bindings": {
                 "isGatewayDhcpAssigned": {"<->": "@owner.object.settings.config.dhcp.assign_gateway"}
@@ -208,9 +212,22 @@
             "prototype": "ui/sections/network/controls/table-routes.reel",
             "properties": {
                 "element": {"#": "routes"}
+            }
+        },
+        "hosts_header": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "hosts_header"},
+                "title": "Hosts"
+            }
+        },
+        "hosts": {
+            "prototype": "ui/sections/network/controls/table-hosts.reel",
+            "properties": {
+                "element": {"#": "hosts"}
             },
             "bindings": {
-                "values": {"<-": "@owner.routes"}
+                "values": {"<-": "@owner.hosts"}
             }
         }
     }
@@ -239,6 +256,11 @@
             </div>
             <div data-montage-id="static_route_settings">
                 <div data-montage-id="routes">
+                    <div></div>
+                </div>
+            </div>
+            <div data-montage-id="hosts_header">
+                <div data-montage-id="hosts">
                     <div></div>
                 </div>
             </div>

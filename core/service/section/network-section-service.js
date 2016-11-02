@@ -121,6 +121,25 @@ exports.NetworkSectionService = AbstractSectionService.specialize({
         }
     },
 
+
+    loadHosts: {
+        value: function() {
+            return this._networkRepository.listNetworkHosts();
+        }
+    },
+
+    saveHost: {
+        value: function(host) {
+            return this._networkRepository.saveNetworkHost(host);
+        }
+    },
+
+    deleteHost: {
+        value: function(host) {
+            return this._networkRepository.deleteNetworkHost(host);
+        }
+    },
+
     _cleanupVlanInterface: {
         value: function(interface) {
             if (typeof interface.vlan.tag !== 'number') {
