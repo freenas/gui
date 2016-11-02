@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="disk-selector.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('has-items')": {"<-": "@controller.content.length > 0"}
+            }
+        },
+        "name": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "name"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.name"}
+            }
+        },
+        "controller": {
+            "prototype": "montage/core/range-controller",
+            "bindings": {
+                "content": {"<-": "@owner.disks.sorted{name}"}
+            }
+        },
+        "disksGrid": {
+            "prototype": "ui/controls/grid.reel",
+            "properties": {
+                "element": {"#": "disksGrid"},
+                "controller": {"@": "controller"},
+                "labelPath": "name",
+                "icon": "ui/icons/disk.reel",
+                "itemDraggable": true
+            }
+        },
+        "dropZone": {
+            "prototype": "./disk-selector-dropzone.reel",
+            "properties": {
+                "element": {"#": "drop-zone"},
+                "controller": {"@": "owner"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="DiskSelector">
+        <div data-montage-id="drop-zone" class="DiskSelector-dropZone">
+            <div class="DiskSelector-title">
+                <div class="DiskSelector-title-content">
+                    <span data-montage-id="name"></span>
+                </div>
+            </div>
+            <div data-montage-id="allocationBar" class="DiskSelector-allocationBar"></div>
+            <div class="DiskSelector-grid">
+                <div data-montage-id="disksGrid" class="disks-grid"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

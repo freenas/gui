@@ -22,12 +22,14 @@
                 "element": {"#": "hddsCategory"},
                 "title": "Hard Drives",
                 "icon": "ui/icons/disk.reel",
-                "identifier": "HDDS"
+                "identifier": "HDDS",
+                "isSsd": false
             },
             "bindings": {
                 "disks": {"<-": "@owner.hdds"},
                 "classList.has('is-hidden_')": {"<-": "@owner.hdds.length == 0"},
-                "topology": {"<-": "@owner.topology"}
+                "topology": {"<-": "@owner.topology"},
+                "controller": {"<-": "@owner.controller"}
             }
         },
         "ssdsCategory": {
@@ -36,12 +38,14 @@
                 "element": {"#": "ssdsCategory"},
                 "title": "Solid State Drives",
                 "icon": "ui/icons/disk.reel",
-                "identifier": "SSDS"
+                "identifier": "SSDS",
+                "isSsd": true
             },
             "bindings": {
                 "disks": {"<-": "@owner.ssds"},
                 "classList.has('is-hidden_')": {"<-": "@owner.ssds.length == 0"},
-                "topology": {"<-": "@owner.topology"}
+                "topology": {"<-": "@owner.topology"},
+                "controller": {"<-": "@owner.controller"}
             }
         }
     }

@@ -187,7 +187,7 @@ exports.StorageSectionService = AbstractSectionService.specialize({
                     {},
                     {
                         key: encryptedVolumeImporter.key,
-                        disks: encryptedVolumeImporter.disks
+                        disks: encryptedVolumeImporter.disks.map(function(x) { return x.path; })
                     },
                     encryptedVolumeImporter.password
                 );

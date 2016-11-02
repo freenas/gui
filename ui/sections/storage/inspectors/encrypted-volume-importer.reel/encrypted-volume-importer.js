@@ -5,14 +5,51 @@ exports.EncryptedVolumeImporter = AbstractInspector.specialize({
         value: function() {
             var self = this;
             return this._sectionService.listAvailableDisks().then(function(availableDisks) {
-                self.availableDisks = availableDisks; 
+                return self.availableDisks = availableDisks; 
             });
+        }
+    },
+
+    enterDocument: {
+        value: function(isFirstTime) {
+            this.addRangeAtPathChangeListener("object.disks", this, "_handleDisksChange");
         }
     },
 
     save: {
         value: function() {
             this._sectionService.importEncryptedVolume(this.object);
+        }
+    },
+
+    shouldAcceptComponentInDiskCategory: {
+        value: function(component, diskCategory) {
+            return component.object &&
+                    diskCategory.disks.indexOf(component.object) === -1 &&
+                    component.object.status && 
+                    component.object.status.is_ssd === diskCategory.isSsd;
+        }
+    },
+
+    handleComponentDropInDiskCategory: {
+        value: function(component, diskCategory) {
+            var disk = component.object,
+                diskIndex = this.object.disks.indexOf(disk);
+            if (diskIndex !== -1) {
+                this.object.disks.splice(diskIndex, 1);
+            }
+        }
+    },
+
+    _handleDisksChange: {
+        value: function(addedDisks, removedDisks) {
+            var i, length;
+            for (i = 0, length = addedDisks.length; i < length; i++) {
+                this._sectionService.markDiskAsReserved(addedDisks[i]);
+            }
+            for (i = 0, length = removedDisks.length; i < length; i++) {
+                this._sectionService.markDiskAsAvailable(removedDisks[i]);
+            }
         }
     }
 });
