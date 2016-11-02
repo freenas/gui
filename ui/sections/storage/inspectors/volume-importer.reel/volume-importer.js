@@ -7,6 +7,15 @@ exports.VolumeImporter = AbstractInspector.specialize({
         }
     },
 
+    enterDocument: {
+        value: function() {
+            var self = this;
+            this._sectionService.getEncryptedVolumeImporterInstance().then(function(encryptedVolumeImporter) {
+               self.encryptedVolumeImporter = encryptedVolumeImporter;
+            });
+        }
+    },
+
     handleRefreshAction: {
         value: function() {
             return this._listDetachedVolumes();

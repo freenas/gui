@@ -743,6 +743,11 @@
                 "name": "call",
                 "namespace": "rpc"
             },
+            "requestInteractiveConsole": {
+                "method": "docker.container.request_interactive_console",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "requestSerialConsole": {
                 "method": "docker.container.request_serial_console",
                 "name": "call",
@@ -793,6 +798,18 @@
                 "method": "docker.host.query",
                 "name": "call",
                 "namespace": "rpc"
+            },
+            "rollbackResource": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "docker.host.rollback_resource"
+            },
+            "updateResource": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "docker.host.update_resource"
             }
         }
     },
@@ -3340,6 +3357,21 @@
         "class": {
             "getGuestInfo": {
                 "method": "vm.get_guest_info",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "guestExec": {
+                "method": "vm.guest_exec",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "guestGet": {
+                "method": "vm.guest_get",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "guestLs": {
+                "method": "vm.guest_ls",
                 "name": "call",
                 "namespace": "rpc"
             },

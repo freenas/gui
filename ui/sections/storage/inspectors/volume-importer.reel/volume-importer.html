@@ -23,11 +23,11 @@
             "prototype": "ui/controls/viewer.reel",
             "properties": {
                 "element": {"#": "detachedVolumes"},
-                "title": "No detached volume found"
+                "title": "Detached volumes",
+                "displayTitle": true
             },
             "bindings": {
-                "object": {"<-": "@owner.detachedVolumes"},
-                "displayTitle": {"<-": "@owner.detachedVolumes.length == 0"}
+                "object": {"<-": "@owner.detachedVolumes"}
             }
         },
         "refresh": {
@@ -35,6 +35,16 @@
             "properties": {
                 "element": {"#": "refresh"},
                 "value": "Scan volumes"
+            }
+        },
+        "encrypted": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "encrypted"},
+                "name": "Encrypted volume"
+            },
+            "bindings": {
+                "object": {"<-": "@owner.encryptedVolumeImporter"}
             }
         }
     }
@@ -44,6 +54,7 @@
     <div data-montage-id="owner" class="VolumeImporter">
         <div data-montage-id="detachedVolumes"></div>
         <div data-montage-id="refresh"></div>
+        <div data-montage-id="encrypted"></div>
     </div>
 </body>
 </html>

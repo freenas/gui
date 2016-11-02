@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="encrypted-volume-importer.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
+            }
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "validationController": {"@": "validationController"},
+                "canDelete": false,
+                "canRevert": false,
+                "canSave": true,
+                "controller": {"@": "owner"}
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"},
+                "isLocked": {"<->": "@owner.isLocked"}
+            }
+        },
+        "name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.name"}
+            }
+        },
+        "key": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "key"},
+                "label": "Key"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.key"}
+            }
+        },
+        "password": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "password"},
+                "label": "Password"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.password"}
+            }
+        },
+        "disks": {
+            "prototype": "blue-shark/ui/field-select-multiple.reel",
+            "properties": {
+                "element": {"#": "disks"},
+                "label": "Disks"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.availableDisks.map{path}"},
+                "selectedValues": {"<->": "@owner.object.disks"}
+            }
+        },
+        "availableDisks": {
+            "prototype": "ui/sections/storage/inspectors/available-disks.reel",
+            "properties": {
+                "element": {"#": "availableDisks"}
+            },
+            "bindings": {
+                "disks": {"<-": "@owner.availableDisks"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="EncryptedVolumeImporter has-availableDisks">
+        <div data-montage-id="inspector">
+            <div class="EncryptedVolumeImporter-content">
+                <div data-montage-id="name"></div>
+                <div data-montage-id="password"></div>
+                <div data-montage-id="key"></div>
+                <div data-montage-id="disks"></div>
+            </div>
+        </div>
+        <div class="EncryptedVolumeImporter-sidebar hide">
+            <div data-montage-id="availableDisks"></div>
+        </div>
+    </div>
+</body>
+</html>

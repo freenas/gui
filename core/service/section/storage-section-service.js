@@ -4,6 +4,21 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
     Model = require("core/model/model").Model;
 
 exports.StorageSectionService = AbstractSectionService.specialize({
+    __volumeServices: {
+        value: null
+    },
+
+    _volumeServices: {
+        get: function() {
+            var self = this;
+            return this.__volumeServices ?
+                Promise.resolve(this.__volumeServices) : 
+                Model.populateObjectPrototypeForType(Model.Volume).then(function (Volume) {
+                    return self.__volumeServices = Volume.services;
+                });
+        }
+    },
+
     SHARE_TYPE: {
         value: Model.Share
     },
@@ -14,6 +29,15 @@ exports.StorageSectionService = AbstractSectionService.specialize({
 
     VOLUME_SNAPSHOT_TYPE: {
         value: Model.VolumeSnapshot
+    },
+
+    TOPOLOGY_SECTIONS: {
+        value: [
+            'data',
+            'cache',
+            'log',
+            'spare'
+        ]
     },
 
     init: {
@@ -72,6 +96,23 @@ exports.StorageSectionService = AbstractSectionService.specialize({
         }
     },
 
+    createVolume: {
+        value: function(volume) {
+            for (var i = 0, length = this.TOPOLOGY_SECTIONS.length; i < length; i++) {
+                this._cleanupTopologySection(volume.topology[this.TOPOLOGY_SECTIONS[i]]);
+            }
+            volume.type = 'zfs';
+            volume._isNew = true;
+            var password;
+            if (volume._isEncrypted) {
+                password = volume._password;
+                volume.password_encrypted = !!password && password.length > 0;
+            }
+            volume._password = null;
+            return this._storageRepository.saveVolume(volume, password);
+        }
+    },
+
     calculateSizesOnVolume: {
         value: function(volume) {
             volume._paritySize = this._getParitySizeOfVolume(volume);
@@ -103,25 +144,62 @@ exports.StorageSectionService = AbstractSectionService.specialize({
 
     importDetachedVolume: {
         value: function(detachedVolume) {
-            return this._storageRepository.importDetachedVolume(detachedVolume);
+            var self = this;
+            return this._volumeServices.then(function(volumeServices) {
+                return volumeServices.import(detachedVolume.id, detachedVolume.name);
+            }).then(function() {
+                self._storageRepository.listDetachedVolumes();
+            });
         }
     },
 
     deleteDetachedVolume: {
         value: function(detachedVolume) {
-            return this._storageRepository.deleteDetachedVolume(detachedVolume);
+            var self = this;
+            return this._volumeServices.then(function(volumeServices) {
+                return volumeServices.deleteExported(detachedVolume.name);
+            }).then(function() {
+                self._storageRepository.listDetachedVolumes();
+            });
         }
     },
 
     exportVolume: {
         value: function(volume) {
-            return this._storageRepository.exportVolume(volume);
+            return this._volumeServices.then(function(volumeServices) {
+                return volumeServices.export(volume.id);
+            });
+        }
+    },
+
+    getEncryptedVolumeImporterInstance: {
+        value: function() {
+            return this._storageRepository.getEncryptedVolumeImporterInstance();
+        }
+    },
+
+    importEncryptedVolume: {
+        value: function(encryptedVolumeImporter) {
+            return this._volumeServices.then(function(volumeServices) {
+                return volumeServices.import(
+                    encryptedVolumeImporter.name,
+                    encryptedVolumeImporter.name,
+                    {},
+                    {
+                        key: encryptedVolumeImporter.key,
+                        disks: encryptedVolumeImporter.disks
+                    },
+                    encryptedVolumeImporter.password
+                );
+            });
         }
     },
 
     scrubVolume: {
         value: function(volume) {
-            return this._storageRepository.scrubVolume(volume);
+            return this._volumeServices.then(function(volumeServices) {
+                return volumeServices.scrub(volume.id);
+            });
         }
     },
 
@@ -169,6 +247,31 @@ exports.StorageSectionService = AbstractSectionService.specialize({
                     return priorities;
                 }); 
             });
+        }
+    },
+
+    _cleanupTopologySection: {
+        value: function(topologySection) {
+            var i, vdevsLength, vdev,
+                j, disksLength, disk, path;
+            for (i = 0, vdevsLength = topologySection.length; i < vdevsLength; i++) {
+                vdev = topologySection[i];
+                if (vdev.children) {
+                    for (j = 0, disksLength = vdev.children.length; j < disksLength; j++) {
+                        disk = vdev.children[j];
+                        path = disk.path;
+                        if (path.indexOf('/dev/') != 0) {
+                            path = '/dev/' + path;
+                        }
+                        vdev.children[j].path = path;
+                        vdev.children[j].type = 'disk';
+                    }
+                    if (vdev.children.length == 1) {
+                        vdev.path = vdev.children[0].path;
+                        vdev.children = [];
+                    }
+                }
+            }
         }
     },
 
