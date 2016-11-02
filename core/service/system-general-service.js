@@ -52,7 +52,7 @@ var SystemGeneralService = exports.SystemGeneralService = Montage.specialize({
             );
             return Promise.all(loadingPromises).then(function() {
                 return keymapsData;
-            })
+            });
         }
     },
 
