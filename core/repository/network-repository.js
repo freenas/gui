@@ -27,9 +27,7 @@ exports.NetworkRepository = AbstractRepository.specialize({
     listIpmiChannels: {
         value: function() {
             var self = this;
-            return this._IpmiChannelPromise || (this._IpmiChannelPromise = this._ipmiDao.list().then(function(ipmiChannels) {
-                return ipmiChannels;
-            }));
+            return this._IpmiChannelPromise || (this._IpmiChannelPromise = this._ipmiDao.list());
         }
     },
 
