@@ -10,10 +10,10 @@
                 "imageComponent": {"@": "image"}
             },
             "bindings": {
-                "currentPreset": {"<-": "@owner._templates.filter{name == @image.selectedValue}.one().presets"}
+                "selectedValue": {"<-": "@image.selectedRow"}
             }
         },
-        
+
         "collection": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
@@ -26,14 +26,27 @@
         },
 
         "image": {
-            "prototype": "blue-shark/ui/field-select.reel",
+            "prototype": "blue-shark/ui/tables/table-read-only.reel",
             "properties": {
                 "element": {"#": "image"},
-                "label": "Image"
+                "isSelectionEnabled": "true",
+                "label": "Choose an image",
+                "loadingMessage": "Searching for images...",
+                "contentMaxHeight": 22,
+                "columns":  [
+                    {
+                        "value": "name",
+                        "path": "name"
+                    },
+                    {
+                        "value": "description",
+                        "path": "description"
+                    }
+                ]
             },
             "bindings": {
-                "disabled": {"<-": "@owner._isSearchingDockerImages"},
-                "options": {"<-": "[{label: '---', value: null}].concat(@owner._images)"}
+                "rows": {"<-": "@owner._templates"},
+                "isLoading": {"<-": "@owner._isSearchingDockerImages"}
             }
         }
     }
@@ -43,6 +56,7 @@
     <div data-montage-id="owner" class="DockerImageSearch">
         <div data-montage-id="collection"></div>
         <div data-montage-id="image"></div>
+        <div data-montage-id="searching"></div>
     </div>
 </body>
 </html>

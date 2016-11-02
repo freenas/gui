@@ -65,6 +65,7 @@ exports.NetworkSectionService = AbstractSectionService.specialize({
             interface._interfaces = this.entries;
             interface._otherAliases = [];
             interface._ipAddress = null;
+            interface._ipv6Address = null;
             if (interface.dhcp) {
                 interface._dhcpAliases = interface.status.aliases;
                 var alias;
@@ -75,8 +76,18 @@ exports.NetworkSectionService = AbstractSectionService.specialize({
                         break;
                     }
                 }
+                for (var j = 0, len = interface.status.aliases.length; j < len; j++) {
+                    alias = interface.status.aliases[j];
+                    if (alias.type === NetworkInterfaceAliasType.INET6) {
+                        interface._ipv6Address = alias;
+                        break;
+                    }
+                }
             } else {
                 this._splitAliasesOnInterface(interface);
+            }
+            if (interface._ipv6Address === null) {
+                interface._ipv6Address = {};
             }
         }
     },
@@ -87,6 +98,7 @@ exports.NetworkSectionService = AbstractSectionService.specialize({
                 interface._ipAddress = interface._dhcpAddress;
             } else if (!interface.aliases) {
                 interface._ipAddress = null;
+                interface._ipv6Address = null;
                 interface.aliases = [];
             }
             return !interface.dhcp;
@@ -155,7 +167,12 @@ exports.NetworkSectionService = AbstractSectionService.specialize({
         value: function(interface) {
             if (!interface.dhcp) {
                 if (interface._ipAddress && typeof interface._ipAddress === 'object') {
-                    interface.aliases = [interface._ipAddress].concat(interface._otherAliases);
+                    if (interface._ipv6Address && typeof interface._ipv6Address == 'object') {
+                        interface._ipv6Address.type = NetworkInterfaceAliasType.INET6;
+                        interface.aliases = [interface._ipAddress, interface._ipv6Address].concat(interface._otherAliases);
+                    } else {
+                        interface.aliases = [interface._ipAddress].concat(interface._otherAliases);
+                    }
                 } else {
                     interface.aliases = interface._otherAliases;
                 }
@@ -166,8 +183,18 @@ exports.NetworkSectionService = AbstractSectionService.specialize({
 
     _splitAliasesOnInterface: {
         value: function(interface) {
-            interface._ipAddress = interface.aliases[0] || {};
-            interface._otherAliases = interface.aliases.slice(1);
+            var alias;
+            for (var i = 0, length = interface.aliases.length; i < length; i++) {
+                alias = interface.aliases[i];
+                if (alias.type === NetworkInterfaceAliasType.INET && interface._ipAddress === null) {
+                    interface._ipAddress = alias;
+                }
+                else if (alias.type === NetworkInterfaceAliasType.INET6 && interface._ipv6Address === null) {
+                    interface._ipv6Address = alias;
+                } else {
+                    interface._otherAliases.push(alias);
+                }
+            }
         }
     }
 });

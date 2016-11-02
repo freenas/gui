@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="boot-environment-row.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('has-loading-spinner')": {"<-": "@owner.object.isProcessing"}
+            }
+        },
+
+        "name": {
+            "prototype": "blue-shark/ui/text-input-edit.reel",
+            "properties": {
+                "element": {"#": "name"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.id"}
+            }
+        },
+
+        "active": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "active"}
+            },
+            "bindings": {
+                "value": {"<-": "(@owner.object.active ? 'Current' : 'Inactive') + (@owner.object.onReboot ? ', Next Reboot' : '')"}
+            }
+        },
+
+        "space": {
+            "prototype": "../size-cell.reel",
+            "properties": {
+                "element": {"#": "space"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.space"}
+            }
+        },
+
+        "dateCreated": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "dateCreated"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.created['$date']"}
+            }
+        },
+
+        "keep": {
+            "prototype": "blue-shark/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "keep"}
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.keep"},
+                "label": {"<-": "checked ? 'yes' : 'no'"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="BootEnvironmentRow Table-cells">
+        <div><span data-montage-id="name"></span></div>
+        <div><span data-montage-id="active"></span></div>
+        <div><span data-montage-id="space"></span></div>
+        <div><span data-montage-id="dateCreated"></span></div>
+        <div><span data-montage-id="keep"></span></div>
+    </div>
+</body>
+</html>

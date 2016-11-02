@@ -58,6 +58,14 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_shareiscsi_product_id": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "product_id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_shareiscsi_read_only": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -127,6 +135,7 @@
         {"@": "blueprint_shareiscsi_device_id"},
         {"@": "blueprint_shareiscsi_naa"},
         {"@": "blueprint_shareiscsi_physical_block_size"},
+        {"@": "blueprint_shareiscsi_product_id"},
         {"@": "blueprint_shareiscsi_read_only"},
         {"@": "blueprint_shareiscsi_rpm"},
         {"@": "blueprint_shareiscsi_serial"},

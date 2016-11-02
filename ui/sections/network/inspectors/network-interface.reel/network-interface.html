@@ -111,6 +111,56 @@
                 "placeholderValue": {"<-": "!@owner.object.dhcp ? 'eg. 255.255.255.0' : ''"}
             }
         },
+        "ipv6_address_validator": {
+            "prototype": "core/converter/validator/ipv6-validator"
+        },
+        "v6addressConverter": {
+            "prototype": "core/converter/string-or-null-validation-converter",
+            "properties": {
+                "validator": {"@": "ipv6_address_validator"}
+            }
+        },
+        "v6address": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "v6address"},
+                "label": "IPv6 Address",
+                "errorMessage": "Invalid IPv6 address",
+                "converter": {"@": "v6addressConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object._ipv6Address.address"},
+                "disabled": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp || @owner.object.rtadv"},
+                "placeholderValue": {"<-": "!@owner.object.rtadv ? 'eg. fda8:06c3:ce53:a890:0000:0000:0000:0005' : ''"}
+            }
+        },
+        "v6netmaskValidator": {
+            "prototype": "core/converter/validator/integer-range-validator",
+            "properties": {
+                "floor": 0,
+                "ceiling": 128,
+                "errorMessage": "IPv6 prefix length must be an integer between 0 and 128"
+            }
+        },
+        "v6netmaskConverter": {
+            "prototype": "core/converter/string-to-integer-or-null-converter",
+            "properties": {
+                "validator": {"@": "v6netmaskValidator"}
+            }
+        },
+        "v6netmask": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "v6netmask"},
+                "converter": {"@": "v6netmaskConverter"},
+                "label": "IPv6 Prefix Length"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object._ipv6Address.netmask"},
+                "disabled": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp || @owner.object.rtadv"},
+                "placeholderValue": {"<-": "!@owner.object.rtadv ? 'eg. 64' : ''"}
+            }
+        },
         "dhcp": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -244,6 +294,8 @@
             <div data-montage-id="description"></div>
             <div data-montage-id="address"></div>
             <div data-montage-id="netmask"></div>
+            <div data-montage-id="v6address"></div>
+            <div data-montage-id="v6netmask"></div>
             <div data-montage-id="dhcp"></div>
             <div data-montage-id="rtadv"></div>
             <div data-montage-id="mtu"></div>

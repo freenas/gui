@@ -27,6 +27,19 @@ exports.DockerConfig = Montage.specialize({
             return this._api_forwarding_enable;
         }
     },
+    _default_collection: {
+        value: null
+    },
+    default_collection: {
+        set: function (value) {
+            if (this._default_collection !== value) {
+                this._default_collection = value;
+            }
+        },
+        get: function () {
+            return this._default_collection;
+        }
+    },
     _default_host: {
         value: null
     },
@@ -50,6 +63,10 @@ exports.DockerConfig = Montage.specialize({
             mandatory: false,
             name: "api_forwarding_enable",
             valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "default_collection",
+            valueType: "String"
         }, {
             mandatory: false,
             name: "default_host",

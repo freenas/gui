@@ -9,6 +9,7 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
+                "_selectedImage": {"<-": "@imageSearch.selectedValue.name"},
                 "_selectedImageHosts": {"<-": "@owner._installedDockerImages.filter{name == @owner._selectedImage}.one().hosts"},
                 "_availablesDockers": {"<-": "@owner._dockerHosts.filter{!@owner._selectedImageHosts || !@owner._selectedImageHosts.has(this.id)}"},
                 "_availablesDockersOptions": {"<-": "@owner._availablesDockers.map{{label: name, value: id}}"}
@@ -36,8 +37,7 @@
                 "element": {"#": "imageSearch"}
             },
             "bindings": {
-                "_sectionService": {"<-": "@owner._sectionService"},
-                "imageComponent.selectedValue": {"<->": "@owner._selectedImage"}
+                "_sectionService": {"<-": "@owner._sectionService"}
             }
         },
 

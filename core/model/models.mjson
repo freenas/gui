@@ -169,6 +169,10 @@
             "type": "DisksAllocation"
         },
         {
+            "modelId": "core/model/models/docker-collection.js",
+            "type": "DockerCollection"
+        },
+        {
             "modelId": "core/model/models/docker-config.js",
             "type": "DockerConfig"
         },

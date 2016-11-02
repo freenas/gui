@@ -16,9 +16,6 @@
             "properties": {
                 "element": {"#": "activate"},
                 "value": "Activate"
-            },
-            "bindings": {
-                "disabled": {"<-": "!!@owner.object.onReboot"}
             }
         },
 
@@ -30,32 +27,19 @@
             }
         },
 
-        "rename": {
-            "prototype": "blue-shark/ui/button.reel",
-            "properties": {
-                "element": {"#": "rename"},
-                "value": "Rename"
-            }
-        },
-
         "delete": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
                 "element": {"#": "delete"},
                 "value": "Delete"
-            },
-            "bindings": {
-                "disabled": {"<-": "!!@owner.object.active && !!@owner.object.onReboot"}
             }
         },
 
         "keep": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
-                "element": {"#": "keep"}
-            },
-            "bindings": {
-                "value": {"<-": "@owner.object.keep ? 'Keep: Yes' : 'Keep: No'"}
+                "element": {"#": "keep"},
+                "value": "Keep"
             }
         }
     }
@@ -63,11 +47,10 @@
 </head>
 <body>
     <div data-montage-id="owner" class="BootPoolAction">
-        <button data-montage-id="activate" class="Button--primary"></button>
-        <button data-montage-id="clone"></button>
-        <button data-montage-id="rename"></button>
-        <button data-montage-id="delete" class="Button--alert"></button>
-        <button data-montage-id="keep"></button>
+        <button data-montage-id="activate" class="Button--primary BootPoolAction-activate"></button>
+        <button data-montage-id="clone" class="BootPoolAction-clone"></button>
+        <button data-montage-id="keep" class="BootPoolAction-keep"></button>
+        <div data-montage-id="delete" class="Button--alert Button--icon BootPoolAction-delete"><svg><use xlink:href="#i-trashCan"/></svg></div>
     </div>
 </body>
 </html>

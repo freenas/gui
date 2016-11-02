@@ -40,6 +40,19 @@ exports.Disk = Montage.specialize({
             return this._id;
         }
     },
+    _is_multipath: {
+        value: null
+    },
+    is_multipath: {
+        set: function (value) {
+            if (this._is_multipath !== value) {
+                this._is_multipath = value;
+            }
+        },
+        get: function () {
+            return this._is_multipath;
+        }
+    },
     _mediasize: {
         value: null
     },
@@ -172,6 +185,10 @@ exports.Disk = Montage.specialize({
             mandatory: false,
             name: "id",
             valueType: "String"
+        }, {
+            mandatory: false,
+            name: "is_multipath",
+            valueType: "boolean"
         }, {
             mandatory: false,
             name: "mediasize",

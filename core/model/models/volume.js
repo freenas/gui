@@ -79,6 +79,19 @@ exports.Volume = Montage.specialize({
             return this._key_encrypted;
         }
     },
+    _mountpoint: {
+        value: null
+    },
+    mountpoint: {
+        set: function (value) {
+            if (this._mountpoint !== value) {
+                this._mountpoint = value;
+            }
+        },
+        get: function () {
+            return this._mountpoint;
+        }
+    },
     _params: {
         value: null
     },
@@ -157,6 +170,19 @@ exports.Volume = Montage.specialize({
             return this._scan;
         }
     },
+    _status: {
+        value: null
+    },
+    status: {
+        set: function (value) {
+            if (this._status !== value) {
+                this._status = value;
+            }
+        },
+        get: function () {
+            return this._status;
+        }
+    },
     _topology: {
         value: null
     },
@@ -181,6 +207,19 @@ exports.Volume = Montage.specialize({
         },
         get: function () {
             return this._type;
+        }
+    },
+    _upgraded: {
+        value: null
+    },
+    upgraded: {
+        set: function (value) {
+            if (this._upgraded !== value) {
+                this._upgraded = value;
+            }
+        },
+        get: function () {
+            return this._upgraded;
         }
     }
 }, {
@@ -213,6 +252,11 @@ exports.Volume = Montage.specialize({
             valueType: "boolean"
         }, {
             mandatory: false,
+            name: "mountpoint",
+            readOnly: true,
+            valueType: "String"
+        }, {
+            mandatory: false,
             name: "params",
             valueType: "object"
         }, {
@@ -242,6 +286,11 @@ exports.Volume = Montage.specialize({
             valueType: "object"
         }, {
             mandatory: false,
+            name: "status",
+            valueObjectPrototypeName: "VolumeStatus",
+            valueType: "object"
+        }, {
+            mandatory: false,
             name: "topology",
             valueObjectPrototypeName: "ZfsTopology",
             valueType: "object"
@@ -249,6 +298,11 @@ exports.Volume = Montage.specialize({
             mandatory: false,
             name: "type",
             valueType: "String"
+        }, {
+            mandatory: false,
+            name: "upgraded",
+            readOnly: true,
+            valueType: "boolean"
         }]
     },
     userInterfaceDescriptor: {

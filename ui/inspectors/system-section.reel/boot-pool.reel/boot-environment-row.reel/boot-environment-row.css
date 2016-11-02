@@ -1,0 +1,9 @@
+.BootEnvironmentRow.has-loading-spinner {
+    position: initial;
+}
+.BootEnvironmentRow.has-loading-spinner:before {
+    height: 2em;
+    width:  2em;
+    margin-top:  -1em;
+    margin-left: -1em;
+}
