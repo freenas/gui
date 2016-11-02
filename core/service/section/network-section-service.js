@@ -2,7 +2,8 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
     NetworkRepository = require("core/repository/network-repository").NetworkRepository,
     SystemRepository = require("core/repository/system-repository").SystemRepository,
     NetworkInterfaceAliasType = require("core/model/enumerations/network-interface-alias-type").NetworkInterfaceAliasType,
-    NetworkInterfaceType = require("core/model/enumerations/network-interface-type").NetworkInterfaceType;
+    NetworkInterfaceType = require("core/model/enumerations/network-interface-type").NetworkInterfaceType,
+    Model = require("core/model/model").Model;
 
 exports.NetworkSectionService = AbstractSectionService.specialize({
     init: {
@@ -15,6 +16,39 @@ exports.NetworkSectionService = AbstractSectionService.specialize({
     loadEntries: {
         value: function() {
             return this._networkRepository.listNetworkInterfaces();
+        }
+    },
+
+    __ipmiServices: {
+        value: null
+    },
+
+    _ipmiServices: {
+        get: function() {
+            return this.__ipmiServices || (this.__ipmiServices = Model.populateObjectPrototypeForType(Model.Ipmi).then(function (Ipmi) {
+                return Ipmi.constructor.services;
+            }));
+        }
+    },
+
+    _isIpmiLoaded: {
+        value: function() {
+            return this._ipmiServices.then(function(ipmiServices) {
+                return ipmiServices.isIpmiLoaded();
+            }); 
+        }
+    },
+
+    loadExtraEntries: {
+        value: function() {
+            var self = this;
+            return this._isIpmiLoaded().then(function(isIpmiLoaded) {
+                if (isIpmiLoaded) {
+                    return Promise.all([
+                        self._networkRepository.listIpmiChannels()
+                    ]);
+                }
+            });
         }
     },
 

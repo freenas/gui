@@ -23,7 +23,13 @@
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
-                "validationController": {"@": "validationController"}
+                "validationController": {"@": "validationController"},
+                "canSave": true,
+                "canRevert": true
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"},
+                "isConfirmationVisible": {"<-": "@owner.isConfirmationVisible"}
             }
         },
         "dhcp": {
@@ -36,11 +42,19 @@
                 "checked": {"<-": "@owner.object.dhcp"}
             }
         },
+        "ipv4_address_validator": {
+            "prototype": "core/converter/validator/ipv4-validator"
+        },
+        "ipv4_netmask_converter": {
+            "prototype": "core/converter/ipv4-netmask-converter"
+        },
         "gateway": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "gateway"},
-                "label": "Gateway"
+                "label": "Gateway",
+                "validator": {"@": "ipv4_address_validator"},
+                "errorMessage": "Invalid IP address"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.gateway"}
@@ -50,7 +64,8 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "netmask"},
-                "label": "Netmask"
+                "label": "Netmask",
+                "converter": {"@": "ipv4_netmask_converter"}
             },
             "bindings": {
                 "value": {"<->": "@owner.object.netmask"}
@@ -60,20 +75,50 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "address"},
-                "label": "Address"
+                "label": "Address",
+                "validator": {"@": "ipv4_address_validator"},
+                "errorMessage": "Invalid IP address"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.address"}
+            }
+        },
+        "vlanIdValidator": {
+            "prototype": "core/converter/validator/integer-range-validator",
+            "properties": {
+                "floor": 1,
+                "ceiling": 4094,
+                "errorMessage": "Value must be an integer between 1 and 4094"
+            }
+        },
+        "vlanIdConverter": {
+            "prototype": "core/converter/string-to-integer-or-null-converter",
+            "properties": {
+                "validator": {"@": "vlanIdValidator"}
             }
         },
         "vlan_id": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "vlan_id"},
-                "label": "VLAN ID"
+                "label": "VLAN ID",
+                "converter": {"@": "vlanIdConverter"}
             },
             "bindings": {
                 "value": {"<->": "@owner.object.vlan_id"}
+            }
+        },
+        "password": {
+            "prototype": "blue-shark/ui/field-password.reel",
+            "properties": {
+                "element": {"#": "password"},
+                "label": "Password",
+                "placeholder1": "enter password",
+                "placeholder2": "confirm password",
+                "errorMessage": "Passwords don't match"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.password"}
             }
         }
     }
@@ -102,6 +147,7 @@
             <div data-montage-id="gateway"></div>
             <div data-montage-id="dhcp"></div>
             <div data-montage-id="vlan_id"></div>
+            <div data-montage-id="password"></div>
         </div>
     </div>
 </body>
