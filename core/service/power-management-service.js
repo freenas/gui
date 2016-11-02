@@ -11,9 +11,15 @@ var PowerManagementService = exports.PowerManagementService = Montage.specialize
         value: null
     },
 
+    _serviceUpsServices: {
+        get: function() {
+            return this._serviceUpsServicesPromise || (this._serviceUpsServicesPromise = Model.populateObjectPrototypeForType(Model.ServiceUps));
+        }
+    },
+
     listDrivers: {
         value: function () {
-            return Model.populateObjectPrototypeForType(Model.ServiceUps).then(function (ServiceUps) {
+            return this._serviceUpsServices.then(function (ServiceUps) {
                 return ServiceUps.constructor.services.drivers();
             });
         }
@@ -21,9 +27,9 @@ var PowerManagementService = exports.PowerManagementService = Montage.specialize
 
     listUsbDevices: {
         value: function () {
-            return Model.populateObjectPrototypeForType(Model.ServiceUps).then(function (ServiceUps) {
+            return this._serviceUpsServices.then(function (ServiceUps) {
                 return ServiceUps.constructor.services.getUsbDevices();
-            })
+            });
         }
     }
 }, {
