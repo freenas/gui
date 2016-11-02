@@ -1,8 +1,7 @@
 /**
  * @module core/dao/ipmi-dao
  */
-var AbstractDao = require("core/dao/abstract-dao").AbstractDao,
-    Model = require("core/model/model").Model;
+var AbstractDao = require("core/dao/abstract-dao").AbstractDao;
 /**
  * @class IpmiDao
  * @extends AbstractDao
@@ -10,7 +9,7 @@ var AbstractDao = require("core/dao/abstract-dao").AbstractDao,
 exports.IpmiDao = AbstractDao.specialize(/** @lends IpmiIsLoadedDao# */ {
     init: {
         value: function() {
-            this._model = Model.Ipmi;
+            this._model = this.constructor.Model.Ipmi;
         }
     }
 
