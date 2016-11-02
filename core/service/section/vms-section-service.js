@@ -138,12 +138,6 @@ exports.VmsSectionService = AbstractSectionService.specialize({
 
     categorizeDevices: {
         value: function(vm, addedDevices, removedDevices) {
-            if (!vm._nonVolumeDevices || !addedDevices) {
-                vm._nonVolumeDevices = this._vmRepository.getNewVmDeviceList();
-            }
-            if (!vm._volumeDevices || !addedDevices) {
-                vm._volumeDevices = this._vmRepository.getNewVmVolumeList();
-            }
             addedDevices = addedDevices || vm.devices;
             var i, length, device;
             if (Array.isArray(addedDevices)) {
@@ -364,12 +358,42 @@ exports.VmsSectionService = AbstractSectionService.specialize({
 
     initializeVm: {
         value: function(vm) {
-            if (vm._isNew) {
-                this._initializeNewVm(vm);    
+            var self = this;
+            return this._initializeDevicesOnVm(vm).then(function() {
+                if (vm._isNew) {
+                    self._initializeNewVm(vm);
+                }
+                self._setMemoryOnVm(vm);
+                vm._bootDevice = vm.config.boot_device;
+            });
+        }
+    },
+
+    _initializeDevicesOnVm: {
+        value: function(vm) {
+            var promises = [];
+            if (!vm.devices) {
+                promises.push(
+                    this._vmRepository.getNewVmDeviceList().then(function(devices) {
+                        return vm.devices = devices;
+                    })
+                );
             }
-            this._setMemoryOnVm(vm);
-            vm._bootDevice = vm.config.boot_device;
-            return vm;
+            if (!vm._nonVolumeDevices) {
+                promises.push(
+                    this._vmRepository.getNewVmDeviceList().then(function(devices) {
+                        return vm._nonVolumeDevices = devices;
+                    })
+                );
+            }
+            if (!vm._volumeDevices) {
+                promises.push(
+                    this._vmRepository.getNewVmVolumeList().then(function(devices) {
+                        return vm._volumeDevices = devices;
+                    })
+                );
+            }
+            return Promise.all(promises);
         }
     },
 
@@ -377,9 +401,6 @@ exports.VmsSectionService = AbstractSectionService.specialize({
         value: function(vm) {
             vm.config = this._vmRepository.DEFAULT_VM_CONFIG;
             vm.guest_type = "other";
-            vm.devices = this._vmRepository.getNewVmDeviceList();
-            vm._nonVolumeDevices = this._vmRepository.getNewVmDeviceList();
-            vm._volumeDevices = this._vmRepository.getNewVmVolumeList();
             vm.config.ncpus = 1;
             vm.config.memsize = 512;
             vm.template = {};
