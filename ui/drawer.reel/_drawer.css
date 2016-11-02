@@ -126,7 +126,6 @@
 /* Drawer Layout Button */
 
 .Drawer-layoutButton {
-    display: none;
 
     @nest .layout-has-changed & {
         display: inline-block;
