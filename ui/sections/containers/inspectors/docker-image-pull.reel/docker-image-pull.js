@@ -33,9 +33,22 @@ exports.DockerImagePull = AbstractInspector.specialize(/** @lends DockerImagePul
     enterDocument: {
         value: function (firstTime) {
             this.super();
-            
+
             if (firstTime) {
                 this.addRangeAtPathChangeListener("_dockerImages", this, "_handleDockerImagesChange");
+            }
+
+            if (!this._loadDataPromise) {
+                var self = this;
+                this.isLoading = true;
+
+                this._loadDataPromise = this._sectionService.getDockerSettings()
+                .then(function (dockerSettings) {
+                    self._dockerSettings = dockerSettings;
+                }).finally(function () {
+                    self.isLoading = false;
+                    self._loadDataPromise = null;
+                });
             }
         }
     },
@@ -45,6 +58,7 @@ exports.DockerImagePull = AbstractInspector.specialize(/** @lends DockerImagePul
             this.super();
             this._selectedHost = null;
             this._selectedImage = null;
+            this._loadDataPromise = null;
         }
     },
 

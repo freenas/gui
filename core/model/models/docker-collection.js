@@ -72,5 +72,18 @@ exports.DockerCollection = Montage.specialize({
             name: "name",
             valueType: "String"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            nameExpression: "id.defined() ? name : 'Create a collection'",
+            collectionNameExpression: "'Collections'",
+            daoModuleId: "core/dao/docker-collection-dao",
+            inspectorComponentModule: {
+                id: 'ui/sections/containers/inspectors/docker-collection.reel'
+            },
+            creatorComponentModule: {
+                id: 'ui/sections/containers/inspectors/docker-collection.reel'
+            }
+        }
     }
 });

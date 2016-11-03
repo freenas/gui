@@ -25,6 +25,14 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_sharewebdav_show_hidden_files": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "show_hidden_files",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
@@ -32,7 +40,8 @@
       "propertyBlueprints": [
         {"@": "propertyblueprint"},
         {"@": "blueprint_sharewebdav_permission"},
-        {"@": "blueprint_sharewebdav_read_only"}
+        {"@": "blueprint_sharewebdav_read_only"},
+        {"@": "blueprint_sharewebdav_show_hidden_files"}
       ]
     }
   }

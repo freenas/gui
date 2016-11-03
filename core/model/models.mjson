@@ -177,6 +177,10 @@
             "type": "DockerConfig"
         },
         {
+            "modelId": "core/model/models/docker-container-creator.js",
+            "type": "DockerContainerCreator"
+        },
+        {
             "modelId": "core/model/models/docker-container-section.js",
             "type": "DockerContainerSection"
         },
@@ -467,6 +471,10 @@
         {
             "modelId": "core/model/models/service-consul.js",
             "type": "ServiceConsul"
+        },
+        {
+            "modelId": "core/model/models/service-dc.js",
+            "type": "ServiceDc"
         },
         {
             "modelId": "core/model/models/service-dyndns.js",

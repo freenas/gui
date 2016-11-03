@@ -1,0 +1,12 @@
+{
+    "root": {
+        "prototype": "montage/core/meta/user-interface-descriptor",
+        "properties": {
+            "nameExpression": "id.defined() ? name : 'Create a collection'",
+            "collectionNameExpression": "'Collections'",
+            "daoModuleId": "core/dao/docker-collection-dao",
+            "inspectorComponentModule": {"%": "ui/sections/containers/inspectors/docker-collection.reel"},
+            "creatorComponentModule": {"%": "ui/sections/containers/inspectors/docker-collection.reel"}
+        }
+    }
+}

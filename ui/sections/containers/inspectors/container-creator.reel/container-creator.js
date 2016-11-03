@@ -25,23 +25,70 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
         }
     },
 
+    _context: {
+        value: null
+    },
+
+    context: {
+        set: function (context) {
+            if (this._context !== context) {
+                if (context) {
+                    context.object = context.object.dockerContainer;
+                    this._context = context;
+                } else {
+                    this._context = null;
+                }
+            }
+        },
+        get: function () {
+            return this._context;
+        }
+    },
+
+    _object: {
+        value: null
+    },
+
+    object: {
+        set: function (object) {
+            if (this._object !== object) {
+                if (object) {
+                    this._object = object.dockerContainer;
+                    this._collection = object.dockerCollection;
+                } else {
+                    this._object = this._collection = null;
+                }
+            }
+        },
+        get: function () {
+            return this._object;
+        }
+    },
+
     enterDocument: {
         value: function (firsTime) {
             this.super();
             this._reset();
 
-            if (!this._getDefaultDockerCollectionPromise) {
+            if (!this._loadDataPromise) {
                 var self = this;
                 this.isLoading = true;
 
-                this._getDefaultDockerCollectionPromise = this._sectionService.getDefaultDockerCollection()
-                .then(function (defaultCollection) {
-                    self.defaultCollection = defaultCollection;
+                this._loadDataPromise = this._sectionService.getDockerSettings()
+                .then(function (dockerSettings) {
+                    self._dockerSettings = dockerSettings;
                 }).finally(function () {
                     self.isLoading = false;
-                    self._getDefaultDockerCollectionPromise = null;
+                    self._loadDataPromise = null;
                 });
             }
+        }
+    },
+
+    exitDocument: {
+        value: function () {
+            this.super();
+            self._loadDataPromise = null;
         }
     },
 

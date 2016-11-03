@@ -24,7 +24,7 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
 
     loadSettings: {
         value: function () {
-            return this._containerRepository.getDockerContainerSettings();
+            return this.getDockerSettings();
         }
     },
 
@@ -43,6 +43,18 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
     listDockerHosts: {
         value: function () {
             return this._containerRepository.listDockerHosts();
+        }
+    },
+
+    listDockerCollections: {
+        value: function () {
+            return this._containerRepository.listDockerCollections();
+        }
+    },
+
+    getDockerSettings: {
+        value: function () {
+            return this._containerRepository.getDockerContainerSettings();
         }
     },
 
@@ -70,9 +82,32 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
     getDefaultDockerCollection: {
         value: function () {
             return this.getCurrentUser().then(function (user) {
-                return user && user.attributes && user.attributes.defaultCollection ? 
+                return user && user.attributes && user.attributes.defaultCollection ?
                     user.attributes.defaultCollection : "freenas";
             });
+        }
+    },
+
+    getNewDockerCollection: {
+        value: function () {
+            return this._containerRepository.getNewDockerCollection();
+        }
+    },
+
+    getDefaultDockerCollection: {
+        value: function () {
+            return this.getNewDockerCollection().then(function (dockerCollection) {
+                dockerCollection.id = -1;
+                dockerCollection._isNew = false;
+                dockerCollection.collection = dockerCollection.name = "freenas";
+                return dockerCollection;
+            });
+        }
+    },
+
+    getNewDockerContainerCreator: {
+        value: function () {
+            return this._containerRepository.getNewDockerContainerCreator();
         }
     },
 
