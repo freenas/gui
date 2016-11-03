@@ -103,6 +103,10 @@ exports.User = AbstractInspector.specialize({
         value: function() {
             var self = this;
 
+            if (this.object.group === -1) {
+                this.object.group = null;
+            }
+
             this.object.groups = this.additionalGroups.map(function(x) { return x.id; });
             if (this.object._isNew && this.object.home) {
                 this.object.home += '/' + this.object.username;
