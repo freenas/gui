@@ -124,5 +124,13 @@ exports.Mail = Montage.specialize({
             name: "user",
             valueType: "String"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            inspectorComponentModule: {
+                id: 'ui/inspectors/system-section.reel/alert.reel/mail.reel'
+            },
+            nameExpression: "'Settings'"
+        }
     }
 });

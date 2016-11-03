@@ -73,5 +73,20 @@ exports.AlertFilter = Montage.specialize({
             name: "predicates",
             valueType: "array"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            collectionInspectorComponentModule: {
+                id: 'ui/controls/viewer.reel'
+            },
+            collectionNameExpression: "'Alert Filters'",
+            inspectorComponentModule: {
+                id: 'ui/inspectors/system-section.reel/alert.reel/alert-filter.reel'
+            },
+            creatorComponentModule: {
+                id: 'ui/inspectors/system-section.reel/alert.reel/alert-filter.reel'
+            },
+            nameExpression: "!_isNew && id.defined() ? id : 'Create an Alert filter'"
+        }
     }
 });

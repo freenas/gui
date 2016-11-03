@@ -1,0 +1,12 @@
+{
+    "root": {
+        "prototype": "montage/core/meta/user-interface-descriptor",
+        "properties": {
+            "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
+            "collectionNameExpression": "'Alert Filters'",
+            "inspectorComponentModule": {"%": "ui/inspectors/system-section.reel/alert.reel/alert-filter.reel"},
+            "creatorComponentModule": {"%": "ui/inspectors/system-section.reel/alert.reel/alert-filter.reel"},
+            "nameExpression": "!_isNew && id.defined() ? id : 'Create an Alert filter'"
+        }
+    }
+}
