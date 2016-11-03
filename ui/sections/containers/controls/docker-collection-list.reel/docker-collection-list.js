@@ -17,19 +17,11 @@ exports.DockerCollectionList = AbstractInspector.specialize(/** @lends DockerCol
             this._canDrawGate.setField(blockGateKey, false);
 
             return Promise.all([
-                this._sectionService.getNewDockerCollection(),
-                this._sectionService.listDockerCollection(),
-                this._sectionService.getNewDockerContainerCreator()
+                this._sectionService.getDefaultDockerCollection(),
+                this._sectionService.listDockerCollection()
             ]).then(function (data) {
-                var dockerCollection = data[0],
-                    dockerCollections = data[1];
-
-                //Default Collection?
-                dockerCollection.id = -1;
-                dockerCollection._isNew = false;
-                dockerCollection.collection = dockerCollection.name = "freenas";
-                dockerCollections.unshift(dockerCollection);
-
+                var dockerCollections = data[1];
+                dockerCollections.unshift(data[0]);
                 self._dockerCollections = dockerCollections;
             }).finally(function () {
                 self._canDrawGate.setField(blockGateKey, true);
