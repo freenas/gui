@@ -132,7 +132,7 @@ exports.ContainerRepository = AbstractRepository.specialize({
         }
     },
 
-    listDockerCollection: {
+    listDockerCollections: {
         value: function () {
             return this._dockerCollectionDao.list();
         }

@@ -46,9 +46,9 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         }
     },
 
-    listDockerCollection: {
+    listDockerCollections: {
         value: function () {
-            return this._containerRepository.listDockerCollection();
+            return this._containerRepository.listDockerCollections();
         }
     },
 

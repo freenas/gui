@@ -15,7 +15,7 @@ exports.DockerCollectionList = AbstractInspector.specialize(/** @lends DockerCol
 
             return Promise.all([
                 this._sectionService.getDefaultDockerCollection(),
-                this._sectionService.listDockerCollection()
+                this._sectionService.listDockerCollections()
             ]).then(function (data) {
                 var dockerCollections = data[1];
                 dockerCollections.unshift(data[0]);
