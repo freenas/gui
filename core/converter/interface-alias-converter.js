@@ -2,7 +2,7 @@
  * @requires montage/core/converter/converter
  */
 var Converter = require("montage/core/converter/converter").Converter;
-var Ipv4WithNetmaskValidator = require("core/converter/validator/ipv4-with-netmask-validator").Ipv4WithNetmaskValidator;
+var Ipv4OrIpv6WithNetmaskValidator = require("core/converter/validator/ipv4-or-ipv6-with-netmask-validator").Ipv4OrIpv6WithNetmaskValidator;
 
 /**
  * Converts an interface alias to and from <$IP_ADDRESS>/<$NETMASK> form. Assumes
@@ -15,7 +15,7 @@ var Ipv4WithNetmaskValidator = require("core/converter/validator/ipv4-with-netma
 
     constructor: {
         value: function() {
-            this.validator = new Ipv4WithNetmaskValidator();
+            this.validator = new Ipv4OrIpv6WithNetmaskValidator();
         }
     },
 
@@ -68,9 +68,6 @@ var Ipv4WithNetmaskValidator = require("core/converter/validator/ipv4-with-netma
         }
     },
 
-    // TODO: This should accept ipv6 addresses, and should check both ipv4 and
-    // ipv6 addresses for their respective netmask requirements. This may be
-    // done with additional validators.
     validator: {
         value: null
     }

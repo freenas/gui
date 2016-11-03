@@ -23,9 +23,12 @@ exports.Mail = Component.specialize(/** @lends Mail# */ {
             if(isFirstTime) {
                 this.isLoading = true;
                 this.encryptionOptions = [];
-                for (var i = 0; i < MailEncryptionType.members.length; i++) {
-                    this.encryptionOptions.push({label: MailEncryptionType.members[i], value: MailEncryptionType[MailEncryptionType.members[i]]});
-                }
+                this.encryptionOptions = MailEncryptionType.members.map(function(x) {
+                    return {
+                        label: x,
+                        value: x
+                    };
+                });
                 this.application.mailService.getMailData().then(function(mailData) {
                     self.object = mailData.mail;
                     self._snapshotDataObjectsIfNecessary();

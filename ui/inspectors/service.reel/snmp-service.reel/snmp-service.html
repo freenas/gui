@@ -30,6 +30,16 @@
                 "value": {"<->": "@owner.object.contact"}
             }
         },
+        "community": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "community"},
+                "label": "Community"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.community"}
+            }
+        },
         "v3": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -119,6 +129,7 @@
     <div data-montage-id="owner" class="SnmpService">
         <div data-montage-id="location"></div>
         <div data-montage-id="contact"></div>
+        <div data-montage-id="community"></div>
         <div data-montage-id="v3"></div>
         <div data-montage-id="v3_condition">
             <div data-montage-id="v3_username"></div>

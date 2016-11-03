@@ -2,15 +2,18 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
     NetworkInterfaceDao = require("core/dao/network-interface-dao").NetworkInterfaceDao,
     NetworkConfigDao = require("core/dao/network-config-dao").NetworkConfigDao,
     NetworkRouteDao = require("core/dao/network-route-dao").NetworkRouteDao,
-    NetworkHostDao = require("core/dao/network-host-dao").NetworkHostDao;
+    NetworkHostDao = require("core/dao/network-host-dao").NetworkHostDao,
+    IpmiDao = require("core/dao/ipmi-dao").IpmiDao;
+
 
 exports.NetworkRepository = AbstractRepository.specialize({
     init: {
-        value: function(networkInterfaceDao, networkConfigDao, networkRouteDao, networkHostDao) {
+        value: function(networkInterfaceDao, networkConfigDao, networkRouteDao, networkHostDao, ipmiDao) {
             this._networkInterfaceDao = networkInterfaceDao || NetworkInterfaceDao.instance;
             this._networkConfigDao = networkConfigDao || NetworkConfigDao.instance;
             this._networkRouteDao = networkRouteDao || NetworkRouteDao.instance;
             this._networkHostDao = networkHostDao || NetworkHostDao.instance;
+            this._ipmiDao = ipmiDao || IpmiDao.instance;
         }
     },
 
@@ -71,6 +74,13 @@ exports.NetworkRepository = AbstractRepository.specialize({
     deleteNetworkHost: {
         value: function(host) {
             return this._networkHostDao.delete(host);
+        }
+    },
+
+    listIpmiChannels: {
+        value: function() {
+            var self = this;
+            return this._IpmiChannelPromise || (this._IpmiChannelPromise = this._ipmiDao.list());
         }
     },
 

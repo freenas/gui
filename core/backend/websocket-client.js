@@ -14,7 +14,9 @@ var Target = require("montage/core/target").Target;
  *
  */
 var WebSocketClient = exports.WebSocketClient = Target.specialize({
-
+    _isDebugEnabled: {
+        value: null
+    },
 
     /*------------------------------------------------------------------------------------------------------------------
                                                         Properties
@@ -525,6 +527,7 @@ var WebSocketClient = exports.WebSocketClient = Target.specialize({
                 socket = this._socket;
 
             socket.onmessage = function (messageEvent) {
+                self._logMessage('OUTBOUND', messageEvent.data);
                 var data = messageEvent.data,
                     response = self.callDelegateMethod("webSocketWillParseResponse", self, data),
                     errorResponse;
@@ -580,9 +583,10 @@ var WebSocketClient = exports.WebSocketClient = Target.specialize({
      */
     _sendMessage: {
         value: function (message) {
-            var messageFromDelegate = this.callDelegateMethod("webSocketWillSendMessage", this, message);
+            message = this.callDelegateMethod("webSocketWillSendMessage", this, message) || message;
 
-            this._socket.send(messageFromDelegate || message);
+            this._logMessage('OUTBOUND', message);
+            this._socket.send(message);
         }
     },
 
@@ -593,6 +597,17 @@ var WebSocketClient = exports.WebSocketClient = Target.specialize({
                 message: message,
                 stack: stack
             });
+        }
+    },
+
+    _logMessage: {
+        value: function(way, message) {
+            if (this._isDebugEnabled === null) {
+                this._isDebugEnabled = location.hash.indexOf("d=1") !== -1;
+            }
+            if (this._isDebugEnabled) {
+                console.log(Date.now(), way, message);
+            }
         }
     }
 

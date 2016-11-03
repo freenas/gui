@@ -102,6 +102,7 @@ exports.DirectoryServices = AbstractInspector.specialize({
 
             return this.application.dataService.getNewInstanceForType(Model.Directory).then(function (directory) {
                 directory.type = directoryTypesKeyValues[type];
+                directory.parameters = {"%type": directory.type + "-directory-params"};
                 directory.label = directoryTypesLabels[directory.type];
 
                 return directory;
