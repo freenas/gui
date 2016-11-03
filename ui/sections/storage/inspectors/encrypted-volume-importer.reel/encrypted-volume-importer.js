@@ -12,7 +12,9 @@ exports.EncryptedVolumeImporter = AbstractInspector.specialize({
 
     enterDocument: {
         value: function(isFirstTime) {
-            this.addRangeAtPathChangeListener("object.disks", this, "_handleDisksChange");
+            if (isFirstTime) {
+                this.addRangeAtPathChangeListener("object.disks", this, "_handleDisksChange");
+            }
         }
     },
 
