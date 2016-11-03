@@ -33,10 +33,10 @@
       "valueType": "String"
     }
   },
-  "blueprint_winbinddirectoryparams_keytab": {
+  "blueprint_winbinddirectoryparams_krb_principal": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "keytab",
+      "name": "krb_principal",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -82,7 +82,7 @@
         {"@": "blueprint_winbinddirectoryparams_allow_dns_updates"},
         {"@": "blueprint_winbinddirectoryparams_dc_address"},
         {"@": "blueprint_winbinddirectoryparams_gcs_address"},
-        {"@": "blueprint_winbinddirectoryparams_keytab"},
+        {"@": "blueprint_winbinddirectoryparams_krb_principal"},
         {"@": "blueprint_winbinddirectoryparams_password"},
         {"@": "blueprint_winbinddirectoryparams_realm"},
         {"@": "blueprint_winbinddirectoryparams_site_name"},

@@ -92,19 +92,6 @@ exports.LdapDirectoryParams = Montage.specialize({
             return this._krb_principal;
         }
     },
-    _krb_realm: {
-        value: null
-    },
-    krb_realm: {
-        set: function (value) {
-            if (this._krb_realm !== value) {
-                this._krb_realm = value;
-            }
-        },
-        get: function () {
-            return this._krb_realm;
-        }
-    },
     _password: {
         value: null
     },
@@ -186,10 +173,6 @@ exports.LdapDirectoryParams = Montage.specialize({
         }, {
             mandatory: false,
             name: "krb_principal",
-            valueType: "String"
-        }, {
-            mandatory: false,
-            name: "krb_realm",
             valueType: "String"
         }, {
             mandatory: false,

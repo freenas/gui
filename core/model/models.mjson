@@ -465,6 +465,10 @@
             "type": "ServiceConsul"
         },
         {
+            "modelId": "core/model/models/service-dc.js",
+            "type": "ServiceDc"
+        },
+        {
             "modelId": "core/model/models/service-dyndns.js",
             "type": "ServiceDyndns"
         },

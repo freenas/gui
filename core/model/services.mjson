@@ -849,11 +849,6 @@
     },
     "DockerImage": {
         "class": {
-            "collectionQuery": {
-                "method": "docker.image.collection_query",
-                "name": "call",
-                "namespace": "rpc"
-            },
             "getCollectionImages": {
                 "method": "docker.image.get_collection_images",
                 "name": "call",
@@ -2172,6 +2167,48 @@
                 "name": "call",
                 "namespace": "rpc",
                 "task": "service.consul.update"
+            }
+        }
+    },
+    "ServiceDc": {
+        "class": {
+            "provideDcUrl": {
+                "method": "service.dc.provide_dc_url",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "serviceRestart": {
+                "method": "service.dc.service_restart",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "serviceStart": {
+                "method": "service.dc.service_start",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "serviceStatus": {
+                "method": "service.dc.service_status",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "serviceStop": {
+                "method": "service.dc.service_stop",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        },
+        "instance": {
+            "read": {
+                "method": "service.dc.get_config",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "update": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "service.dc.update"
             }
         }
     },

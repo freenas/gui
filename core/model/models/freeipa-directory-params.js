@@ -66,6 +66,19 @@ exports.FreeipaDirectoryParams = Montage.specialize({
             return this._kdc;
         }
     },
+    _krb_principal: {
+        value: null
+    },
+    krb_principal: {
+        set: function (value) {
+            if (this._krb_principal !== value) {
+                this._krb_principal = value;
+            }
+        },
+        get: function () {
+            return this._krb_principal;
+        }
+    },
     _password: {
         value: null
     },
@@ -151,6 +164,10 @@ exports.FreeipaDirectoryParams = Montage.specialize({
         }, {
             mandatory: false,
             name: "kdc",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "krb_principal",
             valueType: "String"
         }, {
             mandatory: false,

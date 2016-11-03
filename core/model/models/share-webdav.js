@@ -39,6 +39,19 @@ exports.ShareWebdav = Montage.specialize({
         get: function () {
             return this._read_only;
         }
+    },
+    _show_hidden_files: {
+        value: null
+    },
+    show_hidden_files: {
+        set: function (value) {
+            if (this._show_hidden_files !== value) {
+                this._show_hidden_files = value;
+            }
+        },
+        get: function () {
+            return this._show_hidden_files;
+        }
     }
 }, {
     propertyBlueprints: {
@@ -52,6 +65,10 @@ exports.ShareWebdav = Montage.specialize({
         }, {
             mandatory: false,
             name: "read_only",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "show_hidden_files",
             valueType: "boolean"
         }]
     }

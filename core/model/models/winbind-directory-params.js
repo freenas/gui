@@ -53,17 +53,17 @@ exports.WinbindDirectoryParams = Montage.specialize({
             return this._gcs_address;
         }
     },
-    _keytab: {
+    _krb_principal: {
         value: null
     },
-    keytab: {
+    krb_principal: {
         set: function (value) {
-            if (this._keytab !== value) {
-                this._keytab = value;
+            if (this._krb_principal !== value) {
+                this._krb_principal = value;
             }
         },
         get: function () {
-            return this._keytab;
+            return this._krb_principal;
         }
     },
     _password: {
@@ -137,7 +137,7 @@ exports.WinbindDirectoryParams = Montage.specialize({
             valueType: "String"
         }, {
             mandatory: false,
-            name: "keytab",
+            name: "krb_principal",
             valueType: "String"
         }, {
             mandatory: false,
