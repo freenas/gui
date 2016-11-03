@@ -105,6 +105,12 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
         }
     },
 
+    save: {
+        value: function() {
+            return this.inspector.save(this.object._recursive);
+        }
+    },
+
     _loadVolume: {
         value: function() {
             this.volume = this._getCurrentVolume();

@@ -34,7 +34,7 @@
                 "element": {"#": "iconImagePlaceholder"}
             },
             "bindings": {
-                "moduleId": {"<-": "@owner.userInterfaceDescriptor.iconComponentModule.id"},
+                "moduleId": {"<-": "@owner.userInterfaceDescriptor.iconValueExpression.defined() && !!@owner.userInterfaceDescriptor.iconValueMapping[@owner.object.path(@owner.userInterfaceDescriptor.iconValueExpression)] ? @owner.userInterfaceDescriptor.iconValueMapping[@owner.object.path(@owner.userInterfaceDescriptor.iconValueExpression)] : @owner.userInterfaceDescriptor.iconComponentModule.id"},
                 "object": {"<-": "@owner.object"}
             }
         }
