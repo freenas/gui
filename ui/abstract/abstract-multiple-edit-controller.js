@@ -10,7 +10,7 @@ exports.AbstractMultipleEditController = Component.specialize({
     initialize: {
         value: function(sectionService) {
             this._sectionService = sectionService;
-            console.log('abs', sectionService);
+
             return this._load();
         }
     },

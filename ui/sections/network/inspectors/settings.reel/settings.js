@@ -31,20 +31,18 @@ exports.Settings = AbstractInspector.specialize({
     revert: {
         value: function() {
             var self = this;
-            return this._performActionOnControllers('revert')
-                .then(function() {
-                    self._sectionService.revertSettings();
-                });
+            return this._performActionOnControllers('revert').then(function() {
+                self._sectionService.revertSettings();
+            });
         }
     },
 
     save: {
         value: function() {
             var self = this;
-            return this._performActionOnControllers('save')
-                .then(function(){
-                    self._sectionService.saveSettings();
-                });
+            return this._performActionOnControllers('save').then(function(){
+                self._sectionService.saveSettings();
+            });
         }
     },
 
@@ -52,11 +50,12 @@ exports.Settings = AbstractInspector.specialize({
         value: function(action) {
             var args = arguments.length > 1 ? Array.prototype.slice.call(arguments, 1) : [],
                 promises = [];
-            console.log('action', args);
+
             for (var key in this.controllers) {
                 var controller = this.controllers[key];
                 promises.push(controller[action].apply(controller, args));
             }
+
             return Promise.all(promises);
         }
     }

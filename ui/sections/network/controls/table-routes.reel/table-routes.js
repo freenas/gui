@@ -11,7 +11,7 @@ exports.TableRoutes = AbstractMultipleEditController.specialize({
 
     getNewInstance: {
         value: function() {
-            return this._sectionService.getNewNetworkStaticRoute();
+            return this._sectionService.getNewStaticRoute();
         }
     },
 
