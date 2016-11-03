@@ -149,6 +149,54 @@ exports.NetworkSectionService = AbstractSectionService.specialize({
         }
     },
 
+    loadStaticRoutes: {
+        value: function() {
+            return this._networkRepository.listNetworkStaticRoutes();
+        }
+    },
+
+    getNewStaticRoute: {
+        value: function() {
+            return this._networkRepository.getNewNetworkStaticRoute();
+        }
+    },
+
+    saveStaticRoute: {
+        value: function(route) {
+            return this._networkRepository.saveNetworkStaticRoute(route);
+        }
+    },
+
+    deleteStaticRoute: {
+        value: function(route) {
+            return this._networkRepository.deleteNetworkStaticRoute(route);
+        }
+    },
+
+    loadHosts: {
+        value: function() {
+            return this._networkRepository.listNetworkHosts();
+        }
+    },
+
+    getNewHost: {
+        value: function() {
+            return this._networkRepository.getNewNetworkHost();
+        }
+    },
+
+    saveHost: {
+        value: function(host) {
+            return this._networkRepository.saveNetworkHost(host);
+        }
+    },
+
+    deleteHost: {
+        value: function(host) {
+            return this._networkRepository.deleteNetworkHost(host);
+        }
+    },
+
     _cleanupVlanInterface: {
         value: function(interface) {
             if (typeof interface.vlan.tag !== 'number') {

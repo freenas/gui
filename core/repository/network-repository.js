@@ -1,13 +1,18 @@
 var AbstractRepository = require("core/repository/abstract-repository").AbstractRepository,
     NetworkInterfaceDao = require("core/dao/network-interface-dao").NetworkInterfaceDao,
     NetworkConfigDao = require("core/dao/network-config-dao").NetworkConfigDao,
+    NetworkRouteDao = require("core/dao/network-route-dao").NetworkRouteDao,
+    NetworkHostDao = require("core/dao/network-host-dao").NetworkHostDao,
     IpmiDao = require("core/dao/ipmi-dao").IpmiDao;
+
 
 exports.NetworkRepository = AbstractRepository.specialize({
     init: {
-        value: function(networkInterfaceDao, networkConfigDao, ipmiDao) {
+        value: function(networkInterfaceDao, networkConfigDao, networkRouteDao, networkHostDao, ipmiDao) {
             this._networkInterfaceDao = networkInterfaceDao || NetworkInterfaceDao.instance;
             this._networkConfigDao = networkConfigDao || NetworkConfigDao.instance;
+            this._networkRouteDao = networkRouteDao || NetworkRouteDao.instance;
+            this._networkHostDao = networkHostDao || NetworkHostDao.instance;
             this._ipmiDao = ipmiDao || IpmiDao.instance;
         }
     },
@@ -21,6 +26,54 @@ exports.NetworkRepository = AbstractRepository.specialize({
     saveNetworkInterface: {
         value: function(networkInterface) {
             return this._networkInterfaceDao.save(networkInterface);
+        }
+    },
+
+    listNetworkStaticRoutes: {
+        value: function() {
+            return this._networkRouteDao.list();
+        }
+    },
+
+    getNewNetworkStaticRoute: {
+        value: function() {
+            return this._networkRouteDao.getNewInstance();
+        }
+    },
+
+    saveNetworkStaticRoute: {
+        value: function(route) {
+            return this._networkRouteDao.save(route);
+        }
+    },
+
+    deleteNetworkStaticRoute: {
+        value: function(route) {
+            return this._networkRouteDao.delete(route);
+        }
+    },
+
+    listNetworkHosts: {
+        value: function() {
+            return this._networkHostDao.list();
+        }
+    },
+
+    getNewNetworkHost: {
+        value: function() {
+            return this._networkHostDao.getNewInstance();
+        }
+    },
+
+    saveNetworkHost: {
+        value: function(host) {
+            return this._networkHostDao.save(host);
+        }
+    },
+
+    deleteNetworkHost: {
+        value: function(host) {
+            return this._networkHostDao.delete(host);
         }
     },
 

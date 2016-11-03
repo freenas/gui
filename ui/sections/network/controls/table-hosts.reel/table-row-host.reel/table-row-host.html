@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="table-row-host.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+        "id": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "id"},
+                "placeholder": "e.g. myfreenas"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.id"},
+                "disabled": {"<-": "@owner.object.disableId"}
+            }
+        },
+
+        "addressesConverter": {
+            "prototype": "core/converter/string-to-array-converter"
+        },
+
+        "addresses": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "addresses"},
+                "placeholder": "e.g. 10.10.10.1,10.10.10.2",
+                "converter": {"@": "addressesConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.addresses"}
+            }
+        }
+
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="TableRowHost Table-cells">
+        <div><div data-montage-id="id"></div></div>
+        <div><div data-montage-id="addresses"></div><div>
+    </div>
+</body>
+</html>

@@ -420,6 +420,7 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
                             }
 
                             this._stopTrackingTaskWithJobId(jobId);
+                            this.dispatchEventNamed("taskDone", true, true, taskNotification);
                         }
                     }
                 }

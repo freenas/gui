@@ -9,7 +9,11 @@
             "properties": {
                 "element": {"#": "owner"},
                 "validationController": {"@": "validationController"},
-                "inspector": {"@": "inspector"}
+                "inspector": {"@": "inspector"},
+                "controllers": {
+                    "routes": {"@": "routes"},
+                    "hosts": {"@": "hosts"}
+                }
             },
             "bindings": {
                 "isGatewayDhcpAssigned": {"<->": "@owner.object.settings.config.dhcp.assign_gateway"}
@@ -196,6 +200,35 @@
                 "disabled": {"<-": "@owner.object.settings.config.dhcp.assign_dns"},
                 "placeholder": {"<-": "!@owner.object.settings.config.dhcp.assign_dns ? 'eg. 1.2.3.4' : ''"}
             }
+        },
+        "routes_header": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "routes_header"},
+                "title": "Static Routes"
+            }
+        },
+        "routes": {
+            "prototype": "ui/sections/network/controls/table-routes.reel",
+            "properties": {
+                "element": {"#": "routes"}
+            }
+        },
+        "hosts_header": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "hosts_header"},
+                "title": "Hosts"
+            }
+        },
+        "hosts": {
+            "prototype": "ui/sections/network/controls/table-hosts.reel",
+            "properties": {
+                "element": {"#": "hosts"}
+            },
+            "bindings": {
+                "values": {"<-": "@owner.hosts"}
+            }
         }
     }
     </script>
@@ -220,6 +253,16 @@
             <div data-montage-id="netwait_settings">
                 <div data-montage-id="netwait_enabled"></div>
                 <div data-montage-id="netwait_addresses"></div>
+            </div>
+            <div data-montage-id="routes_header">
+                <div data-montage-id="routes">
+                    <div></div>
+                </div>
+            </div>
+            <div data-montage-id="hosts_header">
+                <div data-montage-id="hosts">
+                    <div></div>
+                </div>
             </div>
         </div>
     </div>

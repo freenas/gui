@@ -275,7 +275,9 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                         args: [taskName, [object.persistedId]]
                     }
                 ).then(function (response) {
-                    return self._snapshotService.removeSnapshotForTypeNameAndId(type.typeName, object.id);
+                    self._snapshotService.removeSnapshotForTypeNameAndId(type.typeName, object.id);
+                    // return taskId for consistency
+                    return response.data;
                 });
             }
 

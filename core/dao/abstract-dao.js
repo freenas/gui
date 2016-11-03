@@ -60,6 +60,15 @@ exports.AbstractDao = Montage.specialize({
         }
     },
 
+    delete: {
+        value: function(object) {
+            this._checkModelIsInitialized();
+            this._checkObjectIsNotNull(object);
+            this._checkObjectHasDaoModel(object);
+            return this._dataService.deleteDataObject(object);
+        }
+    },
+
     _checkModelIsInitialized: {
         value: function() {
             if (!this._model) {
