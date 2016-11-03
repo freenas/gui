@@ -132,10 +132,29 @@
                 "checked": {"<->": "@owner.object.replicable"}
             }
         },
+        "recursive": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "recursive"},
+                "label": "Recursive"
+            },
+            "bindings": {
+                "checked": {"<->": "!!@owner.recursive"}
+            }
+        },
         "creationCondition": {
             "prototype": "montage/ui/condition.reel",
             "properties": {
                 "element": {"#": "creationCondition"}
+            },
+            "bindings": {
+                "condition": {"<-": "!@owner.object.id"}
+            }
+        },
+        "createdCondition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "createdCondition"}
             },
             "bindings": {
                 "condition": {"<-": "!!@owner.object.id"}
@@ -178,6 +197,9 @@
             <div data-montage-id="neverExpires"></div>
             <div data-montage-id="replicable"></div>
             <div data-montage-id="creationCondition">
+                <div data-montage-id="recursive"></div>
+            </div>
+            <div data-montage-id="createdCondition">
                 <div data-montage-id="used"></div>
                 <div data-montage-id="creation"></div>
             </div>
