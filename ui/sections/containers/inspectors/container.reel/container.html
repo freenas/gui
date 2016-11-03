@@ -107,7 +107,8 @@
                 "label": "Memory Limit"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.memory_limit"}
+                "value": {"<-": "@owner.object.memory_limit"},
+                "classList.has('is-hidden')": {"<-": "!@owner.object.memory_limit.defined()"}
             }
         },
 
@@ -158,50 +159,75 @@
         },
 
         "environment": {
-            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "prototype": "blue-shark/ui/tables/table-read-only.reel",
             "properties": {
                 "element": {"#": "environment"},
-                "label": "Environment",
-                "labelPath": "this",
-                "valuesTitle": "Added Variables",
-                "disabled": true
+                "label": "Environments",
+                "columns":  [
+                    {
+                        "value": "variable",
+                        "path": "variable"
+                    },
+                    {
+                        "value": "value",
+                        "path": "value"
+                    }
+                ]
             },
             "bindings": {
-                "values": {"<-": "@owner.object.environment"},
+                "rows": {"<-": "@owner.environments"},
                 "classList.has('is-hidden')": {"<-": "!@owner.object.environment.length"}
             }
         },
 
         "ports": {
-            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "prototype": "blue-shark/ui/tables/table-read-only.reel",
             "properties": {
                 "element": {"#": "ports"},
                 "label": "Ports",
-                "inputTitle": "Add a port",
-                "valuesTitle": "Added Ports",
-                "emptyMessage": "No ports added :(",
-                "labelPath": "this",
-                "disabled": true
+                "columns":  [
+                    {
+                        "value": "Host Port",
+                        "path": "host_port"
+                    },
+                    {
+                        "value": "Container Port",
+                        "path": "container_port"
+                    },
+                    {
+                        "value": "protocol",
+                        "path": "protocol"
+                    }
+                ]
             },
             "bindings": {
-                "values": {"<-": "@owner.object.ports.map{host_port + ' -> ' + container_port + (protocol.defined() ? ' ' + protocol : '/TCP')}"},
+                "rows": {"<-": "@owner.object.ports"},
                 "classList.has('is-hidden')": {"<-": "!@owner.object.ports.length"}
             }
         },
 
         "volumes": {
-            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "prototype": "blue-shark/ui/tables/table-read-only.reel",
             "properties": {
                 "element": {"#": "volumes"},
                 "label": "Volumes",
-                "inputTitle": "Add a volume",
-                "valuesTitle": "Added Volumes",
-                "emptyMessage": "No volumes added :(",
-                "labelPath": "this",
-                "disabled": true
+                "columns":  [
+                    {
+                        "value": "Host Path",
+                        "path": "host_path"
+                    },
+                    {
+                        "value": "Container Path",
+                        "path": "container_path"
+                    },
+                    {
+                        "value": "Read Only",
+                        "path": "readonly ? 'yes' : 'no'"
+                    }
+                ]
             },
             "bindings": {
-                "values": {"<-": "@owner.object.volumes.map{host_path + ' -> ' + container_path + (!!readonly ? ' (ro)' : '')}"},
+                "rows": {"<-": "@owner.object.volumes"},
                 "classList.has('is-hidden')": {"<-": "!@owner.object.volumes.length"}
             }
         },
