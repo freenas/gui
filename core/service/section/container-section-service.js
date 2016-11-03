@@ -46,6 +46,12 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         }
     },
 
+    listDockerCollection: {
+        value: function () {
+            return this._containerRepository.listDockerCollection();
+        }
+    },
+
     getDockerSettings: {
         value: function () {
             return this._containerRepository.getDockerContainerSettings();
@@ -76,9 +82,21 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
     getDefaultDockerCollection: {
         value: function () {
             return this.getCurrentUser().then(function (user) {
-                return user && user.attributes && user.attributes.defaultCollection ? 
+                return user && user.attributes && user.attributes.defaultCollection ?
                     user.attributes.defaultCollection : "freenas";
             });
+        }
+    },
+
+    getNewDockerCollection: {
+        value: function () {
+            return this._containerRepository.getNewDockerCollection();
+        }
+    },
+
+    getNewDockerContainerCreator: {
+        value: function () {
+            return this._containerRepository.getNewDockerContainerCreator();
         }
     },
 

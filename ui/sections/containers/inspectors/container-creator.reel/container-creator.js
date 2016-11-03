@@ -25,6 +25,46 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
         }
     },
 
+    _context: {
+        value: null
+    },
+
+    context: {
+        set: function (context) {
+            if (this._context !== context) {
+                if (context) {
+                    context.object = context.object.dockerContainer;
+                    this._context = context;
+                } else {
+                    this._context = null;
+                }
+            }
+        },
+        get: function () {
+            return this._context;
+        }
+    },
+
+    _object: {
+        value: null
+    },
+
+    object: {
+        set: function (object) {
+            if (this._object !== object) {
+                if (object) {
+                    this._object = object.dockerContainer;
+                    this._collection = object.dockerCollection;
+                } else {
+                    this._object = this._collection = null;
+                }
+            }
+        },
+        get: function () {
+            return this._object;
+        }
+    },
+
     enterDocument: {
         value: function (firsTime) {
             this.super();

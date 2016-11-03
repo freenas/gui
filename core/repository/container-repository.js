@@ -4,18 +4,29 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
     DockerHostDao = require("core/dao/docker-host-dao").DockerHostDao,
     DockerConfigDao = require("core/dao/docker-config-dao").DockerConfigDao,
     DockerCollectionDao = require("core/dao/docker-collection-dao").DockerCollectionDao,
+    DockerContainerCreatorDao = require("core/dao/docker-container-creator-dao").DockerContainerCreatorDao,
     DockerContainerDao = require("core/dao/docker-container-dao").DockerContainerDao;
 
 exports.ContainerRepository = AbstractRepository.specialize({
 
     init: {
-        value: function (dockerContainerSectionDao, dockerContainerDao, dockerImageDao, dockerHostDao, dockerConfigDao, dockerCollectionDao) {
+        value: function (
+            dockerContainerSectionDao,
+            dockerContainerDao,
+            dockerImageDao,
+            dockerHostDao,
+            dockerConfigDao,
+            dockerCollectionDao,
+            dockerContainerCreatorDao
+            ) {
+
             this._dockerContainerSectionDao = dockerContainerSectionDao || DockerContainerSectionDao.instance;
             this._dockerContainerDao = dockerContainerDao || DockerContainerDao.instance;
             this._dockerImageDao = dockerImageDao || DockerImageDao.instance;
             this._dockerHostDao = dockerHostDao || DockerHostDao.instance;
             this._dockerConfigDao = dockerConfigDao || DockerConfigDao.instance;
             this._dockerCollectionDao = dockerCollectionDao || DockerCollectionDao.instance;
+            this._dockerContainerCreatorDao = dockerContainerCreatorDao || DockerContainerCreatorDao.instance;
         }
     },
 
@@ -28,6 +39,18 @@ exports.ContainerRepository = AbstractRepository.specialize({
     getNewDockerContainer: {
         value: function () {
             return this._dockerImageDao.getNewInstance();
+        }
+    },
+
+    getNewDockerCollection: {
+        value: function () {
+            return this._dockerCollectionDao.getNewInstance();
+        }
+    },
+
+    getNewDockerContainerCreator: {
+        value: function () {
+            return this._dockerContainerCreatorDao.getNewInstance();
         }
     },
 
@@ -106,6 +129,12 @@ exports.ContainerRepository = AbstractRepository.specialize({
     listDockerImages: {
         value: function () {
             return this._dockerImageDao.list();
+        }
+    },
+
+    listDockerCollection: {
+        value: function () {
+            return this._dockerCollectionDao.list();
         }
     },
 
