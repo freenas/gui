@@ -188,36 +188,37 @@ $Icons
 .c-grey-2 { color: #B1BCBE; }
 .c-grey-3 { color: #939E9F; }
 
-.g-padding { padding: 1em; }
+.g-padding { padding: 1rem; }
+.g-margin  { margin: 1rem; }
 
 .g-negative-margin-sides {
-    margin-left:  -1em;
-    margin-right: -1em;
+    margin-left:  -1rem;
+    margin-right: -1rem;
 }
 
 .g-padding-vertical {
-    padding-top:    1em;
-    padding-bottom: 1em;
+    padding-top:    1rem;
+    padding-bottom: 1rem;
 }
 
-.g-padding-top { padding-top: 1em; }
+.g-padding-top { padding-top: 1rem; }
 
 .g-margin-sides {
-    margin-left:  1em;
-    margin-right: 1em;
+    margin-left:  1rem;
+    margin-right: 1rem;
 }
 
-.g-margin-bottom { margin-bottom: 1em; }
+.g-margin-bottom { margin-bottom: 1rem; }
 .g-margin-bottom--double { margin-bottom: 2rem; }
 
 .g-margin-bottom--half {
-    margin-bottom: .5em;
+    margin-bottom: .5rem;
 }
 
 .g-margin-right--half { margin-right: .5em;}
 .g-margin-left--half  { margin-left:  .5em;}
 
-.g-negative-margin-top { margin-top: -1em; }
+.g-negative-margin-top { margin-top: -1rem; }
 
 .flush-bottom   { margin-bottom:    0  !important; }
 .flush-top      { margin-top:       0  !important; }
