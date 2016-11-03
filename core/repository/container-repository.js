@@ -3,17 +3,19 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
     DockerImageDao = require("core/dao/docker-image-dao").DockerImageDao,
     DockerHostDao = require("core/dao/docker-host-dao").DockerHostDao,
     DockerConfigDao = require("core/dao/docker-config-dao").DockerConfigDao,
+    DockerCollectionDao = require("core/dao/docker-collection-dao").DockerCollectionDao,
     DockerContainerDao = require("core/dao/docker-container-dao").DockerContainerDao;
 
 exports.ContainerRepository = AbstractRepository.specialize({
 
     init: {
-        value: function (dockerContainerSectionDao, dockerContainerDao, dockerImageDao, dockerHostDao, dockerConfigDao) {
+        value: function (dockerContainerSectionDao, dockerContainerDao, dockerImageDao, dockerHostDao, dockerConfigDao, dockerCollectionDao) {
             this._dockerContainerSectionDao = dockerContainerSectionDao || DockerContainerSectionDao.instance;
             this._dockerContainerDao = dockerContainerDao || DockerContainerDao.instance;
             this._dockerImageDao = dockerImageDao || DockerImageDao.instance;
             this._dockerHostDao = dockerHostDao || DockerHostDao.instance;
             this._dockerConfigDao = dockerConfigDao || DockerConfigDao.instance;
+            this._dockerCollectionDao = dockerCollectionDao || DockerCollectionDao.instance;
         }
     },
 
@@ -38,6 +40,12 @@ exports.ContainerRepository = AbstractRepository.specialize({
     getNewEmptyDockerContainerList: {
         value: function() {
             return this._dockerContainerDao.getEmptyList();
+        }
+    },
+
+    getNewEmptyDockerCollectionList: {
+        value: function() {
+            return this._dockerCollectionDao.getEmptyList();
         }
     },
 
@@ -70,7 +78,7 @@ exports.ContainerRepository = AbstractRepository.specialize({
             return this._dockerContainerDao.list();
         }
     },
-    
+
     listContainerSections: {
         value: function () {
             var self = this;
@@ -78,10 +86,11 @@ exports.ContainerRepository = AbstractRepository.specialize({
             return Promise.all([
                 self.getNewEmptyDockerContainerSectionList(),
                 //Add sub container sections here
-                
+
                 self.getNewEmptyDockerContainerList(),
                 self.getNewEmptyDockerHostList(),
-                self.getNewEmptyDockerImageList()
+                self.getNewEmptyDockerImageList(),
+                self.getNewEmptyDockerCollectionList()
             ]).then(function (data) {
                 var containerSections = data[0];
 

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="docker-collection.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
+            }
+        },
+
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "canSave": true,
+                "controller": {"@": "owner"},
+                "validationController": {"@": "validationController"}
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"},
+                "canDelete": {"<-": "!@owner.object._isNew"},
+                "canRevert": {"<-": "!@owner.object._isNew"},
+                "classList.has('has-loading-spinner')": {"<-": "@owner.isLoading"}
+            }
+        },
+
+        "name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.name"}
+            }
+        },
+
+        "collection": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "collection"},
+                "label": "Collection"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.collection"}
+            }
+        },
+
+        "matchExpression": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "matchExpression"},
+                "label": "Match Expression"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.match_expr"}
+            }
+        }
+
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="DockerCollection">
+        <div data-montage-id="inspector">
+            <div data-montage-id="name"></div>
+            <div data-montage-id="collection"></div>
+            <div data-montage-id="matchExpression"></div>
+        </div>
+    </div>
+</body>
+</html>
