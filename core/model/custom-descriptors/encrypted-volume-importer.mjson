@@ -1,0 +1,28 @@
+{
+  "key": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "key",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "disks": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "disks",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "EncryptedVolumeImporter",
+      "propertyBlueprints": [
+        {"@": "key"},
+        {"@": "disks"}
+      ]     
+    }
+  }
+}
+
+

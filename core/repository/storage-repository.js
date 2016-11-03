@@ -5,26 +5,12 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
     DiskDao = require("core/dao/disk-dao").DiskDao,
     ShareDao = require("core/dao/share-dao").ShareDao,
     VolumeImporterDao = require("core/dao/volume-importer-dao").VolumeImporterDao,
+    EncryptedVolumeImporterDao = require("core/dao/encrypted-volume-importer-dao").EncryptedVolumeImporterDao,
     DetachedVolumeDao = require("core/dao/detached-volume-dao").DetachedVolumeDao,
     DisksAllocationType = require("core/model/enumerations/disks-allocation-type").DisksAllocationType,
     Model = require("core/model/model").Model;
 
 exports.StorageRepository = AbstractRepository.specialize({
-    __volumeConstructorServices: {
-        value: null
-    },
-
-    _volumeConstructorServices: {
-        get: function() {
-            var self = this;
-            return this.__volumeConstructorServices ?
-                Promise.resolve(this.__volumeConstructorServices) : 
-                Model.populateObjectPrototypeForType(Model.Volume).then(function (Volume) {
-                    return self.__volumeConstructorServices = Volume.constructor.services;
-                });
-        }
-    },
-
     __volumeServices: {
         value: null
     },
@@ -35,19 +21,20 @@ exports.StorageRepository = AbstractRepository.specialize({
             return this.__volumeServices ?
                 Promise.resolve(this.__volumeServices) : 
                 Model.populateObjectPrototypeForType(Model.Volume).then(function (Volume) {
-                    return self.__volumeServices = Volume.services;
+                    return self.__volumeServices = Volume.constructor.services;
                 });
         }
     },
 
     init: {
-        value: function(volumeDao, shareDao, volumeDatasetDao, volumeSnapshotDao, diskDao, volumeImporterDao, detachedVolumeDao) {
+        value: function(volumeDao, shareDao, volumeDatasetDao, volumeSnapshotDao, diskDao, volumeImporterDao, encryptedVolumeImporterDao, detachedVolumeDao) {
             this._volumeDao = volumeDao || VolumeDao.instance;
             this._shareDao = shareDao || ShareDao.instance;
             this._volumeDatasetDao = volumeDatasetDao || VolumeDatasetDao.instance;
             this._volumeSnapshotDao = volumeSnapshotDao || VolumeSnapshotDao.instance;
             this._diskDao = diskDao || DiskDao.instance;
             this._volumeImporterDao = volumeImporterDao || VolumeImporterDao.instance;
+            this._encryptedVolumeImporterDao = encryptedVolumeImporterDao || EncryptedVolumeImporterDao.instance;
             this._detachedVolumeDao = detachedVolumeDao || DetachedVolumeDao.instance;
 
             this._availableDisks = [];
@@ -81,6 +68,12 @@ exports.StorageRepository = AbstractRepository.specialize({
                 (this._volumesPromise = this._volumeDao.list().then(function(volumes) {
                     return self._volumes = volumes;
                 }));
+        }
+    },
+
+    saveVolume: {
+        value: function(volume, password) {
+            return this._volumeDao.save(volume, password);
         }
     },
 
@@ -118,44 +111,6 @@ exports.StorageRepository = AbstractRepository.specialize({
                     }
                     return self._detachedVolumes;
                 });
-            });
-        }
-    },
-
-    importDetachedVolume: {
-        value: function(detachedVolume) {
-            var self = this;
-            return this._volumeServices.then(function(volumeServices) {
-                return volumeServices.import(detachedVolume.id, detachedVolume.name);
-            }).then(function() {
-                self.listDetachedVolumes();
-            });
-        }
-    },
-
-    deleteDetachedVolume: {
-        value: function(detachedVolume) {
-            var self = this;
-            return this._volumeServices.then(function(volumeServices) {
-                return volumeServices.deleteExported(detachedVolume.name);
-            }).then(function() {
-                self.listDetachedVolumes();
-            });
-        }
-    },
-
-    exportVolume: {
-        value: function(volume) {
-            return this._volumeServices.then(function(volumeServices) {
-                return volumeServices.export(volume.id);
-            });
-        }
-    },
-
-    scrubVolume: {
-        value: function(volume) {
-            return this._volumeServices.then(function(volumeServices) {
-                return volumeServices.scrub(volume.id);
             });
         }
     },
@@ -217,6 +172,15 @@ exports.StorageRepository = AbstractRepository.specialize({
         }
     },
 
+    getEncryptedVolumeImporterInstance: {
+        value: function() {
+            return this._encryptedVolumeImporterDao.getNewInstance().then(function(encryptedVolumeImporter) {
+                encryptedVolumeImporter.data = [];
+                return encryptedVolumeImporter;
+            });
+        }
+    },
+
     refreshAvailableDisks: {
         value: function(isRefreshBlocked) {
             var self = this,
@@ -246,7 +210,7 @@ exports.StorageRepository = AbstractRepository.specialize({
 
     _setAssignationOnAvailableDisks: {
         value: function(disks, availablePaths) {
-            return this._volumeConstructorServices.then(function(volumeServices) {
+            return this._volumeServices.then(function(volumeServices) {
                 return volumeServices.getDisksAllocation(availablePaths).then(function(allocations) {
                     return disks.map(function(disk) {
                         disk._allocation = allocations[disk.path];
@@ -279,7 +243,7 @@ exports.StorageRepository = AbstractRepository.specialize({
             var self = this,
                 promise;
             if (isRefreshNeeded || !this._knownAvailableDisks || this._knownAvailableDisks.length === 0) {
-                promise = this._volumeConstructorServices.then(function(volumeServices) {
+                promise = this._volumeServices.then(function(volumeServices) {
                     return volumeServices.getAvailableDisks();
                 }).then(function(availableDisks) {
                     return self._knownAvailableDisks = availableDisks;

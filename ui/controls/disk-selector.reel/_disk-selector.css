@@ -1,0 +1,101 @@
+:root {
+    --topologyItemMaxHeight: 15em;
+    --topologyItemBg: #2F3233;
+}
+
+.DiskSelector {
+    position: relative;
+    z-index: 1;
+    background: #2F3233;
+    display: flex;
+    flex-direction: column;
+    min-height: 2em;
+}
+
+.DiskSelector-dropZone {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/*
+
+Title
+
+*/
+
+.DiskSelector-title {
+    position: relative;
+    height: 2em;
+    line-height: 1.7em;
+    padding: 0 1em;
+    font-weight: 400;
+    background: #232629;
+    border-top: 2px solid currentColor;
+    overflow: hidden;
+    /* set to hide behind dropZone overlay */
+    z-index: -1;
+    flex-shrink: 0;
+
+    /* left decoration */
+
+    &:before {
+        content: '';
+        position: absolute;
+        left: -1.7em;
+        top: -1em;
+        height: 4em;
+        background: currentColor;
+        width: 2em;
+        transform: rotate(17deg);
+    }
+}
+
+.DiskSelector-title-content { flex: 1; }
+
+.DiskSelectorTitle-size { float: right; }
+
+
+/************************
+
+Grid
+
+*************************/
+
+.DiskSelector-grid {
+    flex: 1;
+
+    @nest .DiskSelector.has-items & {
+        /* FIXME: currently using native scrolling */
+        overflow: scroll;
+        padding: .25em;
+    }
+}
+
+.DiskSelector .Grid-icon {
+    width:  auto;
+    height: auto;
+    margin-bottom: 0;
+}
+
+.DiskSelector .LabeledIcon-image > * {
+    width: auto;
+    height: auto;
+}
+
+/************************
+
+Vdev Container
+
+************************/
+
+._DiskSelector-disksGrid > .Grid-repetition > .GridItem > .LabeledIcon {
+    margin: 0em .25em .5em .25em;
+    padding: 0;
+}
+
+
+/* Grid Container*/
+._DiskSelector-disksGrid > .Grid-repetition > .LabeledIcon > .LabeledIcon-image > * {
+    padding: 0;
+}

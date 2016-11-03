@@ -119,32 +119,6 @@ exports.VolumeCreator = AbstractInspector.specialize({
         }
     },
 
-    _cleanupVdevs: {
-        value: function (storageType) {
-            var i, vdevsLength, vdev,
-                j, disksLength, disk, path;
-            for (i = 0, vdevsLength = storageType.length; i < vdevsLength; i++) {
-                vdev = storageType[i];
-                if (vdev.children) {
-                    for (j = 0, disksLength = vdev.children.length; j < disksLength; j++) {
-                        disk = vdev.children[j];
-                        path = disk.path;
-                        if (path.indexOf('/dev/') != 0) {
-                            path = '/dev/' + path;
-                        }
-                        vdev.children[j].path = path;
-                        vdev.children[j].type = 'disk';
-                    }
-                    if (vdev.children.length == 1) {
-                        vdev.path = vdev.children[0].path;
-                        vdev.children = [];
-                    }
-                }
-            }
-            return storageType;
-        }
-    },
-
     revert: {
         value: function() {
             this.topologizer.reset();
@@ -161,14 +135,8 @@ exports.VolumeCreator = AbstractInspector.specialize({
     save: {
         value: function() {
             var self = this;
-            this._cleanupVdevs(this.object.topology.data);
-            this._cleanupVdevs(this.object.topology.cache);
-            this._cleanupVdevs(this.object.topology.log);
-            this._cleanupVdevs(this.object.topology.spare);
-            this.object.type = 'zfs';
-            this.object._isNew = true;
             this.object.__isLocked = true;
-            return this.application.dataService.saveDataObject(this.object).then(function() {
+            return this._sectionService.createVolume(this.object).then(function() {
                 self.object.__isLocked = false;
             });
         }

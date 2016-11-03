@@ -47,7 +47,11 @@ exports.AbstractDao = Montage.specialize({
             this._checkModelIsInitialized();
             this._checkObjectIsNotNull(object);
             this._checkObjectHasDaoModel(object);
-            return this._dataService.saveDataObject(object);
+            var args = [object];
+            for (var i = 1, length = arguments.length; i < length; i++) {
+                args.push(arguments[i]);
+            }
+            return this._dataService.saveDataObject.apply(this._dataService, args);
         }
     },
 

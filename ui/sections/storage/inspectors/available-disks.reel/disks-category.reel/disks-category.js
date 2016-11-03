@@ -9,9 +9,10 @@ exports.DisksCategory = AbstractDropZoneComponent.specialize({
 
     shouldAcceptComponent: {
         value: function (diskGridItemComponent) {
-            var response = true;
-
-            if (response) {
+            var response;
+            if (this.controller && typeof this.controller.shouldAcceptComponentInDiskCategory === 'function') {
+                response = this.controller.shouldAcceptComponentInDiskCategory(diskGridItemComponent, this);
+            } else {
                 var vDev = diskGridItemComponent.object,
                     disk = vDev._disk;
 
@@ -24,21 +25,24 @@ exports.DisksCategory = AbstractDropZoneComponent.specialize({
                     response = false;
                 }
             }
-
             return response;
         }
     },
 
     handleComponentDrop: {
         value: function (diskGridItemComponent) {
-            var vDev = diskGridItemComponent.object,
-                disk = vDev._disk,
-                sourceGridId = diskGridItemComponent.ownerComponent.identifier;
+            if (this.controller && typeof this.controller.handleComponentDropInDiskCategory === 'function') {
+                this.controller.handleComponentDropInDiskCategory(diskGridItemComponent, this);
+            } else {
+                var vDev = diskGridItemComponent.object,
+                    disk = vDev._disk,
+                    sourceGridId = diskGridItemComponent.ownerComponent.identifier;
 
-            if (disk && Topology.IDENTIFIERS[sourceGridId]) {
-                var collectionSource = this.topology.findTopologyCollectionWithIdentifier.call(this.topology, sourceGridId);
-                this.topology.removeDiskFromTopologyCollection(vDev, collectionSource);
-                disk.volume = null;
+                if (disk && Topology.IDENTIFIERS[sourceGridId]) {
+                    var collectionSource = this.topology.findTopologyCollectionWithIdentifier.call(this.topology, sourceGridId);
+                    this.topology.removeDiskFromTopologyCollection(vDev, collectionSource);
+                    disk.volume = null;
+                }
             }
         }
     },
