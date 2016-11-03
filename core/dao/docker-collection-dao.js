@@ -4,7 +4,7 @@ var AbstractDao = require("core/dao/abstract-dao").AbstractDao,
 exports.DockerCollectionDao = AbstractDao.specialize({
     init: {
         value: function() {
-            this._model = Model.DockerCollection;
+            this._model = this.constructor.Model.DockerCollection;
         }
     }
 });
