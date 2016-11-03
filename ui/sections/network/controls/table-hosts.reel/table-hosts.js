@@ -1,8 +1,7 @@
 /**
  * @module ui/table-hosts.reel
  */
-var AbstractMultipleEditController = require('ui/abstract/abstract-multiple-edit-controller').AbstractMultipleEditController,
-    Model = require("core/model/model").Model;
+var AbstractMultipleEditController = require('ui/abstract/abstract-multiple-edit-controller').AbstractMultipleEditController;
 
 /**
  * @class TableHosts
@@ -10,9 +9,9 @@ var AbstractMultipleEditController = require('ui/abstract/abstract-multiple-edit
  */
 exports.TableHosts = AbstractMultipleEditController.specialize({
 
-    getModelType: {
+    getNewInstance: {
         value: function() {
-            return Model.NetworkHost;
+            return this._sectionService.getNewHost();
         }
     },
 
@@ -34,7 +33,7 @@ exports.TableHosts = AbstractMultipleEditController.specialize({
         }
     },
 
-    mapObjectToRawData: {
+    mapObjectToValues: {
         value: function(object) {
             return {
                 id: object.id,
@@ -44,7 +43,7 @@ exports.TableHosts = AbstractMultipleEditController.specialize({
         }
     },
 
-    mergeRawDataToObject: {
+    mergeValuesToObject: {
         value: function(data, object) {
             object.id = data.id;
             object.addresses = data.addresses;

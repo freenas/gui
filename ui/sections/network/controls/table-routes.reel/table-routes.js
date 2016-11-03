@@ -1,8 +1,7 @@
 /**
  * @module ui/table-routes.reel
  */
-var AbstractMultipleEditController = require('ui/abstract/abstract-multiple-edit-controller').AbstractMultipleEditController,
-    Model = require("core/model/model").Model;
+var AbstractMultipleEditController = require('ui/abstract/abstract-multiple-edit-controller').AbstractMultipleEditController;
 
 /**
  * @class TableRoutes
@@ -10,9 +9,9 @@ var AbstractMultipleEditController = require('ui/abstract/abstract-multiple-edit
  */
 exports.TableRoutes = AbstractMultipleEditController.specialize({
 
-    getModelType: {
+    getNewInstance: {
         value: function() {
-            return Model.NetworkRoute;
+            return this._sectionService.getNewNetworkStaticRoute();
         }
     },
 
@@ -34,7 +33,7 @@ exports.TableRoutes = AbstractMultipleEditController.specialize({
         }
     },
 
-    mapObjectToRawData: {
+    mapObjectToValues: {
         value: function(object) {
             return {
                 id: object.id,
@@ -49,7 +48,7 @@ exports.TableRoutes = AbstractMultipleEditController.specialize({
         }
     },
 
-    mergeRawDataToObject: {
+    mergeValuesToObject: {
         value: function(data, object) {
             object.id = data.id;
             object.network = data.network.address;

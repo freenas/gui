@@ -23,8 +23,7 @@ exports.Settings = AbstractInspector.specialize({
             this.super();
 
             if (isFirstTime) {
-                this._dataService = this.application.dataService;
-                return this._performActionOnControllers('initialize', [this._sectionService, this._dataService]);
+                return this._performActionOnControllers('initialize', this._sectionService);
             }
         }
     },
@@ -50,8 +49,10 @@ exports.Settings = AbstractInspector.specialize({
     },
 
     _performActionOnControllers: {
-        value: function(action, args) {
-            var promises = [];
+        value: function(action) {
+            var args = arguments.length > 1 ? Array.prototype.slice.call(arguments, 1) : [],
+                promises = [];
+            console.log('action', args);
             for (var key in this.controllers) {
                 var controller = this.controllers[key];
                 promises.push(controller[action].apply(controller, args));

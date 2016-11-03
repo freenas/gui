@@ -1,10 +1,9 @@
-var AbstractDao = require("core/dao/abstract-dao").AbstractDao,
-    Model = require("core/model/model").Model;
+var AbstractDao = require("core/dao/abstract-dao").AbstractDao;
 
 exports.NetworkRouteDao = AbstractDao.specialize({
     init: {
         value: function() {
-            this._model = Model.NetworkRoute;
+            this._model = this.constructor.Model.NetworkRoute;
         }
     }
 });

@@ -121,6 +121,12 @@ exports.NetworkSectionService = AbstractSectionService.specialize({
         }
     },
 
+    getNewStaticRoute: {
+        value: function() {
+            return this._networkRepository.getNewNetworkStaticRoute();
+        }
+    },
+
     saveStaticRoute: {
         value: function(route) {
             return this._networkRepository.saveNetworkStaticRoute(route);
@@ -136,6 +142,12 @@ exports.NetworkSectionService = AbstractSectionService.specialize({
     loadHosts: {
         value: function() {
             return this._networkRepository.listNetworkHosts();
+        }
+    },
+
+    getNewHost: {
+        value: function() {
+            return this._networkRepository.getNewNetworkHost();
         }
     },
 

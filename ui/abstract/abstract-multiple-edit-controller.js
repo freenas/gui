@@ -8,10 +8,9 @@ exports.AbstractMultipleEditController = Component.specialize({
     },
 
     initialize: {
-        value: function(sectionService, dataService) {
+        value: function(sectionService) {
             this._sectionService = sectionService;
-            this._dataService = dataService;
-
+            console.log('abs', sectionService);
             return this._load();
         }
     },
@@ -28,22 +27,24 @@ exports.AbstractMultipleEditController = Component.specialize({
                 valuesMap = {},
                 promises = [];
 
-            this.values.forEach(function(value) {
+            for (var i = 0; i < this.values.length; i++) {
+                var value = this.values[i];
                 if (!value.persistedId) {   // created
-                    promises.push(self._saveRawData(value));
+                    promises.push(this._saveRaw(value));
                 } else {
                     valuesMap[value.persistedId] = value;
                 }
-            });
+            }
             
-            this._objects.forEach(function(object) {
+            for (var i = 0; i < this._objects.length; i++) {
+                var object = this._objects[i];
                 var value = valuesMap[object.persistedId];
                 if (!value) { // deleted
-                    promises.push(self.deleteObject(object));
-                } else if (self.isValueUpdated(value, object)) { // updated
-                    promises.push(self._saveRawData(value));
+                    promises.push(this.deleteObject(object));
+                } else if (this.isValueUpdated(value, object)) { // updated
+                    promises.push(this._saveRaw(value));
                 }
-            });
+            }
 
             return Promise.all(promises).then(function(taskIds) {
                 return self._startTaskDoneListener(taskIds);
@@ -84,20 +85,18 @@ exports.AbstractMultipleEditController = Component.specialize({
 
     _reset: {
         value: function() {
-            this.values = this._objects.map(this.mapObjectToRawData);
+            this.values = this._objects.map(this.mapObjectToValues);
             return Promise.resolve();
         }
     },
 
-    _saveRawData: {
+    _saveRaw: {
         value: function(value) {
-            var self = this,
-                type = this.getModelType();
-
-            return this._dataService.getNewInstanceForType(type)
+            var self = this;
+            return this.getNewInstance()
                 .then(function(object) {
                     object._isNew = !value.persistedId;
-                    self.mergeRawDataToObject(value, object);
+                    self.mergeValuesToObject(value, object);
                     return self.saveObject(object);
                 });
         }
@@ -123,11 +122,11 @@ exports.AbstractMultipleEditController = Component.specialize({
     },
 
     /**
-     * Returns model type for the objects currently being edited
+     * Returns new model object
      * 
-     * @return {ModelType}
+     * @return {Model}
      */
-    getModelType: {
+    getNewInstance: {
         value: Function.noop
     },
 
@@ -166,7 +165,7 @@ exports.AbstractMultipleEditController = Component.specialize({
      * @param  {Model} object Model object to map
      * @return {Object}
      */
-    mapObjectToRawData: {    
+    mapObjectToValues: {    
         value: Function.noop
     },
 
@@ -177,7 +176,7 @@ exports.AbstractMultipleEditController = Component.specialize({
      * @param  {Model}  object Model object
      * @return {Model}
      */
-    mergeRawDataToObject: {
+    mergeValuesToObject: {
         value: Function.noop
     },
 

@@ -32,6 +32,12 @@ exports.NetworkRepository = AbstractRepository.specialize({
         }
     },
 
+    getNewNetworkStaticRoute: {
+        value: function() {
+            return this._networkRouteDao.getNewInstance();
+        }
+    },
+
     saveNetworkStaticRoute: {
         value: function(route) {
             return this._networkRouteDao.save(route);
@@ -47,6 +53,12 @@ exports.NetworkRepository = AbstractRepository.specialize({
     listNetworkHosts: {
         value: function() {
             return this._networkHostDao.list();
+        }
+    },
+
+    getNewNetworkHost: {
+        value: function() {
+            return this._networkHostDao.getNewInstance();
         }
     },
 
