@@ -12,7 +12,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    min-height: 15em;
+    max-height: 15em;
 
     &:after {
         position: absolute;

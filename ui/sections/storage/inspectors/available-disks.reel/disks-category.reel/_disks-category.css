@@ -10,6 +10,10 @@
     & .Scrollview-transform {
         display: none;
     }
+
+    &:last-child .Button {
+        background-color: color(#2A2E33 l(12%));
+    }
 }
 
 .AvailableDisksCategory-toggle.Button {
@@ -20,11 +24,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #0F1213;
+    background: #242628;
     cursor: pointer;
 
     &:hover {
-        background-color: color(#0F1213 l(12%));
+        background-color: color(#2A2E33 l(18%));
     }
 
     & svg {
