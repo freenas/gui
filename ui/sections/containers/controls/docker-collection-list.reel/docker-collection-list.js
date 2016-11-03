@@ -9,12 +9,9 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
  */
 exports.DockerCollectionList = AbstractInspector.specialize(/** @lends DockerCollectionList# */ {
 
-    templateDidLoad: {
+    _inspectorTemplateDidLoad: {
         value: function () {
-            var self = this,
-                blockGateKey = this.constructor.DATA_GATE_BLOCK_KEY;
-
-            this._canDrawGate.setField(blockGateKey, false);
+            var self = this;
 
             return Promise.all([
                 this._sectionService.getDefaultDockerCollection(),
@@ -23,8 +20,6 @@ exports.DockerCollectionList = AbstractInspector.specialize(/** @lends DockerCol
                 var dockerCollections = data[1];
                 dockerCollections.unshift(data[0]);
                 self._dockerCollections = dockerCollections;
-            }).finally(function () {
-                self._canDrawGate.setField(blockGateKey, true);
             });
         }
     },
