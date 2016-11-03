@@ -37,21 +37,6 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
         value: null
     },
 
-    _recursive: {
-        value: null
-    },
-
-    recursive: {
-        get: function() {
-            return this._recursive;
-        },
-        set: function(recursive) {
-            if (this._recursive != recursive) {
-                this._recursive = recursive;
-            }
-        }
-    },
-
     _context: {
         value: null
     },
@@ -122,7 +107,7 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
 
     save: {
         value: function() {
-            return this.inspector.save(this.recursive);
+            return this.inspector.save(this.object._recursive);
         }
     },
 
