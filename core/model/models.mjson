@@ -177,6 +177,10 @@
             "type": "DockerConfig"
         },
         {
+            "modelId": "core/model/models/docker-container-creator.js",
+            "type": "DockerContainerCreator"
+        },
+        {
             "modelId": "core/model/models/docker-container-section.js",
             "type": "DockerContainerSection"
         },

@@ -334,10 +334,10 @@ exports.DockerContainer = Montage.specialize({
             inspectorComponentModule: {
                 id: 'ui/sections/containers/inspectors/container.reel'
             },
-            nameExpression: "id.defined() ? names.0 : 'Create a container'",
+            nameExpression: "id.defined() ? names.0 : 'Choose a collection'",
             collectionNameExpression: "'Containers'",
             creatorComponentModule: {
-                id: 'ui/sections/containers/inspectors/container-creator.reel'
+                id: 'ui/sections/containers/controls/docker-collection-list.reel'
             },
             statusColorMapping: {
                 "running": "green",

@@ -1,0 +1,9 @@
+{
+    "root": {
+        "prototype": "montage/core/meta/user-interface-descriptor",
+        "properties": {
+            "inspectorComponentModule": {"%": "ui/sections/containers/inspectors/container-creator.reel"},
+            "nameExpression": "'Create a container'"
+        }
+    }
+}

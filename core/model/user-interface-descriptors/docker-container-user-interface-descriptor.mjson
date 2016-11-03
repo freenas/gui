@@ -3,9 +3,9 @@
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
             "inspectorComponentModule": {"%": "ui/sections/containers/inspectors/container.reel"},
-            "nameExpression": "id.defined() ? names.0 : 'Create a container'",
+            "nameExpression": "id.defined() ? names.0 : 'Choose a collection'",
             "collectionNameExpression": "'Containers'",
-            "creatorComponentModule": {"%": "ui/sections/containers/inspectors/container-creator.reel"},
+            "creatorComponentModule": {"%": "ui/sections/containers/controls/docker-collection-list.reel"},
             "statusColorMapping": {
                 "running": "green",
                 "stopped": "grey"
