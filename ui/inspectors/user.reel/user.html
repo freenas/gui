@@ -10,7 +10,15 @@
                 "element": {"#": "owner"},
                 "validationController": {"@": "validationController"},
                 "treeController": {"@": "filesystemTreeController"},
-                "inspector": {"@": "inspector"}
+                "inspector": {"@": "inspector"},
+                "extraDeleteFlags": [
+                    {"label": "Delete user's home directory?",
+                     "value": "delete_homedir",
+                     "checked": false},
+                    {"label": "Delete user's group?",
+                     "value": "delete_own_group",
+                     "checked": false}
+                ]
             }
         },
         "validationController": {
@@ -32,7 +40,8 @@
                 "context": {"<-": "@owner.context"},
                 "canDelete": {"<-": "!@owner.object.builtin"},
                 "canRevert": {"<-": "(@owner.object.uid == 0) || !@owner.object.builtin"},
-                "canSave": {"<-": "(@owner.object.uid == 0) || !@owner.object.builtin"}
+                "canSave": {"<-": "(@owner.object.uid == 0) || !@owner.object.builtin"},
+                "extraDeleteFlags": {"<-": "@owner.extraDeleteFlags"}
             }
         },
         "filesystemTreeController": {
