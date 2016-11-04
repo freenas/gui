@@ -81,10 +81,10 @@ exports.AlertFilter = Montage.specialize({
             },
             collectionNameExpression: "'Alert Filters'",
             inspectorComponentModule: {
-                id: 'ui/inspectors/system-section.reel/alert.reel/alert-filter.reel'
+                id: 'ui/sections/system/inspectors/alert.reel/alert-filter.reel'
             },
             creatorComponentModule: {
-                id: 'ui/inspectors/system-section.reel/alert.reel/alert-filter.reel'
+                id: 'ui/sections/system/inspectors/alert.reel/alert-filter.reel'
             },
             nameExpression: "!_isNew && id.defined() ? id : 'Create an Alert filter'"
         }
