@@ -76,10 +76,10 @@
                 "inspector": {"@": "owner"}
             },
             "bindings": {
-                "confirmDeleteMessage": {"<-": "!!@owner.confirmDeleteMessage ? @owner.confirmDeleteMessage : 'Are you sure you want to delete ' + @owner.context.object.path(@owner.context.userInterfaceDescriptor.nameExpression)"}
+                "confirmDeleteMessage": {"<-": "!!@owner.confirmDeleteMessage ? @owner.confirmDeleteMessage : 'Are you sure you want to delete ' + @owner.context.object.path(@owner.context.userInterfaceDescriptor.nameExpression)"},
+                "extraDeleteFlags": {"<-": "@owner.extraDeleteFlags"}
             }
         }
-
     }
     </script>
 </head>

@@ -77,7 +77,15 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
     delete: {
         value: function () {
             this.object.__isLocked = true;
-            return this.application.dataService.deleteDataObject(this.object).catch(this._logError);
+            if (arguments && arguments.length > 0) {
+                var args = [this.object];
+                for (var i = 0, length = arguments.length; i < length; i++) {
+                    args.push(arguments[i]);
+                }
+                return this.application.dataService.deleteDataObject.apply(this.application.dataService, args).catch(this._logError);
+            }else {
+                return this.application.dataService.deleteDataObject(this.object).catch(this._logError);
+            }
         }
     },
 
