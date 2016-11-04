@@ -107,7 +107,11 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
 
     save: {
         value: function() {
-            return this.inspector.save(this.object._recursive);
+            var args = [];
+            if (this.object._isNew) {
+                args.push(!!this.object._recursive);
+            }
+            return this.inspector.save.apply(this.inspector, args);
         }
     },
 
