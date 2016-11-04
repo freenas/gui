@@ -83,10 +83,10 @@ exports.StorageSectionService = AbstractSectionService.specialize({
         value: function() {
             var self = this,
                 dataset;
-            return this._datasetsPromise = this._storageRepository.listVolumeDatasets().then(function(datasets) {
+            return this._datasetsPromise || (this._datasetsPromise = this._storageRepository.listVolumeDatasets().then(function(datasets) {
                 self._cacheRootDatasetForVolume();
                 return datasets;
-            });
+            }));
         }
     },
 
