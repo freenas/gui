@@ -67,6 +67,20 @@ var StorageService = exports.StorageService = Montage.specialize({
         }
     },
 
+    getNewSnapshot: {
+        value: function() {
+            return this._dataService.getNewInstanceForType(Model.VolumeSnapshot);
+        }
+    },
+
+    saveSnapshot: {
+        value: function(snapshot) {
+            if (snapshot) {
+                return this._dataService.saveDataObject.apply(this._dataService, arguments);
+            }
+        }
+    },
+
     getShareData: {
         value: function() {
             return this._dataService.fetchData(Model.Share).then(function (shares) {
