@@ -20,10 +20,10 @@ exports.ValidationController = Montage.specialize(/** @lends ValidationControlle
     },
 
     load: {
-        value: function(form) {
+        value: function(form, object) {
             this._form = form;
             this._context = this._form.context
-            this._object = this._context.object;
+            this._object = object || this._context.object;
             this._action = this._object._isNew ? 
                 ValidationService.ACTIONS.CREATE : 
                 ValidationService.ACTIONS.UPDATE;

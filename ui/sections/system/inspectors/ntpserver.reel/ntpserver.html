@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="ntpserver.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "validationController": {"@": "validationController"}
+            }
+        },
+        "validationController": {
+            "prototype": "core/controller/validation-controller"
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "validationController": {"@": "validationController"},
+                "canDelete": true,
+                "canSave": true,
+                "canRevert": true
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"},
+                "isConfirmationVisible": {"<-": "@owner.isConfirmationVisible"},
+                "confirmationMessage": {"<-": "'Are you sure you want to delete ' + @owner.object.address + '?'"}
+            }
+        },
+        "address": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "address"},
+                "label": "Address",
+                "placeholderValue": "e.g. utcnist.colorado.edu"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.address"}
+            }
+        },
+        "pool ": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "pool"},
+                "label": "Pool"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.pool"}
+            }
+        },
+        "burst": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "burst"},
+                "label": "Burst"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.burst"}
+            }
+        },
+        "iburst": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "iburst"},
+                "label": "Initial Burst"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.iburst"}
+            }
+        },
+        "prefer": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "prefer"},
+                "label": "Preferred"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.prefer"}
+            }
+        },
+        "minpollValidator": {
+            "prototype": "core/converter/validator/integer-range-validator",
+            "properties": {
+                "floor": 4,
+                "ceiling": 17,
+                "errorMessage": "Value must be an integer between 4 and 17"
+            }
+        },
+        "minpollConverter": {
+            "prototype": "core/converter/string-to-integer-or-null-converter",
+            "properties": {
+                "validator": {"@": "minpollValidator"}
+            }
+        },
+        "minpoll": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "minpoll"},
+                "label": "Minimum Poll",
+                "placeholderValue": "e.g. 6",
+                "converter": {"@": "minpollConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.minpoll"}
+            }
+        },
+        "maxpollValidator": {
+            "prototype": "core/converter/validator/integer-range-validator",
+            "properties": {
+                "floor": 4,
+                "ceiling": 17,
+                "errorMessage": "Value must be an integer between 4 and 17"
+            }
+        },
+        "maxpollConverter": {
+            "prototype": "core/converter/string-to-integer-or-null-converter",
+            "properties": {
+                "validator": {"@": "maxpollValidator"}
+            }
+        },
+        "maxpoll": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "maxpoll"},
+                "label": "Maximum Poll",
+                "placeholderValue": "e.g. 10",
+                "converter": {"@": "maxpollConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.maxpoll"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Ntpserver">
+        <div data-montage-id="inspector">
+            <div data-montage-id="address"></div>
+            <div data-montage-id="pool"></div>
+            <div data-montage-id="burst"></div>
+            <div data-montage-id="iburst"></div>
+            <div data-montage-id="prefer"></div>
+            <div data-montage-id="minpoll"></div>
+            <div data-montage-id="maxpoll"></div>
+        </div>
+    </div>
+</body>
+</html>

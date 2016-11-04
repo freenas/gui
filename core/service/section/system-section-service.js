@@ -16,7 +16,6 @@ exports.SystemSectionService = AbstractSectionService.specialize({
 
     loadSettings: {
         value: function() {
-            return this._systemRepository.getSystemSettings();
         }
     }
 

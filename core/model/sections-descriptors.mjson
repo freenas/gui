@@ -29,7 +29,8 @@
         "label": "System",
         "id": "settings",
         "index": 4,
-        "icon": "settings"
+        "icon": "settings",
+        "service": "core/service/section/system-section-service"
     },
     "services": {
         "label": "Services",

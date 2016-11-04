@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="tunables.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "viewer": {"@": "viewer"}
+            }
+        },
+        "viewer": {
+            "prototype": "ui/controls/viewer.reel",
+            "properties": {
+                "element": {"#": "viewer"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.tunables"}
+            }
+        }
+
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Tunables">
+        <div data-montage-id="viewer"></div>
+    </div>
+</body>
+</html>

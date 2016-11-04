@@ -2,10 +2,10 @@
     "root": {
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
-            "inspectorComponentModule": {"%": "ui/inspectors/tunable.reel"},
+            "inspectorComponentModule": {"%": "ui/sections/system/inspectors/tunable.reel"},
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "collectionNameExpression": "'Tunables'",
-            "creatorComponentModule": {"%": "ui/inspectors/tunable.reel"},
+            "creatorComponentModule": {"%": "ui/sections/system/inspectors/tunable.reel"},
             "nameExpression": "_isNew.defined() && _isNew ? 'Add a Tunable' : var"
         }
     }

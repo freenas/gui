@@ -494,10 +494,10 @@ exports.CryptoCertificate = Montage.specialize({
             },
             collectionNameExpression: "'Certificates'",
             inspectorComponentModule: {
-                id: 'ui/inspectors/crypto-certificate.reel'
+                id: 'ui/sections/system/inspectors/crypto-certificate.reel'
             },
             creatorComponentModule: {
-                id: 'ui/inspectors/crypto-certificate-creator.reel'
+                id: 'ui/sections/system/inspectors/crypto-certificate-creator.reel'
             },
             nameExpression: "!!id ? !!name ? name : id : !!_label ? _label: 'Choose a certificate type'"
         }
