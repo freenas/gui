@@ -50,6 +50,7 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
                 this._context = context;
             }
             this._loadVolume();
+            this._loadParentDataset();
         }
     },
 
@@ -66,7 +67,6 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
                 this._object = object;
 
                 if (object) {
-                    var self = this;
                     if (object.id == void 0) {
                         this._object.replicable = true;
                         this.pathDisplayMode = "select";
@@ -85,6 +85,7 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
         value: function() {
             this.super();
             this._loadVolume();
+            this._loadParentDataset();
         }
     },
 
@@ -146,6 +147,31 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
 
             return null;
         }
-    }
+    },
+
+    _loadParentDataset: {
+        value: function() {
+            var dataset = this._getCurrentDataset();
+            if (dataset) {
+                this._object.dataset = dataset.id;
+                this.pathDisplayMode = "display";
+            }
+        }
+    },
+
+    _getCurrentDataset: {
+        value: function() {
+            if (this._context) {
+                var currentSelection = this.application.selectionService.getCurrentSelection();
+                for (var i = this._context.columnIndex - 1; i >= 0; i--) {
+                    if (currentSelection[i].constructor.Type == Model.VolumeDataset) {
+                        return currentSelection[i];
+                    }
+                }
+            }
+        }
+    },
+
+
 
 });
