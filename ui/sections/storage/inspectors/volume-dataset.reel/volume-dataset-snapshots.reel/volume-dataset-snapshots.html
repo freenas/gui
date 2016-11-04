@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="volume-dataset-snapshots.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
+        },
+        "snapshotSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "snapshotSection"},
+                "title": "Snapshots"
+            }
+        },
+        "name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.newSnapshot.name"}
+            }
+        },
+        "recursive": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "recursive"},
+                "label": "Recursive"
+            },
+            "bindings": {
+                "checked": {"<->": "!!@owner.newSnapshot.recursive"}
+            }
+        },
+        "create": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "buttonCreate"},
+                "label": "Create"
+            }
+        },
+        "snapshots": {
+            "prototype": "blue-shark/ui/tables/table-read-only.reel",
+            "properties": {
+                "element": {"#": "snapshots"},
+                "columns":  [
+                    {
+                        "value": "Name",
+                        "path": "name"
+                    },
+                    {
+                        "value": "Expiration date",
+                        "path": "expire"
+                    },
+                    {
+                        "value": "Used",
+                        "path": "used"
+                    }
+                ]
+            },
+            "bindings": {
+                "rows": {"<-": "@owner.snapshots.filter{dataset == @owner.object.id}"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="VolumeDatasetSnapshots">
+        <div data-montage-id="snapshotSection">
+            <div data-montage-id="name"></div>
+            <div data-montage-id="recursive"></div>
+            <div class="button-container"><div data-montage-id="buttonCreate" class="Button--create"></div></div>
+            <div data-montage-id="snapshots"></div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+.VolumeDatasetSnapshots {
+}
+
+.VolumeDatasetSnapshots .button-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+}
+
+.VolumeDatasetSnapshots .Button--create {
+    min-height: 32px;
+}
+
+.VolumeDatasetSnapshots .Table-row > div:nth-child(3),
+.VolumeDatasetSnapshots .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(3) {
+    max-width: 5em;
+}
