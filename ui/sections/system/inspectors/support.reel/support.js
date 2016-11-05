@@ -24,14 +24,14 @@ exports.Support = AbstractInspector.specialize({
 
     enterDocument: {
         value: function(isFirstTime) {
-//            this.super();
+            this.super();
             var self = this;
             if (!this.object) {
                 this._supportService.getSupportTicket().then(function(supportTicket) {
                     self.object = supportTicket;
                     self.object._isNew = true;
                     self.object.type = "bug";
-                    self.validationController.load(self, self.object);
+                    self.object.category = "-"; //fixme: in the future we should validate to prevent users from using this category to submit tickets
                 });
             }
         }
