@@ -66,7 +66,7 @@
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.object.category"},
-                "options": {"<-": "@owner.categoryOptions"}
+                "options": {"<-": "[{label: '-', value: '-'}].concat(@owner.categoryOptions)"}
             }
         },
         "debug": {
