@@ -24,14 +24,13 @@ exports.Support = AbstractInspector.specialize({
 
     enterDocument: {
         value: function(isFirstTime) {
-//            this.super();
             var self = this;
             if (!this.object) {
                 this._supportService.getSupportTicket().then(function(supportTicket) {
                     self.object = supportTicket;
                     self.object._isNew = true;
                     self.object.type = "bug";
-                    self.validationController.load(self, self.object);
+                    self.object.category = "-"; // fixme? this sets a blank category, ideally we might add validation someday
                 });
             }
         }
@@ -50,6 +49,7 @@ exports.Support = AbstractInspector.specialize({
                 self.categoryOptions = Object.keys(categories).map(function(x) {
                     return {label: x, value: categories[x]};
                 });
+                self.categoryOptions.sort();
             });
         }
     }
