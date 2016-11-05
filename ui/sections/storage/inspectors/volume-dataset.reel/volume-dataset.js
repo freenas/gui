@@ -57,6 +57,15 @@ exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# *
         }
     },
 
+    _inspectorTemplateDidLoad: {
+        value:function() {
+            var self = this;
+            this.snapshotType = this._sectionService.VOLUME_SNAPSHOT_TYPE;
+            return this._sectionService.listVolumeSnapshots().then(function(snapshots) {
+                return self.snapshots = snapshots;
+            });
+        }
+    },
 
     enterDocument: {
         value: function() {

@@ -109,6 +109,25 @@
             "bindings": {
                 "object": {"<->": "@owner.object"}
             }
+        },
+        "createdCondition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "createdCondition"}
+            },
+            "bindings": {
+                "condition": {"<-": "!!@owner.object.id"}
+            }
+        },
+        "snapshots": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "snapshots"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.snapshots.filter{dataset == @owner.object.id}"},
+                "objectType": {"<-": "@owner.snapshotType"}
+            }
         }
     }
     </script>
@@ -125,6 +144,9 @@
             </div>
             <div data-montage-id="typeSelector"></div>
             <div data-montage-id="settings"></div>
+            <div data-montage-id="createdCondition">
+                <div data-montage-id="snapshots"></div>
+            </div>
         </div>
     </div>
 </body>
