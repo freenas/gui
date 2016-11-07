@@ -113,6 +113,21 @@ exports.StorageSectionService = AbstractSectionService.specialize({
         }
     },
 
+    updateVolumeTopology: {
+        value: function(volume, topology) {
+            for (var i = 0, length = this.TOPOLOGY_SECTIONS.length; i < length; i++) {
+                this._cleanupTopologySection(topology[this.TOPOLOGY_SECTIONS[i]]);
+            }
+            volume._topology = topology;
+
+            // FIXME: Remove once the middleware stops sending erroneous data
+            if (!volume.providers_presence) {
+                volume.providers_presence = 'NONE';
+            }
+            return this._storageRepository.saveVolume(volume);
+        }
+    },
+
     calculateSizesOnVolume: {
         value: function(volume) {
             volume._paritySize = this._getParitySizeOfVolume(volume);

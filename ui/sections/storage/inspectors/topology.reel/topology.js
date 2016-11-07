@@ -262,39 +262,15 @@ var Topology = exports.Topology = AbstractInspector.specialize(/** @lends Topolo
         }
     },
 
-    _updateTopologyProxyAfterSaving: {
-        value: function () {
-            var topologyKeys = this.constructor.TOPOLOGY_KEYS;
-
-            for (var i = 0, l = topologyKeys.length; i < l; i++) {
-                this._cleanupVdevs(this.topologyProxy[topologyKeys[i]]);
-            }
-        }
-    },
-
     save: {
         value: function () {
             var previousContextCascadingList = CascadingList.findPreviousContextWithComponent(this);
 
             if (previousContextCascadingList) {
-                var volume = previousContextCascadingList.object,
-                    topologyKeys = this.constructor.TOPOLOGY_KEYS,
-                    previousTopology = this.object,
-                    self = this;
-
-                for (var i = 0, l = topologyKeys.length; i < l; i++) {
-                    this._cleanupVdevs(this.topologyProxy[topologyKeys[i]]);
-                }
-
-                volume._topology = this.topologyProxy;
-
-                // FIXME: Remove once the middleware stops sending erroneous data
-                if (!volume.providers_presence) {
-                    volume.providers_presence = 'NONE';
-                }
+                var volume = previousContextCascadingList.object;
 
                 this.isLocked = true;
-                return this.application.dataService.saveDataObject(volume);
+                return this._sectionService.updateVolumeTopology(volume, this.topologyProxy);
             }
         }
     }
