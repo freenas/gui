@@ -85,17 +85,6 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         }
     },
 
-    getDefaultDockerCollection: {
-        value: function () {
-            return this.getNewDockerCollection().then(function (dockerCollection) {
-                dockerCollection.id = -1;
-                dockerCollection._isNew = false;
-                dockerCollection.collection = dockerCollection.name = "freenas";
-                return dockerCollection;
-            });
-        }
-    },
-
     getNewDockerContainerCreator: {
         value: function () {
             return this._containerRepository.getNewDockerContainerCreator();

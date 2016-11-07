@@ -13,12 +13,7 @@ exports.DockerCollectionList = AbstractInspector.specialize(/** @lends DockerCol
         value: function () {
             var self = this;
 
-            return Promise.all([
-                this._sectionService.getDefaultDockerCollection(),
-                this._sectionService.listDockerCollections()
-            ]).then(function (data) {
-                var dockerCollections = data[1];
-                dockerCollections.unshift(data[0]);
+            return this._sectionService.listDockerCollections().then(function (dockerCollections) {
                 self._dockerCollections = dockerCollections;
             });
         }
