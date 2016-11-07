@@ -11,9 +11,25 @@ var Component = require("montage/ui/component").Component,
  */
 exports.Mail = Component.specialize(/** @lends Mail# */ {
 
-    handlesendTestMailAction: {
+
+    handleSendTestMailAction: {
         value: function() {
-            this._mailService.sendTestMail();
+            this.application.mailService.sendTestMail({
+                "from": this.object.from,
+                "subject": "test mail",
+                "to": this.object.to,
+                "extra_headers": {},
+                "message": "Yay, You've got mail",
+                "attachments": []
+            },{
+                "server": this.object.server,
+                "port": this.object.port,
+                "encryption": this.object.encryption,
+                "auth": this.object.auth,
+                "from": this.object.from,
+                "user": this.object.user,
+                "pass": this.object.pass
+            });
         }
     },
 
