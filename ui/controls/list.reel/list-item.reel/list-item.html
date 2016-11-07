@@ -15,7 +15,7 @@
                 "element": {"#": "status"}
             },
             "bindings": {
-                "colorMapping": {"<-": "!@owner.isCollection ? @owner.userInterfaceDescriptor.statusColorMapping : null"},
+                "colorMapping": {"<-": "!@owner.isCollection && !@owner.object._isNewObject ? @owner.userInterfaceDescriptor.statusColorMapping : null"},
                 "value": {"<-": "@owner.object.path(@owner.userInterfaceDescriptor.statusValueExpression)"}
             }
         },
