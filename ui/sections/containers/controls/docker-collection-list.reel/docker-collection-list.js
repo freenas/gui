@@ -19,6 +19,22 @@ exports.DockerCollectionList = AbstractInspector.specialize(/** @lends DockerCol
         }
     },
 
+    _object: {
+        value: null
+    },
+
+    object: {
+        set: function (object) {
+            if (this._object !== object) {
+                this._object = object;
+                this.selectedCollection = null;
+            }
+        },
+        get: function () {
+            return this._object;
+        }
+    },
+
     enterDocument: {
         value: function (isFirstTime) {
             this.super();
@@ -39,6 +55,8 @@ exports.DockerCollectionList = AbstractInspector.specialize(/** @lends DockerCol
                     dockerContainerCreator.dockerContainer = self.object;
                     self.selectedObject = dockerContainerCreator;
                 });
+            } else {
+                this.selectedObject = null;
             }
         }
     }
