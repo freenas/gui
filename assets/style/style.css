@@ -92,6 +92,14 @@ $Fonts
     text-rendering: optimizeLegibility;
 }
 
+@font-face {
+  font-family: 'Lato';
+  font-style: italic;
+  font-weight: 300;
+  src: local('Lato Light Italic'), local('Lato-LightItalic'), url(../fonts/Lato-Light-Italic.woff) format('woff'),  url(../fonts/Lato-Light-Italic.woff2) format('woff2');
+  text-rendering: optimizeLegibility;
+}
+
 
 /********************
 
@@ -158,6 +166,21 @@ $Icons
     background: #666;
     box-shadow: none;
     text-shadow: none;
+}
+
+/* Placeholder Styles */
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    font-style: italic;
+}
+::-moz-placeholder { /* Firefox 19+ */
+    font-style: italic;
+}
+:-ms-input-placeholder { /* IE 10+ */
+    font-style: italic;
+}
+:-moz-placeholder { /* Firefox 18- */
+    font-style: italic;
 }
 
 /*input { height: 2em; }*/
