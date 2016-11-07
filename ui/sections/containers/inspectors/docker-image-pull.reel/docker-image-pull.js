@@ -8,7 +8,7 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
  * @extends AbstractInspector
  */
 exports.DockerImagePull = AbstractInspector.specialize(/** @lends DockerImagePull# */ {
-    
+
     templateDidLoad: {
         value: function () {
             var self = this,
@@ -21,12 +21,52 @@ exports.DockerImagePull = AbstractInspector.specialize(/** @lends DockerImagePul
             promises.push(this._sectionService.listDockerHosts())
             promises.push(this._sectionService.listDockerImages())
 
-            return Promise.all(promises).then(function (data) {                
+            return Promise.all(promises).then(function (data) {
                 self._dockerHosts = data[0];
                 self._dockerImages = data[1];
             }).finally(function () {
                 self._canDrawGate.setField(blockGateKey, true);
             });
+        }
+    },
+
+    _context: {
+        value: null
+    },
+
+    context: {
+        set: function (context) {
+            if (this._context !== context) {
+                if (context) {
+                    context.object = context.object.modelObject;
+                    this._context = context;
+                } else {
+                    this._context = null;
+                }
+            }
+        },
+        get: function () {
+            return this._context;
+        }
+    },
+
+    _object: {
+        value: null
+    },
+
+    object: {
+        set: function (object) {
+            if (this._object !== object) {
+                if (object) {
+                    this._object = object.modelObject;
+                    this._collection = object.dockerCollection;
+                } else {
+                    this._object = this._collection = null;
+                }
+            }
+        },
+        get: function () {
+            return this._object;
         }
     },
 
@@ -77,7 +117,7 @@ exports.DockerImagePull = AbstractInspector.specialize(/** @lends DockerImagePul
                     var name = image.names[0];
 
                     return {
-                        name: name.substring(0, name.indexOf(":")), 
+                        name: name.substring(0, name.indexOf(":")),
                         hosts: image.hosts
                     };
                 });

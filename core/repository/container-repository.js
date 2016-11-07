@@ -5,6 +5,7 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
     DockerConfigDao = require("core/dao/docker-config-dao").DockerConfigDao,
     DockerCollectionDao = require("core/dao/docker-collection-dao").DockerCollectionDao,
     DockerContainerCreatorDao = require("core/dao/docker-container-creator-dao").DockerContainerCreatorDao,
+    DockerImagePullDao = require("core/dao/docker-image-pull-dao").DockerImagePullDao,
     DockerContainerDao = require("core/dao/docker-container-dao").DockerContainerDao;
 
 exports.ContainerRepository = AbstractRepository.specialize({
@@ -17,7 +18,8 @@ exports.ContainerRepository = AbstractRepository.specialize({
             dockerHostDao,
             dockerConfigDao,
             dockerCollectionDao,
-            dockerContainerCreatorDao
+            dockerContainerCreatorDao,
+            dockerImagePullDao
             ) {
 
             this._dockerContainerSectionDao = dockerContainerSectionDao || DockerContainerSectionDao.instance;
@@ -27,6 +29,7 @@ exports.ContainerRepository = AbstractRepository.specialize({
             this._dockerConfigDao = dockerConfigDao || DockerConfigDao.instance;
             this._dockerCollectionDao = dockerCollectionDao || DockerCollectionDao.instance;
             this._dockerContainerCreatorDao = dockerContainerCreatorDao || DockerContainerCreatorDao.instance;
+            this._dockerImagePullDao = dockerImagePullDao || DockerImagePullDao.instance;
         }
     },
 
@@ -45,6 +48,26 @@ exports.ContainerRepository = AbstractRepository.specialize({
     getNewDockerCollection: {
         value: function () {
             return this._dockerCollectionDao.getNewInstance();
+        }
+    },
+
+    getNewInstanceRelatedToObjectModel: {
+        value: function (object) {
+            var modelType = object.constructor.Type;
+
+            if (modelType === this._dockerContainerDao._model) {
+                return this.getNewDockerContainerCreator();
+            } else if (modelType === this._dockerImageDao._model) {
+                return this.getNewImagePull();
+            } else {
+                return Promise.reject("Model object not supported")
+            }
+        }
+    },
+
+    getNewImagePull: {
+        value: function () {
+            return this._dockerImagePullDao.getNewInstance();
         }
     },
 

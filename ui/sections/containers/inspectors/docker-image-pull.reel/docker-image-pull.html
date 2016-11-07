@@ -39,7 +39,7 @@
             },
             "bindings": {
                 "_sectionService": {"<-": "@owner._sectionService"},
-                "collectionValue": {"<-": "@owner._dockerSettings.default_collection.defined() ? @owner._dockerSettings.default_collection : 'freenas'"}
+                "collection": {"<-": "@owner._collection"}
             }
         },
 

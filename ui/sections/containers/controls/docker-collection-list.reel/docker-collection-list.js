@@ -50,10 +50,10 @@ exports.DockerCollectionList = AbstractInspector.specialize(/** @lends DockerCol
             if (this.selectedCollection) {
                 var self = this;
 
-                this._sectionService.getNewDockerContainerCreator().then(function (dockerContainerCreator) {
-                    dockerContainerCreator.dockerCollection = self.selectedCollection;
-                    dockerContainerCreator.dockerContainer = self.object;
-                    self.selectedObject = dockerContainerCreator;
+                this._sectionService.getNewInstanceRelatedToObjectModel(this.object).then(function (objectUIDescriptor) {
+                    objectUIDescriptor.dockerCollection = self.selectedCollection;
+                    objectUIDescriptor.modelObject = self.object;
+                    self.selectedObject = objectUIDescriptor;
                 });
             } else {
                 this.selectedObject = null;

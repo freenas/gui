@@ -91,6 +91,12 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         }
     },
 
+    getNewInstanceRelatedToObjectModel: {
+        value: function (object) {
+            return this._containerRepository.getNewInstanceRelatedToObjectModel(object);
+        }
+    },
+
     getNewDockerCollection: {
         value: function () {
             return this._containerRepository.getNewDockerCollection();
