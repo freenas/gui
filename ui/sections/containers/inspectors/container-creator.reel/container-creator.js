@@ -110,6 +110,7 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
                 this._environmentComponent.values.clear();
             }
 
+            this._nameComponent.value = null;
             this._commandComponent.value = null;
         }
     },
