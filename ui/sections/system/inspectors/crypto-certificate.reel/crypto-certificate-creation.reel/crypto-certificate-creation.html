@@ -45,7 +45,7 @@
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "key_length"},
-                "label": "Key Length"
+                "label": "Key length"
             },
             "bindings": {
                 "options" : {"<-": "@owner.keyLenghtOptions"},
@@ -69,7 +69,7 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "lifetime"},
-                "label": "lifetime",
+                "label": "Lifetime",
                 "converter": {"@": "numberConverter"}
             },
             "bindings": {
@@ -97,11 +97,11 @@
                 "value": {"<->": "@owner.object.state"}
             }
         },
-        "locality": {
+        "city": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "locality"},
-                "label": "Locality(city)"
+                "label": "Locality (city)"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.city"}
@@ -121,17 +121,17 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "email"},
-                "label": "email"
+                "label": "Email"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.email"}
             }
         },
-        "commonName": {
+        "common": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "commonName"},
-                "label": "Common Name"
+                "label": "Common name"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.common"}
