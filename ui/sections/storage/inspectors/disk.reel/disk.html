@@ -99,6 +99,16 @@
                 "value": {"<-": "@owner.object.status.description"}
             }
         },
+        "smartStatus": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "smartStatus"},
+                "label": "SMART status"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.status.smart_status.defined() ? @owner.object.status.smart_status : 'Unknown'"}
+            }
+        },
         "serial": {
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
@@ -195,6 +205,7 @@
             <div data-montage-id="size"></div>
             <div data-montage-id="diskDescription"></div>
             <div data-montage-id="serial"></div>
+            <div data-montage-id="smartStatus"></div>
             <div data-montage-id="empty"></div>
             <div data-montage-id="allocation"></div>
             <div data-montage-id="standbyMode"></div>
