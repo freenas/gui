@@ -14,6 +14,32 @@ exports.Disk = AbstractInspector.specialize({
                     value: x
                 };
             });
+            this.addPathChangeListener('object.path', this, '_handleDiskChange');
+        }
+    },
+
+    _handleDiskChange: {
+        value: function() {
+            var self = this;
+            if (!this.object || !this.object.id) {
+                this.object._canDelete = false;
+            } else {
+                this._sectionService.listAvailableDisks().then(function(disks) {
+                    for (var i = 0; i < disks.length; i++) {
+                        if (disks[i].path === self.object.path) {
+                            self.object._canDelete = true;
+                            return;
+                        }
+                    }
+                    self.object._canDelete = false;
+                });
+            }
+        }
+    },
+
+    delete: {
+        value: function() {
+            return this._sectionService.eraseDisk(this.object.id);
         }
     }
 });

@@ -55,7 +55,8 @@
                 "controller": {"@": "owner"}
             },
             "bindings": {
-                "context": {"<-": "@owner.context"}
+                "context": {"<-": "@owner.context"},
+                "canDelete": {"<-": "!!@owner.object._canDelete"}
             }
         },
         "name": {
