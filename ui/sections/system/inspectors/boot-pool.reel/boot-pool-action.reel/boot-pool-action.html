@@ -16,6 +16,9 @@
             "properties": {
                 "element": {"#": "activate"},
                 "value": "Activate"
+            },
+            "bindings": {
+                "disabled": {"<-": "@owner.currentState != 'state-1'"}
             }
         },
 
@@ -24,6 +27,9 @@
             "properties": {
                 "element": {"#": "clone"},
                 "value": "Clone"
+            },
+            "bindings": {
+                "disabled": {"<-": "@owner.currentState != 'state-1' && @owner.currentState != 'state-3'"}
             }
         },
 
@@ -32,6 +38,9 @@
             "properties": {
                 "element": {"#": "delete"},
                 "value": "Delete"
+            },
+            "bindings": {
+                "disabled": {"<-": "@owner.currentState != 'state-1' && @owner.currentState != 'state-2'"}
             }
         },
 
@@ -40,6 +49,9 @@
             "properties": {
                 "element": {"#": "keepButton"},
                 "value": "Keep"
+            },
+            "bindings": {
+                "disabled": {"<-": "@owner.currentState != 'state-1' && @owner.currentState != 'state-3' && @owner.currentState != 'state-2'"}
             }
         }
     }
@@ -50,7 +62,7 @@
         <button data-montage-id="activate" class="Button--primary BootPoolAction-activate"></button>
         <button data-montage-id="clone" class="BootPoolAction-clone"></button>
         <button data-montage-id="keepButton" class="BootPoolAction-keep"></button>
-        <div data-montage-id="delete" class="Button--alert Button--icon BootPoolAction-delete"><svg><use xlink:href="#i-trashCan"/></svg></div>
+        <div data-montage-id="delete" class="Button--alert BootPoolAction-delete"></div>
     </div>
 </body>
 </html>

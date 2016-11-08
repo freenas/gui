@@ -17,30 +17,39 @@ exports.BootPoolAction = Component.specialize({
         }
     },
 
+    currentState: {
+        value: "default"
+    },
+
     handleSelectedRowsChange: {
         value: function (plus,minus,x) {
             if (this.selectedRows.length) {
                 var length = this.selectedRows.length;
                 if (!this._checkOnRebootPool(this.selectedRows)) {
                     if (length == 1) {
-                        this.classList.remove('actions-state-2');
-                        this.classList.remove('actions-state-3');
-                        this.classList.add('actions-state-1');
+                        this.currentState = "state-1";
+                        // this.classList.remove('actions-state-2');
+                        // this.classList.remove('actions-state-3');
+                        // this.classList.add('actions-state-1');
                     } else if (length > 1) {
-                        this.classList.remove('actions-state-1');
-                        this.classList.remove('actions-state-3');
-                        this.classList.add('actions-state-2');
+                        this.currentState = "state-2";
+                        // this.classList.remove('actions-state-1');
+                        // this.classList.remove('actions-state-3');
+                        // this.classList.add('actions-state-2');
                     }
                 } else {
-                    this.classList.remove('actions-state-1');
-                    this.classList.remove('actions-state-2');
-                    this.classList.add('actions-state-3');
+                    this.currentState = "state-3";
+                    // this.classList.remove('actions-state-1');
+                    // this.classList.remove('actions-state-2');
+                    // this.classList.add('actions-state-3');
                 }
             } else {
-                this.classList.remove('actions-state-1');
-                this.classList.remove('actions-state-2');
-                this.classList.remove('actions-state-3');
+                this.currentState = "default";
+                // this.classList.remove('actions-state-1');
+                // this.classList.remove('actions-state-2');
+                // this.classList.remove('actions-state-3');
             }
+            console.log(this.currentState);
         }
     },
 
