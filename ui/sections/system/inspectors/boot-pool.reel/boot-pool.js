@@ -87,8 +87,8 @@ exports.BootPool = Component.specialize(/** @lends BootPool# */ {
     },
 
     handleKeepAction: {
-        value: function (arr) {
-            this._performAction(arr,
+        value: function () {
+            this._performAction(this.bootEnvironmentTable.selectedRows,
                                 this._bootEnvironmentService.saveBootEnvironment,
                                 this._bootEnvironmentService);
         }
