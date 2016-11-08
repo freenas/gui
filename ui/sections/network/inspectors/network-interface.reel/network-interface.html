@@ -48,15 +48,6 @@
                 "object": {"<-": "@owner.object"}
             }
         },
-        "enabledSubstitution": {
-            "prototype": "montage/ui/substitution.reel",
-            "properties": {
-                "element": {"#": "enabledSubstitution"}
-            },
-            "bindings": {
-                "switchValue": {"<-": "!!@owner.object.id"}
-            }
-        },
         "enabled": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -287,9 +278,7 @@
 <body>
     <div data-montage-id="owner" class="NetworkInterface">
         <div data-montage-id="inspector">
-            <div data-montage-id="enabledSubstitution">
-                <div data-montage-id="overview" data-arg="true"></div>
-            </div>
+            <div data-montage-id="overview"></div>
             <div data-montage-id="enabled"></div>
             <div data-montage-id="description"></div>
             <div data-montage-id="address"></div>

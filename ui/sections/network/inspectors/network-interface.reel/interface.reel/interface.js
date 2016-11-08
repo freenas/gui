@@ -11,7 +11,9 @@ exports.Interface = Component.specialize({
 
     enterDocument: {
         value: function () {
-            this.active_media_type = this.object.status.active_media_type + " " + this.object.status.active_media_subtype;
+            if (this.object.status) {
+                this.active_media_type = this.object.status.active_media_type + " " + this.object.status.active_media_subtype;
+            }
         }
     }
 });
