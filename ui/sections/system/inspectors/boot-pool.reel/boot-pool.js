@@ -86,9 +86,18 @@ exports.BootPool = Component.specialize(/** @lends BootPool# */ {
         }
     },
 
-    handleKeepAction: {
-        value: function () {
+    handleKeepButtonAction: {
+        value: function (event) {
             this._performAction(this.bootEnvironmentTable.selectedRows,
+                                this._bootEnvironmentService.saveBootEnvironment,
+                                this._bootEnvironmentService);
+        }
+    },
+
+    handleKeepToggleAction: {
+        value:function (event) {
+            var bootEnvironment = this._findBootEnvironmentFromActionEvent(event);
+                this._performAction([bootEnvironment],
                                 this._bootEnvironmentService.saveBootEnvironment,
                                 this._bootEnvironmentService);
         }
@@ -96,19 +105,12 @@ exports.BootPool = Component.specialize(/** @lends BootPool# */ {
 
     handleAction: {
         value: function (event) {
-
             if(event.detail && event.detail.get('eventName') == 'textValueChanged') {
                 var bootEnvironment = this._findBootEnvironmentFromActionEvent(event);
                 this._performAction([bootEnvironment],
                                 this._bootEnvironmentService.saveBootEnvironment,
                                 this._bootEnvironmentService);
             }
-
-            if(event.target.ownerComponent.identifier == "keep") {
-                var bootEnvironment = this._findBootEnvironmentFromActionEvent(event);
-                this.handleKeepAction([bootEnvironment]);
-            }
-
         }
     },
 
