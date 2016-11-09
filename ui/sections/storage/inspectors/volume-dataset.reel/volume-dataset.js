@@ -68,7 +68,7 @@ exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# *
     },
 
     enterDocument: {
-        value: function() {
+        value: function(isFirstTime) {
             this.super();
             this.volume = this._getCurrentVolume();
 
@@ -81,15 +81,10 @@ exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# *
             var storageService = this.application.storageService;
             storageService.initializeDatasetProperties(this.object);
 
-            this.addPathChangeListener('object.type', this, '_handleExtraValidation');
-            this.addPathChangeListener('object.volsize', this, '_handleExtraValidation');
-        }
-    },
-
-    exitDocument: {
-        value: function() {
-            this.removePathChangeListener('object.type', this);
-            this.removePathChangeListener('object.volsize', this);
+            if (isFirstTime) {
+                this.addPathChangeListener('object.type', this, '_handleExtraValidation');
+                this.addPathChangeListener('object.volsize', this, '_handleExtraValidation');
+            }
         }
     },
 
