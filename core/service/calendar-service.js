@@ -54,14 +54,14 @@ var CalendarService = exports.CalendarService = Montage.specialize({
             "Sat"
         ]
     },
-        
+
 // FIXME: Should be a middleware provided enum
     taskCategories: {
         value: [
             { name: "Scrub", value: "volume.scrub", checked: true },
             { name: "Replication", value: "replication.replicate_dataset", checked: true },
             { name: "Smart", value: "disk.parallel_test", checked: true },
-            { name: "Update", value: "update.checkfetch", checked: false },
+            { name: "Update", value: "update.checkfetch", checked: true },
             { name: "Cron job", value: "calendar_task.command", checked: true },
             { name: "Snapshot", value: "volume.snapshot_dataset", checked: true }
         ]
@@ -217,7 +217,7 @@ var CalendarService = exports.CalendarService = Montage.specialize({
 
     _buildScheduleFromTasksAndDay: {
         value: function(tasks, day) {
-            var task, 
+            var task,
                 key = day.year+'-'+day.month+'-'+day.date,
                 tasksSchedule = this._tasksPerDay[key] ? this._tasksPerDay[key].tasks : [];
             tasksSchedule.splice(0, tasksSchedule.length);
@@ -356,7 +356,7 @@ var CalendarService = exports.CalendarService = Montage.specialize({
             return  !!schedule &&
                     this._isValueMatchingSchedule(hour, schedule.hour);
         }
-    },   
+    },
 
     _isDayMatchingSchedule: {
         value: function(day, schedule) {
