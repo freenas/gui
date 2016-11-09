@@ -170,10 +170,10 @@ exports.Share = AbstractInspector.specialize({
     save: {
         value: function() {
             var self = this;
+            this._object.target_path = this.targetTreeview.pathInput.value;
             if (this.object._isNew) {
                 this.isPathReadOnly = true;
             }
-            this._object.target_path = this.targetTreeview.pathInput.value;
             return this._shareService.save(this.object).then(function() {
                 if (self.serviceEnabled !== self.service.config.enable) {
                     if (self.serviceEnabled) {
