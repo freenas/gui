@@ -186,10 +186,6 @@ Header
     padding: .15em .25em;
     padding-bottom: 1em;
     background: var(--allDayBg);
-
-    @nest .CalendarWidget-view-day:not(:last-child) & {
-        border-right:   1px solid var(--calenderStrongLine);
-    }
 }
 
 /*
@@ -282,15 +278,8 @@ Main Content
     flex: 1;
     flex-direction: column;
 
-    &:not(:last-child):before {
-        content: '';
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        width: 1px;
-        background: var(--calenderStrongLine);
-        z-index: 1;
+    &:not(:last-child) {
+        border-right: 1px solid #3b4042;
     }
 }
 

@@ -56,14 +56,40 @@
     background-color: #242628;
     padding: .25em;
 
+    &:before {
+        display: none;
+        content: '';
+        position: absolute;
+        top:    0;
+        left:   0;
+        right:  0;
+        bottom: 0;
+        border: 1px dashed currentColor;
+
+        @nest .acceptDrop & {
+            border: 1px dashed rgba(43,156,216,1);
+            background-color: rgba(43,156,216,0.1);
+        }
+
+        @nest .willAcceptDrop & {
+            display: block;
+            animation: blink 1s infinite ease;
+        }
+
+        @nest .acceptDrop & {
+            display: block;
+            border: 1px solid rgba(43,156,216,1);
+        }
+    }
+
     @nest .CalendarWidgetDay.show-more & {
         bottom: auto;
         box-shadow: 0 0 0 1px rgba(255,255,255,.2), 0 4px 10px 4px rgba(0,0,0,.9);
-        /* border-bottom: 1px solid black; */
         border-bottom-left-radius: 4px;
         border-bottom-right-radius: 4px;
         background-color: #1e1f20;
     }
+
 }
 
 .CalendarWidgetDay-otherMonth .CalendarWidgetDay-content {
