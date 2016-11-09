@@ -10,7 +10,7 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "classList.has('has-loading-spinner')": {"<-": "@owner.object.isProcessing"}
+                "classList.has('has-loading-spinner')": {"<-": "!!@owner.object.promise"}
             }
         },
 
