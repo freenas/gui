@@ -7,6 +7,9 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "_isDefaultCollection": {"<-": "@owner.object.id == -1"}
             }
         },
 
@@ -22,14 +25,14 @@
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
-                "canSave": true,
                 "controller": {"@": "owner"},
                 "validationController": {"@": "validationController"}
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
-                "canDelete": {"<-": "!@owner.object._isNew"},
-                "canRevert": {"<-": "!@owner.object._isNew"},
+                "canDelete": {"<-": "!@owner.object._isNew && !@owner._isDefaultCollection"},
+                "canRevert": {"<-": "!@owner.object._isNew && !@owner._isDefaultCollection"},
+                "canSave": {"<-": "!@owner._isDefaultCollection"},
                 "classList.has('has-loading-spinner')": {"<-": "@owner.isLoading"}
             }
         },
@@ -41,7 +44,8 @@
                 "label": "Name"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.name"}
+                "value": {"<->": "@owner.object.name"},
+                "readonly": {"<->": "@owner._isDefaultCollection"}
             }
         },
 
@@ -52,7 +56,8 @@
                 "label": "Collection"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.collection"}
+                "value": {"<->": "@owner.object.collection"},
+                "readonly": {"<->": "@owner._isDefaultCollection"}
             }
         },
 
@@ -63,7 +68,8 @@
                 "label": "Match Expression"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.match_expr"}
+                "value": {"<->": "@owner.object.match_expr"},
+                "readonly": {"<->": "@owner._isDefaultCollection"}
             }
         }
 

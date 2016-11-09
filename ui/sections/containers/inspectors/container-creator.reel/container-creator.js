@@ -33,7 +33,7 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
         set: function (context) {
             if (this._context !== context) {
                 if (context) {
-                    context.object = context.object.dockerContainer;
+                    context.object = context.object.modelObject;
                     this._context = context;
                 } else {
                     this._context = null;
@@ -53,7 +53,7 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
         set: function (object) {
             if (this._object !== object) {
                 if (object) {
-                    this._object = object.dockerContainer;
+                    this._object = object.modelObject;
                     this._collection = object.dockerCollection;
                 } else {
                     this._object = this._collection = null;
@@ -110,6 +110,7 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
                 this._environmentComponent.values.clear();
             }
 
+            this._nameComponent.value = null;
             this._commandComponent.value = null;
         }
     },

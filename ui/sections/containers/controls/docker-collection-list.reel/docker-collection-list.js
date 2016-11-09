@@ -13,14 +13,25 @@ exports.DockerCollectionList = AbstractInspector.specialize(/** @lends DockerCol
         value: function () {
             var self = this;
 
-            return Promise.all([
-                this._sectionService.getDefaultDockerCollection(),
-                this._sectionService.listDockerCollections()
-            ]).then(function (data) {
-                var dockerCollections = data[1];
-                dockerCollections.unshift(data[0]);
+            return this._sectionService.listDockerCollections().then(function (dockerCollections) {
                 self._dockerCollections = dockerCollections;
             });
+        }
+    },
+
+    _object: {
+        value: null
+    },
+
+    object: {
+        set: function (object) {
+            if (this._object !== object) {
+                this._object = object;
+                this.selectedCollection = null;
+            }
+        },
+        get: function () {
+            return this._object;
         }
     },
 
@@ -39,11 +50,13 @@ exports.DockerCollectionList = AbstractInspector.specialize(/** @lends DockerCol
             if (this.selectedCollection) {
                 var self = this;
 
-                this._sectionService.getNewDockerContainerCreator().then(function (dockerContainerCreator) {
-                    dockerContainerCreator.dockerCollection = self.selectedCollection;
-                    dockerContainerCreator.dockerContainer = self.object;
-                    self.selectedObject = dockerContainerCreator;
+                this._sectionService.getNewInstanceRelatedToObjectModel(this.object).then(function (objectUIDescriptor) {
+                    objectUIDescriptor.dockerCollection = self.selectedCollection;
+                    objectUIDescriptor.modelObject = self.object;
+                    self.selectedObject = objectUIDescriptor;
                 });
+            } else {
+                this.selectedObject = null;
             }
         }
     }

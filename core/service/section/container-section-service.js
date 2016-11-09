@@ -58,20 +58,32 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         }
     },
 
-    getDockerImagesWithCollectionName: {
-        value: function (collectionName) {
+    getDockerImagesWithCollection: {
+        value: function (collection) {
             var self = this,
                 promise;
 
             return new Promise(function (resolve, reject) {
-                if (!self._dockerImageService) {
-                    promise = Model.populateObjectPrototypeForType(Model.DockerImage).then(function (DockerImage) {
-                        self._dockerImageService = DockerImage.constructor.services;
+                if (collection.id == -1) {
+                    if (!self._dockerImageService) {
+                        promise = Model.populateObjectPrototypeForType(Model.DockerImage).then(function (DockerImage) {
+                            self._dockerImageService = DockerImage.constructor.services;
 
-                        return self._dockerImageService.getCollectionImages(collectionName.trim());
-                    });
+                            return self._dockerImageService.getCollectionImages(collection.collection);
+                        });
+                    } else {
+                        promise = self._dockerImageService.getCollectionImages(collection.collection);
+                    }
                 } else {
-                    promise = self._dockerImageService.getCollectionImages(collectionName.trim());
+                    if (!self._dockerCollectionService) {
+                        promise = Model.populateObjectPrototypeForType(Model.DockerCollection).then(function (DockerImage) {
+                            self._dockerCollectionService = DockerImage.constructor.services;
+
+                            return self._dockerCollectionService.getEntries(collection.id);
+                        });
+                    } else {
+                        promise = self._dockerCollectionService.getEntries(collection.id);
+                    }
                 }
 
                 resolve(promise);
@@ -79,29 +91,15 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         }
     },
 
-    getDefaultDockerCollection: {
-        value: function () {
-            return this.getCurrentUser().then(function (user) {
-                return user && user.attributes && user.attributes.defaultCollection ?
-                    user.attributes.defaultCollection : "freenas";
-            });
+    getNewInstanceRelatedToObjectModel: {
+        value: function (object) {
+            return this._containerRepository.getNewInstanceRelatedToObjectModel(object);
         }
     },
 
     getNewDockerCollection: {
         value: function () {
             return this._containerRepository.getNewDockerCollection();
-        }
-    },
-
-    getDefaultDockerCollection: {
-        value: function () {
-            return this.getNewDockerCollection().then(function (dockerCollection) {
-                dockerCollection.id = -1;
-                dockerCollection._isNew = false;
-                dockerCollection.collection = dockerCollection.name = "freenas";
-                return dockerCollection;
-            });
         }
     },
 
