@@ -4,8 +4,8 @@ exports.EncryptedVolumeImporter = AbstractInspector.specialize({
     _inspectorTemplateDidLoad: {
         value: function() {
             var self = this;
-            return this._sectionService.listAvailableDisks().then(function(availableDisks) {
-                return self.availableDisks = availableDisks; 
+            return this._sectionService.listDisks().then(function(disks) {
+                return self.disks = disks; 
             });
         }
     },
@@ -15,6 +15,7 @@ exports.EncryptedVolumeImporter = AbstractInspector.specialize({
             if (isFirstTime) {
                 this.addRangeAtPathChangeListener("object.disks", this, "_handleDisksChange");
             }
+            this._sectionService.clearReservedDisks();
         }
     },
 

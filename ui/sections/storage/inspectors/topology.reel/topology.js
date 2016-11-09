@@ -61,8 +61,8 @@ var Topology = exports.Topology = AbstractInspector.specialize(/** @lends Topolo
     _inspectorTemplateDidLoad: {
         value: function() {
             var self = this;
-            return this._sectionService.listAvailableDisks().then(function(availableDisks) {
-                self.availableDisks = availableDisks; 
+            return this._sectionService.listDisks().then(function(disks) {
+                self.disks = disks; 
             });
         }
     },
@@ -206,6 +206,7 @@ var Topology = exports.Topology = AbstractInspector.specialize(/** @lends Topolo
                 proxyVDev.isExistingVDev = true;
 
                 if (!vDevChildren || vDevChildren.length === 0) {
+                    this._sectionService.markDiskAsReserved(vDev);
                     proxyVDev.children.push(vDev);
                 } else {
                     for (ii = 0, ll = vDevChildren.length; ii < ll; ii++) {
@@ -240,6 +241,7 @@ var Topology = exports.Topology = AbstractInspector.specialize(/** @lends Topolo
     revert: {
         value: function () {
             this._sectionService.clearReservedDisks();
+            this._sectionService.clearTemporaryAvailableDisks();
             this._freeTopologyProxy();
             this._populateTopologyProxyWithTopology(this.object);
         }

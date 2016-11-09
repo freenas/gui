@@ -134,7 +134,7 @@
                 "topology": {"@": "topology"}
             },
             "bindings": {
-                "disks": {"<-": "@owner.availableDisks"}
+                "disks": {"<-": "@owner.availableDisks.filter{isAvailable && !isReserved}"}
             }
         }
     }

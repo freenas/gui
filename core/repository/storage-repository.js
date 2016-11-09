@@ -125,39 +125,73 @@ exports.StorageRepository = AbstractRepository.specialize({
     },
 
     listAvailableDisks: {
-        value: function() {
-            return this._availableDisks ?
-                    Promise.resolve(this._availableDisks) : 
-                    this.refreshAvailableDisks();
-        }
-    },
-
-    markDiskAsReserved: {
-        value: function(disk, isRefreshBlocked) {
-            disk = disk.Type === Model.ZfsVdev ? disk._disk : disk;
-            this._reservedDisks.add(disk);
-
-            return isRefreshBlocked ? Promise.resolve() : this._handleDiskAssignationChange();
-        }
-    },
-
-    markDiskAsAvailable: {
-        value: function(disk, isTransient) {
-            disk = disk.Type === Model.ZfsVdev ? disk._disk : disk;
-            this._reservedDisks.delete(disk);
-            if (isTransient && this._knownAvailableDisks.indexOf(disk.path) === -1) {
-                this._temporarilyAvailableDisks.add(disk);
+        value: function(forceRefresh) {
+            if (forceRefresh) {
+                this._availableDisksPromise = null;
             }
-            return this._handleDiskAssignationChange();
+            return this._availableDisksPromise || (this._availableDisksPromise = this._filterAvailableDisks())
         }
     },
 
     clearReservedDisks: {
         value: function() {
-            this._reservedDisks.clear();    
-            this._temporarilyAvailableDisks.clear();
+            this._disks.map(function(x) {
+                x.isReserved = false;
+            });
+            return this.listAvailableDisks(true);
+        }    
+    },
 
-            return this._handleDiskAssignationChange();
+    clearTemporaryAvailableDisks: {
+        value: function() {
+            this._disks.map(function(x) {
+                x.isTemporaryAvailable = false;
+            });
+        }    
+    },
+
+    markDiskAsReserved: {
+        value: function(disk) {
+            disk = disk._disk || disk;
+            disk.isReserved = true;
+        }
+    },
+
+    markDiskAsAvailable: {
+        value: function(disk) {
+            disk = disk._disk || disk;
+            if (!disk.isAvailable) {
+                disk.isTemporaryAvailable = true;
+            }
+            disk.isReserved = false;
+        }
+    },
+
+    _filterAvailableDisks: {
+        value: function() {
+            var self = this;
+            return this._volumeServices.then(function(volumeServices) {
+                return Promise.all([
+                    volumeServices.getAvailableDisks(),
+                    self.listDisks()
+                ]);
+            }).then(function(results) {
+                var availableDisks = results[0],
+                    disks = results[1];
+                return disks.map(function(x) {
+                    x.isReserved = false;
+                    x.isAvailable = availableDisks.indexOf(x.path) !== -1
+                    return x;
+                }).filter(function(x) { 
+                    return x.isAvailable;
+                });
+            });
+        }
+    },
+
+    _handleDiskAssignationChange: {
+        value: function() {
+            this.listAvailableDisks(true);
         }
     },
 
@@ -178,80 +212,6 @@ exports.StorageRepository = AbstractRepository.specialize({
                 encryptedVolumeImporter.data = [];
                 return encryptedVolumeImporter;
             });
-        }
-    },
-
-    refreshAvailableDisks: {
-        value: function(isRefreshBlocked) {
-            var self = this,
-                disksPromise = this._disksPromise || this.listDisks();
-            return Promise.all([
-                this._listKnownAvailableDisks(!isRefreshBlocked),
-                disksPromise
-            ]).then(function(results) {
-                return self._setAssignationOnAvailableDisks(results[1], results[0]);
-            }).then(function(availableDisks) {
-                var disk;
-                self._availableDisks.clear();
-                for (var i = 0, length = availableDisks.length; i < length; i++) {
-                    disk = availableDisks[i];
-                    if (!self._reservedDisks.has(disk)) {
-                        self._availableDisks.push(disk);
-                    }
-                }
-                self._temporarilyAvailableDisks.forEach(function(disk) {
-                    self._availableDisks.push(disk);
-                });
-                self._updateAvailableDisksPromise = null;
-                return self._availableDisks;
-            });
-        }
-    },
-
-    _setAssignationOnAvailableDisks: {
-        value: function(disks, availablePaths) {
-            return this._volumeServices.then(function(volumeServices) {
-                return volumeServices.getDisksAllocation(availablePaths).then(function(allocations) {
-                    return disks.map(function(disk) {
-                        disk._allocation = allocations[disk.path];
-                        return disk;
-                    }).filter(function(disk) {
-                        return availablePaths.indexOf(disk.path) !== -1;
-                    }).sort(availableDisksSorter);
-                });
-            });
-        }
-    },
-
-    _handleDiskAssignationChange: {
-        value: function() {
-            var promise;
-            if (this._updateAvailableDisksPromise) {
-                var self = this;
-                promise = this._updateAvailableDisksPromise.then(function() {
-                    self._updateAvailableDisksPromise = self.refreshAvailableDisks();
-                });
-            } else {
-                promise = this._updateAvailableDisksPromise = this.refreshAvailableDisks();
-            }
-            return promise;
-        }
-    },
-
-    _listKnownAvailableDisks: {
-        value: function(isRefreshNeeded) {
-            var self = this,
-                promise;
-            if (isRefreshNeeded || !this._knownAvailableDisks || this._knownAvailableDisks.length === 0) {
-                promise = this._volumeServices.then(function(volumeServices) {
-                    return volumeServices.getAvailableDisks();
-                }).then(function(availableDisks) {
-                    return self._knownAvailableDisks = availableDisks;
-                });
-            } else {
-                promise = Promise.resolve(this._knownAvailableDisks);
-            }
-            return promise;
         }
     }
 });

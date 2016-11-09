@@ -16,7 +16,7 @@ exports.AbstractDao = Montage.specialize({
     list: {
         value: function() {
             this._checkModelIsInitialized();
-            return this._dataService.fetchData(this._model);
+            return this._listPromise || (this._listPromise = this._dataService.fetchData(this._model));
         }
     },
 

@@ -12,7 +12,6 @@
                 "inspector": {"@": "inspector"}
             },
             "bindings": {
-                "availableDisks": {"<-": "@availableDisks.availableDisks"},
                 "classList.has('has-availableDisks')": {"<-": "@availableDisks.availableDisks.length > 0"},
                 "classList.has('is-detached')": {"<-": "!!@owner.object._isDetached"},
                 "availableSelectedDisk": {"<->": "@availableDisks.selectedDisk"},
@@ -59,7 +58,7 @@
                 "topology": {"@": "topology"}
             },
             "bindings": {
-                "disks": {"<-": "@owner.availableDisks"},
+                "disks": {"<-": "@owner.disks.filter{(isAvailable || isTemporaryAvailable) && !isReserved}"},
                 "object": {"<-": "@owner.topologyProxy"}
             }
         }
