@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="alert-filter.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
+            }
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "controller": {"@": "owner"},
+                "validationController": {"@": "validationController"},
+                "canDelete": false,
+                "canSave": true,
+                "canRevert": true
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"},
+                "isLoading": {"<-": "@owner.isLoading"}
+            }
+        },
+        "id": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "id"},
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.id"}
+            }
+        },
+        "table": {
+            "prototype": "ui/sections/containers/controls/table-port.reel",
+            "properties": {
+                "element": {"#": "table"}
+            },
+            "bindings": {
+                "rows": {"<-": "@owner.object.predicates"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="AlertFilter">
+        <div data-montage-id="inspector">
+            <div data-montage-id="id"></div>
+            <div data-montage-id="table"></div>
+        </div>
+    </div>
+</body>
+</html>
