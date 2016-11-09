@@ -28,12 +28,12 @@
     }
 }
 
-.BootPoolAction .BootPoolAction-delete,
+/* .BootPoolAction .BootPoolAction-delete,
 .BootPoolAction .BootPoolAction-keep,
 .BootPoolAction .BootPoolAction-activate,
 .BootPoolAction .BootPoolAction-clone {
     display: none;
-}
+} */
 
 
 

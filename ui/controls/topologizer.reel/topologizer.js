@@ -200,7 +200,7 @@ exports.Topologizer = Component.specialize({
             this._translateComposer.addEventListener("translate", this, false);
             this._translateComposer.addEventListener("translateEnd", this, false);
 
-            this.controller.clearReservedDisks();
+            this.controller.clearReservedDisks(true);
             this.profile = "";
             this.needsDraw = true;
 
@@ -258,14 +258,15 @@ exports.Topologizer = Component.specialize({
                     if (!previousBarycentricValues || 
                         !this._areBarycentricValuesEqual(previousBarycentricValues, barycentricValues)) {
                             var self = this;
+                            this.lockDisks = true;
                             this.controller.generateTopology(
                                 this.topology, 
                                 this.disks, 
                                 barycentricValues[0], 
                                 barycentricValues[1], 
                                 barycentricValues[2]
-                            ).then(function(priorities) {
-                                self.priorities = priorities;
+                            ).then(function(results) {
+                                self.priorities = results.priorities;
                             });
                         }
 
@@ -334,5 +335,4 @@ exports.Topologizer = Component.specialize({
             this.needsDraw = true;
         }
     }
-
 });

@@ -82,7 +82,7 @@
                 "controller": {"@": "owner"}
             },
             "bindings": {
-                "disks": {"<-": "@owner.availableDisks"}
+                "disks": {"<-": "@owner.disks.filter{isAvailable && !isReserved}"}
             }
         }
     }

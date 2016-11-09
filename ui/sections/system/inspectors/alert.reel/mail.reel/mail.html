@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="mail.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
+        },
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
+            }
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "controller": {"@": "owner"},
+                "validationController": {"@": "validationController"},
+                "canDelete": false,
+                "canSave": true,
+                "canRevert": true
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"},
+                "isLoading": {"<-": "@owner.isLoading"}
+            }
+        },
+        "outgoingPortValidator": {
+            "prototype": "core/converter/validator/integer-range-validator",
+            "properties": {
+                "floor": 1,
+                "ceiling": 65535,
+                "errorMessage": "Port must be an integer between 1 and 65535"
+            }
+        },
+        "outgoingPortConverter": {
+            "prototype": "core/converter/string-to-integer-converter",
+            "properties": {
+                "validator": {"@": "outgoingPortValidator"}
+            }
+        },
+        "outgoingPort": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "outgoing_port"},
+                "label": "Mail Server Port",
+                "converter" : {"@": "outgoingPortConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.port"}
+            }
+        },
+        "from": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "from"},
+                "label": "From Email Address"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.from"}
+            }
+        },
+        "useSMTPAuth": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "useSMTPAuth"},
+                "label": "Use SMTP Authentication"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.auth"}
+            }
+        },
+        "outgoingServer": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "outgoing_server"},
+                "label": "Outgoing Mail server"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.server"}
+            }
+        },
+        "serialPortOptionConverter": {
+            "prototype": "core/converter/select-option-converter"
+        },
+        "encryption": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "encryption"},
+                "label": "TLS/SSL"
+            },
+            "bindings": {
+                "options" : {"<-": "@owner.encryptionOptions"},
+                "selectedValue": {"<->": "@owner.object.encryption"}
+            }
+        },
+        "username": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "username"},
+                "label": "Username"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.user"}
+            }
+        },
+        "password": {
+            "prototype": "blue-shark/ui/field-password-input.reel",
+            "properties": {
+                "element": {"#": "password"},
+                "label": "Password",
+                "placeholder": "enter password"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.pass"}
+            }
+        },
+        "sendTestMail": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "sendTestMail"},
+                "value": "Send Test Mail"
+            }
+        },
+        "send_to": {
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "properties": {
+                "element": {"#": "send_to"},
+                "label": "Send to",
+                "labelPath": "this",
+                "isDraggable": true,
+                "inputTitle": "Add a recipient",
+                "valuesTitle": "Recipients"
+            },
+            "bindings": {
+                "values": {"<->": "@owner.object.to"},
+                "placeholder": {"<-": "!@owner.object.webui_listen ? 'eg. foo@example.com' : ''"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Mail">
+        <div data-montage-id="inspector">
+            <div data-montage-id="sendTestMail" class="g-margin-bottom--half" id="downloadDebug"></div>
+            <div data-montage-id="from"></div>
+            <div data-montage-id="outgoing_server"></div>
+            <div data-montage-id="outgoing_port"></div>
+            <div data-montage-id="useSMTPAuth"></div>
+            <div data-montage-id="encryption"></div>
+            <div data-montage-id="username"></div>
+            <div data-montage-id="password"></div>
+            <div data-montage-id="send_to"></div>
+        </div>
+    </div>
+</body>
+</html>

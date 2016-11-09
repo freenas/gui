@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="alert.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "selectedEntry": {"<->": "@entries.selectedObject"}
+            }
+        },
+        "entries": {
+            "prototype": "ui/controls/viewer.reel",
+            "properties": {
+                "element": {"#": "entries"},
+                "displayTitle": "true"
+            },
+            "bindings": {
+                "object": {"<-": "@owner.entries"}
+            }
+        },
+        "settings": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "settings"},
+                "name": "Settings"
+            },
+            "bindings": {
+                "object": {"<-": "@owner.settings"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Alert">
+        <div data-montage-id="entries" class="SectionRoot-entries"></div>
+        <div data-montage-id="settings"></div>
+    </div>
+</body>
+</html>

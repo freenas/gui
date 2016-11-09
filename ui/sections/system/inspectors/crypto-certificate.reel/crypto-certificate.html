@@ -51,6 +51,16 @@
                 "value": {"<->": "@owner.object.name"}
             }
         },
+        "nameDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "nameDisplay"},
+                "label": "type"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.type"}
+            }
+        },
         "certificateActionPlaceHolder": {
             "prototype": "ui/controls/placeholder.reel",
             "properties": {
@@ -70,6 +80,7 @@
     <div data-montage-id="owner" class="CryptoCertificate">
         <div data-montage-id="inspector">
             <div data-montage-id="name"></div>
+            <div data-montage-id="nameDisplay"></div>
             <div data-montage-id="certificateActionPlaceHolder"></div>
         </div>
     </div>

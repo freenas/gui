@@ -233,6 +233,12 @@ exports.StorageSectionService = AbstractSectionService.specialize({
         }
     },
 
+    listDisks: {
+        value: function() {
+            return this._storageRepository.listDisks();
+        }
+    },
+
     listAvailableDisks: {
         value: function() {
             return this._storageRepository.listAvailableDisks();
@@ -265,25 +271,34 @@ exports.StorageSectionService = AbstractSectionService.specialize({
         }
     },
 
+    clearTemporaryAvailableDisks: {
+        value: function() {
+            return this._storageRepository.clearTemporaryAvailableDisks();
+        }
+    },
+
     generateTopology: {
         value: function(topology, disks, redundancy, speed, storage) {
             var self = this;
-            return this.clearReservedDisks().then(function() {
+            return this.clearReservedDisks(true).then(function() {
                 var vdev, j, disksLength,
-                    priorities = self._topologyService.generateTopology(topology, disks, redundancy, speed, storage);
+                    priorities = self._topologyService.generateTopology(topology, disks.slice(), redundancy, speed, storage),
+                    usedDisks = [];
                 for (var i = 0, vdevsLength = topology.data.length; i < vdevsLength; i++) {
                     vdev = topology.data[i];
                     if (Array.isArray(vdev.children)) {
                         for (j = 0, disksLength = vdev.children.length; j < disksLength; j++) {
-                            self.markDiskAsReserved(vdev.children[j], true);
+                            self.markDiskAsReserved(vdev.children[j]);
+                            usedDisks.push(vdev.children[j]);
                         }
                     } else {
-                        self.markDiskAsReserved(vdev, true);
+                        self.markDiskAsReserved(vdev);
+                        usedDisks.push(vdev);
                     }
                 }
-                return self._storageRepository.refreshAvailableDisks(true).then(function() {
-                    return priorities;
-                }); 
+                return {
+                    priorities: priorities
+                };
             });
         }
     },

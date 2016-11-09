@@ -1,0 +1,8 @@
+.TablePort {
+
+}
+
+.TablePort .Table-cells > div:nth-child(3),
+.TablePort .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(3) {
+    max-width: 6em;
+}

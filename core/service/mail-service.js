@@ -11,6 +11,14 @@ var MailService = exports.MailService = Montage.specialize({
         value: null
     },
 
+    sendTestMail: {
+        value: function (mailMessage,mailObject) {
+            return Model.populateObjectPrototypeForType(Model.Mail).then(function(Mail){
+                return Mail.constructor.services.send(mailMessage,mailObject);
+            });
+        }
+    },
+
     getMailData: {
         value: function() {
             var mailData = {},
