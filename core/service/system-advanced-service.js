@@ -34,6 +34,22 @@ var SystemAdvancedService = exports.SystemAdvancedService = Montage.specialize({
         }
     },
 
+    restoreFactorySettings: {
+        value: function () {
+            return Model.populateObjectPrototypeForType(Model.Task).then(function (Task) {
+                return Task.constructor.services.submit("database.factory_restore", []);
+            })
+        }
+    },
+
+    getConfigFileAddress: {
+        value: function () {
+            return Model.populateObjectPrototypeForType(Model.Task).then(function (Task) {
+                return Task.constructor.services.submitWithDownload("database.dump",  [["freenas10.db"]]);
+            })
+        }
+    },
+
     saveAdvanceData: {
         value: function(advanceData) {
             return this._dataService.saveDataObject(advanceData);
