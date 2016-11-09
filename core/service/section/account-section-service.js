@@ -27,6 +27,12 @@ exports.AccountSectionService = AbstractSectionService.specialize({
         }
     },
 
+    getKerberosKeytabEmptyList: {
+        value: function () {
+            return this._accountRepository.getKerberosKeytabEmptyList();
+        }
+    },
+
     listKerberosRealms: {
         value: function () {
             return this._accountRepository.listKerberosRealms();

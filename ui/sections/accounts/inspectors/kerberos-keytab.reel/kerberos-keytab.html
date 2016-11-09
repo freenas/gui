@@ -8,12 +8,49 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
+            }
+        },
+
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "canSave": true,
+                "controller": {"@": "owner"},
+                "validationController": {"@": "validationController"}
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"},
+                "canDelete": {"<-": "!@owner._isNew"},
+                "canRevert": {"<-": "!@owner._isNew"}
+            }
+        },
+
+        "name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.name"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="KerberosKeytab">
+        <div data-montage-id="inspector">
+            <div data-montage-id="name"></div>
+        </div>
     </div>
 </body>
 </html>

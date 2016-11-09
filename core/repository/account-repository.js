@@ -22,6 +22,12 @@ exports.AccountRepository = AbstractRepository.specialize({
         }
     },
 
+    getKerberosKeytabEmptyList: {
+        value: function () {
+            return this._kerberosKeytabDao.getEmptyList();
+        }
+    },
+
     getNewKerberosKeytab: {
         value: function () {
             return this._kerberosKeytabDao.getNewInstance();

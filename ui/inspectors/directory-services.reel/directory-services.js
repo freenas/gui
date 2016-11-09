@@ -57,10 +57,15 @@ exports.DirectoryServices = AbstractInspector.specialize({
             }
 
             promises.push(this._sectionService.getKerberosRealmEmptyList());
+            promises.push(this._sectionService.getKerberosKeytabEmptyList());
 
             Promise.all(promises).then(function (directoryServices) {
+                var directoryService;
+
                 for (i = 0, length = directoryServices.length; i < length; i++) {
-                    directoryServicesMap.set(directoryServices[i].type, directoryServices[i]);
+                    directoryService = directoryServices[i];
+
+                    directoryServicesMap.set(directoryServices[i].type || i, directoryService);
                 }
 
                 self.directoryServices = self.application.dataService.setTypeForCollection(
