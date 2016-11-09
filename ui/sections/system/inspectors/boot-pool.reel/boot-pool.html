@@ -7,8 +7,7 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"},
-                "bootEnvironmentTable": {"@": "bootEnvironmentTable"}
+                "element": {"#": "owner"}
             }
         },
         "validationController": {
@@ -81,52 +80,26 @@
                 "value": "Scrub Now"
             }
         },
-        "bootEnvironmentTable": {
-            "prototype": "blue-shark/ui/tables/table-editable.reel",
+        "activeEnvironmentTable": {
+            "prototype": "./boot-environment-table.reel",
             "properties": {
-                "element": {"#": "bootEnvironmentTable"},
-                "label": "Boot Environments",
-                "contentMaxHeight": 25,
-                "columns": [
-                    {
-                        "value": "Name"
-                    },
-                    {
-                        "value": "Active"
-                    },
-                    {
-                        "value": "Space Used"
-                    },
-                    {
-                        "value": "Date Created"
-                    },
-                    {
-                        "value": "Keep"
-                    }
-                ]
+                "element": {"#": "activeEnvironmentTable"},
+                "label": "Active Boot Environments",
+                "contentMaxHeight": 8
             },
             "bindings": {
-                "rows": {"<-": "@owner.bootEnvironments"}
+                "rows": {"<-": "@owner.bootEnvironments.filter{active || onReboot}"}
             }
         },
-
-        "rowEntry": {
-            "prototype": "./boot-environment-row.reel",
+        "inactiveEnvironmentTable": {
+            "prototype": "./boot-environment-table.reel",
             "properties": {
-                "element": {"#": "rowEntry"}
+                "element": {"#": "inactiveEnvironmentTable"},
+                "label": "Inactive Boot Environments",
+                "contentMaxHeight": 20
             },
             "bindings": {
-                "object": {"<-": "@bootEnvironmentTable:rowIteration.object.object"}
-            }
-        },
-
-        "actions": {
-            "prototype": "./boot-pool-action.reel",
-            "properties": {
-                "element": {"#": "actions"}
-            },
-            "bindings": {
-                "selectedRows": {"<-": "@bootEnvironmentTable.selectedRows"}
+                "rows": {"<-": "@owner.bootEnvironments.filter{!active && !onReboot}"}
             }
         }
     }
@@ -140,13 +113,8 @@
             <div data-montage-id="bootVolumeCapacityUsed"></div>
             <div data-montage-id="bootVolumeCondition"></div>
             <p class="hide"><div data-montage-id="bootVolumeScrub" class="hide"></div></p>
-            <div data-montage-id="bootEnvironmentTable" class="BootPool-table">
-                <div data-arg="table-editable-header-toolbar">
-                    <div data-montage-id="actions"></div>
-                </div>
-                <div data-arg="row-new" data-montage-id="newEntry"></div>
-                <div data-arg="row-entry" data-montage-id="rowEntry"></div>
-            </div>
+            <div data-montage-id="activeEnvironmentTable" class="BootPool-table BootPool-activeEnvironmentTable"></div>
+            <div data-montage-id="inactiveEnvironmentTable" class="BootPool-table"></div>
         </div>
     </div>
 </body>

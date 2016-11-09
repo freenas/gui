@@ -7,7 +7,56 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "table": {"@": "table"}
+            }
+        },
+        "table": {
+            "prototype": "blue-shark/ui/tables/table-editable.reel",
+            "properties": {
+                "element": {"#": "table"},
+                "columns": [
+                    {
+                        "value": "Name"
+                    },
+                    {
+                        "value": "Active"
+                    },
+                    {
+                        "value": "Space Used"
+                    },
+                    {
+                        "value": "Date Created"
+                    },
+                    {
+                        "value": "Keep"
+                    }
+                ]
+            },
+            "bindings": {
+                "contentMaxHeight": {"<-": "@owner.contentMaxHeight"},
+                "label": {"<-": "@owner.label"},
+                "rows": {"<-": "@owner.rows"}
+            }
+        },
+
+        "rowEntry": {
+            "prototype": "../boot-environment-row.reel",
+            "properties": {
+                "element": {"#": "rowEntry"}
+            },
+            "bindings": {
+                "object": {"<-": "@table:rowIteration.object.object"}
+            }
+        },
+
+        "actions": {
+            "prototype": "../boot-pool-action.reel",
+            "properties": {
+                "element": {"#": "actions"}
+            },
+            "bindings": {
+                "selectedRows": {"<-": "@table.selectedRows"}
             }
         }
     }
@@ -16,10 +65,9 @@
 <body>
     <div data-montage-id="owner" class="BootEnvironmentTable">
         <div data-montage-id="table">
-            <div data-arg="table-editable-header-toolbar" class="BootEnvironmentTable-toolbar">
-                <div data-montage-id="deleteButton" class="Button--alert Button--icon"><svg><use xlink:href="#i-trashCan"/></svg></div>
+            <div data-arg="table-editable-header-toolbar">
+                <div data-montage-id="actions"></div>
             </div>
-            <div data-arg="row-new" data-montage-id="newEntry"></div>
             <div data-arg="row-entry" data-montage-id="rowEntry"></div>
         </div>
     </div>
