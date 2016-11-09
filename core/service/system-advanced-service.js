@@ -20,9 +20,9 @@ var SystemAdvancedService = exports.SystemAdvancedService = Montage.specialize({
 
     getSystemAdvanced: {
         value: function() {
-                return this._dataService.fetchData(Model.SystemAdvanced).then(function(systemAdvanced) {
-                    return systemAdvanced[0];
-                });
+            return this._dataService.fetchData(Model.SystemAdvanced).then(function(systemAdvanced) {
+                return systemAdvanced[0];
+            });
         }
     },
 
