@@ -2,6 +2,7 @@
  * @module ui/account-directory-services.reel
  */
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    AccountSectionService = require("core/service/section/account-section-service").AccountSectionService,
     Model = require("core/model/model").Model;
 
 /**
@@ -17,6 +18,12 @@ exports.DirectoryServices = AbstractInspector.specialize({
         }
     },
 
+    //TODO: remove when account will have been migrated to the new architecture.
+    _sectionService: {
+        get: function () {
+            return AccountSectionService.instance;
+        }
+    },
 
     handleDirectoriesChange: {
         value: function () {
@@ -48,6 +55,8 @@ exports.DirectoryServices = AbstractInspector.specialize({
                     promises.push(this._getNewDirectoryInstance(directoryTypesKeyValue));
                 }
             }
+
+            promises.push(this._sectionService.getKerberosRealmEmptyList());
 
             Promise.all(promises).then(function (directoryServices) {
                 for (i = 0, length = directoryServices.length; i < length; i++) {
