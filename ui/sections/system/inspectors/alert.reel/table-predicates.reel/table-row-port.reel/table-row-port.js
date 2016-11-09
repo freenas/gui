@@ -32,16 +32,5 @@ exports.TableRowPort = Component.specialize({
             "WARNING",
             "INFO"
         ]
-    },
-
-    parameters: {
-        value: null
-    }
-
-    enterDocument: {
-        value: function () {
-            this.object = this.object || {};
-            this.object.parameters = parameters;
-        }
     }
 });
