@@ -95,7 +95,7 @@ var BootEnvironmentService = exports.BootEnvironmentService = Montage.specialize
         value: function(bootEnvironment) {
             return this._dataService.saveDataObject(bootEnvironment).then(function() {
                 return bootEnvironment;
-            }
+            })
         }
     },
 
