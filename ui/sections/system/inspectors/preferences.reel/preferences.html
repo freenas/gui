@@ -8,7 +8,13 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
-            }
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
         },
         "validationController": {
             "prototype": "core/controller/validation-controller",
@@ -126,6 +132,20 @@
             "bindings": {
                 "values": {"<->": "@owner.systemAdvancedData.graphite_servers"}
             }
+        },
+        "downloadConfig": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "downloadConfig"},
+                "value": "Save Config File"
+            }
+        },
+        "factoryRestore": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "factoryRestore"},
+                "value": "Restor Factory Settings"
+            }
         }
     }
     </script>
@@ -133,7 +153,7 @@
 <body>
     <div data-montage-id="owner" class="Preferences">
         <div data-montage-id="inspector">
-            <div data-montage-id="downloadConfig" class="g-margin-bottom--half"></div>
+            <div data-montage-id="downloadConfig" class="g-margin-bottom--half" id="saveConfig"></div>
             <div data-montage-id="uploadConfig" class="g-margin-bottom--half"></div>
             <div data-montage-id="factoryRestore" ></div>
             <div data-montage-id="noOperation" class="Updates-noOperation"></div>

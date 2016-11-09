@@ -11,6 +11,32 @@ var Component = require("montage/ui/component").Component,
  */
 exports.Preferences = Component.specialize(/** @lends Preferences# */ {
 
+    handleDownloadConfigAction: {
+        value: function () {
+            var self = this;
+            var todayString = new Date();
+            var todayString = todayString.toISOString().split('T')[0];
+            this.application.systemInfoService.getVersion().then(function(systemVersion) {
+                self.systemVersion = systemVersion.split("-")[3];
+
+            });
+            this.application.systemAdvancedService.getConfigFileAddress().then(function(databaseDump) {
+                console.log(databaseDump[1][0]);
+                var downloadLink = document.createElement("a");
+                    downloadLink.href = databaseDump[1][0];
+                    downloadLink.download = "FreeNAS10" + "-" + self.systemVersion + "-" + todayString + "-" + "database.db";
+                    downloadLink.click();
+            })
+        }
+    },
+
+    handleFactoryRestoreAction: {
+        value: function () {
+            this.application.systemAdvancedService.restoreFactorySettings().then(function () {
+            });
+        }
+    },
+
     systemGeneralData: {
         value: null
     },
