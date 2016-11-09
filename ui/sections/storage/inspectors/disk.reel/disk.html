@@ -33,7 +33,13 @@
                     {"label": "Level 192 - Intermediate power usage without Standby",           "value": 192},
                     {"label": "Level 254 - Maximum performance, maximum power usage",           "value": 254}
                 ]
-            }
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
         },
         "bytesSizeConverter": {
             "prototype": "montage/core/converter/bytes-converter"
@@ -193,6 +199,16 @@
                 "enabled": {"<-": "!@smart.disabled && @smart.checked"},
                 "value": {"<->": "@owner.object.smart_options"}
             }
+        },
+        "erase": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "erase"},
+                "value": "Erase"
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "!@owner.object.isAvailable"}
+            }
         }
     }
     </script>
@@ -213,6 +229,9 @@
             <div data-montage-id="acousticLevel"></div>
             <div data-montage-id="smart"></div>
             <div data-montage-id="smartOptions"></div>
+            <div data-arg="footer-additional-button" class="ActionButtons">
+                <div data-montage-id="erase" class="Button--alert"></div>
+            </div>
         </div>
     </div>
 </body>

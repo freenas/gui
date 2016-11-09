@@ -68,7 +68,7 @@ exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# *
     },
 
     enterDocument: {
-        value: function() {
+        value: function(isFirstTime) {
             this.super();
             this.volume = this._getCurrentVolume();
 
@@ -80,6 +80,18 @@ exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# *
             }
             var storageService = this.application.storageService;
             storageService.initializeDatasetProperties(this.object);
+
+            if (isFirstTime) {
+                this.addPathChangeListener('object.type', this, '_handleExtraValidation');
+                this.addPathChangeListener('object.volsize', this, '_handleExtraValidation');
+            }
+        }
+    },
+
+    _handleExtraValidation: {
+        value: function() {
+            // FIXME: Is conditional validation possible using validation controller?
+            this.inspector.isSaveDisabled = (this.object.type == 'VOLUME' && !this.object.volsize);
         }
     },
 

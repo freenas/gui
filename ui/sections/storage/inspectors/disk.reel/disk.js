@@ -15,5 +15,11 @@ exports.Disk = AbstractInspector.specialize({
                 };
             });
         }
+    },
+
+    handleEraseAction: {
+        value: function() {
+            return this._sectionService.eraseDisk(this.object.id);
+        }
     }
 });
