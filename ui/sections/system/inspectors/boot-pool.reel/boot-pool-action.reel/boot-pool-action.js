@@ -23,37 +23,44 @@ exports.BootPoolAction = Component.specialize({
 
     handleSelectedRowsChange: {
         value: function (plus,minus,x) {
-            if (this.selectedRows.length) {
-                var length = this.selectedRows.length;
-                if (!this._checkOnRebootPool(this.selectedRows)) {
-                    if (length == 1) {
+            var selection = this.selectedRows,
+                length = selection.length;
+
+            if (length) {
+                if(length > 1) {
+                    if (!this._checkIfCurrentPool(selection) || !this._checkIfNextPool(selection)) {
+                        // keep
                         this.currentState = "state-1";
-                        // this.classList.remove('actions-state-2');
-                        // this.classList.remove('actions-state-3');
-                        // this.classList.add('actions-state-1');
-                    } else if (length > 1) {
+                    } else {
                         this.currentState = "state-2";
-                        // this.classList.remove('actions-state-1');
-                        // this.classList.remove('actions-state-3');
-                        // this.classList.add('actions-state-2');
                     }
                 } else {
-                    this.currentState = "state-3";
-                    // this.classList.remove('actions-state-1');
-                    // this.classList.remove('actions-state-2');
-                    // this.classList.add('actions-state-3');
+                    if (this._checkIfNextPool(selection)) {
+                        // clone, keep
+                        this.currentState = "state-3";
+                    } else if (this._checkIfCurrentPool(selection)) {
+                        // clone, keep, activate
+                        this.currentState = "state-4";
+                    } else {
+                        // clone, keep, activate, delete
+                        this.currentState = "state-5";
+                    }
                 }
             } else {
                 this.currentState = "default";
-                // this.classList.remove('actions-state-1');
-                // this.classList.remove('actions-state-2');
-                // this.classList.remove('actions-state-3');
             }
-            console.log(this.currentState);
         }
     },
 
-    _checkOnRebootPool: {
+    _checkIfCurrentPool: {
+        value: function (selectedRows) {
+            return selectedRows.some(function(row){
+                return row.object.active == true;
+            });
+        }
+    },
+
+    _checkIfNextPool: {
         value: function (selectedRows) {
             return selectedRows.some(function(row){
                 return row.object.onReboot == true;
