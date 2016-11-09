@@ -1,0 +1,12 @@
+{
+    "root": {
+        "prototype": "montage/core/meta/user-interface-descriptor",
+        "properties": {
+            "inspectorComponentModule": {"%": "ui/sections/accounts/inspectors/kerberos-realm.reel"},
+            "creatorComponentModule": {"%": "ui/sections/accounts/inspectors/kerberos-realm.reel"},
+            "nameExpression": "realm",
+            "collectionNameExpression": "'Kerberos Realms'",
+            "daoModuleId": "core/dao/kerberos-realm-dao"
+        }
+    }
+}
