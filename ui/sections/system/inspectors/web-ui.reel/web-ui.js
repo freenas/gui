@@ -26,7 +26,7 @@ exports.WebUi = Component.specialize(/** @lends WebUi# */ {
         value: []
     },
 
-    Webui_Https_Certificate_Options: {
+    certificates: {
         value: null
     },
 
@@ -38,6 +38,9 @@ exports.WebUi = Component.specialize(/** @lends WebUi# */ {
                 this.application.systemUIService.getUIData().then(function(uiData) {
                     self.object = uiData;
                     self._snapshotDataObjectsIfNecessary();
+                });
+                return this.application.dataService.fetchData(Model.CryptoCertificate).then(function (certificates) {
+                    self.certificates = certificates.filter(self._isCertificate);
                 });
                 Model.populateObjectPrototypeForType(Model.NetworkConfig).then(function(networkConfig) {
                     return networkConfig.constructor.services.getMyIps();
@@ -74,6 +77,12 @@ exports.WebUi = Component.specialize(/** @lends WebUi# */ {
             this.object.webui_http_redirect_https = this._object.webui_http_redirect_https
             this.object.webui_listen = this._object.webui_listen
 
+        }
+    },
+
+    _isCertificate: {
+        value: function (cert) {
+            return cert.type.startsWith("CERT");
         }
     },
 
