@@ -1,17 +1,16 @@
 .Updates {}
 
-.Updates-operations {
-    display: none;
-}
+.Updates-operations { display: none; }
 
-.Updates.has-operations .Updates-operations {
-    display: block;
-}
+.Updates.has-operations .Updates-operations { display: block; }
 
-.Updates.has-operations .Updates-noOperation {
-    display: none;
-}
+.Updates.has-operations .Updates-noOperation { display: none; }
 
-.Updates-settingsSection {
-    margin-top: 1em;
+.Updates-settingsSection { margin-top: 1em; }
+
+/* table cell alignment */
+
+.Updates-table .Table-row > div:nth-child(1),
+.Updates-table .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(1) {
+    max-width: 10em;
 }

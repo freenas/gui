@@ -73,12 +73,6 @@
                 "options": {"<-": "@owner.trains"}
             }
         },
-        "operationsController": {
-            "prototype": "montage/core/range-controller",
-            "bindings": {
-                "content": {"<-": "@owner.info.operations"}
-            }
-        },
         "operationsTableLabel": {
             "prototype": "ui/controls/inspector-section-title.reel",
             "properties": {
@@ -87,24 +81,26 @@
             }
         },
         "operationsTable": {
-            "prototype": "ui/controls/table.reel",
+            "prototype": "blue-shark/ui/tables/table-read-only.reel",
             "properties": {
                 "element": {"#": "operationsTable"},
-                "dataController": {"@": "operationsController"},
                 "columns": [
                     {
-                        "label": "Package",
-                        "expression": "new_name"
+                        "value": "Package",
+                        "path": "new_name"
                     },
                     {
-                        "label": "Old Version",
-                        "expression": "previous_version"
+                        "value": "Old Version",
+                        "path": "previous_version"
                     },
                     {
-                        "label": "New Version",
-                        "expression": "new_version"
+                        "value": "New Version",
+                        "path": "new_version"
                     }
                 ]
+            },
+            "bindings": {
+                "rows": {"<-": "@owner.info.operations"}
             }
         },
         "updateNow": {
@@ -162,7 +158,7 @@
             <div data-montage-id="verify" class='hide'></div>
             <div class="Updates-operations">
                 <div data-montage-id="operationsTableLabel"></div>
-                <div data-montage-id="operationsTable"></div>
+                <div data-montage-id="operationsTable" class="Updates-table"></div>
             </div>
             <div data-montage-id="noOperation" class="Updates-noOperation"></div>
             <div data-montage-id="settingsSection" class="Updates-settingsSection">
