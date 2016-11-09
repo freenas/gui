@@ -43,12 +43,27 @@
             }
         },
         "table": {
-            "prototype": "ui/sections/containers/controls/table-port.reel",
+            "prototype": "ui/sections/system/inspectors/alert.reel/table-predicates.reel",
             "properties": {
                 "element": {"#": "table"}
             },
             "bindings": {
-                "rows": {"<-": "@owner.object.predicates"}
+                "rows": {"<->": "@owner.object.predicates"}
+            }
+        },
+        "send_to": {
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "properties": {
+                "element": {"#": "addresses"},
+                "label": "Send to",
+                "labelPath": "this",
+                "isDraggable": true,
+                "inputTitle": "Add a recipient",
+                "valuesTitle": "Recipients"
+            },
+            "bindings": {
+                "values": {"<->": "@owner.object.email.addresses"},
+                "placeholder": {"<-": "!@owner.object.webui_listen ? 'eg. foo@example.com' : ''"}
             }
         }
     }
@@ -59,6 +74,7 @@
         <div data-montage-id="inspector">
             <div data-montage-id="id"></div>
             <div data-montage-id="table"></div>
+            <div data-montage-id="addresses"></div>
         </div>
     </div>
 </body>
