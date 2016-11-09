@@ -80,16 +80,23 @@ exports.BootEnvironmentTable = Component.specialize({
     _performAction: {
         value: function (selectedRows, action, context) {
 
+            var self = this;
             if (selectedRows.length) {
-                var promises = [];
+                var promises = [],
+                    rowPromise;
                 for (i = 0; i < selectedRows.length; i++) {
-                    selectedRows[i].object.isProcessing = true;
-                    promises.push(action.call(context, selectedRows[i].object));
+                    rowPromise = action.call(context, selectedRows[i].object);
+                    selectedRows[i].object.promise = rowPromise;
+                    promises.push(rowPromise);
                 }
 
                 Promise.all(promises).then(function(response){
+                    console.log(self.table);
                     for (i = 0; i < selectedRows.length; i++) {
-                        selectedRows[i].object.isProcessing = false;
+                        selectedRows[i].object.promise = null;
+                    }
+                    for (i = 0; i < response.length; i++) {
+                        response[i].promise = null;
                     }
                 });
             }
