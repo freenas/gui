@@ -723,6 +723,11 @@
     },
     "DockerCollection": {
         "class": {
+            "fullQuery": {
+                "method": "docker.collection.full_query",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "getEntries": {
                 "method": "docker.collection.get_entries",
                 "name": "call",
@@ -734,6 +739,11 @@
                 "method": "task.submit",
                 "name": "call",
                 "namespace": "rpc",
+                "restrictions": {
+                    "forbiddenFields": [
+                        "images"
+                    ]
+                },
                 "task": "docker.collection.create"
             },
             "delete": {
@@ -751,6 +761,11 @@
                 "method": "task.submit",
                 "name": "call",
                 "namespace": "rpc",
+                "restrictions": {
+                    "forbiddenFields": [
+                        "images"
+                    ]
+                },
                 "task": "docker.collection.update"
             }
         }
@@ -2172,6 +2187,11 @@
     },
     "ServiceDc": {
         "class": {
+            "checkDcVmAvailability": {
+                "method": "service.dc.check_dc_vm_availability",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "provideDcUrl": {
                 "method": "service.dc.provide_dc_url",
                 "name": "call",

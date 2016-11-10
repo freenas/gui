@@ -118,18 +118,6 @@ exports.DiskStatus = Montage.specialize({
             return this._id;
         }
     },
-    _interface: {
-        value: null
-    },
-    interface: {
-        set: function (value) {
-            if (this._interface !== value) {
-                this._interface = value;
-            }
-        }, get: function () {
-            return this._interface;
-        }
-    },
     _is_encrypted: {
         value: null
     },
@@ -208,19 +196,6 @@ exports.DiskStatus = Montage.specialize({
             return this._mediasize;
         }
     },
-    _model: {
-        value: null
-    },
-    model: {
-        set: function (value) {
-            if (this._model !== value) {
-                this._model = value;
-            }
-        },
-        get: function () {
-            return this._model;
-        }
-    },
     _multipath: {
         value: null
     },
@@ -286,43 +261,17 @@ exports.DiskStatus = Montage.specialize({
             return this._serial;
         }
     },
-    _smart_capable: {
+    _smart_info: {
         value: null
     },
-    smart_capable: {
+    smart_info: {
         set: function (value) {
-            if (this._smart_capable !== value) {
-                this._smart_capable = value;
+            if (this._smart_info !== value) {
+                this._smart_info = value;
             }
         },
         get: function () {
-            return this._smart_capable;
-        }
-    },
-    _smart_enabled: {
-        value: null
-    },
-    smart_enabled: {
-        set: function (value) {
-            if (this._smart_enabled !== value) {
-                this._smart_enabled = value;
-            }
-        },
-        get: function () {
-            return this._smart_enabled;
-        }
-    },
-    _smart_status: {
-        value: null
-    },
-    smart_status: {
-        set: function (value) {
-            if (this._smart_status !== value) {
-                this._smart_status = value;
-            }
-        },
-        get: function () {
-            return this._smart_status;
+            return this._smart_info;
         }
     },
     _swap_partition_path: {
@@ -391,10 +340,6 @@ exports.DiskStatus = Montage.specialize({
             valueType: "String"
         }, {
             mandatory: false,
-            name: "interface",
-            valueType: "String"
-        }, {
-            mandatory: false,
             name: "is_encrypted",
             valueType: "boolean"
         }, {
@@ -419,10 +364,6 @@ exports.DiskStatus = Montage.specialize({
             valueType: "number"
         }, {
             mandatory: false,
-            name: "model",
-            valueType: "String"
-        }, {
-            mandatory: false,
             name: "multipath",
             valueType: "object"
         }, {
@@ -444,16 +385,9 @@ exports.DiskStatus = Montage.specialize({
             valueType: "String"
         }, {
             mandatory: false,
-            name: "smart_capable",
-            valueType: "boolean"
-        }, {
-            mandatory: false,
-            name: "smart_enabled",
-            valueType: "boolean"
-        }, {
-            mandatory: false,
-            name: "smart_status",
-            valueType: "String"
+            name: "smart_info",
+            valueObjectPrototypeName: "SmartInfo",
+            valueType: "object"
         }, {
             mandatory: false,
             name: "swap_partition_path",

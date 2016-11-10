@@ -27,6 +27,19 @@ exports.DockerCollection = Montage.specialize({
             return this._id;
         }
     },
+    _images: {
+        value: null
+    },
+    images: {
+        set: function (value) {
+            if (this._images !== value) {
+                this._images = value;
+            }
+        },
+        get: function () {
+            return this._images;
+        }
+    },
     _match_expr: {
         value: null
     },
@@ -63,6 +76,11 @@ exports.DockerCollection = Montage.specialize({
             mandatory: false,
             name: "id",
             valueType: "String"
+        }, {
+            mandatory: false,
+            name: "images",
+            valueObjectPrototypeName: "DockerHubImage",
+            valueType: "object"
         }, {
             mandatory: false,
             name: "match_expr",

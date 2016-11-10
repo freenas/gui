@@ -15,6 +15,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_useroriginanonymous_read_only": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "read_only",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_useroriginanonymous_ttl": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -30,6 +38,7 @@
       "propertyBlueprints": [
         {"@": "blueprint_useroriginanonymous_cached_at"},
         {"@": "blueprint_useroriginanonymous_directory"},
+        {"@": "blueprint_useroriginanonymous_read_only"},
         {"@": "blueprint_useroriginanonymous_ttl"}
       ]
     }

@@ -71,14 +71,6 @@
       "valueType": "String"
     }
   },
-  "blueprint_diskstatus_interface": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "interface",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_diskstatus_is_encrypted": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -127,14 +119,6 @@
       "valueType": "number"
     }
   },
-  "blueprint_diskstatus_model": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "model",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_diskstatus_multipath": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -176,28 +160,13 @@
       "valueType": "String"
     }
   },
-  "blueprint_diskstatus_smart_capable": {
+  "blueprint_diskstatus_smart_info": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "smart_capable",
+      "name": "smart_info",
       "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "blueprint_diskstatus_smart_enabled": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "smart_enabled",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "blueprint_diskstatus_smart_status": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "smart_status",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "object",
+      "valueObjectPrototypeName": "SmartInfo"
     }
   },
   "blueprint_diskstatus_swap_partition_path": {
@@ -230,22 +199,18 @@
         {"@": "blueprint_diskstatus_encrypted"},
         {"@": "blueprint_diskstatus_gdisk_name"},
         {"@": "blueprint_diskstatus_id"},
-        {"@": "blueprint_diskstatus_interface"},
         {"@": "blueprint_diskstatus_is_encrypted"},
         {"@": "blueprint_diskstatus_is_multipath"},
         {"@": "blueprint_diskstatus_is_ssd"},
         {"@": "blueprint_diskstatus_lunid"},
         {"@": "blueprint_diskstatus_max_rotation"},
         {"@": "blueprint_diskstatus_mediasize"},
-        {"@": "blueprint_diskstatus_model"},
         {"@": "blueprint_diskstatus_multipath"},
         {"@": "blueprint_diskstatus_partitions"},
         {"@": "blueprint_diskstatus_schema"},
         {"@": "blueprint_diskstatus_sectorsize"},
         {"@": "blueprint_diskstatus_serial"},
-        {"@": "blueprint_diskstatus_smart_capable"},
-        {"@": "blueprint_diskstatus_smart_enabled"},
-        {"@": "blueprint_diskstatus_smart_status"},
+        {"@": "blueprint_diskstatus_smart_info"},
         {"@": "blueprint_diskstatus_swap_partition_path"},
         {"@": "blueprint_diskstatus_swap_partition_uuid"}
       ]

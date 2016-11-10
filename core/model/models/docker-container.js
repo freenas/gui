@@ -222,6 +222,19 @@ exports.DockerContainer = Montage.specialize({
             return this._status;
         }
     },
+    _version: {
+        value: null
+    },
+    version: {
+        set: function (value) {
+            if (this._version !== value) {
+                this._version = value;
+            }
+        },
+        get: function () {
+            return this._version;
+        }
+    },
     _volumes: {
         value: null
     },
@@ -318,6 +331,10 @@ exports.DockerContainer = Montage.specialize({
             mandatory: false,
             name: "status",
             valueType: "String"
+        }, {
+            mandatory: false,
+            name: "version",
+            valueType: "number"
         }, {
             mandatory: false,
             name: "volumes",
