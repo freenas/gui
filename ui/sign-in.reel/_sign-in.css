@@ -95,37 +95,10 @@
 
 .SignIn-submit { margin-top: 2em; }
 
-@keyframes spin {
-    0%   {}
-    100% { transform: rotate(360deg); }
-}
 
 .isAuthenticating .SignIn-submit {
     position: relative;
     overflow: hidden;
-}
-
-.isAuthenticating .SignIn-submit:before {
-    position: absolute;
-    content: '';
-    background: rgba(0,0,0,.5);
-    left:0;
-    top: 0;
-    bottom: 0;
-    width: 100%;
-}
-
-.isAuthenticating .SignIn-submit:after {
-    position: absolute;
-    content: '';
-    background: white;
-    width: 2px;
-    height: 2em;
-    left: 50%;
-    margin-left: -1px;
-    top: 50%;
-    margin-top: -1em;
-    animation: spin .75s infinite;
 }
 
 /*

@@ -70,6 +70,10 @@
             "properties": {
                 "element": {"#": "submit"},
                 "value": "Sign In"
+            },
+            "bindings": {
+                "isProcessing": {"<-": "@owner.isAuthenticating"},
+                "disabled": {"<-": "isProcessing || !@userName.value || !@password.value"}
             }
         },
 
@@ -99,7 +103,9 @@
             <div class="field">
                 <input type="password" data-montage-id="password" class="SignIn-userName"></input>
             </div>
-            <button data-montage-id="submit" class="SignIn-submit  Button--primary Button--block Button--large"></button>
+            <button data-montage-id="submit" class="SignIn-submit Button--primary Button--block Button--large Button--loader">
+                <svg><use xlink:href="#i-freenasIcon"/></svg>
+            </button>
         </div>
     </div>
 </body>
