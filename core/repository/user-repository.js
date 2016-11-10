@@ -11,12 +11,8 @@ exports.UserRepository = AbstractRepository.specialize({
 
     findUserWithName: {
         value: function (username) {
-            return this._userDao.list().then(function (users) {
-                for (var i = 0, length = users.length; i < length; i++) {
-                    if (users[i].username === username) {
-                        return users[i];
-                    }
-                }
+            return this._userDao.find({username: username}).then(function (users) {
+                return users[0];
             });
         }
     },
