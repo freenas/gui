@@ -229,7 +229,30 @@ var StorageService = exports.StorageService = Montage.specialize({
         value: function (dataset) {
             return dataset.name === dataset.volume;
         }
+    },
+
+    ensureDefaultPermissionsAreSet: {
+        value: function(share) {
+            if (!share.permissions || !share.permissions.user || !share.permissions.group) {
+                var permissionsPromise = share.permissions ?
+                    Promise.resolve(share.permissions) : this._dataService.getNewInstanceForType(Model.Permissions);
+
+                return permissionsPromise.then(function (permissions) {
+                    if (!permissions.user) {
+                        permissions.user = 'root';
+                    }
+                    if (!permissions.group) {
+                        permissions.group = 'wheel';
+                    }
+
+                    share.permissions = permissions;
+                    return share;
+                });
+            }
+            return Promise.resolve(share);
+        }
     }
+
 
 }, {
     instance: {

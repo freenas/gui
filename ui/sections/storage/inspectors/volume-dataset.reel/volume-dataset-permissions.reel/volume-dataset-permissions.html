@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="volume-dataset-permissions.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "permissionsSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "permissionsSection"},
+                "title": "Permissions"
+            }
+        },
+        "usersOptionsConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "labelPropertyName": "username",
+                "valuePropertyName": "username"
+            }
+        },
+        "groupsOptionsConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "labelPropertyName": "name",
+                "valuePropertyName": "name"
+            }
+        },
+        "ownerUser": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "ownerUser"},
+                "label": "Owner user",
+                "converter": {"@": "usersOptionsConverter"}
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.permissions.user"},
+                "options": {"<-": "@owner.users.sorted{builtin + username}"}
+            }
+        },
+        "ownerGroup": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "ownerGroup"},
+                "label": "Owner group",
+                "converter": {"@": "groupsOptionsConverter"}
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.permissions.group"},
+                "options": {"<-": "@owner.groups.sorted{builtin + name}"}
+            }
+        },
+        "modes": {
+            "prototype": "ui/controls/unixPermissions.reel",
+            "properties": {
+                "element": {"#": "permissions"}
+            },
+            "bindings": {
+                "modes": {"<->": "@owner.object.permissions.modes"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="VolumeDatasetPermissions">
+        <div data-montage-id="permissionsSection">
+            <div data-montage-id="ownerUser"></div>
+            <div data-montage-id="ownerGroup"></div>
+            <div data-montage-id="permissions"></div>
+        </div>
+    </div>
+</body>
+</html>
