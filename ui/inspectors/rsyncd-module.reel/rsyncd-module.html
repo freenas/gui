@@ -113,7 +113,7 @@
             },
             "bindings": {
                 "options": {"<-": "[{username: ' - '}].concat(@owner.users.sorted{builtin + user})"},
-                "selectedValue": {"<->": "owner.object.user"}
+                "selectedValue": {"<->": "@owner.object.user"}
             }
         },
         "groupsOptionsConverter": {
@@ -132,7 +132,7 @@
             },
             "bindings": {
                 "options": {"<-": "[{name: ' - '}].concat(@owner.groups.sorted{builtin + name})"},
-                "selectedValue": {"<->": "owner.object.group"}
+                "selectedValue": {"<->": "@owner.object.group"}
             }
         },
         "hosts_allow": {
