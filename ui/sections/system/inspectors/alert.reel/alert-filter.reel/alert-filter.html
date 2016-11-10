@@ -59,11 +59,11 @@
                 "labelPath": "this",
                 "isDraggable": true,
                 "inputTitle": "Add a recipient",
-                "valuesTitle": "Recipients"
+                "valuesTitle": "Recipients",
+                "placeholder": "eg. foo@example.com"
             },
             "bindings": {
-                "values": {"<->": "@owner.object.email.addresses"},
-                "placeholder": {"<-": "!@owner.object.webui_listen ? 'eg. foo@example.com' : ''"}
+                "values": {"<->": "@owner.object.parameters.addresses"}
             }
         }
     }

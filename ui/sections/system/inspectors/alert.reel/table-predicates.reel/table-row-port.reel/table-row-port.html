@@ -7,15 +7,12 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
-            },
-            "bindings": {
-                "object.type": {"<-": "@owner.object.type.defined() ? @owner.object.type : 'class'"}
             }
         },
-        "type": {
+        "property": {
             "prototype": "blue-shark/ui/select.reel",
             "properties": {
-                "element": {"#": "type"},
+                "element": {"#": "property"},
                 "placeholder": "Select a type",
                 "options": [
                     {
@@ -29,7 +26,7 @@
                 ]
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.object.type"}
+                "selectedValue": {"<->": "@owner.object.property"}
             }
         },
         "operatorSubstitution": {
@@ -38,7 +35,7 @@
                 "element": {"#": "operatorSubstitution"}
             },
             "bindings": {
-                "switchValue": {"<-": "@owner.object.type"}
+                "switchValue": {"<-": "@owner.object.property"}
             }
         },
         "classOperators": {
@@ -103,7 +100,7 @@
                 "element": {"#": "valueSubstitution"}
             },
             "bindings": {
-                "switchValue": {"<-": "@owner.object.type"}
+                "switchValue": {"<-": "@owner.object.property"}
             }
         },
         "classValues": {
@@ -131,7 +128,7 @@
 </head>
 <body>
     <div data-montage-id="owner" class="TableRowPort Table-cells">
-        <div><div data-montage-id="type"></div></div>
+        <div><div data-montage-id="property"></div></div>
         <div data-montage-id="operatorSubstitution">
             <div data-arg="class">
                 <div><div data-montage-id="classOperators"></div></div>

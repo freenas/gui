@@ -15,7 +15,6 @@ exports.TableRowPort = Component.specialize({
         value: function (isFirstTime) {
             var self = this;
             this.classValues = AlertClassId.members.map(function (x) {
-                console.log(x);
                 return {
                     label: x,
                     value: x
