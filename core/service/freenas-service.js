@@ -1,4 +1,5 @@
 var DataService = require("montage-data/logic/service/data-service").DataService,
+    DataSelector = require("montage-data/logic/service/data-selector").DataSelector,
     RawDataService = require("montage-data/logic/service/raw-data-service").RawDataService,
     SnapshotService = require("montage-data/logic/service/snapshot-service").SnapshotService,
     BackEndBridgeModule = require("../backend/backend-bridge"),
@@ -243,28 +244,72 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                                         DataService Public Functions
 ----------------------------------------------------------------------------------------------------------------------*/
 
+    mapSelectorToRawDataSelector: {
+        value: function(montageDataSelector) {
+            return {
+                type: montageDataSelector.type,
+                criteria: Object.keys(montageDataSelector.criteria).map(function(x) { return [x, '=', montageDataSelector.criteria[x]]; })
+            }
+        }
+    },
 
-    /**
-     * @function
-     * @public
-     *
-     * @description todo
-     *
-     */
     fetchRawData: {
         value: function (stream) {
-            var type = stream.selector.type;
+            stream.selector = Array.isArray(stream.selector.criteria) ? stream.selector : this.mapSelectorToRawDataSelector(stream.selector);
+            var self = this,
+                type = stream.selector.type,
+                criteria = stream.selector.criteria.length > 0 ? [stream.selector.criteria] : stream.selector.criteria,
+                promise = type.objectPrototype ? Promise.resolve() : Model.populateObjectPrototypeForType(type);
 
-            if (type.objectPrototype) {
-                this._fetchRawDataWithType(stream, type);
+            promise.then(function() {
+                if (criteria.length === 0 && self.modelsCache.has(type.typeName)) {
+                    //Fixme: hacky
+                    stream._data = self._findModelCacheForType(type);
+                    stream.dataDone();
 
-            } else {
-                var self = this;
+                } else {
+                    var readServiceDescriptor = Services.findReadServiceForType(type);
 
-                Model.populateObjectPrototypeForType(type).then(function () {
-                    self._fetchRawDataWithType(stream, type);
-                });
-            }
+                    // FIXME: Dirty hacky thing
+                    if (type === Model.DirectoryserviceConfig) {
+                        readServiceDescriptor = {
+                            "method": "directoryservice.get_config",
+                            "name": "call",
+                            "namespace": "rpc"
+                        }
+                    }
+
+                    if (readServiceDescriptor) {
+                        return self.backendBridge.send(
+                            readServiceDescriptor.namespace,
+                            readServiceDescriptor.name, {
+                                method: readServiceDescriptor.method,
+                                args: criteria
+                            }
+                        ).then(function (response) {
+                            var rawData = response.data;
+
+                            self.notificationCenter.startListenToChangesOnModelTypeIfNeeded(type).then(function () {
+                                self.addRawData(stream, Array.isArray(rawData) ? rawData : [rawData]);
+                                self.rawDataDone(stream);
+                                //fixme: fix for UIDescriptor and empty array....
+                                stream._data._meta_data = {collectionModelType: type};
+
+                                stream.then(function (cookedData) {
+                                    if (criteria.length === 0) {
+                                        self.modelsCache.set(type.typeName, cookedData);
+                                    }
+                                    return cookedData;
+                                });
+                            });
+                        }, function (error) {
+                            stream.dataError(error);
+                        });
+                    } else {
+                        stream.dataError(new Error("No fetch service for the model object '" + type.typeName + "'"));
+                    }
+                }
+            });
         }
     },
 
@@ -627,6 +672,12 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
         }
     },
 
+    getSelectorWithTypeAndCriteria: {
+        value: function(type, criteria) {
+            return DataSelector.withTypeAndCriteria(type, criteria);
+        }
+    },
+
     clone: {
         value: function(object) {
             if (object) {
@@ -875,53 +926,6 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
      */
     _fetchRawDataWithType: {
         value: function (stream, type) {
-            if (this.modelsCache.has(type.typeName)) {
-                //Fixme: hacky
-                stream._data = this._findModelCacheForType(type);
-                stream.dataDone();
-
-            } else {
-                var readServiceDescriptor = Services.findReadServiceForType(type);
-
-                // FIXME: Dirty hacky thing
-                if (type === Model.DirectoryserviceConfig) {
-                    readServiceDescriptor = {
-                        "method": "directoryservice.get_config",
-                        "name": "call",
-                        "namespace": "rpc"
-                    }
-                }
-
-                if (readServiceDescriptor) {
-                    var self = this;
-
-                    return this.backendBridge.send(
-                        readServiceDescriptor.namespace,
-                        readServiceDescriptor.name, {
-                            method: readServiceDescriptor.method,
-                            args: EMPTY_ARRAY
-                        }
-                    ).then(function (response) {
-                        var rawData = response.data;
-
-                        self.notificationCenter.startListenToChangesOnModelTypeIfNeeded(type).then(function () {
-                            self.addRawData(stream, Array.isArray(rawData) ? rawData : [rawData]);
-                            self.rawDataDone(stream);
-                            //fixme: fix for UIDescriptor and empty array....
-                            stream._data._meta_data = {collectionModelType: type};
-
-                            stream.then(function (cookedData) {
-                                self.modelsCache.set(type.typeName, cookedData);
-                                return cookedData;
-                            });
-                        });
-                    }, function (error) {
-                        stream.dataError(error);
-                    });
-                } else {
-                    stream.dataError(new Error("No fetch service for the model object '" + type.typeName + "'"));
-                }
-            }
         }
     },
 
@@ -1149,6 +1153,7 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                 instance.callBackend = FreeNASService.prototype.callBackend;
                 instance.backendBridge = BackEndBridgeModule.defaultBackendBridge;
                 instance.mapRawDataToType = FreeNASService.prototype.mapRawDataToType;
+                instance.getSelectorWithTypeAndCriteria = FreeNASService.prototype.getSelectorWithTypeAndCriteria;
                 instance.clone = FreeNASService.prototype.clone;
                 instance._getArrayClone = FreeNASService.prototype._getArrayClone;
                 instance._isSameValue = FreeNASService.prototype._isSameValue;

@@ -28,6 +28,13 @@ exports.AbstractDao = Montage.specialize({
         }
     },
 
+    find: {
+        value: function(criteria) {
+            this._checkModelIsInitialized();
+            return this._dataService.fetchData(this._dataService.getSelectorWithTypeAndCriteria(this._model, criteria));
+        }
+    },
+
     getEmptyList: {
         value: function() {
             this._checkModelIsInitialized();
