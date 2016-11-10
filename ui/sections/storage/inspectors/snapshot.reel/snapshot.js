@@ -115,7 +115,13 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
             return this.inspector.save.apply(this.inspector, args);
         }
     },
-
+    delete: {
+        value: function() {
+            var self = this;
+ 
+            return this.inspector.delete(this.extraDeleteFlags[0].checked);
+        }
+    },
     _loadVolume: {
         value: function() {
             this.volume = this._getCurrentVolume();

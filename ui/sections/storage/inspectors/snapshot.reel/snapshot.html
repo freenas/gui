@@ -11,7 +11,12 @@
                 "datasetTreeController": {"@": "datasetTreeController"},
                 "validationController": {"@": "validationController"},
                 "neverExpireCheckboxComponent": {"@": "neverExpireCheckbox"},
-                "inspector": {"@": "inspector"}
+                "inspector": {"@": "inspector"},
+                "extraDeleteFlags": [
+                     {"label": "Delete recursive snapshots?",
+                      "value": "recursive",
+                      "checked": false}
+                ]
             },
             "bindings": {
                 "classList.has('has-loading-spinner')": {"<-": "@owner.isLoading"}
@@ -55,7 +60,8 @@
                 "controller": {"@": "owner"}
             },
             "bindings": {
-                "context": {"<-": "@owner.context"}
+                "context": {"<-": "@owner.context"},
+                "extraDeleteFlags": {"<-": "@owner.extraDeleteFlags"}
             }
         },
         "name": {
