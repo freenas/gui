@@ -1,0 +1,100 @@
+{
+  "blueprint_smarttestresult_asc": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "asc",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_smarttestresult_ascq": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "ascq",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_smarttestresult_hours": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "hours",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_smarttestresult_lba": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "lba",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_smarttestresult_num": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "num",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_smarttestresult_remain": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "remain",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_smarttestresult_segment": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "segment",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_smarttestresult_sense": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "sense",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_smarttestresult_status": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "status",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_smarttestresult_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "SmartTestResult",
+      "propertyBlueprints": [
+        {"@": "blueprint_smarttestresult_asc"},
+        {"@": "blueprint_smarttestresult_ascq"},
+        {"@": "blueprint_smarttestresult_hours"},
+        {"@": "blueprint_smarttestresult_lba"},
+        {"@": "blueprint_smarttestresult_num"},
+        {"@": "blueprint_smarttestresult_remain"},
+        {"@": "blueprint_smarttestresult_segment"},
+        {"@": "blueprint_smarttestresult_sense"},
+        {"@": "blueprint_smarttestresult_status"},
+        {"@": "blueprint_smarttestresult_type"}
+      ]
+    }
+  }
+}

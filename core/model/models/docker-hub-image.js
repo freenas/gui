@@ -14,43 +14,30 @@ exports.DockerHubImage = Montage.specialize({
             return this._description;
         }
     },
-    _full_description: {
+    _icon: {
         value: null
     },
-    full_description: {
+    icon: {
         set: function (value) {
-            if (this._full_description !== value) {
-                this._full_description = value;
+            if (this._icon !== value) {
+                this._icon = value;
             }
         },
         get: function () {
-            return this._full_description;
+            return this._icon;
         }
     },
-    _id: {
+    _name: {
         value: null
     },
-    id: {
+    name: {
         set: function (value) {
-            if (this._id !== value) {
-                this._id = value;
+            if (this._name !== value) {
+                this._name = value;
             }
         },
         get: function () {
-            return this._id;
-        }
-    },
-    _namespace: {
-        value: null
-    },
-    namespace: {
-        set: function (value) {
-            if (this._namespace !== value) {
-                this._namespace = value;
-            }
-        },
-        get: function () {
-            return this._namespace;
+            return this._name;
         }
     },
     _presets: {
@@ -92,17 +79,17 @@ exports.DockerHubImage = Montage.specialize({
             return this._star_count;
         }
     },
-    _updated_at: {
+    _version: {
         value: null
     },
-    updated_at: {
+    version: {
         set: function (value) {
-            if (this._updated_at !== value) {
-                this._updated_at = value;
+            if (this._version !== value) {
+                this._version = value;
             }
         },
         get: function () {
-            return this._updated_at;
+            return this._version;
         }
     }
 }, {
@@ -113,15 +100,11 @@ exports.DockerHubImage = Montage.specialize({
             valueType: "String"
         }, {
             mandatory: false,
-            name: "full_description",
+            name: "icon",
             valueType: "String"
         }, {
             mandatory: false,
-            name: "id",
-            valueType: "String"
-        }, {
-            mandatory: false,
-            name: "namespace",
+            name: "name",
             valueType: "String"
         }, {
             mandatory: false,
@@ -137,8 +120,8 @@ exports.DockerHubImage = Montage.specialize({
             valueType: "number"
         }, {
             mandatory: false,
-            name: "updated_at",
-            valueType: "datetime"
+            name: "version",
+            valueType: "number"
         }]
     }
 });
