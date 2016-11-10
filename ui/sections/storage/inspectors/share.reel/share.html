@@ -15,7 +15,8 @@
                     "ZVOL":         {"@": "datasetTreeController"},
                     "DIRECTORY":    {"@": "directoryTreeController"},
                     "FILE":         {"@": "fileTreeController"}
-                }
+                },
+                "targetTreeview": {"@": "target"}
             },
             "bindings": {
                 "volumePath": {"<-": "'/mnt/' + @owner.volume.id"}
@@ -127,7 +128,7 @@
                 "validationPath": "target_path"
             },
             "bindings": {
-                "selectedPath": {"<->": "@owner.object.target_path"},
+                "selectedPath": {"<->": "@owner.object._selected_path"},
                 "label": {"<-": "@owner.targetType != 'DATASET' || @owner.targetType != 'ZVOL' ? 'Target' : 'Create target'"},
                 "readOnly": {"<-": "@owner.isPathReadOnly"},
                 "suffix": {"<-": "(@owner.targetType == 'DATASET' || @owner.targetType == 'ZVOL') && !@owner.isPathReadOnly ? @name.value || '' : ''"},

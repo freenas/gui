@@ -86,13 +86,30 @@ var BootEnvironmentService = exports.BootEnvironmentService = Montage.specialize
             return this._methods.activate(bootEnvironment.persistedId).then(function () {
                 currentBootEnvironment.onReboot = false;
                 bootEnvironment.onReboot = true;
+                return bootEnvironment;
             });
         }
     },
 
     saveBootEnvironment: {
         value: function(bootEnvironment) {
-            return this._dataService.saveDataObject(bootEnvironment);
+            return this._dataService.saveDataObject(bootEnvironment).then(function() {
+                return bootEnvironment;
+            })
+        }
+    },
+
+    keepBootEnvironment: {
+        value: function(bootEnvironment) {
+            bootEnvironment.keep = true;
+            return this.saveBootEnvironment(bootEnvironment);
+        }
+    },
+
+    dontKeepBootEnvironment: {
+        value: function(bootEnvironment) {
+            bootEnvironment.keep = false;
+            return this.saveBootEnvironment(bootEnvironment);
         }
     },
 

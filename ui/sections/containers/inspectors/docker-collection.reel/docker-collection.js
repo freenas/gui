@@ -7,6 +7,4 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
  * @class DockerCollection
  * @extends Component
  */
-exports.DockerCollection = AbstractInspector.specialize(/** @lends DockerCollection# */ {
-
-});
+exports.DockerCollection = AbstractInspector.specialize();

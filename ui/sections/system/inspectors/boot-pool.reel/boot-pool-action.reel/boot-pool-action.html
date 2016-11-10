@@ -18,7 +18,7 @@
                 "value": "Activate"
             },
             "bindings": {
-                "disabled": {"<-": "@owner.currentState != 'state-1'"}
+                "disabled": {"<-": "@owner.currentState != 'state-4' && @owner.currentState != 'state-5'"}
             }
         },
 
@@ -29,7 +29,7 @@
                 "value": "Clone"
             },
             "bindings": {
-                "disabled": {"<-": "@owner.currentState != 'state-1' && @owner.currentState != 'state-3'"}
+                "disabled": {"<-": "@owner.currentState != 'state-3' && @owner.currentState != 'state-4' && @owner.currentState != 'state-5'"}
             }
         },
 
@@ -40,18 +40,29 @@
                 "value": "Delete"
             },
             "bindings": {
-                "disabled": {"<-": "@owner.currentState != 'state-1' && @owner.currentState != 'state-2'"}
+                "disabled": {"<-": "@owner.currentState != 'state-5' && @owner.currentState != 'state-1' && @owner.currentState != 'state-2'"}
             }
         },
 
-        "keepButton": {
+        "keepOnButton": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
-                "element": {"#": "keepButton"},
-                "value": "Keep"
+                "element": {"#": "keepOnButton"},
+                "value": "Keep: On"
             },
             "bindings": {
-                "disabled": {"<-": "@owner.currentState != 'state-1' && @owner.currentState != 'state-3' && @owner.currentState != 'state-2'"}
+                "disabled": {"<-": "@owner.currentState == 'default'"}
+            }
+        },
+
+        "keepOffButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "keepOffButton"},
+                "value": "Keep: Off"
+            },
+            "bindings": {
+                "disabled": {"<-": "@owner.currentState == 'default'"}
             }
         }
     }
@@ -61,7 +72,8 @@
     <div data-montage-id="owner" class="BootPoolAction">
         <button data-montage-id="activate" class="Button--primary BootPoolAction-activate"></button>
         <button data-montage-id="clone" class="BootPoolAction-clone"></button>
-        <button data-montage-id="keepButton" class="BootPoolAction-keep"></button>
+        <button data-montage-id="keepOnButton" class="BootPoolAction-keep"></button>
+        <button data-montage-id="keepOffButton" class="BootPoolAction-keep"></button>
         <div data-montage-id="delete" class="Button--alert BootPoolAction-delete"></div>
     </div>
 </body>

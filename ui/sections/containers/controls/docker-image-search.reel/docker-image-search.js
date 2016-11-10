@@ -14,30 +14,28 @@ exports.DockerImageSearch = Component.specialize(/** @lends DockerImageSearch# *
             this._images = null;
 
             if (firsTime) {
-                this.addPathChangeListener("collectionValue", this, "_handleCollectionValueChange");
+                this.addPathChangeListener("collection", this, "_handleCollectionChange");
             }
         }
     },
 
-    _handleCollectionValueChange: {
-        value: function (value) {
+    _handleCollectionChange: {
+        value: function (collection) {
             this._resetSearchQuery();
 
-            if (value && value.length) {
-                var self = this;
+            if (collection) {
+                var self = this,
+                    promise;
+
                 this._isSearchingDockerImages = true;
 
-                this._searchCollectionTimeoutId = setTimeout(function () {
-                    var promise;
-
-                    self._searchPromise = promise = self._sectionService.getDockerImagesWithCollectionName(value).then(function (templates) {
-                        if (promise === self._searchPromise && self._isSearchingDockerImages) {
-                            self._templates = templates;
-                            self._searchPromise = null;
-                            self._isSearchingDockerImages = false;
-                        }
-                    });
-                }, 400);
+                self._searchPromise = promise = self._sectionService.getDockerImagesWithCollection(collection).then(function (templates) {
+                    if (promise === self._searchPromise && self._isSearchingDockerImages) {
+                        self._templates = templates;
+                        self._searchPromise = null;
+                        self._isSearchingDockerImages = false;
+                    }
+                });
             } else {
                 this._isSearchingDockerImages = false;
             }

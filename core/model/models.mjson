@@ -201,6 +201,10 @@
             "type": "DockerHubImage"
         },
         {
+            "modelId": "core/model/models/docker-image-pull.js",
+            "type": "DockerImagePull"
+        },
+        {
             "modelId": "core/model/models/docker-image.js",
             "type": "DockerImage"
         },

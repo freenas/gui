@@ -19,6 +19,21 @@ exports.StorageSectionService = AbstractSectionService.specialize({
         }
     },
 
+    __diskServices: {
+        value: null
+    },
+
+    _diskServices: {
+        get: function() {
+            var self = this;
+            return this.__diskServices ?
+                Promise.resolve(this.__diskServices) : 
+                Model.populateObjectPrototypeForType(Model.Disk).then(function (Disk) {
+                    return self.__diskServices = Disk.services;
+                });
+        }
+    },
+
     SHARE_TYPE: {
         value: Model.Share
     },
@@ -245,6 +260,14 @@ exports.StorageSectionService = AbstractSectionService.specialize({
     clearReservedDisks: {
         value: function(isRefreshBlocked) {
             return this._storageRepository.clearReservedDisks(isRefreshBlocked);
+        }
+    },
+
+    eraseDisk: {
+        value: function(diskId) {
+            return this._diskServices.then(function(diskService) {
+                return diskService.erase(diskId);
+            });
         }
     },
 
