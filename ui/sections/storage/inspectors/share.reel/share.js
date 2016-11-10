@@ -97,12 +97,13 @@ exports.Share = AbstractInspector.specialize({
                             shareServiceConstructor.TARGET_TYPES.DATASET;
                     }
 
+                    object._selected_path = object.target_path;
+
                     this.isPathReadOnly = !object._isNew &&
                                             (object.target_type == shareServiceConstructor.TARGET_TYPES.DATASET ||
                                              object.target_type == shareServiceConstructor.TARGET_TYPES.ZVOL);
 
                 }
-
 
                 this._object = object;
 
@@ -169,6 +170,7 @@ exports.Share = AbstractInspector.specialize({
     save: {
         value: function() {
             var self = this;
+            this._object.target_path = this.targetTreeview.pathInput.value;
             if (this.object._isNew) {
                 this.isPathReadOnly = true;
             }
@@ -184,7 +186,7 @@ exports.Share = AbstractInspector.specialize({
                     self.isPathReadOnly = false;
                 }
             }, function(err) {
-                self._object.target_path = self.treeControllers[self.targetType].selectedPath;
+                self._object._selected_path = self.treeControllers[self.targetType].selectedPath;
                 throw err;
             });
         }
@@ -196,7 +198,7 @@ exports.Share = AbstractInspector.specialize({
                 var self = this,
                     treeController = this.treeControllers[this.targetType];
                 treeController.open().then(function() {
-                    self._object.target_path = treeController.selectedPath;
+                    self._object._selected_path = treeController.selectedPath;
                 });
             }
         }
