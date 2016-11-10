@@ -6,54 +6,36 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
 
 exports.RsyncdModule = AbstractInspector.specialize({
 
-    users: {
-        value: null
-    },
-
-    groups: {
-        value: null
-    },
-
-    _fetchUsersPromise: {
-        value: null
-    },
-
-    _fetchGroupsPromise: {
-        value: null
-    },
-
     _loadUsersIfNeeded: {
         value: function() {
-            if ((!this._fetchGroupsPromise && !this.users) || (this.users && this.users.length === 0)) {
-                var self = this;
-
-                this._fetchUsersPromise = this.application.dataService.fetchData(Model.User).then(function (users) {
-                    self.users = users;
-                    self._fetchUsersPromise = null;
-                });
-            }
+            var self = this;
+            return this.application.dataService.fetchData(Model.User).then(function (users) {
+                return self.users = users;
+            });
         }
     },
 
     _loadGroupsIfNeeded: {
         value: function() {
-            if ((!this._fetchGroupsPromise && !this.groups) || (this.groups && this.groups.length === 0)) {
-                var self = this;
-
-                this._fetchGroupsPromise = this.application.dataService.fetchData(Model.Group).then(function (groups) {
-                    self.groups = groups;
-                    self._fetchGroupsPromise = null;
-                });
-            }
+            var self = this;
+            return this.application.dataService.fetchData(Model.Group).then(function(groups) {
+                return self.groups = groups;
+            });
         }
     },
 
     templateDidLoad: {
         value: function() {
             var self = this;
-            //Preload data before entering in the dom, in order to avoid graphic glitches
-            this._loadUsersIfNeeded();
-            this._loadGroupsIfNeeded();
+            this._canDrawGate.setField("accountsLoaded", false);
+
+            Promise.all([
+                this._loadUsersIfNeeded(),
+                this._loadGroupsIfNeeded()
+            ]).then(function() {
+                self._canDrawGate.setField("accountsLoaded", true);
+            });
+
 
             this.rsyncdModeOptions = RsyncdModuleMode.members.map(function(x) {
                return {
@@ -63,12 +45,5 @@ exports.RsyncdModule = AbstractInspector.specialize({
             });
         }
     },
-
-    enterDocument: {
-        value: function () {
-            this._loadUsersIfNeeded();
-            this._loadGroupsIfNeeded();
-        }
-    }
 
 });
