@@ -67,6 +67,16 @@ var BootEnvironmentService = exports.BootEnvironmentService = Montage.specialize
         }
     },
 
+    scrubBootPool: {
+        value: function() {
+            return this._dataService.callBackend("task.submit", ["boot.pool.scrub", []]).then(function(response) {
+                if (response) {
+                    return response.data;
+                }
+            });
+        }
+    },
+
     canDeleteBootEnvironment: {
         value: function(bootEnvironment) {
             return bootEnvironment && !bootEnvironment.onReboot && !bootEnvironment.active;
