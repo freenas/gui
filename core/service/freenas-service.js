@@ -31,6 +31,22 @@ DataService.prototype.saveDataObject = function (object) {
     }
 };
 
+DataService.prototype.deleteDataObject = function (object) {
+    if (arguments.length === 1) {
+        var saved = !this.createdDataObjects.has(object);
+        return this._updateDataObject(object, saved && "deleteDataObject");
+    } else {
+        var self = this,
+            dataObject = object[0],
+            service = this.getChildServiceForObject(dataObject);
+
+        return service.deleteDataObject.apply(service, arguments).then(function () {
+            self.createdDataObjects.delete(dataObject);
+            return null;
+        });
+    }
+};
+
 DataService.prototype._updateDataObject = function (object, action) {
     var self = this,
         service = action && this.getChildServiceForObject(object),
@@ -252,13 +268,6 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
     },
 
 
-    /**
-     * @function
-     * @public
-     *
-     * @description todo
-     *
-     */
     deleteRawData: {
         value: function (rawData, object) {
             var type = object.constructor.Type,
@@ -266,13 +275,18 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
 
             if (deleteServiceDescriptor) {
                 var self = this,
+                    rpcArgs = [object.persistedId],
                     taskName = deleteServiceDescriptor.task;
+
+                if (arguments.length > 2) {
+                    rpcArgs = rpcArgs.concat(Array.prototype.slice.call(arguments, 2, arguments.length));
+                }
 
                 return this.backendBridge.send(
                     deleteServiceDescriptor.namespace,
                     deleteServiceDescriptor.name, {
                         method: deleteServiceDescriptor.method,
-                        args: [taskName, [object.persistedId]]
+                        args: [taskName, rpcArgs]
                     }
                 ).then(function (response) {
                     self._snapshotService.removeSnapshotForTypeNameAndId(type.typeName, object.id);
@@ -294,14 +308,15 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
         }
     },
 
+    deleteDataObject: {
+        value: function(object) {
+            var record = {};
+            this.mapToRawData(object, record);
+            Array.prototype.unshift.call(arguments, record);
+            return this.deleteRawData.apply(this, arguments);
+        }
+    },
 
-    /**
-     * @function
-     * @public
-     *
-     * @description todo
-     *
-     */
     saveRawData: {
         value: function (rawData, object) {
             var type = object.constructor.Type,
