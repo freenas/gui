@@ -38,6 +38,7 @@ exports.Services = Component.specialize({
                         ]),
                         self._getServicesCategory('File Transfer', services, [
                             'ftp',
+                            'rsyncd',
                             'tftpd'
                         ])
                     ]);
