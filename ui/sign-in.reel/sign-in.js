@@ -96,6 +96,7 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
         value: function () {
             this.addEventListener("action", this, false);
             this._keyComposer.addEventListener("keyPress", this, false);
+            this.userNameTextField.focus();
 
             // checks for disconnected hash
             if(window.location.href.indexOf("disconnected") > -1) {
