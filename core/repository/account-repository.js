@@ -50,6 +50,12 @@ exports.AccountRepository = AbstractRepository.specialize({
         value: function (kerberosRealm) {
             return this._kerberosRealmDao.delete(kerberosRealm);
         }
+    },
+
+    saveKerberosKeytab: {
+        value: function (kerberosKeytab) {
+            return this._kerberosKeytabDao.save(kerberosKeytab);
+        }
     }
 
 });

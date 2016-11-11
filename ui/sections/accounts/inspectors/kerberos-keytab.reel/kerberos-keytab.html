@@ -22,14 +22,15 @@
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
-                "canSave": true,
                 "controller": {"@": "owner"},
                 "validationController": {"@": "validationController"}
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
-                "canDelete": {"<-": "!@owner._isNew"},
-                "canRevert": {"<-": "!@owner._isNew"}
+                "isSaveDisabled": {"<-": "!@owner.keytab && !owner.object.name"},
+                "canSave": {"<-": "@owner.object._isNew"},
+                "canDelete": {"<-": "!@inspector.canSave"},
+                "canRevert": {"<-": "@owner.canSave"}
             }
         },
 
@@ -42,6 +43,19 @@
             "bindings": {
                 "value": {"<->": "@owner.object.name"}
             }
+        },
+
+        "keytab": {
+            "prototype": "blue-shark/ui/field-file-upload.reel",
+            "properties": {
+                "element": {"#": "keytab"},
+                "label": "Keytab File",
+                "resultType": "binary"
+            },
+            "bindings": {
+                "data": {"<->": "@owner.keytab"},
+                "classList.has('is-hidden')": {"<-": "!@owner.object._isNew"}
+            }
         }
     }
     </script>
@@ -50,6 +64,7 @@
     <div data-montage-id="owner" class="KerberosKeytab">
         <div data-montage-id="inspector">
             <div data-montage-id="name"></div>
+            <div data-montage-id="keytab"></div>
         </div>
     </div>
 </body>

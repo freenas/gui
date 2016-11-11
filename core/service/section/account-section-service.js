@@ -43,6 +43,13 @@ exports.AccountSectionService = AbstractSectionService.specialize({
         value: function (object) {
             return this._accountRepository.saveKerberosRealm(object);
         }
+    },
+
+    saveKerberosKeytabWithKeytabStringBase64: {
+        value: function (kerberosKeytab, keytabStringBase64) {
+            kerberosKeytab.keytab = { "$binary": keytabStringBase64 };
+            return this._accountRepository.saveKerberosKeytab(kerberosKeytab);
+        }
     }
 
 },
