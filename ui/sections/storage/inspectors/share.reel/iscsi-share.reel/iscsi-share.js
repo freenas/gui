@@ -52,11 +52,14 @@ exports.IscsiShare = AbstractShareInspector.specialize({
     },
 
     enterDocument: {
-        value: function () {
-            if (this.object._isNewObject && !this._cancelPathChangeListener) {
+        value: function (isFirstTime) {
+            if (isFirstTime) {
+                this.addPathChangeListener("object.name", this, "handleNameChange");
+            }
+
+            if (this.object._isNew) {
                 this._resetTargetName();
-                this._cancelPathChangeListener = this.addPathChangeListener("object.name", this, "handleNameChange");
-            } else if (!this.object._isNewObject && !this._isTargetNameSelected) { //FIXME: _isNewObject can be undefined
+            } else if (!this.object._isNew && !this._isTargetNameSelected) {
                 this._populateIscsiTargets();
                 this._convertExtentSize();
             }
@@ -65,12 +68,6 @@ exports.IscsiShare = AbstractShareInspector.specialize({
 
     exitDocument: {
         value: function () {
-            if (this._cancelPathChangeListener) {
-                //FIXME: bug in collections?
-                //this._cancelPathChangeListener();
-                this._cancelPathChangeListener = null;
-            }
-
             this._resetTargetName();
             this.targetNames.length = 0;
         }
@@ -78,7 +75,7 @@ exports.IscsiShare = AbstractShareInspector.specialize({
 
     handleNameChange: {
         value: function () {
-            if (this.object._isNewObject) { //FIXME: Bug with collection can't remove the PathChangeListener
+            if (this.object._isNew) {
                 var index = this.targetNames.indexOf(this._targetName),
                     shareName = this.object.name;
 
