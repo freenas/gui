@@ -10,46 +10,28 @@
                 "element": {"#": "owner"}
             }
         },
-        "certificatePathTreeController": {
-            "prototype": "core/controller/filesystem-tree-controller",
+        "certificate": {
+            "prototype": "blue-shark/ui/field-file-upload.reel",
             "properties": {
-                "canListFiles": true
-            },
-            "bindings": {
-                "service": {"<-": "@owner.application.filesystemService"}
-            }
-        },
-        "privateKeyPathTreeController": {
-            "prototype": "core/controller/filesystem-tree-controller",
-            "properties": {
-                "canListFiles": true
-            },
-            "bindings": {
-                "service": {"<-": "@owner.application.filesystemService"}
-            }
-        },
-        "certificate_path": {
-            "prototype": "ui/controls/field-treeview.reel",
-            "properties": {
-                "element": {"#": "certificate_path"},
+                "element": {"#": "certificate"},
                 "label": "Certificate",
-                "readOnly": false,
-                "controller": {"@": "certificatePathTreeController"}
+                "resultType": "binary"
             },
             "bindings": {
-                "selectedPath": {"<->": "@owner.object.certificate_path"}
+                "data": {"<->": "@owner.certificateFile"},
+                "classList.has('is-hidden')": {"<-": "!@owner.object._isNew"}
             }
         },
-        "privatekey_path": {
-            "prototype": "ui/controls/field-treeview.reel",
+        "privateKey": {
+            "prototype": "blue-shark/ui/field-file-upload.reel",
             "properties": {
-                "element": {"#": "privatekey_path"},
+                "element": {"#": "privateKey"},
                 "label": "Private Key",
-                "readOnly": false,
-                "controller": {"@": "privateKeyPathTreeController"}
+                "resultType": "text"
             },
             "bindings": {
-                "selectedPath": {"<->": "@owner.object.privatekey_path"}
+                "data": {"<->": "@owner.privateKeyFile"},
+                "classList.has('is-hidden')": {"<-": "!@owner.object._isNew"}
             }
         }
     }
@@ -57,8 +39,8 @@
 </head>
 <body>
     <div data-montage-id="owner" class="CryptoCertificateImport">
-        <div data-montage-id="certificate_path"></div>
-        <div data-montage-id="privatekey_path"></div>
+        <div data-montage-id="certificate"></div>
+        <div data-montage-id="privateKey"></div>
     </div>
 </body>
 </html>
