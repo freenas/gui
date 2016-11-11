@@ -27,6 +27,19 @@ exports.ServiceDc = Montage.specialize({
             return this._type;
         }
     },
+    _vm_id: {
+        value: null
+    },
+    vm_id: {
+        set: function (value) {
+            if (this._vm_id !== value) {
+                this._vm_id = value;
+            }
+        },
+        get: function () {
+            return this._vm_id;
+        }
+    },
     _volume: {
         value: null
     },
@@ -49,6 +62,10 @@ exports.ServiceDc = Montage.specialize({
         }, {
             mandatory: false,
             name: "type"
+        }, {
+            mandatory: false,
+            name: "vm_id",
+            valueType: "String"
         }, {
             mandatory: false,
             name: "volume",

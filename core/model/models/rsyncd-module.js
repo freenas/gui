@@ -198,7 +198,7 @@ exports.RsyncdModule = Montage.specialize({
             collectionInspectorComponentModule: {
                 id: 'ui/controls/viewer.reel'
             },
-            collectionNameExpression: "'Rsync Modules'",
+            collectionNameExpression: "'Rsyncd Modules'",
             inspectorComponentModule: {
                 id: 'ui/inspectors/rsyncd-module.reel'
             },

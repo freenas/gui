@@ -582,6 +582,11 @@
                 "name": "call",
                 "namespace": "rpc"
             },
+            "identify": {
+                "method": "disk.identify",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "isOnline": {
                 "method": "disk.is_online",
                 "name": "call",

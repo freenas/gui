@@ -89,5 +89,18 @@ exports.KerberosRealm = Montage.specialize({
             name: "realm",
             valueType: "String"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            inspectorComponentModule: {
+                id: 'ui/sections/accounts/inspectors/kerberos-realm.reel'
+            },
+            creatorComponentModule: {
+                id: 'ui/sections/accounts/inspectors/kerberos-realm.reel'
+            },
+            nameExpression: "realm",
+            collectionNameExpression: "'Kerberos Realms'",
+            daoModuleId: "core/dao/kerberos-realm-dao"
+        }
     }
 });

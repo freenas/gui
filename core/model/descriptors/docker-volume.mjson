@@ -23,6 +23,15 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_dockervolume_source": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "source",
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "DockerVolumeHostPathSource"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
@@ -30,7 +39,8 @@
       "propertyBlueprints": [
         {"@": "blueprint_dockervolume_container_path"},
         {"@": "blueprint_dockervolume_host_path"},
-        {"@": "blueprint_dockervolume_readonly"}
+        {"@": "blueprint_dockervolume_readonly"},
+        {"@": "blueprint_dockervolume_source"}
       ]
     }
   }
