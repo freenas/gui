@@ -23,7 +23,8 @@
                 "label": "Size"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.properties.size"}
+                "value": {"<->": "@owner.object.properties.size"},
+                "classList.has('is-hidden')": {"<-": "@owner.object._target_type == 'FILE'"}
             }
         },
 
