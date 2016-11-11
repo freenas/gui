@@ -29,6 +29,8 @@
     background-color: #2F3233;
     overflow: hidden;
     border-left: 2px solid #232629;
+    display: flex;
+    flex-direction: column;
 }
 
 .Inspector.is-locked + .TopologyEdit-sidebar .FoldableSection-content {

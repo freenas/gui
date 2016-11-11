@@ -12,7 +12,7 @@
     }
 
     &:last-child .Button {
-        background-color: color(#2A2E33 l(12%));
+        background-color: color(#2A2E33 l(11%));
     }
 }
 
@@ -28,7 +28,7 @@
     cursor: pointer;
 
     &:hover {
-        background-color: color(#2A2E33 l(18%));
+        background-color: color(#2A2E33 l(15%));
     }
 
     & svg {
