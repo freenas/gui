@@ -13,6 +13,12 @@ exports.Accounts = Component.specialize({
         value: null
     },
 
+    templateDidLoad: {
+        value: function() {
+            this._accountsService = this.application.accountsService;
+        }
+    },
+
     enterDocument: {
         value: function (isFirstTime) {
             if (isFirstTime) {
@@ -56,7 +62,7 @@ exports.Accounts = Component.specialize({
         value: function() {
             var self = this;
 
-            return this.application.dataService.fetchData(Model.User).then(function (users) {
+            return this._accountsService.listUsers().then(function (users) {
                 self.users = users;
             });
         }

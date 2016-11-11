@@ -248,8 +248,27 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
         value: function(montageDataSelector) {
             return {
                 type: montageDataSelector.type,
-                criteria: Object.keys(montageDataSelector.criteria).map(function(x) { return [x, '=', montageDataSelector.criteria[x]]; })
+                criteria: this._getMiddlewareCriteriaFromObject(montageDataSelector.criteria)
             }
+        }
+    },
+
+    _getMiddlewareCriteriaFromObject: {
+        value: function(object) {
+            var keys = Object.keys(object),
+                criteria = [],
+                key, value;
+            for (var i = 0, length = keys.length; i < length; i++) {
+                key = keys[i];
+                value = object[key];
+                if (typeof value === 'object') {
+                    var subCriteria = this._getMiddlewareCriteriaFromObject(value);
+                    Array.prototype.push.apply(criteria, subCriteria.map(function(x) { return [key + '.' + x[0], x[1], x[2]] }));
+                } else {
+                    criteria.push([key, '=', value]);
+                }
+            }
+            return criteria;
         }
     },
 

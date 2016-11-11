@@ -1,4 +1,5 @@
 var Montage = require("montage").Montage,
+    UserRepository = require("core/repository/user-repository").UserRepository,
     BackEndBridgeModule = require("../backend/backend-bridge");
 
 var AccountsService = exports.AccountsService = Montage.specialize({
@@ -13,6 +14,12 @@ var AccountsService = exports.AccountsService = Montage.specialize({
 
     _backendBridge: {
         value: null
+    },
+
+    listUsers: {
+        value: function() {
+            return this._userRepository.listUsers();
+        }
     },
 
     getShells: {
@@ -38,6 +45,7 @@ var AccountsService = exports.AccountsService = Montage.specialize({
         get: function() {
             if (!this._instance) {
                 this._instance = new AccountsService();
+                this._instance._userRepository = UserRepository.instance;
                 this._instance._backendBridge = BackEndBridgeModule.defaultBackendBridge;
             }
             return this._instance;
