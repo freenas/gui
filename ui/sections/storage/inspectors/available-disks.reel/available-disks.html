@@ -27,7 +27,7 @@
             },
             "bindings": {
                 "disks": {"<-": "@owner.hdds"},
-                "classList.has('is-hidden_')": {"<-": "@owner.hdds.length == 0"},
+                "classList.has('is-hidden')": {"<-": "@owner.hdds.length == 0"},
                 "topology": {"<-": "@owner.topology"},
                 "controller": {"<-": "@owner.controller"},
                 "isExpanded": {"<-": "!@owner.locked"}
@@ -44,7 +44,7 @@
             },
             "bindings": {
                 "disks": {"<-": "@owner.ssds"},
-                "classList.has('is-hidden_')": {"<-": "@owner.ssds.length == 0"},
+                "classList.has('is-hidden')": {"<-": "@owner.ssds.length == 0"},
                 "topology": {"<-": "@owner.topology"},
                 "controller": {"<-": "@owner.controller"},
                 "isExpanded": {"<-": "!@owner.locked"}
