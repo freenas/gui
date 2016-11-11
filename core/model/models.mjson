@@ -617,6 +617,22 @@
             "type": "SimulatorDisk"
         },
         {
+            "modelId": "core/model/models/smart-attribute.js",
+            "type": "SmartAttribute"
+        },
+        {
+            "modelId": "core/model/models/smart-info-diagnostics-anonymous.js",
+            "type": "SmartInfoDiagnosticsAnonymous"
+        },
+        {
+            "modelId": "core/model/models/smart-info.js",
+            "type": "SmartInfo"
+        },
+        {
+            "modelId": "core/model/models/smart-test-result.js",
+            "type": "SmartTestResult"
+        },
+        {
             "modelId": "core/model/models/snapshot-info.js",
             "type": "SnapshotInfo"
         },
@@ -639,6 +655,10 @@
         {
             "modelId": "core/model/models/support-ticket.js",
             "type": "SupportTicket"
+        },
+        {
+            "modelId": "core/model/models/supported-smart-tests.js",
+            "type": "SupportedSmartTests"
         },
         {
             "modelId": "core/model/models/swap-mirror.js",

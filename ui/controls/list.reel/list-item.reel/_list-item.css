@@ -58,6 +58,10 @@
     @nest .ListItem:hover & {
         color: #fff;
     }
+
+    @nest .ListItem.selected & {
+        color: #fff;
+    }
 }
 
 /* List Item arrow */

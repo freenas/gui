@@ -47,6 +47,14 @@
       "valueType": "number"
     }
   },
+  "blueprint_dockerimage_version": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "version",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
@@ -57,7 +65,8 @@
         {"@": "blueprint_dockerimage_id"},
         {"@": "blueprint_dockerimage_names"},
         {"@": "blueprint_dockerimage_presets"},
-        {"@": "blueprint_dockerimage_size"}
+        {"@": "blueprint_dockerimage_size"},
+        {"@": "blueprint_dockerimage_version"}
       ]
     }
   }

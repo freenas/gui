@@ -1,0 +1,55 @@
+{
+  "blueprint_supportedsmarttests_conveyance": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "conveyance",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_supportedsmarttests_long": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "long",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_supportedsmarttests_offline": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "offline",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_supportedsmarttests_selective": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "selective",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_supportedsmarttests_short": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "short",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "SupportedSmartTests",
+      "propertyBlueprints": [
+        {"@": "blueprint_supportedsmarttests_conveyance"},
+        {"@": "blueprint_supportedsmarttests_long"},
+        {"@": "blueprint_supportedsmarttests_offline"},
+        {"@": "blueprint_supportedsmarttests_selective"},
+        {"@": "blueprint_supportedsmarttests_short"}
+      ]
+    }
+  }
+}

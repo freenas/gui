@@ -27,6 +27,19 @@ exports.UserOriginAnonymous = Montage.specialize({
             return this._directory;
         }
     },
+    _read_only: {
+        value: null
+    },
+    read_only: {
+        set: function (value) {
+            if (this._read_only !== value) {
+                this._read_only = value;
+            }
+        },
+        get: function () {
+            return this._read_only;
+        }
+    },
     _ttl: {
         value: null
     },
@@ -50,6 +63,10 @@ exports.UserOriginAnonymous = Montage.specialize({
             mandatory: false,
             name: "directory",
             valueType: "String"
+        }, {
+            mandatory: false,
+            name: "read_only",
+            valueType: "boolean"
         }, {
             mandatory: false,
             name: "ttl",

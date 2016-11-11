@@ -112,7 +112,7 @@
                 "label": "SMART status"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.status.smart_status.defined() ? @owner.object.status.smart_status : 'Unknown'"}
+                "value": {"<-": "@owner.object.status.smart_info.defined() && @owner.object.status.smart_info.smart_status.defined() ? @owner.object.status.smart_info.smart_status : 'Unknown'"}
             }
         },
         "serial": {
@@ -186,7 +186,7 @@
             },
             "bindings": {
                 "checked": {"<->": "!!@owner.object.smart"},
-                "disabled": {"<-": "!@owner.object.status.smart_capable"}
+                "disabled": {"<-": "!@owner.object.status.smart_info.smart_capable"}
             }
         },
         "smartOptions": {

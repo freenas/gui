@@ -492,6 +492,13 @@ exports.CryptoCertificate = Montage.specialize({
             collectionInspectorComponentModule: {
                 id: 'ui/controls/viewer.reel'
             },
+            iconValueMapping: {
+                "CERT_INTERNAL": "ui/icons/certificates/certificate.reel",
+                "CERT_CSR": "ui/icons/certificates/certificate.reel",
+                "CA_INTERNAL": "ui/icons/certificates/ca.reel",
+                "CA_INTERMEDIATE": "ui/icons/certificates/ca.reel"
+            },
+            iconValueExpression: "type",
             collectionNameExpression: "'Certificates'",
             inspectorComponentModule: {
                 id: 'ui/sections/system/inspectors/crypto-certificate.reel'

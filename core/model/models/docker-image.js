@@ -78,6 +78,19 @@ exports.DockerImage = Montage.specialize({
         get: function () {
             return this._size;
         }
+    },
+    _version: {
+        value: null
+    },
+    version: {
+        set: function (value) {
+            if (this._version !== value) {
+                this._version = value;
+            }
+        },
+        get: function () {
+            return this._version;
+        }
     }
 }, {
     propertyBlueprints: {
@@ -104,6 +117,10 @@ exports.DockerImage = Montage.specialize({
         }, {
             mandatory: false,
             name: "size",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "version",
             valueType: "number"
         }]
     },

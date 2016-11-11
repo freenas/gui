@@ -135,6 +135,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_dockercontainer_version": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "version",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
   "blueprint_dockercontainer_volumes": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -174,6 +182,7 @@
         {"@": "blueprint_dockercontainer_running"},
         {"@": "blueprint_dockercontainer_settings"},
         {"@": "blueprint_dockercontainer_status"},
+        {"@": "blueprint_dockercontainer_version"},
         {"@": "blueprint_dockercontainer_volumes"},
         {"@": "blueprint_dockercontainer_web_ui_url"}
       ]
