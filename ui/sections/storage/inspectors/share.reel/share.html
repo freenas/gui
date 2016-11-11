@@ -67,6 +67,7 @@
             },
             "bindings": {
                 "canDelete": {"<-": "!@owner.object._isNew"},
+                "isSaveDisabled": {"<-": "(@owner.targetType == 'ZVOL' && !@owner.object.properties.size)"},
                 "context": {"<-": "@owner.context"}
             }
         },
