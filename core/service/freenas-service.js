@@ -191,6 +191,7 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
             Model.Peer,
             Model.Permissions,
             Model.ReplicationOptions,
+            Model.RsyncdModule,
             Model.Service,
             Model.ServiceIscsi,
             Model.Share,
