@@ -1,5 +1,6 @@
 var Montage = require("montage/core/core").Montage,
     FreeNASService = require("core/service/freenas-service").FreeNASService,
+    CacheService = require("core/service/cache-service").CacheService,
     Model = require("core/model/model").Model;
 
 exports.AbstractDao = Montage.specialize({
@@ -29,9 +30,17 @@ exports.AbstractDao = Montage.specialize({
     },
 
     find: {
-        value: function(criteria) {
+        value: function(criteria, isCacheEnabled) {
             this._checkModelIsInitialized();
-            return this._dataService.fetchData(this._dataService.getSelectorWithTypeAndCriteria(this._model, criteria));
+            var promise = this._dataService.fetchData(this._dataService.getSelectorWithTypeAndCriteria(this._model, criteria));
+            if (isCacheEnabled) {
+                var self = this;
+                promise = promise.then(function(data) {
+                    self._cacheService.addToCache(self._model.typeName, data);
+                    return data
+                });
+            }
+            return promise;
         }
     },
 
@@ -110,6 +119,7 @@ exports.AbstractDao = Montage.specialize({
                 this.Model = Model;
                 this._instance = new this();
                 this._instance._dataService = FreeNASService.instance;
+                this._instance._cacheService = CacheService.getInstance();
                 this._instance.init();
              }
             return this._instance;

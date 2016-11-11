@@ -10,6 +10,7 @@ var DataService = require("montage-data/logic/service/data-service").DataService
     Montage = require("montage/core/core").Montage,
     Model = require("../model/model").Model,
     propertyTypeService = require('../model/property-type-service').propertyTypeService,
+    CacheService = require("core/service/cache-service").CacheService,
     EMPTY_ARRAY = [],
     ACTION_DELETE = 'DELETE',
     ACTION_UPDATE = 'UPDATE',
@@ -107,6 +108,7 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
 
             this._snapshotService = new SnapshotService();
             this._selectionService = SelectionService.instance;
+            this._cacheService = CacheService.getInstance(this.modelsCache);
 
             return this;
         }
