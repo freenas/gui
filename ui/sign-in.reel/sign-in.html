@@ -14,6 +14,7 @@
             },
             "bindings": {
                 "classList.has('hasError')": {"<-": "@owner.hasError"},
+                "classList.has('had-error')": {"<-": "@owner.hadError"},
                 "classList.has('isAuthenticating')": {"<-": "@owner.isAuthenticating"}
             }
         },
@@ -96,7 +97,7 @@
             <div data-montage-id="browserMessage" class="SignIn-browserMessage"></div>
             <img src="../../assets/images/logo.png" class="SignIn-logo" alt="FreeNas Logo">
             <div data-montage-id="infoText" class="SignIn-infoText"></div>
-            <div data-montage-id="errorMessage" class="error-message"></div>
+            <div data-montage-id="errorMessage" class="SignIn-error-message "></div>
             <div class="field">
                 <input type="text" data-montage-id="userName" class="SignIn-userName" autofocus></input>
             </div>

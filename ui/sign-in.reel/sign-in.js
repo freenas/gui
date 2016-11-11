@@ -40,6 +40,10 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
         value: false
     },
 
+    hadError: {
+        value: false
+    },
+
     _errorMessage: {
         value: null
     },
@@ -92,7 +96,6 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
         value: function () {
             this.addEventListener("action", this, false);
             this._keyComposer.addEventListener("keyPress", this, false);
-            this.userNameTextField.focus();
 
             // checks for disconnected hash
             if(window.location.href.indexOf("disconnected") > -1) {
@@ -100,6 +103,7 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
                 this.errorMessage = "Oops! Your token has been expired. \n Please re-login."
                 history.pushState('', document.title, window.location.pathname);
             }
+            this.userNameTextField.focus();
         }
     },
 
@@ -125,7 +129,7 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
             if (!this._isAuthenticating && this.userName && this.password) {
                 var self = this;
                 this.isAuthenticating = true;
-                this.errorMessage = null;
+                this.hadError = false;
 
                 this.dataService.loginWithCredentials(this.userName, this.password).then(function (authorization) {
                     self.authorizationManagerPanel.approveAuthorization(authorization);
@@ -138,7 +142,12 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
                     self.application.dispatchEventNamed("userLogged");
 
                 }, function (error) {
-                    self.errorMessage = error.message || error;
+                        if(error) {
+                            self.errorMessage = error.message || error;
+                            self.hadError = true;
+                        } else {
+                            self.errorMessage = null;
+                        }
                 }).finally(function () {
                     if (self.errorMessage) {
                         self.element.addEventListener(

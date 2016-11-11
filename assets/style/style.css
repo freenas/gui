@@ -264,6 +264,7 @@ $Icons
 .g-margin-top               { margin-top:  1rem !important; }
 .g-margin-top--half         { margin-top: .5rem !important; }
 .g-margin-top--double       { margin-top:  2rem !important; }
+.g-margin-top--subtract     { margin-top: -1rem !important; }
 
 .g-margin-left              { margin-left:  1rem !important; }
 .g-margin-left--half        { margin-left: .5rem !important; }

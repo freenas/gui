@@ -61,7 +61,7 @@
 
 /* error state */
 
-.SignIn.hasError .SignIn-content { animation: denied .5s ease-in-out; }
+.SignIn.had-error .SignIn-content { animation: denied .5s ease-in-out; }
 
 /* visible state */
 
@@ -134,17 +134,19 @@ $fix this should be a component or global class
     background: rgba(255,0,0,.075);
 }
 
-/* $fix - error message could be global? */
+/* Error Message */
 
-.error-message {
-    opacity: 0;
+.SignIn-error-message {
+    display: none;
+    text-align: center;
     transition: opacity .25s;
-}
-
-.SignIn.hasError .error-message {
-    opacity: 1;
+    background: #E0003A;
     color: #FFF;
-    background: rgba(255,0,0,.7);
-    padding: .5em 2em;
-    margin: 0 -2em 2em -2em;
+    padding: 1em 2em;
+    margin: 0 -2rem;
+    margin-bottom: 2rem;
+
+    @nest .SignIn.hasError & {
+        display: block;
+    }
 }
