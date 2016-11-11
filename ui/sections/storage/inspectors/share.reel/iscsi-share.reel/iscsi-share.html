@@ -12,13 +12,14 @@
         },
 
         "numberConverter": {
-            "prototype": "core/converter/integer-converter"
+            "prototype": "core/converter/string-to-integer-or-null-converter"
         },
 
         "extentSize": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "extentSize"},
+                "converter": {"@": "numberConverter"},
                 "label": "Size"
             },
             "bindings": {
