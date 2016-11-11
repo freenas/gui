@@ -73,5 +73,18 @@ exports.KerberosKeytab = Montage.specialize({
             name: "name",
             valueType: "String"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            nameExpression: "name",
+            inspectorComponentModule: {
+                id: 'ui/sections/accounts/inspectors/kerberos-keytab.reel'
+            },
+            creatorComponentModule: {
+                id: 'ui/sections/accounts/inspectors/kerberos-keytab.reel'
+            },
+            collectionNameExpression: "'Kerberos Tabs'",
+            daoModuleId: "core/dao/kerberos-keytab-dao"
+        }
     }
 });

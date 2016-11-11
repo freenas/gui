@@ -2,8 +2,12 @@
     "root": {
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
+            "nameExpression": "'Kerberos Keytabs'",
             "inspectorComponentModule": {"%": "ui/sections/accounts/inspectors/kerberos-keytab.reel"},
-            "nameExpression": "'Kerberos Keytabs'"
+            "creatorComponentModule": {"%": "ui/sections/accounts/inspectors/kerberos-keytab.reel"},
+            "nameExpression": "name",
+            "collectionNameExpression": "'Kerberos Tabs'",
+            "daoModuleId": "core/dao/kerberos-keytab-dao"
         }
     }
 }
