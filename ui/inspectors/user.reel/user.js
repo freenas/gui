@@ -112,6 +112,14 @@ exports.User = AbstractInspector.specialize({
         }
     },
 
+    delete: {
+        value: function() {
+            var self = this;
+
+            return this.inspector.delete(this.extraDeleteFlags[0].checked, this.extraDeleteFlags[1].checked);
+        }
+    },
+
     revert: {
         value: function() {
             var self = this;

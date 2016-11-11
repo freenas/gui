@@ -38,6 +38,26 @@
                 "element": {"#": "cancelDelete"},
                 "value": "Cancel"
             }
+        },
+        "extraDeleteRepetition": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "extraDeleteRepetition"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.extraDeleteFlags"}
+            }
+        },
+        "extraDeleteItems": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "extraDeleteItems"}
+            },
+            "bindings": {
+                "iteration": {"<-": "@extraDeleteRepetition:iteration"},
+                "label": {"<-": "iteration.object.label"},
+                "checked": {"<->": "iteration.object.checked"}
+            }
         }
     }
     </script>
@@ -45,6 +65,9 @@
 <body>
     <div data-montage-id="owner" class="InspectorConfirmation">
         <div data-montage-id="confirmDeleteMessage" class="InspectorConfirmation-message"></div>
+        <div data-montage-id="extraDeleteRepetition">
+            <div data-montage-id="extraDeleteItems"></div>
+        </div>
         <div class="InspectorConfirmation-actions">
             <div data-montage-id="confirmDelete" class="Button--alert"></div>
             <div data-montage-id="cancelDelete"></div>
