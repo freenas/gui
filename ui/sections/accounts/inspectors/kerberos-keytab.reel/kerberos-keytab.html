@@ -56,6 +56,29 @@
                 "data": {"<->": "@owner.keytab"},
                 "classList.has('is-hidden')": {"<-": "!@owner.object._isNew"}
             }
+        },
+
+        "entries": {
+            "prototype": "blue-shark/ui/tables/table-read-only.reel",
+            "properties": {
+                "element": {"#": "entries"},
+                "label": "Entries",
+                "contentMaxHeight": 22,
+                "columns":  [
+                    {
+                        "value": "version",
+                        "path": "vno"
+                    },
+                    {
+                        "value": "description",
+                        "path": "enctype"
+                    }
+                ]
+            },
+            "bindings": {
+                "rows": {"<-": "@owner.object.entries"},
+                "classList.has('is-hidden')": {"<-": "@owner.object._isNew"}
+            }
         }
     }
     </script>
@@ -65,6 +88,7 @@
         <div data-montage-id="inspector">
             <div data-montage-id="name"></div>
             <div data-montage-id="keytab"></div>
+            <div data-montage-id="entries"></div>
         </div>
     </div>
 </body>
