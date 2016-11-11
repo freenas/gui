@@ -155,7 +155,7 @@ exports.IscsiShare = AbstractShareInspector.specialize({
     _convertExtentSize: {
         value: function () {
             if (this.object.properties && typeof this.object.properties.size === "number") {
-                this.object.properties.size = this.application.storageService.convertBytesToSizeString(this.object.properties.size);
+                this.object.properties.size = this.application.bytesService.convertSizeToString(this.object.properties.size);
             }
         }
     }
