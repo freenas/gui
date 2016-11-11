@@ -38,3 +38,10 @@
 .BootPool-activeEnvironmentTable .BootPoolAction-delete {
     display: none;
 }
+
+.BootPool .Inspector-optionalButtons {
+
+    & button {
+        display: block;
+    }
+}

@@ -8,7 +8,16 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
-            }
+            },
+            "bindings": {
+                "classList.has('has-loading-spinner')": {"<-": "!!@owner._scrubTaskId"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
         },
         "validationController": {
             "prototype": "core/controller/validation-controller",
@@ -73,13 +82,6 @@
                 "value": {"<-": "@owner.bootVolume.status"}
             }
         },
-        "bootVolumeScrub": {
-            "prototype": "blue-shark/ui/button.reel",
-            "properties": {
-                "element": {"#": "bootVolumeScrub"},
-                "value": "Scrub Now"
-            }
-        },
         "activeEnvironmentTable": {
             "prototype": "./boot-environment-table.reel",
             "properties": {
@@ -101,6 +103,13 @@
             "bindings": {
                 "rows": {"<-": "@owner.bootEnvironments.filter{!active && !onReboot}"}
             }
+        },
+        "scrub": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "scrub"},
+                "value": "Scrub"
+            }
         }
     }
     </script>
@@ -112,9 +121,11 @@
             <div data-montage-id="bootVolumeUsed"></div>
             <div data-montage-id="bootVolumeCapacityUsed"></div>
             <div data-montage-id="bootVolumeCondition"></div>
-            <p class="hide"><div data-montage-id="bootVolumeScrub" class="hide"></div></p>
             <div data-montage-id="activeEnvironmentTable" class="BootPool-table BootPool-activeEnvironmentTable"></div>
             <div data-montage-id="inactiveEnvironmentTable" class="BootPool-table"></div>
+            <div data-arg="footer-additional-button" class="ActionButtons">
+                <div data-montage-id="scrub"></div>
+            </div>
         </div>
     </div>
 </body>
