@@ -120,6 +120,8 @@ exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# *
         value: function() {
             if (this.object.type === "FILESYSTEM") {
                 this.object.properties.volblocksize = undefined;
+            } else if (this.object.type === "VOLUME") {
+                this.object.permissions = undefined;
             }
             this.application.storageService.convertVolumeDatasetSizeProperties(this.object);
             return this.application.dataService.saveDataObject(this.object);

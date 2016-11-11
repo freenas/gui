@@ -43,6 +43,66 @@
                 "values": {"<->": "@owner.properties.hosts_deny"}
             }
         },
+        "usersAllow": {
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "properties": {
+                "element": {"#": "usersAllow"},
+                "label": "Users Allowed",
+                "placeholder": "eg. sam",
+                "labelPath": "this",
+                "inputTitle": "Add an Allowed User",
+                "valuesTitle": "Allowed Users",
+                "emptyMessage": "No allowed users added"
+            },
+            "bindings": {
+                "values": {"<->": "@owner.properties.users_allow"}
+            }
+        },
+        "usersDeny": {
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "properties": {
+                "element": {"#": "usersDeny"},
+                "label": "Users Denied",
+                "placeholder": "eg. sam",
+                "labelPath": "this",
+                "inputTitle": "Add a Denied User",
+                "valuesTitle": "Denied Users",
+                "emptyMessage": "No users denied"
+            },
+            "bindings": {
+                "values": {"<->": "@owner.properties.users_deny"}
+            }
+        },
+        "groupsAllow": {
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "properties": {
+                "element": {"#": "groupsAllow"},
+                "label": "Groups Allowed",
+                "placeholder": "eg. manager",
+                "labelPath": "this",
+                "inputTitle": "Add an Allowed Group",
+                "valuesTitle": "Allowed Groups",
+                "emptyMessage": "No allowed groups added"
+            },
+            "bindings": {
+                "values": {"<->": "@owner.properties.groups_allow"}
+            }
+        },
+        "groupsDeny": {
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "properties": {
+                "element": {"#": "groupsDeny"},
+                "label": "Groups Deny",
+                "placeholder": "eg. manager",
+                "labelPath": "this",
+                "inputTitle": "Add a Denied Group",
+                "valuesTitle": "Denied Groups",
+                "emptyMessage": "No groups denied"
+            },
+            "bindings": {
+                "values": {"<->": "@owner.properties.groups_deny"}
+            }
+        },
         "afp3Privileges": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -156,6 +216,10 @@
             <div data-montage-id="defaultUmask"></div>
             <div data-montage-id="hostAllow"></div>
             <div data-montage-id="hostDeny"></div>
+            <div data-montage-id="usersAllow"></div>
+            <div data-montage-id="usersDeny"></div>
+            <div data-montage-id="groupsAllow"></div>
+            <div data-montage-id="groupsDeny"></div>
         </div>
     </div>
 </body>
