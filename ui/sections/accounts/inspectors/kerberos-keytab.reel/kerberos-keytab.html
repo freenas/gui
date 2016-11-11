@@ -22,15 +22,15 @@
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
+                "canSave": true,
                 "controller": {"@": "owner"},
                 "validationController": {"@": "validationController"}
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
-                "isSaveDisabled": {"<-": "!@owner.keytab && !owner.object.name"},
-                "canSave": {"<-": "@owner.object._isNew"},
-                "canDelete": {"<-": "!@inspector.canSave"},
-                "canRevert": {"<-": "@owner.canSave"}
+                "isSaveDisabled": {"<-": "(@owner.object._isNew && (!@owner.keytab || !@owner.object.name)) || (!@owner.object._isNew && !!@owner.object.name)"},
+                "canDelete": {"<-": "!@owner.object._isNew"},
+                "canRevert": {"<-": "!@owner.object._isNew"}
             }
         },
 
