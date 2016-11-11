@@ -7,58 +7,120 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
-            },
-            "bindings": {
-                "object.protocol": {"<-": "@owner.object.protocol.defined() ? @owner.object.protocol : 'TCP'"}
             }
         },
-
-        "portConverter": {
-            "prototype": "core/converter/string-to-integer-or-null-converter"
-        },
-
-        "hostPort": {
-            "prototype": "blue-shark/ui/text-field.reel",
-            "properties": {
-                "element": {"#": "hostPort"},
-                "placeholder": "e.g. host port",
-                "converter": {"@": "portConverter"}
-            },
-            "bindings": {
-                "value": {"<->": "@owner.object.host_port"}
-            }
-        },
-
-        "containerPort": {
-            "prototype": "blue-shark/ui/text-field.reel",
-            "properties": {
-                "element": {"#": "containerPort"},
-                "placeholder": "e.g. container port",
-                "converter": {"@": "portConverter"}
-            },
-            "bindings": {
-                "value": {"<->": "@owner.object.container_port"}
-            }
-        },
-
-        "protocol": {
+        "property": {
             "prototype": "blue-shark/ui/select.reel",
             "properties": {
-                "element": {"#": "protocol"},
-                "placeholder": "e.g. protocol",
+                "element": {"#": "property"},
+                "placeholder": "Select a type",
                 "options": [
                     {
-                        "label": "TCP",
-                        "value": "TCP"
+                        "label": "Class",
+                        "value": "class"
                     },
                     {
-                        "label": "UDP",
-                        "value": "UDP"
+                        "label": "Severity",
+                        "value": "severity"
                     }
                 ]
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.object.protocol"}
+                "selectedValue": {"<->": "@owner.object.property"}
+            }
+        },
+        "operatorSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "operatorSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.object.property"}
+            }
+        },
+        "classOperators": {
+            "prototype": "blue-shark/ui/select.reel",
+            "properties": {
+                "element": {"#": "classOperators"},
+                "placeholder": "Select an operator",
+                "options": [
+                    {
+                        "label": "'=='",
+                        "value": "=="
+                    },
+                    {
+                        "label": "'!='",
+                        "value": "!="
+                    }
+                ]
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.operator"}
+            }
+        },
+        "severityOperators": {
+            "prototype": "blue-shark/ui/select.reel",
+            "properties": {
+                "element": {"#": "severityOperators"},
+                "placeholder": "Select an operator",
+                "options": [
+                    {
+                        "label": "equal",
+                        "value": "=="
+                    },
+                    {
+                        "label": "not equal",
+                        "value": "!="
+                    },
+                    {
+                        "label": "'>='",
+                        "value": ">="
+                    },
+                    {
+                        "label": "'<='",
+                        "value": "<="
+                    },
+                    {
+                        "label": "'>'",
+                        "value": ">"
+                    },
+                    {
+                        "label": "'<'",
+                        "value": "<"
+                    }
+                ]
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.operator"}
+            }
+        },
+        "valueSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "valueSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.object.property"}
+            }
+        },
+        "classValues": {
+            "prototype": "blue-shark/ui/select.reel",
+            "properties": {
+                "element": {"#": "classValues"}
+            },
+            "bindings": {
+                "options" : {"<-": "@owner.classValues"},
+                "selectedValue": {"<->": "@owner.object.value"}
+            }
+        },
+        "severityValues": {
+            "prototype": "blue-shark/ui/select.reel",
+            "properties": {
+                "element": {"#": "severityValues"}
+            },
+            "bindings": {
+                "options" : {"<-": "@owner.severityValues"},
+                "selectedValue": {"<->": "@owner.object.value"}
             }
         }
     }
@@ -66,9 +128,23 @@
 </head>
 <body>
     <div data-montage-id="owner" class="TableRowPort Table-cells">
-        <div><div data-montage-id="hostPort"></div></div>
-        <div><div data-montage-id="containerPort"></div></div>
-        <div><div data-montage-id="protocol"></div></div>
+        <div><div data-montage-id="property"></div></div>
+        <div data-montage-id="operatorSubstitution">
+            <div data-arg="class">
+                <div><div data-montage-id="classOperators"></div></div>
+            </div>
+            <div data-arg="severity">
+                <div><div data-montage-id="severityOperators"></div></div>
+            </div>
+        </div>
+        <div data-montage-id="valueSubstitution">
+            <div data-arg="class">
+                <div><div data-montage-id="classValues"></div></div>
+            </div>
+            <div data-arg="severity">
+                <div><div data-montage-id="severityValues"></div></div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

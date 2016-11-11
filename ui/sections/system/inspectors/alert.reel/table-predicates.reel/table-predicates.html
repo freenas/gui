@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="table-port.css">
+    <link rel="stylesheet" type="text/css" href="table-predicates.css">
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -18,23 +18,23 @@
                 "label": "Ports",
                 "columns":  [
                     {
-                        "value": "host port"
+                        "value": "property"
                     },
                     {
-                        "value": "container port"
+                        "value": "operator"
                     },
                     {
-                        "value": "protocol"
+                        "value": "value"
                     }
                 ]
             },
             "bindings": {
-                "rows": {"<->": "@owner.values"}
+                "rows": {"<->": "@owner.rows"}
             }
         },
 
         "defaultHeader": {
-            "prototype": "../table-container-default-header.reel",
+            "prototype": "./table-container-default-header.reel",
             "properties": {
                 "element": {"#": "tableHeader"},
                 "table": {"@": "table"}

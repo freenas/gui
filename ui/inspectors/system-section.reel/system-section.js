@@ -19,7 +19,7 @@ exports.SystemSection = AbstractInspector.specialize({
                 case "debug":
                 case "hardware":
                 case "WebUI":
-                case "mail":
+                case "alert":
                 case "system":
                 case "support":
                     this.canSave = true;

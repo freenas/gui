@@ -1,10 +1,13 @@
-/**
- * @module ui/table-port.reel
- */
 var Component = require("montage/ui/component").Component;
 
-/**
- * @class TablePort
- * @extends Component
- */
-exports.TablePort = Component.specialize();
+exports.TablePredicates = Component.specialize({
+    tableWillUseNewEntry: {
+        value: function () {
+            return {
+                property: "class",
+                operator: null,
+                value: null
+            }
+        }
+    }
+});
