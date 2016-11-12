@@ -89,6 +89,17 @@
             }
         },
 
+        "version": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "version"},
+                "label": "Version"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.version"}
+            }
+        },
+
         "image": {
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
@@ -259,6 +270,7 @@
 
             <div data-montage-id="image"></div>
             <div data-montage-id="name"></div>
+            <div data-montage-id="version"></div>
             <div data-montage-id="host"></div>
             <div data-montage-id="hostname"></div>
             <div data-montage-id="memoryLimit"></div>
