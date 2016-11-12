@@ -52,7 +52,8 @@
                 "value": "Web UI"
             },
             "bindings": {
-                "classList.has('is-hidden')": {"<-": "!@owner.object.web_ui_url"}
+                "classList.has('is-hidden')": {"<-": "!@owner.object.web_ui_url"},
+                "disabled": {"<-": "@stop.disabled"}
             }
         },
 
