@@ -18,10 +18,8 @@ exports.Preferences = Component.specialize(/** @lends Preferences# */ {
             var todayString = todayString.toISOString().split('T')[0];
             this.application.systemInfoService.getVersion().then(function(systemVersion) {
                 self.systemVersion = systemVersion.split("-")[3];
-
             });
             this.application.systemAdvancedService.getConfigFileAddress().then(function(databaseDump) {
-                console.log(databaseDump[1][0]);
                 var downloadLink = document.createElement("a");
                     downloadLink.href = databaseDump[1][0];
                     downloadLink.download = "FreeNAS10" + "-" + self.systemVersion + "-" + todayString + "-" + "database.db";
@@ -30,9 +28,17 @@ exports.Preferences = Component.specialize(/** @lends Preferences# */ {
         }
     },
 
+    handleSaveConfigAction: {
+        value: function () {
+            var self = this;
+                this.application.systemAdvancedService.restoreSettingsFromFileUpload(this.configFile).then(function () {
+            });
+        }
+    },
+
     handleFactoryRestoreAction: {
         value: function () {
-            this.application.systemAdvancedService.restoreFactorySettings().then(function () {
+                this.application.systemAdvancedService.restoreFactorySettings().then(function () {
             });
         }
     },

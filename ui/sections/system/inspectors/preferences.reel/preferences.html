@@ -140,6 +140,17 @@
                 "value": "Save Config File"
             }
         },
+        "uploadConfig": {
+            "prototype": "blue-shark/ui/file-upload.reel",
+            "properties": {
+                "element": {"#": "uploadConfig"},
+                "value": "Upload Config File",
+                "resultType": "text"
+            },
+            "bindings": {
+                 "data": {"<->": "@owner.configFile"}
+            }
+        },
         "factoryRestore": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
