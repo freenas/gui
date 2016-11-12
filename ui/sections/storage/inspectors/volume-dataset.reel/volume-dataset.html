@@ -146,6 +146,17 @@
             "bindings": {
                 "object": {"<->": "@owner.object"}
             }
+        },
+        "vmwareSnapshots": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "vmwareSnapshots"},
+                "label": "VMWare Snapshots"
+            },
+            "bindings": {
+                "object": {"<-": "@owner.vmwareDatasets.filter{dataset == @owner.object.id}"},
+                "objectType": {"<-": "@owner.vmwareDatasetType"}
+            }
         }
     }
     </script>
@@ -167,6 +178,7 @@
             </div>
             <div data-montage-id="createdCondition">
                 <div data-montage-id="snapshots"></div>
+                <div data-montage-id="vmwareSnapshots"></div>
             </div>
         </div>
     </div>

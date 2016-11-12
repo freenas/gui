@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="vmware-snapshot.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "validationController": {"@": "validationController"}
+            }
+        },
+        "name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "validationPath": "name",
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.name"}
+            }
+        },
+        "dataset": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "dataset"},
+                "label": "Dataset"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.dataset"}
+            }
+        },
+        "peer": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "peer"},
+                "label": "Peer",
+                "converter": {"@": "select-option-converter"}
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.peer"},
+                "options": {"<-": "@owner.peerOptions.filter{type == 'vmware'}"}
+            }
+        },
+        "select-option-converter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "labelPropertyName": "name",
+                "valuePropertyName": "id"
+            }
+        },
+        "datastore": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "datastore"},
+                "label": "Datastore"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.datastore"},
+                "options": {"<-": "@owner.datastoreOptions"}
+            }
+        },
+        "vm_filter_op": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "vm_filter_op"},
+                "label": "Filter"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.vm_filter_op"},
+                "options": {"<-": "@owner.filterOptions"}
+            }
+        },
+        "vm_filter_entries": {
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "properties": {
+                "element": {"#": "vm_filter_entries"},
+                "label": "Filter Entries",
+                "labelPath": "this",
+                "isDraggable": true,
+                "placeholder": "eg. myfavoritevm",
+                "inputTitle": "Add a VM",
+                "valuesTitle": "Added VMs",
+                "emptyMessage": "no VMs added :("
+            },
+            "bindings": {
+                "values": {"<->": "@owner.object.vm_filter_entries"},
+                "disabled": {"<-": "@owner.object.vm_filter_op == 'NONE'"}
+            }
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "validationController": {"@": "validationController"},
+                "canDelete": true,
+                "canRevert": true,
+                "canSave": true,
+                "keys": [
+                    "name",
+                    "dataset"
+                ],
+                "controller": {"@": "owner"}
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"}
+            }
+        },
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="VmwareSnapshot">
+      <div data-montage-id="inspector">
+        <div data-montage-id="name"></div>
+        <div data-montage-id="dataset"></div>
+        <div data-montage-id="peer"></div>
+        <div data-montage-id="datastore"></div>
+        <div data-montage-id="vm_filter_op"></div>
+        <div data-montage-id="vm_filter_entries"></div>
+      </div>
+    </div>
+</body>
+</html>
