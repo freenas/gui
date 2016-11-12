@@ -9,17 +9,15 @@ var Component = require("montage/ui/component").Component;
  */
 exports.CryptoCertificateImport = Component.specialize(/** @lends CryptoCertificateImport# */ {
     save: {
-        value: function () {
-            return this._saveWithFileUpload(this.object, this.certificateFile, this.privateKeyFile);
+        value: function() {
+            this._saveWithFileUpload()
         }
     },
 
     _saveWithFileUpload: {
-        value: function (object, certKey, privKey) {
-            object.certificate = { "$binary": certKey };
-            object.privatekey = {"$binary": privKey};
-            console.log(this.certificate);
-            // return this._dataService.saveDataObject.apply(this.object);
+        value: function () {
+            this.object.certificate = this.certificateFile;
+            this.object.privatekey = this.privateKeyFile;
         }
     }
 });
