@@ -34,6 +34,14 @@ var SystemAdvancedService = exports.SystemAdvancedService = Montage.specialize({
         }
     },
 
+    restoreSettingsFromFileUpload: {
+        value: function (configFile) {
+            return Model.populateObjectPrototypeForType(Model.Task).then(function (Task) {
+                return Task.constructor.services.submitWithEnv("database.restore", [[configFile]]);
+            })
+        }
+    },
+
     restoreFactorySettings: {
         value: function () {
             return Model.populateObjectPrototypeForType(Model.Task).then(function (Task) {

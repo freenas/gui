@@ -74,7 +74,7 @@ var CryptoCertificateService = exports.CryptoCertificateService = Montage.specia
     import: {
         value: function (cryptoCertificate) {
             var payload = {},
-                keys = Object.keys(cryptoCertificate),
+                keys = Object.keys(cryptoCertificate).concat(['certificate', 'privatekey']),
                 key;
             for (var i = 0; i < keys.length; i++) {
                 key = keys[i];
