@@ -25,10 +25,10 @@
     padding: 0 .5em !important;
     min-width: 0;
 
-    &[disabled='disabled'] {
-        opacity: .3;
+    &.montage--disabled {
+        opacity: .3 !important;
         cursor: not-allowed;
-        background: none;
+        background: none !important;
 
         &:hover {
             color: currentColor;

@@ -31,10 +31,12 @@
 .FieldTreeview-treeView {
     position: absolute;
     visibility: hidden;
+    opacity: 0;
 
     @nest .FieldTreeview.is-expanded & {
         position: relative;
         visibility: visible;
         margin-bottom: 1em;
+        opacity: 1;
     }
 }
