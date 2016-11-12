@@ -61,8 +61,12 @@ exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# *
         value:function() {
             var self = this;
             this.snapshotType = this._sectionService.VOLUME_SNAPSHOT_TYPE;
-            return this._sectionService.listVolumeSnapshots().then(function(snapshots) {
-                return self.snapshots = snapshots;
+            this._sectionService.listVolumeSnapshots().then(function(snapshots) {
+                self.snapshots = snapshots;
+            });
+            this.vmwareDatasetType = this._sectionService.VMWARE_DATASET_TYPE;
+            this._sectionService.listVmwareDatasets().then(function(vmwareDatasets) {
+                self.vmwareDatasets = vmwareDatasets;
             });
         }
     },

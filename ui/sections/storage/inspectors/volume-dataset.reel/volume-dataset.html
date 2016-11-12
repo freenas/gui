@@ -128,6 +128,17 @@
                 "object": {"<-": "@owner.snapshots.filter{dataset == @owner.object.id}"},
                 "objectType": {"<-": "@owner.snapshotType"}
             }
+        },
+        "vmwareSnapshots": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "vmwareSnapshots"},
+                "label": "VMWare Snapshots"
+            },
+            "bindings": {
+                "object": {"<-": "@owner.vmwareDatasets.filter{dataset == @owner.object.id}"},
+                "objectType": {"<-": "@owner.vmwareDatasetType"}
+            }
         }
     }
     </script>
@@ -146,6 +157,7 @@
             <div data-montage-id="settings"></div>
             <div data-montage-id="createdCondition">
                 <div data-montage-id="snapshots"></div>
+                <div data-montage-id="vmwareSnapshots"></div>
             </div>
         </div>
     </div>

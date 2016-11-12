@@ -128,7 +128,7 @@ exports.VmwareDataset = Montage.specialize({
     userInterfaceDescriptor: {
         value: {
             inspectorComponentModule: {
-                "id": "ui/sections/system/inspectors/vmware-snapshot.reel"
+                "id": "ui/sections/storage/inspectors/vmware-snapshot.reel"
             },
             collectionInspectorComponentModule: {
                 "id": "ui/controls/viewer.reel"
