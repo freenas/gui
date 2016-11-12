@@ -1,20 +1,18 @@
 .InspectorSectionTitle {
     position: relative;
-    margin: 1em -1em;
-    margin-bottom: 1em;
+    margin: 1.5em 0 1em;
     line-height: 1.5em;
     text-align: left;
     color: #fff;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 0 1em;
 }
 
 .InspectorSectionTitle:before {
     content: '';
     position: absolute;
-    left: 1em;
+    left: 0;
     right: 0;
     bottom: 0;
     border-bottom: 1px solid rgba(255,255,255,.2);
