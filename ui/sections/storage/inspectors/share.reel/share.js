@@ -119,7 +119,7 @@ exports.Share = AbstractInspector.specialize({
 
     targetType: {
         set: function (targetType) {
-            if (this._targetType !== targetType) {
+            if (this._object && this._inDocument && this._targetType !== targetType) {
                 this._targetType = targetType;
 
                 if (this._object.target_type !== targetType) {
@@ -155,10 +155,10 @@ exports.Share = AbstractInspector.specialize({
             }
 
             this.volume = this._getCurrentVolume();
+            this.targetType = this.object.target_type;
 
             //todo: block draw
             this._shareService.populateShareObjectIfNeeded(this.object).then(function() {
-                self.targetType = self._object.target_type;
                 if (self._object._isNew) {
                     self._openTreeController();
                 }
@@ -194,9 +194,10 @@ exports.Share = AbstractInspector.specialize({
 
     _openTreeController: {
         value: function() {
-            if (this.targetType) {
+            if (this.targetType && this._inDocument) {
                 var self = this,
                     treeController = this.treeControllers[this.targetType];
+
                 treeController.open().then(function() {
                     self._object._selected_path = treeController.selectedPath;
                 });
