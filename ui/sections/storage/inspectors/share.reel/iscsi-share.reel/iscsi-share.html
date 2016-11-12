@@ -12,17 +12,19 @@
         },
 
         "numberConverter": {
-            "prototype": "core/converter/integer-converter"
+            "prototype": "core/converter/string-to-integer-or-null-converter"
         },
 
         "extentSize": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "extentSize"},
+                "isMandatory": true,
                 "label": "Size"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.properties.size"}
+                "value": {"<->": "@owner.object.properties.size"},
+                "classList.has('is-hidden')": {"<-": "@owner.object._target_type == 'FILE'"}
             }
         },
 

@@ -25,8 +25,8 @@ exports.BytesService = Montage.specialize({
             unit = unit || this.UNITS.K;
             var suffixIndex = this._SUFFIXES.indexOf(unit),
                 abbreviatedValue = size;
-                
-            while (abbreviatedValue % this.constructor._MULTIPLE === 0) {
+
+            while (abbreviatedValue % this.constructor._MULTIPLE === 0 && abbreviatedValue !== 0) {
                 suffixIndex++;
                 abbreviatedValue = abbreviatedValue / this.constructor._MULTIPLE;
             }
