@@ -1,6 +1,7 @@
 var Montage = require("montage").Montage,
     FreeNASService = require("core/service/freenas-service").FreeNASService,
     Promise = require("montage/core/promise").Promise,
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
     Model = require("core/model/model").Model;
 
 var EMPTY_STRING = '';
@@ -74,6 +75,8 @@ var CalendarService = exports.CalendarService = Montage.specialize({
     constructor: {
         value: function() {
             this._dataService = FreeNASService.instance;
+            this._eventDispatcherService = EventDispatcherService.getInstance();
+            this._eventDispatcherService.addEventListener("calendarTaskUpdated", this._handleTasksChange.bind(this));
             this.addRangeAtPathChangeListener("_tasks", this, "_handleTasksChange");
         }
     },
@@ -220,7 +223,7 @@ var CalendarService = exports.CalendarService = Montage.specialize({
             var task,
                 key = day.year+'-'+day.month+'-'+day.date,
                 tasksSchedule = this._tasksPerDay[key] ? this._tasksPerDay[key].tasks : [];
-            tasksSchedule.splice(0, tasksSchedule.length);
+            tasksSchedule.clear();
             for (var i = 0, length = tasks.length; i < length; i++) {
                 task = tasks[i];
                 if (this._isDayMatchingSchedule(day, task.schedule)) {
@@ -228,7 +231,9 @@ var CalendarService = exports.CalendarService = Montage.specialize({
                 }
             }
             tasksSchedule.sort(this._sortOccurrences);
-            this._tasksPerDay[key] = { day: day, tasks: tasksSchedule, concurrentEvents: 1 };
+            if (!this._tasksPerDay[key]) {
+                this._tasksPerDay[key] = { day: day, tasks: tasksSchedule, concurrentEvents: 1 };
+            }
             return tasksSchedule;
         }
     },
@@ -393,8 +398,14 @@ var CalendarService = exports.CalendarService = Montage.specialize({
         value: function() {
             var days = Object.keys(this._tasksPerDay);
             for (var i = 0, length = days.length; i < length; i++) {
-                this.getTasksScheduleOnDay(this._tasksPerDay[days[i]].day);
+                this._refreshTaskSchedule(this._tasksPerDay[days[i]]);
             }
+        }
+    },
+
+    _refreshTaskSchedule: {
+        value: function(taskSchedule) {
+            this.getTasksScheduleOnDay(taskSchedule.day);
         }
     }
 
