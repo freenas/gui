@@ -64,26 +64,13 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
                 promise;
 
             return new Promise(function (resolve, reject) {
-                if (collection.id == -1) {
-                    if (!self._dockerImageService) {
-                        promise = Model.populateObjectPrototypeForType(Model.DockerImage).then(function (DockerImage) {
-                            self._dockerImageService = DockerImage.constructor.services;
-
-                            return self._dockerImageService.getCollectionImages(collection.collection);
-                        });
-                    } else {
-                        promise = self._dockerImageService.getCollectionImages(collection.collection);
-                    }
+                if (!self._dockerCollectionService) {
+                    promise = Model.populateObjectPrototypeForType(Model.DockerCollection).then(function (DockerImage) {
+                        self._dockerCollectionService = DockerImage.constructor.services;
+                        return self._dockerCollectionService.getEntries(collection.id);
+                    });
                 } else {
-                    if (!self._dockerCollectionService) {
-                        promise = Model.populateObjectPrototypeForType(Model.DockerCollection).then(function (DockerImage) {
-                            self._dockerCollectionService = DockerImage.constructor.services;
-
-                            return self._dockerCollectionService.getEntries(collection.id);
-                        });
-                    } else {
-                        promise = self._dockerCollectionService.getEntries(collection.id);
-                    }
+                    promise = self._dockerCollectionService.getEntries(collection.id);
                 }
 
                 resolve(promise);

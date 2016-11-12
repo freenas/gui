@@ -7,9 +7,6 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
-            },
-            "bindings": {
-                "_isDefaultCollection": {"<-": "@owner.object.id == -1"}
             }
         },
 
@@ -26,13 +23,13 @@
             "properties": {
                 "element": {"#": "inspector"},
                 "controller": {"@": "owner"},
+                "canSave": true,
                 "validationController": {"@": "validationController"}
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
-                "canDelete": {"<-": "!@owner.object._isNew && !@owner._isDefaultCollection"},
-                "canRevert": {"<-": "!@owner.object._isNew && !@owner._isDefaultCollection"},
-                "canSave": {"<-": "!@owner._isDefaultCollection"},
+                "canDelete": {"<-": "!@owner.object._isNew"},
+                "canRevert": {"<-": "!@owner.object._isNew"},
                 "classList.has('has-loading-spinner')": {"<-": "@owner.isLoading"}
             }
         },
@@ -44,8 +41,7 @@
                 "label": "Name"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.name"},
-                "readonly": {"<->": "@owner._isDefaultCollection"}
+                "value": {"<->": "@owner.object.name"}
             }
         },
 
@@ -56,8 +52,7 @@
                 "label": "Collection"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.collection"},
-                "readonly": {"<->": "@owner._isDefaultCollection"}
+                "value": {"<->": "@owner.object.collection"}
             }
         },
 
@@ -68,8 +63,7 @@
                 "label": "Match Expression"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.match_expr"},
-                "readonly": {"<->": "@owner._isDefaultCollection"}
+                "value": {"<->": "@owner.object.match_expr"}
             }
         }
 
