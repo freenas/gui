@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="docker-logs.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+        "console": {
+            "prototype": "ui/console.reel",
+            "properties": {
+                "element": {"#": "console"},
+                "waitForToken": true
+            },
+            "bindings": {
+                "token": {"<-": "@owner.token"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="DockerLogs">
+        <div data-montage-id="console"></div>
+    </div>
+</body>
+</html>

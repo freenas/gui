@@ -5,6 +5,7 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
     DockerConfigDao = require("core/dao/docker-config-dao").DockerConfigDao,
     DockerCollectionDao = require("core/dao/docker-collection-dao").DockerCollectionDao,
     DockerContainerCreatorDao = require("core/dao/docker-container-creator-dao").DockerContainerCreatorDao,
+    DockerContainerLogsDao = require("core/dao/docker-container-logs-dao").DockerContainerLogsDao,
     DockerImagePullDao = require("core/dao/docker-image-pull-dao").DockerImagePullDao,
     DockerContainerDao = require("core/dao/docker-container-dao").DockerContainerDao;
 
@@ -19,7 +20,8 @@ exports.ContainerRepository = AbstractRepository.specialize({
             dockerConfigDao,
             dockerCollectionDao,
             dockerContainerCreatorDao,
-            dockerImagePullDao
+            dockerImagePullDao,
+            dockerContainerLogsDao
             ) {
 
             this._dockerContainerSectionDao = dockerContainerSectionDao || DockerContainerSectionDao.instance;
@@ -30,6 +32,7 @@ exports.ContainerRepository = AbstractRepository.specialize({
             this._dockerCollectionDao = dockerCollectionDao || DockerCollectionDao.instance;
             this._dockerContainerCreatorDao = dockerContainerCreatorDao || DockerContainerCreatorDao.instance;
             this._dockerImagePullDao = dockerImagePullDao || DockerImagePullDao.instance;
+            this._dockerContainerLogsRepository = dockerContainerLogsDao || DockerContainerLogsDao.instance;
         }
     },
 
@@ -62,6 +65,12 @@ exports.ContainerRepository = AbstractRepository.specialize({
             } else {
                 return Promise.reject("Model object not supported")
             }
+        }
+    },
+
+    getNewDockerContainerLogs: {
+        value: function () {
+            return this._dockerContainerLogsRepository.getNewInstance();
         }
     },
 

@@ -85,6 +85,12 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         }
     },
 
+    getNewDockerContainerLogs: {
+        value: function () {
+            return this._containerRepository.getNewDockerContainerLogs();
+        }
+    },
+
     getNewDockerCollection: {
         value: function () {
             return this._containerRepository.getNewDockerCollection();
@@ -103,16 +109,24 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         }
     },
 
-    getSerialTokenWithDockerContainer: {
+    getInteractiveSerialTokenWithDockerContainer: {
         value: function (dockerContainer) {
+            var self = this;
+
             return BackendBridge.defaultBackendBridge.send('rpc', 'call', {
                 method: 'docker.container.request_interactive_console',
                 args: [dockerContainer.id]
             }).then(function (response) {
-                return BackendBridge.defaultBackendBridge.send('rpc', 'call', {
-                    method: 'docker.container.request_serial_console',
-                    args: [response.data]
-                });
+                return self.getSerialTokenWithDockerContainerId(response.data);
+            });
+        }
+    },
+
+    getSerialTokenWithDockerContainerId: {
+        value: function (dockerContainerId) {
+            return BackendBridge.defaultBackendBridge.send('rpc', 'call', {
+                method: 'docker.container.request_serial_console',
+                args: [dockerContainerId]
             }).then(function (response) {
                 return response.data;
             });

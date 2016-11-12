@@ -254,6 +254,19 @@
             "bindings": {
                 "checked": {"<-": "@owner.object.interactive"}
             }
+        },
+
+        "logs": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "logs"},
+                "name": "Logs"
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"},
+                "object": {"<-": "@owner._dockerContainerLogs"},
+                "classList.has('is-hidden')": {"<-": "@owner.object.interactive"}
+            }
         }
 
     }
@@ -287,6 +300,7 @@
             </div>
             <div data-montage-id="command"></div>
             <div data-montage-id="interactive"></div>
+            <div data-montage-id="logs"></div>
         </div>
     </div>
 </body>

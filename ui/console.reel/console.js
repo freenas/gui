@@ -40,7 +40,13 @@ exports.Console = Component.specialize({
             var self = this;
 
             if (!this._shellClient || !this._shellClient.isConnected) {
-                this._connect();
+                this._reconnectTries = 0;
+
+                if (this.token) {
+                    this._connect();
+                } else {
+                    this.addPathChangeListener("token", this, "_connect");
+                }
             }
             this._cancelResizeHandler = window.addEventListener("resize", function() { self.needsDraw = true; });
         }
@@ -80,7 +86,7 @@ exports.Console = Component.specialize({
             }
         }
     },
-    
+
     handleWebSocketClose: {
         value: function() {
             if (this._inDocument) {
@@ -91,38 +97,40 @@ exports.Console = Component.specialize({
 
     _connect: {
         value: function() {
-            var self = this;
-            this._shellClient = new WebSocketClient().initWithUrl(WebSocketConfiguration.shellConfiguration.get(WebSocketConfiguration.KEYS.URL));
-            this._shellClient.responseType = WebSocketClient.RESPONSE_TYPE.BINARY_BLOB;
-            this._shellClient.connect().then(function() {
-                if (!self._term) {
-                    self._term = new Terminal({
-                        cols: 80,
-                        rows: 1,
-                        screenKeys: true
-                    });
-                    self._term.open(self.terminalElement);
-                }
-                var tokenPromise;
-                if (self.token) {
-                    tokenPromise = Promise.resolve(self.token);
-                } else {
-                    tokenPromise = self._consoleService.getCliToken(self._getColumns());
-                }
-                return tokenPromise
-            }).then(function(token) {
-                if (!self._areEventsregistered) {
-                    self._term.on('data', function(data) {
-                        self._shellClient.sendMessage(data);
-                    });
-                    self._areEventsregistered = true;
-                }
-                self._shellClient.addEventListener('webSocketMessage', self, false);
-                self._shellClient.addEventListener('webSocketClose', self, false);
-                self._shellClient.sendMessage(JSON.stringify({token: token}));
-            });
+            if (this.waitForToken && this.token) {
+                var self = this;
+                this._shellClient = new WebSocketClient().initWithUrl(WebSocketConfiguration.shellConfiguration.get(WebSocketConfiguration.KEYS.URL));
+                this._shellClient.responseType = WebSocketClient.RESPONSE_TYPE.BINARY_BLOB;
+                this._shellClient.connect().then(function() {
+                    if (!self._term) {
+                        self._term = new Terminal({
+                            cols: 80,
+                            rows: 1,
+                            screenKeys: true
+                        });
+                        self._term.open(self.terminalElement);
+                    }
+                    var tokenPromise;
+                    if (self.token) {
+                        tokenPromise = Promise.resolve(self.token);
+                    } else {
+                        tokenPromise = self._consoleService.getCliToken(self._getColumns());
+                    }
+                    return tokenPromise
+                }).then(function(token) {
+                    if (!self._areEventsregistered) {
+                        self._term.on('data', function(data) {
+                            self._shellClient.sendMessage(data);
+                        });
+                        self._areEventsregistered = true;
+                    }
+                    self._shellClient.addEventListener('webSocketMessage', self, false);
+                    self._shellClient.addEventListener('webSocketClose', self, false);
+                    self._shellClient.sendMessage(JSON.stringify({token: token}));
+                });
+            }
         }
-    },  
+    },
 
     _resizeTerminal: {
         value: function() {
