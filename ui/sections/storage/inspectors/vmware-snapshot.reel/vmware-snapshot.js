@@ -88,6 +88,15 @@ exports.VmwareSnapshot = AbstractInspector.specialize({
         }
     },
 
+    revert: {
+        value: function() {
+            this.super();
+            if (this.object.vm_filter_op === null) {
+                this.object.vm_filter_op = "NONE";
+            }
+        }
+    },
+
     _handlePeerChange: {
         value: function() {
             var self = this,
