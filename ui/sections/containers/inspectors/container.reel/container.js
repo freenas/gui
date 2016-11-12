@@ -68,7 +68,7 @@ exports.Container = AbstractInspector.specialize({
         value: function() {
             var self = this;
 
-            this.application.consoleService.getSerialToken(this.object.id).then(function(token) {
+            this._sectionService.getSerialTokenWithDockerContainer(this.object).then(function(token) {
                 window.open("/serial-console-app/#" + token, self.object.names[0] + " Serial Console");
             });
         }

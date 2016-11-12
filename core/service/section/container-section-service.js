@@ -3,6 +3,7 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
     MiddlewareTaskRepository = require("core/repository/middleware-task-repository").MiddlewareTaskRepository,
     UserRepository = require("core/repository/user-repository").UserRepository,
     ApplicationContextService = require("core/service/application-context-service").ApplicationContextService
+    BackendBridge = require('core/backend/backend-bridge'),
     Model = require("core/model/model").Model;
 
 exports.ContainerSectionService = AbstractSectionService.specialize({
@@ -99,6 +100,22 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
     getCurrentUser: {
         value: function () {
             return this._applicationContextService.findCurrentUser();
+        }
+    },
+
+    getSerialTokenWithDockerContainer: {
+        value: function (dockerContainer) {
+            return BackendBridge.defaultBackendBridge.send('rpc', 'call', {
+                method: 'docker.container.request_interactive_console',
+                args: [dockerContainer.id]
+            }).then(function (response) {
+                return BackendBridge.defaultBackendBridge.send('rpc', 'call', {
+                    method: 'docker.container.request_serial_console',
+                    args: [response.data]
+                });
+            }).then(function (response) {
+                return response.data;
+            });
         }
     },
 
