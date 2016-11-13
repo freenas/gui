@@ -38,9 +38,9 @@
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
-                "canDelete": {"<-": "!@owner.object.builtin"},
-                "canRevert": {"<-": "(@owner.object.uid == 0) || !@owner.object.builtin"},
-                "canSave": {"<-": "(@owner.object.uid == 0) || !@owner.object.builtin"},
+                "canDelete": {"<-": "!@owner.object.builtin || !@owner.object.origin.read_only"},
+                "canRevert": {"<-": "(@owner.object.uid == 0) || !@owner.object.builtin || !@owner.object.origin.read_only"},
+                "canSave": {"<-": "(@owner.object.uid == 0) || !@owner.object.builtin || !@owner.object.origin.read_only"},
                 "extraDeleteFlags": {"<-": "@owner.extraDeleteFlags"}
             }
         },
@@ -63,7 +63,7 @@
                 "element": {"#": "uidNameSubstitution"}
             },
             "bindings": {
-                "switchValue": {"<-": "!!@owner.object.builtin ? 'system' : 'luser'"}
+                "switchValue": {"<-": "!!@owner.object.builtin || @owner.object.origin.read_only ? 'system' : 'luser'"}
             }
         },
         "systemUserSubstitution": {

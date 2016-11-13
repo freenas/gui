@@ -74,7 +74,7 @@ exports.User = AbstractInspector.specialize({
                 loadingPromises.push(this._getShellOptions());
             }
 
-            this.userType = this.object.builtin && this.object.uid !== 0 ? "system" : "user";
+            this.userType = (this.object.builtin && this.object.uid !== 0) || (this.object.origin && this.object.origin.read_only)  ? "system" : "user";
 
             Promise.all(loadingPromises).then(function() {
                 self.isLoading = false;
