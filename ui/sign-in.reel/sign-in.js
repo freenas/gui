@@ -93,10 +93,14 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
     },
 
     enterDocument: {
-        value: function () {
+        value: function (isFirstTime) {
             this.addEventListener("action", this, false);
             this._keyComposer.addEventListener("keyPress", this, false);
-            this.userNameTextField.focus();
+
+            if(isFirstTime) {
+                this.addPathChangeListener("userName", this, "hasChanged");
+                this.addPathChangeListener("password", this, "hasChanged");
+            }
 
             // checks for disconnected hash
             if(window.location.href.indexOf("disconnected") > -1) {
@@ -105,6 +109,12 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
                 history.pushState('', document.title, window.location.pathname);
             }
             this.userNameTextField.focus();
+        }
+    },
+
+    hasChanged: {
+        value: function () {
+            console.trace(this.userName);
         }
     },
 
@@ -127,12 +137,13 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
 
     handleSubmitAction: {
         value: function() {
-            if (!this._isAuthenticating && this.userName && this.password) {
+            if (!this._isAuthenticating && this.userName) {
                 var self = this;
                 this.isAuthenticating = true;
                 this.hadError = false;
+                var password = this.password || "";
 
-                this.dataService.loginWithCredentials(this.userName, this.password).then(function (authorization) {
+                this.dataService.loginWithCredentials(this.userName, password).then(function (authorization) {
                     self.authorizationManagerPanel.approveAuthorization(authorization);
                     self.application.sessionService.sessionDidOpen(self.userName);
 

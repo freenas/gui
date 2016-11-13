@@ -74,7 +74,7 @@
             },
             "bindings": {
                 "isProcessing": {"<-": "@owner.isAuthenticating"},
-                "disabled": {"<-": "isProcessing || !@userName.value || !@password.value"}
+                "disabled": {"<-": "isProcessing || !@userName.value"}
             }
         },
 
@@ -99,7 +99,7 @@
             <div data-montage-id="infoText" class="SignIn-infoText"></div>
             <div data-montage-id="errorMessage" class="SignIn-error-message "></div>
             <div class="field">
-                <input type="text" data-montage-id="userName" class="SignIn-userName" autofocus></input>
+                <input type="text" data-montage-id="userName" class="SignIn-userName"></input>
             </div>
             <div class="field">
                 <input type="password" data-montage-id="password" class="SignIn-userName"></input>
