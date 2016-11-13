@@ -4,10 +4,6 @@ var Component = require("montage/ui/component").Component,
     WebSocketConfiguration = require("/core/backend/websocket-configuration").WebSocketConfiguration,
     Terminal = require('xterm/src/xterm');
 
-/**
- * @class Console
- * @extends Component
- */
 exports.Console = Component.specialize({
     _term: {
         value: null

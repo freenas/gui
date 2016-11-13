@@ -9,6 +9,9 @@
             "properties": {
                 "element": {"#": "owner"},
                 "terminalElement": {"#": "terminal"}
+            },
+            "bindings": {
+                "configurationKey": {"<-": "(@owner.type || 'shell') + 'Configuration'"}
             }
         }
     }

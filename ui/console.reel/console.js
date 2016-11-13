@@ -4,10 +4,6 @@ var Component = require("montage/ui/component").Component,
     WebSocketConfiguration = require("core/backend/websocket-configuration").WebSocketConfiguration,
     Terminal = require('xterm/src/xterm');
 
-/**
- * @class Console
- * @extends Component
- */
 exports.Console = Component.specialize({
     _term: {
         value: null
@@ -99,7 +95,7 @@ exports.Console = Component.specialize({
         value: function() {
             if (this.waitForToken && this.token) {
                 var self = this;
-                this._shellClient = new WebSocketClient().initWithUrl(WebSocketConfiguration.shellConfiguration.get(WebSocketConfiguration.KEYS.URL));
+                this._shellClient = new WebSocketClient().initWithUrl(WebSocketConfiguration[this.configurationKey].get(WebSocketConfiguration.KEYS.URL));
                 this._shellClient.responseType = WebSocketClient.RESPONSE_TYPE.BINARY_BLOB;
                 this._shellClient.connect().then(function() {
                     if (!self._term) {
