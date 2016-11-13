@@ -74,10 +74,12 @@ exports.CalendarWidgetDay = AbstractDropZoneComponent.specialize({
     },
 
     enterDocument: {
-        value: function() {
+        value: function(isFirstTime) {
             this.super();
-            this.addRangeAtPathChangeListener("taskCategories", this, "_filterDistinctTasks");
-            this.addRangeAtPathChangeListener("tasks", this, "_filterDistinctTasks");
+            if (isFirstTime) {
+                this.addRangeAtPathChangeListener("taskCategories", this, "_filterDistinctTasks");
+                this.addRangeAtPathChangeListener("tasks", this, "_filterDistinctTasks");
+            }
             this._setMaxDisplayedLines();
         }
     },

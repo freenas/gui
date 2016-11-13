@@ -8,6 +8,7 @@ var DataService = require("montage-data/logic/service/data-service").DataService
     Services = require("../model/services").Services,
     Montage = require("montage/core/core").Montage,
     Model = require("../model/model").Model,
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
     propertyTypeService = require('../model/property-type-service').propertyTypeService,
     EMPTY_ARRAY = [],
     ACTION_DELETE = 'DELETE',
@@ -106,6 +107,7 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
 
             this._snapshotService = new SnapshotService();
             this._selectionService = SelectionService.instance;
+            this._eventDispatcherService = EventDispatcherService.getInstance();
 
             return this;
         }
@@ -533,6 +535,9 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
 
                         if (model) {
                             this.mapFromRawData(model, rawModel);
+                            if (type === Model.CalendarTask) {
+                                this._eventDispatcherService.dispatch("calendarTaskUpdated", model);
+                            }
                         } else {
                             //todo: warning?
                         }
