@@ -107,5 +107,27 @@ Object.defineProperties(WebSocketConfiguration, {
 
             return _shellConfiguration;
         }
+    },
+
+    fileUploadConfiguration: {
+        get: function () {
+            if (!_shellConfiguration) {
+                _shellConfiguration = new WebSocketConfiguration();
+
+                var domain = document.domain;
+
+                _shellConfiguration._store.set(WebSocketConfiguration.KEYS.SECURE, window.location.protocol === "https:");
+                _shellConfiguration._store.set(WebSocketConfiguration.KEYS.PORT, "80");
+                _shellConfiguration._store.set(WebSocketConfiguration.KEYS.PATH, "/dispatcher/file");
+                _shellConfiguration._store.set(WebSocketConfiguration.KEYS.TIMEOUT, 30000);
+
+                _shellConfiguration._store.set(
+                    WebSocketConfiguration.KEYS.HOST,
+                    (domain === "localhost" || domain === "127.0.0.1") ? WebSocketConfiguration.SERVER_HOST : domain
+                );
+            }
+
+            return _shellConfiguration;
+        }
     }
 });
