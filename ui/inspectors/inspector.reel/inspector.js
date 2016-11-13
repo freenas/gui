@@ -28,6 +28,12 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
         }
     },
 
+    exitDocument: {
+        value: function() {
+            this.isConfirmationVisible = false;
+        }
+    },
+
     handleDeleteAction: {
         value: function() {
             this.isConfirmationVisible = true;
