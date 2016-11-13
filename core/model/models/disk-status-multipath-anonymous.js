@@ -45,7 +45,7 @@ exports.DiskStatusMultipathAnonymous = Montage.specialize({
         value: [{
             mandatory: false,
             name: "members",
-            valueType: "array"
+            valueType: "object"
         }, {
             mandatory: false,
             name: "node",

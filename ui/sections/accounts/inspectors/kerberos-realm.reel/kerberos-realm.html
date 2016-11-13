@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="kerberos-realm.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
+            }
+        },
+
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "canSave": true,
+                "controller": {"@": "owner"},
+                "validationController": {"@": "validationController"}
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"},
+                "canDelete": {"<-": "!@owner._isNew"},
+                "canRevert": {"<-": "!@owner._isNew"}
+            }
+        },
+
+        "realm": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "realm"},
+                "label": "Realm"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.realm"}
+            }
+        },
+
+        "kdcAddress": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "kdcAddress"},
+                "label": "KDC Address"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.kdc_address"}
+            }
+        },
+
+        "adminServer": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "adminServer"},
+                "label": "Admin Server"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.admin_server_address"}
+            }
+        },
+
+        "passwordServer": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "passwordServer"},
+                "label": "Password Server"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.password_server_address"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="KerberosRealm">
+        <div data-montage-id="inspector">
+            <div data-montage-id="realm"></div>
+            <div data-montage-id="kdcAddress"></div>
+            <div data-montage-id="adminServer"></div>
+            <div data-montage-id="passwordServer"></div>
+        </div>
+    </div>
+</body>
+</html>

@@ -39,6 +39,19 @@ exports.DockerVolume = Montage.specialize({
         get: function () {
             return this._readonly;
         }
+    },
+    _source: {
+        value: null
+    },
+    source: {
+        set: function (value) {
+            if (this._source !== value) {
+                this._source = value;
+            }
+        },
+        get: function () {
+            return this._source;
+        }
     }
 }, {
     propertyBlueprints: {
@@ -54,6 +67,11 @@ exports.DockerVolume = Montage.specialize({
             mandatory: false,
             name: "readonly",
             valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "source",
+            valueObjectPrototypeName: "DockerVolumeHostPathSource",
+            valueType: "object"
         }]
     }
 });

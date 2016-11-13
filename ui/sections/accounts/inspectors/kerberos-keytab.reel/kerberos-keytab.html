@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="kerberos-keytab.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
+            }
+        },
+
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "canSave": true,
+                "controller": {"@": "owner"},
+                "validationController": {"@": "validationController"}
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"},
+                "isSaveDisabled": {"<-": "(@owner.object._isNew && (!@owner.keytab || !@owner.object.name)) || (!@owner.object._isNew && !@owner.object.name)"},
+                "canDelete": {"<-": "!@owner.object._isNew"},
+                "canRevert": {"<-": "!@owner.object._isNew"}
+            }
+        },
+
+        "name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.name"}
+            }
+        },
+
+        "keytab": {
+            "prototype": "blue-shark/ui/field-file-upload.reel",
+            "properties": {
+                "element": {"#": "keytab"},
+                "label": "Keytab File",
+                "resultType": "binary"
+            },
+            "bindings": {
+                "data": {"<->": "@owner.keytab"},
+                "classList.has('is-hidden')": {"<-": "!@owner.object._isNew"}
+            }
+        },
+
+        "entries": {
+            "prototype": "blue-shark/ui/tables/table-read-only.reel",
+            "properties": {
+                "element": {"#": "entries"},
+                "label": "Entries",
+                "contentMaxHeight": 22,
+                "columns":  [
+                    {
+                        "value": "version",
+                        "path": "vno"
+                    },
+                    {
+                        "value": "description",
+                        "path": "enctype"
+                    }
+                ]
+            },
+            "bindings": {
+                "rows": {"<-": "@owner.object.entries"},
+                "classList.has('is-hidden')": {"<-": "@owner.object._isNew"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="KerberosKeytab">
+        <div data-montage-id="inspector">
+            <div data-montage-id="name"></div>
+            <div data-montage-id="keytab"></div>
+            <div data-montage-id="entries" class="KerberosKeytab-entries"></div>
+        </div>
+    </div>
+</body>
+</html>

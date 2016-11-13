@@ -153,6 +153,10 @@
             "type": "DiskStatusControllerAnonymous"
         },
         {
+            "modelId": "core/model/models/disk-status-multipath-anonymous-members-anonymous.js",
+            "type": "DiskStatusMultipathAnonymousMembersAnonymous"
+        },
+        {
             "modelId": "core/model/models/disk-status-multipath-anonymous.js",
             "type": "DiskStatusMultipathAnonymous"
         },

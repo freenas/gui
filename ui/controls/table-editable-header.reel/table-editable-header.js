@@ -4,10 +4,10 @@
 var Component = require("montage/ui/component").Component;
 
 /**
- * @class TableContainerDefaultHeader
+ * @class TableEditableHeader
  * @extends Component
  */
-exports.TableContainerDefaultHeader = Component.specialize(/** @lends TableContainerDefaultHeader# */ {
+exports.TableEditableHeader = Component.specialize(/** @lends TableEditableHeader# */ {
 
     prepareForActivationEvents: {
         value: function () {
