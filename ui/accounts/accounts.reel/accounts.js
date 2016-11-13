@@ -16,6 +16,7 @@ exports.Accounts = Component.specialize({
     templateDidLoad: {
         value: function() {
             this._accountsService = this.application.accountsService;
+            this._loadDataIfNeeded();
         }
     },
 
@@ -27,7 +28,6 @@ exports.Accounts = Component.specialize({
                 this.addRangeAtPathChangeListener("users", this, "_handleAccountChange");
             }
 
-            this._loadDataIfNeeded();
         }
     },
 
@@ -43,6 +43,9 @@ exports.Accounts = Component.specialize({
                     accountCategory._isNew = false;
                     accountCategories = self.accountCategories = accountCategory;
                     accountCategories.isLoading = true;
+                    accountCategories.userType = Model.User;
+                    accountCategories.groupType = Model.Group;
+                    accountCategories.systemType = Model.AccountSystem;
                     accountCategories.user = dataService.getEmptyCollectionForType(Model.User);
                     accountCategories.group = dataService.getEmptyCollectionForType(Model.Group);
                     accountCategories.system = dataService.getEmptyCollectionForType(Model.AccountSystem);
@@ -63,6 +66,7 @@ exports.Accounts = Component.specialize({
             var self = this;
 
             return this._accountsService.listUsers().then(function (users) {
+                self.accountCategories.users = users;
                 self.users = users;
             });
         }
@@ -72,6 +76,7 @@ exports.Accounts = Component.specialize({
         value: function() {
             var self = this;
             return this.application.dataService.fetchData(Model.Group).then(function (groups) {
+                self.accountCategories.groups = groups;
                 self.groups = groups;
             });
         }

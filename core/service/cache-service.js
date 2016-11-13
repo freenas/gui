@@ -10,15 +10,18 @@ var CacheService = (function () {
         return CacheService.instance;
     };
     CacheService.prototype.addToCache = function (key, values) {
-        var isNewEntry = !this.dataStore.has(key);
-        if (isNewEntry) {
+        var cache;
+        if (!this.dataStore.has(key)) {
             this.dataStore.set(key, values);
+            cache = values;
         }
         else {
-            var cache = this.dataStore.get(key);
-            Array.prototype.push.apply(cache, values);
+            cache = this.dataStore.get(key);
+            for (var i = 0; i < values.length; i++) {
+                cache.push(values[i]);
+            }
         }
-        return isNewEntry;
+        return cache;
     };
     CacheService.prototype.clearCacheEntry = function (key) {
         var isExistingEntry = this.dataStore.has(key);

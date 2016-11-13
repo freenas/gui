@@ -27,7 +27,9 @@ exports.CascadingList = Component.specialize({
                 this._root = root;
                 this.popAll(true);
 
-                this._restoreSelection();
+                if (this._selectionService) {
+                    this._restoreSelection();
+                }
             }
         }
     },

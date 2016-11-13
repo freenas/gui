@@ -13,15 +13,18 @@ export class CacheService {
         return CacheService.instance;
     }
 
-    addToCache(this: CacheService, key: any, values: Array<any>): boolean {
-        var isNewEntry: boolean = !this.dataStore.has(key);
-        if (isNewEntry) {
+    addToCache(this: CacheService, key: any, values: Array<any>): Array<any> {
+        var cache: Array<any>;
+        if (!this.dataStore.has(key)) {
             this.dataStore.set(key, values);
+            cache = values
         } else {
-            var cache = this.dataStore.get(key);
-            Array.prototype.push.apply(cache, values)
+            cache = this.dataStore.get(key);
+            for (var i = 0; i < values.length; i++) {
+                cache.push(values[i]);
+            }
         }
-        return isNewEntry;
+        return cache;
     }
 
     clearCacheEntry(this: CacheService, key: any): boolean {

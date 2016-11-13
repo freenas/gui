@@ -1,13 +1,15 @@
 var AbstractRepository = require("core/repository/abstract-repository").AbstractRepository,
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
     DirectoryserviceConfigDao = require("core/dao/directoryservice-config-dao").DirectoryserviceConfigDao,
     UserDao = require("core/dao/user-dao").UserDao;
 
 exports.UserRepository = AbstractRepository.specialize({
 
     init: {
-        value: function(userDao, directoryserviceConfigDao) {
+        value: function(userDao, directoryserviceConfigDao, eventDispatcherService) {
             this._userDao = userDao || UserDao.instance;
             this._directoryserviceConfigDao = directoryserviceConfigDao || DirectoryserviceConfigDao.instance;
+            this._eventDispatcherService = eventDispatcherService || EventDispatcherService.getInstance();
         }
     },
 
@@ -20,9 +22,11 @@ exports.UserRepository = AbstractRepository.specialize({
                 return self._userDao.find({origin: {directory: searchOrder[0]}}, true);
             }).then(function(users) {
                 var directories = searchOrder.slice(1);
-                for (var i = 0, length = directories.length; i < length; i++) {
-                    self._userDao.find({origin: {directory: directories[i]}}, true);
-                }
+                Promise.all(directories.map(function(x) {
+                    return self._userDao.find({origin: {directory: x}}, true);
+                })).then(function() {
+                    self._eventDispatcherService.dispatch("userLoaded");
+                });
                 return users;
             });
         }
@@ -41,6 +45,5 @@ exports.UserRepository = AbstractRepository.specialize({
             return this._userDao.save(user);
         }
     }
-
     
 });
