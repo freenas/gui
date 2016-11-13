@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="dc-service.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+        "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
+        },
+        "volume": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "volume"},
+                "label": "Volume"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.volume"}
+            }
+        },
+        "dcUrl": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "dcUrl"},
+                "value": "Open DC GUI"
+            },
+            "bindings": {
+                "disabled": {"<-": "@owner.context.object.state != 'RUNNING'"}
+            }
+        }
+      
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="DcService">
+        <div data-montage-id="volume"></div>
+         <div data-montage-id="dcUrl"></div>
+
+    </div>
+</body>
+</html>

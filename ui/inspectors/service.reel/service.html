@@ -63,7 +63,9 @@
             },
             "bindings": {
                 "moduleId": {"<-": "'ui/inspectors/service.reel/' + @owner.name + '-service.reel'"},
-                "object": {"<-": "@owner.object.config"}
+                "object": {"<-": "@owner.object.config"},
+                "context": {"<-": "@owner.context"}
+
             }
         }
     }
