@@ -3,6 +3,7 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
     MiddlewareTaskRepository = require("core/repository/middleware-task-repository").MiddlewareTaskRepository,
     UserRepository = require("core/repository/user-repository").UserRepository,
     ApplicationContextService = require("core/service/application-context-service").ApplicationContextService
+    BackendBridge = require('core/backend/backend-bridge'),
     Model = require("core/model/model").Model;
 
 exports.ContainerSectionService = AbstractSectionService.specialize({
@@ -84,6 +85,12 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         }
     },
 
+    getNewDockerContainerLogs: {
+        value: function () {
+            return this._containerRepository.getNewDockerContainerLogs();
+        }
+    },
+
     getNewDockerCollection: {
         value: function () {
             return this._containerRepository.getNewDockerCollection();
@@ -99,6 +106,30 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
     getCurrentUser: {
         value: function () {
             return this._applicationContextService.findCurrentUser();
+        }
+    },
+
+    getInteractiveSerialTokenWithDockerContainer: {
+        value: function (dockerContainer) {
+            var self = this;
+
+            return BackendBridge.defaultBackendBridge.send('rpc', 'call', {
+                method: 'docker.container.request_interactive_console',
+                args: [dockerContainer.id]
+            }).then(function (response) {
+                return self.getSerialTokenWithDockerContainerId(response.data);
+            });
+        }
+    },
+
+    getSerialTokenWithDockerContainerId: {
+        value: function (dockerContainerId) {
+            return BackendBridge.defaultBackendBridge.send('rpc', 'call', {
+                method: 'docker.container.request_serial_console',
+                args: [dockerContainerId]
+            }).then(function (response) {
+                return response.data;
+            });
         }
     },
 

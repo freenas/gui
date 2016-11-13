@@ -181,6 +181,10 @@
             "type": "DockerContainerCreator"
         },
         {
+            "modelId": "core/model/models/docker-container-logs.js",
+            "type": "DockerContainerLogs"
+        },
+        {
             "modelId": "core/model/models/docker-container-section.js",
             "type": "DockerContainerSection"
         },

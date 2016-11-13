@@ -16,8 +16,12 @@ exports.Container = AbstractInspector.specialize({
 
             this._canDrawGate.setField(blockGateKey, false);
 
-            this._sectionService.listDockerHosts().then(function (dockersHost) {
-                self._dockerHosts = dockersHost;
+            Promise.all([
+                this._sectionService.listDockerHosts(),
+                this._sectionService.getNewDockerContainerLogs()
+            ]).then(function (data) {
+                self._dockerHosts = data[0];
+                self._dockerContainerLogs = data[1];
                 self._canDrawGate.setField(blockGateKey, true);
             });
         }
@@ -68,7 +72,7 @@ exports.Container = AbstractInspector.specialize({
         value: function() {
             var self = this;
 
-            this.application.consoleService.getSerialToken(this.object.id).then(function(token) {
+            this._sectionService.getInteractiveSerialTokenWithDockerContainer(this.object).then(function(token) {
                 window.open("/serial-console-app/#" + token, self.object.names[0] + " Serial Console");
             });
         }
