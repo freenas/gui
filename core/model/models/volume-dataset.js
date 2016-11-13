@@ -259,12 +259,7 @@ exports.VolumeDataset = Montage.specialize({
                 id: 'ui/controls/viewer.reel'
             },
             collectionNameExpression: "'Datasets'",
-            nameExpression: "name",
-            iconValueMapping: {
-                "FILESYSTEM": "ui/icons/directory.reel",
-                "VOLUME": "ui/icons/volume.reel"
-            },
-            iconValueExpression: "type"
+            nameExpression: "name"
         }
     }
 });

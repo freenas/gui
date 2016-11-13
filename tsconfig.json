@@ -2,5 +2,6 @@
     "compilerOptions": {
         "target": "es5",
         "lib": ["es6"]
-    }
+    },
+    "exclude": ["node_modules"]
 }

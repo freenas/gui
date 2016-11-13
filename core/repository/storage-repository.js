@@ -7,6 +7,8 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
     VolumeImporterDao = require("core/dao/volume-importer-dao").VolumeImporterDao,
     EncryptedVolumeImporterDao = require("core/dao/encrypted-volume-importer-dao").EncryptedVolumeImporterDao,
     DetachedVolumeDao = require("core/dao/detached-volume-dao").DetachedVolumeDao,
+    VmwareDatasetDao = require("core/dao/vmware-dataset-dao").VmwareDatasetDao,
+    VmwareDatastoreDao = require("core/dao/vmware-datastore-dao").VmwareDatastoreDao,
     DisksAllocationType = require("core/model/enumerations/disks-allocation-type").DisksAllocationType,
     Model = require("core/model/model").Model;
 
@@ -27,7 +29,7 @@ exports.StorageRepository = AbstractRepository.specialize({
     },
 
     init: {
-        value: function(volumeDao, shareDao, volumeDatasetDao, volumeSnapshotDao, diskDao, volumeImporterDao, encryptedVolumeImporterDao, detachedVolumeDao) {
+        value: function(volumeDao, shareDao, volumeDatasetDao, volumeSnapshotDao, diskDao, volumeImporterDao, encryptedVolumeImporterDao, detachedVolumeDao, vmwareDatasetDao, vmwareDatastoreDao) {
             this._volumeDao = volumeDao || VolumeDao.instance;
             this._shareDao = shareDao || ShareDao.instance;
             this._volumeDatasetDao = volumeDatasetDao || VolumeDatasetDao.instance;
@@ -36,6 +38,8 @@ exports.StorageRepository = AbstractRepository.specialize({
             this._volumeImporterDao = volumeImporterDao || VolumeImporterDao.instance;
             this._encryptedVolumeImporterDao = encryptedVolumeImporterDao || EncryptedVolumeImporterDao.instance;
             this._detachedVolumeDao = detachedVolumeDao || DetachedVolumeDao.instance;
+            this._vmwareDatasetDao = vmwareDatasetDao || VmwareDatasetDao.instance;
+            this._vmwareDatastoreDao = vmwareDatastoreDao || VmwareDatastoreDao.instance;
 
             this._availableDisks = [];
             this._detachedVolumes = [];
@@ -92,6 +96,18 @@ exports.StorageRepository = AbstractRepository.specialize({
     listVolumeDatasets: {
         value: function() {
             return this._volumeDatasetDao.list();
+        }
+    },
+
+    listVmwareDatasets: {
+        value: function() {
+            return this._vmwareDatasetDao.list();
+        }
+    },
+
+    listVmwareDatastores: {
+        value: function(peer, full) {
+            return this._vmwareDatastoreDao.list(peer, full);
         }
     },
 

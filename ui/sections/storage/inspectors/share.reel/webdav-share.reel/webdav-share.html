@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="webdav-share.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "properties": {"<-": "@owner.object.properties"}
+            }
+        },
+
+        "readOnly": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "readOnly"},
+                "label": "Read Only"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.properties.read_only"}
+            }
+        },
+
+        "changePermissions": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "changePermissions"},
+                "label": "Recursively change user and group ownership"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.properties.permissions"}
+            }
+        },
+
+        "showHidden": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "showHidden"},
+                "label": "Show hidden files and folders"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.properties.show_hidden_files"}
+            }
+        }
+
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="WebdavShare">
+        <div data-montage-id="readOnly"></div>
+        <div data-montage-id="changePermissions"></div>
+        <div data-montage-id="showHidden"></div>
+    </div>
+</body>
+</html>

@@ -124,5 +124,21 @@ exports.VmwareDataset = Montage.specialize({
             valueObjectPrototypeName: "VmwareDatasetFilterOp",
             valueType: "object"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            inspectorComponentModule: {
+                "id": "ui/sections/storage/inspectors/vmware-snapshot.reel"
+            },
+            collectionInspectorComponentModule: {
+                "id": "ui/controls/viewer.reel"
+            },
+            collectionNameExpression: "'VMWare Snapshots'",
+            creatorComponentModule: {
+                "id": "ui/sections/storage/inspectors/vmware-snapshot.reel"
+            },
+            nameExpression: "!!_isNew ? 'Add a VMWare Snapshot' : name",
+            sortExpression: "name"
+        }
     }
 });

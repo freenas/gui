@@ -3,10 +3,6 @@
     background: #2F3233;
 }
 
-.Overview .InspectorSectionTitle {
-    margin-bottom: .5em;
-}
-
 .Overview .ScrollviewContent { width: 100%; }
 
 .Overview-content {

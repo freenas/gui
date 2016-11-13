@@ -102,15 +102,6 @@ edits internal titles
     padding: 0;
 }
 
-.FoldableSection-content .InspectorSectionTitle:before {
-    content: '';
-    position: absolute;
-    left: 1em;
-    right: 0;
-    bottom: 0;
-    border-bottom: 1px solid rgba(255,255,255,.2);
-}
-
 .FoldableSection-contentContainer { padding: 1em 0; }
 .FoldableSection-contentContainer > *:last-child,
 .FoldableSection-contentContainer > *:last-child .Field {
