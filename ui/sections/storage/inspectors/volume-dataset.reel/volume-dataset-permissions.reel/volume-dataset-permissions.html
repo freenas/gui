@@ -63,6 +63,25 @@
             "bindings": {
                 "modes": {"<->": "@owner.object.permissions.modes"}
             }
+        },
+        "createdCondition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "createdCondition"}
+            },
+            "bindings": {
+                "condition": {"<-": "!@owner.object._isNew"}
+            }
+        },
+        "recursive": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "recursive"},
+                "label": "Recursive"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object._recursive"}
+            }
         }
     }
     </script>
@@ -73,6 +92,9 @@
             <div data-montage-id="ownerUser"></div>
             <div data-montage-id="ownerGroup"></div>
             <div data-montage-id="permissions"></div>
+            <div data-montage-id="createdCondition">
+                <div data-montage-id="recursive"></div>
+            </div>
         </div>
     </div>
 </body>

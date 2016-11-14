@@ -57,6 +57,22 @@ exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# *
         }
     },
 
+    _object: {
+        value: null
+    },
+
+    object: {
+        get: function() {
+            return this._object;
+        },
+        set: function(object) {
+            if (this._object !== object) {
+                this._object = object;
+                this._object._recursive = false;
+            }
+        }
+    },
+
     _inspectorTemplateDidLoad: {
         value:function() {
             var self = this;
@@ -128,7 +144,8 @@ exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# *
                 this.object.permissions = undefined;
             }
             this.application.storageService.convertVolumeDatasetSizeProperties(this.object);
-            return this.application.dataService.saveDataObject(this.object);
+
+            return this.inspector.save.apply(this.inspector, this.object._recursive ? [this.object._recursive] : []);
         }
     }
 });
