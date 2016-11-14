@@ -141,14 +141,21 @@
             }
         },
         "uploadConfig": {
-            "prototype": "blue-shark/ui/file-upload.reel",
+            "prototype": "blue-shark/ui/field-file-upload.reel",
             "properties": {
                 "element": {"#": "uploadConfig"},
-                "value": "Upload Config File",
-                "resultType": "text"
+                "label": "Upload Config File",
+                "resultType": "file"
             },
             "bindings": {
                  "data": {"<->": "@owner.configFile"}
+            }
+        },
+        "applyConfig": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "applyConfig"},
+                "value": "Apply Config File"
             }
         },
         "factoryRestore": {
@@ -166,6 +173,7 @@
         <div data-montage-id="inspector">
             <div data-montage-id="downloadConfig" class="g-margin-bottom--half" id="saveConfig"></div>
             <div data-montage-id="uploadConfig" class="g-margin-bottom--half"></div>
+            <div data-montage-id="applyConfig" class="g-margin-bottom--half"></div>
             <div data-montage-id="factoryRestore" ></div>
             <div data-montage-id="noOperation" class="Updates-noOperation"></div>
             <div data-montage-id="hostname"></div>
