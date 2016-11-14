@@ -33,15 +33,7 @@
                 "isTimeSeries": false,
                 "graphType": "stackedBar",
                 "xAxisLable": -90,
-                "metrics": [
-                    ["disk_octets", "read"],
-                    ["disk_octets", "write"]
-                ],
-                "removePrefix": "disk_octets.",
-                "removeSourcePrefix": "disk-"
-            },
-            "bindings": {
-                "sources": {"<-": "@owner.disks.map{'disk-' + name}"}
+                "delegate": {"@": "owner"}
             }
         }
     }
