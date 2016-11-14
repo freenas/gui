@@ -97,11 +97,6 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
             this.addEventListener("action", this, false);
             this._keyComposer.addEventListener("keyPress", this, false);
 
-            if(isFirstTime) {
-                this.addPathChangeListener("userName", this, "hasChanged");
-                this.addPathChangeListener("password", this, "hasChanged");
-            }
-
             // checks for disconnected hash
             if(window.location.href.indexOf("disconnected") > -1) {
                 this.hasError = true;
@@ -109,12 +104,6 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
                 history.pushState('', document.title, window.location.pathname);
             }
             this.userNameTextField.focus();
-        }
-    },
-
-    hasChanged: {
-        value: function () {
-            console.trace(this.userName);
         }
     },
 
