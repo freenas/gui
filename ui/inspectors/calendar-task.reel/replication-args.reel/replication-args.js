@@ -61,6 +61,12 @@ exports.ReplicationArgs = Component.specialize(/** @lends ReplicationArgs# */ {
         }
     },
 
+    save: {
+        value: function() {
+            this.args[0] = this.sourceDataset.pathInput.value;
+        }
+    },
+
     _extractTransportOptions: {
         value: function() {
             var transportOptions = this.args[2],
