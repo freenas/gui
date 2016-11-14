@@ -13,7 +13,7 @@ exports.StorageSectionService = AbstractSectionService.specialize({
         get: function() {
             var self = this;
             return this.__volumeServices ?
-                Promise.resolve(this.__volumeServices) : 
+                Promise.resolve(this.__volumeServices) :
                 Model.populateObjectPrototypeForType(Model.Volume).then(function (Volume) {
                     return self.__volumeServices = Volume.services;
                 });
@@ -28,7 +28,7 @@ exports.StorageSectionService = AbstractSectionService.specialize({
         get: function() {
             var self = this;
             return this.__diskServices ?
-                Promise.resolve(this.__diskServices) : 
+                Promise.resolve(this.__diskServices) :
                 Model.populateObjectPrototypeForType(Model.Disk).then(function (Disk) {
                     return self.__diskServices = Disk.services;
                 });
@@ -240,6 +240,15 @@ exports.StorageSectionService = AbstractSectionService.specialize({
         }
     },
 
+    getEncryptedVolumeActionsForVolume: {
+        value: function (volume) {
+            return this._storageRepository.getEncryptedVolumeActionsInstance().then(function (encryptedVolumeActions) {
+                encryptedVolumeActions.volume = volume;
+                return encryptedVolumeActions;
+            })
+        }
+    },
+
     importEncryptedVolume: {
         value: function(encryptedVolumeImporter) {
             return this._volumeServices.then(function(volumeServices) {
@@ -408,4 +417,3 @@ exports.StorageSectionService = AbstractSectionService.specialize({
     }
 
 });
-
