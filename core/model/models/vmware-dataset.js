@@ -139,6 +139,6 @@ exports.VmwareDataset = Montage.specialize({
             },
             nameExpression: "!!_isNew ? 'Add a VMWare Snapshot' : name",
             sortExpression: "name"
-        }
+        }    
     }
 });

@@ -10,7 +10,8 @@
             },
             "bindings": {
                 "selectedObject": {"<->": "@list.selectedObject"},
-                "classList.has('has-items')": {"<-": "@owner.object.length > 0"}
+                "hasItems": {"<-": "@owner.object.length > 0"},
+                "classList.has('has-items')": {"<-": "@owner.hasItems"}
             }
         },
         "controller": {
@@ -25,6 +26,9 @@
             "properties": {
                 "element": {"#": "list"},
                 "controller": {"@": "controller"}
+            },
+            "bindings": {
+                "showSubLabel": {"<-": "@owner.showSubLabel.defined() ? @owner.showSubLabel : @owner.object._meta_data.collectionModelType.constructor.userInterfaceDescriptor.subLabelExpression.defined()"}
             }
         },
 
@@ -82,6 +86,26 @@
             "bindings": {
                 "value": {"<-": "!!@owner.emptyMessage ? @owner.emptyMessage : 'There are currently no items in ' + @title.value"}
             }
+        },
+        "viewerControls": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "viewerControls"}
+            },
+            "bindings": {
+                "condition": {"<-": "@controls.moduleId"},
+                "classList.has('is-hidden')": {"<-": "!@viewerControls.condition || !@owner.hasItems"}
+            }
+        },
+        "controls": {
+            "prototype": "ui/controls/placeholder.reel",
+            "properties": {
+                "element": {"#": "controls"}
+            },
+            "bindings": {
+                "moduleId": {"<-": "@owner.object._meta_data.collectionModelType.constructor.userInterfaceDescriptor.listControlsComponentModule.id"},
+                "component.showSubLabel": {"<->": "@owner.showSubLabel"}
+            }
         }
     }
     </script>
@@ -90,6 +114,9 @@
     <div data-montage-id="owner" class="Viewer">
         <div data-montage-id="headerCondition">
             <div data-montage-id="title" class="Viewer-title"></div>
+        </div>
+        <div data-montage-id="viewerControls" class="Viewer-controls">
+            <div data-montage-id="controls"></div>
         </div>
         <div data-montage-id="scrollView">
             <div class="content">

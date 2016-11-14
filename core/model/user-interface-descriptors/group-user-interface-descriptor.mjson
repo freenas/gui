@@ -8,7 +8,9 @@
             "nameExpression": "name",
             "collectionNameExpression": "'Groups'",
             "creatorComponentModule": {"%": "ui/inspectors/group.reel"},
-            "nameExpression": "id.defined() ? name : 'Create a group'"
+            "nameExpression": "id.defined() ? name : 'Create a group'",
+            "listControlsComponentModule": {"%": "ui/accounts/accounts-list-options.reel"},
+            "subLabelExpression": "origin.domain"
         }
     }
 }

@@ -66,6 +66,19 @@ exports.Group = Montage.specialize({
             return this._name;
         }
     },
+    _origin: {
+        value: null
+    },
+    origin: {
+        set: function (value) {
+            if (this._origin !== value) {
+                this._origin = value;
+            }
+        },
+        get: function () {
+            return this._origin;
+        }
+    },
     _sid: {
         value: null
     },
@@ -118,6 +131,10 @@ exports.Group = Montage.specialize({
             valueType: "String"
         }, {
             mandatory: false,
+            name: "origin",
+            valueType: "object"
+        }, {
+            mandatory: false,
             name: "sid",
             readOnly: true,
             valueType: "String"
@@ -142,7 +159,11 @@ exports.Group = Montage.specialize({
             collectionNameExpression: "'Groups'",
             creatorComponentModule: {
                 id: 'ui/inspectors/group.reel'
-            }
+            },
+            listControlsComponentModule: {
+                id: 'ui/accounts/accounts-list-options.reel'
+            },
+            subLabelExpression: "origin.domain"
         }
     }
 });
