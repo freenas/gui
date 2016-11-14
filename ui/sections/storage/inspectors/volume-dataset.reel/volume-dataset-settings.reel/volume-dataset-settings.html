@@ -120,7 +120,7 @@
                 "element": {"#": "rootDatasetCondition"}
             },
             "bindings": {
-                "condition": {"<-": "@owner.object.id != @owner.object.volume"}
+                "condition": {"<-": "@owner.object.type == 'FILESYSTEM' && @owner.object.id != @owner.object.volume"}
             }
         },
         "volsize": {
@@ -163,6 +163,25 @@
             "bindings": {
                 "value": {"<-": "@owner.object.properties.volblocksize.parsed"}
             }
+        },
+        "createdCondition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "createdCondition"}
+            },
+            "bindings": {
+                "condition": {"<-": "!@owner.object._isNew"}
+            }
+        },
+        "last_replication": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "last_replication"},
+                "label": "Last Replication"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.last_replicated_at ? (@owner.object.last_replicated_at['$date'] + ' By ' + @owner.object.last_replicated_by) : ''"}
+            }
         }
     }
     </script>
@@ -174,14 +193,6 @@
         <div data-montage-id="typeSubstitution">
             <div data-arg="FILESYSTEM">
                 <div data-montage-id="atime"></div>
-                <div data-montage-id="rootDatasetCondition">
-                    <div data-montage-id="advancedSection">
-                        <div data-montage-id="quota"></div>
-                        <div data-montage-id="refquota"></div>
-                        <div data-montage-id="reservation"></div>
-                        <div data-montage-id="refreservation"></div>
-                    </div>
-                </div>
             </div>
             <div data-arg="VOLUME">
                 <div data-montage-id="volsize"></div>
@@ -189,6 +200,17 @@
                     <div data-montage-id="volblocksize" data-arg="edit"></div>
                     <div data-montage-id="volblocksizeDisplay" data-arg="display"></div>
                 </div>
+            </div>
+        </div>
+        <div data-montage-id="createdCondition">
+            <div data-montage-id="last_replication"></div>
+        </div>
+        <div data-montage-id="rootDatasetCondition">
+            <div data-montage-id="advancedSection">
+                <div data-montage-id="quota"></div>
+                <div data-montage-id="refquota"></div>
+                <div data-montage-id="reservation"></div>
+                <div data-montage-id="refreservation"></div>
             </div>
         </div>
     </div>
