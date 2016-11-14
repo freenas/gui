@@ -19,8 +19,7 @@ var EventDispatcherService = (function () {
     };
     EventDispatcherService.prototype.dispatch = function (eventName, detail) {
         if (this.listeners.has(eventName)) {
-            var handlers = this.listeners.get(eventName).values(),
-                handler = handlers.next().value;
+            var handlers = this.listeners.get(eventName).values(), handler = handler.next().value;
             while (typeof handler === 'function') {
                 handler.call(detail);
                 handler = handlers.next().value;

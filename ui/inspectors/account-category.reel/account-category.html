@@ -35,7 +35,8 @@
                 "element": {"#": "user"}
             },
             "bindings": {
-                "object": {"<-": "@owner.object.user"}
+                "object": {"<-": "@owner.object.users.filter{!builtin}"},
+                "objectType": {"<-": "@owner.object.userType"}
             }
         },
 
@@ -45,7 +46,8 @@
                 "element": {"#": "group"}
             },
             "bindings": {
-                "object": {"<-": "@owner.object.group"}
+                "object": {"<-": "@owner.object.groups.filter{!builtin}"},
+                "objectType": {"<-": "@owner.object.groupType"}
             }
         },
 
@@ -55,7 +57,8 @@
                 "element": {"#": "system"}
             },
             "bindings": {
-                "object": {"<-": "@owner.object.system"}
+                "object": {"<-": "@owner.object.users.filter{builtin}.concat(@owner.object.groups.filter{builtin})"},
+                "objectType": {"<-": "@owner.object.systemType"}
             }
         },
 
