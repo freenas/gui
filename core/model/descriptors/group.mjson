@@ -41,6 +41,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_group_origin": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "origin",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
   "blueprint_group_sid": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -68,6 +76,7 @@
         {"@": "blueprint_group_id"},
         {"@": "blueprint_group_members"},
         {"@": "blueprint_group_name"},
+        {"@": "blueprint_group_origin"},
         {"@": "blueprint_group_sid"},
         {"@": "blueprint_group_sudo"}
       ]

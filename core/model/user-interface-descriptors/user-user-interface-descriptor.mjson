@@ -7,7 +7,9 @@
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "collectionNameExpression": "'Users'",
             "creatorComponentModule": {"%": "ui/inspectors/user.reel"},
-            "nameExpression": "id.defined() ? username : 'Create a user'"
+            "nameExpression": "id.defined() ? username : 'Create a user'",
+            "listControlsComponentModule": {"%": "ui/accounts/accounts-list-options.reel"},
+            "subLabelExpression": "origin.domain"
         }
     }
 }

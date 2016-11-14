@@ -3232,6 +3232,11 @@
                 "name": "call",
                 "namespace": "rpc"
             },
+            "submitWithUpload": {
+                "method": "task.submit_with_upload",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "wait": {
                 "method": "task.wait",
                 "name": "call",
@@ -3857,11 +3862,23 @@
                 "namespace": "rpc",
                 "task": "volume.keys.backup"
             },
+            "keysBackupToFile": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "volume.keys.backup_to_file"
+            },
             "keysRestore": {
                 "method": "task.submit",
                 "name": "call",
                 "namespace": "rpc",
                 "task": "volume.keys.restore"
+            },
+            "keysRestoreFromFile": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "volume.keys.restore_from_file"
             },
             "lock": {
                 "method": "task.submit",

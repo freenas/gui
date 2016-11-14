@@ -26,6 +26,7 @@ exports.List = Component.specialize({
                         self.listItemModuleId = collectionItemComponentModule ?
                             collectionItemComponentModule.id : DEFAULT_LIST_ITEM_MODULE_ID;
 
+
                     }).catch(function (error) {
                         console.warn(error);
                         self.listItemModuleId = DEFAULT_LIST_ITEM_MODULE_ID;
@@ -43,7 +44,7 @@ exports.List = Component.specialize({
     enterDocument: {
         value: function() {
             if (this.selectedObject && this.controller.selection[0] !== this.selectedObject) {
-                this.dispatchOwnPropertyChange("selectedObject", this.selectedObject); 
+                this.dispatchOwnPropertyChange("selectedObject", this.selectedObject);
             }
         }
     }

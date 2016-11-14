@@ -11,7 +11,8 @@
                 "FILESYSTEM": "ui/icons/directory.reel",
                 "VOLUME": "ui/icons/volume.reel"
             },
-            "iconValueExpression": "type"
+            "iconValueExpression": "type",
+            "subLabelExpression": "properties.used.value + ' / ' + properties.available.value + ' (' + (properties.used.parsed / properties.available.parsed * 100).toFixed(0) + '%)'"
         }
     }
 }

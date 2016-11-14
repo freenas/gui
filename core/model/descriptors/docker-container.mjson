@@ -7,6 +7,14 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_dockercontainer_bridge": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "bridge",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
   "blueprint_dockercontainer_command": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -166,6 +174,7 @@
       "name": "DockerContainer",
       "propertyBlueprints": [
         {"@": "blueprint_dockercontainer_autostart"},
+        {"@": "blueprint_dockercontainer_bridge"},
         {"@": "blueprint_dockercontainer_command"},
         {"@": "blueprint_dockercontainer_environment"},
         {"@": "blueprint_dockercontainer_exec_ids"},
