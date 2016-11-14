@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="encrypted-volume-actions.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "substitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "substitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "!!@owner.object.providers + ''"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="EncryptedVolumeActions">
+        <div data-montage-id="substitution">
+            <div data-arg="true">
+                <div data-montage-id="lock"></div>
+            </div>
+            <div data-arg="true">
+                <div data-montage-id="unlock"></div>
+            </div>
+            <div data-montage-id="rekey"></div>
+            <div data-montage-id="backupKey"></div>
+            <div data-montage-id="restoreKey"></div>
+        </div>
+    </div>
+</body>
+</html>
