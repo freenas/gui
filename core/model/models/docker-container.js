@@ -14,6 +14,19 @@ exports.DockerContainer = Montage.specialize({
             return this._autostart;
         }
     },
+    _bridge: {
+        value: null
+    },
+    bridge: {
+        set: function (value) {
+            if (this._bridge !== value) {
+                this._bridge = value;
+            }
+        },
+        get: function () {
+            return this._bridge;
+        }
+    },
     _command: {
         value: null
     },
@@ -267,6 +280,10 @@ exports.DockerContainer = Montage.specialize({
             mandatory: false,
             name: "autostart",
             valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "bridge",
+            valueType: "object"
         }, {
             mandatory: false,
             name: "command",
