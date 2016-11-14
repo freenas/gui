@@ -85,3 +85,9 @@
     font-size: .6em;
     margin-right: .5rem;
 }
+
+.ListItem-info {
+    font-weight: normal;
+    font-size: 0.8em;
+    margin-left: 2em;
+}

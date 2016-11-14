@@ -259,7 +259,8 @@ exports.VolumeDataset = Montage.specialize({
                 id: 'ui/controls/viewer.reel'
             },
             collectionNameExpression: "'Datasets'",
-            nameExpression: "name"
+            nameExpression: "name",
+            infoExpression: "properties.used.value + ' / ' + properties.available.value + ' (' + (properties.used.parsed / properties.available.parsed * 100).toFixed(0) + '%)'"
         }
     }
 });
