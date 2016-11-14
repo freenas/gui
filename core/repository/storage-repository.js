@@ -11,6 +11,7 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
     VmwareDatasetDao = require("core/dao/vmware-dataset-dao").VmwareDatasetDao,
     VmwareDatastoreDao = require("core/dao/vmware-datastore-dao").VmwareDatastoreDao,
     DisksAllocationType = require("core/model/enumerations/disks-allocation-type").DisksAllocationType,
+    EncryptedVolumeActionsDao = require("core/dao/encrypted-volume-actions-dao").EncryptedVolumeActionsDao,
     Model = require("core/model/model").Model;
 
 exports.StorageRepository = AbstractRepository.specialize({
@@ -22,7 +23,7 @@ exports.StorageRepository = AbstractRepository.specialize({
         get: function() {
             var self = this;
             return this.__volumeServices ?
-                Promise.resolve(this.__volumeServices) : 
+                Promise.resolve(this.__volumeServices) :
                 Model.populateObjectPrototypeForType(Model.Volume).then(function (Volume) {
                     return self.__volumeServices = Volume.constructor.services;
                 });
@@ -30,7 +31,7 @@ exports.StorageRepository = AbstractRepository.specialize({
     },
 
     init: {
-        value: function(volumeDao, shareDao, volumeDatasetDao, volumeSnapshotDao, diskDao, volumeImporterDao, encryptedVolumeImporterDao, detachedVolumeDao, importableDiskDao, vmwareDatasetDao, vmwareDatastoreDao) {
+        value: function(volumeDao, shareDao, volumeDatasetDao, volumeSnapshotDao, diskDao, volumeImporterDao, encryptedVolumeImporterDao, detachedVolumeDao, vmwareDatasetDao, vmwareDatastoreDao, encryptedVolumeActionsDao) {
             this._volumeDao = volumeDao || VolumeDao.instance;
             this._shareDao = shareDao || ShareDao.instance;
             this._volumeDatasetDao = volumeDatasetDao || VolumeDatasetDao.instance;
@@ -42,6 +43,7 @@ exports.StorageRepository = AbstractRepository.specialize({
             this._importableDiskDao = importableDiskDao || ImportableDiskDao.instance;
             this._vmwareDatasetDao = vmwareDatasetDao || VmwareDatasetDao.instance;
             this._vmwareDatastoreDao = vmwareDatastoreDao || VmwareDatastoreDao.instance;
+            this._encryptedVolumeActionsDao = encryptedVolumeActionsDao || EncryptedVolumeActionsDao.instance;
 
             this._availableDisks = [];
             this._detachedVolumes = [];
@@ -71,7 +73,7 @@ exports.StorageRepository = AbstractRepository.specialize({
         value: function() {
             var self = this,
                 promise;
-            return this._volumesPromise || 
+            return this._volumesPromise ||
                 (this._volumesPromise = this._volumeDao.list().then(function(volumes) {
                     return self._volumes = volumes;
                 }));
@@ -168,7 +170,7 @@ exports.StorageRepository = AbstractRepository.specialize({
                 x.isReserved = false;
             });
             return this.listAvailableDisks(true);
-        }    
+        }
     },
 
     clearTemporaryAvailableDisks: {
@@ -176,7 +178,7 @@ exports.StorageRepository = AbstractRepository.specialize({
             this._disks.map(function(x) {
                 x.isTemporaryAvailable = false;
             });
-        }    
+        }
     },
 
     markDiskAsReserved: {
@@ -211,7 +213,7 @@ exports.StorageRepository = AbstractRepository.specialize({
                     x.isReserved = false;
                     x.isAvailable = availableDisks.indexOf(x.path) !== -1
                     return x;
-                }).filter(function(x) { 
+                }).filter(function(x) {
                     return x.isAvailable;
                 });
             });
@@ -242,11 +244,17 @@ exports.StorageRepository = AbstractRepository.specialize({
                 return encryptedVolumeImporter;
             });
         }
+    },
+
+    getEncryptedVolumeActionsInstance: {
+        value: function () {
+            return this._encryptedVolumeActionsDao.getNewInstance();
+        }
     }
 });
 
 function availableDisksSorter(a, b) {
-    return a.status.is_ssd ? 
+    return a.status.is_ssd ?
                 b.status.is_ssd ?
                     a.name > b.name ? 1 : -1 :
                     1 :
