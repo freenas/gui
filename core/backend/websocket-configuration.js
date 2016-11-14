@@ -63,7 +63,8 @@ WebSocketConfiguration.prototype._makeURL = function () {
 
 
 var _defaultConfiguration = null,
-    _shellConfiguration = null;
+    _shellConfiguration = null,
+    _fileUploadConfiguration;
 Object.defineProperties(WebSocketConfiguration, {
     defaultConfiguration: {
         get: function () {
@@ -111,23 +112,23 @@ Object.defineProperties(WebSocketConfiguration, {
 
     fileUploadConfiguration: {
         get: function () {
-            if (!_shellConfiguration) {
-                _shellConfiguration = new WebSocketConfiguration();
+            if (!_fileUploadConfiguration) {
+                _fileUploadConfiguration = new WebSocketConfiguration();
 
                 var domain = document.domain;
 
-                _shellConfiguration._store.set(WebSocketConfiguration.KEYS.SECURE, window.location.protocol === "https:");
-                _shellConfiguration._store.set(WebSocketConfiguration.KEYS.PORT, "80");
-                _shellConfiguration._store.set(WebSocketConfiguration.KEYS.PATH, "/dispatcher/file");
-                _shellConfiguration._store.set(WebSocketConfiguration.KEYS.TIMEOUT, 30000);
+                _fileUploadConfiguration._store.set(WebSocketConfiguration.KEYS.SECURE, window.location.protocol === "https:");
+                _fileUploadConfiguration._store.set(WebSocketConfiguration.KEYS.PORT, "80");
+                _fileUploadConfiguration._store.set(WebSocketConfiguration.KEYS.PATH, "/dispatcher/file");
+                _fileUploadConfiguration._store.set(WebSocketConfiguration.KEYS.TIMEOUT, 30000);
 
-                _shellConfiguration._store.set(
+                _fileUploadConfiguration._store.set(
                     WebSocketConfiguration.KEYS.HOST,
                     (domain === "localhost" || domain === "127.0.0.1") ? WebSocketConfiguration.SERVER_HOST : domain
                 );
             }
 
-            return _shellConfiguration;
+            return _fileUploadConfiguration;
         }
     }
 });
