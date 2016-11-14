@@ -34,8 +34,8 @@
                 "element": {"#": "subLabel"}
             },
             "bindings": {
-                "classList.has('is-hidden')": {"<-": "!@owner.hasSubLabel"},
-                "value": {"<-": "@owner.object.path(@owner.userInterfaceDescriptor.subLabelExpression)"}
+                "value": {"<-": "@owner.object.path(@owner.userInterfaceDescriptor.subLabelExpression)"},
+                "classList.has('is-hidden')": {"<-": "!@owner.showSubLabel"}
             }
         },
         "imageComponent": {

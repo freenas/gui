@@ -6,7 +6,8 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "showSubLabel": false
             }
         },
         "checkbox": {
@@ -16,7 +17,7 @@
                 "label": "show domain names"
             },
             "bindings": {
-                "checked": {"<->": "@owner.hasSubLabel"}
+                "checked": {"<->": "@owner.showSubLabel"}
             }
         }
     }

@@ -28,7 +28,7 @@
                 "controller": {"@": "controller"}
             },
             "bindings": {
-                "hasSubLabel": {"<-": "@owner.hasSubLabel"}
+                "showSubLabel": {"<-": "@owner.showSubLabel.defined() ? @owner.showSubLabel : @owner.object._meta_data.collectionModelType.constructor.userInterfaceDescriptor.subLabelExpression.defined()"}
             }
         },
 
@@ -104,7 +104,7 @@
             },
             "bindings": {
                 "moduleId": {"<-": "@owner.object._meta_data.collectionModelType.constructor.userInterfaceDescriptor.listControlsComponentModule.id"},
-                "component.hasSubLabel": {"<->": "@owner.hasSubLabel"}
+                "component.showSubLabel": {"<->": "@owner.showSubLabel"}
             }
         }
     }
