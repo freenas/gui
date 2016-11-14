@@ -237,6 +237,10 @@
             "type": "EncryptReplicationTransportPlugin"
         },
         {
+            "modelId": "core/model/models/encrypted-volume-actions.js",
+            "type": "EncryptedVolumeActions"
+        },
+        {
             "modelId": "core/model/models/encrypted-volume-importer.js",
             "type": "EncryptedVolumeImporter"
         },
