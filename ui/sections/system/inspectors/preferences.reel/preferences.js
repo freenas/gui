@@ -3,6 +3,7 @@
  */
 var Component = require("montage/ui/component").Component,
     Promise = require("montage/core/promise").Promise,
+    FilesystemService = require("core/service/filesystem-service").FilesystemService,
     Model = require("core/model/model").Model;
 
 /**
@@ -25,6 +26,12 @@ exports.Preferences = Component.specialize(/** @lends Preferences# */ {
                     downloadLink.download = "FreeNAS10" + "-" + self.systemVersion + "-" + todayString + "-" + "database.db";
                     downloadLink.click();
             })
+        }
+    },
+
+    handleApplyConfigAction: {
+        value: function () {
+            this._filesystemService.restoreDatabase();
         }
     },
 
@@ -61,6 +68,12 @@ exports.Preferences = Component.specialize(/** @lends Preferences# */ {
 
     datasetOptions: {
         value: []
+    },
+
+    templateDidLoad: {
+        value: function() {
+            this._filesystemService = FilesystemService.instance;
+        }
     },
 
     enterDocument: {
