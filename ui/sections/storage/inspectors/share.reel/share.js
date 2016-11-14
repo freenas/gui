@@ -174,21 +174,7 @@ exports.Share = AbstractInspector.specialize({
             if (this.object._isNew) {
                 this.isPathReadOnly = true;
             }
-            return this._shareService.save(this.object).then(function() {
-                if (self.serviceEnabled !== self.service.config.enable) {
-                    if (self.serviceEnabled) {
-                        self._startService();
-                    } else {
-                        self._stopService();
-                    }
-                }
-                if (self.object._isNew) {
-                    self.isPathReadOnly = false;
-                }
-            }, function(err) {
-                self._object._selected_path = self.treeControllers[self.targetType].selectedPath;
-                throw err;
-            });
+            return this._shareService.save(this.object, this.serviceEnabled);
         }
     },
 

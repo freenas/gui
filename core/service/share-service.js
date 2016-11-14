@@ -124,7 +124,7 @@ var ShareService = exports.ShareService = Montage.specialize({
     },
 
     save: {
-        value: function (shareObject) {
+        value: function (shareObject, isServiceEnabled) {
             //FIXME: workaround for the SELECT component. Future dead code.
             if (shareObject.type === this.constructor.SHARE_TYPES.NFS) {
                 var properties = shareObject.properties;
@@ -136,15 +136,15 @@ var ShareService = exports.ShareService = Montage.specialize({
             }
 
             if (shareObject.type === this.constructor.SHARE_TYPES.ISCSI) {
-                return this._saveIscsiShareObject(shareObject);
+                return this._saveIscsiShareObject(shareObject, isServiceEnabled);
             }
 
-            return this._dataService.saveDataObject(shareObject)
+            return this._dataService.saveDataObject(shareObject, null, isServiceEnabled)
         }
     },
 
     _saveIscsiShareObject: {
-        value: function (shareObject) {
+        value: function (shareObject, isServiceEnabled) {
             var self = this,
                 isNewShareObject = shareObject._isNewObject,
                 blockSize = shareObject.properties.block_size,
@@ -180,7 +180,7 @@ var ShareService = exports.ShareService = Montage.specialize({
                     target.extents = [extentObject];
                 }
 
-                return self._dataService.saveDataObject(target); // save share-iscsi-target
+                return self._dataService.saveDataObject(target, null, isServiceEnabled); // save share-iscsi-target
             });
         }
     },
