@@ -66,6 +66,24 @@ exports.ChartLive = Component.specialize({
         }
     },
 
+    getChartKey: {
+        value: function(source, metric, suffix, isTimeSeries) {
+            if (this.delegate && typeof this.delegate.getChartKey === 'function') {
+                return this.delegate.getChartKey.apply(this.delegate, arguments);
+            }
+            return null;
+        }
+    },
+
+    getChartLabel: {
+        value: function(source, metric, suffix, isTimeSeries) {
+            if (this.delegate && typeof this.delegate.getChartLabel === 'function') {
+                return this.delegate.getChartLabel.apply(this.delegate, arguments);
+            }
+            return null;
+        }
+    },
+
     _handleDatasourcesChange: {
         value: function() {
             this._initializeData();
@@ -103,18 +121,17 @@ exports.ChartLive = Component.specialize({
             suffix = suffix || 'value';
             var self = this,
                 path = source.children[metric].path.join('.') + '.' + suffix,
-                key =   [
-                            metric, 
+                key  = this.getChartKey(source, metric, suffix) ||
+                        [
+                            metric,
                             hasSuffix ? suffix : ''
                         ]
-                            .filter(function(x) { return x.length })
+                            .filter(function(x) { return x.length; })
                             .join('.')
                             .replace(prefix, ''),
-                serie = {
-                    key: key
-                },
                 event = path + '.pulse',
-                label = self.removeSourcePrefix ? source.label.replace(self.removeSourcePrefix, "") : source.label;
+                label = this.getChartLabel(source, metric, suffix) ||
+                        (self.removeSourcePrefix ? source.label.replace(self.removeSourcePrefix, "") : source.label);
 
             return self._statisticsService.getDatasourceCurrentValue(path).then(function (value) {
                 var currentValue = value ?  +value[1] : 0;
@@ -143,11 +160,15 @@ exports.ChartLive = Component.specialize({
             suffix = suffix || 'value';
             var self = this,
                 path = source.children[metric].path.join('.') + '.' + suffix,
-                key = [
-                    this._datasources.length > 1 ? source.label : '', 
-                    metric, 
-                    hasSuffix ? suffix : ''
-                ].filter(function(x) { return x.length }).join('.').replace(prefix, ''),
+                key  = this.getChartKey(source, metric, suffix, true) ||
+                        [
+                            this._datasources.length > 1 ? source.label : '',
+                            metric,
+                            hasSuffix ? suffix : ''
+                        ]
+                            .filter(function(x) { return x.length; })
+                            .join('.')
+                            .replace(prefix, ''),
                 series = {
                     key: key
                 },
@@ -156,7 +177,7 @@ exports.ChartLive = Component.specialize({
             return self._statisticsService.getDatasourceHistory(path).then(function (values) {
                 series.values = values.map(function (value) {
                         return {
-                            x: self._dateToTimestamp(value[0]),
+                            x: self.getChartLabel(source, metric, suffix, true) || self._dateToTimestamp(value[0]),
                             y: self.transformValue(+value[1])
                         }
                     });
