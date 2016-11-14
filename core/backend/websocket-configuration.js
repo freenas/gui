@@ -64,7 +64,8 @@ WebSocketConfiguration.prototype._makeURL = function () {
 
 var _defaultConfiguration = null,
     _shellConfiguration = null,
-    _fileUploadConfiguration;
+    _fileUploadConfiguration,
+    _consoleConfiguration;
 Object.defineProperties(WebSocketConfiguration, {
     defaultConfiguration: {
         get: function () {
@@ -129,6 +130,28 @@ Object.defineProperties(WebSocketConfiguration, {
             }
 
             return _fileUploadConfiguration;
+        }
+    },
+
+    consoleConfiguration: {
+        get: function () {
+            if (!_consoleConfiguration) {
+                _consoleConfiguration = new WebSocketConfiguration();
+
+                var domain = document.domain;
+
+                _consoleConfiguration._store.set(WebSocketConfiguration.KEYS.SECURE, window.location.protocol === "https:");
+                _consoleConfiguration._store.set(WebSocketConfiguration.KEYS.PORT, "80");
+                _consoleConfiguration._store.set(WebSocketConfiguration.KEYS.PATH, "/containerd/console");
+                _consoleConfiguration._store.set(WebSocketConfiguration.KEYS.TIMEOUT, 30000);
+
+                _consoleConfiguration._store.set(
+                    WebSocketConfiguration.KEYS.HOST,
+                    (domain === "localhost" || domain === "127.0.0.1") ? WebSocketConfiguration.SERVER_HOST : domain
+                );
+            }
+
+            return _consoleConfiguration;
         }
     }
 });
