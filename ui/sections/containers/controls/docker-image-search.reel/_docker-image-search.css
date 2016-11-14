@@ -1,0 +1,20 @@
+.DockerImageSearch {
+
+}
+
+.DockerImageSearch-table .Table-row > div:nth-child(1),
+.DockerImageSearch-table .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(1) {
+    min-width: 11em;
+}
+
+.DockerImageSearch-table .Table-row > div:nth-child(2),
+.DockerImageSearch-table .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(2) {
+    min-width: 13em;
+}
+
+.DockerImageSearch-table .Table-row > div:nth-child(2) .Table-cell { word-break: initial; }
+
+.DockerImageSearch-table .Table-row > div:nth-child(3),
+.DockerImageSearch-table .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(3) {
+    min-width: 5em;
+}
