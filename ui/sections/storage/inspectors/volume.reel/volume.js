@@ -9,6 +9,15 @@ exports.Volume = AbstractInspector.specialize({
         value: null
     },
 
+    enterDocument: {
+        value: function () {
+            var self = this;
+            this._sectionService.getEncryptedVolumeActionsForVolume(this.object).then(function (encryptedVolumeActions) {
+                self.encryptedVolumeActions = encryptedVolumeActions;
+            });
+        }
+    },
+
     _inspectorTemplateDidLoad: {
         value:function() {
             var self = this;

@@ -57,6 +57,15 @@
                 "isConfirmationVisible": {"<-": "@owner.isConfirmationVisible"}
             }
         },
+        "encryptionActions": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "encryptionActions"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.encryptedVolumeActions"}
+            }
+        },
         "shares": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
