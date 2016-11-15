@@ -32,8 +32,8 @@
 
 .TaskCategory.is-displayed .TaskCategory-name { color: #E0E5E5; }
 
-.TaskCategory.type-rsync                                        { color: #D95B1B; border-color: currentColor; }
-.TaskCategory.type-rsync.is-displayed .TaskCategory-name        { background-color: #D95B1B; }
+.TaskCategory.type-rsync_copy                                        { color: #D95B1B; border-color: currentColor; }
+.TaskCategory.type-rsync_copy.is-displayed .TaskCategory-name        { background-color: #D95B1B; }
 
 .TaskCategory.type-volume_scrub                                             { color: #093A51; }
 .TaskCategory.type-volume_scrub.is-displayed .TaskCategory-name             { background-color: #093A51; }
