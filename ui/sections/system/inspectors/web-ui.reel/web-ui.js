@@ -1,14 +1,7 @@
-/**
- * @module ui/web-ui.reel
- */
-var Component = require("montage/ui/component").Component,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     Model = require("core/model/model").Model;
 
-/**
- * @class WebUi
- * @extends Component
- */
-exports.WebUi = Component.specialize(/** @lends WebUi# */ {
+exports.WebUi = AbstractInspector.specialize(/** @lends WebUi# */ {
 
     PROTOCOL_OPTIONS: {
         value: [
@@ -29,19 +22,18 @@ exports.WebUi = Component.specialize(/** @lends WebUi# */ {
     certificates: {
         value: null
     },
-
-    enterDocument: {
-        value: function(isFirstTime) {
+    
+    _inspectorTemplateDidLoad: {
+        value: function() {
             var self = this;
-            if(isFirstTime) {
-                this.isLoading = true;
+            return Promise.all([
                 this.application.systemUIService.getUIData().then(function(uiData) {
-                    self.object = uiData;
+                    self.config = uiData;
                     self._snapshotDataObjectsIfNecessary();
-                });
-                return this.application.dataService.fetchData(Model.CryptoCertificate).then(function (certificates) {
+                }),
+                this.application.dataService.fetchData(Model.CryptoCertificate).then(function (certificates) {
                     self.certificates = certificates.filter(self._isCertificate);
-                });
+                }),
                 Model.populateObjectPrototypeForType(Model.NetworkConfig).then(function(networkConfig) {
                     return networkConfig.constructor.services.getMyIps();
                 }).then(function(ipData){
@@ -54,29 +46,27 @@ exports.WebUi = Component.specialize(/** @lends WebUi# */ {
                     }
                     self.IPv4_OPTIONS.unshift({label:"all", value: "0.0.0.0"});
                     self.IPv6_OPTIONS.unshift({label:"all", value: "::"});
-                });
-                self.isLoading = false;
-            }
+                })
+            ]);
         }
     },
 
     save: {
         value: function() {
-            return this.application.systemUIService.saveUIData(this.object);
+            return this.application.systemUIService.saveUIData(this.config);
         }
     },
 
     revert: {
         value: function() {
-            this.object.webui_protocol = this._object.webui_protocol;
-            this.object.ipv4 = this._object.ipv4
-            this.object.ipv6 = this._object.ipv6
-            this.object.webui_http_port = this._object.webui_http_port
-            this.object.webui_https_port = this._object.webui_https_port
-            this.object.webui_https_certificate = this._object.webui_https_certificate
-            this.object.webui_http_redirect_https = this._object.webui_http_redirect_https
-            this.object.webui_listen = this._object.webui_listen
-
+            this.config.webui_protocol = this._config.webui_protocol;
+            this.config.ipv4 = this._config.ipv4
+            this.config.ipv6 = this._config.ipv6
+            this.config.webui_http_port = this._config.webui_http_port
+            this.config.webui_https_port = this._config.webui_https_port
+            this.config.webui_https_certificate = this._config.webui_https_certificate
+            this.config.webui_http_redirect_https = this._config.webui_http_redirect_https
+            this.config.webui_listen = this._config.webui_listen
         }
     },
 
@@ -88,8 +78,8 @@ exports.WebUi = Component.specialize(/** @lends WebUi# */ {
 
     _snapshotDataObjectsIfNecessary: {
         value: function() {
-            if(!this._object) {
-                this._object = this.application.dataService.clone(this.object);
+            if(!this._config) {
+                this._config = this.application.dataService.clone(this.config);
             }
         }
     }

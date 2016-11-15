@@ -38,7 +38,7 @@
             },
             "bindings": {
                 "options" : {"<-": "@owner.PROTOCOL_OPTIONS"},
-                "selectedValue": {"<->": "@owner.object.webui_protocol"}
+                "selectedValue": {"<->": "@owner.config.webui_protocol"}
             }
         },
         "ipv4": {
@@ -49,7 +49,7 @@
             },
             "bindings": {
                 "options" : {"<-": "@owner.IPv4_OPTIONS"},
-                "selectedValue": {"<->": "@owner.object.ipv4"}
+                "selectedValue": {"<->": "@owner.config.ipv4"}
             }
         },
         "ipv6": {
@@ -60,7 +60,7 @@
             },
             "bindings": {
                 "options" : {"<-": "@owner.IPv6_OPTIONS"},
-                "selectedValue": {"<->": "@owner.object.ipv6"}
+                "selectedValue": {"<->": "@owner.config.ipv6"}
             }
         },
         "AllowAllIPAddress": {
@@ -75,8 +75,8 @@
                 "emptyMessage": "No IP addresses allowed"
             },
             "bindings": {
-                "values": {"<->": "@owner.object.webui_listen"},
-                "placeholder": {"<-": "!@owner.object.webui_listen ? 'eg. example.com' : ''"}
+                "values": {"<->": "@owner.config.webui_listen"},
+                "placeholder": {"<-": "!@owner.config.webui_listen ? 'eg. example.com' : ''"}
             }
         },
         "RedirectHTTP": {
@@ -86,7 +86,7 @@
                 "label": "HTTP -> HTTPS Redirect"
             },
             "bindings": {
-                "checked": {"<->": "@owner.object.webui_http_redirect_https"}
+                "checked": {"<->": "@owner.config.webui_http_redirect_https"}
             }
         },
         "httpPortValidator": {
@@ -111,7 +111,7 @@
                 "converter" : {"@": "httpPortConverter"}
             },
             "bindings": {
-                "value": {"<->": "@owner.object.webui_http_port"}
+                "value": {"<->": "@owner.config.webui_http_port"}
             }
         },
         "httpsPort": {
@@ -122,7 +122,7 @@
                 "converter" : {"@": "httpPortConverter"}
             },
             "bindings": {
-                "value": {"<->": "@owner.object.webui_https_port"}
+                "value": {"<->": "@owner.config.webui_https_port"}
             }
         },
         "certificatesConverter": {
@@ -141,7 +141,7 @@
             },
             "bindings": {
                 "options": {"<-": "@owner.certificates"},
-                "selectedValue": {"<->": "@owner.object.webui_https_certificate"}
+                "selectedValue": {"<->": "@owner.config.webui_https_certificate"}
             }
         }
     }
