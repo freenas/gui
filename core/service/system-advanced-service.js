@@ -29,7 +29,7 @@ var SystemAdvancedService = exports.SystemAdvancedService = Montage.specialize({
     getDebugCollectAddress: {
         value: function(){
             return Model.populateObjectPrototypeForType(Model.Task).then(function (Task) {
-                return Task.constructor.services.submitWithDownload("debug.collect", [["freenasdebug.tar.gz"]]);
+                return Task.constructor.services.submitWithDownload("debug.collect", ["freenasdebug.tar.gz"]);
             })
         }
     },
@@ -53,7 +53,7 @@ var SystemAdvancedService = exports.SystemAdvancedService = Montage.specialize({
     getConfigFileAddress: {
         value: function () {
             return Model.populateObjectPrototypeForType(Model.Task).then(function (Task) {
-                return Task.constructor.services.submitWithDownload("database.dump",  [["freenas10.db"]]);
+                return Task.constructor.services.submitWithDownload("database.dump",  ["freenas10.db"]);
             })
         }
     },
