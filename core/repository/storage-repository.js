@@ -7,6 +7,7 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
     VolumeImporterDao = require("core/dao/volume-importer-dao").VolumeImporterDao,
     EncryptedVolumeImporterDao = require("core/dao/encrypted-volume-importer-dao").EncryptedVolumeImporterDao,
     DetachedVolumeDao = require("core/dao/detached-volume-dao").DetachedVolumeDao,
+    ImportableDiskDao = require("core/dao/importable-disk-dao").ImportableDiskDao,
     VmwareDatasetDao = require("core/dao/vmware-dataset-dao").VmwareDatasetDao,
     VmwareDatastoreDao = require("core/dao/vmware-datastore-dao").VmwareDatastoreDao,
     DisksAllocationType = require("core/model/enumerations/disks-allocation-type").DisksAllocationType,
@@ -29,7 +30,7 @@ exports.StorageRepository = AbstractRepository.specialize({
     },
 
     init: {
-        value: function(volumeDao, shareDao, volumeDatasetDao, volumeSnapshotDao, diskDao, volumeImporterDao, encryptedVolumeImporterDao, detachedVolumeDao, vmwareDatasetDao, vmwareDatastoreDao) {
+        value: function(volumeDao, shareDao, volumeDatasetDao, volumeSnapshotDao, diskDao, volumeImporterDao, encryptedVolumeImporterDao, detachedVolumeDao, importableDiskDao, vmwareDatasetDao, vmwareDatastoreDao) {
             this._volumeDao = volumeDao || VolumeDao.instance;
             this._shareDao = shareDao || ShareDao.instance;
             this._volumeDatasetDao = volumeDatasetDao || VolumeDatasetDao.instance;
@@ -38,11 +39,13 @@ exports.StorageRepository = AbstractRepository.specialize({
             this._volumeImporterDao = volumeImporterDao || VolumeImporterDao.instance;
             this._encryptedVolumeImporterDao = encryptedVolumeImporterDao || EncryptedVolumeImporterDao.instance;
             this._detachedVolumeDao = detachedVolumeDao || DetachedVolumeDao.instance;
+            this._importableDiskDao = importableDiskDao || ImportableDiskDao.instance;
             this._vmwareDatasetDao = vmwareDatasetDao || VmwareDatasetDao.instance;
             this._vmwareDatastoreDao = vmwareDatastoreDao || VmwareDatastoreDao.instance;
 
             this._availableDisks = [];
             this._detachedVolumes = [];
+            this._importableDisks = [];
             this._reservedDisks = new Set();
             this._temporarilyAvailableDisks = new Set();
             this.addRangeAtPathChangeListener("_volumes", this, "_handleDiskAssignationChange");
@@ -127,6 +130,16 @@ exports.StorageRepository = AbstractRepository.specialize({
                     }
                     return self._detachedVolumes;
                 });
+            });
+        }
+    },
+
+    listImportableDisks: {
+        value: function() {
+            var self = this;
+            this._importableDisks.clear();
+            return this._importableDiskDao.list().then(function(importableDisks) {
+                return this._importableDisks = importableDisks;
             });
         }
     },
