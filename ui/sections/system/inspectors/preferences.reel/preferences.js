@@ -31,7 +31,7 @@ exports.Preferences = Component.specialize(/** @lends Preferences# */ {
 
     handleApplyConfigAction: {
         value: function () {
-            this._filesystemService.restoreDatabase();
+            this._filesystemService.restoreDatabase(this.configFile);
         }
     },
 
