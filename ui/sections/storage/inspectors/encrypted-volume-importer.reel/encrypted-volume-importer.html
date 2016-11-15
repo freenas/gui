@@ -8,7 +8,13 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
-            }
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
         },
         "validationController": {
             "prototype": "core/controller/validation-controller",
@@ -24,7 +30,7 @@
                 "validationController": {"@": "validationController"},
                 "canDelete": false,
                 "canRevert": false,
-                "canSave": true,
+                "canSave": false,
                 "controller": {"@": "owner"}
             },
             "bindings": {
@@ -84,6 +90,13 @@
             "bindings": {
                 "disks": {"<-": "@owner.disks.filter{isAvailable && !isReserved}"}
             }
+        },
+        "importVolume": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "importVolume"},
+                "label": "Import"
+            }
         }
     }
     </script>
@@ -92,11 +105,13 @@
     <div data-montage-id="owner" class="EncryptedVolumeImporter has-availableDisks">
         <div data-montage-id="inspector">
             <div class="EncryptedVolumeImporter-content">
+
                 <div class="g-margin-h g-padding-top">
                     <div data-montage-id="name"></div>
                     <div data-montage-id="password"></div>
                     <div data-montage-id="key"></div>
                 </div>
+                <div data-montage-id="importVolume"></div>
                 <div data-montage-id="disks" class="EncryptedVolumeImporter-disks"></div>
             </div>
         </div>
