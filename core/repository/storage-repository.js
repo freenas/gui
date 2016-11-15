@@ -31,7 +31,7 @@ exports.StorageRepository = AbstractRepository.specialize({
     },
 
     init: {
-        value: function(volumeDao, shareDao, volumeDatasetDao, volumeSnapshotDao, diskDao, volumeImporterDao, encryptedVolumeImporterDao, detachedVolumeDao, vmwareDatasetDao, vmwareDatastoreDao, encryptedVolumeActionsDao) {
+        value: function(volumeDao, shareDao, volumeDatasetDao, volumeSnapshotDao, diskDao, volumeImporterDao, encryptedVolumeImporterDao, detachedVolumeDao, importableDiskDao, vmwareDatasetDao, vmwareDatastoreDao, encryptedVolumeActionsDao) {
             this._volumeDao = volumeDao || VolumeDao.instance;
             this._shareDao = shareDao || ShareDao.instance;
             this._volumeDatasetDao = volumeDatasetDao || VolumeDatasetDao.instance;
