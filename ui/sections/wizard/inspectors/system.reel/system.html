@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="system.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+        "languageAndRegion": {
+            "prototype": "ui/sections/system/inspectors/language-and-region.reel",
+            "properties": {
+                "element": {"#": "languageAndRegion"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="System-languageAndRegion">
+        <div data-montage-id="languageAndRegion"></div>
+    </div>
+</body>
+</html>

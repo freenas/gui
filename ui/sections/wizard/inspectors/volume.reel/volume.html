@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="volume.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "context.isNextStepDisabled": {"<-": "!@owner.object.id || @owner.object.topology.data.length == 0"}
+            }
+        },
+
+        "volumeCreator": {
+            "prototype": "ui/sections/storage/inspectors/volume-creator.reel",
+            "properties": {
+                "element": {"#": "volumeCreator"}
+            },
+            "bindings": {
+                "__sectionService": {"<-": "@owner.context.sectionService"},
+                "context": {"<-": "@owner.context"},
+                "object": {"<-": "@owner.object"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Volume-volumeCreator">
+        <div data-montage-id="volumeCreator"></div>
+    </div>
+</body>
+</html>
