@@ -14,6 +14,9 @@ exports.CryptoCertificate = AbstractInspector.specialize({
     },
     save: {
         value: function () {
+            if (this.certificateComponent && typeof this.certificateComponent.save === 'function') {
+                this.certificateComponent.save();
+            }
             if (this.object._action === 'import') {
                 this.application.cryptoCertificateService.import(this.object);
             } else {

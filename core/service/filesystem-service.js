@@ -66,12 +66,13 @@ var FilesystemService = exports.FilesystemService = Montage.specialize({
         }
     },
 
-    uploadFile: {
-        value: function (file, destinationPath, mode) {
+    _submitTaskWithUpload: {
+        value: function(file, taskName, args) {
             var self = this;
 
-            return this._callBackend("filesystem.upload", ["/root/" + file.name, file.size, mode ||"755"]).then(function (response) {
-                var token = response.data,
+            return this._callBackend(taskName, args).then(function (response) {
+                // FIXME: SHOULD BE IN ITS OWN METHOD (and less magical) - pchaussalet
+                var token = Array.isArray(response.data) ? response.data[1][0] : response.data,
                     connection = new WebSocketClient().initWithUrl(
                         WebSocketConfiguration.fileUploadConfiguration.get(WebSocketConfiguration.KEYS.URL)
                     ),
@@ -107,6 +108,18 @@ var FilesystemService = exports.FilesystemService = Montage.specialize({
         }
     },
 
+    restoreDatabase: {
+        value: function (file) {
+            return this._submitTaskWithUpload(file, "task.submit_with_upload", ["database.restore", [null]]);
+        }
+    },
+
+    uploadFile: {
+        value: function (file, destinationPath, mode) {
+            return this._submitTaskWithUpload(file, "filesystem.upload", ["/root/" + file.name, file.size, mode ||"755"]);
+        }
+    },
+
     _sendBlob: {
         value: function (connection, file, startByte, stopByte) {
             var start = parseInt(startByte) || 0,
@@ -120,10 +133,7 @@ var FilesystemService = exports.FilesystemService = Montage.specialize({
                     connection.sendMessage(target.result);
 
                     if (stop === file.size) {
-                        //FIXME:
-                        setTimeout(function () {
-                            connection.disconnect();
-                        }, 2000);
+                        connection.sendMessage("");
                     }
                 }
             };

@@ -8,9 +8,16 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.CryptoCertificateImport = Component.specialize(/** @lends CryptoCertificateImport# */ {
-    constructor: {
-        value: function CryptoCertificateImport() {
-            this.super();
+    save: {
+        value: function() {
+            this._saveWithFileUpload()
+        }
+    },
+
+    _saveWithFileUpload: {
+        value: function () {
+            this.object.certificate = this.certificateFile;
+            this.object.privatekey = this.privateKeyFile;
         }
     }
 });

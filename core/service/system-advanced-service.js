@@ -20,9 +20,9 @@ var SystemAdvancedService = exports.SystemAdvancedService = Montage.specialize({
 
     getSystemAdvanced: {
         value: function() {
-                return this._dataService.fetchData(Model.SystemAdvanced).then(function(systemAdvanced) {
-                    return systemAdvanced[0];
-                });
+            return this._dataService.fetchData(Model.SystemAdvanced).then(function(systemAdvanced) {
+                return systemAdvanced[0];
+            });
         }
     },
 
@@ -30,6 +30,30 @@ var SystemAdvancedService = exports.SystemAdvancedService = Montage.specialize({
         value: function(){
             return Model.populateObjectPrototypeForType(Model.Task).then(function (Task) {
                 return Task.constructor.services.submitWithDownload("debug.collect", [["freenasdebug.tar.gz"]]);
+            })
+        }
+    },
+
+    restoreSettingsFromFileUpload: {
+        value: function (configFile) {
+            return Model.populateObjectPrototypeForType(Model.Task).then(function (Task) {
+                return Task.constructor.services.submitWithEnv("database.restore", [[configFile]]);
+            })
+        }
+    },
+
+    restoreFactorySettings: {
+        value: function () {
+            return Model.populateObjectPrototypeForType(Model.Task).then(function (Task) {
+                return Task.constructor.services.submit("database.factory_restore", []);
+            })
+        }
+    },
+
+    getConfigFileAddress: {
+        value: function () {
+            return Model.populateObjectPrototypeForType(Model.Task).then(function (Task) {
+                return Task.constructor.services.submitWithDownload("database.dump",  [["freenas10.db"]]);
             })
         }
     },
