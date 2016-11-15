@@ -124,6 +124,7 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
                 this._sectionService.getNewSystemGeneral(),
                 this._sectionService.getNewVolume(),
                 this._sectionService.getNewDirectoryServices(),
+                this._sectionService.getNewShare(),
                 this._sectionService.getMailData()
             ]).then(function (data) {
                 self.steps = data;
@@ -138,6 +139,7 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
             Promise.all([
                 Promise.resolve(),
                 StorageSectionService.instance,
+                Promise.resolve(),
                 Promise.resolve(),
                 Promise.resolve()
             ]).then(function (data) {
