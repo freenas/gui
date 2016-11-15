@@ -121,7 +121,7 @@ exports.DockerImage = Montage.specialize({
         }, {
             mandatory: false,
             name: "version",
-            valueType: "number"
+            valueType: "String"
         }]
     },
     userInterfaceDescriptor: {

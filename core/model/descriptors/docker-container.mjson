@@ -148,7 +148,7 @@
     "properties": {
       "name": "version",
       "blueprint": {"@": "root"},
-      "valueType": "number"
+      "valueType": "String"
     }
   },
   "blueprint_dockercontainer_volumes": {

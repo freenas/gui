@@ -44,7 +44,7 @@ exports.SectionSettings = Montage.specialize({
             inspectorComponentModule: {
                 id: 'ui/controls/section.reel/section-settings.reel'
             },
-            nameExpression: "section.label = ' settings'"
+            nameExpression: "section.label + ' settings'"
         }
     }
 });

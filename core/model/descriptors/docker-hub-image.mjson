@@ -52,7 +52,7 @@
     "properties": {
       "name": "version",
       "blueprint": {"@": "root"},
-      "valueType": "number"
+      "valueType": "String"
     }
   },
   "root": {

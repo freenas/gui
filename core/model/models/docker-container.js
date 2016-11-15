@@ -351,7 +351,7 @@ exports.DockerContainer = Montage.specialize({
         }, {
             mandatory: false,
             name: "version",
-            valueType: "number"
+            valueType: "String"
         }, {
             mandatory: false,
             name: "volumes",

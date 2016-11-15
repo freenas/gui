@@ -17,14 +17,6 @@
       ]
     }
   },
-  "blueprint_servicedc_vm_id": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "vm_id",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_servicedc_volume": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -40,7 +32,6 @@
       "propertyBlueprints": [
         {"@": "blueprint_servicedc_enable"},
         {"@": "blueprint_servicedc_type"},
-        {"@": "blueprint_servicedc_vm_id"},
         {"@": "blueprint_servicedc_volume"}
       ]
     }

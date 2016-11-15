@@ -121,7 +121,7 @@ exports.DockerHubImage = Montage.specialize({
         }, {
             mandatory: false,
             name: "version",
-            valueType: "number"
+            valueType: "String"
         }]
     }
 });
