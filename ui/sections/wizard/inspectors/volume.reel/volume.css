@@ -1,0 +1,8 @@
+.Volume-volumeCreator .Topology,
+.Volume-volumeCreator .InspectorFooter,
+.Volume-volumeCreator .FieldCheckbox,
+.Volume-volumeCreator .VolumeCreator-sidebar,
+.Volume-volumeCreator .Topologizer-legend-item,
+.Volume-volumeCreator .Topologizer-graph {
+    display: none !important;
+}
