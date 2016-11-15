@@ -51,6 +51,10 @@ exports.StorageSectionService = AbstractSectionService.specialize({
         value: Model.VmwareDataset
     },
 
+    ENCRYPTED_VOLUME_ACTIONS_TYPE: {
+        value: Model.EncryptedVolumeActions
+    },
+
     TOPOLOGY_SECTIONS: {
         value: [
             'data',
