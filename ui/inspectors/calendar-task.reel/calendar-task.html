@@ -127,6 +127,16 @@
                 "type": {"<-": "@owner.object.task"}
             }
         },
+        "rsync": {
+            "prototype": "./rsync-args.reel",
+            "properties": {
+                "element": {"#": "rsync"}
+            },
+            "bindings": {
+                "args": {"<->": "@owner.object.args"},
+                "type": {"<-": "@owner.object.task"}
+            }
+        },
         "enabled": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -256,6 +266,7 @@
                 <div data-montage-id="smart" data-arg="disk.parallel_test"></div>
                 <div data-montage-id="cron" data-arg="calendar_task.command"></div>
                 <div data-montage-id="replication" data-arg="replication.replicate_dataset"></div>
+                <div data-montage-id="rsync" data-arg="rsync.copy"></div>
             </div>
             <button data-montage-id="runNow" class="Button--block"></button>
             <div data-montage-id="scheduleResultsHeader"></div>

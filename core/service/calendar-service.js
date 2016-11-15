@@ -64,7 +64,8 @@ var CalendarService = exports.CalendarService = Montage.specialize({
             { name: "Smart", value: "disk.parallel_test", checked: true },
             { name: "Update", value: "update.checkfetch", checked: true },
             { name: "Cron job", value: "calendar_task.command", checked: true },
-            { name: "Snapshot", value: "volume.snapshot_dataset", checked: true }
+            { name: "Snapshot", value: "volume.snapshot_dataset", checked: true },
+            { name: "Rsync", value: "rsync.copy", checked: true }
         ]
     },
 

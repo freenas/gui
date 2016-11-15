@@ -9,17 +9,6 @@ exports.Calendar = Component.specialize({
         value: null
     },
 
-// FIXME: Should be a middleware provided enum
-    taskCategories: {
-        value: [
-            { name: "Scrub", value: "volume.scrub" },
-            { name: "Replication", value: "replication.replicate_dataset" },
-            { name: "Smart", value: "disk.parallel_test" },
-            { name: "Update", value: "update.checkfetch" },
-//            { name: "Snapshot", value: "" }
-        ]
-    },
-
     enterDocument: {
         value: function () {
             var self = this;

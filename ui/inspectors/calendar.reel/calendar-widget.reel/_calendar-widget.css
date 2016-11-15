@@ -336,7 +336,7 @@ Calendar Events
     color: #fff;
 }
 
-.CalendarWidget-event.type-rsync .CalendarWidget-event-inner                             { background-color: #D95B1B; }
+.CalendarWidget-event.type-rsync_copy .CalendarWidget-event-inner                        { background-color: #D95B1B; }
 .CalendarWidget-event.type-volume_scrub .CalendarWidget-event-inner                      { background-color: #093A51; }
 .CalendarWidget-event.type-replication_replicate_dataset .CalendarWidget-event-inner     { background-color: #008C84; }
 .CalendarWidget-event.type-disk_parallel_test .CalendarWidget-event-inner                { background-color: #990F82; }
