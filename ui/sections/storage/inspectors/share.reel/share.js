@@ -154,16 +154,17 @@ exports.Share = AbstractInspector.specialize({
                 this._shareService = this.application.shareService;
             }
 
-            this.volume = this._getCurrentVolume();
-            this.targetType = this.object.target_type;
+            if (this.object) {
+                this.volume = this._getCurrentVolume();
+                this.targetType = this.object.target_type;
 
-            //todo: block draw
-            this._shareService.populateShareObjectIfNeeded(this.object).then(function() {
-                if (self._object._isNew) {
-                    self._openTreeController();
-                }
-            });
-
+                //todo: block draw
+                this._shareService.populateShareObjectIfNeeded(this.object).then(function() {
+                    if (self._object._isNew) {
+                        self._openTreeController();
+                    }
+                });
+            }
         }
     },
 

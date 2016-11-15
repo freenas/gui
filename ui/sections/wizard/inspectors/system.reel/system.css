@@ -1,5 +1,4 @@
-
-.System-languageAndRegion .AdvancedSection,
-.System-languageAndRegion .InspectorFooter  {
-    display: none;
+.System-wizard .AdvancedSection,
+.System-wizard .InspectorFooter  {
+    display: none !important;
 }

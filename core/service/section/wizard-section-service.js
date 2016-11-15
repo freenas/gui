@@ -31,6 +31,12 @@ exports.WizardSectionService = AbstractSectionService.specialize({
         value: function () {
             return this._wizardRepository.getMailData();
         }
+    },
+
+    getNewShare: {
+        value: function () {
+            return this._wizardRepository.getNewShare();
+        }
     }
 
 },

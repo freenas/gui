@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="share.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+        "options": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "select"},
+                "label": "Share Type"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.shares.map{{label: type, value: this}}"},
+                "selectedValue": {"<-": "@owner.shares.0"}
+            }
+        },
+
+        "content": {
+            "prototype": "ui/sections/storage/inspectors/share.reel",
+            "properties": {
+                "element": {"#": "content"}
+            },
+            "bindings": {
+                "object": {"<-": "@options.selectedValue"},
+                "context": {"<-": "@owner.context"},
+                "_getCurrentVolume": {"<-": "@owner._getCurrentVolume"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Share-wizard">
+        <div data-montage-id="select"></div>
+        <div data-montage-id="content"></div>
+    </div>
+</body>
+</html>
