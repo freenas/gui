@@ -63,7 +63,7 @@
                 "element": {"#": "uidNameSubstitution"}
             },
             "bindings": {
-                "switchValue": {"<-": "!!@owner.object.builtin || @owner.object.origin.read_only ? 'system' : 'luser'"}
+                "switchValue": {"<-": "!!@owner.object.builtin || !!@owner.object.origin.read_only ? 'system' : 'luser'"}
             }
         },
         "systemUserSubstitution": {
