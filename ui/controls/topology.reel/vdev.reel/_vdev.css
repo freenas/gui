@@ -97,6 +97,10 @@ Vdev Title
     @nest .Vdev.unhealthy &:before {
         background: #E0003A;
     }
+
+    & .Select .montage--disabled .Select-currentOption {
+        right: 0;
+    }
 }
 
 .VdevTitle-arrow {
