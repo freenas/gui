@@ -57,6 +57,17 @@
                 "isConfirmationVisible": {"<-": "@owner.isConfirmationVisible"}
             }
         },
+        "encryptionActions": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "encryptionActions"}
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "!@owner.object.password_encrypted && !@owner.object.key_encrypted"},
+                "object": {"<-": "@owner.encryptedVolumeActions"},
+                "objectType": {"<-": "@owner.encryptedVolumeActionsType"}
+            }
+        },
         "shares": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
@@ -145,9 +156,11 @@
             <div data-montage-id="snapshots"></div>
             <div data-montage-id="topology"></div>
             <div data-montage-id="datasets"></div>
+            <div data-montage-id="encryptionActions"></div>
             <div data-arg="footer-additional-button" class="ActionButtons">
                 <div data-montage-id="export"></div>
                 <div data-montage-id="scrub"></div>
+
             </div>
         </div>
     </div>

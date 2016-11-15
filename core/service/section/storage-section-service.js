@@ -1,7 +1,9 @@
 var AbstractSectionService = require("core/service/section/abstract-section-service").AbstractSectionService,
     StorageRepository = require("core/repository/storage-repository").StorageRepository,
     TopologyService = require("core/service/topology-service").TopologyService,
-    PeeringService = require("core/service/peering-service").PeeringService;
+    PeeringService = require("core/service/peering-service").PeeringService,
+    FilesystemService = require("core/service/filesystem-service").FilesystemService,
+    NotificationCenterModule = require("core/backend/notification-center"),
     Model = require("core/model/model").Model;
 
 exports.StorageSectionService = AbstractSectionService.specialize({
@@ -13,7 +15,7 @@ exports.StorageSectionService = AbstractSectionService.specialize({
         get: function() {
             var self = this;
             return this.__volumeServices ?
-                Promise.resolve(this.__volumeServices) : 
+                Promise.resolve(this.__volumeServices) :
                 Model.populateObjectPrototypeForType(Model.Volume).then(function (Volume) {
                     return self.__volumeServices = Volume.services;
                 });
@@ -28,7 +30,7 @@ exports.StorageSectionService = AbstractSectionService.specialize({
         get: function() {
             var self = this;
             return this.__diskServices ?
-                Promise.resolve(this.__diskServices) : 
+                Promise.resolve(this.__diskServices) :
                 Model.populateObjectPrototypeForType(Model.Disk).then(function (Disk) {
                     return self.__diskServices = Disk.services;
                 });
@@ -51,6 +53,10 @@ exports.StorageSectionService = AbstractSectionService.specialize({
         value: Model.VmwareDataset
     },
 
+    ENCRYPTED_VOLUME_ACTIONS_TYPE: {
+        value: Model.EncryptedVolumeActions
+    },
+
     TOPOLOGY_SECTIONS: {
         value: [
             'data',
@@ -61,11 +67,13 @@ exports.StorageSectionService = AbstractSectionService.specialize({
     },
 
     init: {
-        value: function(storageRepository, topologyService, peeringService) {
+        value: function(storageRepository, topologyService, peeringService, filesystemService, notificationCenter) {
             this._rootDatasetPerVolumeId = new Map();
             this._storageRepository = storageRepository || StorageRepository.instance;
             this._topologyService = topologyService || TopologyService.instance;
             this._peeringService = peeringService || PeeringService.instance;
+            this._filesystemService = filesystemService || FilesystemService.instance;
+            this._notificationCenter = notificationCenter || NotificationCenterModule.defaultNotificationCenter;
         }
     },
 
@@ -240,6 +248,15 @@ exports.StorageSectionService = AbstractSectionService.specialize({
         }
     },
 
+    getEncryptedVolumeActionsForVolume: {
+        value: function (volume) {
+            return this._storageRepository.getEncryptedVolumeActionsInstance().then(function (encryptedVolumeActions) {
+                encryptedVolumeActions.volume = volume;
+                return encryptedVolumeActions;
+            })
+        }
+    },
+
     importEncryptedVolume: {
         value: function(encryptedVolumeImporter) {
             return this._volumeServices.then(function(volumeServices) {
@@ -341,6 +358,53 @@ exports.StorageSectionService = AbstractSectionService.specialize({
         }
     },
 
+    lockVolume: {
+        value: function(volume) {
+            return volume.services.lock(volume.id);
+        }
+    },
+
+    unlockVolume: {
+        value: function(volume, password) {
+            return volume.services.unlock(volume.id, password);
+        }
+    },
+
+    rekeyVolume: {
+        value: function(volume, isKeyEncrypted, password) {
+            return volume.services.rekey(volume.id, isKeyEncrypted, password);
+        }
+    },
+
+    getVolumeKey: {
+        value: function(volume) {
+            var self = this;
+            return Model.populateObjectPrototypeForType(Model.Task).then(function (Task) {
+                return Task.constructor.services.submitWithDownload("volume.keys.backup",  [volume.id, "key_" + volume.id]);
+            }).then(function(response) {
+                var taskId = response[0],
+                    taskPromise = new Promise(function(resolve) {
+                        self._notificationCenter.addEventListener("taskDone", function(event) {
+                            if (event.detail && event.detail.jobId === taskId) {
+                                resolve(event.detail.taskReport.result);
+                            }
+                        });
+                    });
+
+                return {
+                    link: response[1][0],
+                    taskPromise: taskPromise
+                };
+            });
+        }
+    },
+
+    setVolumeKey: {
+        value: function(volume, keyFile, password) {
+            return this._filesystemService.submitTaskWithUpload(keyFile, "task.submit_with_upload", ["volume.keys.restore", [volume.id, null, password]]);
+        }
+    },
+
     _cleanupTopologySection: {
         value: function(topologySection) {
             var i, vdevsLength, vdev,
@@ -408,4 +472,3 @@ exports.StorageSectionService = AbstractSectionService.specialize({
     }
 
 });
-

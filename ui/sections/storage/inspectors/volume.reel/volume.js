@@ -9,12 +9,22 @@ exports.Volume = AbstractInspector.specialize({
         value: null
     },
 
+    enterDocument: {
+        value: function () {
+            var self = this;
+            this._sectionService.getEncryptedVolumeActionsForVolume(this.object).then(function (encryptedVolumeActions) {
+                self.encryptedVolumeActions = encryptedVolumeActions;
+            });
+        }
+    },
+
     _inspectorTemplateDidLoad: {
         value:function() {
             var self = this;
             this.shareType = this._sectionService.SHARE_TYPE;
             this.datasetType = this._sectionService.VOLUME_DATASET_TYPE;
             this.snapshotType = this._sectionService.VOLUME_SNAPSHOT_TYPE;
+            this.encryptedVolumeActionsType = this._sectionService.ENCRYPTED_VOLUME_ACTIONS_TYPE;
             this.addPathChangeListener("object", this, "_handleObjectChange");
             return Promise.all([
                 this._sectionService.listShares().then(function(shares) {
