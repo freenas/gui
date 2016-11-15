@@ -133,10 +133,7 @@ var FilesystemService = exports.FilesystemService = Montage.specialize({
                     connection.sendMessage(target.result);
 
                     if (stop === file.size) {
-                        //FIXME:
-                        setTimeout(function () {
-                            connection.disconnect();
-                        }, 2000);
+                        connection.sendMessage("");
                     }
                 }
             };
