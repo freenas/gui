@@ -2,7 +2,7 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "encryptedVolumeActions"
+      "name": "EncryptedVolumeActions"
     }
   }
 }
