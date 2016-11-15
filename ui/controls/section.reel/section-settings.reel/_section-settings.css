@@ -1,3 +1,7 @@
+.SectionSettings {
+    min-width: 27rem !important;
+}
+
 .SectionSettings,
 .SectionSettings-content {
     display: flex;

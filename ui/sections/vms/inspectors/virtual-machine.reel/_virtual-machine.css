@@ -1,6 +1,4 @@
-.VirtualMachine {
-    min-width: 21em;
-}
+.VirtualMachine { min-width: 22rem !important; }
 
 .VirtualMachine-actions {
     display: none;
@@ -12,6 +10,4 @@
     }
 }
 
-.VirtualMachine.has-actions .VirtualMachine-actions {
-    display: flex;
-}
+.VirtualMachine.has-actions .VirtualMachine-actions { display: flex; }

@@ -1,3 +1,7 @@
+.BootPool {
+    min-width: 57rem !important;
+}
+
 .BootPool-table {
     margin-bottom: 2em;
 }

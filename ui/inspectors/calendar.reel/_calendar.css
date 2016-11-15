@@ -28,7 +28,6 @@
 
 .Calendar-eventsList {
     flex: 1;
-    /* padding-top: 1em; */
     position: relative;
     min-height: 10em;
 }
@@ -41,7 +40,7 @@ Media Queries
 
 @media (min-width: 95em) {
     .Calendar {
-        width: 60em;
+        width: 71rem;
     }
 }
 

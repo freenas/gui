@@ -1,12 +1,12 @@
-.CascadingListItem-Topology.CascadingListItem {
-    flex: 1;
-    min-width: 37.25em;
-    max-width: 50em;
-}
+.CascadingListItem-Topology.CascadingListItem { flex: 1; }
 
+.TopologyEdit {
+    min-width: 37.25rem !important;
+    max-width: 50rem;
+}
 .TopologyEdit .Inspector {
     /* magic number tided to sidebar width */
-    margin-right: 12.3em;
+    margin-right: 12.3rem;
 }
 
 .TopologyEdit .Inspector-body {
@@ -25,7 +25,7 @@
     bottom: 0;
     right: 0;
     /* magic number tied to inspector margin */
-    width: 12.3em;
+    width: 12.3rem;
     background-color: #2F3233;
     overflow: hidden;
     border-left: 2px solid #232629;
@@ -39,7 +39,7 @@
 }
 
 .TopologyEdit.is-detached {
-    min-width: 24em;
+    min-width: 24rem;
 }
 
 .TopologyEdit.is-detached .Inspector {
