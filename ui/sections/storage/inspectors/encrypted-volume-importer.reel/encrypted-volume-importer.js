@@ -5,7 +5,7 @@ exports.EncryptedVolumeImporter = AbstractInspector.specialize({
         value: function() {
             var self = this;
             return this._sectionService.listDisks().then(function(disks) {
-                return self.disks = disks; 
+                return self.disks = disks;
             });
         }
     },
@@ -29,7 +29,7 @@ exports.EncryptedVolumeImporter = AbstractInspector.specialize({
         value: function(component, diskCategory) {
             return component.object &&
                     diskCategory.disks.indexOf(component.object) === -1 &&
-                    component.object.status && 
+                    component.object.status &&
                     component.object.status.is_ssd === diskCategory.isSsd;
         }
     },
@@ -41,6 +41,12 @@ exports.EncryptedVolumeImporter = AbstractInspector.specialize({
             if (diskIndex !== -1) {
                 this.object.disks.splice(diskIndex, 1);
             }
+        }
+    },
+
+    handleImportVolumeAction: {
+        value: function () {
+            this._sectionService.importEncryptedVolume(this.object);
         }
     },
 
