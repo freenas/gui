@@ -1,0 +1,28 @@
+.ContainerCreator { min-width: 40rem !important; }
+
+/* Table Volume Treeview Adjustments */
+
+.TableVolume .FieldTreeview-treeView {
+    overflow: visible;
+    position: absolute !important;
+    top: 50%;
+    margin-top: -7.5em;
+    z-index: 100;
+    left: 100%;
+    margin-left: -5.4em;
+    width: 15em;
+    box-shadow: 0 4px 4px rgba(0,0,0,.25);
+}
+
+.TableVolume .FieldTreeview-treeView:after {
+    content: '';
+    position: absolute;
+    left: -.2em;
+    top: 50%;
+    margin-top: -1.25em;
+    border-bottom: 1em solid #0f1213;
+    border-right: 1em solid transparent;
+    border-top: 1em solid transparent;
+    transform: rotate(45deg);z-index: -1;
+}
+.TableVolume .Field { margin-bottom: 0;}
