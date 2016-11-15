@@ -10,14 +10,27 @@
             }
         },
 
-        "hostPath": {
-            "prototype": "blue-shark/ui/text-field.reel",
+        "filesystemTreeController": {
+            "prototype": "core/controller/filesystem-tree-controller",
             "properties": {
-                "element": {"#": "hostPath"},
-                "placeholder": "e.g. host path"
+                "canListFiles": false,
+                "root": "/mnt"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.host_path"}
+                "service": {"<-": "@owner.application.filesystemService"}
+            }
+        },
+
+        "hostPath": {
+            "prototype": "ui/controls/field-treeview.reel",
+            "properties": {
+                "element": {"#": "hostPath"},
+                "controller": {"@": "filesystemTreeController"},
+                "placeholder": "e.g. host path",
+                "isNotTypable": true
+            },
+            "bindings": {
+                "selectedPath": {"<->": "@owner.object.host_path"}
             }
         },
 
