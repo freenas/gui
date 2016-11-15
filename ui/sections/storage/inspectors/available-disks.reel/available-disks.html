@@ -27,10 +27,9 @@
             },
             "bindings": {
                 "disks": {"<-": "@owner.hdds"},
-                "classList.has('is-hidden')": {"<-": "@owner.hdds.length == 0"},
                 "topology": {"<-": "@owner.topology"},
                 "controller": {"<-": "@owner.controller"},
-                "isExpanded": {"<-": "!@owner.locked"}
+                "isExpanded": {"<-": "!@owner.locked && disks.length > 0"}
             }
         },
         "ssdsCategory": {
@@ -44,10 +43,9 @@
             },
             "bindings": {
                 "disks": {"<-": "@owner.ssds"},
-                "classList.has('is-hidden')": {"<-": "@owner.ssds.length == 0"},
                 "topology": {"<-": "@owner.topology"},
                 "controller": {"<-": "@owner.controller"},
-                "isExpanded": {"<-": "!@owner.locked"}
+                "isExpanded": {"<-": "!@owner.locked && disks.length > 0"}
             }
         }
     }

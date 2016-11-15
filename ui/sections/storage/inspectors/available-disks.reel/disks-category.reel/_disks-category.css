@@ -1,4 +1,5 @@
 .AvailableDisksCategory {
+    position: relative;
     &.is-expanded {
         flex: 1;
 
@@ -41,21 +42,21 @@
     }
 }
 
-.AvailableDisksCategory.willAcceptDrop .FoldableSection-content:before,
-.AvailableDisksCategory.acceptDrop .FoldableSection-content:before {
+.AvailableDisksCategory.willAcceptDrop:before,
+.AvailableDisksCategory.acceptDrop:before {
     content: '';
     position: absolute;
     /* set to match title height */
-    top: 3em;
-    left: 0;
-    right: 0;
+    top:    0;
+    left:   0;
+    right:  0;
     bottom: 0;
     border: 1px dashed transparent;
 }
 
 .AvailableDisksCategory-grid { padding: .5em; }
 
-.AvailableDisksCategory.willAcceptDrop .FoldableSection-content:before {
+.AvailableDisksCategory.willAcceptDrop:before {
     -webkit-animation-direction: normal;
     -webkit-animation-duration: 1s;
     -webkit-animation-iteration-count: infinite;
@@ -69,7 +70,7 @@
     border-style: dashed;
 }
 
-.AvailableDisksCategory.acceptDrop .FoldableSection-content:before {
+.AvailableDisksCategory.acceptDrop:before {
     border-color: rgba(43,156,216,1);
     background-color: rgba(43,156,216,0.1);
 }
