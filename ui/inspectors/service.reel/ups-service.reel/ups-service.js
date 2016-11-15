@@ -33,7 +33,7 @@ exports.UpsService = Component.specialize({
                 }),
                 this.application.powerManagementService.listUsbDevices().then(function (usbDevices) {
                     for (var i = 0; i < usbDevices.length; i++) {
-                        self.driverPortOptions.push({label: usbDevices[i]['description'], value: usbDevices[i]['device']});
+                        self.driverPortOptions.push({label: usbDevices[i]['device'] + ' - ' + usbDevices[i]['description'], value: usbDevices[i]['device']});
                     }
                 })
             ]);
