@@ -188,6 +188,7 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
             Model.Disk,
             Model.Group,
             Model.Ipmi,
+            Model.ImportableDisk,
             Model.Mail,
             Model.NetworkConfig,
             Model.NetworkConfig,

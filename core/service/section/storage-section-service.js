@@ -196,6 +196,14 @@ exports.StorageSectionService = AbstractSectionService.specialize({
         }
     },
 
+    importDisk: {
+        value: function(disk, path, fstype) {
+            var self = this;
+            return this._volumeServices.then(function(volumeServices) {
+                return volumeServices.importDisk(disk, path, fstype);
+            });
+        }
+    },
     importDetachedVolume: {
         value: function(detachedVolume) {
             var self = this;
@@ -254,6 +262,12 @@ exports.StorageSectionService = AbstractSectionService.specialize({
             return this._volumeServices.then(function(volumeServices) {
                 return volumeServices.scrub(volume.id);
             });
+        }
+    },
+
+    listImportableDisks: {
+        value: function() {
+            return this._storageRepository.listImportableDisks();
         }
     },
 
