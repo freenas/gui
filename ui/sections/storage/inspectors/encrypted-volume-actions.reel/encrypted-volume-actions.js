@@ -10,7 +10,6 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
 exports.EncryptedVolumeActions = AbstractInspector.specialize(/** @lends EncryptedVolumeActions# */ {
     enterDocument: {
         value: function () {
-            console.log(this.object);
         }
     }
 });

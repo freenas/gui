@@ -16,7 +16,7 @@
                 "element": {"#": "substitution"}
             },
             "bindings": {
-                "switchValue": {"<-": "!!@owner.object.providers + ''"}
+                "switchValue": {"<-": "!!@owner.object.volume.providers + ''"}
             }
         }
     }
@@ -28,7 +28,7 @@
             <div data-arg="true">
                 <div data-montage-id="lock"></div>
             </div>
-            <div data-arg="true">
+            <div data-arg="false">
                 <div data-montage-id="unlock"></div>
             </div>
             <div data-montage-id="rekey"></div>
