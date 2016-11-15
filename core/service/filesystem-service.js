@@ -66,7 +66,7 @@ var FilesystemService = exports.FilesystemService = Montage.specialize({
         }
     },
 
-    _submitTaskWithUpload: {
+    submitTaskWithUpload: {
         value: function(file, taskName, args) {
             var self = this;
 
@@ -110,13 +110,13 @@ var FilesystemService = exports.FilesystemService = Montage.specialize({
 
     restoreDatabase: {
         value: function (file) {
-            return this._submitTaskWithUpload(file, "task.submit_with_upload", ["database.restore", [null]]);
+            return this.submitTaskWithUpload(file, "task.submit_with_upload", ["database.restore", [null]]);
         }
     },
 
     uploadFile: {
         value: function (file, destinationPath, mode) {
-            return this._submitTaskWithUpload(file, "filesystem.upload", ["/root/" + file.name, file.size, mode ||"755"]);
+            return this.submitTaskWithUpload(file, "filesystem.upload", ["/root/" + file.name, file.size, mode ||"755"]);
         }
     },
 

@@ -1,3 +1,1 @@
-.EncryptedVolumeActions {
-
-}
+.EncryptedVolumeActions .section{display:none}.EncryptedVolumeActions.backup .backupSection,.EncryptedVolumeActions.lock .lockSection,.EncryptedVolumeActions.rekey .rekeySection,.EncryptedVolumeActions.restore .restoreSection,.EncryptedVolumeActions.unlock .unlockSection{display:block}

@@ -63,6 +63,7 @@
                 "element": {"#": "encryptionActions"}
             },
             "bindings": {
+                "classList.has('hide')": {"<-": "!@owner.object.password_encrypted && !@owner.object.key_encrypted"},
                 "object": {"<-": "@owner.encryptedVolumeActions"},
                 "objectType": {"<-": "@owner.encryptedVolumeActionsType"}
             }
