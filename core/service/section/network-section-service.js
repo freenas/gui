@@ -197,6 +197,25 @@ exports.NetworkSectionService = AbstractSectionService.specialize({
         }
     },
 
+    renewLease: {
+        value: function() {
+            var self = this;
+
+            return this._networkRepository.listNetworkInterfaces().then(function(interfaces) {
+                var promises = [];
+
+                for (var i = 0; i < interfaces.length; i++) {
+                    var interface = interfaces[i];
+                    if (interface.dhcp) {
+                        promises.push(interface.services.renew(interface.id));
+                    }
+                }
+
+                return Promise.all(promises);
+            });
+        }
+    },
+
     _cleanupVlanInterface: {
         value: function(interface) {
             if (typeof interface.vlan.tag !== 'number') {

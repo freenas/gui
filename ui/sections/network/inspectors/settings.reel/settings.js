@@ -3,6 +3,10 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
 
 exports.Settings = AbstractInspector.specialize({
 
+    DHCP_RELATED_PROPERTIES: {
+        value: ['dhcp', 'dns', 'gateway']
+    },
+
     _controllers: {
         value: null
     },
@@ -23,6 +27,7 @@ exports.Settings = AbstractInspector.specialize({
             this.super();
 
             if (isFirstTime) {
+                this._snapshotDHCPSettingsIfNecessary();
                 return this._performActionOnControllers('initialize', this._sectionService);
             }
         }
@@ -32,16 +37,25 @@ exports.Settings = AbstractInspector.specialize({
         value: function() {
             var self = this;
             return this._performActionOnControllers('revert').then(function() {
-                self._sectionService.revertSettings();
+                return self._sectionService.revertSettings();
+            }).then(function() {
+                return self._snapshotDHCPSettingsIfNecessary();
             });
         }
     },
 
     save: {
         value: function() {
-            var self = this;
+            var self = this,
+                dhcpChanged = this._checkIfDHCPSettingsChanged();
+
             return this._performActionOnControllers('save').then(function(){
-                self._sectionService.saveSettings();
+                return self._sectionService.saveSettings();
+            }).then(function() {
+                if (dhcpChanged) {
+                    self._snapshotDHCPSettingsIfNecessary();
+                    return self._sectionService.renewLease();
+                }
             });
         }
     },
@@ -57,6 +71,32 @@ exports.Settings = AbstractInspector.specialize({
             }
 
             return Promise.all(promises);
+        }
+    },
+
+    _snapshotDHCPSettingsIfNecessary: {
+        value: function() {
+            if (this.object.settings.config) {
+                this.object._config = {};
+                for (var i = 0; i < this.DHCP_RELATED_PROPERTIES.length; i++) {
+                    var field = this.DHCP_RELATED_PROPERTIES[i];
+                    this.object._config[field] = Object.clone(this.object.settings.config[field]);
+                }
+            }
+        }
+    },
+
+    _checkIfDHCPSettingsChanged: {
+        value: function() {
+            if (this.object.settings.config && this.object._config) {
+                for (var i = 0; i < this.DHCP_RELATED_PROPERTIES.length; i++) {
+                    var field = this.DHCP_RELATED_PROPERTIES[i];
+                    if (!Object.equals(this.object.settings.config[field], this.object._config[field])) {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 });
