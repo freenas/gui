@@ -44,6 +44,23 @@ exports.AbstractDao = Montage.specialize({
         }
     },
 
+    findSingleEntry: {
+        value: function(criteria, isCacheEnabled) {
+            this._checkModelIsInitialized();
+            var selector = this._dataService.getSelectorWithTypeAndCriteria(this._model, criteria);
+            selector.__isSingle = true;
+            var promise = this._dataService.fetchData(selector);
+            if (isCacheEnabled) {
+                var self = this;
+                promise = promise.then(function(data) {
+                    self._cacheService.addToCache(self._model.typeName, data);
+                    return data
+                });
+            }
+            return promise;
+        }
+    },
+
     getEmptyList: {
         value: function() {
             this._checkModelIsInitialized();
