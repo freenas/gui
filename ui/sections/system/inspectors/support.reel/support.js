@@ -10,11 +10,14 @@ exports.Support = AbstractInspector.specialize({
 
     save: {
         value: function() {
+            var self = this;
             this.object.id = null; // cheap dirty hack to make save work
             if (!this.object.attachments) {
                 this.object.attachments = []; // fixme when attachments are implemented
             }
-            return this._supportService.saveSupportTicket(this.object);
+            return this._supportService.saveSupportTicket(this.object).then(function() {
+                self._getNewTicket();    
+            }, function() {});
         }
     },
 
@@ -25,20 +28,26 @@ exports.Support = AbstractInspector.specialize({
     enterDocument: {
         value: function(isFirstTime) {
             this.super();
-            var self = this;
             if (!this.object) {
-                this._supportService.getSupportTicket().then(function(supportTicket) {
-                    self.object = supportTicket;
-                    self.object._isNew = true;
-                    self.object.type = "bug";
-                    self.object.category = "-"; //fixme: in the future we should validate to prevent users from using this category to submit tickets
-                });
+                this._getNewTicket();
             }
         }
     },
 
     typeOptions: {
         value: null
+    },
+
+    _getNewTicket: {
+        value: function() {
+            var self = this;
+            this._supportService.getSupportTicket().then(function(supportTicket) {
+                self.object = supportTicket;
+                self.object._isNew = true;
+                self.object.type = "bug";
+                self.object.category = "-"; //fixme: in the future we should validate to prevent users from using this category to submit tickets
+            });
+        }
     },
 
     _inspectorTemplateDidLoad: {
