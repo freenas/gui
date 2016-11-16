@@ -61,7 +61,8 @@
                 "element": {"#": "permissions"}
             },
             "bindings": {
-                "modes": {"<->": "@owner.object.permissions.modes"}
+                "modes": {"<->": "@owner.object.permissions.modes"},
+                "classList.has('hide')": {"<-": "@owner.object.permissions_type == 'ACL'"}
             }
         },
         "createdCondition": {
@@ -80,7 +81,8 @@
                 "label": "Recursive"
             },
             "bindings": {
-                "checked": {"<->": "@owner.object._recursive"}
+                "checked": {"<->": "@owner.object._recursive"},
+                "classList.has('hide')": {"<-": "@owner.object.permissions_type == 'ACL'"}
             }
         }
     }
