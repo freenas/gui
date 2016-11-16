@@ -254,7 +254,8 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
         value: function(montageDataSelector) {
             return {
                 type: montageDataSelector.type,
-                criteria: this._getMiddlewareCriteriaFromObject(montageDataSelector.criteria)
+                criteria: this._getMiddlewareCriteriaFromObject(montageDataSelector.criteria),
+                isSingle: !!montageDataSelector.__isSingle
             }
         }
     },
@@ -285,6 +286,10 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                 type = stream.selector.type,
                 criteria = stream.selector.criteria.length > 0 ? [stream.selector.criteria] : stream.selector.criteria,
                 promise = type.objectPrototype ? Promise.resolve() : Model.populateObjectPrototypeForType(type);
+
+            if (stream.selector.isSingle) {
+                criteria.push({single: true});
+            }
 
             promise.then(function() {
                 if (criteria.length === 0 && self.modelsCache.has(type.typeName)) {
