@@ -2,7 +2,6 @@
  * @module ui/wizard.reel
  */
 var Component = require("montage/ui/component").Component,
-    StorageSectionService = require("core/service/section/storage-section-service").StorageSectionService,
     WizardSectionService = require("core/service/section/wizard-section-service").WizardSectionService;
 
 /**
@@ -54,6 +53,7 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
     enterDocument: {
         value: function (isFirstTime) {
             if (isFirstTime) {
+                this.application.selectionService.saveSelection(this.application.section, [{}]);
                 this.addEventListener("action", this);
             }
 
@@ -98,15 +98,7 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
 
     handleSubmitAction: {
         value: function () {
-            //FIXME!
-            //this._sectionService.saveWizard(this.steps);
-            Promise.all([
-                this.application.dataService.saveDataObject(this.steps[0]), //save system general
-                this.application.dataService.saveDataObject(this.steps[1]), //save volume
-                this.application.dataService.saveDataObject(this.steps[3]), //save mail data
-            ]).then(function () {
-
-            });
+            this._sectionService.saveWizard(this.steps);
         }
     },
 
@@ -120,14 +112,8 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
     _populateSteps: {
         value: function () {
             var self = this;
-            return Promise.all([
-                this._sectionService.getNewSystemGeneral(),
-                this._sectionService.getNewVolume(),
-                this._sectionService.getNewDirectoryServices(),
-                this._sectionService.getNewShare(),
-                this._sectionService.getMailData()
-            ]).then(function (data) {
-                self.steps = data;
+            return this._sectionService.getWizardSteps().then(function (steps) {
+                self.steps = steps;
             });
         }
     },
@@ -136,14 +122,8 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
         value: function () {
             var self = this;
 
-            Promise.all([
-                Promise.resolve(),
-                StorageSectionService.instance,
-                Promise.resolve(),
-                Promise.resolve(),
-                Promise.resolve()
-            ]).then(function (data) {
-                self._services = data;
+            return this._sectionService.getWizardChildServices().then(function (services) {
+                self._services = services;
             });
         }
     },

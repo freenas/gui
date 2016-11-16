@@ -35,7 +35,7 @@ exports.Share = Component.specialize(/** @lends Share# */ {
                 shareService.createAfpShare(volume),
                 shareService.createIscsiShare(volume)
             ]).bind(this).then(function (shares) {
-                this.shares = shares;
+                this.object.$shares = this.shares = shares;
             });
         }
     }
