@@ -12,7 +12,13 @@ exports.DcService = Component.specialize({
                 ServiceDc.constructor.services.provideDcUrl().then(function (url) {
                    window.open(url[0], '_blank'); 
                 });
-        });
+            });
+        }
+    },
+
+    save: {
+        value: function() {
+            delete this.object.vm_id;
         }
     }
 });
