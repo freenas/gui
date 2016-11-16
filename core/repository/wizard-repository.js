@@ -51,6 +51,24 @@ exports.WizardRepository = AbstractRepository.specialize({
         value: function () {
             return this._shareDao.getNewInstance();
         }
-    }
+    },
+
+    saveMailData: {
+        value: function (object) {
+            return this._mailDao.save(object);
+        }
+    },
+
+    saveSystemGeneral: {
+        value: function (object) {
+            return this._systemGeneralDao.save(object);
+        }
+    },
+
+    saveNewDirectoryService: {
+        value: function (object) {
+            return this._directoryServicesDao.save(object);
+        }
+    },
 
 });

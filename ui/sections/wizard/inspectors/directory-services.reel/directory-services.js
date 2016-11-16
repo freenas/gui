@@ -55,8 +55,10 @@ var DirectoryServices = exports.DirectoryServices = Component.specialize(/** @le
                     directoryServicesMap.set(directoryServices[i].type || i, directoryService);
                 }
 
+                self.object.$directoryServices = directoryServicesMap.toArray();
+
                 self.directoryServices = self.application.dataService.setTypeForCollection(
-                    directoryServicesMap.toArray(),
+                    self.object.$directoryServices,
                     Model.Directory
                 );
             });
