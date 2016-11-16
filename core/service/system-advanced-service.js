@@ -62,6 +62,12 @@ var SystemAdvancedService = exports.SystemAdvancedService = Montage.specialize({
         value: function(advanceData) {
             return this._dataService.saveDataObject(advanceData);
         }
+    },
+
+    revertAdvancedData: {
+        value: function(advanceData) {
+            return this._dataService.restoreSnapshotVersion(advanceData);
+        }
     }
 
 
