@@ -80,7 +80,7 @@ exports.VmwareSnapshot = AbstractInspector.specialize({
             if (this._context) {
                 var currentSelection = this.application.selectionService.getCurrentSelection();
                 for (var i = this._context.columnIndex - 1; i >= 0; i--) {
-                    if (currentSelection[i].constructor.Type == Model.VolumeDataset) {
+                    if (currentSelection[i].constructor.Type == this._sectionService.VMWARE_DATASET_TYPE) {
                         return currentSelection[i];
                     }
                 }
