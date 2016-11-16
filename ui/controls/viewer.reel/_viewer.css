@@ -121,7 +121,13 @@
 /* Controls */
 
 .Viewer-controls {
-    padding: .75em 1em;
+    height: 3em;
+    padding: 0 1em;
+    display: flex;
+    align-items: center;
     background: #404040;
-    border-bottom: 1px solid color(#404040 l(10%));
+
+    & .montage-Slot {
+        flex: 1;
+    }
 }
