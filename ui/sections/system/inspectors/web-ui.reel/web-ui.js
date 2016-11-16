@@ -46,6 +46,9 @@ exports.WebUi = AbstractInspector.specialize(/** @lends WebUi# */ {
                     }
                     self.IPv4_OPTIONS.unshift({label:"all", value: "0.0.0.0"});
                     self.IPv6_OPTIONS.unshift({label:"all", value: "::"});
+                }),
+                this.application.systemAdvancedService.getSystemAdvanced().then(function(systemAdvanced) {
+                    self.systemAdvanced = systemAdvanced;
                 })
             ]);
         }
@@ -53,20 +56,25 @@ exports.WebUi = AbstractInspector.specialize(/** @lends WebUi# */ {
 
     save: {
         value: function() {
-            return this.application.systemUIService.saveUIData(this.config);
+            return Promise.all([
+                this.application.systemAdvancedService.saveAdvanceData(this.systemAdvanced),
+                this.application.systemUIService.saveUIData(this.config)
+            ]);
         }
     },
 
     revert: {
         value: function() {
             this.config.webui_protocol = this._config.webui_protocol;
-            this.config.ipv4 = this._config.ipv4
-            this.config.ipv6 = this._config.ipv6
-            this.config.webui_http_port = this._config.webui_http_port
-            this.config.webui_https_port = this._config.webui_https_port
-            this.config.webui_https_certificate = this._config.webui_https_certificate
-            this.config.webui_http_redirect_https = this._config.webui_http_redirect_https
-            this.config.webui_listen = this._config.webui_listen
+            this.config.ipv4 = this._config.ipv4;
+            this.config.ipv6 = this._config.ipv6;
+            this.config.webui_http_port = this._config.webui_http_port;
+            this.config.webui_https_port = this._config.webui_https_port;
+            this.config.webui_https_certificate = this._config.webui_https_certificate;
+            this.config.webui_http_redirect_https = this._config.webui_http_redirect_https;
+            this.config.webui_listen = this._config.webui_listen;
+
+            return this.application.systemAdvancedService.revertAdvancedData(this.systemAdvanced);
         }
     },
 

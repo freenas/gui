@@ -143,6 +143,20 @@
                 "options": {"<-": "@owner.certificates"},
                 "selectedValue": {"<->": "@owner.config.webui_https_certificate"}
             }
+        },
+        "tokenLiftTimeConverter": {
+            "prototype": "core/converter/string-to-integer-or-null-converter"
+        },
+        "freenas_token_lifetime": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "freenas_token_lifetime"},
+                "label": "Token Lifetime",
+                "converter" : {"@": "tokenLiftTimeConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.systemAdvanced.freenas_token_lifetime"}
+            }
         }
     }
     </script>
@@ -157,6 +171,7 @@
             <div data-montage-id="ipv6"></div>
             <div data-montage-id="SSLCertificate"></div>
             <div data-montage-id="RedirectHTTP"></div>
+            <div data-montage-id="freenas_token_lifetime"></div>
             <div data-montage-id="AllowAllIPAddress"></div>
         </div>
     </div>
