@@ -2197,6 +2197,11 @@
                 "name": "call",
                 "namespace": "rpc"
             },
+            "provideDcIp": {
+                "method": "service.dc.provide_dc_ip",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "provideDcUrl": {
                 "method": "service.dc.provide_dc_url",
                 "name": "call",
