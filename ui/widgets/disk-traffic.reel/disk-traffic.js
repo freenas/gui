@@ -33,7 +33,7 @@ exports.DiskTraffic = Component.specialize(/** @lends DiskTraffic# */ {
     getChartLabel: {
         value: function(source, metric, suffix, isTimeSeries) {
             if (!isTimeSeries) {
-                return metric.split('-')[1];
+                return metric.replace('geom_ops_rwd-', '').replace('multipath_', '');
             }
             return null;
         }
@@ -43,8 +43,8 @@ exports.DiskTraffic = Component.specialize(/** @lends DiskTraffic# */ {
         value: function() {
             this.chart.metrics = this.disks.map(function(disk) {
                 return [
-                    ['geom_ops_rwd-' + disk.name, 'read'],
-                    ['geom_ops_rwd-' + disk.name, 'write']
+                    ['geom_ops_rwd-' + (disk.is_multipath ? 'multipath_' : '') + disk.name, 'read'],
+                    ['geom_ops_rwd-' + (disk.is_multipath ? 'multipath_' : '') + disk.name, 'write']
                 ];
             }).flatten();
             this.chart.sources = ['geom_stat'];
