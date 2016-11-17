@@ -91,7 +91,6 @@ exports.BootEnvironmentTable = Component.specialize({
                 }
 
                 Promise.all(promises).then(function(response){
-                    console.log(self.table);
                     for (i = 0; i < selectedRows.length; i++) {
                         selectedRows[i].object.promise = null;
                     }
