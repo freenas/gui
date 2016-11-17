@@ -18,8 +18,15 @@ exports.BootPool = AbstractInspector.specialize(/** @lends BootPool# */ {
 
     enterDocument: {
         value: function (isFirstTime) {
+            var self = this;
+
             if (isFirstTime) {
                 this._bootEnvironmentService = this.application.bootEnvironmentService;
+                this._notificationCenter = NotificationCenterModule.defaultNotificationCenter;
+
+                this._notificationCenter.startListenToChangesOnModelTypeIfNeeded("BootPool").then(function() {
+                    self._notificationCenter.addEventListener('modelChange', self);
+                });
             }
             this._populateComponentIfNeeded();
         }
@@ -59,7 +66,7 @@ exports.BootPool = AbstractInspector.specialize(/** @lends BootPool# */ {
             this._bootEnvironmentService.scrubBootPool().then(function(taskId) {
                 if (taskId) {
                     self._scrubTaskId = taskId;
-                    NotificationCenterModule.defaultNotificationCenter.addEventListener("taskDone", self);
+                    self._notificationCenter.addEventListener("taskDone", self);
                 }
             });
         }
@@ -70,7 +77,19 @@ exports.BootPool = AbstractInspector.specialize(/** @lends BootPool# */ {
             var taskId = event.detail.jobId;
             if (this._scrubTaskId === event.detail.jobId) {
                 this._scrubTaskId = 0;
-                NotificationCenterModule.defaultNotificationCenter.removeEventListener("taskDone", self);
+                this._notificationCenter.removeEventListener("taskDone", self);
+            }
+        }
+    },
+
+    handleModelChange: {
+        value: function(event) {
+            var detail = event.detail,
+                data = detail.data,
+                modelType = detail.modelType;
+
+            if (modelType === 'BootPool') {
+                this.bootVolume = data[0];
             }
         }
     }
