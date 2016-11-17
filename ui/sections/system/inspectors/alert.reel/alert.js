@@ -36,7 +36,7 @@ exports.Alert = Component.specialize(/** @lends Alert# */ {
     enterDocument: {
         value: function(isFirstTime) {
             if (isFirstTime) {
-                this.addPathChangeListener("parentCascadingListItem.selectedObject", this, "_handleSelectionChange");
+                this.addPathChangeListener("selectedObject", this, "_handleSelectionChange");
                 this.addPathChangeListener("selectedEntry", this, "_handleSelectionChange");
             }
         }
@@ -60,10 +60,10 @@ exports.Alert = Component.specialize(/** @lends Alert# */ {
                     this.selectedEntry = null;
                 }
             }
-            if (this.parentCascadingListItem.selectedObject !== value) {
-                this.parentCascadingListItem.selectedObject = value;
+            if (this.selectedObject !== value) {
+                this.selectedObject = value;
             } else {
-        //        this.selectedEntry = value;
+                this.selectedEntry = value;
             }
         }
     }
