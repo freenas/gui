@@ -17,8 +17,8 @@
                 "_environmentComponent": {"@": "environmentsTable"}
             },
             "bindings": {
-                "currentTemplate": {"<-": "@imageSearch.selectedValue.presets"},
-                "object.image": {"<-": "@imageSearch.selectedValue.name"},
+                "currentTemplate": {"<-": "@image.selectedValue.presets"},
+                "object.image": {"<-": "@image.selectedValue.name"},
                 "_availablesDockers": {"<-": "@owner._hostDockers.map{{label: name, value: id}}"},
                 "object.interactive": {"<-": "@owner.currentTemplate.interactive"},
                 "object.expose_ports": {"<-": "!!@owner.currentTemplate.expose_ports"},
@@ -50,10 +50,10 @@
             }
         },
 
-        "imageSearch": {
+        "image": {
             "prototype": "ui/sections/containers/controls/docker-image-search.reel",
             "properties": {
-                "element": {"#": "imageSearch"}
+                "element": {"#": "image"}
             },
             "bindings": {
                 "_sectionService": {"<-": "@owner._sectionService"},
@@ -251,7 +251,7 @@
 <body>
     <div data-montage-id="owner" class="ContainerCreator">
         <div data-montage-id="inspector">
-            <div data-montage-id="imageSearch" class="g-margin-bottom--double"></div>
+            <div data-montage-id="image" class="g-margin-bottom--double"></div>
             <div data-montage-id="name"></div>
             <div data-montage-id="dockerHost"></div>
 

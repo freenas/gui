@@ -9,18 +9,14 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
  */
 exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCreator# */ {
 
-    templateDidLoad: {
+    _inspectorTemplateDidLoad: {
         value: function () {
-            var self = this,
-                blockGateKey = this.constructor.DATA_GATE_BLOCK_KEY;
+            var self = this;
 
             this._environment = {};
-            this._canDrawGate.setField(blockGateKey, false);
 
             return this._sectionService.listDockerHosts().then(function (hostDockers) {
                 self._hostDockers = hostDockers;
-            }).finally(function () {
-                self._canDrawGate.setField(blockGateKey, true);
             });
         }
     },
