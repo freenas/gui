@@ -166,13 +166,13 @@
             }
         },
         "enable_debug_kernel": {
-            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
                 "element": {"#": "enable_debug_kernel"},
-                "label": "Enable debug kernel"
+                "label": "Debug kernel Enabled"
             },
             "bindings": {
-                "checked": {"<->": "@owner.debugkernel"}
+                 "value": {"<-": "@owner.debugkernel ? 'Enabled' : 'Not Enabled'"}
             }
         },
         "dataTitle": {
