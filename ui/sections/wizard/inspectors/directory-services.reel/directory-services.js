@@ -2,6 +2,7 @@
  * @module ui/directory-services.reel
  */
 var Component = require("montage/ui/component").Component,
+    Model = require("core/model/model").Model,
     DirectoryServicesInspector = require("ui/inspectors/directory-services.reel/directory-services").DirectoryServices;
 
 /**
