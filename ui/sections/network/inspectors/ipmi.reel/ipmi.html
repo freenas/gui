@@ -39,7 +39,7 @@
                 "label": "DHCP"
             },
             "bindings": {
-                "checked": {"<-": "@owner.object.dhcp"}
+                "checked": {"<->": "!!@owner.object.dhcp"}
             }
         },
         "ipv4_address_validator": {
@@ -57,6 +57,7 @@
                 "errorMessage": "Invalid IP address"
             },
             "bindings": {
+                "disabled": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp"},
                 "value": {"<->": "@owner.object.gateway"}
             }
         },
@@ -68,6 +69,7 @@
                 "converter": {"@": "ipv4_netmask_converter"}
             },
             "bindings": {
+                "disabled": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp"},
                 "value": {"<->": "@owner.object.netmask"}
             }
         },
@@ -80,6 +82,7 @@
                 "errorMessage": "Invalid IP address"
             },
             "bindings": {
+                "disabled": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp"},
                 "value": {"<->": "@owner.object.address"}
             }
         },
