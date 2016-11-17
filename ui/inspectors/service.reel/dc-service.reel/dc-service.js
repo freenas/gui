@@ -5,12 +5,29 @@ var Component = require("montage/ui/component").Component,
  * @extends Component
  */
 exports.DcService = Component.specialize({
-    handleDcUrlAction: {
+
+    dcIp: {
+        value: null
+    },
+    dcUrl: {
+        value: null
+    },
+    _updateIp: {
         value: function() {
-            var self = this;
+           var self = this;
+            Model.populateObjectPrototypeForType(Model.ServiceDc).then(function(ServiceDc){
+                ServiceDc.constructor.services.provideDcIp().then(function (ip) {
+                   return self.dcIp = ip ? ip[0]: "" ;
+                });
+            });
+        },
+    },
+    _updateUrl: {
+        value: function() {
+           var self = this;
             Model.populateObjectPrototypeForType(Model.ServiceDc).then(function(ServiceDc){
                 ServiceDc.constructor.services.provideDcUrl().then(function (url) {
-                   window.open(url[0], '_blank'); 
+                   return self.dcUrl = url[0];
                 });
             });
         }
@@ -19,6 +36,20 @@ exports.DcService = Component.specialize({
     save: {
         value: function() {
             delete this.object.vm_id;
+        },
+    },
+    handleDcUrlAction: {
+        value: function() {
+            // just updating these before clicking to get latest values
+            this._updateIp();
+            this._updateUrl();
+            window.open(this.dcUrl, '_blank');
+        }
+    },
+    enterDocument: {
+        value: function() {
+            this._updateIp();
+            this._updateUrl();
         }
     }
 });
