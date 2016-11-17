@@ -16,28 +16,18 @@ var DirectoryServices = exports.DirectoryServices = Component.specialize(/** @le
         }
     },
 
-    handleDirectoriesChange: {
+    _fetchDataIfNeeded: {
         value: function () {
             var directoryTypesKeyValuesKeys = Object.keys(DirectoryServicesInspector.DIRECTORY_TYPES_KEY_VALUES),
                 directoryTypesValueKeys = DirectoryServicesInspector.DIRECTORY_TYPES_VALUE_KEYS,
                 directoryTypesLabels = DirectoryServicesInspector.DIRECTORY_TYPES_LABELS,
                 directoryServicesMap = new Map(),
-                directories = this._directories,
                 directoryServices, directoryService,
                 directoryTypesValueKey,
                 directoryTypesKeyValue,
                 directory, i, length,
                 promises = [],
                 self = this;
-
-            for (i = 0, length = directories.length; i < length; i++) {
-                directoryService = directories[i];
-
-                if ((directoryTypesValueKey = directoryTypesValueKeys[directoryService.type]) && directoryService.name) {
-                    directoryServicesMap.set(directoryTypesValueKey, directoryService);
-                    directoryService.label = directoryTypesLabels[directoryService.type];
-                }
-            }
 
             for (i = 0, length = directoryTypesKeyValuesKeys.length; i < length; i++) {
                 directoryTypesKeyValue = directoryTypesKeyValuesKeys[i];
@@ -55,10 +45,8 @@ var DirectoryServices = exports.DirectoryServices = Component.specialize(/** @le
                     directoryServicesMap.set(directoryServices[i].type || i, directoryService);
                 }
 
-                self.object.$directoryServices = directoryServicesMap.toArray();
-
-                self.directoryServices = self.application.dataService.setTypeForCollection(
-                    self.object.$directoryServices,
+                self.object.$directoryServices = self.directoryServices = self.application.dataService.setTypeForCollection(
+                    directoryServicesMap.toArray(),
                     Model.Directory
                 );
             });
@@ -80,6 +68,3 @@ var DirectoryServices = exports.DirectoryServices = Component.specialize(/** @le
         }
     }
 });
-
-
-DirectoryServices.prototype._fetchDataIfNeeded = DirectoryServicesInspector.prototype._fetchDataIfNeeded;

@@ -2,6 +2,7 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
     VolumeDao = require("core/dao/volume-dao").VolumeDao,
     MailDao = require("core/dao/mail-dao").MailDao,
     ShareDao = require("core/dao/share-dao").ShareDao,
+    DirectoryDao = require("core/dao/directory-dao").DirectoryDao,
     DirectoryServicesDao = require("core/dao/directory-services-dao").DirectoryServicesDao,
     SystemGeneralDao = require("core/dao/system-general-dao").SystemGeneralDao;
 
@@ -43,13 +44,19 @@ exports.WizardRepository = AbstractRepository.specialize({
 
     getMailData: {
         value: function () {
-            return this._mailDao.get();
+            return this._mailDao.getNewInstance();
         }
     },
 
     getNewShare: {
         value: function () {
             return this._shareDao.getNewInstance();
+        }
+    },
+
+    saveShare: {
+        value: function (object) {
+            return this._shareDao.save(object);
         }
     },
 
@@ -65,9 +72,9 @@ exports.WizardRepository = AbstractRepository.specialize({
         }
     },
 
-    saveNewDirectoryService: {
+    saveDirectory: {
         value: function (object) {
-            return this._directoryServicesDao.save(object);
+            return this._directoryDao.save(object);
         }
     },
 

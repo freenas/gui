@@ -26,14 +26,13 @@ exports.Share = Component.specialize(/** @lends Share# */ {
 
     _populateNewShareObjectList: {
         value: function () {
-            var volume = null,
-                shareService = this._shareService;
+            var shareService = this._shareService;
 
-            Promise.all([
-                shareService.createSmbShare(volume),
-                shareService.createNfsShare(volume),
-                shareService.createAfpShare(volume),
-                shareService.createIscsiShare(volume)
+            return Promise.all([
+                shareService.createSmbShare(),
+                shareService.createNfsShare(),
+                shareService.createAfpShare(),
+                shareService.createIscsiShare()
             ]).bind(this).then(function (shares) {
                 this.object.$shares = this.shares = shares;
             });

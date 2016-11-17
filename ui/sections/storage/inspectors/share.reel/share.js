@@ -90,6 +90,10 @@ exports.Share = AbstractInspector.specialize({
                         self.serviceEnabled = service.state == 'RUNNING';
                     });
 
+                    if (this._shareService) {
+                        this._shareService.populateShareObjectIfNeeded(object);
+                    }
+
                     var shareServiceConstructor = this.application.shareService.constructor;
                     if (!object.target_type) {
                         object.target_type = object.type === shareServiceConstructor.SHARE_TYPES.ISCSI ?

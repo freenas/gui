@@ -52,7 +52,7 @@
             },
             "bindings": {
                 "classList.has('is-hidden')": {"<-": "@owner._currentIndex + 1 == @owner.steps.length"},
-                "disabled": {"<-": "@owner._context.isNextStepDisabled ?? false"}
+                "disabled": {"<-": "@owner._context.defined() ? !!@owner._context.isNextStepDisabled : false"}
             }
         },
 
