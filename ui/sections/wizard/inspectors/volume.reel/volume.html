@@ -6,7 +6,8 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "volumeCreator": {"@": "volumeCreator"}
             },
             "bindings": {
                 "context.isNextStepDisabled": {"<-": "!@owner.object.id || @owner.object.topology.data.length == 0"}
@@ -17,11 +18,6 @@
             "prototype": "ui/sections/storage/inspectors/volume-creator.reel",
             "properties": {
                 "element": {"#": "volumeCreator"}
-            },
-            "bindings": {
-                "__sectionService": {"<-": "@owner.context.sectionService"},
-                "context": {"<-": "@owner.context"},
-                "object": {"<-": "@owner.object"}
             }
         }
     }
