@@ -607,13 +607,15 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
 
                         if (model) {
                             this.mapFromRawData(model, rawModel);
-                            if (type === Model.CalendarTask) {
-                                this._eventDispatcherService.dispatch("calendarTaskUpdated", model);
-                            }
                         } else {
                             //todo: warning?
                         }
                     }
+                }
+                if (type === Model.CalendarTask) {
+                    this._eventDispatcherService.dispatch("calendarTaskUpdated", model);
+                } else if (type === Model.AlertFilter) {
+                    this._eventDispatcherService.dispatch("alertFilterUpdated", model);
                 }
             }
         }

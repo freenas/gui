@@ -3,6 +3,7 @@
  */
 var Component = require("montage/ui/component").Component,
     AlertService = require("core/service/alert-service").AlertService,
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
     CascadingList = require("ui/controls/cascading-list.reel").CascadingList;
 
 /**
@@ -26,16 +27,29 @@ exports.Alert = Component.specialize(/** @lends Alert# */ {
             });
             this._service.loadSettings().then(function (settings) {
                 self.settings = settings;
-            })
+            });
+            this._eventDispatcherService = EventDispatcherService.getInstance();
+            this._eventDispatcherService.addEventListener("alertFilterUpdated", this._handleAlertFilterUpdate.bind(this));
         }
     },
 
     enterDocument: {
         value: function(isFirstTime) {
             if (isFirstTime) {
-                this.addPathChangeListener("parentCascadingListItem.selectedObject", this, "_handleSelectionChange");
+                this.addPathChangeListener("selectedObject", this, "_handleSelectionChange");
                 this.addPathChangeListener("selectedEntry", this, "_handleSelectionChange");
             }
+        }
+    },
+
+    _handleAlertFilterUpdate: {
+        value: function() {
+            var self = this;
+            this._service.loadEntries().then(function (entries) {
+                var meta_data = self.entries._meta_data;
+                self.entries = entries.slice();
+                self.entries._meta_data = meta_data;
+            });
         }
     },
 
@@ -46,10 +60,10 @@ exports.Alert = Component.specialize(/** @lends Alert# */ {
                     this.selectedEntry = null;
                 }
             }
-            if (this.parentCascadingListItem.selectedObject !== value) {
-                this.parentCascadingListItem.selectedObject = value;
+            if (this.selectedObject !== value) {
+                this.selectedObject = value;
             } else {
-        //        this.selectedEntry = value;
+                this.selectedEntry = value;
             }
         }
     }
