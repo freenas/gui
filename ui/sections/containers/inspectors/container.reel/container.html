@@ -256,6 +256,31 @@
             }
         },
 
+        "bridged": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "bridged"},
+                "label": "Bridged",
+                "disabled": true
+            },
+            "bindings": {
+                "checked": {"<-": "@owner.object.bridge.enable"}
+            }
+        },
+
+        "bridgeAddress": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "bridgeAddress"},
+                "label": "IP address",
+                "disabled": true,
+                "classList.has('is-hidden')": {"<-": "!@owner.object.bridge.enabled"}
+            },
+            "bindings": {
+                "checked": {"<-": "@owner.object.bridge.address"}
+            }
+        },
+
         "logs": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
@@ -300,6 +325,8 @@
             </div>
             <div data-montage-id="command"></div>
             <div data-montage-id="interactive"></div>
+            <div data-montage-id="bridged"></div>
+            <div data-montage-id="bridgeAddress"></div>
             <div data-montage-id="logs"></div>
         </div>
     </div>

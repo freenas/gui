@@ -68,10 +68,10 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
     enterDocument: {
         value: function (firsTime) {
             this.super();
+            var self = this;
             this._reset();
 
             if (!this._loadDataPromise) {
-                var self = this;
                 this.isLoading = true;
 
                 this._loadDataPromise = this._sectionService.getDockerSettings()
@@ -80,6 +80,12 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
                 }).finally(function () {
                     self.isLoading = false;
                     self._loadDataPromise = null;
+                });
+            }
+
+            if (this.object) {
+                this._sectionService.getNewDockerContainerBridge().then(function(bridge) {
+                    self.object.bridge = bridge;
                 });
             }
         }

@@ -8,6 +8,7 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
     DockerContainerLogsDao = require("core/dao/docker-container-logs-dao").DockerContainerLogsDao,
     DockerImagePullDao = require("core/dao/docker-image-pull-dao").DockerImagePullDao,
     DockerContainerDao = require("core/dao/docker-container-dao").DockerContainerDao;
+    DockerContainerBridgeDao = require("core/dao/docker-container-bridge-dao").DockerContainerBridgeDao;
 
 exports.ContainerRepository = AbstractRepository.specialize({
 
@@ -21,7 +22,8 @@ exports.ContainerRepository = AbstractRepository.specialize({
             dockerCollectionDao,
             dockerContainerCreatorDao,
             dockerImagePullDao,
-            dockerContainerLogsDao
+            dockerContainerLogsDao,
+            dockerContainerBridgeDao
             ) {
 
             this._dockerContainerSectionDao = dockerContainerSectionDao || DockerContainerSectionDao.instance;
@@ -33,6 +35,7 @@ exports.ContainerRepository = AbstractRepository.specialize({
             this._dockerContainerCreatorDao = dockerContainerCreatorDao || DockerContainerCreatorDao.instance;
             this._dockerImagePullDao = dockerImagePullDao || DockerImagePullDao.instance;
             this._dockerContainerLogsRepository = dockerContainerLogsDao || DockerContainerLogsDao.instance;
+            this._dockerContainerBridgeDao = dockerContainerBridgeDao || DockerContainerBridgeDao.instance;
         }
     },
 
@@ -51,6 +54,12 @@ exports.ContainerRepository = AbstractRepository.specialize({
     getNewDockerCollection: {
         value: function () {
             return this._dockerCollectionDao.getNewInstance();
+        }
+    },
+
+    getNewDockerContainerBridge: {
+        value: function () {
+            return this._dockerContainerBridgeDao.getNewInstance();
         }
     },
 
