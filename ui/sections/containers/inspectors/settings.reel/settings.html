@@ -10,6 +10,7 @@
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.object.settings.default_host"},
+                "_availablesDockerCollectionsOptions": {"<-": "@owner._availablesDockerCollections.map{{label: name, value: id}}"},
                 "_availablesDockersOptions": {"<-": "@owner._availablesDockers.map{{label: name, value: id}}"}
             }
         },
@@ -30,13 +31,14 @@
         },
 
         "defaultCollection": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "defaultCollection"},
                 "label": "Default Docker Collection"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.settings.default_collection"}
+                "selectedValue": {"<->": "@owner.object.settings.default_collection"},
+                "options": {"<-": "@owner._availablesDockerCollectionsOptions"}
             }
         },
 

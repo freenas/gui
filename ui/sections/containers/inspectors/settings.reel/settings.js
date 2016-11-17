@@ -1,38 +1,24 @@
-/**
- * @module ui/settings.reel
- */
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
-/**
- * @class Settings
- * @extends Component
- */
-exports.Settings = AbstractInspector.specialize(/** @lends Settings# */ {
+exports.Settings = AbstractInspector.specialize({
     
-    templateDidLoad: {
-        value: function () {
-            var self = this,
-                blockGateKey = this.constructor.DATA_GATE_BLOCK_KEY;
+    _inspectorTemplateDidLoad: {
+        value: function() {
+            var self = this;
 
-            this._canDrawGate.setField(blockGateKey, false);
-
-            this._sectionService.listDockerHosts().then(function (dockersHost) {
-                self._availablesDockers = dockersHost;
-                self._canDrawGate.setField(blockGateKey, true);
+            return Promise.all([
+                this._sectionService.listDockerHosts(),
+                this._sectionService.listDockerCollections()
+            ]).then(function (responses) {
+                self._availablesDockers = responses[0];
+                self._availablesDockerCollections = responses[1];
             });
         }
     },
 
     save: {
-        value: function () {
+        value: function() {
             return this._sectionService.saveSettings(this.object.settings)
         }
     }
-
-}, {
-
-    DATA_GATE_BLOCK_KEY: {
-        value: "dataLoaded"
-    }
-
 });
