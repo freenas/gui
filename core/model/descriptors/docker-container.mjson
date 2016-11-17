@@ -12,7 +12,8 @@
     "properties": {
       "name": "bridge",
       "blueprint": {"@": "root"},
-      "valueType": "object"
+      "valueType": "object",
+      "valueObjectPrototypeName": "DockerContainerBridge"
     }
   },
   "blueprint_dockercontainer_command": {

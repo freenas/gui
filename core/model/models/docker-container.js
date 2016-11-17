@@ -283,6 +283,7 @@ exports.DockerContainer = Montage.specialize({
         }, {
             mandatory: false,
             name: "bridge",
+            valueObjectPrototypeName: "DockerContainerBridge",
             valueType: "object"
         }, {
             mandatory: false,

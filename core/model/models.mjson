@@ -181,8 +181,8 @@
             "type": "DockerConfig"
         },
         {
-            "modelId": "core/model/models/docker-container-bridge-anonymous.js",
-            "type": "DockerContainerBridgeAnonymous"
+            "modelId": "core/model/models/docker-container-bridge.js",
+            "type": "DockerContainerBridge"
         },
         {
             "modelId": "core/model/models/docker-container-creator.js",
