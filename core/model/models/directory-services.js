@@ -10,7 +10,8 @@ exports.DirectoryServices = Montage.specialize(null, {
                 id: 'ui/icons/directory-services.reel'
             },
             nameExpression: "'Directory Services'",
-            "wizardComponentModuleId": "ui/sections/wizard/inspectors/directory-services.reel"
+            "wizardComponentModuleId": "ui/sections/wizard/inspectors/directory-services.reel",
+            "wizardTitle": "set up a directory service"
         }
     }
 });

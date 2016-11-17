@@ -327,7 +327,8 @@ exports.Volume = Montage.specialize({
                 "DEGRADED": "yellow"
             },
             statusValueExpression: "_properties.health.parsed",
-            "wizardComponentModuleId": "ui/sections/wizard/inspectors/volume.reel"
+            "wizardComponentModuleId": "ui/sections/wizard/inspectors/volume.reel",
+            "wizardTitle": "Create a volume"
         }
     }
 });

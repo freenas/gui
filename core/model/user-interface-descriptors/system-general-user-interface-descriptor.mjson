@@ -2,7 +2,8 @@
     "root": {
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
-            "wizardComponentModuleId": "ui/sections/wizard/inspectors/system.reel"
+            "wizardComponentModuleId": "ui/sections/wizard/inspectors/system.reel",
+            "wizardTitle": "choose your region"
         }
     }
 }

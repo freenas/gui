@@ -16,8 +16,10 @@
         "stepsLabel": {
             "prototype": "ui/controls/inspector-section-title.reel",
             "properties": {
-                "element": {"#": "stepsLabel"},
-                "value": "Choose your region"
+                "element": {"#": "stepsLabel"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner._currentObject.constructor.userInterfaceDescriptor.wizardTitle"}
             }
         },
 
