@@ -6,10 +6,10 @@ var Component = require("montage/ui/component").Component,
     AlertSeverity = require("core/model/enumerations/alert-severity").AlertSeverity;
 
 /**
- * @class TableRowPort
+ * @class TableRowPredicate
  * @extends Component
  */
-exports.TableRowPort = Component.specialize({
+exports.TableRowPredicate = Component.specialize({
 
     enterDocument: {
         value: function (isFirstTime) {
