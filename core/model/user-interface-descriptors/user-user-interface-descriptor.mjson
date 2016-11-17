@@ -9,7 +9,9 @@
             "creatorComponentModule": {"%": "ui/inspectors/user.reel"},
             "nameExpression": "id.defined() ? username : 'Create a user'",
             "listControlsComponentModule": {"%": "ui/accounts/accounts-list-options.reel"},
-            "subLabelExpression": "origin.domain"
+            "subLabelExpression": "origin.domain",
+            "wizardComponentModuleId": "ui/sections/wizard/inspectors/user.reel",
+            "wizardTitle": "set up user"
         }
     }
 }

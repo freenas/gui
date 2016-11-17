@@ -419,7 +419,9 @@ exports.User = Montage.specialize({
             listControlsComponentModule: {
                 id: 'ui/accounts/accounts-list-options.reel'
             },
-            subLabelExpression: "origin.domain"
+            subLabelExpression: "origin.domain",
+            wizardComponentModuleId: "ui/sections/wizard/inspectors/user.reel",
+            "wizardTitle": "set up user"
         }
     }
 });

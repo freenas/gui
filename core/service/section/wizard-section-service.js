@@ -25,6 +25,12 @@ exports.WizardSectionService = AbstractSectionService.specialize({
         }
     },
 
+    getNewUser: {
+        value: function() {
+            return this._wizardRepository.getNewUser();
+        }
+    },
+
     getNewDirectoryServices: {
         value: function () {
             return this._wizardRepository.getNewDirectoryServices();
@@ -51,6 +57,7 @@ exports.WizardSectionService = AbstractSectionService.specialize({
                 return Promise.all([
                     self.getNewSystemGeneral(),
                     self.getNewVolume(),
+                    self.getNewUser(),
                     self.getNewDirectoryServices(),
                     self.getNewShare(),
                     self.getMailData()
@@ -88,7 +95,7 @@ exports.WizardSectionService = AbstractSectionService.specialize({
             if (this._wizardsMap.has(notification.jobId)) {
                 if (notification.state === "FINISHED") {
                     var steps = this._wizardsMap.get(notification.jobId),
-                    shares = steps[3].$shares,
+                    shares = steps[4].$shares,
                     wizardRepository = this._wizardRepository,
                     promises = [];
 
@@ -98,6 +105,8 @@ exports.WizardSectionService = AbstractSectionService.specialize({
                             promises.push(wizardRepository.saveShare(share));
                         }
                     });
+                    steps[2].home = '/mnt/' + steps[1].id + '/' + steps[2].username;
+                    promises.push(wizardRepository.saveUser(steps[2]));
 
                     Promise.all(promises);
                 }
@@ -114,12 +123,12 @@ exports.WizardSectionService = AbstractSectionService.specialize({
     saveWizard: {
         value: function (steps) {
             var storageSectionService = this._services[1],
-                directoryServices = steps[2].$directoryServices,
+                directoryServices = steps[3].$directoryServices,
                 wizardRepository = this._wizardRepository,
                 promises = [
                     wizardRepository.saveSystemGeneral(steps[0]),
                     storageSectionService.createVolume(steps[1]),
-                    wizardRepository.saveMailData(steps[4])
+                    wizardRepository.saveMailData(steps[5])
                 ],
                 self = this;
 
