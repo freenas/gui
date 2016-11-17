@@ -97,6 +97,12 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         }
     },
 
+    getNewDockerContainerBridge: {
+        value: function () {
+            return this._containerRepository.getNewDockerContainerBridge();
+        }
+    },
+
     getNewDockerContainerCreator: {
         value: function () {
             return this._containerRepository.getNewDockerContainerCreator();
