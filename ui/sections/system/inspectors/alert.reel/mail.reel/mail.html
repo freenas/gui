@@ -149,6 +149,19 @@
                 "values": {"<->": "@owner.object.to"},
                 "placeholder": {"<-": "!@owner.object.webui_listen ? 'eg. foo@example.com' : ''"}
             }
+        },
+        "emailRecipient": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+            "properties": {
+                "element": {"#": "emailRecipient"},
+                "value": "Email Recipient"
+            }
+        },
+        "testField": {
+            "prototype": "blue-shark/ui/field.reel",
+            "properties": {
+                "element": {"#": "testField"}
+            }
         }
     }
     </script>
@@ -156,7 +169,6 @@
 <body>
     <div data-montage-id="owner" class="Mail">
         <div data-montage-id="inspector">
-            <div data-montage-id="sendTestMail" class="g-margin-bottom--half" id="downloadDebug"></div>
             <div data-montage-id="from"></div>
             <div data-montage-id="outgoing_server"></div>
             <div data-montage-id="outgoing_port"></div>
@@ -164,7 +176,11 @@
             <div data-montage-id="encryption"></div>
             <div data-montage-id="username"></div>
             <div data-montage-id="password"></div>
+            <div data-montage-id="emailRecipient"></div>
             <div data-montage-id="send_to"></div>
+            <div data-montage-id="testField" class="g-margin-top--subtract">
+                <div data-montage-id="sendTestMail" class="Button--block"></div>
+            </div>
         </div>
     </div>
 </body>
