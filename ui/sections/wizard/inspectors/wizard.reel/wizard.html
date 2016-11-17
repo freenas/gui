@@ -14,9 +14,10 @@
         },
 
         "stepsLabel": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "ui/controls/inspector-section-title.reel",
             "properties": {
-                "element": {"#": "stepsLabel"}
+                "element": {"#": "stepsLabel"},
+                "value": "Choose your region"
             }
         },
 
@@ -36,7 +37,7 @@
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
                 "element": {"#": "previous"},
-                "label": "Previous"
+                "value": "Previous"
             },
             "bindings": {
                 "classList.has('is-hidden')": {"<-": "@owner._currentIndex == 0"}
@@ -47,7 +48,7 @@
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
                 "element": {"#": "next"},
-                "label": "Next"
+                "value": "Next"
             },
             "bindings": {
                 "classList.has('is-hidden')": {"<-": "@owner._currentIndex + 1 == @owner.steps.length"},
@@ -59,10 +60,30 @@
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
                 "element": {"#": "submit"},
-                "label": "Submit"
+                "value": "Submit"
             },
             "bindings": {
                 "classList.has('is-hidden')": {"<-": "@owner._currentIndex + 1 != @owner.steps.length"}
+            }
+        },
+
+        "currentPageNumber": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "currentPageNumber"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner._currentIndex + 1"}
+            }
+        },
+
+        "totalPageNumber": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "totalPageNumber"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner._services.length"}
             }
         }
     }
@@ -70,12 +91,20 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Wizard">
-        <div data-montage-id="stepsLabel"></div>
-        <div data-montage-id="stepPlaceholder" class="stepPlaceholder"></div>
-        <div class="controls">
+        <div class="Wizard-header g-margin-bottom">
+            <h2 data-montage-id="stepsLabel" class="flush-bottom"></h2>
+            <div class="Wizard-counter">
+                <span data-montage-id="currentPageNumber"></span>
+                of
+                <span data-montage-id="totalPageNumber"></span>
+            </div>
+        </div>
+
+        <div data-montage-id="stepPlaceholder" class="stepPlaceholder g-margin-bottom"></div>
+        <div class="Wizard-controls">
             <div data-montage-id="previous" class="Button--secondary"></div>
             <div data-montage-id="next" class="Button--secondary"></div>
-            <div data-montage-id="submit" class="Button--secondary"></div>
+            <div data-montage-id="submit" class="Button--primary"></div>
         </div>
     </div>
 </body>

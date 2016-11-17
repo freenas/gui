@@ -308,6 +308,7 @@ $Icons
 .flex-justifyContent--spaceBetween { justify-content: space-between; }
 
 .flex-alignItems--center { align-items: center; }
+.flex-align--bottom      { align-items: flex-end; }
 
 /* Table Styles */
 
