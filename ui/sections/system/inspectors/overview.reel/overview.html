@@ -165,14 +165,14 @@
                 "value": {"<-": "@owner.systemInfo.replications.length"}
             }
         },
-        "enable_debug_kernel": {
+        "system_dataset": {
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
-                "element": {"#": "enable_debug_kernel"},
-                "label": "Debug kernel Enabled"
+                "element": {"#": "system_dataset"},
+                "label": "System Dataset"
             },
             "bindings": {
-                 "value": {"<-": "@owner.debugkernel ? 'Enabled' : 'Not Enabled'"}
+                 "value": {"<-": "@owner.systemDatasetData"}
             }
         },
         "dataTitle": {
@@ -206,7 +206,7 @@
                 <div data-montage-id="version"></div>
                 <div data-montage-id="hostname"></div>
                 <div data-montage-id="uptime"></div>
-                <div data-montage-id="enable_debug_kernel"></div>
+                <div data-montage-id="system_dataset"></div>
             </div>
             <div class="Overview-metrics">
                 <div class="OverviewMetrics-data">

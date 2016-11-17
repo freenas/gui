@@ -58,8 +58,8 @@ exports.Overview = Component.specialize(/** @lends Overview# */ {
                 this.application.storageService.listDisks().then(function (disks) {
                     self.systemInfo.disks = disks
                 }),
-                this.application.systemAdvancedService.getSystemAdvanced().then(function (systemAdvanced) {
-                    self.debugkernel = systemAdvanced.debugkernel
+                this.application.systemDatasetService.getSystemDatasetPool().then(function(systemDatasetPool) {
+                    self.systemDatasetData = systemDatasetPool.pool;
                 }),
                 this.application.networkInterfacesSevice.getNetworkInterfaces().then(function (totalNetworkInterfaces) {
                     self.systemInfo.totalNetworkInterfaces = totalNetworkInterfaces;
