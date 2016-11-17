@@ -2,6 +2,7 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
     VolumeDao = require("core/dao/volume-dao").VolumeDao,
     MailDao = require("core/dao/mail-dao").MailDao,
     ShareDao = require("core/dao/share-dao").ShareDao,
+    UserDao = require("core/dao/user-dao").UserDao,
     DirectoryDao = require("core/dao/directory-dao").DirectoryDao,
     DirectoryServicesDao = require("core/dao/directory-services-dao").DirectoryServicesDao,
     SystemGeneralDao = require("core/dao/system-general-dao").SystemGeneralDao;
@@ -9,12 +10,13 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
 exports.WizardRepository = AbstractRepository.specialize({
 
     init: {
-        value: function(systemGeneralDao, volumeDao, directoryServicesDao, mailDao, shareDao) {
+        value: function(systemGeneralDao, volumeDao, directoryServicesDao, mailDao, shareDao, userDao) {
             this._systemGeneralDao = systemGeneralDao || SystemGeneralDao.instance;
             this._volumeDao = volumeDao || VolumeDao.instance;
             this._directoryServicesDao = directoryServicesDao || DirectoryServicesDao.instance;
             this._mailDao = mailDao || MailDao.instance;
             this._shareDao = shareDao || ShareDao.instance;
+            this._userDao = userDao || UserDao.instance;
         }
     },
 
@@ -45,6 +47,18 @@ exports.WizardRepository = AbstractRepository.specialize({
     getMailData: {
         value: function () {
             return this._mailDao.getNewInstance();
+        }
+    },
+
+    getNewUser: {
+        value: function () {
+            return this._userDao.getNewInstance();
+        }
+    },
+
+    saveUser: {
+        value: function(user) {
+            return this._userDao.save(user);
         }
     },
 

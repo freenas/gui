@@ -44,6 +44,12 @@ exports.UserRepository = AbstractRepository.specialize({
         value: function (user) {
             return this._userDao.save(user);
         }
+    },
+
+    getNewUser: {
+        value: function() {
+            return this._userDao.getNewInstance();
+        }
     }
     
 });
