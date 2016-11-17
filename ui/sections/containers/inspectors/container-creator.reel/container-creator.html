@@ -226,11 +226,11 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "bridgeAddress"},
-                "label": "IP address",
-                "classList.has('is-hidden')": {"<-": "@owner.object.bridge.enable"}
+                "label": "IP address"
             },
             "bindings": {
-                "checked": {"<->": "@owner.object.bridge.address"}
+                "value": {"<->": "@owner.object.bridge.address"},
+                "classList.has('hide')": {"<-": "!@owner.object.bridge.enable"}
             }
         },
 
