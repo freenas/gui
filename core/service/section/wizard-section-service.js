@@ -1,6 +1,7 @@
 var AbstractSectionService = require("core/service/section/abstract-section-service").AbstractSectionService,
     StorageSectionService = require("core/service/section/storage-section-service").StorageSectionService,
-    Application = require("montage/core/application").Application,
+    NotificationCenterModule = require("core/backend/notification-center"),
+    Application = require("montage/core/application").application,
     WizardRepository = require("core/repository/wizard-repository").WizardRepository;
 
 exports.WizardSectionService = AbstractSectionService.specialize({
@@ -8,6 +9,7 @@ exports.WizardSectionService = AbstractSectionService.specialize({
     init: {
         value: function (wizardRepository) {
             this._wizardRepository = wizardRepository || WizardRepository.instance;
+            Application.addEventListener("taskDone", this);
         }
     },
 
@@ -73,24 +75,34 @@ exports.WizardSectionService = AbstractSectionService.specialize({
         }
     },
 
+    notificationCenter: {
+        get: function () {
+            return NotificationCenterModule.defaultNotificationCenter;
+        }
+    },
+
     handleTaskDone: {
         value: function (event) {
             var notification = event.detail;
-            console.log(notification);
 
-            if (notification.state === "FINISHED" && this._wizardsMap.has(notification.jobId)) {
-                var steps = this._wizardsMap.get(notification.jobId),
+            if (this._wizardsMap.has(notification.jobId)) {
+                if (notification.state === "FINISHED") {
+                    var steps = this._wizardsMap.get(notification.jobId),
                     shares = steps[3].$shares,
+                    wizardRepository = this._wizardRepository,
                     promises = [];
 
-                shares.forEach(function (share) {
-                    if (share.name) {
-                        promises.push(dataService.saveDataObject(share));
-                    }
-                });
+                    shares.forEach(function (share) {
+                        if (share.name) {
+                            share.target_path = steps[1].id;
+                            promises.push(wizardRepository.saveShare(share));
+                        }
+                    });
 
-                this._wizardsMap.delete(jobId);
-                Promise.all(promises);
+                    Promise.all(promises);
+                }
+
+                this._wizardsMap.delete(notification.jobId);
             }
         }
     },
@@ -108,21 +120,18 @@ exports.WizardSectionService = AbstractSectionService.specialize({
                     wizardRepository.saveSystemGeneral(steps[0]),
                     storageSectionService.createVolume(steps[1]),
                     wizardRepository.saveMailData(steps[4])
-                ];
+                ],
+                self = this;
 
             directoryServices.forEach(function (directoryService) {
                 if (directoryService.name) {
-                    promises.push(wizardRepository.saveNewDirectoryService(directoryService));
+                    promises.push(wizardRepository.saveDirectory(directoryService));
                 }
             });
 
             return Promise.all(promises).then(function (jobIds) {
-                var volumeJobId = jobIds[1],
-                    notification = self.noticationCenter.findTaskWithJobId(volumeJobId);
-
-                if (notification) {
-                    this._wizardsMap.set(volumeJobId, steps);
-                }
+                var volumeJobId = jobIds[1];
+                self._wizardsMap.set(volumeJobId, steps);
             });
         }
     }

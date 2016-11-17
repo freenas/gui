@@ -47,7 +47,7 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
     },
 
     _context: {
-        value: {}
+        value: null
     },
 
     enterDocument: {
@@ -58,6 +58,7 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
             }
 
             this._isLoading = true;
+            this._context = {};
             var self = this;
 
             Promise.all([
