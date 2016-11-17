@@ -26,6 +26,16 @@
                 "value": {"<->": "@owner.object.volume"}
             }
         },
+        "ip": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "ip"},
+                "label": "Domain Controller IP address"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.dcIp"}
+            }
+        },
         "dcUrl": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
@@ -43,7 +53,9 @@
 <body>
     <div data-montage-id="owner" class="DcService">
         <div data-montage-id="volume"></div>
-         <div data-montage-id="dcUrl"></div>
+        <div data-montage-id="ip"></div>
+        <div data-montage-id="dcUrl"></div>
+        
 
     </div>
 </body>
