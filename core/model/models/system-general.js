@@ -127,7 +127,8 @@ exports.SystemGeneral = Montage.specialize({
 
     userInterfaceDescriptor: {
         value: {
-            "wizardComponentModuleId": "ui/sections/wizard/inspectors/system.reel"
+            "wizardComponentModuleId": "ui/sections/wizard/inspectors/system.reel",
+            "wizardTitle": "choose your region"
         }
     }
 });
