@@ -82,6 +82,12 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
                     self._loadDataPromise = null;
                 });
             }
+
+            if (this.object) {
+                this._sectionService.getNewDockerContainerBridge().then(function(bridge) {
+                    this.object.bridge = bridge;
+                });
+            }
         }
     },
 

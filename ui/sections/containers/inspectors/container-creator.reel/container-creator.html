@@ -211,6 +211,29 @@
             }
         },
 
+        "bridged": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "bridged"},
+                "label": "Bridged"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.bridge.enable"}
+            }
+        },
+
+        "bridgeAddress": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "bridgeAddress"},
+                "label": "IP address",
+                "classList.has('is-hidden')": {"<-": "@owner.object.bridge.enable"}
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.bridge.address"}
+            }
+        },
+
         "autostart": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -242,6 +265,8 @@
                 <div data-montage-id="exposePorts" class="g-margin-bottom--double"></div>
                 <div data-montage-id="volumesTable" class="g-margin-bottom--double"></div>
                 <div data-montage-id="interactive"></div>
+                <div data-montage-id="bridged"></div>
+                <div data-montage-id="bridgeAddress"></div>
                 <div data-montage-id="command"></div>
                 <div data-montage-id="autostart"></div>
             </div>
