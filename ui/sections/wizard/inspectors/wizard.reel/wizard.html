@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="wizard.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('is-loading')": {"<-": "@owner._isLoading"}
+            }
+        },
+
+        "stepsLabel": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+            "properties": {
+                "element": {"#": "stepsLabel"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner._currentObject.constructor.userInterfaceDescriptor.wizardTitle"}
+            }
+        },
+
+        "stepPlaceholder": {
+            "prototype": "ui/controls/placeholder.reel",
+            "properties": {
+                "element": {"#": "stepPlaceholder"}
+            },
+            "bindings": {
+                "moduleId": {"<-": "@owner._currentObject.constructor.userInterfaceDescriptor.wizardComponentModuleId"},
+                "object": {"<-": "@owner._currentObject"},
+                "context": {"<-": "@owner._context"}
+            }
+        },
+
+        "previous": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "previous"},
+                "value": "Previous"
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "@owner._currentIndex == 0"}
+            }
+        },
+
+        "next": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "next"},
+                "value": "Next"
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "@owner._currentIndex + 1 == @owner.steps.length"},
+                "disabled": {"<-": "@owner._context.defined() ? !!@owner._context.isNextStepDisabled : false"}
+            }
+        },
+
+        "submit": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "submit"},
+                "value": "Submit"
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "@owner._currentIndex + 1 != @owner.steps.length"}
+            }
+        },
+
+        "currentPageNumber": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "currentPageNumber"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner._currentIndex + 1"}
+            }
+        },
+
+        "totalPageNumber": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "totalPageNumber"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner._steps.length"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Wizard">
+        <div class="Wizard-header g-margin-bottom">
+            <h2 data-montage-id="stepsLabel" class="flush-bottom"></h2>
+            <div class="Wizard-counter">
+                <span data-montage-id="currentPageNumber"></span>
+                of
+                <span data-montage-id="totalPageNumber"></span>
+            </div>
+        </div>
+
+        <div data-montage-id="stepPlaceholder" class="stepPlaceholder g-margin-bottom"></div>
+        <div class="Wizard-controls">
+            <div data-montage-id="previous" class="Button--secondary"></div>
+            <div data-montage-id="next" class="Button--secondary"></div>
+            <div data-montage-id="submit" class="Button--primary"></div>
+        </div>
+    </div>
+</body>
+</html>

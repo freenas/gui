@@ -1,0 +1,30 @@
+.Wizard.is-loading .Wizard-controls,
+.Wizard .wizard-is-hidden {
+    display: none !important;
+}
+
+.Wizard {
+    max-width: 45em;
+    padding: 1em;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.Wizard .Inspector-body { margin: 0; }
+
+.Wizard-header {
+    position: relative;
+}
+
+.Wizard-counter {
+    position: absolute;
+    right: 0;
+    bottom: .25em;
+}
+
+/* inspector edits */
+
+.Wizard .VolumeCreator .Inspector {
+    margin: 0;
+}

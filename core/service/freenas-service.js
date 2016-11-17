@@ -27,9 +27,9 @@ DataService.prototype.saveDataObject = function (object) {
             dataObject = object[0],
             service = this.getChildServiceForObject(dataObject);
 
-        return service.saveDataObject.apply(service, arguments).then(function () {
+        return service.saveDataObject.apply(service, arguments).then(function (jobId) {
             self.createdDataObjects.delete(dataObject);
-            return null;
+            return jobId;
         });
     }
 };

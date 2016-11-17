@@ -69,5 +69,11 @@
         "index": 10,
         "icon": "container",
         "service": "core/service/section/container-section-service"
+    },
+    "wizard": {
+        "label": "Wizard",
+        "id": "wizard",
+        "index": 11,
+        "icon": "wizard"
     }
 }

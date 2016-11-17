@@ -123,5 +123,12 @@ exports.SystemGeneral = Montage.specialize({
             name: "timezone",
             valueType: "String"
         }]
+    },
+
+    userInterfaceDescriptor: {
+        value: {
+            "wizardComponentModuleId": "ui/sections/wizard/inspectors/system.reel",
+            "wizardTitle": "choose your region"
+        }
     }
 });

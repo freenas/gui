@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="directory-services.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+        "options": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "select"},
+                "label": "Directory Service"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.directoryServices.map{{label: label, value: this}}"},
+                "selectedValue": {"<-": "@owner.directoryServices.0"}
+            }
+        },
+
+        "name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<->": "@options.selectedValue.name"}
+            }
+        },
+
+        "content": {
+            "prototype": "ui/controls/placeholder.reel",
+            "properties": {
+                "element": {"#": "content"}
+            },
+            "bindings": {
+                "moduleId": {"<-": "'ui/inspectors/directory-services.reel/' + @options.selectedValue.type + '-service.reel'"},
+                "object": {"<-": "@options.selectedValue"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="DirectoryServices-wizard">
+        <div data-montage-id="select"></div>
+        <div data-montage-id="name"></div>
+        <div data-montage-id="content"></div>
+    </div>
+</body>
+</html>

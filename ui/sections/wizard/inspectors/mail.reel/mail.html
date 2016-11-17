@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="mail.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+        "mail": {
+            "prototype": "ui/sections/system/inspectors/mail.reel",
+            "properties": {
+                "element": {"#": "mail"}
+            },
+            "bindings": {
+                "object": {"<->": "@owner.object"}
+            }
+        }
+
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Mail-wizard">
+        <div data-montage-id="mail"></div>
+    </div>
+</body>
+</html>
