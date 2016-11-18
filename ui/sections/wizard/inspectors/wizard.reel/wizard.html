@@ -58,6 +58,17 @@
             }
         },
 
+        "skip": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "skip"},
+                "value": "Skip"
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "!@owner._canSkip"}
+            }
+        },
+
         "submit": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
@@ -85,7 +96,7 @@
                 "element": {"#": "totalPageNumber"}
             },
             "bindings": {
-                "value": {"<-": "@owner._steps.length"}
+                "value": {"<-": "@owner.steps.length"}
             }
         }
     }
@@ -106,6 +117,7 @@
         <div class="Wizard-controls">
             <div data-montage-id="previous" class="Button--secondary"></div>
             <div data-montage-id="next" class="Button--secondary"></div>
+            <div data-montage-id="skip" class="Button--secondary"></div>
             <div data-montage-id="submit" class="Button--primary"></div>
         </div>
     </div>

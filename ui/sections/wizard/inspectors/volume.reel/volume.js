@@ -27,6 +27,11 @@ exports.Volume = Component.specialize(/** @lends Volume# */ {
                     "<-": "object"
                 });
             }
+
+            //Thanks to the binding.
+            if (this.object.topology && this.object.topology.data) {
+                this.context.isNextStepDisabled = !this.object.id || this.object.topology.data.length === 0;
+            }
         }
     }
 
