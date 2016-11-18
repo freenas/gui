@@ -29,7 +29,7 @@ exports.EncryptedVolumeActions = AbstractInspector.specialize({
                     downloadLink.download = "key_" + self.object.volume.id + ".key";
                     downloadLink.click();
                 response.taskPromise.then(function(password) {
-                    self.backupKeyPassword = password;
+                    self.object.backupKeyPassword = password;
                 });
             });
         }
