@@ -48,7 +48,8 @@
             "properties": {
                 "element": {"#": "outgoing_port"},
                 "label": "Mail Server Port",
-                "converter" : {"@": "outgoingPortConverter"}
+                "converter" : {"@": "outgoingPortConverter"},
+                "placeholder": "e.g. 25"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.port"}
@@ -58,7 +59,8 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "from"},
-                "label": "From Email Address"
+                "label": "From Email Address",
+                "placeholder": "e.g. john@johnsmith.com"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.from"}
@@ -78,7 +80,8 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "outgoing_server"},
-                "label": "Outgoing Mail server"
+                "label": "Outgoing Mail server",
+                "placeholder": "e.g. mail.yourserver.com"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.server"}
@@ -102,7 +105,8 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "username"},
-                "label": "Username"
+                "label": "Username",
+                "placeholder": "enter username"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.user"}
