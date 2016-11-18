@@ -63,7 +63,7 @@
             "properties": {
                 "element": {"#": "description"},
                 "label": "Description",
-                "placeholderValue": "add a description"
+                "placeholder": "add a description"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.name"}
@@ -83,7 +83,7 @@
             "bindings": {
                 "value": {"<->": "@owner.object._ipAddress.address"},
                 "disabled": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp"},
-                "placeholderValue": {"<-": "!@owner.object.dhcp ? 'eg. 1.2.3.4' : ''"}
+                "placeholder": {"<-": "!@owner.object.dhcp ? 'eg. 1.2.3.4' : ''"}
             }
         },
         "ipv4_netmask_converter": {
@@ -99,7 +99,7 @@
             "bindings": {
                 "value": {"<->": "@owner.object._ipAddress.netmask"},
                 "disabled": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp"},
-                "placeholderValue": {"<-": "!@owner.object.dhcp ? 'eg. 255.255.255.0' : ''"}
+                "placeholder": {"<-": "!@owner.object.dhcp ? 'eg. 255.255.255.0' : ''"}
             }
         },
         "ipv6_address_validator": {
@@ -122,7 +122,7 @@
             "bindings": {
                 "value": {"<->": "@owner.object._ipv6Address.address"},
                 "disabled": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp || @owner.object.rtadv"},
-                "placeholderValue": {"<-": "!@owner.object.rtadv ? 'eg. fda8:06c3:ce53:a890:0000:0000:0000:0005' : ''"}
+                "placeholder": {"<-": "!@owner.object.rtadv ? 'eg. fda8:06c3:ce53:a890:0000:0000:0000:0005' : ''"}
             }
         },
         "v6netmaskValidator": {
@@ -149,7 +149,7 @@
             "bindings": {
                 "value": {"<->": "@owner.object._ipv6Address.netmask"},
                 "disabled": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp || @owner.object.rtadv"},
-                "placeholderValue": {"<-": "!@owner.object.rtadv ? 'eg. 64' : ''"}
+                "placeholder": {"<-": "!@owner.object.rtadv ? 'eg. 64' : ''"}
             }
         },
         "dhcp": {

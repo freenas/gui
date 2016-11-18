@@ -43,7 +43,7 @@
                 "element": {"#": "name"},
                 "label": "Name",
                 "validationPath": "id",
-                "placeholderValue": "enter volume name"
+                "placeholder": "enter volume name"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.id"}
@@ -77,7 +77,10 @@
             "prototype": "blue-shark/ui/field-password.reel",
             "properties": {
                 "element": {"#": "password"},
-                "label": "Password"
+                "label": "Password",
+                "editEnabled": true,
+                "placeholder1": "enter password",
+                "placeholder2": "confirm password"
             },
             "bindings": {
                 "value": {"<->": "@owner.object._password"}
