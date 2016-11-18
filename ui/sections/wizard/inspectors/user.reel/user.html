@@ -15,7 +15,8 @@
             "properties": {
                 "element": {"#": "username"},
                 "validationPath": "username",
-                "label": "Username"
+                "label": "Username",
+                "placeholder": "eg: jon"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.username"}
@@ -29,7 +30,8 @@
                 "label": "Password",
                 "placeholder1": "enter password",
                 "placeholder2": "confirm password",
-                "errorMessage": "Passwords don't match"
+                "errorMessage": "Passwords don't match",
+                "editEnabled": true
             },
             "bindings": {
                 "value": {"<->": "@owner.object.password"}
@@ -39,7 +41,8 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "fullName"},
-                "label": "Display Name"
+                "label": "Display Name",
+                "placeholder": "eg: Jonathan Smith"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.full_name"}
