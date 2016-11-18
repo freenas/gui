@@ -150,12 +150,12 @@ exports.StorageSectionService = AbstractSectionService.specialize({
             }
             volume.type = 'zfs';
             volume._isNew = true;
-            var password;
-            if (volume._isEncrypted) {
-                password = volume._password;
-                volume.password_encrypted = !!password && password.length > 0;
-            }
+            var password = volume._password;
+            volume.password_encrypted = !!password && password.length > 0;
             volume._password = null;
+            if (!volume.key_encrypted) {
+                volume.auto_unlock = false;
+            }
             return this._storageRepository.saveVolume(volume, password);
         }
     },

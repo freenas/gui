@@ -94,10 +94,12 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
 
     addSeries: {
         value: function(series) {
-            this._seriesList.push(series);
-            this._plot.addDataset(this._seriesToDataset(series));
-            this._colorScale.domain(this._colorScale.domain().concat([series.key]));
-            this.needsDraw = true;
+            if (this._plot) {
+                this._seriesList.push(series);
+                this._plot.addDataset(this._seriesToDataset(series));
+                this._colorScale.domain(this._colorScale.domain().concat([series.key]));
+                this.needsDraw = true;
+            }
         }
     },
 
