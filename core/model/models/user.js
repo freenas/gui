@@ -421,7 +421,7 @@ exports.User = Montage.specialize({
             },
             subLabelExpression: "origin.domain",
             wizardComponentModuleId: "ui/sections/wizard/inspectors/user.reel",
-            "wizardTitle": "set up user"
+            wizardTitle: "Create a user"
         }
     }
 });

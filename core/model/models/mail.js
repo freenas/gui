@@ -131,8 +131,8 @@ exports.Mail = Montage.specialize({
                 id: 'ui/sections/system/inspectors/alert.reel/mail.reel'
             },
             nameExpression: "'Settings'",
-            "wizardComponentModuleId": "ui/sections/wizard/inspectors/mail.reel",
-            "wizardTitle": "mail configuration"
+            wizardComponentModuleId: "ui/sections/wizard/inspectors/mail.reel",
+            wizardTitle: "Configure your mail settings"
         }
     }
 });
