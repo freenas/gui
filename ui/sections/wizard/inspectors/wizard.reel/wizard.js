@@ -2,7 +2,8 @@
  * @module ui/wizard.reel
  */
 var Component = require("montage/ui/component").Component,
-    WizardSectionService = require("core/service/section/wizard-section-service").WizardSectionService;
+    WizardSectionService = require("core/service/section/wizard-section-service").WizardSectionService,
+    wizardDescriptor = require("./wizard.mjson");
 
 /**
  * @class Wizard
@@ -57,14 +58,12 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
                 this.addEventListener("action", this);
             }
 
+            this._resetData();
             this._isLoading = true;
-            this._context = {};
             var self = this;
 
-            Promise.all([
-                this._populateServices(),
-                this._populateSteps()
-            ]).then(function () {
+            this._sectionService.buildStepsWizardWithDescriptor(wizardDescriptor).then(function (steps) {
+                self.steps = steps;
                 self.handleNextAction();
                 self._isLoading = false;
             });
@@ -79,21 +78,28 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
 
     handleNextAction: {
         value: function () {
-            if (this._currentIndex > -1 && this._currentIndex + 1 < this.steps.length) {
-                this._currentObject = this.steps[++this._currentIndex];
-            } else if (this._currentIndex === -1) {
-                this._currentObject = this.steps[(this._currentIndex = 0)];
-            }
+            this._next();
+        }
+    },
 
-            this._context.sectionService = this._services[this._currentIndex];
+    handleSkipAction: {
+        value: function () {
+            if (this._canSkip) {
+                this.steps[this._currentIndex].isSkipped = true;
+
+                if (this._currentIndex + 1 < this.steps.length) {
+                    this._next();
+                } else {
+                    this._canSkip = false;
+                }
+            }
         }
     },
 
     handlePreviousAction: {
         value: function () {
-            if (this._currentIndex - 1 > -1) {
-                this._currentObject = this.steps[--this._currentIndex];
-            }
+            this._previous();
+            this._canSkip = true;
         }
     },
 
@@ -103,29 +109,74 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
         }
     },
 
-    reset: {
+    _previous: {
         value: function () {
-            this._resetData();
-            this.handleNextAction();
+            if (this._currentIndex - 1 > -1) {
+                var candidateStep;
+
+                while ((candidateStep = this.steps[--this._currentIndex])) {
+                    if (candidateStep.parent) {
+                        if (!this._isStepSkipped(candidateStep.parent)) {
+                            this._selectStep(candidateStep);
+                        }
+                    } else {
+                        this._selectStep(candidateStep);
+                        break;
+                    }
+                }
+            }
         }
     },
 
-    _populateSteps: {
+    _next: {
         value: function () {
-            var self = this;
-            return this._sectionService.getWizardSteps().then(function (steps) {
-                self.steps = steps;
-            });
+            if (this._currentIndex > -1) {
+                var candidateStep;
+
+                while (this._currentIndex + 1 < this.steps.length && (candidateStep = this.steps[++this._currentIndex])) {
+                    if (candidateStep.parent) {
+                        if (!this._isStepSkipped(candidateStep.parent)) {
+                            this._selectStep(candidateStep);
+                            candidateStep.isSkipped = false;
+                            break;
+                        } else {
+                            candidateStep.isSkipped = true;
+                        }
+                    } else {
+                        this._selectStep(candidateStep);
+                        candidateStep.isSkipped = false;
+                        break;
+                    }
+                }
+            } else if (this._currentIndex === -1) {
+                this._currentObject = this.steps[(this._currentIndex = 0)].object;
+            }
         }
     },
 
-    _populateServices: {
-        value: function () {
-            var self = this;
+    _selectStep: {
+        value: function (step) {
+            this._context.isNextStepDisabled = false;
+            this._currentObject = step.object;
+            this._context.sectionService = step.service;
+        }
+    },
 
-            return this._sectionService.getWizardChildServices().then(function (services) {
-                self._services = services;
-            });
+    _isStepSkipped: {
+        value: function (id) {
+            var steps = this.steps,
+                response = false,
+                step;
+
+            for (var i = 0, length = steps.length; i < length && response === false; i++) {
+                step = steps[i];
+
+                if (step.id === id) {
+                    return step.isSkipped;
+                }
+            }
+
+            return response;
         }
     },
 
@@ -133,6 +184,8 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
         value: function () {
             this._currentObject = null;
             this._currentIndex = -1;
+            this._context = {};
+            this._canSkip = true;
         }
     }
 });
