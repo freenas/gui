@@ -10,8 +10,6 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "volume": {"<-": "@owner.object.volume"},
-                "providers": {"<-": "@owner.volume.providers_presence"},
                 "classList.has('unlock')":  {"<-": "@owner.providers == 'NONE' || @owner.providers == 'PART'"},
                 "classList.has('lock')":    {"<-": "@owner.providers == 'ALL'  || @owner.providers == 'PART'"},
                 "classList.has('rekey')":   {"<-": "@owner.providers == 'ALL'"},
