@@ -30,7 +30,7 @@
                 "element": {"#": "volumes"}
             },
             "bindings": {
-                "content": {"<-": "@owner.object.volumes.filter{properties}"}
+                "content": {"<-": "@owner.object.volumes.filter{properties}.sorted{id}"}
             }
         },
         "volume": {
