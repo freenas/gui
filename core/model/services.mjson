@@ -1693,6 +1693,11 @@
                 "method": "networkd.configuration.up_interface",
                 "name": "call",
                 "namespace": "rpc"
+            },
+            "waitForDefaultInterface": {
+                "method": "networkd.configuration.wait_for_default_interface",
+                "name": "call",
+                "namespace": "rpc"
             }
         }
     },
