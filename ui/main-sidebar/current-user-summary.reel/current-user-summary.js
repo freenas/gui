@@ -25,14 +25,6 @@ exports.CurrentUserSummary = Component.specialize({
     enterDocument: {
         value: function (isFirstTime) {
             if (isFirstTime) {
-                if (!this.application.sessionService.session) {
-                    this.application.sessionService.session = {
-                        username: '',
-                        host: ''
-                    };
-                }
-
-                this.session = this.application.sessionService.session;
 
                 // Bind a function in order to avoid to create several time this function.
                 this._timeChangetimeoutCallBack = (function (initial) {
