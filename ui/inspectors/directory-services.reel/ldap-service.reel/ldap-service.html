@@ -14,7 +14,8 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "server"},
-                "label": "Server Address"
+                "label": "Server Address",
+                "placeholder": "e.g. ldap.example.com"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.parameters.server"}
@@ -25,7 +26,8 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "baseDn"},
-                "label": "Base DN"
+                "label": "Base DN",
+                "placeholder": "e.g. ou=users,dc=example,dc=com"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.parameters.base_dn"}
@@ -36,7 +38,8 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "bindDn"},
-                "label": "Bind DN"
+                "label": "Bind DN",
+                "placeholder": "e.g. cn=admin,ou=users,dc=example,dc=com"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.parameters.bind_dn"}
