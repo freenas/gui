@@ -1,6 +1,14 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
 exports.EncryptedVolumeActions = AbstractInspector.specialize({
+    enterDocument: {
+        value: function(isFirstTime) {
+            if (isFirstTime) {
+                this.addPathChangeListener("object.volume._providers_presence", this, "_handleProvidersPresenceChange");
+            }
+        }
+    },
+
     handleLockButtonAction: {
         value: function(event) {
             this._sectionService.lockVolume(this.object.volume);
@@ -9,7 +17,10 @@ exports.EncryptedVolumeActions = AbstractInspector.specialize({
 
     handleUnlockButtonAction: {
         value: function(event) {
-            this._sectionService.unlockVolume(this.object.volume, this.object.unlockPassword);
+            var self = this;
+            this._sectionService.unlockVolume(this.object.volume, this.object.unlockPassword).then(function() {
+                self.object.unlockPassword = '';
+            });
         }
     },
 
@@ -39,6 +50,12 @@ exports.EncryptedVolumeActions = AbstractInspector.specialize({
         value: function() {
             var password = this.object.restoreKeyPassword && this.object.restoreKeyPassword.length > 0 ? this.object.restoreKeyPassword : null;
             this._sectionService.setVolumeKey(this.object.volume, this.object.keyFile, password);
+        }
+    },
+
+    _handleProvidersPresenceChange: {
+        value: function(value) {
+            this.providers = value;
         }
     }
 });

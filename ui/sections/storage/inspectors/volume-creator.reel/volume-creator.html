@@ -50,24 +50,14 @@
             }
         },
 
-        "encryption": {
+        "key_encrypted": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
-                "element": {"#": "encryption"},
-                "label": "Encrypt volume ?"
+                "element": {"#": "key_encrypted"},
+                "label": "Key encrypt"
             },
             "bindings": {
-                "checked": {"<->": "@owner.object._isEncrypted"}
-            }
-        },
-
-        "encryptionOptions": {
-            "prototype": "montage/ui/condition.reel",
-            "properties": {
-                "element": {"#": "encryptionOptions"}
-            },
-            "bindings": {
-                "condition": {"<-": "@encryption.checked"}
+                "checked": {"<->": "@owner.object.key_encrypted"}
             }
         },
 
@@ -75,21 +65,11 @@
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
                 "element": {"#": "auto_unlock"},
-                "label": "Auto unlock ?"
+                "label": "Auto unlock"
             },
             "bindings": {
-                "checked": {"<->": "@owner.object.auto_unlock"}
-            }
-        },
-
-        "key_encrypted": {
-            "prototype": "blue-shark/ui/field-checkbox.reel",
-            "properties": {
-                "element": {"#": "key_encrypted"},
-                "label": "Key encrypt ?"
-            },
-            "bindings": {
-                "checked": {"<->": "@owner.object.key_encrypted"}
+                "checked": {"<->": "@owner.object.auto_unlock"},
+                "classList.has('hide')": {"<-": "!@owner.object.key_encrypted"}
             }
         },
 
@@ -146,12 +126,9 @@
             <div class="VolumeCreator-content">
                 <div class="g-margin-h g-padding-top">
                     <div data-montage-id="name"></div>
-                    <div data-montage-id="encryption"></div>
-                    <div data-montage-id="encryptionOptions">
-                        <div data-montage-id="auto_unlock"></div>
-                        <div data-montage-id="key_encrypted"></div>
-                        <div data-montage-id="password"></div>
-                    </div>
+                    <div data-montage-id="key_encrypted"></div>
+                    <div data-montage-id="auto_unlock"></div>
+                    <div data-montage-id="password"></div>
                 </div>
                 <div data-montage-id="topologizer"></div>
                 <div data-montage-id="topology" class="VolumeCreator-Topology"></div>
