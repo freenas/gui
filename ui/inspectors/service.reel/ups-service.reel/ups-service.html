@@ -63,11 +63,26 @@
                 "value": {"<->": "@owner.object.remote_host"}
             }
         },
+        "httpPortValidator": {
+            "prototype": "core/converter/validator/integer-range-validator",
+            "properties": {
+                "floor": 1,
+                "ceiling": 65535,
+                "errorMessage": "Port must be an integer between 1 and 65535"
+            }
+        },
+        "httpPortConverter": {
+            "prototype": "core/converter/string-to-integer-converter",
+            "properties": {
+                "validator": {"@": "httpPortValidator"}
+            }
+        },
         "remote_port": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "remote_port"},
-                "label": "remote port"
+                "label": "remote port",
+                "converter" : {"@": "httpPortConverter"}
             },
             "bindings": {
                 "value": {"<->": "@owner.object.remote_port"}
@@ -94,11 +109,25 @@
                 "selectedValue": {"<->": "@owner.object.shutdown_mode"}
             }
         },
+        "upsTimerValidator": {
+            "prototype": "core/converter/validator/integer-range-validator",
+            "properties": {
+                "floor": 0,
+                "errorMessage": "Timer must be an integer"
+            }
+        },
+        "upsTimerConverter": {
+            "prototype": "core/converter/string-to-integer-converter",
+            "properties": {
+                "validator": {"@": "upsTimerValidator"}
+            }
+        },
         "shutdown_timer": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "shutdown_timer"},
-                "label": "shutdown timer"
+                "label": "shutdown timer",
+                "converter": {"@": "upsTimerConverter"}
             },
             "bindings": {
                 "value": {"<->": "@owner.object.shutdown_timer"}
