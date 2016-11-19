@@ -9,7 +9,8 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "classList.has('is-hidden')": {"<-": "!@owner.colorMapping"}
+                "classList.has('is-hidden')": {"<-": "!@owner.colorMapping"},
+                "lightClass": {"<-": "@owner.colorMapping[@owner.value]"}
             }
         }
     }
