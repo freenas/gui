@@ -1,6 +1,3 @@
-/**
- * @module ui/volume-dataset-settings.reel
- */
 var Component = require("montage/ui/component").Component,
     COMPRESSION_OPTIONS = require("core/model/enumerations/volume-dataset-property-compression-value").VolumeDatasetPropertyCompressionValue,
     DEDUP_OPTIONS = require("core/model/enumerations/volume-dataset-property-dedup-value").VolumeDatasetPropertyDedupValue,
@@ -10,11 +7,7 @@ var ATIME_OPTIONS = {on: true, off: false, null: null},
     DEFAULT_OPTION = { label: "Default", value: "none"},
     INHERIT_OPTION = { label: "Inherit", value: "none"};
 
-/**
- * @class VolumeDatasetSettings
- * @extends Component
- */
-exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSettings# */ {
+exports.VolumeDatasetSettings = Component.specialize({
 
     volblocksizeDisplayMode: {
         value: null

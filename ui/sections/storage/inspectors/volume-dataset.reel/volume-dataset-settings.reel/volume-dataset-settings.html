@@ -112,15 +112,9 @@
             "properties": {
                 "element": {"#": "advancedSection"},
                 "title": "Quotas and Reservations"
-            }
-        },
-        "rootDatasetCondition": {
-            "prototype": "montage/ui/condition.reel",
-            "properties": {
-                "element": {"#": "rootDatasetCondition"}
             },
             "bindings": {
-                "condition": {"<-": "@owner.object.type == 'FILESYSTEM' && @owner.object.id != @owner.object.volume"}
+                "classList.has('hide')": {"<-": "@owner.object.type != 'FILESYSTEM' || @owner.isRootDataset"}
             }
         },
         "volsize": {
@@ -205,13 +199,11 @@
         <div data-montage-id="createdCondition">
             <div data-montage-id="last_replication"></div>
         </div>
-        <div data-montage-id="rootDatasetCondition">
-            <div data-montage-id="advancedSection">
-                <div data-montage-id="quota"></div>
-                <div data-montage-id="refquota"></div>
-                <div data-montage-id="reservation"></div>
-                <div data-montage-id="refreservation"></div>
-            </div>
+        <div data-montage-id="advancedSection">
+            <div data-montage-id="quota"></div>
+            <div data-montage-id="refquota"></div>
+            <div data-montage-id="reservation"></div>
+            <div data-montage-id="refreservation"></div>
         </div>
     </div>
 </body>
