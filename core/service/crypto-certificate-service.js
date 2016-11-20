@@ -19,7 +19,7 @@ var CryptoCertificateService = exports.CryptoCertificateService = Montage.specia
 
     constructor: {
         value: function () {
-            this.TYPE_TO_LABEL[ CryptoCertificateType.CERT_INTERNAL ] = "Create Interal Certificate";
+            this.TYPE_TO_LABEL[ CryptoCertificateType.CERT_INTERNAL ] = "Create Internal Certificate";
             this.TYPE_TO_LABEL[ CryptoCertificateType.CERT_CSR] = "Create Signing Request";
             this.TYPE_TO_LABEL[ CryptoCertificateType.CERT_EXISTING] = "Import Certificate";
             this.TYPE_TO_LABEL[ CryptoCertificateType.CA_INTERNAL] = "Create Internal CA";
