@@ -139,7 +139,11 @@ var ShareService = exports.ShareService = Montage.specialize({
                 return this._saveIscsiShareObject(shareObject, isServiceEnabled);
             }
 
-            return this._dataService.saveDataObject(shareObject, null, isServiceEnabled)
+            if (shareObject._isNew) {
+                return this._dataService.saveDataObject(shareObject, null, isServiceEnabled);
+            } else {
+                return this._dataService.saveDataObject(shareObject, isServiceEnabled);
+            }
         }
     },
 
