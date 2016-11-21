@@ -56,6 +56,11 @@ exports.VirtualMachine = AbstractInspector.specialize({
                 self._cancelNonVolumeDevicesListener = self.addRangeAtPathChangeListener("object._nonVolumeDevices", self, "_handleCategorizedDevicesChange");
                 self._finishLoading();
             });
+
+            if (isFirstTime) {
+                this.object._isShutdownRequested = false;
+                this.addPathChangeListener("object.status.state", this, "_handleStateChange");
+            }
         }
     },
 
@@ -106,7 +111,8 @@ exports.VirtualMachine = AbstractInspector.specialize({
 
     handleStopAction: {
         value: function() {
-            this._sectionService.stopVm(this.object);
+            this._sectionService.stopVm(this.object, this.object._isShutdownRequested);
+            this.object._isShutdownRequested = true;
         }
     },
 
@@ -131,6 +137,14 @@ exports.VirtualMachine = AbstractInspector.specialize({
             this._sectionService.getVncConsoleForVm(this.object).then(function(vncConsole) {
                 window.open(vncConsole, self.object.name + " VM Console");
             });
+        }
+    },
+
+    _handleStateChange: {
+        value: function() {
+            if (this.object.status.state === 'STOPPED') {
+                this.object._isShutdownRequested = false;
+            }
         }
     },
 

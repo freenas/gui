@@ -330,8 +330,8 @@ exports.VmsSectionService = AbstractSectionService.specialize({
     },
 
     stopVm: {
-        value: function(vm) {
-            vm.services.stop(vm.id);
+        value: function(vm, force) {
+            vm.services.stop(vm.id, !!force);
         }
     },
 
