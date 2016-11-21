@@ -57,7 +57,7 @@ var Topology = exports.Topology = Component.specialize({
             this.dataTopologyItemComponent.maxDefaultVdevType = vDevTypes.RAIDZ1;
 
             this.cacheTopologyItemComponent.gridIdentifier = identifiers.CACHE;
-            this.cacheTopologyItemComponent.maxVdevType = vDevTypes.MIRROR;
+            this.cacheTopologyItemComponent.maxVdevType = vDevTypes.DISK;
 
             this.logTopologyItemComponent.gridIdentifier = identifiers.LOG;
             this.logTopologyItemComponent.maxVdevType = vDevTypes.MIRROR;
