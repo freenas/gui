@@ -47,14 +47,9 @@ Once you have the environment bootstrapped, just for now do the following:
        This will start the stand-alone web server so you can connect your web browser to localhost:8083 (see next step)
     2. Add `#;host=<MIDDLEWARE_HOSTNAME>:<MIDDLEWARE_PORT>` to the URL minit gives you, e.g. `http://localhost:3000/#;host=freenas.local`
 
-In the example above, you have obviously already installed a copy of
-FreeNAS 10 on a machine called "freenas.local", which is the default
-mDNS name that FreeNAS gives itself - edit that to suit your actual
-configuration as necessary.
+In the example above, you have obviously already installed a copy of FreeNAS 10 on a machine called "freenas.local", which is the default mDNS name that FreeNAS gives itself - edit that to suit your actual configuration as necessary.
 
-If you don't have a FreeNAS 10 instance already running, go to
-http://download.freenas.org/10/MASTER/ for the latest up-to-date version,
-grab the ISO out of it, and install it on a VM or spare machine somewhere.
+If you don't have a FreeNAS 10 instance already running, go to http://download.freenas.org/10/MASTER/ for the latest up-to-date version, grab the ISO out of it, and install it on a VM or spare machine somewhere.
 
 ## Editing CSS in FreeNAS 10
 
