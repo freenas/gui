@@ -47,12 +47,14 @@ var SelectionService = exports.SelectionService = Montage.specialize({
 
     saveTemporaryTaskSelection: {
         value: function() {
-            var temporaryId = Uuid.generate();
-            this._tasks.set(temporaryId, {
-                path: this._sections.get(this._section).slice(),
-                section: this._section
-            });
-            return temporaryId;
+            if (this._section) {
+                var temporaryId = Uuid.generate();
+                this._tasks.set(temporaryId, {
+                    path: this._sections.get(this._section).slice(),
+                    section: this._section
+                });
+                return temporaryId;
+            }
         }
     },
 
