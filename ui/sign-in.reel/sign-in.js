@@ -98,10 +98,10 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
             this._keyComposer.addEventListener("keyPress", this, false);
 
             // checks for disconnected hash
-            if(window.location.href.indexOf("disconnected") > -1) {
+            if(window.location.href.indexOf(";disconnected") > -1) {
                 this.hasError = true;
-                this.errorMessage = "Oops! Your token has been expired. \n Please re-login."
-                history.pushState('', document.title, window.location.pathname);
+                this.errorMessage = "Oops! Your token has been expired. \n Please re-login.";
+                history.pushState('', document.title, window.location.href.replace(';disconnected', ''));
             }
             this.userNameTextField.focus();
         }
