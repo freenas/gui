@@ -12,6 +12,7 @@ exports.VmwareSnapshot = AbstractInspector.specialize({
             this.datastoreOptions = [];
             this._sectionService.listPeers().then(function(peers) {
                 self.peerOptions = peers;
+                self._handlePeerChange();
             });
             this.filterOptions = VmwareDatasetFilterOp.members.map(function(x) {
                 return {
