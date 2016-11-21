@@ -43,20 +43,18 @@ from the root of where you cloned the GUI repo first.
 
 Once you have the environment bootstrapped, just for now do the following:
 
-    1. edit core/backend/websocket-configuration.js and replace freenas.local
-     with the name or IP address of your freenas10 instance (the middleware) if
-     you have changed its name from freenas.local (the default).
+    1. minit serve &
+       This will start the stand-alone web server so you can connect your web browser to localhost:8083 (see next step)
+    2. Add `#;host=<MIDDLEWARE_HOSTNAME>:<MIDDLEWARE_PORT>` to the URL minit gives you, e.g. `http://localhost:3000/#;host=freenas.local`
 
-    2. minit serve &
+In the example above, you have obviously already installed a copy of
+FreeNAS 10 on a machine called "freenas.local", which is the default
+mDNS name that FreeNAS gives itself - edit that to suit your actual
+configuration as necessary.
 
-This will start the stand-alone web server so you can connect your web
-browser to localhost:8083
-
-It goes without saying that you also have to have a FreeNAS 10 instance running somewhere to point the GUI at.
-See http://download.freenas.org/10/MASTER/ for the latest version by date, grab the ISO out of it, and install it
-on a VM or spare machine somewhere.  It will call itself "freenas.local" by default, so if you have a network
-where mDNS is supported you don't even have to do step 1 above.  As soon as we have the ability to pass the
-middleware IP to minit, it will no longer be necessary to edit the websocket-configuration.js file.
+If you don't have a FreeNAS 10 instance already running, go to
+http://download.freenas.org/10/MASTER/ for the latest up-to-date version,
+grab the ISO out of it, and install it on a VM or spare machine somewhere.
 
 ## Editing CSS in FreeNAS 10
 
