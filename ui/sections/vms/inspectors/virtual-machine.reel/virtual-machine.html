@@ -302,11 +302,11 @@
         "stop": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
-                "element": {"#": "stop"},
-                "value": "Stop"
+                "element": {"#": "stop"}
             },
             "bindings": {
-                "disabled": {"<-": "@owner.object.status.state == 'STOPPED'"}
+                "disabled": {"<-": "@owner.object.status.state == 'STOPPED'"},
+                "value": {"<-": "!!@owner.object._isShutdownRequested ? 'Power Off' : 'Shutdown'"}
             }
         },
         "reboot": {
