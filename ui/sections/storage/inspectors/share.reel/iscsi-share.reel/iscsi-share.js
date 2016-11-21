@@ -59,6 +59,7 @@ exports.IscsiShare = AbstractShareInspector.specialize({
 
             if (this.object._isNew) {
                 this._resetTargetName();
+                this.object.properties.block_size = "512";
             } else if (!this.object._isNew && !this._isTargetNameSelected) {
                 this._populateIscsiTargets();
                 this._convertExtentSize();
@@ -155,7 +156,7 @@ exports.IscsiShare = AbstractShareInspector.specialize({
     _convertExtentSize: {
         value: function () {
             if (this.object.properties && typeof this.object.properties.size === "number") {
-                this.object.properties.size = this.application.bytesService.convertSizeToString(this.object.properties.size);
+                this.object.properties.size = this.application.bytesService.convertSizeToString(this.object.properties.size, this.application.bytesService.UNITS.B);
             }
         }
     }

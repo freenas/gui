@@ -15,7 +15,8 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "domainName"},
-                "label": "Domain Name (DNS/Realm-Name)"
+                "label": "Domain Name (DNS/Realm-Name)",
+                "placeholder": "e.g. company.com"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.parameters.realm"}
@@ -26,7 +27,8 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "domainAccountName"},
-                "label": "Domain Account Name"
+                "label": "Domain Account Name",
+                "placeholder": "e.g. Administrator"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.parameters.username"}

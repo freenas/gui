@@ -209,7 +209,7 @@ exports.Share = Montage.specialize({
                 id: 'ui/sections/storage/inspectors/share-creator.reel'
             },
             wizardComponentModuleId: "ui/sections/wizard/inspectors/share.reel",
-            "wizardTitle": "set up shares",
+            wizardTitle: "Create a share",
             nameExpression: "!!id ? !!name ? name : id : !!type ? 'New ' + type.toUpperCase() + ' share' : 'Choose a share type'"
         }
     }

@@ -124,11 +124,10 @@ exports.SystemGeneral = Montage.specialize({
             valueType: "String"
         }]
     },
-
     userInterfaceDescriptor: {
         value: {
-            "wizardComponentModuleId": "ui/sections/wizard/inspectors/system.reel",
-            "wizardTitle": "choose your region"
+            wizardComponentModuleId: "ui/sections/wizard/inspectors/system.reel",
+            wizardTitle: "Choose your region"
         }
     }
 });

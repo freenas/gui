@@ -5,7 +5,7 @@
             "inspectorComponentModule": {"%": "ui/sections/system/inspectors/alert.reel/mail.reel"},
             "nameExpression": "'Settings'",
             "wizardComponentModuleId": "ui/sections/wizard/inspectors/mail.reel",
-            "wizardTitle": "Mail configuration"
+            "wizardTitle": "Configure your mail settings"
         }
     }
 }

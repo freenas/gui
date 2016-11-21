@@ -91,7 +91,7 @@
             "properties": {
                 "element": {"#": "http_proxy"},
                 "label": "HTTP Proxy",
-                "placeholderValue": "eg. http://a.com:1234",
+                "placeholder": "eg. http://a.com:1234",
                 "converter": {"@": "stringOrNullConverter"}
             },
             "bindings": {
@@ -144,7 +144,7 @@
             "bindings": {
                 "value": {"<->": "@owner.object.settings.config.gateway.ipv4"},
                 "disabled": {"<-": "@owner.object.settings.config.dhcp.assign_gateway"},
-                "placeholderValue": {"<-": "'eg. 1.2.3.4/16'"}
+                "placeholder": {"<-": "'eg. 1.2.3.4/16'"}
             }
         },
         "gatewayIpv6": {
@@ -157,7 +157,7 @@
             "bindings": {
                 "value": {"<->": "@owner.object.settings.config.gateway.ipv6"},
                 "disabled": {"<-": "@owner.object.settings.config.dhcp.assign_gateway"},
-                "placeholderValue": {"<-": "'eg. ::ffff:102:304'"}
+                "placeholder": {"<-": "'eg. ::ffff:102:304'"}
             }
         },
         "dns_settings": {

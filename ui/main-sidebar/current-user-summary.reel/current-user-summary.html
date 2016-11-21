@@ -42,7 +42,7 @@
                 "element": {"#": "host"}
             },
             "bindings": {
-                "value": {"<-": "@owner.session.host.replace(@owner.dotRegEx, '. ')"}
+                "value": {"<-": "@owner.application.sessionService.session.host.replace(@owner.dotRegEx, '. ')"}
             }
         },
         "date": {

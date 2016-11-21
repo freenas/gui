@@ -139,19 +139,22 @@ var ShareService = exports.ShareService = Montage.specialize({
                 return this._saveIscsiShareObject(shareObject, isServiceEnabled);
             }
 
-            return this._dataService.saveDataObject(shareObject, null, isServiceEnabled)
+            if (shareObject._isNew) {
+                return this._dataService.saveDataObject(shareObject, null, isServiceEnabled);
+            } else {
+                return this._dataService.saveDataObject(shareObject, isServiceEnabled);
+            }
         }
     },
 
     _saveIscsiShareObject: {
         value: function (shareObject, isServiceEnabled) {
             var self = this,
-                isNewShareObject = shareObject._isNewObject,
+                isNewShareObject = shareObject._isNew,
                 blockSize = shareObject.properties.block_size,
                 size = shareObject.properties.size,
-                targetId = shareObject.__extent.id;
+                targetId = shareObject.__extent && shareObject.__extent.id;
 
-            //FIXME: add to the tool a way to override default setter.
             if (typeof blockSize === "string") {
                 shareObject.properties.block_size = this._storageService.convertSizeStringToBytes(blockSize);
             }
@@ -160,12 +163,11 @@ var ShareService = exports.ShareService = Montage.specialize({
                 shareObject.properties.size = this._storageService.convertSizeStringToBytes(size);
             }
 
-            return self._dataService.saveDataObject(shareObject).then(function () { // share + share-iscsi (share.properties)
+            var args = isNewShareObject ? [shareObject, null, isServiceEnabled] : [shareObject];
+            return self._dataService.saveDataObject.apply(self._dataService, args).then(function () {
                 if (isNewShareObject) {
                     return self._dataService.getNewInstanceForType(Model.ShareIscsiTarget);
                 }
-                //TODO: Need to update extent object when the share name change?
-                // IF so maybe we should add the snapshoting!!
             }).then(function (target) {
                 var extentObject = {
                         name: shareObject.name,
@@ -180,7 +182,7 @@ var ShareService = exports.ShareService = Montage.specialize({
                     target.extents = [extentObject];
                 }
 
-                return self._dataService.saveDataObject(target, null, isServiceEnabled); // save share-iscsi-target
+                return self._dataService.saveDataObject(target);
             });
         }
     },

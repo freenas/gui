@@ -2,6 +2,7 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
     StorageSectionService = require("core/service/section/storage-section-service").StorageSectionService,
     NotificationCenterModule = require("core/backend/notification-center"),
     Application = require("montage/core/application").application,
+    Model = require("core/model/model").Model
     WizardRepository = require("core/repository/wizard-repository").WizardRepository;
 
 exports.WizardSectionService = AbstractSectionService.specialize({
@@ -49,35 +50,41 @@ exports.WizardSectionService = AbstractSectionService.specialize({
         }
     },
 
-    getWizardSteps: {
-        value: function () {
-            var self = this;
+    buildStepsWizardWithDescriptor: {
+        value: function (wizardDescriptor) {
+            var stepsDescriptor = wizardDescriptor.steps,
+                dataService = Application.dataService,
+                promises = [],
+                wizardSteps = [];
 
-            return this.getWizardChildServices().then(function () {
-                return Promise.all([
-                    self.getNewSystemGeneral(),
-                    self.getNewVolume(),
-                    self.getNewUser(),
-                    self.getNewDirectoryServices(),
-                    self.getNewShare(),
-                    self.getMailData()
-                ]);
+            stepsDescriptor.forEach(function (stepDescriptor) {
+                var wizardStep = new WizardStep(stepDescriptor.id);
+                wizardStep.objectType = stepDescriptor.objectType;
+                wizardStep.parent = stepDescriptor.parent || null;
+
+                promises.push(dataService.getNewInstanceForType(Model[stepDescriptor.objectType]).then(function (instance) {
+                    wizardStep.object = instance;
+                }));
+
+                if (stepDescriptor.service) {
+                    promises.push(require.async(stepDescriptor.service).then(function (exports) {
+                        var service = exports[Object.keys(exports)[0]].instance;
+
+                        if (Promise.is(service)) {
+                            return service;
+                        }
+
+                        return service;
+                    }).then(function (service) {
+                        wizardStep.service = service;
+                    }));
+                }
+
+                wizardSteps.push(wizardStep);
             });
-        }
-    },
 
-    getWizardChildServices: {
-        value: function () {
-            var self = this;
-
-            return Promise.all([
-                Promise.resolve(),
-                StorageSectionService.instance,
-                Promise.resolve(),
-                Promise.resolve(),
-                Promise.resolve()
-            ]).then(function (data) {
-                return (self._services = data);
+            return Promise.all(promises).then(function () {
+                return wizardSteps;
             });
         }
     },
@@ -95,18 +102,29 @@ exports.WizardSectionService = AbstractSectionService.specialize({
             if (this._wizardsMap.has(notification.jobId)) {
                 if (notification.state === "FINISHED") {
                     var steps = this._wizardsMap.get(notification.jobId),
-                    shares = steps[4].$shares,
-                    wizardRepository = this._wizardRepository,
-                    promises = [];
+                        shareStep = this._findWizardStepWithStepsAndId(steps, "share"),
+                        volumeStep = this._findWizardStepWithStepsAndId(steps, "volume"),
+                        userStep = this._findWizardStepWithStepsAndId(steps, "user"),
+                        dataService = Application.dataService,
+                        volume = volumeStep.object,
+                        promises = [];
 
-                    shares.forEach(function (share) {
-                        if (share.name) {
-                            share.target_path = steps[1].id;
-                            promises.push(wizardRepository.saveShare(share));
-                        }
-                    });
-                    steps[2].home = '/mnt/' + steps[1].id + '/' + steps[2].username;
-                    promises.push(wizardRepository.saveUser(steps[2]));
+                    if (!shareStep.isSkipped) {
+                        var shares = shareStep.object.$shares;
+
+                        shares.forEach(function (share) {
+                            if (share.name) {
+                                share.target_path = volume.id;
+                                promises.push(dataService.saveDataObject(share));
+                            }
+                        });
+                    }
+
+                    if (!userStep.isSkipped) {
+                        var user = userStep.object;
+                        user.home = '/mnt/' + volume.id + '/' + user.username;
+                        promises.push(dataService.saveDataObject(user));
+                    }
 
                     Promise.all(promises);
                 }
@@ -122,28 +140,57 @@ exports.WizardSectionService = AbstractSectionService.specialize({
 
     saveWizard: {
         value: function (steps) {
-            var storageSectionService = this._services[1],
-                directoryServices = steps[3].$directoryServices,
-                wizardRepository = this._wizardRepository,
-                promises = [
-                    wizardRepository.saveSystemGeneral(steps[0]),
-                    storageSectionService.createVolume(steps[1]),
-                    wizardRepository.saveMailData(steps[5])
-                ],
-                self = this;
+            var dataService = Application.dataService,
+                self = this,
+                indexVolume = -1,
+                promises = [];
 
-            directoryServices.forEach(function (directoryService) {
-                if (directoryService.name) {
-                    promises.push(wizardRepository.saveDirectory(directoryService));
+            steps.forEach(function (step) {
+                var stepId = step.id,
+                    stepObject = step.object;
+
+                if (!step.isSkipped) {
+                    if (stepId === "volume") {
+                        indexVolume = promises.push(step.service.createVolume(stepObject)) - 1;
+                    } else if (stepId === "directoryServices") {
+                        var directoryServices = stepObject.$directoryServices;
+
+                        directoryServices.forEach(function (directoryService) {
+                            if (directoryService.name) {
+                                promises.push(dataService.saveDataObject(directoryService));
+                            }
+                        });
+                    } else if (stepId !== "share" && stepId !== "user") {
+                        promises.push(dataService.saveDataObject(stepObject));
+                    }
                 }
             });
 
             return Promise.all(promises).then(function (jobIds) {
-                var volumeJobId = jobIds[1];
-                self._wizardsMap.set(volumeJobId, steps);
+                if (indexVolume > -1) {
+                    var volumeJobId = jobIds[indexVolume];
+                    self._wizardsMap.set(volumeJobId, steps);
+                }
             });
         }
-    }
+    },
+
+    _findWizardStepWithStepsAndId: {
+        value: function (steps, id) {
+            var response = null,
+                step;
+
+            for (var i = 0, length = steps.length; i < length && response === null; i++) {
+                step = steps[i];
+
+                if (step.id === id) {
+                    response = step;
+                }
+            }
+
+            return response;
+        }
+    },
 
 },
 //TODO: remove when wizard will have been migrated to the new architecture.
@@ -159,3 +206,17 @@ exports.WizardSectionService = AbstractSectionService.specialize({
     }
 
 });
+
+
+var WizardStep = function WizardStep (id) {
+    this.id = id;
+};
+
+
+WizardStep.prototype.parent = null;
+
+WizardStep.prototype.service = null;
+
+WizardStep.prototype.object = null;
+
+WizardStep.prototype.isSkipped = false;
