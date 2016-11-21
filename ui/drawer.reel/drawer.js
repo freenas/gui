@@ -12,6 +12,12 @@ var AbstractDropZoneComponent = require("blue-shark/core/drag-drop/abstract-drop
  * @extends Component
  */
 exports.Drawer = AbstractDropZoneComponent.specialize(/** @lends Drawer# */ {
+    templateDidLoad: {
+        value: function() {
+            this.super();
+            this._applicationContextService = this.application.applicationContextService;
+        }
+    },
 
     enterDocument: {
         value: function (isFirstTime) {
@@ -79,6 +85,7 @@ exports.Drawer = AbstractDropZoneComponent.specialize(/** @lends Drawer# */ {
         value: function () {
             this.application.isDrawerOpen = false;
             this._unToggledCurrentDrawerItemIfNeeded();
+            this._applicationContextService.save();
         }
     },
 
