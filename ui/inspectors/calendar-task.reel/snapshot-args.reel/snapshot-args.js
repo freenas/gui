@@ -91,7 +91,7 @@ exports.SnapshotArgs = Component.specialize(/** @lends SnapshotArgs# */ {
 
     enterDocument: {
         value: function() {
-            if (this.args.length != 5 || this.args.__type !== this.type) {
+            if (this.args.length != 5 || (this.args.__type && this.args.__type !== this.type)) {
                 var defaultValues = [null, false, 2592000, "snap", false]
                 for (var i = 0, length = defaultValues.length; i < length; i++) {
                     this.args[i] = defaultValues[i];
