@@ -87,7 +87,7 @@ exports.CalendarTask = AbstractInspector.specialize({
     save: {
         value: function() {
             if (this.argsInspector && typeof this.argsInspector.save === 'function') {
-                this.argsInspector.save();
+                this.object.args = this.argsInspector.save();
             }
             this._sectionService.updateScheduleOnTask(this.object);
             var argsLength = this.object.args.length;
