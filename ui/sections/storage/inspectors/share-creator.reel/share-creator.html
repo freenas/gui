@@ -50,6 +50,16 @@
             "bindings": {
                 "object": {"<-": "@owner.newIscsiShare"}
             }
+        },
+        "webdav": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "webdav"},
+                "isNewObject": "true"
+            },
+            "bindings": {
+                "object": {"<-": "@owner.newWebdavShare"}
+            }
         }
     }
     </script>
@@ -60,6 +70,7 @@
         <div data-montage-id="nfs"></div>
         <div data-montage-id="afp"></div>
         <div data-montage-id="iscsi"></div>
+        <div data-montage-id="webdav"></div>
     </div>
 </body>
 </html>

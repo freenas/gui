@@ -24,6 +24,10 @@ exports.ShareCreator = Component.specialize({
         value: null
     },
 
+    newWebdavShare: {
+        value: null
+    },
+
     parentCascadingListItem: {
         get: function () {
             return CascadingList.findCascadingListItemContextWithComponent(this);
@@ -68,12 +72,14 @@ exports.ShareCreator = Component.specialize({
                 shareService.createSmbShare(volume),
                 shareService.createNfsShare(volume),
                 shareService.createAfpShare(volume),
-                shareService.createIscsiShare(volume)
+                shareService.createIscsiShare(volume),
+                shareService.createWebdavShare(volume)
             ]).bind(this).then(function (shares) {
                 this.newSmbShare = shares[0];
                 this.newNfsShare = shares[1];
                 this.newAfpShare = shares[2];
                 this.newIscsiShare = shares[3];
+                this.newWebdavShare = shares[4];
                 //todo: can draw
             });
         }
