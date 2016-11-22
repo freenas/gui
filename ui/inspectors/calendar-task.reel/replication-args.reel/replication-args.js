@@ -64,6 +64,7 @@ exports.ReplicationArgs = Component.specialize(/** @lends ReplicationArgs# */ {
     save: {
         value: function() {
             this.object[0] = this.sourceDataset.pathInput.value;
+            return this.object;
         }
     },
 

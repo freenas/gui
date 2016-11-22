@@ -48,6 +48,14 @@ exports.RsyncArgs = Component.specialize({
                 this.object = [{rsync_properties: {}}];
                 this.object.__type = this.type;
             }
+            this._extra = this.object[0].rsync_properties.extra;
+        }
+    },
+
+    save: {
+        value: function() {
+            this.object[0].rsync_properties.extra = this._extra;
+            return this.object;
         }
     }
 });
