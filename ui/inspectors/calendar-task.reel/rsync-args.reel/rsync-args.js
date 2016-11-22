@@ -44,9 +44,9 @@ exports.RsyncArgs = Component.specialize({
 
     enterDocument: {
         value: function() {
-            if (!this.args || this.args.length !== 1) {
-                this.args = [{rsync_properties: {}}];
-                this.args.__type = this.type;
+            if (!this.object || this.object.length !== 1) {
+                this.object = [{rsync_properties: {}}];
+                this.object.__type = this.type;
             }
         }
     }
