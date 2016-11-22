@@ -434,6 +434,10 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
 
                     payload = isUpdate ? this._snapshotService.getDifferenceWithSnapshotForTypeNameAndId(rawData, type.typeName, object.id) : rawData;
 
+                    if (type === Model.CalendarTask) {
+                        payload = rawData;
+                    }
+
                     var temporaryTaskId = this._selectionService.saveTemporaryTaskSelection();
 
                     if (isUpdate && !modelHasNoId) {
