@@ -13,9 +13,17 @@
                 "selectedWeekDays": ["sunday"],
                 "selectedScheduleOption": "month",
                 "selectedDaysOfMonth": [1],
-                "argsInspector": {
-                    "replication.replicate_dataset": {"@": "replication"}
+                "taskToInspector": {
+                    "volume.snapshot_dataset": "snapshot",
+                    "volume.scrub": "scrub",
+                    "disk.parallel_test": "smart",
+                    "calendar_task.command": "cron",
+                    "replication.replicate_dataset": "replication",
+                    "rsync.copy": "rsync" 
                 }
+            },
+            "bindings": {
+                "argsInspector": {"<-": "@argsPlaceHolder.component"}
             }
         },
         "optionsConverter": {
@@ -68,73 +76,14 @@
                 "value": {"<->": "@owner.object.name"}
             }
         },
-        "args": {
-            "prototype": "montage/ui/substitution.reel",
+        "argsPlaceHolder": {
+            "prototype": "ui/controls/placeholder.reel",
             "properties": {
-                "element": {"#": "args"}
+                "element": {"#": "argsPlaceholder"}
             },
             "bindings": {
-                "switchValue": {"<-": "@owner.object.task"}
-            }
-        },
-        "cron": {
-            "prototype": "./cron-args.reel",
-            "properties": {
-                "element": {"#": "cron"}
-            },
-            "bindings": {
-                "args": {"<->": "@owner.object.args"},
-                "type": {"<-": "@owner.object.task"}
-            }
-        },
-        "snapshot": {
-            "prototype": "./snapshot-args.reel",
-            "properties": {
-                "element": {"#": "snapshot"}
-            },
-            "bindings": {
-                "args": {"<->": "@owner.object.args"},
-                "type": {"<-": "@owner.object.task"}
-            }
-        },
-        "scrub": {
-            "prototype": "./scrub-args.reel",
-            "properties": {
-                "element": {"#": "scrub"}
-            },
-            "bindings": {
-                "args": {"<->": "@owner.object.args"},
-                "type": {"<-": "@owner.object.task"}
-            }
-        },
-        "smart": {
-            "prototype": "./smart-args.reel",
-            "properties": {
-                "element": {"#": "smart"}
-            },
-            "bindings": {
-                "args": {"<->": "@owner.object.args"},
-                "type": {"<-": "@owner.object.task"}
-            }
-        },
-        "replication": {
-            "prototype": "./replication-args.reel",
-            "properties": {
-                "element": {"#": "replication"}
-            },
-            "bindings": {
-                "args": {"<->": "@owner.object.args"},
-                "type": {"<-": "@owner.object.task"}
-            }
-        },
-        "rsync": {
-            "prototype": "./rsync-args.reel",
-            "properties": {
-                "element": {"#": "rsync"}
-            },
-            "bindings": {
-                "args": {"<->": "@owner.object.args"},
-                "type": {"<-": "@owner.object.task"}
+                "moduleId": {"<-": "'ui/inspectors/calendar-task.reel/' + @owner.taskToInspector[@owner.object.task] + '-args.reel'"},
+                "object": {"<-": "@owner.object.args"}
             }
         },
         "enabled": {
@@ -260,14 +209,7 @@
             <div data-montage-id="name"></div>
             <div data-montage-id="description"></div>
             <div data-montage-id="enabled"></div>
-            <div data-montage-id="args">
-                <div data-montage-id="snapshot" data-arg="volume.snapshot_dataset"></div>
-                <div data-montage-id="scrub" data-arg="volume.scrub"></div>
-                <div data-montage-id="smart" data-arg="disk.parallel_test"></div>
-                <div data-montage-id="cron" data-arg="calendar_task.command"></div>
-                <div data-montage-id="replication" data-arg="replication.replicate_dataset"></div>
-                <div data-montage-id="rsync" data-arg="rsync.copy"></div>
-            </div>
+            <div data-montage-id="argsPlaceholder"></div>
             <button data-montage-id="runNow" class="Button--block"></button>
             <div data-montage-id="scheduleResultsHeader"></div>
             <div data-montage-id="scheduleString"></div>
