@@ -32,7 +32,8 @@
                 "element": {"#": "grid"},
                 "controller": {"@": "controller"},
                 "labelPath": "name",
-                "itemDraggable": true
+                "itemDraggable": true,
+                "delegate": {"@": "owner"}
             },
             "bindings": {
                 "icon": {"<-": "@owner.icon"},
