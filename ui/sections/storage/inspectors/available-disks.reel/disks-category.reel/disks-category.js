@@ -55,6 +55,16 @@ exports.DisksCategory = AbstractDropZoneComponent.specialize({
         value: function () {
             this.isExpanded = !this.isExpanded;
         }
+    },
+
+    gridItemDidEnter: {
+        value: function(gridItem) {
+            if (gridItem.object.getPath('status.smart_info.smart_status') === 'FAIL') {
+                gridItem.classList.add('unhealthy');
+            } else {
+                gridItem.classList.remove('unhealthy');
+            }
+        }
     }
 
 });
