@@ -44,6 +44,20 @@
     flex: 1;
 }
 
+.Vdev .GridItem.unhealthy .Grid-icon.LabeledIcon {
+    &:before {
+        content: '';
+        width:  .5em;
+        height: .5em;
+        background: #E0003A;
+        border-radius: .5em;
+        margin-top: .75em;
+        margin-left: .3em;
+        position: absolute;
+        z-index: 9999;
+    }
+}
+
 .Vdev .LabeledIcon-title {
     /* overrides removing the container icon label */
     display: block !important;
