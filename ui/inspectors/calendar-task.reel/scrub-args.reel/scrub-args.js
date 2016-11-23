@@ -20,9 +20,9 @@ exports.ScrubArgs = Component.specialize(/** @lends ScrubArgs# */ {
     enterDocument: {
         value: function(isFirstTime) {
 
-            if (!this.args || this.args.length != 1) {
-                this.args = ['---'];
-                this.args.length = 1;
+            if (!this.object || this.object.length != 1) {
+                this.object = ['---'];
+                this.object.length = 1;
             }
         }
     }

@@ -18,7 +18,7 @@
             },
             "bindings": {
                 "options": {"<-": "@owner.rsyncModes"},
-                "selectedValue": {"<->": "@owner.args.0.rsync_mode"}
+                "selectedValue": {"<->": "@owner.object.0.rsync_mode"}
             }
         },
         "direction": {
@@ -29,7 +29,7 @@
             },
             "bindings": {
                 "options": {"<-": "@owner.rsyncDirections"},
-                "selectedValue": {"<->": "@owner.args.0.rsync_direction"}
+                "selectedValue": {"<->": "@owner.object.0.rsync_direction"}
             }
         },
         "usersToOptionsConverter": {
@@ -48,7 +48,7 @@
             },
             "bindings": {
                 "options": {"<-": "[{username: ' - '}].concat(@owner.users.sorted{builtin + user})"},
-                "selectedValue": {"<->": "@owner.args.0.user"}
+                "selectedValue": {"<->": "@owner.object.0.user"}
             }
         },
         "path": {
@@ -58,7 +58,7 @@
                 "label": "Path (source)"
             },
             "bindings": {
-                "value": {"<->": "@owner.args.0.path"}
+                "value": {"<->": "@owner.object.0.path"}
             }
         },
         "remoteUser": {
@@ -68,7 +68,7 @@
                 "label": "Remote user"
             },
             "bindings": {
-                "value": {"<->": "@owner.args.0.remote_user"}
+                "value": {"<->": "@owner.object.0.remote_user"}
             }
         },
         "remoteHost": {
@@ -78,7 +78,7 @@
                 "label": "Remote host"
             },
             "bindings": {
-                "value": {"<->": "@owner.args.0.remote_host"}
+                "value": {"<->": "@owner.object.0.remote_host"}
             }
         },
         "remotePath": {
@@ -88,7 +88,7 @@
                 "label": "Remote path (destination)"
             },
             "bindings": {
-                "value": {"<->": "@owner.args.0.remote_path"}
+                "value": {"<->": "@owner.object.0.remote_path"}
             }
         },
         "portValidator": {
@@ -113,7 +113,7 @@
                 "converter": {"@": "portConverter"}
             },
             "bindings": {
-                "value": {"<->": "@owner.args.0.remote_ssh_port"}
+                "value": {"<->": "@owner.object.0.remote_ssh_port"}
             }
         },
         "remoteModule": {
@@ -123,7 +123,7 @@
                 "label": "Remote module"
             },
             "bindings": {
-                "value": {"<->": "@owner.args.0.remote_module"}
+                "value": {"<->": "@owner.object.0.remote_module"}
             }
         },
         "rsyncPropertiesTitle": {
@@ -140,7 +140,7 @@
                 "label": "Archive"
             },
             "bindings": {
-                "checked": {"<->": "@owner.args.0.rsync_properties.archive"}
+                "checked": {"<->": "@owner.object.0.rsync_properties.archive"}
             }
         },
         "recursive": {
@@ -150,7 +150,7 @@
                 "label": "Recursive"
             },
             "bindings": {
-                "checked": {"<->": "@owner.args.0.rsync_properties.recursive"}
+                "checked": {"<->": "@owner.object.0.rsync_properties.recursive"}
             }
         },
         "compress": {
@@ -160,7 +160,7 @@
                 "label": "Compress"
             },
             "bindings": {
-                "checked": {"<->": "@owner.args.0.rsync_properties.compress"}
+                "checked": {"<->": "@owner.object.0.rsync_properties.compress"}
             }
         },
         "times": {
@@ -170,7 +170,7 @@
                 "label": "Times"
             },
             "bindings": {
-                "checked": {"<->": "@owner.args.0.rsync_properties.times"}
+                "checked": {"<->": "@owner.object.0.rsync_properties.times"}
             }
         },
         "delete": {
@@ -180,7 +180,7 @@
                 "label": "Delete"
             },
             "bindings": {
-                "checked": {"<->": "@owner.args.0.rsync_properties.delete"}
+                "checked": {"<->": "@owner.object.0.rsync_properties.delete"}
             }
         },
         "preservePermissions": {
@@ -190,7 +190,7 @@
                 "label": "Preserve permissions"
             },
             "bindings": {
-                "checked": {"<->": "@owner.args.0.rsync_properties.preserve_permissions"}
+                "checked": {"<->": "@owner.object.0.rsync_properties.preserve_permissions"}
             }
         },
         "preserveAttributes": {
@@ -200,7 +200,7 @@
                 "label": "Preserve attributes"
             },
             "bindings": {
-                "checked": {"<->": "@owner.args.0.rsync_properties.preserve_attributes"}
+                "checked": {"<->": "@owner.object.0.rsync_properties.preserve_attributes"}
             }
         },
         "delayUpdates": {
@@ -210,7 +210,7 @@
                 "label": "Preserve attributes"
             },
             "bindings": {
-                "checked": {"<->": "@owner.args.0.rsync_properties.preserve_attributes"}
+                "checked": {"<->": "@owner.object.0.rsync_properties.delay_updates"}
             }
         },
         "extra": {
@@ -220,7 +220,7 @@
                 "label": "Extra arguments"
             },
             "bindings": {
-                "value": {"<->": "@owner.args.0.rsync_properties.extra"}
+                "value": {"<->": "@owner._extra"}
             }
         }
     }

@@ -20,7 +20,7 @@ exports.SnapshotArgs = Component.specialize(/** @lends SnapshotArgs# */ {
         set: function(dataset) {
             if (this._dataset !== dataset) {
                 this._dataset = dataset;
-                this.args[0] = dataset;
+                this.object[0] = dataset;
             }
         }
     },
@@ -36,7 +36,7 @@ exports.SnapshotArgs = Component.specialize(/** @lends SnapshotArgs# */ {
         set: function(recursive) {
             if (this._recursive !== recursive) {
                 this._recursive = recursive;
-                this.args[1] = recursive;
+                this.object[1] = recursive;
             }
         }
     },
@@ -52,7 +52,7 @@ exports.SnapshotArgs = Component.specialize(/** @lends SnapshotArgs# */ {
         set: function(lifetime) {
             if (this._lifetime !== lifetime) {
                 this._lifetime = lifetime;
-                this.args[2] = lifetime;
+                this.object[2] = lifetime;
             }
         }
     },
@@ -68,7 +68,7 @@ exports.SnapshotArgs = Component.specialize(/** @lends SnapshotArgs# */ {
         set: function(prefix) {
             if (this._prefix !== prefix) {
                 this._prefix = prefix;
-                this.args[3] = prefix;
+                this.object[3] = prefix;
             }
         }
     },
@@ -84,28 +84,28 @@ exports.SnapshotArgs = Component.specialize(/** @lends SnapshotArgs# */ {
         set: function(replicable) {
             if (this._replicable !== replicable) {
                 this._replicable = replicable;
-                this.args[4] = replicable;
+                this.object[4] = replicable;
             }
         }
     },
 
     enterDocument: {
         value: function() {
-            if (this.args.length != 5 || this.args.__type !== this.type) {
+            if (this.object.length != 5) {
                 var defaultValues = [null, false, 2592000, "snap", false]
                 for (var i = 0, length = defaultValues.length; i < length; i++) {
-                    this.args[i] = defaultValues[i];
+                    this.object[i] = defaultValues[i];
                 }
-                while (this.args.length > 5) {
-                    this.args.pop();
+                while (this.object.length > 5) {
+                    this.object.pop();
                 }
-                this.args.__type = this.type;
+                this.object.__type = this.type;
             }
-            this.dataset = this.args[0];
-            this.recursive = this.args[1];
-            this.lifetime = this.args[2];
-            this.prefix = this.args[3];
-            this.replicable = this.args[4];
+            this.dataset = this.object[0];
+            this.recursive = this.object[1];
+            this.lifetime = this.object[2];
+            this.prefix = this.object[3];
+            this.replicable = this.object[4];
 
             if (this.datasetTreeController) {
                 this.datasetTreeController.open();

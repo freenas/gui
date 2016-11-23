@@ -26,7 +26,7 @@
             },
             "bindings": {
                 "options": {"<-": "@owner.disks.map{{ label: path, value: id }}"},
-                "selectedValues": {"<->": "@owner.args.0"}
+                "selectedValues": {"<->": "@owner.object.0"}
             }
         },
         "type": {
@@ -37,7 +37,7 @@
             },
             "bindings": {
                 "options": {"<-": "[{label: '-'}].concat(@owner.testTypes)"},
-                "selectedValue": {"<->": "@owner.args.1"}
+                "selectedValue": {"<->": "@owner.object.1"}
             }
         }
     }

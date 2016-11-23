@@ -40,6 +40,12 @@ var ShareService = exports.ShareService = Montage.specialize({
         }
     },
 
+    createWebdavShare: {
+        value: function (volume) {
+            return this._createNewShare(this.constructor.SHARE_TYPES.WEBDAV, volume);
+        }
+    },
+
     populateShareObjectIfNeeded: {
         value: function (shareObject) {
             var self = this,
@@ -57,6 +63,8 @@ var ShareService = exports.ShareService = Montage.specialize({
                     propertiesModel = Model.ShareSmb;
                 } else if (shareTypes.ISCSI === shareObject.type) {
                     propertiesModel = Model.ShareIscsi;
+                } else if (shareTypes.WEBDAV === shareObject.type) {
+                    propertiesModel = Model.ShareWebdav;
                 } else {
                     return Promise.reject("unknown share type");
                 }
@@ -219,7 +227,8 @@ var ShareService = exports.ShareService = Montage.specialize({
             AFP: "afp",
             SMB: "smb",
             NFS: "nfs",
-            ISCSI: "iscsi"
+            ISCSI: "iscsi",
+            WEBDAV: "webdav"
         }
     },
 

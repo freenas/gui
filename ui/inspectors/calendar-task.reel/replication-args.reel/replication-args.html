@@ -34,7 +34,7 @@
             },
             "bindings": {
                 "options": {"<-": "@owner.peers"},
-                "selectedValue": {"<->": "@owner.args.1.peer"}
+                "selectedValue": {"<->": "@owner.object.1.peer"}
             }
         },
         "sourceDataset": {
@@ -45,7 +45,7 @@
                 "label": "Source dataset"
             },
             "bindings": {
-                "selectedPath": {"<->": "@owner.args.0"}
+                "selectedPath": {"<->": "@owner.object.0"}
             }
         },
         "targetDataset": {
@@ -55,7 +55,7 @@
                 "label": "Target dataset"
             },
             "bindings": {
-                "value": {"<->": "@owner.args.1.remote_dataset"}
+                "value": {"<->": "@owner.object.1.remote_dataset"}
             }
         },
         "compress": {
@@ -107,7 +107,7 @@
                 "label": "Recursive"
             },
             "bindings": {
-                "checked": {"<->": "!!@owner.args.1.recursive"}
+                "checked": {"<->": "!!@owner.object.1.recursive"}
             }
         },
         "followDelete": {
@@ -117,7 +117,7 @@
                 "label": "Follow delete"
             },
             "bindings": {
-                "checked": {"<->": "!!@owner.args.1.followdelete"}
+                "checked": {"<->": "!!@owner.object.1.followdelete"}
             }
         }
     }

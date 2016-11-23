@@ -92,7 +92,7 @@ exports.Console = Component.specialize({
     _connect: {
         value: function() {
             var self = this;
-            this._shellClient = new WebSocketClient().initWithUrl(WebSocketConfiguration.shellConfiguration.get(WebSocketConfiguration.KEYS.URL));
+            this._shellClient = new WebSocketClient().initWithUrl(WebSocketConfiguration.consoleConfiguration.get(WebSocketConfiguration.KEYS.URL));
             this._shellClient.responseType = WebSocketClient.RESPONSE_TYPE.BINARY_BLOB;
             this._defaultBackendBridge = BackendBridge.defaultBackendBridge;
             return this._shellClient.connect().then(function() {

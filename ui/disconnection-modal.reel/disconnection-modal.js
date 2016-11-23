@@ -19,7 +19,10 @@ exports.DisconnectionModal = Component.specialize(/** @lends DisconnectionModal#
         },
         set: function (value) {
             if (value == 'DISCONNECTED') {
-                window.location.hash = 'disconnected';
+                if (window.location.hash.length === 0) {
+                    window.location.hash = '#';
+                }
+                window.location.hash += ';disconnected';
                 location.reload();
             }
             if(this._isConnected != value) {

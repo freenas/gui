@@ -26,9 +26,9 @@ exports.SmartArgs = Component.specialize(/** @lends SmartArgs# */ {
 
     enterDocument: {
         value: function() {
-            if (!this.args || this.args.length != 2) {
-                this.args = [[], null];
-                this.args.length = 2;
+            if (!this.object || this.object.length != 2) {
+                this.object = [[], null];
+                this.object.length = 2;
             }
         }
     }

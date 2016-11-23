@@ -36,21 +36,21 @@ exports.ReplicationArgs = Component.specialize(/** @lends ReplicationArgs# */ {
             this.isLoading = true;
             var self = this;
             var argsInitializationPromise;
-            if (!this.args || this.args.length != 4) {
+            if (!this.object || this.object.length != 4) {
                 argsInitializationPromise = this.peersPromise.then(function() {
                     var replicationOptions = {};
                     
                     if (self.peers.length > 0) {
                         replicationOptions.peer = self.peers[0].id;
                     }
-                    self.args = [null, replicationOptions, [], false];
+                    self.object = [null, replicationOptions, [], false];
                 });
             } else {
                 argsInitializationPromise = Promise.resolve();
             }
             argsInitializationPromise.then(function() {
                 if (self.datasetTreeController) {
-                    self.datasetTreeController.open(self.args[0]);
+                    self.datasetTreeController.open(self.object[0]);
                 }
                 self._extractTransportOptions();
                 self.addPathChangeListener("compress", self, "_buildTransportOptions");
@@ -63,13 +63,14 @@ exports.ReplicationArgs = Component.specialize(/** @lends ReplicationArgs# */ {
 
     save: {
         value: function() {
-            this.args[0] = this.sourceDataset.pathInput.value;
+            this.object[0] = this.sourceDataset.pathInput.value;
+            return this.object;
         }
     },
 
     _extractTransportOptions: {
         value: function() {
-            var transportOptions = this.args[2],
+            var transportOptions = this.object[2],
                 option,
                 length = transportOptions ? transportOptions.length || Object.keys(transportOptions).length : 0;
             for (var i = 0; i < length; i++) {
@@ -106,7 +107,7 @@ exports.ReplicationArgs = Component.specialize(/** @lends ReplicationArgs# */ {
                     buffer_size: this.throttle
                 });
             }
-            this.args[2] = transportOptions;
+            this.object[2] = transportOptions;
         }
     }
 });
