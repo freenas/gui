@@ -142,7 +142,7 @@ exports.VirtualMachine = AbstractInspector.specialize({
 
     _handleStateChange: {
         value: function() {
-            if (this.object.status.state === 'STOPPED') {
+            if (this.object.status && this.object.status.state === 'STOPPED') {
                 this.object._isShutdownRequested = false;
             }
         }
