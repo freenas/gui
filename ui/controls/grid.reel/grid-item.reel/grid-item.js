@@ -22,7 +22,7 @@ exports.GridItem = AbstractDraggableComponent.specialize({
         value: function(isFirstTime) {
             this.super();
 
-            this.callDelegateMethod('gridItemDidEnter', this);
+            this.callDelegateMethod('gridItemDidEnter', this, isFirstTime);
         }
     }
 
