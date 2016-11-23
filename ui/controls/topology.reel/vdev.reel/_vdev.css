@@ -44,17 +44,20 @@
     flex: 1;
 }
 
+/* unhealthy status */
+
 .Vdev .GridItem.unhealthy .Grid-icon.LabeledIcon {
     &:before {
         content: '';
-        width:  .5em;
-        height: .5em;
-        background: #E0003A;
-        border-radius: .5em;
-        margin-top: .75em;
-        margin-left: .3em;
         position: absolute;
-        z-index: 9999;
+        width:  .5rem;
+        height: .5rem;
+        background: #E0003A;
+        border-radius: .5rem;
+        margin-top: .15rem;
+        margin-left: .1rem;
+        z-index: 1;
+        box-shadow: 0 0 2px 1px #E0003A;
     }
 }
 
