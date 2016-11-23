@@ -106,6 +106,10 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
         value: null
     },
 
+    _populateDiskPromise: {
+        value: null
+    },
+
     _object: {
         value: null
     },
@@ -200,7 +204,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
             if (this.isEditorMode && this.object && this._inDocument) {
                 var self = this;
 
-                this._topologyService.populateDiskWithinVDev(this.object).then(function () {
+                (this._populateDiskPromise = this._topologyService.populateDiskWithinVDev(this.object)).then(function () {
                     self._calculateSizes();
                 });
             }
@@ -378,6 +382,17 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
     _handleObjectTypeChange: {
         value: function () {
             this._calculateSizes();
+        }
+    },
+
+    gridItemDidEnter: {
+        value: function(gridItem) {
+            gridItem.classList.remove('unhealthy');
+            this._populateDiskPromise.then(function() {
+                if (gridItem.object.getPath('_disk.status.smart_info.smart_status') === 'FAIL') {
+                    gridItem.classList.add('unhealthy');
+                }
+            });
         }
     }
 

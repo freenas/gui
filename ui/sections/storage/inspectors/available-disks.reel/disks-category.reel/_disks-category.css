@@ -74,3 +74,17 @@
     border-color: rgba(43,156,216,1);
     background-color: rgba(43,156,216,0.1);
 }
+
+.AvailableDisksCategory .GridItem.unhealthy .Grid-icon.LabeledIcon {
+    &:before {
+        content: '';
+        width:  .5em;
+        height: .5em;
+        background: #E0003A;
+        border-radius: .5em;
+        margin-top: .75em;
+        margin-left: .3em;
+        position: absolute;
+        z-index: 9999;
+    }
+}
