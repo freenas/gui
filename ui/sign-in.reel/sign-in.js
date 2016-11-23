@@ -103,7 +103,7 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
                 this.errorMessage = "Oops! Your token has been expired. \n Please re-login.";
                 history.pushState('', document.title, window.location.href.replace(';disconnected', ''));
             }
-            this.userNameTextField.focus();
+            this.userNameTextField.input.focus();
         }
     },
 
