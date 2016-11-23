@@ -16,6 +16,14 @@ exports.GridItem = AbstractDraggableComponent.specialize({
 
             return typeof response === "boolean" ? response : true;
         }
+    },
+
+    enterDocument: {
+        value: function(isFirstTime) {
+            this.super();
+
+            this.callDelegateMethod('gridItemDidEnter', this);
+        }
     }
 
 });
