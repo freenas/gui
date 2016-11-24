@@ -388,11 +388,14 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
     gridItemDidEnter: {
         value: function(gridItem) {
             gridItem.classList.remove('unhealthy');
-            this._populateDiskPromise.then(function() {
-                if (gridItem.object.getPath('_disk.status.smart_info.smart_status') === 'FAIL') {
-                    gridItem.classList.add('unhealthy');
-                }
-            });
+            if (this._populateDiskPromise || gridItem.object && gridItem.object._disk) {
+                var promise = this._populateDiskPromise || Promise.resolve();
+                promise.then(function() {
+                    if (gridItem.object.getPath('_disk.status.smart_info.smart_status') === 'FAIL') {
+                        gridItem.classList.add('unhealthy');
+                    }
+                });
+            }
         }
     }
 
