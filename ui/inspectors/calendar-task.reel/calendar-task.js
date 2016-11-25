@@ -109,7 +109,10 @@ exports.CalendarTask = AbstractInspector.specialize({
 
     handleRunNowAction: {
         value: function () {
-            this._sectionService.runTask(this.object);
+            if (this.argsInspector && typeof this.argsInspector.save === 'function') {
+                this.object.args = this.argsInspector.save();
+            }
+            return this._sectionService.runTask(this.object);
         }
     },
 
