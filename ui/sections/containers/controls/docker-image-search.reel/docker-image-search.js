@@ -12,6 +12,7 @@ exports.DockerImageSearch = Component.specialize(/** @lends DockerImageSearch# *
     enterDocument: {
         value: function (firsTime) {
             this._images = null;
+            this.imageComponent.clearSelection();
 
             if (firsTime) {
                 this.addPathChangeListener("collection", this, "_handleCollectionChange");
