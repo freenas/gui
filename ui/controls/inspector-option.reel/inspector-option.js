@@ -34,6 +34,7 @@ exports.InspectorOption = Button.specialize({
         value: function () {
             //Fixme: montage issue, not able to remove a class from the element when leaving the dom
             if (this.element.classList.contains("selected")) {
+                this.classList.remove("selected");
                 this.element.classList.remove("selected");
             }
         }
@@ -43,8 +44,10 @@ exports.InspectorOption = Button.specialize({
         value: function () {
             if (this.object && this.parentCascadingListItem.selectedObject === this.object) {
                 this.classList.add("selected");
+                this.element.classList.add("selected");
             } else {
                 this.classList.remove("selected");
+                this.element.classList.remove("selected");
             }
         }
     },
