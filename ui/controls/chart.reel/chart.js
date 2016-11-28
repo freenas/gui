@@ -250,7 +250,7 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
         value: function() {
             this._yScale = new Plottable.Scales.Linear().domainMin(0);
             this._yAxis = new Plottable.Axes.Numeric(this._yScale, "left")
-                .formatter(new Plottable.Formatters.siSuffix(2));
+                .formatter(d3.format(this._getOptionValue('yFormat')));
         }
     },
 
