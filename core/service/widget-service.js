@@ -67,6 +67,13 @@ var WIDGETS = [
         imgPreview: null,
         moduleId: "ui/widgets/disk-traffic.reel",
         allowMultiple: false
+    },
+    {
+        title: "cpu-temperature",
+        description: null,
+        imgPreview: null,
+        moduleId: "ui/widgets/cpu-temperature.reel",
+        allowMultiple: false
     }
 ];
 

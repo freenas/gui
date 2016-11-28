@@ -62,25 +62,19 @@ exports.ChartLive = Component.specialize({
             if (typeof this.parentComponent.transformValue === 'function') {
                 return this.parentComponent.transformValue(value);
             }
-            return value;
+            return this.callDelegateMethod('transformValue', value) || value;
         }
     },
 
     getChartKey: {
         value: function(source, metric, suffix, isTimeSeries) {
-            if (this.delegate && typeof this.delegate.getChartKey === 'function') {
-                return this.delegate.getChartKey.apply(this.delegate, arguments);
-            }
-            return null;
+            return this.callDelegateMethod('getChartKey', source, metric, suffix, isTimeSeries);
         }
     },
 
     getChartLabel: {
         value: function(source, metric, suffix, isTimeSeries) {
-            if (this.delegate && typeof this.delegate.getChartLabel === 'function') {
-                return this.delegate.getChartLabel.apply(this.delegate, arguments);
-            }
-            return null;
+            return this.callDelegateMethod('getChartLabel', source, metric, suffix, isTimeSeries);
         }
     },
 
@@ -145,7 +139,7 @@ exports.ChartLive = Component.specialize({
                         self._eventToKey[eventType] = key;
                         self._eventToSource[eventType] = label;
                         self._subscribedUpdates.push(event);
-           });
+                    });
                 } else {
                     return false;
                 }
