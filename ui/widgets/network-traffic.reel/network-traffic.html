@@ -35,14 +35,16 @@
                 "element": {"#": "chart-live"},
                 "showLegend": true,
                 "showYAxis": true,
-                "yFormat": "1.2s",
+                "yLabel": "bps",
+                "yFormat": ".2s",
                 "isTimeSeries": true,
                 "useGuideline": true,
                 "metrics": [
                     ["if_octets", "rx"],
                     ["if_octets", "tx"]
                 ],
-                "removePrefix": "if_octets."
+                "removePrefix": "if_octets.",
+                "delegate": {"@": "owner"}
             },
             "bindings": {
                 "source": {"<-": "'interface-' + @owner.card"}

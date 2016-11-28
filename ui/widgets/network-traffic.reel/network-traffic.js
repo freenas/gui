@@ -17,6 +17,12 @@ exports.NetworkTraffic = Component.specialize({
                 });
             }
         }
+    },
+
+    transformValue: {
+        value: function(value) {
+            return value * 8;
+        }
     }
 
 });
