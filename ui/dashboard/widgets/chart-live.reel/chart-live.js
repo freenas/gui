@@ -62,7 +62,7 @@ exports.ChartLive = Component.specialize({
             if (typeof this.parentComponent.transformValue === 'function') {
                 return this.parentComponent.transformValue(value);
             }
-            return value;
+            return this.callDelegateMethod('transformValue', value) || value;
         }
     },
 

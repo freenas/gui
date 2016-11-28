@@ -23,15 +23,15 @@
                 "showYAxis": true,
                 "isTimeSeries": true,
                 "graphType": "stacked",
-                "yLabel": "%",
-                "yFormat": "1.2s",
+                "yFormat": "%",
                 "useGuideline": true,
                 "source": "aggregation-cpu-sum",
                 "metrics": [
                     "cpu-user",
                     "cpu-system"
                 ],
-                "removePrefix": "cpu-"
+                "removePrefix": "cpu-",
+                "delegate": {"@": "owner"}
             }
         }
     }
