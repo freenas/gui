@@ -42,3 +42,30 @@
     font-weight: 400;
     margin: 0;
 }
+
+.SectionRoot.has-disabled-overlay {
+    position: relative;
+}
+
+.SectionRoot.has-disabled-overlay:before,
+.SectionRoot.has-disabled-overlay:after {
+    position: absolute;
+    content: '';
+}
+
+.SectionRoot.has-disabled-overlay:after {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,.5);
+    background-image: repeating-linear-gradient(-45deg, rgba(128,128,128,0.25), rgba(128,128,128,0.25) 1px, transparent 1px, transparent 10px);
+    background-size: 28px 28px;
+}
+
+.SectionRoot.has-disabled-overlay .SectionRoot-disabledMessage {
+    position: absolute;
+    top: 50%;
+    text-align: center;
+    color: #fff;
+}

@@ -108,6 +108,15 @@
                 "value": {"<-": "@owner.systemInfo.hardware.cpu_model"}
             }
         },
+        "vmSupport": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "vmSupport"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.systemInfo.vmSupport"}
+            }
+        },
         "memorySize": {
             "prototype": "montage/ui/text.reel",
             "properties": {
@@ -214,6 +223,10 @@
                                 <div data-montage-id="cpuDetails" class="SystemInfo-data"></div>
                                 <span data-montage-id="cpuCount"></span> @ <span data-montage-id="cpuSpeed"></span>GHz
                             </dd>
+
+                            <dt>CPU VM Support</dt>
+                            <dd data-montage-id="vmSupport"></dd>
+
                             <dt>Memory</dt>
                             <dd data-montage-id="memorySize" class="SystemInfo-data"></dd>
                             <dd data-montage-id="memoryDetails" class="SystemInfo-data"></dd>
