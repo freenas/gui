@@ -105,6 +105,7 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
 
     handleSubmitAction: {
         value: function () {
+            this.application.section = this.application.sectionsDescriptors.dashboard;
             this._sectionService.saveWizard(this.steps);
         }
     },
