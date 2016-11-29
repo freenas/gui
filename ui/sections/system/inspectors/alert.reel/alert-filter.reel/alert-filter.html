@@ -29,6 +29,7 @@
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
+                "canSave": {"<-": "@owner.object.id != ''"},
                 "isLoading": {"<-": "@owner.isLoading"}
             }
         },
