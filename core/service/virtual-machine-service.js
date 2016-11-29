@@ -141,6 +141,14 @@ var VirtualMachineService = exports.VirtualMachineService = Montage.specialize({
         }
     },
 
+    getHardwareCapabilities: {
+        value: function() {
+            return this._callBackend("vm.get_hw_vm_capabilities", []).then(function(response) {
+                return response.data || {};
+            });
+        }
+    },
+
     _callBackend: {
         value: function(method, args) {
             return this._backendBridge.send("rpc", "call", {

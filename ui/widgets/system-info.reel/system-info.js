@@ -47,6 +47,11 @@ exports.SystemInfo = Component.specialize({
                 return self._loadLoad();
             }).then(function(load) {
                 self.systemInfo.load = load;
+                return self._loadHardwareCapabilities();
+            }).then(function(vm) {
+                self.systemInfo.vmSupport = vm.vtx_enabled ?
+                    vm.unrestricted_guest ? "Full" : "Partial" :
+                    vm.svm_features ? "Partial" : "None";
             });
         }
     },
@@ -86,6 +91,12 @@ exports.SystemInfo = Component.specialize({
     _loadLoad: {
         value: function() {
             return this.application.systemInfoService.getLoad();
+        }
+    },
+
+    _loadHardwareCapabilities: {
+        value: function() {
+            return this.application.virtualMachineService.getHardwareCapabilities();
         }
     }
     
