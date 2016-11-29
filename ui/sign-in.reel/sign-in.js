@@ -103,7 +103,7 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
                 this.errorMessage = "Oops! Your token has been expired. \n Please re-login.";
                 history.pushState('', document.title, window.location.href.replace(/;disconnected/g, ''));
             }
-            this.userNameTextField.focus();
+            this.userNameTextField.input.focus();
         }
     },
 
@@ -166,7 +166,7 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
         value: function () {
             if (this.errorMessage) {
                 this.passwordTextField.value = null;
-                this.passwordTextField.element.focus();
+                this.passwordTextField.templateObjects.input.focus();
 
                 this.element.removeEventListener(
                     typeof WebKitAnimationEvent !== "undefined" ? "webkitAnimationEnd" : "animationend", this, false
