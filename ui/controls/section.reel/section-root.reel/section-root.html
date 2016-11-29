@@ -11,7 +11,8 @@
             },
             "bindings": {
                 "selectedEntry": {"<->": "@entries.selectedObject"},
-                "selectedExtraEntry": {"<->": "@extraEntries.selectedObject"}
+                "selectedExtraEntry": {"<->": "@extraEntries.selectedObject"},
+                "classList.has('has-disabled-overlay')": {"<-": "!!@owner._disabledMessage"}
             }
         },
         "overview": {
@@ -56,6 +57,15 @@
                 "object": {"<-": "@owner.object.settings"},
                 "classList.has('hide')": {"<-": "!@owner.object.settings.settings"}
             }
+        },
+        "disabledMessage": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "disabledMessage"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner._disabledMessage"}
+            }
         }
     }
     </script>
@@ -66,6 +76,7 @@
         <div data-montage-id="entries" class="SectionRoot-entries"></div>
         <div data-montage-id="extraEntries" class="SectionRoot-extraEntries"></div>
         <div data-montage-id="settings"></div>
+        <div data-montage-id="disabledMessage" class="SectionRoot-disabledMessage"></div>
     </div>
 </body>
 </html>

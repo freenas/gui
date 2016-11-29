@@ -17,6 +17,10 @@ var VirtualMachineService = exports.VirtualMachineService = Montage.specialize({
         value: null
     },
 
+    _hardwareCapabilitiesPromise: {
+        value: null
+    },
+
     createCdromDevice: {
         value: function() {
             return this._createNewDevice(VmDeviceType.CDROM);
@@ -143,9 +147,10 @@ var VirtualMachineService = exports.VirtualMachineService = Montage.specialize({
 
     getHardwareCapabilities: {
         value: function() {
-            return this._callBackend("vm.get_hw_vm_capabilities", []).then(function(response) {
-                return response.data || {};
-            });
+            return this._hardwareCapabilitiesPromise = this._hardwareCapabilitiesPromise ||
+                this._callBackend("vm.get_hw_vm_capabilities", []).then(function(response) {
+                    return response.data;
+                });
         }
     },
 
