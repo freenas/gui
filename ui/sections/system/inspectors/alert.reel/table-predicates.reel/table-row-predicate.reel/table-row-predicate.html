@@ -45,6 +45,10 @@
                 "placeholder": "Select an operator",
                 "options": [
                     {
+                        "label": "-",
+                        "value": null
+                    },
+                    {
                         "label": "'=='",
                         "value": "=="
                     },
@@ -64,6 +68,10 @@
                 "element": {"#": "severityOperators"},
                 "placeholder": "Select an operator",
                 "options": [
+                    {
+                        "label": "-",
+                        "value": null
+                    },
                     {
                         "label": "equal",
                         "value": "=="
@@ -109,7 +117,7 @@
                 "element": {"#": "classValues"}
             },
             "bindings": {
-                "options" : {"<-": "@owner.classValues"},
+                "options" : {"<-": "[{label:'-', value: null}].concat(@owner.classValues)"},
                 "selectedValue": {"<->": "@owner.object.value"}
             }
         },
@@ -119,7 +127,7 @@
                 "element": {"#": "severityValues"}
             },
             "bindings": {
-                "options" : {"<-": "@owner.severityValues"},
+                "options" : {"<-": "[{label:'-', value: null}].concat(@owner.severityValues)"},
                 "selectedValue": {"<->": "@owner.object.value"}
             }
         }

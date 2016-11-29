@@ -11,9 +11,21 @@ var Component = require("montage/ui/component").Component,
  */
 exports.TableRowPredicate = Component.specialize({
 
-    enterDocument: {
-        value: function (isFirstTime) {
-            var self = this;
+    classOperators: {
+        value: [
+                    {
+                        "label": "'=='",
+                        "value": "=="
+                    },
+                    {
+                        "label": "'!='",
+                        "value": "!="
+                    }
+                ]
+    },
+
+    templateDidLoad: {
+        value: function () {
             this.classValues = AlertClassId.members.map(function (x) {
                 return {
                     label: x,
@@ -28,5 +40,4 @@ exports.TableRowPredicate = Component.specialize({
             });
         }
     }
-
 });
