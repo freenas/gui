@@ -99,8 +99,10 @@
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
                 "element": {"#": "extentXenInitiatorCompatMode"},
-                "label": "Xen initiator compat mode",
-                "_comment": "missing"
+                "label": "Xen initiator compat mode"
+            },
+            "bindings": {
+                "value": {"<->": "!!@owner.object.properties.xen_compat"}
             }
         },
 
@@ -120,8 +122,10 @@
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
                 "element": {"#": "extentReadOnly"},
-                "label": "Read-only",
-                "_comment": "missing"
+                "label": "Read Only"
+            },
+            "bindings": {
+                "value": {"<->": "!!@owner.object.properties.read_only"}
             }
         }
 
