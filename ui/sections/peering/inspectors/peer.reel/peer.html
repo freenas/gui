@@ -52,6 +52,16 @@
                 "moduleId": {"<-": "'ui/sections/peering/inspectors/' + @owner.object.type + '-credentials.reel'"},
                 "object": {"<-": "@owner.object"}
             }
+        },
+        "healthCheck":{
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "healthCheck"},
+                "label": "Health Check Interval"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.health_check_interval"}
+            }
         }
     }
     </script>
@@ -61,6 +71,7 @@
         <div data-montage-id="inspector">
             <div data-montage-id="type"></div>
             <div data-montage-id="credentials"></div>
+            <div data-montage-id="healthCheck"></div>
         </div>
     </div>
 </body>
