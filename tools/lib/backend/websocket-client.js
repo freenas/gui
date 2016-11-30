@@ -1,23 +1,20 @@
 var WebSocket = require('ws');
 var WebSocketMessage = require('../../../core/backend/websocket-message').WebSocketMessage;
-var WebSocketConfiguration = require('../../../core/backend/websocket-configuration').WebSocketConfiguration;
 var HandlerPool = require('../../../core/backend/handler-pool').HandlerPool;
 var Promise = require('montage/core/promise').Promise;
 
 
-var WebSocketClient = exports.WebSocketClient = function (webSocketConfiguration) {
+var WebSocketClient = exports.WebSocketClient = function () {
     this.handlerPool = new HandlerPool();
-    this.configuration = webSocketConfiguration;
 };
 
-WebSocketClient.prototype.connect = function () {
-    var configuration = this.configuration;
+WebSocketClient.prototype.connect = function (url) {
 
     if (global.verbose) {
-        console.log('Connecting to: ' + configuration.get(WebSocketConfiguration.KEYS.URL));
+        console.log('Connecting to: ' + url);
     }
 
-    var client = this.client = new WebSocket(configuration.get(WebSocketConfiguration.KEYS.URL));
+    var client = this.client = new WebSocket(url);
     var self = this;
 
     return new Promise(function (resolve, reject) {

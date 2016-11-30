@@ -2,7 +2,6 @@
 
 var prompt = require('prompt');
 var WebSocketClient = require('./websocket-client').WebSocketClient;
-var WebSocketConfiguration = require('../../../core/backend/websocket-configuration').WebSocketConfiguration;
 var Promise = require('montage/core/promise').Promise;
 
 var passwordSchema = {
@@ -52,18 +51,18 @@ exports.authenticateIfNeeded = function (username, password, options) {
     });
 };
 
+function _getURL(options) {
+    var scheme = options.secure ? 'wss://' : 'ws://',
+        host = options.host || 'freenas.local',
+        port = options.port || (options.secure ? '443' : '80');
+    return scheme + host + ':' + port + '/dispatcher/socket';
+}
 
 function _authenticate (username, password, options) {
-    var webSocketConfiguration = new WebSocketConfiguration();
+    var url = _getURL(options),
+        websocket = new WebSocketClient();
 
-    webSocketConfiguration.set(WebSocketConfiguration.KEYS.SECURE, options ? options.secure : false);
-    webSocketConfiguration.set(WebSocketConfiguration.KEYS.HOST, options && options.host ? options.host : "freenas.local");
-    webSocketConfiguration.set(WebSocketConfiguration.KEYS.PORT, options && options.port ? options.port : "5000");
-    webSocketConfiguration.set(WebSocketConfiguration.KEYS.PATH, "/socket");
-
-    var websocket = new WebSocketClient(webSocketConfiguration);
-
-    return websocket.connect().then(function () {
+    return websocket.connect(url).then(function () {
         return websocket.authenticate(username, password).then(function () {
             if (global.verbose) {
                 console.log("Used Connected");
