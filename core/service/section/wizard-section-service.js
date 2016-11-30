@@ -110,7 +110,7 @@ exports.WizardSectionService = AbstractSectionService.specialize({
                         promises = [];
 
                     if (!shareStep.isSkipped) {
-                        var shares = shareStep.object.$shares;
+                        var shares = shareStep.object.__shares;
 
                         shares.forEach(function (share) {
                             if (share.name) {

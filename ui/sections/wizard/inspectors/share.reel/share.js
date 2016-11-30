@@ -20,7 +20,10 @@ exports.Share = Component.specialize(/** @lends Share# */ {
     enterDocument: {
         value: function () {
             this._shareService = this.application.shareService;
-            this._populateNewShareObjectList();
+
+            if (!this.object.__shares) {
+                this._populateNewShareObjectList();
+            }
         }
     },
 
@@ -34,7 +37,7 @@ exports.Share = Component.specialize(/** @lends Share# */ {
                 shareService.createAfpShare(),
                 shareService.createIscsiShare()
             ]).bind(this).then(function (shares) {
-                this.object.$shares = this.shares = shares;
+                this.object.__shares = this.shares = shares;
             });
         }
     }
