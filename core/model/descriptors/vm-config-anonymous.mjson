@@ -56,6 +56,14 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_vmconfiganonymous_logging": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "logging",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
   "blueprint_vmconfiganonymous_memsize": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -100,6 +108,7 @@
         {"@": "blueprint_vmconfiganonymous_bootloader"},
         {"@": "blueprint_vmconfiganonymous_cloud_init"},
         {"@": "blueprint_vmconfiganonymous_docker_host"},
+        {"@": "blueprint_vmconfiganonymous_logging"},
         {"@": "blueprint_vmconfiganonymous_memsize"},
         {"@": "blueprint_vmconfiganonymous_ncpus"},
         {"@": "blueprint_vmconfiganonymous_readme"},
