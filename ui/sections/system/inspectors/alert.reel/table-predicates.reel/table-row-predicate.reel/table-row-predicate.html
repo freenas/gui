@@ -117,7 +117,7 @@
                 "element": {"#": "classValues"}
             },
             "bindings": {
-                "options" : {"<-": "[{label:'-', value: null}].concat(@owner.classValues)"},
+                "options" : {"<-": "[{label:'ALL', value: null}].concat(@owner.classValues)"},
                 "selectedValue": {"<->": "@owner.object.value"}
             }
         },
@@ -127,7 +127,7 @@
                 "element": {"#": "severityValues"}
             },
             "bindings": {
-                "options" : {"<-": "[{label:'-', value: null}].concat(@owner.severityValues)"},
+                "options" : {"<-": "[{label:'ALL', value: null}].concat(@owner.severityValues)"},
                 "selectedValue": {"<->": "@owner.object.value"}
             }
         }
