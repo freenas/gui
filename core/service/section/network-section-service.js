@@ -230,16 +230,15 @@ exports.NetworkSectionService = AbstractSectionService.specialize({
     _flattenAliasesOnInterface: {
         value: function(interface) {
             if (!interface.dhcp) {
+                var aliases = [];
                 if (interface._ipAddress && typeof interface._ipAddress === 'object') {
-                    if (interface._ipv6Address && typeof interface._ipv6Address == 'object') {
-                        interface._ipv6Address.type = NetworkInterfaceAliasType.INET6;
-                        interface.aliases = [interface._ipAddress, interface._ipv6Address].concat(interface._otherAliases);
-                    } else {
-                        interface.aliases = [interface._ipAddress].concat(interface._otherAliases);
-                    }
-                } else {
-                    interface.aliases = interface._otherAliases;
+                    aliases.push(interface._ipAddress);
                 }
+                if (typeof interface._ipv6Address === 'object' && !!interface._ipv6Address.address && !!interface._ipv6Address.netmask) {
+                    interface._ipv6Address.type = NetworkInterfaceAliasType.INET6;
+                    aliases.push(interface._ipv6Address);
+                }
+                interface.aliases = aliases.concat(interface._otherAliases);
                 this._splitAliasesOnInterface(interface);
             }
         }
@@ -248,12 +247,14 @@ exports.NetworkSectionService = AbstractSectionService.specialize({
     _splitAliasesOnInterface: {
         value: function(interface) {
             var alias;
+            interface._otherAliases = [];
+            interface._ipAddress = null;
+            interface._ipv6Address = null;
             for (var i = 0, length = interface.aliases.length; i < length; i++) {
                 alias = interface.aliases[i];
                 if (alias.type === NetworkInterfaceAliasType.INET && interface._ipAddress === null) {
                     interface._ipAddress = alias;
-                }
-                else if (alias.type === NetworkInterfaceAliasType.INET6 && interface._ipv6Address === null) {
+                } else if (alias.type === NetworkInterfaceAliasType.INET6 && interface._ipv6Address === null) {
                     interface._ipv6Address = alias;
                 } else {
                     interface._otherAliases.push(alias);
