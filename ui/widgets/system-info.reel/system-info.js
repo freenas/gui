@@ -19,9 +19,19 @@ exports.SystemInfo = Component.specialize({
 
     enterDocument: {
         value: function (firstTime) {
+            var self = this;
+
             if (firstTime) {
                 this._fetchSystemInfo();
             }
+
+            return this._loadTime().then(this._startTimer.bind(this));
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            this._stopTimer();
         }
     },
 
@@ -38,9 +48,6 @@ exports.SystemInfo = Component.specialize({
                 return self._loadSystemGeneral();
             }).then(function(general) {
                 self.systemInfo.general = general;
-                return self._loadTime();
-            }).then(function(time) {
-                self.systemInfo.time = time;
                 return self._loadDisks();
             }).then(function(disks) {
                 self.systemInfo.disks = disks;
@@ -78,7 +85,7 @@ exports.SystemInfo = Component.specialize({
 
     _loadTime: {
         value: function() {
-            return this._systemInfoService.getTime();
+            return this.application.systemTimeService.getCurrentSystemTime();
         }
     },
 
@@ -97,6 +104,32 @@ exports.SystemInfo = Component.specialize({
     _loadHardwareCapabilities: {
         value: function() {
             return this.application.virtualMachineService.getHardwareCapabilities();
+        }
+    },
+
+    _startTimer: {
+        value: function(time) {
+            var self = this,
+                startTime = new Date().getTime(),
+                startSystemTime = new Date(time.system_time['$date']).getTime();
+
+            this._stopTimer();
+            this._timer = setInterval(function () {
+                var elapsed = new Date().getTime() - startTime;
+                self.systemInfo.time = {
+                    uptime: time.uptime + elapsed / 1000,
+                    system_time: new Date(startSystemTime + elapsed).toISOString()
+                };
+            }, 1000);
+        }
+    },
+
+    _stopTimer: {
+        value: function() {
+            if (this._timer) {
+                clearInterval(this._timer);
+                this._timer = 0;
+            }
         }
     }
     

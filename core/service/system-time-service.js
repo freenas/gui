@@ -18,6 +18,14 @@ var SystemTimeService = exports.SystemTimeService = Montage.specialize({
                 return systemTime[0];
             })
         }
+    },
+
+    getCurrentSystemTime: {
+        value: function() {
+            return this._dataService.callBackend('system.time.get_config', []).then(function(response) {
+                return response.data;
+            });
+        }
     }
 }, {
     instance: {
