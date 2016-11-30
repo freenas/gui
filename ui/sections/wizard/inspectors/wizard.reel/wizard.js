@@ -3,7 +3,7 @@
  */
 var Component = require("montage/ui/component").Component,
     WizardSectionService = require("core/service/section/wizard-section-service").WizardSectionService,
-    wizardDescriptor = require("./wizard.mjson");
+    wizardDescriptor = require("./wizard.json");
 
 /**
  * @class Wizard
