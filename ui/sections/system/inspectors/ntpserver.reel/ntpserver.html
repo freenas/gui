@@ -40,6 +40,16 @@
                 "value": {"<->": "@owner.object.address"}
             }
         },
+        "syncNow": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "syncNow"},
+                "value": "Synchronize now"
+            },
+            "bindings": {
+                "disabled": {"<-": "!@owner.object.address"}
+            }
+        },
         "pool ": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -139,6 +149,7 @@
     <div data-montage-id="owner" class="Ntpserver">
         <div data-montage-id="inspector">
             <div data-montage-id="address"></div>
+            <div data-montage-id="syncNow"></div>
             <div data-montage-id="pool"></div>
             <div data-montage-id="burst"></div>
             <div data-montage-id="iburst"></div>
