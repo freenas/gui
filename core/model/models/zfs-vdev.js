@@ -14,6 +14,19 @@ exports.ZfsVdev = Montage.specialize({
             return this._children;
         }
     },
+    _disk_id: {
+        value: null
+    },
+    disk_id: {
+        set: function (value) {
+            if (this._disk_id !== value) {
+                this._disk_id = value;
+            }
+        },
+        get: function () {
+            return this._disk_id;
+        }
+    },
     _guid: {
         value: null
     },
@@ -86,6 +99,10 @@ exports.ZfsVdev = Montage.specialize({
             name: "children",
             valueObjectPrototypeName: "ZfsVdev",
             valueType: "array"
+        }, {
+            mandatory: false,
+            name: "disk_id",
+            valueType: "String"
         }, {
             mandatory: false,
             name: "guid",

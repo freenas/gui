@@ -92,6 +92,19 @@ exports.WinbindDirectoryParams = Montage.specialize({
             return this._realm;
         }
     },
+    _sasl_wrapping: {
+        value: null
+    },
+    sasl_wrapping: {
+        set: function (value) {
+            if (this._sasl_wrapping !== value) {
+                this._sasl_wrapping = value;
+            }
+        },
+        get: function () {
+            return this._sasl_wrapping;
+        }
+    },
     _site_name: {
         value: null
     },
@@ -147,6 +160,11 @@ exports.WinbindDirectoryParams = Montage.specialize({
             mandatory: false,
             name: "realm",
             valueType: "String"
+        }, {
+            mandatory: false,
+            name: "sasl_wrapping",
+            valueObjectPrototypeName: "LdapDirectoryParamsSaslWrapping",
+            valueType: "object"
         }, {
             mandatory: false,
             name: "site_name",

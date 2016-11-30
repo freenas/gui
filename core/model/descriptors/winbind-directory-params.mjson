@@ -57,6 +57,15 @@
       "valueType": "String"
     }
   },
+  "blueprint_winbinddirectoryparams_sasl_wrapping": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "sasl_wrapping",
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "LdapDirectoryParamsSaslWrapping"
+    }
+  },
   "blueprint_winbinddirectoryparams_site_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -85,6 +94,7 @@
         {"@": "blueprint_winbinddirectoryparams_krb_principal"},
         {"@": "blueprint_winbinddirectoryparams_password"},
         {"@": "blueprint_winbinddirectoryparams_realm"},
+        {"@": "blueprint_winbinddirectoryparams_sasl_wrapping"},
         {"@": "blueprint_winbinddirectoryparams_site_name"},
         {"@": "blueprint_winbinddirectoryparams_username"}
       ]

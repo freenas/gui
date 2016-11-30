@@ -15,13 +15,22 @@
       "valueType": "String"
     }
   },
+  "blueprint_volumeimportparams_key_fd": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "key_fd",
+      "blueprint": {"@": "root"},
+      "valueType": "fd"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "VolumeImportParams",
       "propertyBlueprints": [
         {"@": "blueprint_volumeimportparams_disks"},
-        {"@": "blueprint_volumeimportparams_key"}
+        {"@": "blueprint_volumeimportparams_key"},
+        {"@": "blueprint_volumeimportparams_key_fd"}
       ]
     }
   }
