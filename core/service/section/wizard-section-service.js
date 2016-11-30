@@ -153,7 +153,7 @@ exports.WizardSectionService = AbstractSectionService.specialize({
                     if (stepId === "volume") {
                         indexVolume = promises.push(step.service.createVolume(stepObject)) - 1;
                     } else if (stepId === "directoryServices") {
-                        var directoryServices = stepObject.$directoryServices;
+                        var directoryServices = stepObject.__directoryServices;
 
                         directoryServices.forEach(function (directoryService) {
                             if (directoryService.name) {

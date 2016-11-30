@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="table-row.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+
+        "name": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "placeholder": "e.g. name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.name"}
+            }
+        },
+
+        "server": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "server"},
+                "placeholder": "e.g. ldap.example.com"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.parameters.server"}
+            }
+        },
+
+        "base_dn": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "baseDn"},
+                "placeholder": "e.g. ou=users,dc=example,dc=com"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.parameters.base_dn"}
+            }
+        },
+
+        "bind_dn": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "bindDn"},
+                "placeholder": "e.g. cn=admin,ou=users,dc=example,dc=com"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.parameters.bind_dn"}
+            }
+        },
+
+        "password": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "bindPassword"},
+                "placeholder": "enter password"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.parameters.password"}
+            }
+        }
+
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="TableRow">
+        <div><div data-montage-id="name"></div></div>
+        <div><div data-montage-id="server"></div></div>
+        <div><div data-montage-id="baseDn"></div></div>
+        <div><div data-montage-id="bindDn"></div></div>
+        <div><div data-montage-id="bindPassword"></div></div>
+    </div>
+</body>
+</html>

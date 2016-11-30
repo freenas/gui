@@ -11,7 +11,8 @@
         },
         {
             "id": "directoryServices",
-            "objectType": "DirectoryServices"
+            "objectType": "DirectoryServices",
+            "service": "core/service/section/account-section-service"
         },
         {
             "id": "share",
