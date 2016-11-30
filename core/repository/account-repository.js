@@ -1,14 +1,26 @@
 var AbstractRepository = require("core/repository/abstract-repository").AbstractRepository,
     KerberosKeytabDao = require("core/dao/kerberos-keytab-dao").KerberosKeytabDao,
     KerberosRealmDao = require("core/dao/kerberos-realm-dao").KerberosRealmDao,
-    NtpServerDao = require("core/dao/ntp-server-dao").NtpServerDao;
+    NtpServerDao = require("core/dao/ntp-server-dao").NtpServerDao,
+    DirectoryDao = require("core/dao/directory-dao").DirectoryDao,
+    KerberosRealmDao = require("core/dao/kerberos-realm-dao").KerberosRealmDao;
+
+
+var DIRECTORY_TYPES_LABELS = {
+        winbind: "Active Directory",
+        freeipa: "FreeIPA",
+        ldap: "LDAP",
+        nis: "NIS"
+    };
+
 
 exports.AccountRepository = AbstractRepository.specialize({
     init: {
-        value: function(kerberosRealmDao, kerberosKeytabDao, ntpServerDao) {
+        value: function(kerberosRealmDao, kerberosKeytabDao, directoryDao) {
             this._kerberosRealmDao = kerberosRealmDao || KerberosRealmDao.instance;
             this._kerberosKeytabDao = kerberosKeytabDao || KerberosKeytabDao.instance;
             this._ntpServerDao = ntpServerDao || NtpServerDao.instance;
+            this._directoryDao = directoryDao || DirectoryDao.instance;
         }
     },
 
@@ -33,6 +45,18 @@ exports.AccountRepository = AbstractRepository.specialize({
     getNewKerberosKeytab: {
         value: function () {
             return this._kerberosKeytabDao.getNewInstance();
+        }
+    },
+
+    getNewDirectoryForType: {
+        value: function (type) {
+            return this._directoryDao.getNewInstance().then(function (directory) {
+                directory.type = type;
+                directory.parameters = {"%type": type + "-directory-params"};
+                directory.label = DIRECTORY_TYPES_LABELS[type];
+
+                return directory;
+            });
         }
     },
 

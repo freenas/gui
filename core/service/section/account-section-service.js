@@ -56,6 +56,12 @@ exports.AccountSectionService = AbstractSectionService.specialize({
         value: function() {
             return this._accountRepository.listNtpServers();
         }
+    },
+
+    getNewDirectoryForType: {
+        value: function (type) {
+            return this._accountRepository.getNewDirectoryForType(type);
+        }
     }
 
 },
