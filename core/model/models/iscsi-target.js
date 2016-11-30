@@ -1,159 +1,161 @@
 var Montage = require("montage").Montage;
 
-exports.WinbindDirectoryParams = Montage.specialize({
-    "_%type": {
+exports.IscsiTarget = Montage.specialize({
+    _address: {
         value: null
     },
-    "%type": {
+    address: {
         set: function (value) {
-            if (this["_%type"] !== value) {
-                this["_%type"] = value;
+            if (this._address !== value) {
+                this._address = value;
             }
         },
         get: function () {
-            return this["_%type"];
+            return this._address;
         }
     },
-    _allow_dns_updates: {
+    _enabled: {
         value: null
     },
-    allow_dns_updates: {
+    enabled: {
         set: function (value) {
-            if (this._allow_dns_updates !== value) {
-                this._allow_dns_updates = value;
+            if (this._enabled !== value) {
+                this._enabled = value;
             }
         },
         get: function () {
-            return this._allow_dns_updates;
+            return this._enabled;
         }
     },
-    _dc_address: {
+    _id: {
         value: null
     },
-    dc_address: {
+    id: {
         set: function (value) {
-            if (this._dc_address !== value) {
-                this._dc_address = value;
+            if (this._id !== value) {
+                this._id = value;
             }
         },
         get: function () {
-            return this._dc_address;
+            return this._id;
         }
     },
-    _gcs_address: {
+    _mutual_secret: {
         value: null
     },
-    gcs_address: {
+    mutual_secret: {
         set: function (value) {
-            if (this._gcs_address !== value) {
-                this._gcs_address = value;
+            if (this._mutual_secret !== value) {
+                this._mutual_secret = value;
             }
         },
         get: function () {
-            return this._gcs_address;
+            return this._mutual_secret;
         }
     },
-    _krb_principal: {
+    _mutual_user: {
         value: null
     },
-    krb_principal: {
+    mutual_user: {
         set: function (value) {
-            if (this._krb_principal !== value) {
-                this._krb_principal = value;
+            if (this._mutual_user !== value) {
+                this._mutual_user = value;
             }
         },
         get: function () {
-            return this._krb_principal;
+            return this._mutual_user;
         }
     },
-    _password: {
+    _name: {
         value: null
     },
-    password: {
+    name: {
         set: function (value) {
-            if (this._password !== value) {
-                this._password = value;
+            if (this._name !== value) {
+                this._name = value;
             }
         },
         get: function () {
-            return this._password;
+            return this._name;
         }
     },
-    _realm: {
+    _secret: {
         value: null
     },
-    realm: {
+    secret: {
         set: function (value) {
-            if (this._realm !== value) {
-                this._realm = value;
+            if (this._secret !== value) {
+                this._secret = value;
             }
         },
         get: function () {
-            return this._realm;
+            return this._secret;
         }
     },
-    _site_name: {
+    _status: {
         value: null
     },
-    site_name: {
+    status: {
         set: function (value) {
-            if (this._site_name !== value) {
-                this._site_name = value;
+            if (this._status !== value) {
+                this._status = value;
             }
         },
         get: function () {
-            return this._site_name;
+            return this._status;
         }
     },
-    _username: {
+    _user: {
         value: null
     },
-    username: {
+    user: {
         set: function (value) {
-            if (this._username !== value) {
-                this._username = value;
+            if (this._user !== value) {
+                this._user = value;
             }
         },
         get: function () {
-            return this._username;
+            return this._user;
         }
     }
 }, {
     propertyBlueprints: {
         value: [{
             mandatory: false,
-            name: "%type"
+            name: "address",
+            valueType: "String"
         }, {
             mandatory: false,
-            name: "allow_dns_updates",
+            name: "enabled",
             valueType: "boolean"
         }, {
             mandatory: false,
-            name: "dc_address",
+            name: "id",
             valueType: "String"
         }, {
             mandatory: false,
-            name: "gcs_address",
+            name: "mutual_secret",
             valueType: "String"
         }, {
             mandatory: false,
-            name: "krb_principal",
+            name: "mutual_user",
             valueType: "String"
         }, {
             mandatory: false,
-            name: "password",
+            name: "name",
             valueType: "String"
         }, {
             mandatory: false,
-            name: "realm",
+            name: "secret",
             valueType: "String"
         }, {
             mandatory: false,
-            name: "site_name",
-            valueType: "String"
+            name: "status",
+            valueObjectPrototypeName: "IscsiTargetStatus",
+            valueType: "object"
         }, {
             mandatory: false,
-            name: "username",
+            name: "user",
             valueType: "String"
         }]
     }

@@ -9,6 +9,7 @@
     "Directory": "entity-subscriber.directory.changed",
     "Disk": "entity-subscriber.disk.changed",
     "DiskEnclosure": "entity-subscriber.disk.enclosure.changed",
+    "DiskIscsiTarget": "entity-subscriber.disk.iscsi.target.changed",
     "DockerCollection": "entity-subscriber.docker.collection.changed",
     "DockerContainer": "entity-subscriber.docker.container.changed",
     "DockerHost": "entity-subscriber.docker.host.changed",
