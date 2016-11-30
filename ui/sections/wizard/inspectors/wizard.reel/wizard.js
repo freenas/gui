@@ -64,7 +64,7 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
 
             this._sectionService.buildStepsWizardWithDescriptor(wizardDescriptor).then(function (steps) {
                 self.steps = steps;
-                self.handleNextAction();
+                self._next();
                 self._isLoading = false;
             });
         }
@@ -78,6 +78,7 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
 
     handleNextAction: {
         value: function () {
+            this.steps[this._currentIndex].isSkipped = false;
             this._next();
         }
     },
@@ -119,6 +120,7 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
                     if (candidateStep.parent) {
                         if (!this._isStepSkipped(candidateStep.parent)) {
                             this._selectStep(candidateStep);
+                            break;
                         }
                     } else {
                         this._selectStep(candidateStep);
@@ -138,14 +140,12 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
                     if (candidateStep.parent) {
                         if (!this._isStepSkipped(candidateStep.parent)) {
                             this._selectStep(candidateStep);
-                            candidateStep.isSkipped = false;
                             break;
                         } else {
                             candidateStep.isSkipped = true;
                         }
                     } else {
                         this._selectStep(candidateStep);
-                        candidateStep.isSkipped = false;
                         break;
                     }
                 }
