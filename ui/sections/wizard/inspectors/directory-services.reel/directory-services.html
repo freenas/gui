@@ -6,7 +6,11 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "_windbindTable": {"@": "windbind"},
+                "_freeipaTable": {"@": "freeipa"},
+                "_ldapTable": {"@": "ldap"},
+                "_nisTable": {"@": "nis"}
             },
             "bindings": {
                 "object.__directoryServices": {"<-": "[].concat(@windbind.values, @freeipa.values, @ldap.values, @nis.values)"}
