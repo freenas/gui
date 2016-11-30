@@ -26,6 +26,19 @@ exports.VolumeImportParams = Montage.specialize({
         get: function () {
             return this._key;
         }
+    },
+    _key_fd: {
+        value: null
+    },
+    key_fd: {
+        set: function (value) {
+            if (this._key_fd !== value) {
+                this._key_fd = value;
+            }
+        },
+        get: function () {
+            return this._key_fd;
+        }
     }
 }, {
     propertyBlueprints: {
@@ -37,6 +50,10 @@ exports.VolumeImportParams = Montage.specialize({
             mandatory: false,
             name: "key",
             valueType: "String"
+        }, {
+            mandatory: false,
+            name: "key_fd",
+            valueType: "fd"
         }]
     }
 });

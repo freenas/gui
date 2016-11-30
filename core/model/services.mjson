@@ -34,7 +34,9 @@
                 "namespace": "rpc",
                 "restrictions": {
                     "requiredFields": [
-                        "id"
+                        "id",
+                        "emitter",
+                        "parameters"
                     ]
                 },
                 "task": "alert.filter.create"
@@ -592,6 +594,11 @@
                 "name": "call",
                 "namespace": "rpc"
             },
+            "keySlotsByPaths": {
+                "method": "disk.key_slots_by_paths",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "partitionToDisk": {
                 "method": "disk.partition_to_disk",
                 "name": "call",
@@ -682,6 +689,24 @@
                 "namespace": "rpc",
                 "task": "disk.install_bootloader"
             },
+            "iscsiTargetCreate": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "disk.iscsi.target.create"
+            },
+            "iscsiTargetDelete": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "disk.iscsi.target.delete"
+            },
+            "iscsiTargetUpdate": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "disk.iscsi.target.update"
+            },
             "parallelTest": {
                 "method": "task.submit",
                 "name": "call",
@@ -721,6 +746,15 @@
         "instance": {
             "read": {
                 "method": "disk.enclosure.query",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
+    "DiskIscsiTarget": {
+        "instance": {
+            "read": {
+                "method": "disk.iscsi.target.query",
                 "name": "call",
                 "namespace": "rpc"
             }
@@ -1724,6 +1758,12 @@
                 "method": "ntp_server.query",
                 "name": "call",
                 "namespace": "rpc"
+            },
+            "syncNow": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "ntp_server.sync_now"
             },
             "update": {
                 "method": "task.submit",
@@ -3478,6 +3518,11 @@
         "class": {
             "getGuestInfo": {
                 "method": "vm.get_guest_info",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "getHwVmCapabilities": {
+                "method": "vm.get_hw_vm_capabilities",
                 "name": "call",
                 "namespace": "rpc"
             },
