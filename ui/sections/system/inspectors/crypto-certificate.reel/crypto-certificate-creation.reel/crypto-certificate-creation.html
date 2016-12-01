@@ -20,6 +20,15 @@
                 "valuePropertyName": "name"
             }
         },
+        "substitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "substitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "!!@owner.object._isNew + ''"}
+            }
+        },
         "signing_ca_name": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
@@ -30,6 +39,16 @@
             "bindings": {
                 "options" : {"<-": "[{name:'---'}].concat(@owner.certificates.filter{type=='CA_INTERNAL' || type=='CA_INTERMEDIATE'})"},
                 "selectedValue": {"<->": "@owner.object.signing_ca_name"}
+            }
+        },
+        "signing_ca_name_display": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "signing_ca_name_display"},
+                "label": "Signing Certificate Authority"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.signing_ca_name"}
             }
         },
         "showSigningName": {
@@ -50,6 +69,16 @@
             "bindings": {
                 "options" : {"<-": "@owner.keyLenghtOptions"},
                 "selectedValue": {"<->": "@owner.object.key_length"}
+            }
+        },
+        "key_lengthForDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "key_lengthForDisplay"},
+                "label": "Key length"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.key_length"}
             }
         },
         "lifeTimeConverterValidator": {
@@ -76,6 +105,17 @@
                 "value": {"<->": "@owner.object.lifetime"}
             }
         },
+        "lifetimeForDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "lifetimeForDisplay"},
+                "label": "Lifetime",
+                "converter": {"@": "numberConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.lifetime"}
+            }
+        },
         "country": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
@@ -87,10 +127,30 @@
                 "selectedValue": {"<->": "@owner.object.country"}
             }
         },
+        "countryForDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "countryForDisplay"},
+                "label": "Country code"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.country"}
+            }
+        },
         "state": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "state"},
+                "label": "State"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.state"}
+            }
+        },
+        "stateForDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "stateForDisplay"},
                 "label": "State"
             },
             "bindings": {
@@ -107,10 +167,30 @@
                 "value": {"<->": "@owner.object.city"}
             }
         },
+        "localityForDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "localityForDisplay"},
+                "label": "Locality (city)"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.city"}
+            }
+        },
         "organization": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "organization"},
+                "label": "Organization"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.organization"}
+            }
+        },
+        "organizationForDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "organizationForDisplay"},
                 "label": "Organization"
             },
             "bindings": {
@@ -127,10 +207,30 @@
                 "value": {"<->": "@owner.object.email"}
             }
         },
+        "emailForDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "emailForDisplay"},
+                "label": "Email"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.email"}
+            }
+        },
         "common": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "commonName"},
+                "label": "Common name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.common"}
+            }
+        },
+        "commonForDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "commonNameForDisplay"},
                 "label": "Common name"
             },
             "bindings": {
@@ -143,19 +243,38 @@
 <body>
     <div data-montage-id="owner" class="CryptoCertificateCreation">
         <div data-montage-id="inspector">
-            <div data-montage-id="showSigningName">
-                <div data-montage-id="signing_ca_name"></div>
+            <div data-montage-id="substitution">
+                <div data-arg="true">
+                    <div data-montage-id="showSigningName">
+                        <div data-montage-id="signing_ca_name"></div>
+                    </div>
+                    <div data-montage-id="key_length"></div>
+                    <div data-montage-id="algorithm"></div>
+                    <div data-montage-id="lifetime"></div>
+                    <div data-montage-id="type"></div>
+                    <div data-montage-id="country"></div>
+                    <div data-montage-id="state"></div>
+                    <div data-montage-id="locality"></div>
+                    <div data-montage-id="organization"></div>
+                    <div data-montage-id="email"></div>
+                    <div data-montage-id="commonName"></div>
+                </div>
+                <div data-arg="false">
+                    <div data-montage-id="showSigningName">
+                        <div data-montage-id="signing_ca_name_display"></div>
+                    </div>
+                    <div data-montage-id="key_lengthForDisplay"></div>
+                    <div data-montage-id="algorithmForDisplay"></div>
+                    <div data-montage-id="lifetimeForDisplay"></div>
+                    <div data-montage-id="typeForDisplay"></div>
+                    <div data-montage-id="countryForDisplay"></div>
+                    <div data-montage-id="stateForDisplay"></div>
+                    <div data-montage-id="localityForDisplay"></div>
+                    <div data-montage-id="organizationForDisplay"></div>
+                    <div data-montage-id="emailForDisplay"></div>
+                    <div data-montage-id="commonNameForDisplay"></div>
+                </div>
             </div>
-            <div data-montage-id="key_length"></div>
-            <div data-montage-id="algorithm"></div>
-            <div data-montage-id="lifetime"></div>
-            <div data-montage-id="type"></div>
-            <div data-montage-id="country"></div>
-            <div data-montage-id="state"></div>
-            <div data-montage-id="locality"></div>
-            <div data-montage-id="organization"></div>
-            <div data-montage-id="email"></div>
-            <div data-montage-id="commonName"></div>
         </div>
     </div>
 </body>
