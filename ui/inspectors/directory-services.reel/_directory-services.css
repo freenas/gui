@@ -11,3 +11,9 @@
     display: flex;
     justify-content: space-between;
 }
+
+.DirectoryServices-ntpSyncNow-button {
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: 1em;
+}
