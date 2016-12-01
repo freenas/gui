@@ -27,9 +27,12 @@ exports.Share = Component.specialize(/** @lends Share# */ {
         value: function (isFirstTime) {
             var self = this;
 
-            //todo: add created users
             this._sectionService.listUsers().then(function (users) {
-                self.users = users;
+                if (!self.context.previousStep.isSkipped) {
+                    self.users = users.concat(self.context.previousStep.object.__users);
+                } else {
+                    self.users = users;
+                }
             });
 
             if (this.object._isNew) {

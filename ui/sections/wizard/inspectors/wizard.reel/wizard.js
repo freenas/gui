@@ -160,6 +160,7 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
             this._context.isNextStepDisabled = false;
             this._currentObject = step.object;
             this._context.sectionService = step.service;
+            this._context.previousStep = this._currentIndex > 0 ? this.steps[this._currentIndex - 1] : null;
         }
     },
 
