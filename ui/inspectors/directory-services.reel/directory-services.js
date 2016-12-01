@@ -13,8 +13,15 @@ exports.DirectoryServices = AbstractInspector.specialize({
 
     enterDocument: {
         value: function () {
+            var self = this;
             this.super();
             this._fetchDataIfNeeded();
+            this._listNtpServers().then(function(ntpServers) {
+                if (ntpServers.length > 0) {
+                    self.ntpServer = ntpServers[0].address;
+                    console.log(self.ntpServer);
+                }
+            });
         }
     },
 
@@ -22,6 +29,12 @@ exports.DirectoryServices = AbstractInspector.specialize({
     _sectionService: {
         get: function () {
             return AccountSectionService.instance;
+        }
+    },
+
+    templateDidLoad: {
+        value: function() {
+            this._ntpServerService = this.application.ntpServerService;
         }
     },
 
@@ -122,8 +135,25 @@ exports.DirectoryServices = AbstractInspector.specialize({
                 return directory;
             });
         }
-    }
+    },
 
+    _listNtpServers: {
+        value: function() {
+            var self = this;
+            return this._sectionService.listNtpServers().then(function(ntpServers) {
+                self.ntpServerOptions = ntpServers.map(function(x) {
+                    return { label: x.address, value: x.address };
+                });
+                return ntpServers;
+            });
+        }
+    },
+
+    handleNtpSyncNowAction: {
+        value: function() {
+            return this._ntpServerService.ntpSyncNow(this.ntpServer);
+        }
+    }
 
 }, {
 

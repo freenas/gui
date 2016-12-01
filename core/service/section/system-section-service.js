@@ -1,22 +1,7 @@
 var AbstractSectionService = require("core/service/section/abstract-section-service").AbstractSectionService,
-    SystemRepository = require("core/repository/system-repository").SystemRepository,
-    Model = require("core/model/model").Model;
+    SystemRepository = require("core/repository/system-repository").SystemRepository; 
 
 exports.SystemSectionService = AbstractSectionService.specialize({
-    __ntpServerServices: {
-        value: null
-    },
-
-    _ntpServerServices: {
-        get: function() {
-            var self = this;
-            return this.__ntpServerServices ?
-                Promise.resolve(this.__ntpServerServices) :
-                Model.populateObjectPrototypeForType(Model.NtpServer).then(function (NtpServer) {
-                    return self.__ntpServerServices = NtpServer.services;
-                });
-        }
-    },
 
     init: {
         value: function(systemRepository) {
@@ -33,15 +18,5 @@ exports.SystemSectionService = AbstractSectionService.specialize({
     loadSettings: {
         value: function() {
         }
-    },
-
-    ntpSyncNow: {
-        value: function(address) {
-            var self = this;
-            return this._ntpServerServices.then(function(ntpServerServices) {
-                return ntpServerServices.syncNow(address);
-            });
-        }
-    },
-
+    }
 });

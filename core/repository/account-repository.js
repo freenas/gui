@@ -1,12 +1,14 @@
 var AbstractRepository = require("core/repository/abstract-repository").AbstractRepository,
     KerberosKeytabDao = require("core/dao/kerberos-keytab-dao").KerberosKeytabDao,
-    KerberosRealmDao = require("core/dao/kerberos-realm-dao").KerberosRealmDao;
+    KerberosRealmDao = require("core/dao/kerberos-realm-dao").KerberosRealmDao,
+    NtpServerDao = require("core/dao/ntp-server-dao").NtpServerDao;
 
 exports.AccountRepository = AbstractRepository.specialize({
     init: {
-        value: function(kerberosRealmDao, kerberosKeytabDao) {
+        value: function(kerberosRealmDao, kerberosKeytabDao, ntpServerDao) {
             this._kerberosRealmDao = kerberosRealmDao || KerberosRealmDao.instance;
             this._kerberosKeytabDao = kerberosKeytabDao || KerberosKeytabDao.instance;
+            this._ntpServerDao = ntpServerDao || NtpServerDao.instance;
         }
     },
 
@@ -56,6 +58,11 @@ exports.AccountRepository = AbstractRepository.specialize({
         value: function (kerberosKeytab) {
             return this._kerberosKeytabDao.save(kerberosKeytab);
         }
-    }
+    },
 
+    listNtpServers: {
+        value: function (ntpServers) {
+            return this._ntpServerDao.list();
+        }
+    }
 });
