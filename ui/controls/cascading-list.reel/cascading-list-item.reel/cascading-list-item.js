@@ -11,6 +11,9 @@ exports.CascadingListItem = Component.specialize({
         value: null
     },
 
+    helpShown: {
+        value: false
+    },
 
     data: {
         get: function () {
@@ -140,6 +143,11 @@ exports.CascadingListItem = Component.specialize({
         }
     },
 
+    handleHelpButtonAction: {
+        value: function () {
+            this.helpShown = !this.helpShown;
+        }
+    },
 
     draw: {
         value: function () {
