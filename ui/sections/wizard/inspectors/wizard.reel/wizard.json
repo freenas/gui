@@ -15,14 +15,15 @@
             "service": "core/service/section/account-section-service"
         },
         {
-            "id": "share",
-            "objectType": "Share",
-            "parent": "volume"
-        },
-        {
             "id": "user",
             "objectType": "User",
             "parent": "volume"
+        },
+        {
+            "id": "share",
+            "objectType": "Share",
+            "parent": "volume",
+            "service": "core/service/section/storage-section-service"
         },
         {
             "id": "mail",

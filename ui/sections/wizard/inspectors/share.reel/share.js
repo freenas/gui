@@ -9,6 +9,12 @@ var Component = require("montage/ui/component").Component;
  */
 exports.Share = Component.specialize(/** @lends Share# */ {
 
+    templateDidLoad: {
+        value: function () {
+            this._sectionService = this.context.sectionService;
+        }
+    },
+
     context: {
         value: null
     },
@@ -18,27 +24,42 @@ exports.Share = Component.specialize(/** @lends Share# */ {
     },
 
     enterDocument: {
-        value: function () {
-            this._shareService = this.application.shareService;
+        value: function (isFirstTime) {
+            if (isFirstTime) {
+                var self = this;
 
-            if (!this.object.__shares) {
-                this._populateNewShareObjectList();
+                //todo: add created users
+                this._sectionService.listUsers().then(function (users) {
+                    self.users = users;
+                });
+            }
+
+            if (this.object._isNew) {
+                this._clearTables();
+                // this object won't be saved,
+                // only the object in object.__shares.
+                this.object._isNew = false;
             }
         }
     },
 
-    _populateNewShareObjectList: {
+    _clearTables: {
         value: function () {
-            var shareService = this._shareService;
+            if (this._afpTable.values) {
+                this._afpTable.values.clear();
+            }
 
-            return Promise.all([
-                shareService.createSmbShare(),
-                shareService.createNfsShare(),
-                shareService.createAfpShare(),
-                shareService.createIscsiShare()
-            ]).bind(this).then(function (shares) {
-                this.object.__shares = this.shares = shares;
-            });
+            if (this._smbTable.values) {
+                this._smbTable.values.clear();
+            }
+
+            if (this._nfsTable.values) {
+                this._nfsTable.values.clear();
+            }
+
+            if (this._iscsiTable.values) {
+                this._iscsiTable.values.clear();
+            }
         }
     }
 });
