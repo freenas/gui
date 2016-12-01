@@ -1,3 +1,4 @@
-.TableNis {
-
+.TableNis .Table-cells > div:nth-child(1),
+.TableNis .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(1) {
+    max-width: 12em;
 }
