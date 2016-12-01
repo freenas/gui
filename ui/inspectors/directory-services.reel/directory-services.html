@@ -58,6 +58,29 @@
             }
         },
 
+        "ntpServers": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "ntpServers"},
+                "label": "NTP Servers"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.ntpServer"},
+                "options": {"<-": "@owner.ntpServerOptions"}
+            }
+        },
+
+        "ntpSyncNow": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "ntpSyncNow"},
+                "value": "Synchronize with NTP server"
+            },
+            "bindings": {
+                "disabled": {"<-": "!@owner.ntpServer"}
+            }
+        }, 
+
         "revert": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
@@ -82,6 +105,8 @@
         <div data-montage-id="scrollView" class="DirectoryServices-body">
             <div data-montage-id="directoryServices"></div>
         </div>
+        <div data-montage-id="ntpServers"></div>
+        <div data-montage-id="ntpSyncNow"></div>
         <div class="DirectoryServices-searchorderContainer">
             <div data-montage-id="searchOrder" class="DirectoryServices-searchorder"></div>
             <div class="DirectoryServices-buttons">

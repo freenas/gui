@@ -293,6 +293,14 @@
             "type": "Ipmi"
         },
         {
+            "modelId": "core/model/models/iscsi-target-status.js",
+            "type": "IscsiTargetStatus"
+        },
+        {
+            "modelId": "core/model/models/iscsi-target.js",
+            "type": "IscsiTarget"
+        },
+        {
             "modelId": "core/model/models/kerberos-keytab-entry.js",
             "type": "KerberosKeytabEntry"
         },
@@ -831,6 +839,10 @@
         {
             "modelId": "core/model/models/vm-guest-info.js",
             "type": "VmGuestInfo"
+        },
+        {
+            "modelId": "core/model/models/vm-hw-capabilites.js",
+            "type": "VmHwCapabilites"
         },
         {
             "modelId": "core/model/models/vm-readme.js",

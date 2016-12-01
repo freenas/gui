@@ -8,6 +8,14 @@
       "valueObjectPrototypeName": "ZfsVdev"
     }
   },
+  "blueprint_zfsvdev_disk_id": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "disk_id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_zfsvdev_guid": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -57,6 +65,7 @@
       "name": "ZfsVdev",
       "propertyBlueprints": [
         {"@": "blueprint_zfsvdev_children"},
+        {"@": "blueprint_zfsvdev_disk_id"},
         {"@": "blueprint_zfsvdev_guid"},
         {"@": "blueprint_zfsvdev_path"},
         {"@": "blueprint_zfsvdev_stats"},

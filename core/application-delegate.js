@@ -36,6 +36,7 @@ var FreeNASService = require("core/service/freenas-service").FreeNASService,
     ValidationService = require("core/service/validation-service").ValidationService,
     VirtualMachineService = require("core/service/virtual-machine-service").VirtualMachineService,
     PowerManagementService = require("core/service/power-management-service").PowerManagementService,
+    NtpServerService = require("core/service/ntp-server-service.js").NtpServerService,
     SectionsDescriptors = require("core/model/sections-descriptors.mjson"),
     Montage = require("montage").Montage;
 
@@ -90,6 +91,7 @@ exports.ApplicationDelegate = Montage.specialize({
             app.validationService = ValidationService.instance;
             app.bytesService = BytesService.instance;
             app.powerManagementService = PowerManagementService.instance;
+            app.ntpServerService = NtpServerService.instance;
 
             app.sectionsDescriptors = SectionsDescriptors;
 

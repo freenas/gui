@@ -1,7 +1,8 @@
 var AbstractSectionService = require("core/service/section/abstract-section-service").AbstractSectionService,
-    SystemRepository = require("core/repository/system-repository").SystemRepository;
+    SystemRepository = require("core/repository/system-repository").SystemRepository; 
 
 exports.SystemSectionService = AbstractSectionService.specialize({
+
     init: {
         value: function(systemRepository) {
             this._systemRepository = systemRepository || SystemRepository.instance;
@@ -18,5 +19,4 @@ exports.SystemSectionService = AbstractSectionService.specialize({
         value: function() {
         }
     }
-
 });

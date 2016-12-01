@@ -50,6 +50,12 @@ exports.AccountSectionService = AbstractSectionService.specialize({
             kerberosKeytab.keytab = { "$binary": keytabStringBase64 };
             return this._accountRepository.saveKerberosKeytab(kerberosKeytab);
         }
+    },
+
+    listNtpServers: {
+        value: function() {
+            return this._accountRepository.listNtpServers();
+        }
     }
 
 },

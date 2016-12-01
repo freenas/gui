@@ -92,6 +92,19 @@ exports.VmConfigAnonymous = Montage.specialize({
             return this._docker_host;
         }
     },
+    _logging: {
+        value: null
+    },
+    logging: {
+        set: function (value) {
+            if (this._logging !== value) {
+                this._logging = value;
+            }
+        },
+        get: function () {
+            return this._logging;
+        }
+    },
     _memsize: {
         value: null
     },
@@ -175,6 +188,10 @@ exports.VmConfigAnonymous = Montage.specialize({
             mandatory: false,
             name: "docker_host",
             valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "logging",
+            valueType: "array"
         }, {
             mandatory: false,
             name: "memsize",
