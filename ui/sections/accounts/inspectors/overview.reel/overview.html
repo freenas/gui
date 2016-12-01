@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="overview.css">
+    <script type="text/montage-serialization">
+        {
+            "owner": {
+                "properties": {
+                    "element": {"#": "owner"}
+                }
+            },
+            "scrollView": {
+                "prototype": "blue-shark/ui/scrollview.reel",
+                "properties": {
+                    "element": {"#": "scrollView"},
+                    "overflow": "scrollY"
+                }
+            },
+            "accountsSectionTitle": {
+                "prototype": "ui/controls/inspector-section-title.reel",
+                "properties": {
+                    "element": {"#": "accountsSectionTitle"},
+                    "value": "Accounts"
+                }
+            },
+            "users": {
+                "prototype": "blue-shark/ui/field-text.reel",
+                "properties": {
+                    "element": {"#": "users"},
+                    "label": "Users"
+                },
+                "bindings": {
+                    "value": {"<-": "@owner.object.users.length"}
+                }
+            },
+            "groups": {
+                "prototype": "blue-shark/ui/field-text.reel",
+                "properties": {
+                    "element": {"#": "groups"},
+                    "label": "Groups"
+                },
+                "bindings": {
+                    "value": {"<-": "@owner.object.groups.length"}
+                }
+            },
+            "system": {
+                "prototype": "blue-shark/ui/field-text.reel",
+                "properties": {
+                    "element": {"#": "system"},
+                    "label": "System"
+                },
+                "bindings": {
+                    "value": {"<-": "@owner.object.system.length"}
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Overview">
+        <div data-montage-id="scrollView">
+            <div>
+                <div class="Overview-content">
+                    <div data-montage-id="accountsSectionTitle" class="flush-top"></div>
+                    <div data-montage-id="users"></div>
+                    <div data-montage-id="groups"></div>
+                    <div data-montage-id="system"></div>
+                    <div data-montage-id="directoryServicesSectionTitle" class="flush-top"></div>
+                    <div data-montage-id="directoryServices"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

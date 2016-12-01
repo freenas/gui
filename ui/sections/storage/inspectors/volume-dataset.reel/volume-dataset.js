@@ -79,7 +79,7 @@ exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# *
             this.snapshotType = this._sectionService.VOLUME_SNAPSHOT_TYPE;
             this.vmwareDatasetType = this._sectionService.VMWARE_DATASET_TYPE;
             return Promise.all([
-                this._sectionService.listVolumeSnapshots(),
+                this._sectionService.listSnapshots(),
                 this._sectionService.listVmwareDatasets(),
                 this._sectionService.getReplicationOptionsInstance()
             ]).spread(function(snapshots, vmwareDatasets, replicationOptions) {
@@ -131,7 +131,7 @@ exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# *
             if (this.context) {
                 var currentSelection = this.application.selectionService.getCurrentSelection();
                 for (var i = this.context.columnIndex - 1; i >= 0; i--) {
-                    if (currentSelection[i].constructor.Type == Model.Volume) {
+                    if (currentSelection[i].constructor.Type === Model.Volume || currentSelection[i]._objectType === Model.Volume.typeName) {
                         return currentSelection[i];
                     }
                 }

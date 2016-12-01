@@ -147,7 +147,7 @@ exports.Group = Montage.specialize({
     userInterfaceDescriptor: {
         value: {
             inspectorComponentModule: {
-                id: 'ui/inspectors/group.reel'
+                id: 'ui/sections/accounts/inspectors/group.reel'
             },
             iconComponentModule: {
                 id: 'ui/icons/group.reel'
@@ -158,7 +158,7 @@ exports.Group = Montage.specialize({
             nameExpression: "id.defined() ? name : 'Create a group'",
             collectionNameExpression: "'Groups'",
             creatorComponentModule: {
-                id: 'ui/inspectors/group.reel'
+                id: 'ui/sections/accounts/inspectors/group.reel'
             },
             listControlsComponentModule: {
                 id: 'ui/accounts/accounts-list-options.reel'

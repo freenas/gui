@@ -222,7 +222,7 @@ exports.Topologizer = Component.specialize({
             this._isMoving = false;
 
             this.needsDraw = true;
-            
+
             this._translateComposer.removeEventListener("translate", this, false);
             this._translateComposer.removeEventListener("translateEnd", this, false);
         }
@@ -250,29 +250,27 @@ exports.Topologizer = Component.specialize({
                     this.profileHasChanged = false;
                     this.handlePosition = this._targePosition;
                     this._positionHandle();
-                } 
+                }
                 if (!this._isMoving) {
                     var previousBarycentricValues = this._previousBarycentricValues,
                         barycentricValues = this.barycentricValues;
 
-                    if (!previousBarycentricValues || 
+                    if (!previousBarycentricValues ||
                         !this._areBarycentricValuesEqual(previousBarycentricValues, barycentricValues)) {
                             var self = this;
                             this.lockDisks = true;
-                            this.controller.generateTopology(
-                                this.topology, 
-                                this.disks, 
-                                barycentricValues[0], 
-                                barycentricValues[1], 
+                            self.priorities = this.controller.generateTopology(
+                                this.topology,
+                                this.disks,
+                                barycentricValues[0],
+                                barycentricValues[1],
                                 barycentricValues[2]
-                            ).then(function(results) {
-                                self.priorities = results.priorities;
-                            });
+                            );
                         }
 
                     this._previousBarycentricValues = barycentricValues;
                 }
-                
+
             }
         }
     },

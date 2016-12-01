@@ -30,30 +30,26 @@ exports.ListItem = Component.specialize({
                 this._canDrawGate.setField(this.constructor.CAN_DRAW_FIELD, false);
                 this._loadUserInterfaceDescriptor().then(function() {
                     self._canDrawGate.setField(self.constructor.CAN_DRAW_FIELD, true);
-                });   
+                });
             }
         }
     },
 
     _loadUserInterfaceDescriptor: {
         value: function() {
-            var self = this;
+            var self = this,
+                promise;
             this.isCollection = Array.isArray(this.object);
 
-            var hasType = this.object.Type || this.isCollection && this.object._meta_data;
-            if (!hasType && this.objectType) {
-                if (this.isCollection) {
-                    this.object._meta_data = {
-                        collectionModelType: this.objectType
-                    };
-                } else {
-                    this.object.Type = this.objectType;
-                }
-                hasType = true;
+            if (this.objectType) {
+                this.object._objectType = this.objectType.typeName || this.objectType;
             }
-            if (hasType) {
-                return this.application.delegate.userInterfaceDescriptorForObject(this.object).then(function (userInterfaceDescriptor) {
-                    self.userInterfaceDescriptor = userInterfaceDescriptor;
+
+            promise = this.application.modelDescriptorService.getUiDescriptorForObject(this.object);
+
+            if (promise) {
+                return promise.then(function(uiDescriptor) {
+                    self.userInterfaceDescriptor = uiDescriptor;
                 });
             }
         }

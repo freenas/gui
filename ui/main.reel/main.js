@@ -3,6 +3,8 @@ var ComponentModule = require("montage/ui/component"),
     Component = ComponentModule.Component,
     rootComponent = ComponentModule.__root__;
 
+var EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService;
+
 /**
  * @class Main
  * @extends Component
@@ -10,6 +12,10 @@ var ComponentModule = require("montage/ui/component"),
 exports.Main = Component.specialize({
     templateDidLoad: {
         value: function() {
+            this._eventDispatcherService = EventDispatcherService.getInstance();
+            this._eventDispatcherService.addEventListener('connectionStatusChange', function(status) {
+                self.connectionStatus = status;
+            });
             this._sectionsServices = new Map();
             this.addPathChangeListener("application.section", this, "_handleSectionChange");
         }
@@ -41,9 +47,11 @@ exports.Main = Component.specialize({
                         servicePromise = require.async(sectionDescriptor.service).then(function(module) {
                             var exports = Object.keys(module);
                             if (exports.length === 1) {
-                                var instance = module[exports[0]].instance;
+                                var clazz = module[exports[0]],
+                                    instance = clazz.instance || new clazz(),
+                                    instancePromise = instance.instanciationPromise;
                                 self._sectionsServices.set(sectionDescriptor.id, instance);
-                                return instance;
+                                return instancePromise;
                             }
                         }).then(function(service) {
                             service.section.id = sectionDescriptor.id;

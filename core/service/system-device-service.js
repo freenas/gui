@@ -1,5 +1,5 @@
 var Montage = require("montage").Montage,
-    BackEndBridgeModule = require("../backend/backend-bridge");
+    SystemRepository = require("core/repository/system-repository").SystemRepository;
 
 var SystemDeviceService = exports.SystemDeviceService = Montage.specialize({
     _NAMESPACE: {
@@ -16,28 +16,13 @@ var SystemDeviceService = exports.SystemDeviceService = Montage.specialize({
 
     getDisks: {
         value: function() {
-            return this._callBackend('get_devices', ['disk']).then(function(response) {
-                return response.data;
-            });
+            return this._systemRepository.getDevices('disk');
         }
     },
 
     getSerialPorts: {
         value: function() {
-            return this._callBackend('get_devices', ['serial_port']).then(function(response) {
-                return response.data;
-            });
-        }
-    },
-
-
-    _callBackend: {
-        value: function(method, args) {
-            args = args || [];
-            return this._backendBridge.send("rpc", "call", {
-                method: this._NAMESPACE + method,
-                args: args
-            });
+            return this._systemRepository.getDevices('serial_port');
         }
     }
 
@@ -46,7 +31,7 @@ var SystemDeviceService = exports.SystemDeviceService = Montage.specialize({
         get: function() {
             if (!this._instance) {
                 this._instance = new SystemDeviceService();
-                this._instance._backendBridge = BackEndBridgeModule.defaultBackendBridge;
+                this._instance._systemRepository = SystemRepository.getInstance();
             }
             return this._instance;
         }

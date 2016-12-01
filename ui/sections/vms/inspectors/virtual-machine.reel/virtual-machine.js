@@ -151,7 +151,7 @@ exports.VirtualMachine = AbstractInspector.specialize({
     _handleBootDeviceChange: {
         value: function() {
             if (this._inDocument && this.object.config && this.object.config.boot_device !== this.object._bootDevice) {
-               this.object.config.boot_device = this.object._bootDevice; 
+               this.object.config.boot_device = this.object._bootDevice;
             }
         }
     },

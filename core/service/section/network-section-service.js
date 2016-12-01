@@ -56,7 +56,7 @@ exports.NetworkSectionService = AbstractSectionService.specialize({
         value: function() {
             var self = this;
             return this._networkRepository.getNetworkOverview().then(function(overview) {
-                return self._systemRepository.getSystemGeneral().then(function(general) {
+                return self._systemRepository.getGeneral().then(function(general) {
                     overview.system = general;
                     return overview;
                 });
@@ -68,7 +68,7 @@ exports.NetworkSectionService = AbstractSectionService.specialize({
         value: function() {
             var self = this;
             return this._networkRepository.getNetworkSettings().then(function(settings) {
-                return self._systemRepository.getSystemGeneral().then(function(general) {
+                return self._systemRepository.getGeneral().then(function(general) {
                     settings.system = general;
                     return settings;
                 });

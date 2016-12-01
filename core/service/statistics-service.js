@@ -1,12 +1,9 @@
 var Montage = require("montage").Montage,
-    BackEndBridgeModule = require("../backend/backend-bridge");
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
+    MiddlewareClient = require("core/service/middleware-client").MiddlewareClient;
 
 var StatisticsService = exports.StatisticsService = Montage.specialize({
     _instance: {
-        value: null
-    },
-
-    _backendBridge: {
         value: null
     },
 
@@ -22,6 +19,7 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
         value: function() {
             this._datasources = {};
             this._subscribedUpdates = [];
+            this._listeners = new Map();
         }
     },
 
@@ -30,7 +28,7 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
             hostname = hostname || 'localhost';
             if (!this._datasources[hostname]) {
                 this._datasources[hostname] = this._callBackend("stat.get_data_sources_tree", []).then(function(response) {
-                    return response.data.children[hostname].children;
+                    return response.children[hostname].children;
                 });
             }
             return this._datasources[hostname];
@@ -46,7 +44,7 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
                 timespan:   periodInSecs*100,
                 frequency:  periodInSecs + 's'
             }]).then(function(response) {
-                return response.data.data;
+                return response.data;
             });
         }
     },
@@ -57,24 +55,44 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
                 timespan:   20,
                 frequency:  '10s'
             }]).then(function(response) {
-                return response.data.data.slice(-1);
+                return response.data.slice(-1);
             });
         }
     },
 
     subscribeToUpdates: {
         value: function(datasource, listener) {
+            var self = this,
+                name = "statd." + datasource;
             if (this._subscribedUpdates.indexOf(datasource) == -1) {
                 this._subscribedUpdates.push(datasource);
             }
-                return this._backendBridge.subscribeToEvent("statd." + datasource, listener);
+            return this._middlewareClient.subscribeToEvents(name).then(function() {
+                if (!self._listeners.has(name)) {
+                    self._listeners.set(name, new Set());
+                }
+                self._listeners.get(name).add(listener);
+                return name;
+            });
         }
     },
 
     unSubscribeToUpdates: {
         value: function(datasource, listener) {
+            var name = "statd." + datasource;
             this._subscribedUpdates.splice(this._subscribedUpdates.indexOf(datasource), 1);
-            return this._backendBridge.unSubscribeToEvent("statd." + datasource, listener);
+            this._listeners.delete(name);
+            return this._middlewareClient.unsubscribeFromEvents(name);
+        }
+    },
+
+    _handleStatsChange: {
+        value: function(stats) {
+            if (this._listeners.has(stats.name)) {
+                this._listeners.get(stats.name).forEach(function(listener) {
+                    listener.handleEvent(stats);
+                })
+            }
         }
     },
 
@@ -88,10 +106,7 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
 
     _callBackend: {
         value: function(method, args) {
-            return this._backendBridge.send("rpc", "call", {
-                method: method,
-                args: args
-            });
+            return this._middlewareClient.callRpcMethod(method, args);
         }
     }
 
@@ -100,7 +115,9 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
         get: function() {
             if (!this._instance) {
                 this._instance = new StatisticsService();
-                this._instance._backendBridge = BackEndBridgeModule.defaultBackendBridge;
+                this._instance._middlewareClient = MiddlewareClient.getInstance()
+                this._instance._eventDispatcherService = EventDispatcherService.getInstance();
+                this._instance._eventDispatcherService.addEventListener('statsChange', this._instance._handleStatsChange.bind(this._instance))
             }
             return this._instance;
         }

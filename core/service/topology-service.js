@@ -1,5 +1,5 @@
 var Montage = require("montage").Montage,
-    application = require("montage/core/application").application,
+    FakeMontageDataService = require("core/service/fake-montage-data-service").FakeMontageDataService,
     Model = require("core/model/model").Model;
 
 var TopologyService = exports.TopologyService = Montage.specialize({
@@ -29,22 +29,9 @@ var TopologyService = exports.TopologyService = Montage.specialize({
     },
 
     init: {
-        value: function(dataService) {
-            this._dataService = dataService;
+        value: function(vdevRecommendations) {
+            this._vdevRecommendations = vdevRecommendations;
             return this;
-        }
-    },
-
-    loadVdevRecommendations: {
-        value: function() {
-            var self = this;
-            Model.populateObjectPrototypeForType(Model.ZfsVdev).then(function () {
-                return Model.populateObjectPrototypeForType(Model.Volume);
-            }).then(function (Volume) {
-                Volume.constructor.services.vdevRecommendations().then(function(vdevRecommendations){
-                    self._vdevRecommendations = vdevRecommendations;
-                });
-            });
         }
     },
 
@@ -143,7 +130,7 @@ var TopologyService = exports.TopologyService = Montage.specialize({
 
             for (i = 0, length = disks.length; i < length; i++) {
                 disk = disks[i];
-                key = disk.is_ssd + '_' + disk.mediasize + '_' + disk.max_rotation;
+                key = disk.status.is_ssd + '_' + disk.mediasize + '_' + disk.max_rotation;
 
                 if (!groupsUniquer[key]) {
                     groupsUniquer[key] = [];
@@ -151,7 +138,7 @@ var TopologyService = exports.TopologyService = Montage.specialize({
                 }
 
                 // Make non ssd weighter than ssd
-                disk.isSpinning = 1/(1+disk.is_ssd);
+                disk.isSpinning = 1/(1+disk.status.is_ssd);
                 groupsUniquer[key].push(disk);
             }
 
@@ -173,11 +160,13 @@ var TopologyService = exports.TopologyService = Montage.specialize({
 
     diskToVdev: {
         value: function(disk) {
-            var vdev = this._dataService.getDataObject(Model.ZfsVdev);
-            vdev._isNew = true;
-            vdev.path = disk.path;
-            vdev._disk = disk;
-            return vdev;
+            return {
+                _isNew: true,
+                _objectType: 'ZfsVdev',
+                path: disk.path,
+                _disk: disk,
+                type: 'disk'
+            };
         }
     },
 
@@ -226,10 +215,12 @@ var TopologyService = exports.TopologyService = Montage.specialize({
 
     _buildVdevWithDisks: {
         value: function (type, disks) {
-            var vdev = this._dataService.getDataObject(Model.ZfsVdev);
-            vdev.type = type;
-            this._addDisksToVdev(disks, vdev);
-            return vdev;
+            return {
+                _isNew: true,
+                _objectType: 'ZfsVdev',
+                type: type,
+                children: disks.map(this.diskToVdev)
+            };
         }
     },
 
@@ -389,9 +380,9 @@ var TopologyService = exports.TopologyService = Montage.specialize({
     }
 }, {
     instance: {
-        get: function() {
+        get: function(dataService) {
             if (!this._instance) {
-                this._instance = new TopologyService().init(application.dataService);
+                this._instance = new TopologyService().init(FakeMontageDataService.getInstance());
             }
             return this._instance;
         }

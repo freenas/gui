@@ -24,7 +24,7 @@ exports.List = Component.specialize({
                         var collectionItemComponentModule = UIDescriptor ? UIDescriptor.collectionItemComponentModule : null;
 
                         self.listItemModuleId = collectionItemComponentModule ?
-                            collectionItemComponentModule.id : DEFAULT_LIST_ITEM_MODULE_ID;
+                            (collectionItemComponentModule.id || collectionItemComponentModule['%']) : DEFAULT_LIST_ITEM_MODULE_ID;
 
 
                     }).catch(function (error) {

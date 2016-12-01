@@ -255,6 +255,7 @@ var BackEndBridge = exports.BackEndBridge = Target.specialize({
      */
     send: {
         value: function (namespace, name, args) {
+console.trace('deprecated use of backen-bridge');
             return this.sendMessage(new WebSocketMessage(namespace, name, args));
         }
     },

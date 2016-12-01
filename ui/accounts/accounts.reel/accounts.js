@@ -1,13 +1,9 @@
 var Component = require("montage/ui/component").Component,
     Promise = require("montage/core/promise").Promise,
-    Model = require("core/model/model").Model;
+    Model = require("core/model/model").Model,
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService;
 
-/**
- * @class Accounts
- * @extends Component
- */
 exports.Accounts = Component.specialize({
-
 
     _loadDataPromise: {
         value: null
@@ -15,22 +11,15 @@ exports.Accounts = Component.specialize({
 
     templateDidLoad: {
         value: function() {
+            this._eventDispatcherService = EventDispatcherService.getInstance();
             this._accountsService = this.application.accountsService;
             this._loadDataIfNeeded();
+            this.users = [];
+            this.groups = [];
+            this._eventDispatcherService.addEventListener('modelChange.User', this._handleUserChange.bind(this));
+            this._eventDispatcherService.addEventListener('modelChange.Group', this._handleGroupChange.bind(this));
         }
     },
-
-    enterDocument: {
-        value: function (isFirstTime) {
-            if (isFirstTime) {
-                //TODO: Could probably be set after getting the data (performance improvement)
-                this.addRangeAtPathChangeListener("groups", this, "_handleAccountChange");
-                this.addRangeAtPathChangeListener("users", this, "_handleAccountChange");
-            }
-
-        }
-    },
-
 
     _loadDataIfNeeded: {
         value: function () {
@@ -46,9 +35,8 @@ exports.Accounts = Component.specialize({
                     accountCategories.userType = Model.User;
                     accountCategories.groupType = Model.Group;
                     accountCategories.systemType = Model.AccountSystem;
-                    accountCategories.user = dataService.getEmptyCollectionForType(Model.User);
-                    accountCategories.group = dataService.getEmptyCollectionForType(Model.Group);
-                    accountCategories.system = dataService.getEmptyCollectionForType(Model.AccountSystem);
+                    accountCategories.users = dataService.getEmptyCollectionForType(Model.User);
+                    accountCategories.groups = dataService.getEmptyCollectionForType(Model.Group);
 
                     return dataService.getNewInstanceForType(Model.DirectoryServices).then(function (directoryServices) {
                         return (accountCategories.directoryServices = directoryServices);
@@ -63,77 +51,25 @@ exports.Accounts = Component.specialize({
 
     _listUsers: {
         value: function() {
-            var self = this;
-
-            return this._accountsService.listUsers().then(function (users) {
-                self.accountCategories.users = users;
-                self.users = users;
-            });
+            return this._accountsService.listUsers();
         }
     },
 
     _listGroups: {
         value: function() {
-            var self = this;
-            return this.application.dataService.fetchData(Model.Group).then(function (groups) {
-                self.accountCategories.groups = groups;
-                self.groups = groups;
-            });
+            return this.application.dataService.fetchData(Model.Group);
         }
     },
 
-
-    _handleAccountChange: {
-        value: function (plus, minus) {
-            if (this.accountCategories) {
-                if (plus && plus.length) {
-                    this._addAccounts(plus, plus[0].constructor.Type);
-                }
-
-                if (minus && minus.length) {
-                    this._removeAccounts(minus, minus[0].constructor.Type);
-                }
-            }
+    _handleUserChange: {
+        value: function(users) {
+            this.accountCategories.users = users;
         }
     },
 
-    _addAccounts: {
-        value: function (collection, modelType) {
-            var accountCategories = this.accountCategories,
-                isGroup = Model.Group === modelType,
-                entity;
-
-            for (var i = 0, length = collection.length; i < length; i++) {
-                entity = collection[i];
-
-                if (entity.builtin) {
-                    accountCategories.system.push(entity);
-                } else if (isGroup) {
-                    accountCategories.group.push(entity);
-                } else {
-                    accountCategories.user.push(entity);
-                }
-            }
-        }
-    },
-
-    _removeAccounts: {
-        value: function (collection, modelType) {
-            var accountCategories = this.accountCategories,
-                isGroup = Model.Group === modelType,
-                entity;
-
-            for (var i = 0, length = collection.length; i < length; i++) {
-                entity = collection[i];
-
-                if (entity.builtin) {
-                    accountCategories.system.splice(accountCategories.system.indexOf(entity), 1);
-                } else if (isGroup) {
-                    accountCategories.group.splice(accountCategories.group.indexOf(entity), 1);
-                } else {
-                    accountCategories.user.splice(accountCategories.user.indexOf(entity), 1);
-                }
-            }
+    _handleGroupChange: {
+        value: function(groups) {
+            this.accountCategories.groups = groups;
         }
     }
 

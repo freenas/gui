@@ -5,7 +5,8 @@ var AbstractDropZoneComponent = require("blue-shark/core/drag-drop/abstract-drop
     TopologyItem = require("ui/controls/topology.reel/topology-item.reel").TopologyItem,
     CascadingList = require("ui/controls/cascading-list.reel").CascadingList,
     Topology = require("ui/controls/topology.reel").Topology,
-    AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate;
+    AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate,
+    _ = require('lodash');
 
 
 /**
@@ -391,7 +392,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
             if (this._populateDiskPromise || gridItem.object && gridItem.object._disk) {
                 var promise = this._populateDiskPromise || Promise.resolve();
                 promise.then(function() {
-                    if (gridItem.object.getPath('_disk.status.smart_info.smart_status') === 'FAIL') {
+                    if (_.get(gridItem.object, '_disk.status.smart_info.smart_status') === 'FAIL') {
                         gridItem.classList.add('unhealthy');
                     }
                 });

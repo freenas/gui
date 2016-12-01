@@ -5,6 +5,7 @@ exports.NetworkConfigDao = AbstractDao.specialize({
     init: {
         value: function() {
             this._model = Model.NetworkConfig;
+            this._model.queryMethod = 'network.config.get_config';
         }
     }
 });

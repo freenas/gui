@@ -112,7 +112,7 @@ var Topology = exports.Topology = Component.specialize({
                         //Fixme: getDataObject needs to return a promise
                         self.application.dataService.getNewInstanceForType(Model.ZfsVdev).then(function (vDev) {
                             self.removeDiskFromTopologyCollection(disk, collectionSource);
-                            
+
                             self._sectionService.markDiskAsReserved(disk);
 
                             //here: disk can be a model disk or ZfsVdev
@@ -181,7 +181,7 @@ var Topology = exports.Topology = Component.specialize({
 
                     for (var i = 0, length = vDevChildren.length; i < length; i++) {
                         if (vDevChildren[i]._disk) {
-                            this._sectionService.markDiskAsAvailable(vDevChildren[i]._disk, !vDev._isNew);
+                            this._sectionService.markDiskAsNonReserved(vDevChildren[i]._disk);
                             vDevChildren[i]._disk.volume = null;
                         }
                     }
@@ -211,7 +211,7 @@ var Topology = exports.Topology = Component.specialize({
                     ii, ll, vDev, vDevDisks, vDevDisk,
                     promise;
 
-                this._sectionService.markDiskAsAvailable(disk);
+                this._sectionService.markDiskAsNonReserved(disk);
 
                 loop1:
                     for (var i = 0, l = topologyCollection.length; i < l; i++) {

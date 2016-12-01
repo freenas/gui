@@ -326,7 +326,7 @@ exports.Volume = Montage.specialize({
                 "FAULTED": "red",
                 "DEGRADED": "yellow"
             },
-            statusValueExpression: "_properties.health.parsed",
+            statusValueExpression: "properties.health.parsed",
             wizardComponentModuleId: "ui/sections/wizard/inspectors/volume.reel",
             wizardTitle: "Create a volume"
         }

@@ -32,7 +32,7 @@ var SystemTimeService = exports.SystemTimeService = Montage.specialize({
         get: function() {
             if(!this._instance) {
                 this._instance = new SystemTimeService();
-                this._instance._dataService = FreeNASService.instance;
+                this._instance._repository = SystemRepository.getInstance();
             }
             return this._instance;
         }

@@ -1,39 +1,38 @@
-var AbstractRepository = require("core/repository/abstract-repository").AbstractRepository,
-    SystemGeneralDao = require("core/dao/system-general-dao").SystemGeneralDao,
-    SystemSectionDao = require("core/dao/system-section-dao").SystemSectionDao;
-
-exports.SystemRepository = AbstractRepository.specialize({
-    init: {
-        value: function(systemGeneralDao, systemSectionDao) {
-            this._systemGeneralDao = systemGeneralDao || SystemGeneralDao.instance;
-            this._systemSectionDao = systemSectionDao || SystemSectionDao.instance;
-        }
-    },
-
-    getSystemGeneral: {
-        value: function() {
-            var self = this;
-            return this._systemGeneralDao.get().then(function(systemGeneral) {
-                return self._systemGeneral = systemGeneral;
-            });
-        }
-    },
-
-    revertSystemGeneral: {
-        value: function() {
-            return this._systemGeneralDao.revert(this._systemGeneral);
-        }
-    },
-
-    saveSystemGeneral: {
-        value: function() {
-            return this._systemGeneralDao.save(this._systemGeneral);
-        }
-    },
-
-    listSystemSections: {
-        value: function() {
-            return this._systemSectionDao.list();
-        }
+"use strict";
+var system_general_dao_1 = require("core/dao/system-general-dao");
+var system_time_dao_1 = require("core/dao/system-time-dao");
+var system_dataset_dao_1 = require("../dao/system-dataset-dao");
+var system_device_dao_1 = require("../dao/system-device-dao");
+var system_section_dao_1 = require("../dao/system-section-dao");
+var SystemRepository = (function () {
+    function SystemRepository(systemGeneralDao, systemTimeDao, systemDatasetDao, systemDeviceDao, systemSectionDao) {
+        this.systemGeneralDao = systemGeneralDao;
+        this.systemTimeDao = systemTimeDao;
+        this.systemDatasetDao = systemDatasetDao;
+        this.systemDeviceDao = systemDeviceDao;
+        this.systemSectionDao = systemSectionDao;
     }
-});
+    SystemRepository.getInstance = function () {
+        if (!SystemRepository.instance) {
+            SystemRepository.instance = new SystemRepository(system_general_dao_1.SystemGeneralDao.getInstance(), system_time_dao_1.SystemTimeDao.getInstance(), system_dataset_dao_1.SystemDatasetDao.getInstance(), system_device_dao_1.SystemDeviceDao.getInstance(), system_section_dao_1.SystemSectionDao.getInstance());
+        }
+        return SystemRepository.instance;
+    };
+    SystemRepository.prototype.getGeneral = function () {
+        return this.systemGeneralDao.get();
+    };
+    SystemRepository.prototype.getTime = function () {
+        return this.systemTimeDao.get();
+    };
+    SystemRepository.prototype.getDataset = function () {
+        return this.systemDatasetDao.list();
+    };
+    SystemRepository.prototype.getDevices = function (deviceClass) {
+        return this.systemDeviceDao.getDevices(deviceClass);
+    };
+    SystemRepository.prototype.listSystemSections = function () {
+        return this.systemSectionDao.list();
+    };
+    return SystemRepository;
+}());
+exports.SystemRepository = SystemRepository;

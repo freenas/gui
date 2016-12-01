@@ -1,6 +1,7 @@
 var Montage = require("montage").Montage,
     WebSocketClient = require("core/backend/websocket-client").WebSocketClient,
     WebSocketConfiguration = require("/core/backend/websocket-configuration").WebSocketConfiguration,
+    MiddlewareClient = require("core/service/middleware-client").MiddlewareClient,
     BackEndBridgeModule = require("../backend/backend-bridge");
 
 var FilesystemService = exports.FilesystemService = Montage.specialize({
@@ -9,10 +10,6 @@ var FilesystemService = exports.FilesystemService = Montage.specialize({
     },
 
     _instance: {
-        value: null
-    },
-
-    _backendBridge: {
         value: null
     },
 
@@ -49,7 +46,7 @@ var FilesystemService = exports.FilesystemService = Montage.specialize({
     listDir: {
         value: function(path) {
             return this._callBackend("filesystem.list_dir", [path]).then(function(response) {
-                return response.data;
+                return response;
             });
         }
     },
@@ -59,7 +56,7 @@ var FilesystemService = exports.FilesystemService = Montage.specialize({
         value: function(path) {
             var self = this;
             return this._callBackend("filesystem.stat", [path]).then(function(response) {
-                var result = response.data;
+                var result = response;
                 result.name = self.basename(path);
                 return result;
             });
@@ -72,7 +69,7 @@ var FilesystemService = exports.FilesystemService = Montage.specialize({
 
             return this._callBackend(taskName, args).then(function (response) {
                 // FIXME: SHOULD BE IN ITS OWN METHOD (and less magical) - pchaussalet
-                var token = Array.isArray(response.data) ? response.data[1][0] : response.data,
+                var token = Array.isArray(response) ? response[1][0] : response,
                     connection = new WebSocketClient().initWithUrl(
                         WebSocketConfiguration.fileUploadConfiguration.get(WebSocketConfiguration.KEYS.URL)
                     ),
@@ -145,10 +142,7 @@ var FilesystemService = exports.FilesystemService = Montage.specialize({
 
     _callBackend: {
         value: function(method, args) {
-            return this._backendBridge.send("rpc", "call", {
-                method: method,
-                args: args
-            });
+            return this._middlewareClient.callRpcMethod(method, args);
         }
     }
 
@@ -157,7 +151,7 @@ var FilesystemService = exports.FilesystemService = Montage.specialize({
         get: function() {
             if (!this._instance) {
                 this._instance = new FilesystemService();
-                this._instance._backendBridge = BackEndBridgeModule.defaultBackendBridge;
+                this._instance._middlewareClient = MiddlewareClient.getInstance();
             }
             return this._instance;
         }

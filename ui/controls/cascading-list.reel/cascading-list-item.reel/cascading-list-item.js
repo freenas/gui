@@ -39,21 +39,20 @@ exports.CascadingListItem = Component.specialize({
                             var collectionInspectorComponentModule = userInterfaceDescriptor.collectionInspectorComponentModule;
 
                             inspectorComponentModuleId = collectionInspectorComponentModule ?
-                                collectionInspectorComponentModule.id : defaultInspectorId;
+                                (collectionInspectorComponentModule.id || collectionInspectorComponentModule['%']) : defaultInspectorId;
 
                         } else if (object && typeof object === "object") {
-                            var inspectorComponentModule  = userInterfaceDescriptor.inspectorComponentModule,
-                                objectPrototype = Object.getPrototypeOf(Object.getPrototypeOf(object)),
+                            var inspectorComponentModule = userInterfaceDescriptor.inspectorComponentModule,
                                 id = object.id;
 
-                            if ((id !== void 0 && id !== null) || !objectPrototype.hasOwnProperty("id") || object._isNewObject) {
+                            if ((id !== void 0 && id !== null) || object._isNewObject) {
                                 inspectorComponentModuleId = inspectorComponentModule ?
-                                    inspectorComponentModule.id : defaultInspectorId;
+                                    (inspectorComponentModule.id || inspectorComponentModule['%']) : defaultInspectorId;
                             } else {
                                 var creatorComponentModule = userInterfaceDescriptor.creatorComponentModule;
 
-                                inspectorComponentModuleId = creatorComponentModule ? creatorComponentModule.id :
-                                    inspectorComponentModule ? inspectorComponentModule.id : defaultInspectorId;
+                                inspectorComponentModuleId = creatorComponentModule ? (creatorComponentModule.id || creatorComponentModule['%']) :
+                                    inspectorComponentModule ? (inspectorComponentModule.id || inspectorComponentModule['%']) : defaultInspectorId;
                             }
                         }
                     }
@@ -92,9 +91,14 @@ exports.CascadingListItem = Component.specialize({
                 this._selectedObject = selectedObject;
 
                 if (selectedObject !== void 0 && selectedObject !== null) {
+                    this.selectedId = this.application.modelDescriptorService.getObjectType(selectedObject) + '#' +
+                        (selectedObject.id || '');
                     this.cascadingList.expand(selectedObject, this.data.columnIndex + 1);
 
                 } else if (this.data.columnIndex < this.cascadingList._currentIndex) {
+                    if (!this._isResetting) {
+                        this.selectedId = null;
+                    }
                     this.cascadingList.popAtIndex(this.data.columnIndex + 1, this._isResetting);
                 }
             }
@@ -152,7 +156,7 @@ exports.CascadingListItem = Component.specialize({
     draw: {
         value: function () {
             if (this.needToScrollIntoView) {
-                if (!this.content._element.clientWidth) {
+                if (!this.content._element.clientWidth) {
                     this.needsDraw = true;
                 } else {
                     this.cascadingList.scrollView.scrollIntoView(false);

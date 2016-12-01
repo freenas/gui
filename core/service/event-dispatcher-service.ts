@@ -28,7 +28,7 @@ export class EventDispatcherService {
             var handlers = this.listeners.get(eventName).values(),
                 handler = handlers.next().value;
             while (typeof handler === 'function') {
-                handler.call(detail);
+                handler.call({}, detail);
                 handler = handlers.next().value;
             }
         }

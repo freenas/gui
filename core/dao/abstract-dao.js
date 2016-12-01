@@ -30,15 +30,11 @@ exports.AbstractDao = Montage.specialize({
     },
 
     find: {
-        value: function(criteria, isCacheEnabled, limit) {
+        value: function(criteria, isCacheEnabled) {
             this._checkModelIsInitialized();
-            var selector = this._dataService.getSelectorWithTypeAndCriteria(this._model, criteria);
-            selector.__limit = limit;
-            var promise = this._dataService.fetchData(selector);
+            var promise = this._dataService.fetchData(this._model, criteria);
             if (isCacheEnabled) {
-                var self = this;
                 promise = promise.then(function(data) {
-                    self._cacheService.addToCache(self._model.typeName, data);
                     return data
                 });
             }
@@ -49,17 +45,9 @@ exports.AbstractDao = Montage.specialize({
     findSingleEntry: {
         value: function(criteria, isCacheEnabled) {
             this._checkModelIsInitialized();
-            var selector = this._dataService.getSelectorWithTypeAndCriteria(this._model, criteria);
-            selector.__isSingle = true;
-            var promise = this._dataService.fetchData(selector);
-            if (isCacheEnabled) {
-                var self = this;
-                promise = promise.then(function(data) {
-                    self._cacheService.addToCache(self._model.typeName, data);
-                    return data
-                });
-            }
-            return promise;
+            return this._dataService.fetchData(this._model, criteria, true).then(function(data) {
+                return data[0];
+            });
         }
     },
 

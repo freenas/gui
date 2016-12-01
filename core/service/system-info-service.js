@@ -1,5 +1,5 @@
 var Montage = require("montage").Montage,
-    BackEndBridgeModule = require("../backend/backend-bridge"),
+    MiddlewareClient = require("core/service/middleware-client").MiddlewareClient,
     FreeNASService = require("core/service/freenas-service").FreeNASService,
     Model = require("core/model/model").Model;
 
@@ -13,10 +13,6 @@ var SystemInfoService = exports.SystemInfoService = Montage.specialize({
     },
 
     _dataService: {
-        value: null
-    },
-
-    _backendBridge: {
         value: null
     },
 
@@ -62,11 +58,7 @@ var SystemInfoService = exports.SystemInfoService = Montage.specialize({
 
     _callBackend: {
         value: function(method, args) {
-            args = args || [];
-            return this._backendBridge.send("rpc", "call", {
-                method: this._NAMESPACE + method,
-                args: args
-            });
+            return this._middlewareClient.callRpcMethod(this._NAMESPACE + method, args);
         }
     }
 
@@ -76,7 +68,7 @@ var SystemInfoService = exports.SystemInfoService = Montage.specialize({
             if (!this._instance) {
                 this._instance = new SystemInfoService();
                 this._instance._dataService = FreeNASService.instance;
-                this._instance._backendBridge = BackEndBridgeModule.defaultBackendBridge;
+                this._instance._middlewareClient = MiddlewareClient.getInstance()
             }
             return this._instance;
         }

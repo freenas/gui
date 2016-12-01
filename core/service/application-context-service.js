@@ -1,6 +1,6 @@
 var Montage = require("montage").Montage,
     Model = require("core/model/model").Model,
-    UserRepository = require("core/repository/user-repository").UserRepository,
+    AccountRepository = require("core/repository/account-repository").AccountRepository,
     application = require("montage/core/application").application,
     FreeNASService = require("core/service/freenas-service").FreeNASService,
     WidgetService = require("core/service/widget-service").WidgetService,
@@ -11,7 +11,6 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
 
     constructor: {
         value: function () {
-            this._userRepository = UserRepository.instance;
             application.addEventListener("userLogged", this, false);
         }
     },
@@ -36,7 +35,7 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
                 var self = this;
 
                 return (this._saveContextPromise = this._saveContextPromise = self.findCurrentUser().then(function (user) {
-                    return self._dataService.saveDataObject(user);
+                    return self._accountRepository.saveUser(user);
                 })).finally(function () {
                     self._saveContextPromise = null;
                 });
@@ -58,7 +57,6 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
         }
     },
 
-    //TODO: session service?
     findCurrentUser: {
         value: function () {
             var sessionUsername = application.sessionService.session.username,
@@ -72,7 +70,7 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
 
                 this._currentUser = null;
 
-                return this._userRepository.findUserWithName(sessionUsername).then(function (user) {
+                return this._accountRepository.findUserWithName(sessionUsername).then(function (user) {
                     currentUser = user;
 
                     if (user.attributes && user.attributes.dashboardContext) {
@@ -149,6 +147,7 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
                 this._instance = new ApplicationContextService();
                 this._instance._dataService = FreeNASService.instance;
                 this._instance._widgetService = WidgetService.instance;
+                this._instance._accountRepository = AccountRepository.getInstance();
             }
 
             return this._instance;

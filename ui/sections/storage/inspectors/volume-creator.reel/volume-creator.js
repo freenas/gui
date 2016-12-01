@@ -1,4 +1,5 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
     Model = require("core/model/model").Model,
     CascadingList = require("ui/controls/cascading-list.reel").CascadingList;
 
@@ -35,27 +36,17 @@ exports.VolumeCreator = AbstractInspector.specialize({
         value: null
     },
 
-    exitDocument: {
-        value: function() {
-            this.super();
-            if (this._parentCascadingListItem) {
-                this._parentCascadingListItem.classList.remove("CascadingListItem-VolumeCreator");
-            }
-        }
-    },
 
     _inspectorTemplateDidLoad: {
         value: function() {
-            var self = this;
-            return this._sectionService.listAvailableDisks().then(function(availableDisks) {
-                self.availableDisks = availableDisks; 
-            });
+            // var self = this;
+            this._eventDispatcherService = EventDispatcherService.getInstance();
         }
     },
 
     enterDocument: {
         value: function(isFirstTime) {
-            this.super();
+            this.super(isFirstTime);
             if (isFirstTime) {
                 this.addPathChangeListener("topologySelectedDisk", this, "_handleSelectedDiskChange");
                 this.addPathChangeListener("availableSelectedDisk", this, "_handleSelectedDiskChange");
@@ -64,6 +55,24 @@ exports.VolumeCreator = AbstractInspector.specialize({
             if (this._parentCascadingListItem) {
                 this._parentCascadingListItem.classList.add("CascadingListItem-VolumeCreator");
             }
+            this.availableDisks = this._sectionService.listAvailableDisks();
+            this._eventDispatcherService.addEventListener('availableDisksChange', this._handleAvailableDisksChange.bind(this));
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            this.super();
+            this._eventDispatcherService.removeEventListener('availableDisksChange', this._handleAvailableDisksChange.bind(this));
+            if (this._parentCascadingListItem) {
+                this._parentCascadingListItem.classList.remove("CascadingListItem-VolumeCreator");
+            }
+        }
+    },
+
+    _handleAvailableDisksChange: {
+        value: function(availableDisks) {
+            this.availableDisks = availableDisks;
         }
     },
 
@@ -78,7 +87,7 @@ exports.VolumeCreator = AbstractInspector.specialize({
             } else if (!this.topologySelectedDisk && !this.availableSelectedDisk) {
                 this.selectedObject = null;
             }
-        } 
+        }
     },
 
     _initializeTopology: {

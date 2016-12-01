@@ -10,7 +10,7 @@ exports.VmRepository = AbstractRepository.specialize({
     init: {
         value: function(vmDao, vmTemplateDao, vmDeviceDao, vmVolumeDao, vmReadmeDao) {
             this._vmDao = vmDao || VmDao.instance;
-            this._vmTemplateDao = vmTemplateDao || VmTemplateDao.instance;
+            this._vmTemplateDao = vmTemplateDao || VmTemplateDao.getInstance();
             this._vmDeviceDao = vmDeviceDao || VmDeviceDao.instance;
             this._vmVolumeDao = vmVolumeDao || VmVolumeDao.instance;
             this._vmReadmeDao = vmReadmeDao || VmReadmeDao.instance;
@@ -94,6 +94,12 @@ exports.VmRepository = AbstractRepository.specialize({
     saveVm: {
         value: function(vm) {
             return this._vmDao.save(vm);
+        }
+    },
+
+    getSerialToken: {
+        value: function(vmId) {
+            return this._vmDao.requestSerialConsole(vmId);
         }
     }
 

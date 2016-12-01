@@ -1,6 +1,7 @@
-var AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate;
+var AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate,
+    EventDispatcherService = require('core/service/event-dispatcher-service').EventDispatcherService;
 
-var AbstractInspector = exports.AbstractInspector = AbstractComponentActionDelegate.specialize({
+exports.AbstractInspector = AbstractComponentActionDelegate.specialize({
     _selectedObject: {
         value: null
     },
@@ -34,6 +35,7 @@ var AbstractInspector = exports.AbstractInspector = AbstractComponentActionDeleg
 
     templateDidLoad: {
         value: function() {
+            this.eventDispatcherService = EventDispatcherService.getInstance();
             if (typeof this._inspectorTemplateDidLoad === 'function') {
                 var self = this;
                 this._canDrawGate.setField(this.constructor.ABSTRACT_DRAW_GATE_FIELD, false);
@@ -50,8 +52,8 @@ var AbstractInspector = exports.AbstractInspector = AbstractComponentActionDeleg
 
     enterDocument: {
         value: function(isFirstTime) {
-            this.super();
-            
+            this.super(isFirstTime);
+
             if (this.validationController && !this._hasContextObjectListener) {
                 this.context.validationController = this.validationController;
                 this.addPathChangeListener("context.object", this, "_reloadValidationController");
@@ -69,7 +71,7 @@ var AbstractInspector = exports.AbstractInspector = AbstractComponentActionDeleg
             }
         }
     },
-    
+
     _reloadValidationController: {
         value: function() {
             if (this.context && this.context.object) {

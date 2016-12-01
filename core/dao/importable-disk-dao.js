@@ -1,32 +1,23 @@
-/**
- * @module core/dao/importable-disk-dao
- */
-var AbstractDao = require("core/dao/abstract-dao").AbstractDao,
-    BackEndBridgeModule = require("../backend/backend-bridge");
-/**
- * @class ImportableDiskDao
- * @extends AbstractDao
- */
-exports.ImportableDiskDao = AbstractDao.specialize(/** @lends ImportableDiskDao# */ {
-    init: {
-        value: function(backendBridge) {
-            this._backendBridge = backendBridge || BackEndBridgeModule.defaultBackendBridge;
-            this._model = this.constructor.Model.ImportableDisk;
-        }
-    },
-
-    list: {
-        value: function() {
-            this._checkModelIsInitialized();
-            var self = this;
-            return this._backendBridge.send("rpc", "call", {
-                method: "volume.find_media", 
-                args: []
-            }).then(function(response) {
-                return Promise.all(response.data.map(function(x) {
-                    return self._dataService.mapRawDataToType(x, self._model);
-                }));
-            });
-        }
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var abstract_dao_ng_1 = require("./abstract-dao-ng");
+var ImportableDiskDao = (function (_super) {
+    __extends(ImportableDiskDao, _super);
+    function ImportableDiskDao() {
+        return _super.call(this, abstract_dao_ng_1.AbstractDao.Model.ImportableDisk, {
+            queryMethod: 'volume.find_media'
+        }) || this;
     }
-});
+    ImportableDiskDao.getInstance = function () {
+        if (!ImportableDiskDao.instance) {
+            ImportableDiskDao.instance = new ImportableDiskDao();
+        }
+        return ImportableDiskDao.instance;
+    };
+    return ImportableDiskDao;
+}(abstract_dao_ng_1.AbstractDao));
+exports.ImportableDiskDao = ImportableDiskDao;

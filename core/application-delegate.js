@@ -1,7 +1,7 @@
 /*global require, exports, Error*/
 require("./extras/string");
 
-var FreeNASService = require("core/service/freenas-service").FreeNASService,
+var ModelDescriptorService = require("core/service/model-descriptor-service").ModelDescriptorService,
     TopologyService = require("core/service/topology-service").TopologyService,
     SelectionService = require("core/service/selection-service").SelectionService,
     BootEnvironmentService = require("core/service/boot-environment-service").BootEnvironmentService,
@@ -24,7 +24,6 @@ var FreeNASService = require("core/service/freenas-service").FreeNASService,
     SystemInfoService = require("core/service/system-info-service").SystemInfoService,
     SystemDeviceService = require("core/service/system-device-service").SystemDeviceService,
     SystemGeneralService = require("core/service/system-general-service").SystemGeneralService,
-    SystemTimeService = require("core/service/system-time-service").SystemTimeService,
     SystemAdvancedService = require("core/service/system-advanced-service").SystemAdvancedService,
     NetworkInterfaceService = require("core/service/network-interface-service").NetworkInterfaceService,
     ApplicationContextService = require("core/service/application-context-service").ApplicationContextService,
@@ -37,12 +36,12 @@ var FreeNASService = require("core/service/freenas-service").FreeNASService,
     VirtualMachineService = require("core/service/virtual-machine-service").VirtualMachineService,
     PowerManagementService = require("core/service/power-management-service").PowerManagementService,
     NtpServerService = require("core/service/ntp-server-service.js").NtpServerService,
-    SectionsDescriptors = require("core/model/sections-descriptors.mjson"),
+    SectionsDescriptors = require("core/model/sections-descriptors.json"),
     Montage = require("montage").Montage;
 
+var FakeMontageDataService = require("core/service/fake-montage-data-service").FakeMontageDataService;
 
-var UserInterfaceDescriptorPromisesMap = new Map(),
-    EMPTY_ARRAY = [];
+var UserInterfaceDescriptorPromisesMap = new Map();
 
 
 exports.ApplicationDelegate = Montage.specialize({
@@ -57,7 +56,10 @@ exports.ApplicationDelegate = Montage.specialize({
      */
     willFinishLoading: {
         value: function (app) {
-            app.dataService = FreeNASService.instance;
+            app.dataService = FakeMontageDataService.getInstance();
+
+            app.modelDescriptorService = this.modelDescriptorService = ModelDescriptorService.getInstance();
+
             app.topologyService = TopologyService.instance;
             app.selectionService = SelectionService.instance;
             app.bootEnvironmentService = BootEnvironmentService.instance;
@@ -75,11 +77,10 @@ exports.ApplicationDelegate = Montage.specialize({
             app.rsyncdModuleService = RsyncdModuleService.instance;
             app.sessionService = SessionService.instance;
             app.systemDatasetService = SystemDatasetService.instance;
-            app.systemService = SystemService.instance;
+            app.systemService = SystemService.getInstance();
             app.systemUIService = SystemUIService.instance;
             app.systemInfoService = SystemInfoService.instance;
             app.systemGeneralService = SystemGeneralService.instance;
-            app.systemTimeService = SystemTimeService.instance;
             app.systemDeviceService = SystemDeviceService.instance;
             app.networkInterfacesSevice = NetworkInterfaceService.instance;
             app.shareService = ShareService.instance;
@@ -155,26 +156,7 @@ exports.ApplicationDelegate = Montage.specialize({
      */
     userInterfaceDescriptorForObject: {
         value: function (object) {
-            var userInterfaceDescriptorPromise,
-                modelType;
-
-            if (Array.isArray(object)) {
-                if (object._meta_data) {
-                    modelType = object._meta_data.collectionModelType;
-                }
-
-                object = object[0];
-            }
-
-            modelType = modelType || (object ? object.constructor.Type : null);
-
-            if (modelType) {
-                userInterfaceDescriptorPromise = this.getUserInterfaceDescriptorForType(modelType, object);
-            } else {
-                return Promise.reject("no user interface descriptor for object: " + object);
-            }
-
-            return userInterfaceDescriptorPromise;
+            return this.modelDescriptorService.getUiDescriptorForObject(object);
         }
     }
 

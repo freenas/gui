@@ -1,4 +1,5 @@
 var AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate,
+    _ = require("lodash"),
     CascadingList = require("ui/controls/cascading-list.reel").CascadingList;
 
 /**
@@ -30,8 +31,8 @@ exports.Viewer = AbstractComponentActionDelegate.specialize({
                 // for objects within a collection that doesn't have the property used for sorting.
                 // ex: sortingKey = "name"; object1: { name: 'foo'}, object2: {username: 'bar'}
                 // -> https://bugs.freenas.org/issues/15124
-                if (this.sortingKey) {
-                    this.sortingKey = null;
+                if (this.sortingPath) {
+                    this.sortingPath = null;
                 }
 
                 if (object) {
@@ -57,7 +58,18 @@ exports.Viewer = AbstractComponentActionDelegate.specialize({
                         promise = this._setViewerMetaDataWithObject(object);
                     }
 
-                    promise.catch(function (error) {
+                    promise.then(function() {
+                        var isSortable = true;
+                        for (var i = 0; i < self._object.length; i++) {
+                            if (!_.has(self._object[i], self.sortingKey)) {
+                                isSortable = false;
+                                break;
+                            }
+                        }
+                        if (isSortable) {
+                            self.sortingPath = self.sortingKey;
+                        }
+                    }).catch(function (error) {
                         console.warn(error);
                     });
                 }
@@ -74,19 +86,25 @@ exports.Viewer = AbstractComponentActionDelegate.specialize({
 
     handleCreateButtonAction: {
         value: function () {
+            var self = this;
             if (this.hasCreateEditor) {
-                var type = Array.isArray(this.object) && this.object._meta_data ?
-                    this.object._meta_data.collectionModelType : this.object.constructor.Type;
-
-                this.selectedObject = null;
-
-                if (type) {
-                    var self = this;
-                    //Fixme: getDataObject must return a promise!
-                    return self.application.dataService.getNewInstanceForType(type).then(function (newInstance) {
+                return this.application.modelDescriptorService.getDaoForObject(this.object).then(function(dao) {
+                    return dao.getNewInstance().then(function (newInstance) {
                         self.parentCascadingListItem.selectedObject = newInstance;
                     });
-                }
+                }, function() {
+                    // DTM
+                    var type = Array.isArray(self.object) && self.object._meta_data ?
+                        self.object._meta_data.collectionModelType : self.object.constructor.Type;
+
+                    self.selectedObject = null;
+
+                    if (type) {
+                        return self.application.dataService.getNewInstanceForType(type).then(function (newInstance) {
+                            self.parentCascadingListItem.selectedObject = newInstance;
+                        });
+                    }
+                });
             }
         }
     },
@@ -94,18 +112,20 @@ exports.Viewer = AbstractComponentActionDelegate.specialize({
     _setViewerMetaDataWithObject: {
         value: function (object) {
             var self = this;
+            return this.application.modelDescriptorService.getUiDescriptorForObject(object).then(function (uiDescriptor) {
+                self.userInterfaceDescriptor = uiDescriptor;
+                if (uiDescriptor) {
+                    self.hasCreateEditor = !!uiDescriptor.creatorComponentModule;
 
-            return this.application.delegate.userInterfaceDescriptorForObject(object).then(function (UIDescriptor) {
-                if (UIDescriptor) {
-                    self.hasCreateEditor = !!UIDescriptor.creatorComponentModule;
-
-                    if (UIDescriptor.sortExpression) {
-                        self.sortingKey = UIDescriptor.sortExpression;
-                    } else if (UIDescriptor.nameExpression) {
-                        self.sortingKey = UIDescriptor.nameExpression;
+                    if (!self.sortingPath) {
+                        if (uiDescriptor.sortExpression) {
+                            self.sortingPath = uiDescriptor.sortExpression;
+                        } else if (uiDescriptor.nameExpression) {
+                            self.sortingPath = uiDescriptor.nameExpression;
+                        }
                     }
 
-                    self.createLabel = UIDescriptor.createLabel ? UIDescriptor.createLabel : null;
+                    self.createLabel = uiDescriptor.createLabel ? uiDescriptor.createLabel : null;
                 } else {
                     self.hasCreateEditor = false;
                 }

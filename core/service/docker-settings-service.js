@@ -16,13 +16,6 @@ var DockerSettingsService = exports.DockerSettingsService = Montage.specialize({
         value: null
     },
 
-    saveDockerConfigData: {
-        value: function(dockerConfig){
-            return this._submitTask('docker.config.update', [dockerConfig]).then(function(response) {
-                return response.data;
-            })
-        }
-    },
 
     getDockerContainers: {
         value: function() {
@@ -45,17 +38,6 @@ var DockerSettingsService = exports.DockerSettingsService = Montage.specialize({
             return this._dataService.fetchData(Model.DockerConfig).then(function(Docker) {
                 return Docker[0];
             })
-        }
-    },
-
-    _submitTask: {
-        value: function(taskName, args) {
-            args = args || [];
-            return this._backendBridge.send("rpc", "call", {
-                method: 'task.submit',
-                args: [taskName, args]
-            });
-
         }
     }
 }, {

@@ -30,7 +30,7 @@ exports.ContainerRepository = AbstractRepository.specialize({
             this._dockerContainerDao = dockerContainerDao || DockerContainerDao.instance;
             this._dockerImageDao = dockerImageDao || DockerImageDao.instance;
             this._dockerHostDao = dockerHostDao || DockerHostDao.instance;
-            this._dockerConfigDao = dockerConfigDao || DockerConfigDao.instance;
+            this._dockerConfigDao = dockerConfigDao || DockerConfigDao.getInstance();
             this._dockerCollectionDao = dockerCollectionDao || DockerCollectionDao.instance;
             this._dockerContainerCreatorDao = dockerContainerCreatorDao || DockerContainerCreatorDao.instance;
             this._dockerImagePullDao = dockerImagePullDao || DockerImagePullDao.instance;
@@ -188,6 +188,18 @@ exports.ContainerRepository = AbstractRepository.specialize({
     saveContainer: {
         value: function (container) {
             return this._dockerContainerDao.save(container);
+        }
+    },
+
+    getInteractiveConsoleToken: {
+        value: function(containerId) {
+            return this._dockerContainerDao.requestInteractiveConsole(containerId);
+        }
+    }
+
+    getSerialConsoleToken: {
+        value: function(containerId) {
+            return this._dockerContainerDao.requestSerialConsole(containerId);
         }
     }
 

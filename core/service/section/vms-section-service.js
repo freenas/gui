@@ -8,7 +8,7 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
     VmDeviceUsbDevice = require("core/model/enumerations/vm-device-usb-device").VmDeviceUsbDevice,
     VmDeviceVolumeType = require("core/model/enumerations/vm-device-volume-type").VmDeviceVolumeType,
     VmRepository = require("core/repository/vm-repository").VmRepository,
-    StorageRepository = require("core/repository/storage-repository").StorageRepository,
+    VolumeRepository = require("core/repository/volume-repository").VolumeRepository,
     NetworkRepository = require("core/repository/network-repository").NetworkRepository,
     BytesService = require("core/service/bytes-service").BytesService,
     ConsoleService = require("core/service/console-service").ConsoleService,
@@ -97,9 +97,9 @@ exports.VmsSectionService = AbstractSectionService.specialize({
     },
 
     init: {
-        value: function(vmRepository, storageRepository, networkRepository, bytesService, consoleService) {
+        value: function(vmRepository, volumeRepository, networkRepository, bytesService, consoleService) {
             this._vmRepository = vmRepository || VmRepository.instance;
-            this._storageRepository = storageRepository || StorageRepository.instance;
+            this._volumeRepository = volumeRepository || VolumeRepository.getInstance();
             this._networkRepository = networkRepository || NetworkRepository.instance;
             this._consoleService = consoleService || ConsoleService.instance;
             this._bytesService = bytesService || BytesService.instance;
@@ -114,7 +114,7 @@ exports.VmsSectionService = AbstractSectionService.specialize({
 
     listVolumes: {
         value: function() {
-            return this._storageRepository.listVolumes();
+            return this._volumeRepository.listVolumes();
         }
     },
 
@@ -286,7 +286,7 @@ exports.VmsSectionService = AbstractSectionService.specialize({
                 var i, length, entry;
                 for (i = 0, length = vm.devices.length; i < length; i++) {
                     entry = vm.devices[i];
-                    if (this._isDeviceBootable(entry) 
+                    if (this._isDeviceBootable(entry)
                         && vm._bootDevices.filter(function(x) { return x.label === entry.name }).length === 0) {
                         vm._bootDevices.push({
                             label: entry.name,
@@ -313,11 +313,11 @@ exports.VmsSectionService = AbstractSectionService.specialize({
         value: function(vm) {
             return vm.constructor.services.requestWebvncConsole(vm.id);
         }
-    }, 
+    },
 
     getSerialConsoleForVm: {
         value: function(vm) {
-            return this._consoleService.getSerialToken(vm.id).then(function(token) {
+            return this._vmRepository.getSerialToken(vm.id).then(function(token) {
                 return "/serial-console-app/#" + token;
             });
         }

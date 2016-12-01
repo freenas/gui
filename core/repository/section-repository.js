@@ -5,7 +5,7 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
 exports.SectionRepository = AbstractRepository.specialize({
     init: {
         value: function(sectionDao, sectionSettingsDao) {
-            this._sectionDao = sectionDao || SectionDao.instance;
+            this._sectionDao = sectionDao || SectionDao.getInstance();
             this._sectionSettingsDao = sectionSettingsDao || SectionSettingsDao.instance;
         }
     },

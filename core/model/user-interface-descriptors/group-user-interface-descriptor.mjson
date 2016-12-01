@@ -2,12 +2,12 @@
     "root": {
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
-            "inspectorComponentModule": {"%": "ui/inspectors/group.reel"},
+            "inspectorComponentModule": {"%": "ui/sections/accounts/inspectors/group.reel"},
             "iconComponentModule": {"%": "ui/icons/group.reel"},
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "nameExpression": "name",
             "collectionNameExpression": "'Groups'",
-            "creatorComponentModule": {"%": "ui/inspectors/group.reel"},
+            "creatorComponentModule": {"%": "ui/sections/accounts/inspectors/group.reel"},
             "nameExpression": "id.defined() ? name : 'Create a group'",
             "listControlsComponentModule": {"%": "ui/accounts/accounts-list-options.reel"},
             "subLabelExpression": "origin.domain"

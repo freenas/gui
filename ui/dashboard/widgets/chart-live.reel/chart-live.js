@@ -6,8 +6,24 @@ var Component = require("montage/ui/component").Component,
  * @extends Component
  */
 exports.ChartLive = Component.specialize({
-    datasources: {
+    _datasources: {
         value: null
+    },
+
+    datasources: {
+        get: function() {
+            return this._datasources;
+        },
+        set: function(datasources) {
+            if (this._datasources != datasources) {
+                this._datasources = datasources;
+                if (typeof this._cancelDatasourcesChange == "function") {
+                    this._cancelDatasourcesChange();
+                }
+                this._cancelDatasourcesChange = this.addRangeAtPathChangeListener('datasources', this, '_handleDatasourcesChange');
+                this._initializeData();
+            }
+        }
     },
 
     _timezoneOffset: {
@@ -27,10 +43,16 @@ exports.ChartLive = Component.specialize({
     },
 
     enterDocument: {
-        value: function (isFirstTime) {
-            if (isFirstTime) {
-                // _initializeData will be called by _handleDatasourcesChange
-                this.addRangeAtPathChangeListener('datasources', this, '_handleDatasourcesChange');
+        value: function() {
+            this._initializeData();
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            this._unsubscribeAllUpdates();
+            if (typeof this._cancelDatasourcesChange == "function") {
+                this._cancelDatasourcesChange();
             }
         }
     },
@@ -40,27 +62,30 @@ exports.ChartLive = Component.specialize({
             if (typeof this.parentComponent.transformValue === 'function') {
                 return this.parentComponent.transformValue(value);
             }
-            return this.callDelegateMethod('transformValue', value) || value;
+            return value;
         }
     },
 
     getChartKey: {
         value: function(source, metric, suffix, isTimeSeries) {
-            return this.callDelegateMethod('getChartKey', source, metric, suffix, isTimeSeries);
+            if (this.delegate && typeof this.delegate.getChartKey === 'function') {
+                return this.delegate.getChartKey.apply(this.delegate, arguments);
+            }
+            return null;
         }
     },
 
     getChartLabel: {
         value: function(source, metric, suffix, isTimeSeries) {
-            return this.callDelegateMethod('getChartLabel', source, metric, suffix, isTimeSeries);
+            if (this.delegate && typeof this.delegate.getChartLabel === 'function') {
+                return this.delegate.getChartLabel.apply(this.delegate, arguments);
+            }
+            return null;
         }
     },
 
     _handleDatasourcesChange: {
-        value: function () {
-            //todo save the promise instead.
-            this.chart.isSpinnerShown = true;
-            this._isFetchingStatistics = false;
+        value: function() {
             this._initializeData();
         }
     },
@@ -77,8 +102,10 @@ exports.ChartLive = Component.specialize({
     },
 
     _initializeData: {
-        value: function () {
-            if (!this._isFetchingStatistics && this.datasources && this.datasources.length > 0) {
+        value: function() {
+            if (!this._isFetchingStatistics &&
+                    this._datasources &&
+                    this._datasources.filter(function(x) { return !!x }).length > 0) {
                 this._unsubscribeAllUpdates();
                 this._eventToKey = {};
                 this._eventToSource = {};
@@ -115,11 +142,15 @@ exports.ChartLive = Component.specialize({
                     y: self.transformValue(currentValue)
                 });
             }).then(function() {
-                return self._statisticsService.subscribeToUpdates(event, self).then(function(eventType) {
-                    self._eventToKey[eventType] = key;
-                    self._eventToSource[eventType] = label;
-                    self._subscribedUpdates.push(event);
-                });
+                if (self._inDocument) {
+                    return self._statisticsService.subscribeToUpdates(event, self).then(function(eventType) {
+                        self._eventToKey[eventType] = key;
+                        self._eventToSource[eventType] = label;
+                        self._subscribedUpdates.push(event);
+           });
+                } else {
+                    return false;
+                }
             });
 
         }
@@ -133,7 +164,7 @@ exports.ChartLive = Component.specialize({
                 path = source.children[metric].path.join('.') + '.' + suffix,
                 key  = this.getChartKey(source, metric, suffix, true) ||
                         [
-                            this.datasources.length > 1 ? source.label : '',
+                            this._datasources.length > 1 ? source.label : '',
                             metric,
                             hasSuffix ? suffix : ''
                         ]
@@ -156,10 +187,14 @@ exports.ChartLive = Component.specialize({
                 series.disabled = self.disabledMetrics && self.disabledMetrics.indexOf(metric) != -1;
                 return self.chart.addSeries(series);
             }).then(function() {
-                return self._statisticsService.subscribeToUpdates(event, self).then(function(eventType) {
-                    self._eventToKey[eventType] = key;
-                    self._subscribedUpdates.push(event);
-                });
+                if (self._inDocument) {
+                    return self._statisticsService.subscribeToUpdates(event, self).then(function(eventType) {
+                        self._eventToKey[eventType] = key;
+                        self._subscribedUpdates.push(event);
+                    });
+                } else {
+                    return false;
+                }
             });
 
         }

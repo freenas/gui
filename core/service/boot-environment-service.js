@@ -1,6 +1,5 @@
 var Montage = require("montage").Montage,
-    FreeNASService = require("core/service/freenas-service").FreeNASService,
-    Promise = require("montage/core/promise").Promise,
+    BootPoolRepository = require("core/repository/boot-pool-repository").BootPoolRepository,
     Model = require("core/model/model").Model;
 
 var BootEnvironmentService = exports.BootEnvironmentService = Montage.specialize({
@@ -13,10 +12,6 @@ var BootEnvironmentService = exports.BootEnvironmentService = Montage.specialize
     },
 
     _methods: {
-        value: null
-    },
-
-    _remoteService: {
         value: null
     },
 
@@ -35,7 +30,6 @@ var BootEnvironmentService = exports.BootEnvironmentService = Montage.specialize
     constructor: {
         value: function() {
             var self = this;
-            this._dataService = FreeNASService.instance;
             Model.populateObjectPrototypeForType(Model.BootEnvironment).then(function() {
                 self._methods = Model.BootEnvironment.objectPrototype.services;
             });
@@ -46,7 +40,7 @@ var BootEnvironmentService = exports.BootEnvironmentService = Montage.specialize
     list: {
         value: function() {
             var self = this;
-            return this._dataService.fetchData(Model.BootEnvironment).then(function(bootEnvironments) {
+            return this._bootPoolRepository.listBootEnvironments().then(function(bootEnvironments) {
                 return self._bootEnvironments = bootEnvironments;
             });
         }
@@ -54,14 +48,14 @@ var BootEnvironmentService = exports.BootEnvironmentService = Montage.specialize
 
     delete: {
         value: function(bootEnvironment) {
-            return this._dataService.deleteDataObject(bootEnvironment);
+            return this._bootPoolRepository.deleteBootEnvironment(bootEnvironment);
         }
     },
 
     getBootVolumeConfig: {
         value: function() {
             var self = this;
-            return this._dataService.callBackend("boot.pool.get_config").then(function(bootVolumeConfig) {
+            return this._bootPoolRepository.getBootPoolConfig().then(function(bootVolumeConfig) {
                 return self._bootVolumeConfig = bootVolumeConfig.data;
             });
         }
@@ -69,11 +63,7 @@ var BootEnvironmentService = exports.BootEnvironmentService = Montage.specialize
 
     scrubBootPool: {
         value: function() {
-            return this._dataService.callBackend("task.submit", ["boot.pool.scrub", []]).then(function(response) {
-                if (response) {
-                    return response.data;
-                }
-            });
+            return this._bootPoolRepository.scrubBootPool();
         }
     },
 
@@ -93,7 +83,7 @@ var BootEnvironmentService = exports.BootEnvironmentService = Montage.specialize
         value: function(bootEnvironment) {
             var currentBootEnvironment = this._findCurrentBootEnvironment();
 
-            return this._methods.activate(bootEnvironment.persistedId).then(function () {
+            return this._bootPoolRepository.activateBootEnvironment(bootEnvironment).then(function () {
                 currentBootEnvironment.onReboot = false;
                 bootEnvironment.onReboot = true;
                 return bootEnvironment;
@@ -103,7 +93,7 @@ var BootEnvironmentService = exports.BootEnvironmentService = Montage.specialize
 
     saveBootEnvironment: {
         value: function(bootEnvironment) {
-            return this._dataService.saveDataObject(bootEnvironment).then(function() {
+            return this._bootPoolRepository.saveBootEnvironment(bootEnvironment).then(function() {
                 return bootEnvironment;
             })
         }
@@ -129,7 +119,7 @@ var BootEnvironmentService = exports.BootEnvironmentService = Montage.specialize
                 cloneName = this._findAvailableBootEnvironmentNameWithName(bootEnvironment.persistedId);
 
             //FIXME: not safe! new name should be created by the middleware!!
-            return this._methods.clone(cloneName, bootEnvironment.persistedId).finally(function () {
+            return this._bootPoolRepository.cloneBootEnvironment(bootEnvironment, cloneName).finally(function () {
                 self._pendingBootEnvironmentNames.splice(self._pendingBootEnvironmentNames.indexOf(cloneName), 1);
             });
         }
@@ -231,19 +221,6 @@ var BootEnvironmentService = exports.BootEnvironmentService = Montage.specialize
                 }
             }
         }
-    },
-
-    _loadRemoteService: {
-        value: function() {
-            var self = this;
-            if (this._remoteService) {
-                return Promise.resolve(this._remoteService);
-            } else {
-                return Model.populateObjectPrototypeForType(Model.BootEnvironment).then(function (BootEnvironment) {
-                    self._remoteService = BootEnvironment.constructor.services;
-                });
-            }
-        }
     }
 
 }, {
@@ -251,6 +228,7 @@ var BootEnvironmentService = exports.BootEnvironmentService = Montage.specialize
         get: function() {
             if (!this._instance) {
                 this._instance = new BootEnvironmentService();
+                this._instance._bootPoolRepository = BootPoolRepository.getInstance();
             }
             return this._instance;
         }

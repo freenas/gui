@@ -43,7 +43,7 @@ exports.CascadingList = Component.specialize({
     enterDocument: {
         value: function() {
             this._restoreSelection();
-            this.addPathChangeListener("_selectionService.needsRefresh", this, "_handleNeedsRefreshChange"); 
+            this.addPathChangeListener("_selectionService.needsRefresh", this, "_handleNeedsRefreshChange");
         }
     },
 
@@ -129,7 +129,8 @@ exports.CascadingList = Component.specialize({
             if (this._root) {
                 var self = this;
                 this._selection = this._selectionService.getSelection(this.application.section);
-                return this.expand(this._root).then(function() {
+                var rootPromise = this._stack.length === 0 && this._populatePromise ? this._populatePromise : this.expand(this._root);
+                return rootPromise.then(function() {
                     if (self._selection && self._selection.length > 0) {
                         return Promise.mapSeries(self._selection, function(selectedObject) {
                             return self.expand(selectedObject, self._selection.indexOf(selectedObject) + 1).then(function(context) {
@@ -174,21 +175,42 @@ exports.CascadingList = Component.specialize({
     _populateColumnWithObjectAndIndex: {
         value: function (object, columnIndex) {
             var self = this;
+            var currentStackLength = self._stack.length;
 
-            return this.application.delegate.userInterfaceDescriptorForObject(object).then(function (userInterfaceDescriptor) {
-                var currentStackLength = self._stack.length;
-                columnIndex = Math.min(currentStackLength, columnIndex);
-                var context = {
-                    object: object,
-                    userInterfaceDescriptor: userInterfaceDescriptor,
-                    columnIndex: columnIndex,
-                };
-                if (currentStackLength > 0) {
-                    context.parentContext = self._stack[currentStackLength - 1];
-                }
-                self._push(context);
-                return context;
-            });
+            if (this._populatePromise) {
+                return this._populatePromise.then(function() {
+
+                    return self._populatePromise = self.application.delegate.userInterfaceDescriptorForObject(object).then(function (userInterfaceDescriptor) {
+                        columnIndex = Math.min(currentStackLength, columnIndex);
+                        var context = {
+                            object: object,
+                            userInterfaceDescriptor: userInterfaceDescriptor,
+                            columnIndex: columnIndex
+                        };
+                        if (currentStackLength > 0) {
+                            context.parentContext = self._stack[currentStackLength - 1];
+                        }
+                        self._push(context);
+                        self._populatePromise = null;
+                        return context;
+                    });
+                });
+            } else {
+                return self._populatePromise = self.application.delegate.userInterfaceDescriptorForObject(object).then(function (userInterfaceDescriptor) {
+                    columnIndex = Math.min(currentStackLength, columnIndex);
+                    var context = {
+                        object: object,
+                        userInterfaceDescriptor: userInterfaceDescriptor,
+                        columnIndex: columnIndex
+                    };
+                    if (currentStackLength > 0) {
+                        context.parentContext = self._stack[currentStackLength - 1];
+                    }
+                    self._push(context);
+                    self._populatePromise = null;
+                    return context;
+                });
+            }
         }
     }
 

@@ -1,4 +1,5 @@
 var Montage = require("montage").Montage,
+    SystemGeneralRepository = require("core/repository/system-general-repository").SystemGeneralRepository,
     FreeNASService = require("core/service/freenas-service").FreeNASService,
     Model = require("core/model/model").Model;
 
@@ -14,9 +15,7 @@ var SystemGeneralService = exports.SystemGeneralService = Montage.specialize({
 
     getSystemGeneral: {
         value: function() {
-            return  this._dataService.fetchData(Model.SystemGeneral).then(function(systemGeneral){
-                return systemGeneral[0];
-            });
+            return  this._repository.getSystemGeneral();
         }
     },
 
@@ -67,6 +66,7 @@ var SystemGeneralService = exports.SystemGeneralService = Montage.specialize({
         get: function() {
             if(!this._instance) {
                 this._instance = new SystemGeneralService();
+                this._instance._repository = SystemGeneralRepository.getInstance();
                 this._instance._dataService = FreeNASService.instance;
             }
             return this._instance;

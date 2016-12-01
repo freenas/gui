@@ -1,6 +1,6 @@
 var Montage = require("montage").Montage,
-    Model = require("core/model/model").Model,
-    BackEndBridgeModule = require("../backend/backend-bridge");
+    SystemRepository = require("core/repository/system-repository").SystemRepository,
+    BootPoolRepository = require("core/repository/boot-pool-repository").BootPoolRepository;
 
 var SystemDatasetService = exports.SystemDatasetService = Montage.specialize({
 
@@ -22,28 +22,13 @@ var SystemDatasetService = exports.SystemDatasetService = Montage.specialize({
 
     getBootpoolConfig: {
         value: function() {
-            var self = this;
-            return this._callBackend("boot.pool.get_config",[]).then(function(response) {
-                return response.data;
-            })
+            return this._bootPoolRepository.getBootPoolConfig();
         }
     },
 
     getSystemDatasetPool: {
         value: function() {
-            var self = this;
-            return this._callBackend("system_dataset.status",[]).then(function(response) {
-                return response.data;
-            })
-        }
-    },
-
-    _callBackend: {
-        value: function(method, args) {
-            return this._backendBridge.send("rpc", "call", {
-                method: method,
-                args: args
-            });
+            return this._systemRepository.getDataset();
         }
     }
 
@@ -52,8 +37,9 @@ var SystemDatasetService = exports.SystemDatasetService = Montage.specialize({
         get: function() {
             if(!this._instance) {
                 this._instance = new SystemDatasetService();
-                this._instance._backendBridge = BackEndBridgeModule.defaultBackendBridge;
                 this._instance._systemDatasetService = SystemDatasetService.instance;
+                this._instance._systemRepository = SystemRepository.getInstance()
+                this._instance._bootPoolRepository = BootPoolRepository.getInstance()
             }
             return this._instance;
         }

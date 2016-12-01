@@ -119,10 +119,7 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         value: function (dockerContainer) {
             var self = this;
 
-            return BackendBridge.defaultBackendBridge.send('rpc', 'call', {
-                method: 'docker.container.request_interactive_console',
-                args: [dockerContainer.id]
-            }).then(function (response) {
+            return this._containerRepository.getInteractiveConsoleToken(dockerContainer.id).then(function (response) {
                 return self.getSerialTokenWithDockerContainerId(response.data);
             });
         }
@@ -130,10 +127,7 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
 
     getSerialTokenWithDockerContainerId: {
         value: function (dockerContainerId) {
-            return BackendBridge.defaultBackendBridge.send('rpc', 'call', {
-                method: 'docker.container.request_serial_console',
-                args: [dockerContainerId]
-            }).then(function (response) {
+            return this._containerRepository.getSerialConsoleToken(dockerContainerId).then(function (response) {
                 return response.data;
             });
         }

@@ -57,7 +57,7 @@ exports.EncryptedVolumeImporter = AbstractInspector.specialize({
                 this._sectionService.markDiskAsReserved(addedDisks[i]);
             }
             for (i = 0, length = removedDisks.length; i < length; i++) {
-                this._sectionService.markDiskAsAvailable(removedDisks[i]);
+                this._sectionService.markDiskAsNonReserved(removedDisks[i]);
             }
         }
     }

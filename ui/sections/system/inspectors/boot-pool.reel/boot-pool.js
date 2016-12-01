@@ -24,9 +24,11 @@ exports.BootPool = AbstractInspector.specialize(/** @lends BootPool# */ {
                 this._bootEnvironmentService = this.application.bootEnvironmentService;
                 this._notificationCenter = NotificationCenterModule.defaultNotificationCenter;
 
+/*
                 this._notificationCenter.startListenToChangesOnModelTypeIfNeeded("BootPool").then(function() {
                     self._notificationCenter.addEventListener('modelChange', self);
                 });
+*/
             }
             this._populateComponentIfNeeded();
         }

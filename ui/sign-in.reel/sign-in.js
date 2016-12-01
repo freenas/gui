@@ -1,14 +1,10 @@
-var AuthorizationPanel = require("montage-data/ui/authorization-panel.reel").AuthorizationPanel,
+var Component = require("montage/ui/component").Component,
     Model = require("core/model/model").Model,
     currentEnvironment = require("montage/core/environment").currentEnvironment,
     KeyComposer = require("montage/composer/key-composer").KeyComposer;
 
 
-/**
- * @class SignIn
- * @extends Component
- */
-var SignIn = exports.SignIn = AuthorizationPanel.specialize({
+var SignIn = exports.SignIn = Component.specialize({
 
     userName: {
         value: void 0
@@ -132,8 +128,9 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
                 this.hadError = false;
                 var password = this.password || "";
 
-                this.dataService.loginWithCredentials(this.userName, password).then(function (authorization) {
-                    self.authorizationManagerPanel.approveAuthorization(authorization);
+                this.application.dataService.loginWithCredentials(this.userName, password).then(function () {
+                    self.isLoggedIn = true;
+                    self.application.applicationModal.hide(self);
                     self.application.sessionService.sessionDidOpen(self.userName);
 
                     // Don't keep any track of the password in memory.

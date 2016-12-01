@@ -22,10 +22,10 @@ exports.Overview = Component.specialize(/** @lends Overview# */ {
             this.isLoading = true;
             this.systemInfo = {};
             loadingPromises.push(
-                this.application.systemGeneralService.getSystemGeneral().then(function (systemGeneral) {
+                this.application.systemService.getGeneral().then(function (systemGeneral) {
                     self.systemInfo.general = systemGeneral;
                 }),
-                this.application.systemTimeService.getSystemTime().then(function (time) {
+                this.application.systemService.getTime().then(function (time) {
                     self.systemTime = time
                 }),
                 this.application.virtualMachineService.listVirtualMachines().then(function (virtualMachines) {
