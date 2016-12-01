@@ -1,5 +1,6 @@
 var AbstractSectionService = require("core/service/section/abstract-section-service").AbstractSectionService,
     StorageRepository = require("core/repository/storage-repository").StorageRepository,
+    UserRepository = require("core/repository/user-repository").UserRepository,
     TopologyService = require("core/service/topology-service").TopologyService,
     PeeringService = require("core/service/peering-service").PeeringService,
     FilesystemService = require("core/service/filesystem-service").FilesystemService,
@@ -67,9 +68,10 @@ exports.StorageSectionService = AbstractSectionService.specialize({
     },
 
     init: {
-        value: function(storageRepository, topologyService, peeringService, filesystemService, notificationCenter) {
+        value: function(storageRepository, topologyService, peeringService, filesystemService, notificationCenter, userRepository) {
             this._rootDatasetPerVolumeId = new Map();
             this._storageRepository = storageRepository || StorageRepository.instance;
+            this._userRepository = userRepository || UserRepository.instance;
             this._topologyService = topologyService || TopologyService.instance;
             this._peeringService = peeringService || PeeringService.instance;
             this._filesystemService = filesystemService || FilesystemService.instance;
@@ -140,6 +142,12 @@ exports.StorageSectionService = AbstractSectionService.specialize({
     listPeers: {
         value: function() {
             return this._peeringService.listPeers();
+        }
+    },
+
+    listUsers: {
+        value: function() {
+            return this._userRepository.listUsers();
         }
     },
 
