@@ -121,9 +121,14 @@ exports.WizardSectionService = AbstractSectionService.specialize({
                     }
 
                     if (!userStep.isSkipped) {
-                        var user = userStep.object;
-                        user.home = '/mnt/' + volume.id + '/' + user.username;
-                        promises.push(dataService.saveDataObject(user));
+                        var users = userStep.object.__users;
+
+                        users.forEach(function (user) {
+                            if (user.username) {
+                                user.home = '/mnt/' + volume.id + '/' + user.username;
+                                promises.push(dataService.saveDataObject(user));
+                            }
+                        });
                     }
 
                     Promise.all(promises);

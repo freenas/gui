@@ -25,14 +25,12 @@ exports.Share = Component.specialize(/** @lends Share# */ {
 
     enterDocument: {
         value: function (isFirstTime) {
-            if (isFirstTime) {
-                var self = this;
+            var self = this;
 
-                //todo: add created users
-                this._sectionService.listUsers().then(function (users) {
-                    self.users = users;
-                });
-            }
+            //todo: add created users
+            this._sectionService.listUsers().then(function (users) {
+                self.users = users;
+            });
 
             if (this.object._isNew) {
                 this._clearTables();
