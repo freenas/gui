@@ -148,22 +148,13 @@
                 "checked": {"<->": "!!@owner.object._recursive"}
             }
         },
-        "creationCondition": {
-            "prototype": "montage/ui/condition.reel",
+        "createdSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
             "properties": {
-                "element": {"#": "creationCondition"}
+                "element": {"#": "createdSubstitution"}
             },
             "bindings": {
-                "condition": {"<-": "!@owner.object.id"}
-            }
-        },
-        "createdCondition": {
-            "prototype": "montage/ui/condition.reel",
-            "properties": {
-                "element": {"#": "createdCondition"}
-            },
-            "bindings": {
-                "condition": {"<-": "!!@owner.object.id"}
+                "switchValue": {"<-": "!!@owner.object.id ? 'existing' : 'new'"}
             }
         },
         "used": {
@@ -202,12 +193,14 @@
             <div data-montage-id="expirationDate"></div>
             <div data-montage-id="neverExpires"></div>
             <div data-montage-id="replicable"></div>
-            <div data-montage-id="creationCondition">
-                <div data-montage-id="recursive"></div>
-            </div>
-            <div data-montage-id="createdCondition">
-                <div data-montage-id="used"></div>
-                <div data-montage-id="creation"></div>
+            <div data-montage-id="createdSubstitution">
+                <div data-arg="new">
+                    <div data-montage-id="recursive"></div>    
+                </div>
+                <div data-arg="existing">
+                    <div data-montage-id="used"></div>
+                    <div data-montage-id="creation"></div>
+                </div>
             </div>
         </div>
     </div>
