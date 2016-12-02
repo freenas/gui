@@ -10,7 +10,6 @@
                 "element": {"#": "owner"},
                 "datasetTreeController": {"@": "datasetTreeController"},
                 "validationController": {"@": "validationController"},
-                "neverExpireCheckboxComponent": {"@": "neverExpireCheckbox"},
                 "inspector": {"@": "inspector"},
                 "extraDeleteFlags": [
                      {"label": "Delete recursive snapshots?",
@@ -105,27 +104,44 @@
                 "value": {"<-": "@owner.object.dataset"}
             }
         },
+        "expirationType": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "expirationType"},
+                "label": "Expires"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.constructor.EXPIRATION_TYPES"},
+                "selectedValue": {"<->": "@owner._expirationType"}
+            }
+        },
+        "expirationSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "expirationSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner._expirationType"}
+            }
+        },
         "expirationDate": {
             "prototype": "blue-shark/ui/field-datetime.reel",
             "properties": {
                 "element": {"#": "expirationDate"},
-                "label": "Expiration date",
                 "allowEmpty": true,
                 "intervalInSeconds": 300
             },
             "bindings": {
-                "value": {"<->": "@owner.expirationDate"},
-                "disabled": {"<-": "@neverExpireCheckbox.checked"}
+                "value": {"<->": "@owner._expirationDate"}
             }
         },
-        "neverExpireCheckbox": {
-            "prototype": "blue-shark/ui/field-checkbox.reel",
+        "lifetime": {
+            "prototype": "blue-shark/ui/field-duration.reel",
             "properties": {
-                "element": {"#": "neverExpires"},
-                "label": "Never expires"
+                "element": {"#": "lifetime"}
             },
             "bindings": {
-                "checked": {"<-": "!@owner.expirationDate"}
+                "value": {"<->": "@owner._lifetime"}
             }
         },
         "replicable": {
@@ -138,6 +154,15 @@
                 "checked": {"<->": "@owner.object.replicable"}
             }
         },
+        "createdSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "createdSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "!!@owner.object.id ? 'existing' : 'new'"}
+            }
+        },
         "recursive": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -146,15 +171,6 @@
             },
             "bindings": {
                 "checked": {"<->": "!!@owner.object._recursive"}
-            }
-        },
-        "createdSubstitution": {
-            "prototype": "montage/ui/substitution.reel",
-            "properties": {
-                "element": {"#": "createdSubstitution"}
-            },
-            "bindings": {
-                "switchValue": {"<-": "!!@owner.object.id ? 'existing' : 'new'"}
             }
         },
         "used": {
@@ -190,8 +206,16 @@
                 <div data-montage-id="datasetSelector" data-arg="select"></div>
                 <div data-montage-id="datasetDisplay" data-arg="display"></div>
             </div>
-            <div data-montage-id="expirationDate"></div>
-            <div data-montage-id="neverExpires"></div>
+            <div data-montage-id="expirationType"></div>
+            <div data-montage-id="expirationSubstitution">
+                <div data-arg="never"></div>
+                <div data-arg="at">
+                    <div data-montage-id="expirationDate"></div>
+                </div>
+                <div data-arg="after">
+                    <div data-montage-id="lifetime"></div>
+                </div>
+            </div>
             <div data-montage-id="replicable"></div>
             <div data-montage-id="createdSubstitution">
                 <div data-arg="new">

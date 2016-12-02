@@ -10,29 +10,6 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
  */
 exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
 
-    _expirationDate: {
-        value: null
-    },
-
-    expirationDate: {
-        get: function() {
-            return this._expirationDate;
-        },
-        set: function (expirationDate) {
-            if (this._expirationDate !== expirationDate) {
-                this._expirationDate = expirationDate;
-                
-                if (expirationDate) {
-                    this.object.lifetime = Math.round((expirationDate.getTime() - 
-                        (this.object.properties ? (+this.object.properties.creation.rawvalue * 1000): Date.now())
-                    ) / 1000);
-                } else {
-                    this.object.lifetime = null;
-                }
-            }
-        }
-    },
-
     pathDisplayMode: {
         value: null
     },
@@ -73,27 +50,18 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
                     } else {
                         this.pathDisplayMode = "display";
                     }
-
-                    this.expirationDate = this._getExpirationDate();
                 }
             }
         }
     },
 
-
     enterDocument: {
         value: function() {
             this.super();
+
             this._loadVolume();
             this._loadParentDataset();
-        }
-    },
-
-    handleAction: {
-        value: function (event) {
-            if (this.neverExpireCheckboxComponent.element.contains(event.target.element)) {
-                this.expirationDate = null;
-            }
+            this._loadExpirationDate();
         }
     },
 
@@ -101,20 +69,26 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
         value: function() {
             var self = this;
             this.inspector.revert().then(function() {
-                self.expirationDate = self._getExpirationDate();
+                self._loadExpirationDate();
             });
         }
     },
 
     save: {
         value: function() {
-            var args = [];
+            var created = this.object.properties ? (+this.object.properties.creation.rawvalue * 1000) : Date.now(),
+                expires = this._expirationType === 'at' ? this._expirationDate.getTime() :
+                    this._expirationType === 'after' ? (Date.now() + this._lifetime * 1000) : 0;
+
+            this.object.lifetime = expires ? Math.round((expires - created) / 1000) : null;
+
             if (this.object._isNew) {
-                args.push(!!this.object._recursive);
+                return this.inspector.save(this.object._recursive);
             }
-            return this.inspector.save.apply(this.inspector, args);
+            return this.inspector.save();
         }
     },
+
     delete: {
         value: function() {
             var self = this;
@@ -122,6 +96,7 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
             return this.inspector.delete(this.extraDeleteFlags[0].checked);
         }
     },
+
     _loadVolume: {
         value: function() {
             this.volume = this._getCurrentVolume();
@@ -144,18 +119,23 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
         }
     },
 
-    _getExpirationDate: {
+    _loadExpirationDate: {
         value: function() {
+            var now = new Date(),
+                defaultExpirationDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7),
+                expirationDate = null;
+
             if (!this.object._isNew) {
                 if (this._object.lifetime && this._object.properties) {
-                    return new Date((+this.object.properties.creation.rawvalue + this.object.lifetime) * 1000);
+                    expirationDate = new Date((+this.object.properties.creation.rawvalue + this.object.lifetime) * 1000);    
                 }
             } else {
-                var now = new Date();
-                return new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7);
+                expirationDate = defaultExpirationDate;
             }
 
-            return null;
+            this._expirationType = expirationDate ? 'at' : 'never';
+            this._expirationDate = expirationDate || defaultExpirationDate;
+            this._lifetime = Math.ceil((this._expirationDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24)) * (60 * 60 * 24);
         }
     },
 
@@ -180,8 +160,23 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
                 }
             }
         }
-    },
+    }
 
-
-
+}, {
+    EXPIRATION_TYPES: {
+        value: [
+            {
+                value: 'never',
+                label: 'Never'
+            },
+            {
+                value: 'at',
+                label: 'At'
+            },
+            {
+                value: 'after',
+                label: 'After'
+            }
+        ]
+    }
 });
