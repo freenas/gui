@@ -170,7 +170,7 @@
                 "label": "Recursive"
             },
             "bindings": {
-                "checked": {"<->": "!!@owner.object._recursive"}
+                "checked": {"<->": "@owner.object._recursive"}
             }
         },
         "used": {
@@ -193,6 +193,23 @@
             },
             "bindings": {
                 "value": {"<-": "@owner.object.properties.creation.rawvalue * 1000"}
+            }
+        },
+        "repetitionSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "repetitionSection"},
+                "title": "Repetition"
+            }
+        },
+        "repetition": {
+            "prototype": "blue-shark/ui/field-duration.reel",
+            "properties": {
+                "element": {"#": "repetition"},
+                "label": "Repeat Every"
+            },
+            "bindings": {
+                "value": {"<->": "@owner._repetition"}
             }
         }
     }
@@ -219,7 +236,10 @@
             <div data-montage-id="replicable"></div>
             <div data-montage-id="createdSubstitution">
                 <div data-arg="new">
-                    <div data-montage-id="recursive"></div>    
+                    <div data-montage-id="recursive"></div>
+                    <div data-montage-id="repetitionSection">
+                        <div data-montage-id="repetition"></div>
+                    </div>
                 </div>
                 <div data-arg="existing">
                     <div data-montage-id="used"></div>

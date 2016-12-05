@@ -56,12 +56,16 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
     },
 
     enterDocument: {
-        value: function() {
-            this.super();
+        value: function(isFirstTime) {
+            if (isFirstTime) {
+                this._calendarService = this.application.calendarService;
+                this._dataService = this.application.dataService;
+            }
 
             this._loadVolume();
             this._loadParentDataset();
             this._loadExpirationDate();
+            this._resetRepetition();
         }
     },
 
@@ -76,16 +80,16 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
 
     save: {
         value: function() {
-            var created = this.object.properties ? (+this.object.properties.creation.rawvalue * 1000) : Date.now(),
+            var self = this,
+                created = this.object.properties ? (+this.object.properties.creation.rawvalue * 1000) : Date.now(),
                 expires = this._expirationType === 'at' ? this._expirationDate.getTime() :
                     this._expirationType === 'after' ? (Date.now() + this._lifetime * 1000) : 0;
 
             this.object.lifetime = expires ? Math.round((expires - created) / 1000) : null;
 
-            if (this.object._isNew) {
-                return this.inspector.save(this.object._recursive);
-            }
-            return this.inspector.save();
+            return this._createCalendarTaskIfNeeded().then(function() {
+                return self.object._isNew ? self.inspector.save(self.object._recursive) : self.inspector.save();
+            });
         }
     },
 
@@ -160,6 +164,83 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
                 }
             }
         }
+    },
+
+    _getRepeatDuration: {
+        value: function() {
+            if (this._repetition) {
+                for (var i = 1, length = this.constructor.DURATION_UNITS.length; i < length; i++) {
+                    var count = this._repetition / this.constructor.DURATION_UNITS[i].value;
+                    if (count < 1 || Math.round(count) !== count) {
+                        break;
+                    }
+                }
+
+                return {
+                    unit: this.constructor.DURATION_UNITS[i-1].unit,
+                    count: this._repetition / this.constructor.DURATION_UNITS[i-1].value
+                };
+            }
+            return null;
+        }
+    },
+
+    _createScheduleWithRepeatDuration: {
+        value: function(duration) {
+            var date = new Date(),
+                schedule = {
+                    day:    date.getDate(),
+                    hour:   date.getHours(),
+                    minute: date.getMinutes(),
+                    second: 0
+                };
+
+            for (var i = this.constructor.DURATION_UNITS.length - 1; i >= 0; i--) {
+                var unit = this.constructor.DURATION_UNITS[i].unit;
+                if (unit === duration.unit) {
+                    schedule[unit] = '*/' + duration.count;
+                    break;
+                }
+                schedule[unit] = '*';
+            }
+
+            if (duration.unit === 'week') {
+                schedule.day = '*';
+                schedule.day_of_week = date.getDay();
+            }
+
+            return schedule;
+        }
+    },
+
+    _createCalendarTaskIfNeeded: {
+        value: function() {
+            var self = this,
+                duration = this._getRepeatDuration();
+
+            if (duration) {
+                return this._calendarService.getNewTask(new Date(), 'volume.snapshot_dataset').then(function(task) {
+                    task.name = self.object.name;
+                    task.args = [
+                        self.object.dataset,
+                        self.object._recursive,
+                        self.object.lifetime,
+                        self.object.name + '-auto',
+                        self.object.replicable
+                    ];
+                    task.enabled = true;
+                    task.schedule = self._createScheduleWithRepeatDuration(duration);
+                    return self._dataService.saveDataObject(task);
+                });
+            }
+            return Promise.resolve();
+        }
+    },
+
+    _resetRepetition: {
+        value: function() {
+            this._repetition = null;
+        }
     }
 
 }, {
@@ -176,6 +257,31 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
             {
                 value: 'after',
                 label: 'After'
+            }
+        ]
+    },
+
+    DURATION_UNITS: {
+        value: [
+            {
+                unit: "second",
+                value: 1,
+            },
+            {
+                unit: "minute",
+                value: 60
+            },
+            {
+                unit: "hour",
+                value: 3600
+            },
+            {
+                unit: "day",
+                value: 86400
+            },
+            {
+                unit: "week",
+                value: 604800
             }
         ]
     }
