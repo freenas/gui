@@ -46,6 +46,10 @@
     border-left: 2px solid #232629;
 }
 
+.VolumeCreator .FieldPassword-input {
+    padding-bottom: 1em;
+}
+
 .Inspector.is-locked + .VolumeCreator-sidebar .FoldableSection-content {
     height: 0 !important;
     pointer-event: none;

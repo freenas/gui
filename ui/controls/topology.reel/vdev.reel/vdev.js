@@ -141,9 +141,10 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
                 this.addPathChangeListener("topologyItem.selectedDisk", this, "_handleSelectedDiskChange");
             }
 
+            this._hasUserDefinedType = false;
             this._populateDiskWithinVDevIfNeeded();
             this._defineVDevContext();
-            this._hasUserDefinedType = false;
+            this._defineDefaultType(true);
         }
     },
 
@@ -357,7 +358,6 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
 
                     if (type === Topology.VDEV_TYPES.DISK.value) {
                         allowedVDevTypes = [Topology.VDEV_TYPES.DISK, Topology.VDEV_TYPES.MIRROR];
-
                     } else if (type === Topology.VDEV_TYPES.RAIDZ3.value) {
                         allowedVDevTypes = [Topology.VDEV_TYPES.RAIDZ3];
                     } else if (type === Topology.VDEV_TYPES.RAIDZ2.value) {

@@ -40,7 +40,7 @@
                 "element": {"#": "allocationBar"}
             },
             "bindings": {
-                "classList.has('is-visible')": {"<-": "@owner.hasAllocationBar"},
+                "classList.has('is-visible')": {"<-": "@owner.hasAllocationBar && @owner.vdevs && @owner.vdevs.length > 0"},
                 "totalSize": {"<-": "@usableSize.value + @allocationBar.paritySize"},
                 "usedSize": {"<-": "@owner.vdevs.map{_usedSize}.sum()"},
                 "paritySize": {"<-": "@owner.vdevs.map{_paritySize}.sum()"},

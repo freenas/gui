@@ -50,6 +50,15 @@
             }
         },
 
+        "encryptionSettings": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "encryptionSettings"},
+                "title": "Encryption Settings",
+                "isExpanded": false
+            }
+        },
+
         "key_encrypted": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -78,9 +87,9 @@
             "properties": {
                 "element": {"#": "password"},
                 "label": "Password",
-                "editEnabled": true,
                 "placeholder1": "enter password",
-                "placeholder2": "confirm password"
+                "placeholder2": "confirm password",
+                "resetLabel": "Set Password"
             },
             "bindings": {
                 "value": {"<->": "@owner.object._password"}
@@ -129,9 +138,11 @@
             <div class="VolumeCreator-content">
                 <div class="g-margin-h g-padding-top">
                     <div data-montage-id="name"></div>
-                    <div data-montage-id="key_encrypted"></div>
-                    <div data-montage-id="auto_unlock"></div>
-                    <div data-montage-id="password"></div>
+                    <div data-montage-id="encryptionSettings">
+                        <div data-montage-id="key_encrypted"></div>
+                        <div data-montage-id="auto_unlock"></div>
+                        <div data-montage-id="password"></div>
+                    </div>
                 </div>
                 <div data-montage-id="topologizer"></div>
                 <div data-montage-id="topology" class="VolumeCreator-Topology"></div>
