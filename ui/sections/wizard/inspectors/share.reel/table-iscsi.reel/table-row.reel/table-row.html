@@ -37,18 +37,6 @@
             "bindings": {
                 "value": {"<->": "@owner.object.properties.size"}
             }
-        },
-
-        "ownerUser": {
-            "prototype": "blue-shark/ui/select.reel",
-            "properties": {
-                "element": {"#": "ownerUser"},
-                "converter": {"@": "usersOptionsConverter"}
-            },
-            "bindings": {
-                "selectedValue": {"<->": "@owner.object.permissions.user"},
-                "options": {"<-": "@owner.users.sorted{builtin + username}"}
-            }
         }
 
     }
@@ -58,7 +46,6 @@
     <div data-montage-id="owner" class="TableRow">
         <div><div data-montage-id="name"></div></div>
         <div><div data-montage-id="size"></div></div>
-        <div><div data-montage-id="ownerUser"></div></div>
     </div>
 </body>
 </html>

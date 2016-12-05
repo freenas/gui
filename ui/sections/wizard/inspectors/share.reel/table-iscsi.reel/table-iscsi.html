@@ -23,9 +23,6 @@
                     },
                     {
                         "value": "Size"
-                    },
-                    {
-                        "value": "Owner User"
                     }
                 ]
             },
@@ -48,8 +45,7 @@
                 "element": {"#": "newEntry"}
             },
             "bindings": {
-                "object": {"<-": "@table.currentNewEntry.object"},
-                "users": {"<-": "@owner.users"}
+                "object": {"<-": "@table.currentNewEntry.object"}
             }
         },
 
@@ -59,8 +55,7 @@
                 "element": {"#": "entry"}
             },
             "bindings": {
-                "object": {"<-": "@table:rowIteration.object.object"},
-                "users": {"<-": "@owner.users"}
+                "object": {"<-": "@table:rowIteration.object.object"}
             }
         }
     }
