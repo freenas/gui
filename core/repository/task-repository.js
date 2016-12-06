@@ -16,7 +16,7 @@ exports.TaskRepository = AbstractRepository.specialize(/** @lends TaskRepository
 
     listTasks: {
         value: function () {
-            return this._taskDao.find({state: 'FAILED'}, true, 25);
+            return this._taskDao.find({}, true, 25);
         }
     },
 
