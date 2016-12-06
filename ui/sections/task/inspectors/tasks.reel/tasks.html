@@ -22,11 +22,25 @@
                 "element": {"#": "inspector"}
             }
         },
+        "taskIdValidator": {
+            "prototype": "core/converter/validator/integer-validator",
+            "properties": {
+                "floor": 1,
+                "errorMessage": "Port must be an integer"
+            }
+        },
+        "taskIdConverter": {
+            "prototype": "core/converter/string-to-integer-or-null-converter",
+            "properties": {
+                "validator": {"@": "taskIdValidator"}
+            }
+        },
         "id": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "id"},
-                "label": "id"
+                "label": "id",
+                "converter" : {"@": "taskIdConverter"}
             },
             "bindings": {
                 "value": {"<->": "@owner.filter.id"}
@@ -49,7 +63,7 @@
                 "label": "Status"
             },
             "bindings": {
-                "options": {"<-": "@owner.stateOptions"},
+                "options": {"<-": "[{label: '-', value: null}].concat(@owner.stateOptions)"},
                 "selectedValue": {"<->": "@owner.filter.state"}
             }
         },
