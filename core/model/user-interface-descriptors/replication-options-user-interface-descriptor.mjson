@@ -1,0 +1,9 @@
+{
+    "root": {
+        "prototype": "montage/core/meta/user-interface-descriptor",
+        "properties": {
+            "inspectorComponentModule": {"%": "ui/sections/storage/inspectors/replication-creator.reel"},
+            "nameExpression": "'Replicate'"
+        }
+    }
+}
