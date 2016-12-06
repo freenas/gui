@@ -128,7 +128,7 @@ exports.ChartLive = Component.specialize({
                         (self.removeSourcePrefix ? source.label.replace(self.removeSourcePrefix, "") : source.label);
 
             return self._statisticsService.getDatasourceCurrentValue(path).then(function (value) {
-                var currentValue = value ?  +value[1] : 0;
+                var currentValue = value ?  +value[0] : 0;
                 return self.chart.setValue(key, {
                     x: label,
                     y: self.transformValue(currentValue)
@@ -166,13 +166,14 @@ exports.ChartLive = Component.specialize({
                 series = {
                     key: key
                 },
-                event = path + '.pulse';
+                event = path + '.pulse',
+                startTimestamp = Math.floor(Date.now() / this.constructor.TIME_SERIES_INTERVAL - 100) * this.constructor.TIME_SERIES_INTERVAL;
 
             return self._statisticsService.getDatasourceHistory(path).then(function (values) {
-                series.values = values.map(function (value) {
+                series.values = values.map(function (value, index) {
                         return {
-                            x: self.getChartLabel(source, metric, suffix, true) || self._dateToTimestamp(value[0]),
-                            y: self.transformValue(+value[1])
+                            x: self.getChartLabel(source, metric, suffix, true) || (startTimestamp + index * self.constructor.TIME_SERIES_INTERVAL),
+                            y: self.transformValue(+value)
                         }
                     });
                 series.disabled = self.disabledMetrics && self.disabledMetrics.indexOf(metric) != -1;
@@ -259,8 +260,12 @@ exports.ChartLive = Component.specialize({
 
     _dateToTimestamp: {
         value: function(date) {
-            return Math.floor((new Date(date.$date).getTime() - this._timezoneOffset) / 1000) * 1000
+            return Math.floor((new Date(date.$date).getTime() - this._timezoneOffset) / this.constructor.TIME_SERIES_INTERVAL) * this.constructor.TIME_SERIES_INTERVAL;
         }
     }
 
+}, {
+    TIME_SERIES_INTERVAL: {
+        value: 10 * 1000
+    }
 });
