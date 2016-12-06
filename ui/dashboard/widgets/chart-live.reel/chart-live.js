@@ -227,7 +227,7 @@ exports.ChartLive = Component.specialize({
                 setTimeout(function() {
                     self.chart.finishRendering();
                     self.chart.needsDraw = true;
-                }, 1000);
+                }, 750);
 
                 self._isFetchingStatistics = false;
             });
