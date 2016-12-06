@@ -32,6 +32,12 @@ exports.Tasks = AbstractInspector.specialize(/** @lends Tasks# */ {
         }
     },
 
+    handleClearAction: {
+        value: function () {
+            this.filter = {};
+        }
+    },
+
     handleApplyAction: {
         value:function() {
             var self = this,
