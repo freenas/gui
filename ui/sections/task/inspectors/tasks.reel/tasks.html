@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="tasks.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"}
+            }
+        },
+        "id": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "id"},
+                "label": "id"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.filter.id"}
+            }
+        },
+        "name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Type"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.filter.name"}
+            }
+        },
+        "state": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "state"},
+                "label": "Status"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.stateOptions"},
+                "selectedValue": {"<->": "@owner.filter.state"}
+            }
+        },
+        "started_at": {
+            "prototype": "blue-shark/ui/date.reel",
+            "properties": {
+                "element": {"#": "started_at"},
+                "label": "date"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.filter.started_at"}
+            }
+        },
+        "apply": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "apply"},
+                "value": "Apply Search"
+            }
+        },
+        "table": {
+            "prototype": "ui/sections/task/controls/table-task.reel",
+            "properties": {
+                "element": {"#": "table"}
+            },
+            "bindings": {
+                "rows": {"<-": "@owner.tasks"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Tasks">
+        <div data-montage-id="inspector">
+            <div data-montage-id="id"></div>
+            <div data-montage-id="name"></div>
+            <div data-montage-id="state"></div>
+            <div data-montage-id="started_at"></div>
+            <div data-montage-id="apply"></div>
+            <div data-montage-id="table"></div>
+        </div>
+    </div>
+</body>
+</html>
