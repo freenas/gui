@@ -7,7 +7,7 @@
 
 /* $fix - should this be a component */
 .Volume-header {
-    height: 4.5em;
+    height: 4em;
     display: flex;
     background: #DFE4E4;
     color: #181A1D;
@@ -34,6 +34,6 @@
 }
 
 .Volume-allocationBar {
-    height: 1.5em !Important;
+    height: 1em !Important;
     width: 100%;
 }
