@@ -428,6 +428,12 @@ exports.StorageSectionService = AbstractSectionService.specialize({
         }
     },
 
+    getReplicationOptionsInstance: {
+        value: function() {
+            return this._storageRepository.getReplicationOptionsInstance();
+        }
+    },
+
     _cleanupTopologySection: {
         value: function(topologySection) {
             var i, vdevsLength, vdev,
