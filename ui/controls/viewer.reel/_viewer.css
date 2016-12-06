@@ -2,9 +2,7 @@
     min-width: 16em;
 }
 
-.Viewer > .Scrollview .Scrollview-transform {
-    display: block;
-}
+.Viewer > .Scrollview .Scrollview-transform { display: block; }
 
 .Viewer-header {
     display: none;
@@ -28,7 +26,6 @@
     background-color: #0f1213;
     text-shadow: 0 1px rgba(0,0,0,.2);
     font-weight: 400;
-    border-bottom: 1px solid #2f3233;
 }
 
 /* Create */
@@ -58,7 +55,6 @@
         align-self: center;
     }
 }
-
 
 .Viewer-createButton-arrow,
 .Viewer-createButton-plus {
