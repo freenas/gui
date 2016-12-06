@@ -44,36 +44,42 @@
         "index": 6,
         "icon": "console"
     },
+    "task": {
+        "label": "Task",
+        "id": "task",
+        "index": 7,
+        "icon": "container"
+    },
     "calendar": {
         "label": "Calendar",
         "id": "calendar",
-        "index": 7,
+        "index": 8,
         "icon": "calendar"
     },
     "peering": {
         "label": "Peering",
         "id": "peering",
-        "index": 8,
+        "index": 9,
         "icon": "peering"
     },
     "vms": {
         "label": "VMs",
         "id": "vms",
-        "index": 9,
+        "index": 10,
         "icon": "vms",
         "service": "core/service/section/vms-section-service"
     },
     "containers": {
         "label": "Docker",
         "id": "containers",
-        "index": 10,
+        "index": 11,
         "icon": "container",
         "service": "core/service/section/container-section-service"
     },
     "wizard": {
         "label": "Wizard",
         "id": "wizard",
-        "index": 11,
+        "index": 12,
         "icon": "wizard"
     }
 }
