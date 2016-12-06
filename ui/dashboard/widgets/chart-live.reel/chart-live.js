@@ -17,10 +17,6 @@ exports.ChartLive = Component.specialize({
         set: function(datasources) {
             if (this._datasources != datasources) {
                 this._datasources = datasources;
-                if (typeof this._cancelDatasourcesChange == "function") {
-                    this._cancelDatasourcesChange();
-                }
-                this._cancelDatasourcesChange = this.addRangeAtPathChangeListener('datasources', this, '_handleDatasourcesChange');
                 this._initializeData();
             }
         }
@@ -43,17 +39,19 @@ exports.ChartLive = Component.specialize({
     },
 
     enterDocument: {
-        value: function() {
-            this._initializeData();
+        value: function (isFirstTime) {
+            if (isFirstTime) {
+                // _initializeData will be called by _handleDatasourcesChange
+                this.addRangeAtPathChangeListener('datasources', this, '_handleDatasourcesChange');
+            } else {
+                this._initializeData();
+            }
         }
     },
 
     exitDocument: {
         value: function() {
             this._unsubscribeAllUpdates();
-            if (typeof this._cancelDatasourcesChange == "function") {
-                this._cancelDatasourcesChange();
-            }
         }
     },
 
@@ -79,7 +77,7 @@ exports.ChartLive = Component.specialize({
     },
 
     _handleDatasourcesChange: {
-        value: function() {
+        value: function () {
             this._initializeData();
         }
     },
@@ -97,9 +95,7 @@ exports.ChartLive = Component.specialize({
 
     _initializeData: {
         value: function() {
-            if (!this._isFetchingStatistics && 
-                    this._datasources && 
-                    this._datasources.filter(function(x) { return !!x }).length > 0) {
+            if (!this._isFetchingStatistics && this._datasources && this._datasources.length > 0) {
                 this._unsubscribeAllUpdates();
                 this._eventToKey = {};
                 this._eventToSource = {};
