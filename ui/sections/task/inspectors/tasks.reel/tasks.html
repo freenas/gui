@@ -77,6 +77,16 @@
                 "value": {"<->": "@owner.filter.started_at"}
             }
         },
+        "finished_at": {
+            "prototype": "blue-shark/ui/date.reel",
+            "properties": {
+                "element": {"#": "finished_at"},
+                "label": "date"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.filter.finished_at"}
+            }
+        },
         "apply": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
@@ -110,6 +120,7 @@
             <div data-montage-id="name"></div>
             <div data-montage-id="state"></div>
             <div data-montage-id="started_at"></div>
+            <div data-montage-id="finished_at"></div>
             <div data-montage-id="apply"></div>
             <div data-montage-id="clear"></div>
             <div data-montage-id="table"></div>
