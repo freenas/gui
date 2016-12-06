@@ -119,6 +119,16 @@
                 "condition": {"<-": "!@owner.object._isNew"}
             }
         },
+        "replicate": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "replicate"},
+                "label": "Replicate"
+            },
+            "bindings": {
+                "object": {"<-": "@owner.replicationOptions"}
+            }
+        },
         "snapshots": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
@@ -177,6 +187,7 @@
                 <div data-montage-id="permissions"></div>
             </div>
             <div data-montage-id="createdCondition">
+                <div data-montage-id="replicate"></div>
                 <div data-montage-id="snapshots"></div>
                 <div data-montage-id="vmwareSnapshots"></div>
             </div>
