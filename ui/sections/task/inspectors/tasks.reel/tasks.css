@@ -1,3 +1,11 @@
-.Tasks {
+.TasksInspector {
+    display: flex;
+}
 
+.TasksInspector-filters-dateRange-inputLabel {
+    width: 3rem;
+}
+
+.TasksInspector-filters-dateRange .Date {
+    flex: 1;
 }

@@ -19,7 +19,8 @@
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
-                "element": {"#": "inspector"}
+                "element": {"#": "inspector"},
+                "isFooterHidden": true
             }
         },
         "taskIdValidator": {
@@ -40,7 +41,8 @@
             "properties": {
                 "element": {"#": "id"},
                 "label": "id",
-                "converter" : {"@": "taskIdConverter"}
+                "converter" : {"@": "taskIdConverter"},
+                "placeholder": "e.g. 15"
             },
             "bindings": {
                 "value": {"<->": "@owner.filter.id"}
@@ -50,7 +52,8 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "name"},
-                "label": "Type"
+                "label": "Type",
+                "placeholder": "e.g. volume.delete"
             },
             "bindings": {
                 "value": {"<->": "@owner.filter.name"}
@@ -67,28 +70,43 @@
                 "selectedValue": {"<->": "@owner.filter.state"}
             }
         },
-        "started_at": {
+        "dateRagne": {
+            "prototype": "blue-shark/ui/field.reel",
+            "properties": {
+                "element": {"#": "dateRange"},
+                "label": "Date Range"
+            }
+        },
+        "started_after": {
             "prototype": "blue-shark/ui/date.reel",
             "properties": {
-                "element": {"#": "started_at"},
-                "label": "date"
+                "element": {"#": "started_after"}
             },
             "bindings": {
-                "value": {"<->": "@owner.filter.started_at"}
+                "value": {"<->": "@owner.filter.started_after"}
+            }
+        },
+        "started_before": {
+            "prototype": "blue-shark/ui/date.reel",
+            "properties": {
+                "element": {"#": "started_before"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.filter.started_before"}
             }
         },
         "apply": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
                 "element": {"#": "apply"},
-                "value": "Apply Search"
+                "value": "Apply Filters"
             }
         },
         "clear": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
                 "element": {"#": "clear"},
-                "value": "Clear Search"
+                "value": "Clear Filters"
             }
         },
         "table": {
@@ -99,20 +117,43 @@
             "bindings": {
                 "rows": {"<-": "@owner.tasks"}
             }
+        },
+        "filtersTitle": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+            "properties": {
+                "element": {"#": "filtersTitle"},
+                "value": "Filter Tasks"
+            }
         }
     }
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="Tasks">
+    <div data-montage-id="owner" class="TasksInspector">
         <div data-montage-id="inspector">
-            <div data-montage-id="id"></div>
-            <div data-montage-id="name"></div>
-            <div data-montage-id="state"></div>
-            <div data-montage-id="started_at"></div>
-            <div data-montage-id="apply"></div>
-            <div data-montage-id="clear"></div>
-            <div data-montage-id="table"></div>
+            <div>
+                <div data-montage-id="filtersTitle" class="flush-top"></div>
+                <div class="TasksInspector-filters g-margin-bottom--double col-1">
+                    <div data-montage-id="id"></div>
+                    <div data-montage-id="name"></div>
+                    <div data-montage-id="state"></div>
+                    <div data-montage-id="dateRange" class="TasksInspector-filters-dateRange">
+                        <div class="flex-row flex-align--center g-margin-bottom--half">
+                            <span class="TasksInspector-filters-dateRange-inputLabel">from:</span>
+                            <div data-montage-id="started_after"></div>
+                        </div>
+                        <div class="flex-row flex-align--center">
+                            <span class="TasksInspector-filters-dateRange-inputLabel">to:</span>
+                            <div data-montage-id="started_before"></div>
+                        </div>
+                    </div>
+                    <div class="flex-row">
+                        <button data-montage-id="apply"></button>
+                        <button data-montage-id="clear" class="g-margin-left--half"></button>
+                    </div>
+                </div>
+                <div data-montage-id="table"></div>
+            </div>
         </div>
     </div>
 </body>

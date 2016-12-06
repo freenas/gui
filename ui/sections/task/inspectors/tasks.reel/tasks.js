@@ -51,9 +51,12 @@ exports.Tasks = AbstractInspector.specialize(/** @lends Tasks# */ {
             if (this.filter.state) {
                 filter.state = this.filter.state;
             }
-            if (this.filter.started_at) {
-                filter.started_at = this.filter.started_at;
+            if (this.filter.started_after) {
+                filter.started_at = this.filter.started_after;
             }
+            // if (this.filter.started_before) {
+            //     filter.started_at = this.filter.started_before;
+            // }
             console.log(filter);
             this._service.findTasks(filter).then(function (entries) {
                 self.tasks = entries;
