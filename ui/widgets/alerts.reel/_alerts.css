@@ -2,11 +2,7 @@
     & .Widget { height: 16em;}
 }
 
-.Notifications-icon {
-    height: 1.5em;
-    width:  1.5em;
-    margin-right: .5em;
-}
+.Notifications-icon { color: #2F3233 !important; }
 
 .Notifications-title { flex: 1; }
 

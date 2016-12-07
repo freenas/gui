@@ -11,7 +11,8 @@
                 "condition": false
             },
             "bindings": {
-                "disk": {"<-": "@owner.object ? @owner.object._disk.defined() ? @owner.object._disk : @owner.object : null"}
+                "disk": {"<-": "@owner.object ? @owner.object._disk.defined() ? @owner.object._disk : @owner.object : null"},
+                "classList.has('unhealthy')": {"<-": "@owner.object.status.defined() && @owner.object.status != 'ONLINE'"}
             }
         },
         "bytesConverter": {
@@ -36,22 +37,24 @@
                 "switchValue": {"<-": "!!@owner.disk.status.is_ssd ? 'ssd' : 'hdd'"}
             }
         },
-        "warningConditional": {
-            "prototype": "montage/ui/condition.reel",
+        "statusStateSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
             "properties": {
-                "element": {"#": "warningConditional"}
+                "element": {"#": "statusStateSubstitution"}
             },
             "bindings": {
-                "condition": {"<-": "@owner.disk._allocation.defined()"}
+                "switchValue": {"<-": "@owner.object.status.defined() && @owner.object.status != 'ONLINE' ? 'warn' : 'offline'"}
             }
         }
     }
     </script>
 </head>
 <body>
-<div data-montage-id="owner" class="DiskIcon">
-    <div data-montage-id="warningConditional" class="DiskIcon-warningIcon">
-        <svg><use xlink:href="#i-alert-circle"/></svg>
+<div data-montage-id="owner" class="DiskIcon warn">
+    <div data-montage-id="statusStateSubstitution" class="DiskIcon-statusIcon">
+        <svg data-arg="warn"><use xlink:href="#i-alert"/></svg>
+        <svg data-arg="fail"><use xlink:href="#i-alert-circle"/></svg>
+        <svg data-arg="offline"><use xlink:href="#i-offline"/></svg>
     </div>
     <div data-montage-id="substitution">
         <img data-arg="hdd" src="./hdd.svg" alt="HDD Icon">
