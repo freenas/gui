@@ -4,6 +4,42 @@
 var Component = require("montage/ui/component").Component,
     Plottable = window.Plottable;
 
+
+//FIXME: Workaround we should go away from pottable.js asap.
+var MouseSuperConstructor = Plottable.Dispatchers.Mouse,
+    staticKeys = Object.keys(MouseSuperConstructor),
+    Mouse = Plottable.Dispatchers.Mouse = function Mouse(svg) {
+        var _this = this;
+        Plottable.Dispatcher.call(this);
+        this._translator = Plottable.Utils.ClientToSVGTranslator.getTranslator(svg);
+        this._lastMousePosition = { x: -1, y: -1 };
+        this._eventToProcessingFunction[Mouse._MOUSEDOWN_EVENT_NAME] =
+            function (e) { return _this._measureAndDispatch(e, Mouse._MOUSEDOWN_EVENT_NAME); };
+        this._eventToProcessingFunction[Mouse._MOUSEUP_EVENT_NAME] =
+            function (e) { return _this._measureAndDispatch(e, Mouse._MOUSEUP_EVENT_NAME, "page"); };
+        this._eventToProcessingFunction[Mouse._WHEEL_EVENT_NAME] =
+            function (e) { return _this._measureAndDispatch(e, Mouse._WHEEL_EVENT_NAME); };
+        this._eventToProcessingFunction[Mouse._DBLCLICK_EVENT_NAME] =
+            function (e) { return _this._measureAndDispatch(e, Mouse._DBLCLICK_EVENT_NAME); };
+    };
+
+staticKeys.forEach(function(key) {
+    Mouse[key] = MouseSuperConstructor[key];
+});
+
+Mouse.prototype = MouseSuperConstructor.prototype;
+
+Mouse.getDispatcher = function (elem) {
+    var svg = Plottable.Utils.DOM.boundingSVG(elem);
+    var dispatcher = svg[Mouse._DISPATCHER_KEY];
+    if (dispatcher == null) {
+        dispatcher = new Mouse(svg);
+        svg[Mouse._DISPATCHER_KEY] = dispatcher;
+    }
+    return dispatcher;
+};
+
+
 /**
  * @class Chart
  * @extends Component
