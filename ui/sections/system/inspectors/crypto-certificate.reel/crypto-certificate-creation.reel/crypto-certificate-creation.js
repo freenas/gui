@@ -48,7 +48,8 @@ exports.CryptoCertificateCreation = AbstractInspector.specialize(/** @lends Cryp
             if (this.object && (this.object.type === CryptoCertificateType.CA_INTERNAL || this.object.type === CryptoCertificateType.CERT_INTERNAL)) {
                 this.object.selfsigned = true;
             }
-            if (this.object) {
+            if (this.object._isNew == true) {
+                this.object.key_length = 4096;
                 this.object.country = "US";
                 this.object.lifetime = 3000;
             }
