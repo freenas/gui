@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="composite-temperature.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "chart": {"@": "chart"}
+            }
+        },
+        "widget": {
+            "prototype": "ui/dashboard/widgets/widget.reel",
+            "properties": {
+                "element": {"#": "widget"}
+            }
+        },
+        "text": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "title"},
+                "value": "Composite Temperature"
+            }
+        },
+        "chart": {
+            "prototype": "ui/controls/chart.reel",
+            "properties": {
+                "element": {"#": "chart"},
+                "yFormat": "3r",
+                "graphType": "clusteredbar",
+                "useGuideline": true,
+                "yLabel": "C"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="CompositeTemperature">
+        <div data-montage-id="widget">
+            <div data-arg="widget-title">
+                <svg><use xlink:href="#i-barChart"/></svg>
+                <div data-montage-id="title"></div>
+            </div>
+            <div data-arg="widget-content">
+                <div><div data-montage-id="chart"></div></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -78,6 +78,14 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
         }
     },
 
+    getTemperatureStats: {
+        value: function() {
+            return this._callBackend("stat.query", [[["name", "~", "temperature"]]]).then(function(response) {
+                return response.data;
+            });
+        }
+    },
+
     _callBackend: {
         value: function(method, args) {
             return this._backendBridge.send("rpc", "call", {
