@@ -127,7 +127,7 @@ exports.Placeholder = Slot.specialize({
             if (this._needsLoadComponent && typeof moduleId === "string" && moduleId.length) {
                 var self = this,
                     userInterfaceDescriptor = this.context ? this.context.userInterfaceDescriptor : null;
-                
+
                 this.content = null;
                 this._isLoadingComponent = true;
                 this._needsLoadComponent = false;
@@ -179,6 +179,7 @@ exports.Placeholder = Slot.specialize({
                 promise = Promise.resolve(this._componentsMap.get(moduleId));
             } else {
                 promise = require.async(moduleId).then(function (exports) {
+                    //FIXME: we should keep a map of constructor instead of keeping an instance.
                     var component = new exports[Object.keys(exports)[0]]();
                     self._componentsMap.set(moduleId, component);
 
@@ -224,7 +225,7 @@ exports.Placeholder = Slot.specialize({
 
 }, {
 
-    //Map of singletons 
+    //Map of singletons
     daoMap: {
         value: new Map()
     }
