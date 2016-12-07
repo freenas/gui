@@ -42,7 +42,7 @@
                 "element": {"#": "warningConditional"}
             },
             "bindings": {
-                "condition": {"<-": "@owner.disk._allocation.defined()"}
+                "condition": {"<-": "@owner.disk._allocation.defined() && @owner.disk._allocation.type == 'EXPORTED_VOLUME'"}
             }
         }
     }
