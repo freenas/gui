@@ -51,11 +51,12 @@ exports.Tasks = AbstractInspector.specialize(/** @lends Tasks# */ {
             if (this.filter.state) {
                 filter.state = this.filter.state;
             }
+            // FIXME: add the right stuff here
             if (this.filter.started_after) {
                 filter.started_at = this.filter.started_after;
             }
-            // if (this.filter.started_before) {
-            //     filter.started_at = this.filter.started_before;
+            // if (this.filter.finished_at) {
+            //     filter.started_at = this.filter.finished_at;
             // }
             console.log(filter);
             this._service.findTasks(filter).then(function (entries) {

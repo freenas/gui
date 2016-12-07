@@ -1,6 +1,7 @@
 .AllocationBar {
     display: flex;
     height: 1.5em;
+    overflow: hidden;
 }
 
 .AllocationBar-segement {

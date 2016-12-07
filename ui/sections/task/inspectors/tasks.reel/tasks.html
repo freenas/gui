@@ -86,13 +86,13 @@
                 "value": {"<->": "@owner.filter.started_after"}
             }
         },
-        "started_before": {
+        "finished_at": {
             "prototype": "blue-shark/ui/date.reel",
             "properties": {
-                "element": {"#": "started_before"}
+                "element": {"#": "finished_at"}
             },
             "bindings": {
-                "value": {"<->": "@owner.filter.started_before"}
+                "value": {"<->": "@owner.filter.finished_at"}
             }
         },
         "apply": {
@@ -129,6 +129,7 @@
     </script>
 </head>
 <body>
+<<<<<<< HEAD
     <div data-montage-id="owner" class="TasksInspector">
         <div data-montage-id="inspector">
             <div>
@@ -144,7 +145,7 @@
                         </div>
                         <div class="flex-row flex-align--center">
                             <span class="TasksInspector-filters-dateRange-inputLabel">to:</span>
-                            <div data-montage-id="started_before"></div>
+                            <div data-montage-id="finished_at"></div>
                         </div>
                     </div>
                     <div class="flex-row">
