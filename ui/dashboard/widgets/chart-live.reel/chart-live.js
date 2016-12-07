@@ -6,20 +6,8 @@ var Component = require("montage/ui/component").Component,
  * @extends Component
  */
 exports.ChartLive = Component.specialize({
-    _datasources: {
-        value: null
-    },
-
     datasources: {
-        get: function() {
-            return this._datasources;
-        },
-        set: function(datasources) {
-            if (this._datasources != datasources) {
-                this._datasources = datasources;
-                this._initializeData();
-            }
-        }
+        value: null
     },
 
     _timezoneOffset: {
@@ -43,15 +31,7 @@ exports.ChartLive = Component.specialize({
             if (isFirstTime) {
                 // _initializeData will be called by _handleDatasourcesChange
                 this.addRangeAtPathChangeListener('datasources', this, '_handleDatasourcesChange');
-            } else {
-                this._initializeData();
             }
-        }
-    },
-
-    exitDocument: {
-        value: function() {
-            this._unsubscribeAllUpdates();
         }
     },
 
@@ -78,6 +58,9 @@ exports.ChartLive = Component.specialize({
 
     _handleDatasourcesChange: {
         value: function () {
+            //todo save the promise instead.
+            this.chart.isSpinnerShown = true;
+            this._isFetchingStatistics = false;
             this._initializeData();
         }
     },
@@ -94,8 +77,8 @@ exports.ChartLive = Component.specialize({
     },
 
     _initializeData: {
-        value: function() {
-            if (!this._isFetchingStatistics && this._datasources && this._datasources.length > 0) {
+        value: function () {
+            if (!this._isFetchingStatistics && this.datasources && this.datasources.length > 0) {
                 this._unsubscribeAllUpdates();
                 this._eventToKey = {};
                 this._eventToSource = {};
@@ -130,15 +113,11 @@ exports.ChartLive = Component.specialize({
                     y: self.transformValue(currentValue)
                 });
             }).then(function() {
-                if (self._inDocument) {
-                    return self._statisticsService.subscribeToUpdates(event, self).then(function(eventType) {
-                        self._eventToKey[eventType] = key;
-                        self._eventToSource[eventType] = label;
-                        self._subscribedUpdates.push(event);
-                    });
-                } else {
-                    return false;
-                }
+                return self._statisticsService.subscribeToUpdates(event, self).then(function(eventType) {
+                    self._eventToKey[eventType] = key;
+                    self._eventToSource[eventType] = label;
+                    self._subscribedUpdates.push(event);
+                });
             });
 
         }
@@ -152,7 +131,7 @@ exports.ChartLive = Component.specialize({
                 path = source.children[metric].path.join('.') + '.' + suffix,
                 key  = this.getChartKey(source, metric, suffix, true) ||
                         [
-                            this._datasources.length > 1 ? source.label : '',
+                            this.datasources.length > 1 ? source.label : '',
                             metric,
                             hasSuffix ? suffix : ''
                         ]
@@ -174,14 +153,10 @@ exports.ChartLive = Component.specialize({
                 series.disabled = self.disabledMetrics && self.disabledMetrics.indexOf(metric) != -1;
                 return self.chart.addSeries(series);
             }).then(function() {
-                if (self._inDocument) {
-                    return self._statisticsService.subscribeToUpdates(event, self).then(function(eventType) {
-                        self._eventToKey[eventType] = key;
-                        self._subscribedUpdates.push(event);
-                    });
-                } else {
-                    return false;
-                }
+                return self._statisticsService.subscribeToUpdates(event, self).then(function(eventType) {
+                    self._eventToKey[eventType] = key;
+                    self._subscribedUpdates.push(event);
+                });
             });
 
         }
