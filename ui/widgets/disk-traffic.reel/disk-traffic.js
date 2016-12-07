@@ -14,7 +14,9 @@ exports.DiskTraffic = Component.specialize(/** @lends DiskTraffic# */ {
             if (!this.disks) {
                 var self = this;
                 this.application.dataService.fetchData(Model.Disk).then(function(disks) {
-                    self.disks = disks;
+                    self.disks = disks.filter(function(disk) {
+                        return !!disk.online;
+                    });
                     self._refreshChart();
                 });
             }
