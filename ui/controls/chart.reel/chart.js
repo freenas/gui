@@ -177,9 +177,8 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
 
     enterDocument: {
         value: function(isFirstTime) {
-            var self = this;
-            this.isSpinnerShown = true;
             if (isFirstTime) {
+                this.isSpinnerShown = true;
                 this._setupX();
                 this._setupY();
                 this._setupLegend();
@@ -192,9 +191,6 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
 
     exitDocument: {
         value: function () {
-            this._plot.datasets([]);
-            this._seriesList = [];
-            this._datasets = {};
             window.removeEventListener("resize", this._redrawChart.bind(this));
         }
     },
@@ -308,21 +304,25 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
 
     _refresh: {
         value: function() {
-            var series, key, metadata,
-                i, length;
-            if (this._seriesList.length <= Object.keys(this._datasets).length) {
-                var datasets = [];
-                this._alignEventsTime();
-                for (i = 0, length = this._seriesList.length; i < length; i++) {
-                    series = this._seriesList[i];
-                    key = series.key;
-                    if (!series.disabled && this._datasets[key]) {
-                        datasets.push(this._datasets[key]);
+            if (this._inDocument) {
+                var series, key, metadata, i, length;
+
+                if (this._seriesList.length <= Object.keys(this._datasets).length) {
+                    var datasets = [];
+                    this._alignEventsTime();
+
+                    for (i = 0, length = this._seriesList.length; i < length; i++) {
+                        series = this._seriesList[i];
+                        key = series.key;
+                        if (!series.disabled && this._datasets[key]) {
+                            datasets.push(this._datasets[key]);
+                        }
                     }
+
+                    this._datasets = {};
+                    this._plot.datasets(datasets);
+                    this.needsDraw = true;
                 }
-                this._datasets = {};
-                this._plot.datasets(datasets);
-                this.needsDraw = true;
             }
         }
     },
