@@ -31,13 +31,36 @@
                 "yLabel": {"<-": "@owner.yLabel"},
                 "xAxisLable": {"<-": "@owner.xAxisLable"}
             }
+        },
+        "radialChart": {
+            "prototype": "ui/controls/chart.reel",
+            "properties": {
+                "element": {"#": "radialChart"}
+            },
+            "bindings": {
+                "updatePeriod": {"<-": "@owner.updatePeriod || 30000"},
+                "showLegend": {"<-": "@owner.showLegend.defined() ? @owner.showLegend : true"}
+            }
+        },
+        "chartTypeSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "chartTypeSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.chartType"}
+            }
         }
+
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner">
-        <div data-montage-id="chart"></div>
+        <div data-montage-id="chartTypeSubstitution">
+            <div data-arg="plottable" data-montage-id="chart"></div>
+            <div data-arg="radial" data-montage-id="radialChart"></div>
+        </div>
     </div>
 </body>
 </html>

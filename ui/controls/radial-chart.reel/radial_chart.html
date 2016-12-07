@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="radial-chart.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "chartElement": {"#": "radialChart"}
+            },
+            "bindings": {
+                "classList.has('is-spinner-shown')": {"<-": "@owner.isSpinnerShown"}
+            }
+        },
+        "loading": {
+            "prototype": "ui/controls/spinner.reel",
+            "properties": {
+                "element": {"#": "loading"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="RadialChart">
+        <div data-montage-id="loading" class="RadialChart-loading"></div>
+        <svg data-montage-id="radialChart" class="RadialChart-svg"></svg>
+    </div>
+</body>
+</html>
