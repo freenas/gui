@@ -11,11 +11,11 @@ export class TaskService {
         return TaskService.instance;
     }
 
-    public loadEntries(): Promise< Array<Object> > {
+    public loadEntries(): Promise< Array <Object> > {
         return this.taskRepository.listTasks();
     }
 
-    public findTasks(filter: Object): Promise< Array<Object>> {
+    public findTasks(filter: Object): Promise< Array <Object>> {
         return this.taskRepository.findTasks(filter);
     }
 }
