@@ -39,7 +39,7 @@
                 "removeSourcePrefix": "disktemp-"
             },
             "bindings": {
-                "sources": {"<-": "@owner.disks.map{'disktemp-' + name}"}
+                "datasources": {"<-": "@owner.disks.map{'disktemp-' + name}"}
             }
         }
     }

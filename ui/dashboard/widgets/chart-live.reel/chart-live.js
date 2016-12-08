@@ -6,24 +6,8 @@ var Component = require("montage/ui/component").Component,
  * @extends Component
  */
 exports.ChartLive = Component.specialize({
-    _datasources: {
-        value: null
-    },
-
     datasources: {
-        get: function() {
-            return this._datasources;
-        },
-        set: function(datasources) {
-            if (this._datasources != datasources) {
-                this._datasources = datasources;
-                if (typeof this._cancelDatasourcesChange == "function") {
-                    this._cancelDatasourcesChange();
-                }
-                this._cancelDatasourcesChange = this.addRangeAtPathChangeListener('datasources', this, '_handleDatasourcesChange');
-                this._initializeData();
-            }
-        }
+        value: null
     },
 
     _timezoneOffset: {
@@ -43,16 +27,10 @@ exports.ChartLive = Component.specialize({
     },
 
     enterDocument: {
-        value: function() {
-            this._initializeData();
-        }
-    },
-
-    exitDocument: {
-        value: function() {
-            this._unsubscribeAllUpdates();
-            if (typeof this._cancelDatasourcesChange == "function") {
-                this._cancelDatasourcesChange();
+        value: function (isFirstTime) {
+            if (isFirstTime) {
+                // _initializeData will be called by _handleDatasourcesChange
+                this.addRangeAtPathChangeListener('datasources', this, '_handleDatasourcesChange');
             }
         }
     },
@@ -79,7 +57,10 @@ exports.ChartLive = Component.specialize({
     },
 
     _handleDatasourcesChange: {
-        value: function() {
+        value: function () {
+            //todo save the promise instead.
+            this.chart.isSpinnerShown = true;
+            this._isFetchingStatistics = false;
             this._initializeData();
         }
     },
@@ -96,10 +77,8 @@ exports.ChartLive = Component.specialize({
     },
 
     _initializeData: {
-        value: function() {
-            if (!this._isFetchingStatistics && 
-                    this._datasources && 
-                    this._datasources.filter(function(x) { return !!x }).length > 0) {
+        value: function () {
+            if (!this._isFetchingStatistics && this.datasources && this.datasources.length > 0) {
                 this._unsubscribeAllUpdates();
                 this._eventToKey = {};
                 this._eventToSource = {};
@@ -134,15 +113,11 @@ exports.ChartLive = Component.specialize({
                     y: self.transformValue(currentValue)
                 });
             }).then(function() {
-                if (self._inDocument) {
-                    return self._statisticsService.subscribeToUpdates(event, self).then(function(eventType) {
-                        self._eventToKey[eventType] = key;
-                        self._eventToSource[eventType] = label;
-                        self._subscribedUpdates.push(event);
-                    });
-                } else {
-                    return false;
-                }
+                return self._statisticsService.subscribeToUpdates(event, self).then(function(eventType) {
+                    self._eventToKey[eventType] = key;
+                    self._eventToSource[eventType] = label;
+                    self._subscribedUpdates.push(event);
+                });
             });
 
         }
@@ -156,7 +131,7 @@ exports.ChartLive = Component.specialize({
                 path = source.children[metric].path.join('.') + '.' + suffix,
                 key  = this.getChartKey(source, metric, suffix, true) ||
                         [
-                            this._datasources.length > 1 ? source.label : '',
+                            this.datasources.length > 1 ? source.label : '',
                             metric,
                             hasSuffix ? suffix : ''
                         ]
@@ -178,14 +153,10 @@ exports.ChartLive = Component.specialize({
                 series.disabled = self.disabledMetrics && self.disabledMetrics.indexOf(metric) != -1;
                 return self.chart.addSeries(series);
             }).then(function() {
-                if (self._inDocument) {
-                    return self._statisticsService.subscribeToUpdates(event, self).then(function(eventType) {
-                        self._eventToKey[eventType] = key;
-                        self._subscribedUpdates.push(event);
-                    });
-                } else {
-                    return false;
-                }
+                return self._statisticsService.subscribeToUpdates(event, self).then(function(eventType) {
+                    self._eventToKey[eventType] = key;
+                    self._subscribedUpdates.push(event);
+                });
             });
 
         }
@@ -231,7 +202,7 @@ exports.ChartLive = Component.specialize({
                 setTimeout(function() {
                     self.chart.finishRendering();
                     self.chart.needsDraw = true;
-                }, 1000);
+                }, 750);
 
                 self._isFetchingStatistics = false;
             });
