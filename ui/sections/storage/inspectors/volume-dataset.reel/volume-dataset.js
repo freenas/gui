@@ -77,12 +77,15 @@ exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# *
         value:function() {
             var self = this;
             this.snapshotType = this._sectionService.VOLUME_SNAPSHOT_TYPE;
-            this._sectionService.listVolumeSnapshots().then(function(snapshots) {
-                self.snapshots = snapshots;
-            });
             this.vmwareDatasetType = this._sectionService.VMWARE_DATASET_TYPE;
-            this._sectionService.listVmwareDatasets().then(function(vmwareDatasets) {
+            return Promise.all([
+                this._sectionService.listVolumeSnapshots(),
+                this._sectionService.listVmwareDatasets(),
+                this._sectionService.getReplicationOptionsInstance()
+            ]).spread(function(snapshots, vmwareDatasets, replicationOptions) {
+                self.snapshots = snapshots;
                 self.vmwareDatasets = vmwareDatasets;
+                self.replicationOptions = replicationOptions;
             });
         }
     },

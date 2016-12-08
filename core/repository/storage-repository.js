@@ -12,6 +12,7 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
     VmwareDatastoreDao = require("core/dao/vmware-datastore-dao").VmwareDatastoreDao,
     DisksAllocationType = require("core/model/enumerations/disks-allocation-type").DisksAllocationType,
     EncryptedVolumeActionsDao = require("core/dao/encrypted-volume-actions-dao").EncryptedVolumeActionsDao,
+    ReplicationOptionsDao = require("core/dao/replication-options-dao").ReplicationOptionsDao,
     Model = require("core/model/model").Model;
 
 exports.StorageRepository = AbstractRepository.specialize({
@@ -31,7 +32,7 @@ exports.StorageRepository = AbstractRepository.specialize({
     },
 
     init: {
-        value: function(volumeDao, shareDao, volumeDatasetDao, volumeSnapshotDao, diskDao, volumeImporterDao, encryptedVolumeImporterDao, detachedVolumeDao, importableDiskDao, vmwareDatasetDao, vmwareDatastoreDao, encryptedVolumeActionsDao) {
+        value: function(volumeDao, shareDao, volumeDatasetDao, volumeSnapshotDao, diskDao, volumeImporterDao, encryptedVolumeImporterDao, detachedVolumeDao, importableDiskDao, vmwareDatasetDao, vmwareDatastoreDao, encryptedVolumeActionsDao, replicationOptionsDao) {
             this._volumeDao = volumeDao || VolumeDao.instance;
             this._shareDao = shareDao || ShareDao.instance;
             this._volumeDatasetDao = volumeDatasetDao || VolumeDatasetDao.instance;
@@ -44,6 +45,7 @@ exports.StorageRepository = AbstractRepository.specialize({
             this._vmwareDatasetDao = vmwareDatasetDao || VmwareDatasetDao.instance;
             this._vmwareDatastoreDao = vmwareDatastoreDao || VmwareDatastoreDao.instance;
             this._encryptedVolumeActionsDao = encryptedVolumeActionsDao || EncryptedVolumeActionsDao.instance;
+            this._replicationOptionsDao = replicationOptionsDao || ReplicationOptionsDao.instance;
 
             this._availableDisks = [];
             this._detachedVolumes = [];
@@ -249,6 +251,12 @@ exports.StorageRepository = AbstractRepository.specialize({
     getEncryptedVolumeActionsInstance: {
         value: function () {
             return this._encryptedVolumeActionsDao.getNewInstance();
+        }
+    },
+
+    getReplicationOptionsInstance: {
+        value: function() {
+            return this._replicationOptionsDao.getNewInstance();
         }
     }
 });

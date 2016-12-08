@@ -37,6 +37,21 @@ exports.StorageSectionService = AbstractSectionService.specialize({
         }
     },
 
+    __replicationServices: {
+        value: null
+    },
+
+    _replicationServices: {
+        get: function() {
+            var self = this;
+            return this.__replicationServices ?
+                Promise.resolve(this.__replicationServices) :
+                Model.populateObjectPrototypeForType(Model.Replication).then(function (Replication) {
+                    return self.__replicationServices = Replication.services;
+                });
+        }
+    },
+
     SHARE_TYPE: {
         value: Model.Share
     },
@@ -402,6 +417,20 @@ exports.StorageSectionService = AbstractSectionService.specialize({
     setVolumeKey: {
         value: function(volume, keyFile, password) {
             return this._filesystemService.submitTaskWithUpload(keyFile, "task.submit_with_upload", ["volume.keys.restore", [volume.id, null, password]]);
+        }
+    },
+
+    replicateDataset: {
+        value: function(dataset, replicationOptions, transportOptions) {
+            return this._replicationServices.then(function(services) {
+                return services.replicateDataset(dataset, replicationOptions, transportOptions, false);
+            });
+        }
+    },
+
+    getReplicationOptionsInstance: {
+        value: function() {
+            return this._storageRepository.getReplicationOptionsInstance();
         }
     },
 
