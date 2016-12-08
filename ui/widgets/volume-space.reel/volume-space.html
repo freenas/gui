@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="volume-space.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "card": {"<-": "this.object.context.selectedRootDataset || this.datsets.0.volume"}
+            }
+        },
+        "widget": {
+            "prototype": "ui/dashboard/widgets/widget.reel",
+            "properties": {
+                "element": {"#": "widget"},
+                "settingsLabel": "Volume Space Settings"
+            }
+        },
+        "text": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "title"}
+            },
+            "bindings": {
+                "value": {"<-": "'Volume Space - ' + @owner.card"}
+            }
+        },
+        "chart": {
+            "prototype": "ui/dashboard/widgets/chart-live.reel",
+            "properties": {
+                "element": {"#": "chart-live"},
+                "delegate": {"@": "owner"},
+                "chartType": "radial"
+            },
+            "bindings": {
+                "source": {"<-": "'volume-' + @owner.card"}
+            }
+        },
+        "selectOptionsConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "labelPropertyName": "volume",
+                "valuePropertyName": "volume"
+            }
+        },
+        "selectCard": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "selectCard"},
+                "converter": {"@": "selectOptionsConverter"},
+                "label": "Volume"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.datasets.filter{ volume == id }"},
+                "selectedValue": {"<->": "@owner.object.context.selectedRootDataset"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="VolumeSpace">
+        <div data-montage-id="widget">
+            <div data-arg="widget-title">
+                <svg><use xlink:href="#i-lineChart"/></svg>
+                <div data-montage-id="title"></div>
+            </div>
+            <div data-arg="widget-content">
+                <div data-montage-id="chart-live"></div>
+            </div>
+            <div data-arg="widget-settings">
+                <div data-montage-id="selectCard"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
