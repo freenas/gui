@@ -7,7 +7,7 @@
     "d3": "^3.5.17",
     "digit": "montagejs/digit",
     "frb": "montagejs/frb#66ba657ae8e7ada7658df3beb6e924c500b7259c",
-    "montage": "montagejs/montage#d8936b90fafb3a1d9bc01ff8924208513418b408",
+    "montage": "freenas/montage#a749ebbf9968d9649e4118d95643fd7b09e8b759",
     "montage-data": "montagestudio/montage-data#647f5208fcefbc89c405d1afea205c8184fddeda",
     "plottable": "~2.5.0",
     "validators": "~0.3.1",
