@@ -7,10 +7,4 @@ var Component = require("montage/ui/component").Component;
  * @class TableTaskRow
  * @extends Component
  */
-exports.TableTaskRow = Component.specialize(/** @lends TableTaskRow# */ {
-    constructor: {
-        value: function TableTaskRow() {
-            this.super();
-        }
-    }
-});
+exports.TableTaskRow = Component.specialize(/** @lends TableTaskRow# */ {});

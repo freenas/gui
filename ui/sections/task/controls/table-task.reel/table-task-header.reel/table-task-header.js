@@ -7,10 +7,4 @@ var Component = require("montage/ui/component").Component;
  * @class TableTaskHeader
  * @extends Component
  */
-exports.TableTaskHeader = Component.specialize(/** @lends TableTaskHeader# */ {
-    constructor: {
-        value: function TableTaskHeader() {
-            this.super();
-        }
-    }
-});
+exports.TableTaskHeader = Component.specialize(/** @lends TableTaskHeader# */ {});
