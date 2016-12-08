@@ -22,7 +22,7 @@
             "prototype": "blue-shark/ui/text-field.reel",
             "properties": {
                 "element": {"#": "name"},
-                "placeholder": "e.g. name"
+                "placeholder": "e.g. media share"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.name"}
@@ -32,7 +32,8 @@
        "size": {
             "prototype": "blue-shark/ui/text-field.reel",
             "properties": {
-                "element": {"#": "size"}
+                "element": {"#": "size"},
+                "placeholder": "e.g. 512"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.properties.size"}
@@ -43,7 +44,7 @@
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="TableRow">
+    <div data-montage-id="owner" class="TableRow Table-cells">
         <div><div data-montage-id="name"></div></div>
         <div><div data-montage-id="size"></div></div>
     </div>

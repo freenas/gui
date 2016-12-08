@@ -13,7 +13,8 @@
         "username": {
             "prototype": "blue-shark/ui/text-field.reel",
             "properties": {
-                "element": {"#": "username"}
+                "element": {"#": "username"},
+                "placeholder": "e.g. john123"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.username"}
@@ -23,7 +24,8 @@
         "fullName": {
             "prototype": "blue-shark/ui/text-field.reel",
             "properties": {
-                "element": {"#": "fullName"}
+                "element": {"#": "fullName"},
+                "placeholder": "e.g. John"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.full_name"}
@@ -33,7 +35,8 @@
        "password": {
             "prototype": "blue-shark/ui/password.reel",
             "properties": {
-                "element": {"#": "password"}
+                "element": {"#": "password"},
+                "placeholder": "set user password"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.password"}
@@ -44,7 +47,7 @@
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="TableRow">
+    <div data-montage-id="owner" class="TableRow Table-cells">
         <div><div data-montage-id="username"></div></div>
         <div><div data-montage-id="fullName"></div></div>
         <div><div data-montage-id="password"></div></div>

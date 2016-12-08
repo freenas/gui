@@ -1,3 +1,4 @@
-.TableSmb {
-
+.TableSmb .Table-cells > div:nth-child(2),
+.TableSmb .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(2) {
+    max-width: 8em;
 }
