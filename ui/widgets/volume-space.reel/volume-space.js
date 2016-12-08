@@ -32,11 +32,15 @@ exports.VolumeSpace = Component.specialize({
 
     enterDocument: {
         value: function () {
+            var self = this;
+
             if (!this.datasets) {
-                this.datasets = this._sectionService.loadDatasets();
-                // call the function below to make the initial json representation of
-                // the volume datasets obj
-                this._handleVolumeDatasetUpdate();
+                this._sectionService.loadDatasets().then(function(datasets) {
+                    self.datasets = datasets;
+                    // call the function below to make the initial json representation of
+                    // the volume datasets obj
+                    self._handleVolumeDatasetUpdate();
+                });
             }
         }
     }

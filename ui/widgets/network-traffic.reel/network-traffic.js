@@ -18,8 +18,12 @@ exports.NetworkTraffic = Component.specialize({
 
     enterDocument: {
         value: function () {
+            var self = this;
+
             if (!this.interfaces) {
-                this.interfaces = this._sectionService.loadNetworkInterfaces();
+                this._sectionService.loadNetworkInterfaces().then(function(interfaces) {
+                    self.interfaces = interfaces;
+                });
             }
         }
     },

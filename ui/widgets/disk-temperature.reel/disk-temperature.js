@@ -24,7 +24,9 @@ exports.DiskTemperature = Component.specialize(/** @lends DiskTemperature# */ {
             var self = this;
 
             if (!this.disks) {
-                this.disks = this._sectionService.loadDisks();
+                this._sectionService.loadDisks().then(function(disks) {
+                    self.disks = disks;
+                });
             }
         }
     }

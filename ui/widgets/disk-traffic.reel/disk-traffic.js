@@ -22,8 +22,11 @@ exports.DiskTraffic = Component.specialize(/** @lends DiskTraffic# */ {
     enterDocument: {
         value: function() {
             if (!this.disks) {
-                this.disks = this._sectionService.loadDisks();
-                this._refreshChart();
+                var self = this;
+                this._sectionService.loadDisks().then(function(disks){
+                    self.disks = disks;
+                    self._refreshChart();
+                });
             }
         }
     },
