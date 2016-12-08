@@ -35,7 +35,7 @@ exports.NetworkSectionService = AbstractSectionService.specialize({
         value: function() {
             return this._ipmiServices.then(function(ipmiServices) {
                 return ipmiServices.isIpmiLoaded();
-            }); 
+            });
         }
     },
 
@@ -231,7 +231,8 @@ exports.NetworkSectionService = AbstractSectionService.specialize({
         value: function(interface) {
             if (!interface.dhcp) {
                 var aliases = [];
-                if (interface._ipAddress && typeof interface._ipAddress === 'object') {
+                if (typeof interface._ipAddress === 'object' && !!interface._ipAddress.address && !!interface._ipAddress.netmask) {
+                    interface._ipAddress.type = NetworkInterfaceAliasType.INET;
                     aliases.push(interface._ipAddress);
                 }
                 if (typeof interface._ipv6Address === 'object' && !!interface._ipv6Address.address && !!interface._ipv6Address.netmask) {
@@ -259,6 +260,12 @@ exports.NetworkSectionService = AbstractSectionService.specialize({
                 } else {
                     interface._otherAliases.push(alias);
                 }
+            }
+            if (!interface._ipAddress) {
+                interface._ipAddress = {};
+            }
+            if (!interface._ipv6Address) {
+                interface._ipv6Address = {};
             }
         }
     }
