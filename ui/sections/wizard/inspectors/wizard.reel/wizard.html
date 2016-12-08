@@ -14,7 +14,7 @@
         },
 
         "stepsLabel": {
-            "prototype": "ui/controls/inspector-section-title.reel",
+            "prototype": "montage/ui/text.reel",
             "properties": {
                 "element": {"#": "stepsLabel"}
             },
@@ -104,26 +104,31 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Wizard">
-        <div class="Wizard-header g-margin-bottom">
-            <h2 data-montage-id="stepsLabel" class="flush-v Wizard-header-title"></h2>
-            <div class="Wizard-counter bold">
-                <span data-montage-id="currentPageNumber"></span>
-                of
-                <span data-montage-id="totalPageNumber"></span>
+        <div class="Wizard-header g-padding">
+            <div class="wrapper">
+                <h2 data-montage-id="stepsLabel" class="flush-v Wizard-header-title"></h2>
+                <div class="Wizard-counter bold">
+                    <span data-montage-id="currentPageNumber"></span>
+                    of
+                    <span data-montage-id="totalPageNumber"></span>
+                </div>
             </div>
         </div>
-
-        <div data-montage-id="stepPlaceholder" class="stepPlaceholder g-margin-bottom"></div>
-        <div class="Wizard-controls flex-row flex-justifyContent--spaceBetween">
-            <div data-montage-id="previous" class="Button--secondary Wizard-controls-previous">
-                <svg><use xlink:href="#i-arrow"/></svg>
-            </div>
-            <div class="flex-row flex-justifyContent--end">
-                <div data-montage-id="skip" class="Button--secondary"></div>
-                <div data-montage-id="next" class="Button--secondary Wizard-controls-next">
+        <div class="Wizard-content g-padding">
+            <div data-montage-id="stepPlaceholder" class="stepPlaceholder g-margin-bottom"></div>
+        </div>
+        <div class="Wizard-footer g-padding">
+            <div class="Wizard-controls flex-row flex-justifyContent--spaceBetween">
+                <div data-montage-id="previous" class="Button--secondary Wizard-controls-previous">
                     <svg><use xlink:href="#i-arrow"/></svg>
                 </div>
-                <div data-montage-id="submit" class="Button--primary"></div>
+                <div class="flex-row flex-justifyContent--end">
+                    <div data-montage-id="skip" class="Button--secondary"></div>
+                    <div data-montage-id="next" class="Button--secondary Wizard-controls-next">
+                        <svg><use xlink:href="#i-arrow"/></svg>
+                    </div>
+                    <div data-montage-id="submit" class="Button--primary"></div>
+                </div>
             </div>
         </div>
     </div>
