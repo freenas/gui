@@ -18,7 +18,7 @@ exports.RadialChart = Component.specialize(/** @lends Chart# */ {
                 defaultValue: false
             },
             useGuideline: {
-                defaultValue: false
+                  defaultValue: false
             },
             transitionDuration: {
                 defaultValue: 0
@@ -44,16 +44,11 @@ exports.RadialChart = Component.specialize(/** @lends Chart# */ {
         value: null
     },
 
-    _seriesList: {
-        value: null
-    },
-
     constructor: {
         value: function() {
             this._datasets = {};
-            this._seriesList = [];
         }
-    },    
+    },
 
     _getOptionValue: {
         value: function(optionName) {
