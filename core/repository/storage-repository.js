@@ -12,6 +12,7 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
     VmwareDatastoreDao = require("core/dao/vmware-datastore-dao").VmwareDatastoreDao,
     DisksAllocationType = require("core/model/enumerations/disks-allocation-type").DisksAllocationType,
     EncryptedVolumeActionsDao = require("core/dao/encrypted-volume-actions-dao").EncryptedVolumeActionsDao,
+    BackEndBridgeModule = require("../backend/backend-bridge"),
     ReplicationOptionsDao = require("core/dao/replication-options-dao").ReplicationOptionsDao,
     Model = require("core/model/model").Model;
 
@@ -32,7 +33,7 @@ exports.StorageRepository = AbstractRepository.specialize({
     },
 
     init: {
-        value: function(volumeDao, shareDao, volumeDatasetDao, volumeSnapshotDao, diskDao, volumeImporterDao, encryptedVolumeImporterDao, detachedVolumeDao, importableDiskDao, vmwareDatasetDao, vmwareDatastoreDao, encryptedVolumeActionsDao, replicationOptionsDao) {
+        value: function(volumeDao, shareDao, volumeDatasetDao, volumeSnapshotDao, diskDao, volumeImporterDao, encryptedVolumeImporterDao, detachedVolumeDao, importableDiskDao, vmwareDatasetDao, vmwareDatastoreDao, encryptedVolumeActionsDao, backendBridge, replicationOptionsDao) {
             this._volumeDao = volumeDao || VolumeDao.instance;
             this._shareDao = shareDao || ShareDao.instance;
             this._volumeDatasetDao = volumeDatasetDao || VolumeDatasetDao.instance;
@@ -45,6 +46,7 @@ exports.StorageRepository = AbstractRepository.specialize({
             this._vmwareDatasetDao = vmwareDatasetDao || VmwareDatasetDao.instance;
             this._vmwareDatastoreDao = vmwareDatastoreDao || VmwareDatastoreDao.instance;
             this._encryptedVolumeActionsDao = encryptedVolumeActionsDao || EncryptedVolumeActionsDao.instance;
+            this._backendBridge = backendBridge || BackEndBridgeModule.defaultBackendBridge;
             this._replicationOptionsDao = replicationOptionsDao || ReplicationOptionsDao.instance;
 
             this._availableDisks = [];
@@ -54,6 +56,7 @@ exports.StorageRepository = AbstractRepository.specialize({
             this._temporarilyAvailableDisks = new Set();
             this.addRangeAtPathChangeListener("_volumes", this, "_handleDiskAssignationChange");
             this.addRangeAtPathChangeListener("_disks", this, "_handleDiskAssignationChange");
+            
         }
     },
 
@@ -152,7 +155,25 @@ exports.StorageRepository = AbstractRepository.specialize({
         value: function() {
             var self = this;
             return this._disksPromise = this._diskDao.list().then(function(disks) {
-                return self._disks = disks;
+                return self.getDiskAllocations(disks).then(function(disks) {
+                    return self._disks = disks;
+                });
+            });
+        }
+    },
+
+    getDiskAllocations: {
+        value: function(disks) {
+            var self = this;
+            return this._backendBridge.send("rpc", "call", {
+                method: "volume.get_disks_allocation",
+                args: [disks.map(function(x) {
+                    return x.path})]
+            }).then(function(response) {
+                return disks.map(function(x) {
+                    x._allocation = response.data[x.path];
+                    return x;
+                });
             });
         }
     },

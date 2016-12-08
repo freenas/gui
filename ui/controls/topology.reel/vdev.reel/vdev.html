@@ -11,6 +11,7 @@
             },
             "bindings": {
                 "vdevTypesOptions": {"<-": "@owner.vdevTypes.filter{minDisks <= @owner.children.length}.filter{maxDisks.defined() ? maxDisks >= @owner.children.length : true}"},
+                "classList.has('unhealthy')": {"<-": "@owner.object.status.defined() && @owner.object.status != 'ONLINE'"},
                 "selectedDisk": {"<->": "@controller.selection.0"}
             }
         },

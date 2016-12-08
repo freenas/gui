@@ -12,7 +12,9 @@
             },
             "bindings": {
                 "disk": {"<-": "@owner.object ? @owner.object._disk.defined() ? @owner.object._disk : @owner.object : null"},
-                "classList.has('unhealthy')": {"<-": "@owner.object.status.defined() && @owner.object.status != 'ONLINE'"}
+                "isOffline": {"<-": "@owner.object._disk.defined() && @owner.object.status != 'ONLINE'" },
+                "smartFail": {"<-": "@owner.disk.status.smart_info.smart_status != 'PASS'" },
+                "classList.has('unhealthy')": {"<-": "@owner.isOffline || @owner.smartFail" }
             }
         },
         "bytesConverter": {
@@ -43,7 +45,25 @@
                 "element": {"#": "statusStateSubstitution"}
             },
             "bindings": {
-                "switchValue": {"<-": "@owner.object.status.defined() && @owner.object.status != 'ONLINE' ? 'warn' : 'offline'"}
+                "switchValue": {"<-": "@owner.smartFail ? 'smart' : @owner.isOffline ? 'offline' : 'healthy'"}
+            }
+        },
+        "warningStateSituation": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "warningStateSituation"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.disk.status.smart_info.smart_status == 'FAIL'? 'fail' : 'warn'"}
+            }
+        },
+        "warningConditional": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "warningConditional"}
+            },
+            "bindings": {
+                "condition": {"<-": "@owner.disk._allocation.defined() && @owner.disk._allocation.type == 'EXPORTED_VOLUME'"}
             }
         }
     }
@@ -52,9 +72,16 @@
 <body>
 <div data-montage-id="owner" class="DiskIcon warn">
     <div data-montage-id="statusStateSubstitution" class="DiskIcon-statusIcon">
-        <svg data-arg="warn"><use xlink:href="#i-alert"/></svg>
-        <svg data-arg="fail"><use xlink:href="#i-alert-circle"/></svg>
+        <div data-arg="smart" data-montage-id="warningStateSituation" class="DiskIcon-statusIcon">
+            <svg data-arg="warn"><use xlink:href="#i-alert"/></svg>
+            <svg data-arg="fail"><use xlink:href="#i-alert-circle"/></svg>
+        </div>
         <svg data-arg="offline"><use xlink:href="#i-offline"/></svg>
+        <div data-arg="healthy">
+            <div data-montage-id="warningConditional" class="DiskIcon-statusIcon">
+                <svg><use xlink:href="#i-alert"/></svg>
+            </div>
+        </div>
     </div>
     <div data-montage-id="substitution">
         <img data-arg="hdd" src="./hdd.svg" alt="HDD Icon">
