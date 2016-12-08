@@ -16,7 +16,7 @@ var DIRECTORY_TYPES_LABELS = {
 
 exports.AccountRepository = AbstractRepository.specialize({
     init: {
-        value: function(kerberosRealmDao, kerberosKeytabDao, directoryDao) {
+        value: function(kerberosRealmDao, kerberosKeytabDao, directoryDao, ntpServerDao) {
             this._kerberosRealmDao = kerberosRealmDao || KerberosRealmDao.instance;
             this._kerberosKeytabDao = kerberosKeytabDao || KerberosKeytabDao.instance;
             this._ntpServerDao = ntpServerDao || NtpServerDao.instance;
