@@ -1,71 +1,49 @@
 /**
  * @module ui/directory-services.reel
  */
-var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model,
-    DirectoryServicesInspector = require("ui/inspectors/directory-services.reel/directory-services").DirectoryServices;
+var Component = require("montage/ui/component").Component;
 
 /**
  * @class DirectoryServices
  * @extends Component
  */
-var DirectoryServices = exports.DirectoryServices = Component.specialize(/** @lends DirectoryServices# */ {
+var DirectoryServices = exports.DirectoryServices = Component.specialize(/** @lends DirectoryServices# */{
+
+    templateDidLoad: {
+        value: function () {
+            this._sectionService = this.context.sectionService;
+        }
+    },
 
     enterDocument: {
         value: function () {
-            this._fetchDataIfNeeded();
+            if (this.object._isNew) {
+                this._clearTables();
+                // this object won't be saved,
+                // only the object in object.__directoryServices.
+                this.object._isNew = false;
+            }
         }
     },
 
-    _fetchDataIfNeeded: {
+    _clearTables: {
         value: function () {
-            var directoryTypesKeyValuesKeys = Object.keys(DirectoryServicesInspector.DIRECTORY_TYPES_KEY_VALUES),
-                directoryTypesValueKeys = DirectoryServicesInspector.DIRECTORY_TYPES_VALUE_KEYS,
-                directoryTypesLabels = DirectoryServicesInspector.DIRECTORY_TYPES_LABELS,
-                directoryServicesMap = new Map(),
-                directoryServices, directoryService,
-                directoryTypesValueKey,
-                directoryTypesKeyValue,
-                directory, i, length,
-                promises = [],
-                self = this;
-
-            for (i = 0, length = directoryTypesKeyValuesKeys.length; i < length; i++) {
-                directoryTypesKeyValue = directoryTypesKeyValuesKeys[i];
-
-                if (!directoryServicesMap.has(directoryTypesKeyValue)) {
-                    promises.push(this._getNewDirectoryInstance(directoryTypesKeyValue));
-                }
+            if (this._nisTable.values) {
+                this._nisTable.values.clear();
             }
 
-            Promise.all(promises).then(function (directoryServices) {
-                var directoryService;
+            if (this._windbindTable.values) {
+                this._windbindTable.values.clear();
+            }
 
-                for (i = 0, length = directoryServices.length; i < length; i++) {
-                    directoryService = directoryServices[i];
-                    directoryServicesMap.set(directoryServices[i].type || i, directoryService);
-                }
+            if (this._freeipaTable.values) {
+                this._freeipaTable.values.clear();
+            }
 
-                self.object.$directoryServices = self.directoryServices = self.application.dataService.setTypeForCollection(
-                    directoryServicesMap.toArray(),
-                    Model.Directory
-                );
-            });
-        }
-    },
-
-    _getNewDirectoryInstance: {
-        value: function (type) {
-            var directoryTypesKeyValues = DirectoryServicesInspector.DIRECTORY_TYPES_KEY_VALUES,
-                directoryTypesLabels = DirectoryServicesInspector.DIRECTORY_TYPES_LABELS;
-
-            return this.application.dataService.getNewInstanceForType(Model.Directory).then(function (directory) {
-                directory.type = directoryTypesKeyValues[type];
-                directory.parameters = {"%type": directory.type + "-directory-params"};
-                directory.label = directoryTypesLabels[directory.type];
-
-                return directory;
-            });
+            if (this._ldapTable.values) {
+                this._ldapTable.values.clear();
+            }
         }
     }
+
 });

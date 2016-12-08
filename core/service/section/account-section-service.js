@@ -1,11 +1,19 @@
 var AbstractSectionService = require("core/service/section/abstract-section-service").AbstractSectionService,
+    UserRepository = require("core/repository/user-repository").UserRepository,
     AccountRepository = require("core/repository/account-repository").AccountRepository;
 
 exports.AccountSectionService = AbstractSectionService.specialize({
 
     init: {
-        value: function (accountRepository) {
+        value: function (accountRepository, userRepository) {
             this._accountRepository = accountRepository || AccountRepository.instance;
+            this._userRepository = userRepository || UserRepository.instance;
+        }
+    },
+
+    getNewUser: {
+        value: function () {
+            return this._userRepository.getNewUser();
         }
     },
 
@@ -55,6 +63,12 @@ exports.AccountSectionService = AbstractSectionService.specialize({
     listNtpServers: {
         value: function() {
             return this._accountRepository.listNtpServers();
+        }
+    },
+
+    getNewDirectoryForType: {
+        value: function (type) {
+            return this._accountRepository.getNewDirectoryForType(type);
         }
     }
 

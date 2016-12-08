@@ -3,7 +3,7 @@
  */
 var Component = require("montage/ui/component").Component,
     WizardSectionService = require("core/service/section/wizard-section-service").WizardSectionService,
-    wizardDescriptor = require("./wizard.mjson");
+    wizardDescriptor = require("./wizard.json");
 
 /**
  * @class Wizard
@@ -64,7 +64,7 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
 
             this._sectionService.buildStepsWizardWithDescriptor(wizardDescriptor).then(function (steps) {
                 self.steps = steps;
-                self.handleNextAction();
+                self._next();
                 self._isLoading = false;
             });
         }
@@ -78,6 +78,7 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
 
     handleNextAction: {
         value: function () {
+            this.steps[this._currentIndex].isSkipped = false;
             this._next();
         }
     },
@@ -119,6 +120,7 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
                     if (candidateStep.parent) {
                         if (!this._isStepSkipped(candidateStep.parent)) {
                             this._selectStep(candidateStep);
+                            break;
                         }
                     } else {
                         this._selectStep(candidateStep);
@@ -138,14 +140,12 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
                     if (candidateStep.parent) {
                         if (!this._isStepSkipped(candidateStep.parent)) {
                             this._selectStep(candidateStep);
-                            candidateStep.isSkipped = false;
                             break;
                         } else {
                             candidateStep.isSkipped = true;
                         }
                     } else {
                         this._selectStep(candidateStep);
-                        candidateStep.isSkipped = false;
                         break;
                     }
                 }
@@ -160,6 +160,7 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
             this._context.isNextStepDisabled = false;
             this._currentObject = step.object;
             this._context.sectionService = step.service;
+            this._context.previousStep = this._currentIndex > 0 ? this.steps[this._currentIndex - 1] : null;
         }
     },
 

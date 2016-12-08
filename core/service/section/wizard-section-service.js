@@ -110,7 +110,7 @@ exports.WizardSectionService = AbstractSectionService.specialize({
                         promises = [];
 
                     if (!shareStep.isSkipped) {
-                        var shares = shareStep.object.$shares;
+                        var shares = shareStep.object.__shares;
 
                         shares.forEach(function (share) {
                             if (share.name) {
@@ -121,9 +121,14 @@ exports.WizardSectionService = AbstractSectionService.specialize({
                     }
 
                     if (!userStep.isSkipped) {
-                        var user = userStep.object;
-                        user.home = '/mnt/' + volume.id + '/' + user.username;
-                        promises.push(dataService.saveDataObject(user));
+                        var users = userStep.object.__users;
+
+                        users.forEach(function (user) {
+                            if (user.username) {
+                                user.home = '/mnt/' + volume.id + '/' + user.username;
+                                promises.push(dataService.saveDataObject(user));
+                            }
+                        });
                     }
 
                     Promise.all(promises);
@@ -153,7 +158,7 @@ exports.WizardSectionService = AbstractSectionService.specialize({
                     if (stepId === "volume") {
                         indexVolume = promises.push(step.service.createVolume(stepObject)) - 1;
                     } else if (stepId === "directoryServices") {
-                        var directoryServices = stepObject.$directoryServices;
+                        var directoryServices = stepObject.__directoryServices;
 
                         directoryServices.forEach(function (directoryService) {
                             if (directoryService.name) {

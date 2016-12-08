@@ -7,45 +7,21 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
-            }
-        },
-        "username": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
-            "properties": {
-                "element": {"#": "username"},
-                "validationPath": "username",
-                "label": "Username",
-                "placeholder": "eg: jon"
+                "element": {"#": "owner"},
+                "_usersTable": {"@": "users"}
             },
             "bindings": {
-                "value": {"<->": "@owner.object.username"}
+                "object.__users": {"<-": "@users.values"}
             }
         },
-        "password": {
-            "prototype": "blue-shark/ui/field-password.reel",
+
+        "users": {
+            "prototype": "./table-users.reel",
             "properties": {
-                "element": {"#": "password"},
-                "validationPath": "password",
-                "label": "Password",
-                "placeholder1": "enter password",
-                "placeholder2": "confirm password",
-                "errorMessage": "Passwords don't match",
-                "editEnabled": true
+                "element": {"#": "users"}
             },
             "bindings": {
-                "value": {"<->": "@owner.object.password"}
-            }
-        },
-        "fullName": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
-            "properties": {
-                "element": {"#": "fullName"},
-                "label": "Display Name",
-                "placeholder": "eg: Jonathan Smith"
-            },
-            "bindings": {
-                "value": {"<->": "@owner.object.full_name"}
+                "_sectionService": {"<-": "@owner._sectionService"}
             }
         }
     }
@@ -53,9 +29,7 @@
 </head>
 <body>
     <div data-montage-id="owner" class="System-User">
-        <div data-montage-id="username"></div>
-        <div data-montage-id="password"></div>
-        <div data-montage-id="fullName"></div>
+        <div data-montage-id="users" class="g-margin-bottom"></div>
     </div>
 </body>
 </html>

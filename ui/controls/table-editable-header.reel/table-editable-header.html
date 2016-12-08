@@ -16,7 +16,7 @@
                 "element": {"#": "addButton"}
             },
             "bindings": {
-                "disabled": {"<-": "@owner.table.isAddingNewEntry"}
+                "disabled": {"<-": "!!@owner.addButtonDisabled || @owner.table.isAddingNewEntry"}
             }
         },
 

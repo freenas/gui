@@ -6,31 +6,54 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "_afpTable": {"@": "afp"},
+                "_iscsiTable": {"@": "iscsi"},
+                "_nfsTable": {"@": "nfs"},
+                "_smbTable": {"@": "smb"}
+            },
+            "bindings": {
+                "object.__shares": {"<-": "[].concat(@afp.values, @iscsi.values, @nfs.values, @smb.values)"}
             }
         },
 
-        "options": {
-            "prototype": "blue-shark/ui/field-select.reel",
+        "afp": {
+            "prototype": "./table-afp.reel",
             "properties": {
-                "element": {"#": "select"},
-                "label": "Share Type"
+                "element": {"#": "afp"}
             },
             "bindings": {
-                "options": {"<-": "@owner.shares.map{{label: type, value: this}}"},
-                "selectedValue": {"<-": "@owner.shares.0"}
+                "users": {"<-": "@owner.users"}
             }
         },
 
-        "content": {
-            "prototype": "ui/sections/storage/inspectors/share.reel",
+        "iscsi": {
+            "prototype": "./table-iscsi.reel",
             "properties": {
-                "element": {"#": "content"}
+                "element": {"#": "iscsi"}
             },
             "bindings": {
-                "object": {"<-": "@options.selectedValue"},
-                "context": {"<-": "@owner.context"},
-                "_getCurrentVolume": {"<-": "@owner._getCurrentVolume"}
+                "users": {"<-": "@owner.users"}
+            }
+        },
+
+        "nfs": {
+            "prototype": "./table-nfs.reel",
+            "properties": {
+                "element": {"#": "nfs"}
+            },
+            "bindings": {
+                "users": {"<-": "@owner.users"}
+            }
+        },
+
+        "smb": {
+            "prototype": "./table-smb.reel",
+            "properties": {
+                "element": {"#": "smb"}
+            },
+            "bindings": {
+                "users": {"<-": "@owner.users"}
             }
         }
     }
@@ -38,8 +61,10 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Share-wizard">
-        <div data-montage-id="select"></div>
-        <div data-montage-id="content"></div>
+        <div data-montage-id="afp" class="g-margin-bottom"></div>
+        <div data-montage-id="iscsi" class="g-margin-bottom"></div>
+        <div data-montage-id="nfs" class="g-margin-bottom"></div>
+        <div data-montage-id="smb" class="g-margin-bottom"></div>
     </div>
 </body>
 </html>

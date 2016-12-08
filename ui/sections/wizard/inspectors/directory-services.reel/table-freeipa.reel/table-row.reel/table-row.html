@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="table-row.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+        "name": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "placeholder": "e.g. name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.name"}
+            }
+        },
+
+        "domainName": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "domainName"},
+                "placeholder": "e.g. company.com"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.parameters.realm"}
+            }
+        },
+
+        "domainAccountName": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "domainAccountName"},
+                "placeholder": "e.g. Administrator"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.parameters.username"}
+            }
+        },
+
+        "domainAccountPassword": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "domainAccountPassword"},
+                "placeholder": "enter password"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.parameters.password"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="TableRow Table-cells">
+        <div><div data-montage-id="name"></div></div>
+        <div><div data-montage-id="domainName"></div></div>
+        <div><div data-montage-id="domainAccountName"></div></div>
+        <div><div data-montage-id="domainAccountPassword"></div></div>
+    </div>
+</body>
+</html>

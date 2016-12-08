@@ -11,17 +11,20 @@
         },
         {
             "id": "directoryServices",
-            "objectType": "DirectoryServices"
-        },
-        {
-            "id": "share",
-            "objectType": "Share",
-            "parent": "volume"
+            "objectType": "DirectoryServices",
+            "service": "core/service/section/account-section-service"
         },
         {
             "id": "user",
             "objectType": "User",
-            "parent": "volume"
+            "parent": "volume",
+            "service": "core/service/section/account-section-service"
+        },
+        {
+            "id": "share",
+            "objectType": "Share",
+            "parent": "volume",
+            "service": "core/service/section/storage-section-service"
         },
         {
             "id": "mail",
