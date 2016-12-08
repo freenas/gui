@@ -1,5 +1,5 @@
 var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+    DashboardSectionService = require("core/service/section/dashboard-section-service").DashboardSectionService;
 
 /**
  * @class NetworkTraffic
@@ -7,14 +7,19 @@ var Component = require("montage/ui/component").Component,
  */
 exports.NetworkTraffic = Component.specialize({
 
+    templateDidLoad: {
+        value: function() {
+            var self = this;
+            DashboardSectionService.instance.then(function(sectionService) {
+                self._sectionService = sectionService;
+            });
+        }
+    },
+
     enterDocument: {
         value: function () {
             if (!this.interfaces) {
-                var self = this;
-
-                this.application.dataService.fetchData(Model.NetworkInterface).then(function (interfaces) {
-                    self.interfaces = interfaces;
-                });
+                this.interfaces = this._sectionService.loadNetworkInterfaces();
             }
         }
     },

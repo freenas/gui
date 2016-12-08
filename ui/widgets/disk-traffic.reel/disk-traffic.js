@@ -2,21 +2,28 @@
  * @module ui/disk-traffic.reel
  */
 var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+    DashboardSectionService = require("core/service/section/dashboard-section-service").DashboardSectionService;
 
 /**
  * @class DiskTraffic
  * @extends Component
  */
 exports.DiskTraffic = Component.specialize(/** @lends DiskTraffic# */ {
+
+    templateDidLoad: {
+        value: function() {
+            var self = this;
+            DashboardSectionService.instance.then(function(sectionService) {
+                self._sectionService = sectionService;
+            });
+        }
+    },
+
     enterDocument: {
         value: function() {
             if (!this.disks) {
-                var self = this;
-                this.application.dataService.fetchData(Model.Disk).then(function(disks) {
-                    self.disks = disks;
-                    self._refreshChart();
-                });
+                this.disks = this._sectionService.loadDisks();
+                this._refreshChart();
             }
         }
     },
