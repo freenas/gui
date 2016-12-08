@@ -10,6 +10,10 @@ exports.ChartLive = Component.specialize({
         value: null
     },
 
+    chartType: {
+        value: "plottable"
+    },
+
     datasources: {
         get: function() {
             return this._datasources;

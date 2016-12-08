@@ -1,0 +1,36 @@
+.RadialChart {
+    width:  100%;
+    height: 100%;
+}
+
+.RadialChart .RadialChart-svg {
+    padding-top: 1em;
+    width: calc(100% - 1em);
+    flex: 1;
+}
+
+.RadialChart svg text { fill: #E0E5E5 !important; }
+
+.RadialChart svg g.tick line { opacity: 0.25 !important; }
+
+.RadialChart-loading {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top:  -1.5em;
+    margin-left: -1.5em;
+    width:  3em;
+    height: 3em;
+    color: #0C5688;
+}
+
+.RadialChart.is-spinner-shown .RadialChart-svg,
+.RadialChart .RadialChart-loading {
+    display: none;
+}
+
+.RadialChart.is-spinner-shown .RadialChart-loading,
+.RadialChart .RadialChart-svg {
+    display: block;
+}
+

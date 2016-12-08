@@ -620,6 +620,8 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                     this._eventDispatcherService.dispatch("calendarTaskUpdated", model);
                 } else if (type === Model.AlertFilter) {
                     this._eventDispatcherService.dispatch("alertFilterUpdated", model);
+                } else if (type === Model.VolumeDataset) {
+                    this._eventDispatcherService.dispatch("volumeDatasetUpdated", model);
                 }
             }
         }
