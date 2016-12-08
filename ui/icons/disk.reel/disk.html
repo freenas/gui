@@ -11,7 +11,8 @@
                 "condition": false
             },
             "bindings": {
-                "disk": {"<-": "@owner.object ? @owner.object._disk.defined() ? @owner.object._disk : @owner.object : null"}
+                "disk": {"<-": "@owner.object ? @owner.object._disk.defined() ? @owner.object._disk : @owner.object : null"},
+                "classList.has('unhealthy')": {"<-": "!@owner.disk.online || @owner.disk.status.smart_info.smart_status != 'PASS'"}
             }
         },
         "bytesConverter": {
@@ -36,22 +37,36 @@
                 "switchValue": {"<-": "!!@owner.disk.status.is_ssd ? 'ssd' : 'hdd'"}
             }
         },
-        "warningConditional": {
-            "prototype": "montage/ui/condition.reel",
+        "statusStateSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
             "properties": {
-                "element": {"#": "warningConditional"}
+                "element": {"#": "statusStateSubstitution"}
             },
             "bindings": {
-                "condition": {"<-": "@owner.disk._allocation.defined() && @owner.disk._allocation.type == 'EXPORTED_VOLUME'"}
+                "switchValue": {"<-": "!@owner.disk.online ? 'offline' : @owner.disk.status.smart_info.smart_status != 'PASS' ? 'smart' : 'healthy'"}
+            }
+        },
+        "warningStateSituation": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "warningStateSituation"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.disk.status.smart_info.smart_status == 'FAIL'? 'fail' : 'warn'"}
             }
         }
     }
     </script>
 </head>
 <body>
-<div data-montage-id="owner" class="DiskIcon">
-    <div data-montage-id="warningConditional" class="DiskIcon-warningIcon">
-        <svg><use xlink:href="#i-alert-circle"/></svg>
+<div data-montage-id="owner" class="DiskIcon warn">
+    <div data-montage-id="statusStateSubstitution" class="DiskIcon-statusIcon">
+        <div data-arg="smart" data-montage-id="warningStateSituation" class="DiskIcon-statusIcon">
+            <svg data-arg="warn"><use xlink:href="#i-alert"/></svg>
+            <svg data-arg="fail"><use xlink:href="#i-alert-circle"/></svg>
+        </div>
+        <svg data-arg="offline"><use xlink:href="#i-offline"/></svg>
+        <div data-arg="healthy"></div>
     </div>
     <div data-montage-id="substitution">
         <img data-arg="hdd" src="./hdd.svg" alt="HDD Icon">

@@ -81,6 +81,13 @@ var WIDGETS = [
         imgPreview: null,
         moduleId: "ui/widgets/disk-temperature.reel",
         allowMultiple: false
+    },
+    {
+        title: "composite-temperature",
+        description: null,
+        imgPreview: null,
+        moduleId: "ui/widgets/composite-temperature.reel",
+        allowMultiple: false
     }
 ];
 
