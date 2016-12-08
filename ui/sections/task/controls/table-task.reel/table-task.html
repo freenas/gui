@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="table-task.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "table": {
+            "prototype": "blue-shark/ui/tables/table-read-only.reel",
+            "properties": {
+                "element": {"#": "table"},
+                "delegate": {"@": "owner"},
+                "label": "Tasks",
+                "columns": [
+                    {
+                        "value": "ID",
+                        "path": "id"
+                    },
+                    {
+                        "value": "Name",
+                        "path": "name"
+                    },
+                    {
+                        "value": "Status",
+                        "path": "state"
+                    },
+                    {
+                        "value": "Progress",
+                        "path": "progress.percentage"
+                    },
+                    {
+                        "value": "Created at",
+                        "path": "created_at['$date']"
+
+                    },
+                    {
+                        "value": "Finished at",
+                        "path": "finished_at['$date']"
+                    }
+                ]
+            },
+            "bindings": {
+                "rows": {"<->": "@owner.rows"}
+            }
+        },
+        "tableHeader": {
+            "prototype": "./table-task-header.reel",
+            "properties": {
+                "element": {"#": "tableHeader"},
+                "table": {"@": "table"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="TableTask">
+        <div data-montage-id="table">
+            <div data-arg="table-read-only-header-toolbar" data-montage-id="tableHeader"></div>
+        </div>
+    </div>
+</body>
+</html>

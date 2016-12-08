@@ -313,8 +313,15 @@ $Icons
 .flex-justifyContent--spaceBetween { justify-content: space-between; }
 .flex-justifyContent--end { justify-content: flex-end; }
 
-.flex-alignItems--center { align-items: center; }
-.flex-align--bottom      { align-items: flex-end; }
+.flex-align--center     { align-items: center; }
+.flex-align--top        { align-items: flex-start; }
+.flex-align--bottom     { align-items: flex-end; }
+
+/* columns */
+
+.col-1 {
+    max-width: 30rem;
+}
 
 /* Table Styles */
 

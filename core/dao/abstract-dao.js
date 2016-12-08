@@ -30,9 +30,11 @@ exports.AbstractDao = Montage.specialize({
     },
 
     find: {
-        value: function(criteria, isCacheEnabled) {
+        value: function(criteria, isCacheEnabled, limit) {
             this._checkModelIsInitialized();
-            var promise = this._dataService.fetchData(this._dataService.getSelectorWithTypeAndCriteria(this._model, criteria));
+            var selector = this._dataService.getSelectorWithTypeAndCriteria(this._model, criteria);
+            selector.__limit = limit;
+            var promise = this._dataService.fetchData(selector);
             if (isCacheEnabled) {
                 var self = this;
                 promise = promise.then(function(data) {
