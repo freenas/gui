@@ -33,13 +33,9 @@
             }
         },
         "radialChart": {
-            "prototype": "ui/controls/chart.reel",
+            "prototype": "ui/controls/radial-chart.reel",
             "properties": {
                 "element": {"#": "radialChart"}
-            },
-            "bindings": {
-                "updatePeriod": {"<-": "@owner.updatePeriod || 30000"},
-                "showLegend": {"<-": "@owner.showLegend.defined() ? @owner.showLegend : true"}
             }
         },
         "chartTypeSubstitution": {
