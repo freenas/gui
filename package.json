@@ -10,6 +10,7 @@
     "frb": "montagejs/frb#66ba657ae8e7ada7658df3beb6e924c500b7259c",
     "montage": "freenas/montage#b4aca1c14b5671e76d1ab42abfdfcdca2dc4410b",
     "immutable": "^3.8.1",
+    "bluebird": "~3.4.6",
     "lodash": "^4.17.2",
     "maphilight": "~1.2.3",
     "montage-data": "montagestudio/montage-data#647f5208fcefbc89c405d1afea205c8184fddeda",
