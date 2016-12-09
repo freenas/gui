@@ -5,9 +5,7 @@
     background: #000000;
 }
 
-.Console-terminal {
-    display: flex;
-}
+.Console-terminal { display: flex; }
 
 .Console .terminal {
     padding: 1rem;
@@ -18,9 +16,7 @@
     outline: none;
 }
 
-.Console .terminal-cursor {
-    background: currentColor;
-}
+.Console .terminal-cursor { background: currentColor; }
 
 .Console .xterm-viewport,
 .Console .xterm-helpers {
