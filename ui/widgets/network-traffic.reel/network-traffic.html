@@ -10,7 +10,7 @@
             },
             "bindings": {
                 "enabledInterfaces": {"<-": "this.interfaces.filter{enabled}.sorted{id}"},
-                "card": {"<-": "this.object.context.selectedInterface || this.enabledInterfaces.0.id"}
+                "card": {"<-": "this.selectedInterface || this.enabledInterfaces.0.id"}
             }
         },
         "widget": {
@@ -66,7 +66,7 @@
             },
             "bindings": {
                 "options": {"<-": "@owner.enabledInterfaces"},
-                "selectedValue": {"<->": "@owner.object.context.selectedInterface"}
+                "selectedValue": {"<->": "@owner.selectedInterface"}
             }
         }
     }
