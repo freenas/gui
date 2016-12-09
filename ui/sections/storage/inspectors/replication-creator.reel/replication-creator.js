@@ -1,13 +1,5 @@
-/**
- * @module ui/replication-creator.reel
- */
-var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Model = require("core/model/model").Model;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
-/**
- * @class ReplicationCreator
- * @extends AbstractInspector
- */
 exports.ReplicationCreator = AbstractInspector.specialize(/** @lends ReplicationCreator# */ {
 
     _context: {
@@ -24,7 +16,7 @@ exports.ReplicationCreator = AbstractInspector.specialize(/** @lends Replication
             }
         }
     },
-    
+
     enterDocument: {
         value: function(isFirstTime) {
             var self = this;
@@ -95,7 +87,7 @@ exports.ReplicationCreator = AbstractInspector.specialize(/** @lends Replication
 
     _loadParentDataset: {
         value: function() {
-            var dataset = this._getCurrentDataset();
+            var dataset = this.selectionService.getClosestParentWithObjectType('VolumeDataset', this.context.columnIndex);
             if (dataset) {
                 this.object._dataset = dataset.id;
             }

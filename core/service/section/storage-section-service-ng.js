@@ -12,6 +12,7 @@ var topology_service_1 = require("core/service/topology-service");
 var model_1 = require("core/model/model");
 var vmware_repository_1 = require("../../repository/vmware-repository");
 var model_event_name_1 = require("../../model-event-name");
+var replication_repository_1 = require("../../repository/replication-repository");
 var StorageSectionService = (function (_super) {
     __extends(StorageSectionService, _super);
     function StorageSectionService() {
@@ -28,6 +29,7 @@ var StorageSectionService = (function (_super) {
         this.diskRepository = disk_repository_1.DiskRepository.getInstance();
         this.volumeRepository = volume_repository_1.VolumeRepository.getInstance();
         this.vmwareRepository = vmware_repository_1.VmwareRepository.getInstance();
+        this.replicationRepository = replication_repository_1.ReplicationRepository.getInstance();
         this.volumeRepository.getVdevRecommendations().then(function (vdevRecommendations) {
             self.topologyService = topology_service_1.TopologyService.instance.init(vdevRecommendations);
         });
@@ -113,6 +115,12 @@ var StorageSectionService = (function (_super) {
     };
     StorageSectionService.prototype.createVolume = function (volume) {
         return this.volumeRepository.createVolume(volume);
+    };
+    StorageSectionService.prototype.getReplicationOptionsInstance = function () {
+        return this.replicationRepository.getReplicationOptionsInstance();
+    };
+    StorageSectionService.prototype.replicateDataset = function (dataset, replicationOptions, transportOptions) {
+        return this.replicationRepository.replicateDataset(dataset, replicationOptions, transportOptions);
     };
     StorageSectionService.prototype.handleDisksChange = function (disks) {
     };

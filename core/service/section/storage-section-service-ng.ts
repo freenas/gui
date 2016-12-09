@@ -10,12 +10,14 @@ import { FilesystemService } from 'core/service/filesystem-service';
 import { Model } from 'core/model/model';
 import {VmwareRepository} from "../../repository/vmware-repository";
 import {ModelEventName} from "../../model-event-name";
+import {ReplicationRepository} from "../../repository/replication-repository";
 
 export class StorageSectionService extends AbstractSectionService {
     private shareRepository: ShareRepository;
     private diskRepository: DiskRepository;
     private volumeRepository: VolumeRepository;
     private vmwareRepository: VmwareRepository;
+    private replicationRepository: ReplicationRepository;
 
     private topologyService: TopologyService;
 
@@ -34,6 +36,7 @@ export class StorageSectionService extends AbstractSectionService {
         this.diskRepository = DiskRepository.getInstance();
         this.volumeRepository = VolumeRepository.getInstance();
         this.vmwareRepository = VmwareRepository.getInstance();
+        this.replicationRepository = ReplicationRepository.getInstance();
 
         this.volumeRepository.getVdevRecommendations().then(function(vdevRecommendations) {
             self.topologyService = TopologyService.instance.init(vdevRecommendations);
@@ -138,8 +141,15 @@ export class StorageSectionService extends AbstractSectionService {
         return this.volumeRepository.createVolume(volume);
     }
 
-    private handleDisksChange(disks: Map<string, Map<string, any>>) {
+    public getReplicationOptionsInstance() {
+        return this.replicationRepository.getReplicationOptionsInstance();
+    }
 
+    public replicateDataset(dataset: Object, replicationOptions: Object, transportOptions: Array<Object>) {
+        return this.replicationRepository.replicateDataset(dataset, replicationOptions, transportOptions);
+    }
+
+    private handleDisksChange(disks: Map<string, Map<string, any>>) {
     }
 
     private handleVolumesChange(volumes: Map<string, Map<string, any>>) {

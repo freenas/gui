@@ -1,4 +1,5 @@
 var AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate,
+    SelectionService = require("core/service/selection-service").SelectionService,
     EventDispatcherService = require('core/service/event-dispatcher-service').EventDispatcherService;
 
 exports.AbstractInspector = AbstractComponentActionDelegate.specialize({
@@ -35,6 +36,7 @@ exports.AbstractInspector = AbstractComponentActionDelegate.specialize({
 
     templateDidLoad: {
         value: function() {
+            this.selectionService = SelectionService.instance;
             this.eventDispatcherService = EventDispatcherService.getInstance();
             if (typeof this._inspectorTemplateDidLoad === 'function') {
                 var self = this;

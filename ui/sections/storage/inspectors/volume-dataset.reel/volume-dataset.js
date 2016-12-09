@@ -1,13 +1,5 @@
-/**
- * @module ui/volume-dataset.reel
- */
-var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Model = require("core/model/model").Model;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
-/**
- * @class VolumeDataset
- * @extends Component
- */
 exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# */ {
 
     TYPE_OPTIONS: {
@@ -93,7 +85,7 @@ exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# *
     enterDocument: {
         value: function(isFirstTime) {
             this.super();
-            this.volume = this._getCurrentVolume();
+            this.volume = this.selectionService.getClosestParentWithObjectType('Volume', this.context.columnIndex);
 
             if (this.object._isNew) {
                 this.object.type = "FILESYSTEM";
@@ -122,19 +114,6 @@ exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# *
         value: function() {
             if (this._name && this._path && this.object) {
                 this.object.id = this.path + '/' + this._name;
-            }
-        }
-    },
-
-    _getCurrentVolume: {
-        value: function() {
-            if (this.context) {
-                var currentSelection = this.application.selectionService.getCurrentSelection();
-                for (var i = this.context.columnIndex - 1; i >= 0; i--) {
-                    if (currentSelection[i].constructor.Type === Model.Volume || currentSelection[i]._objectType === Model.Volume.typeName) {
-                        return currentSelection[i];
-                    }
-                }
             }
         }
     },
