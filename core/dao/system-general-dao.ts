@@ -15,4 +15,12 @@ export class SystemGeneralDao extends AbstractDao {
         }
         return SystemGeneralDao.instance;
     }
+
+    public listTimezones(): Promise<Array<string>> {
+        return this.middlewareClient.callRpcMethod('system.general.timezones');
+    }
+
+    public listKeymaps(): Promise<Array<Array<string>>> {
+        return this.middlewareClient.callRpcMethod('system.general.keymaps');
+    }
 }

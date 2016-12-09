@@ -34,6 +34,13 @@ exports.AbstractInspector = AbstractComponentActionDelegate.specialize({
         }
     },
 
+    _forceSectionService: {
+        value: function(sectionService) {
+            this.__sectionService = this.application.sectionService = sectionService;
+            this.dispatchOwnPropertyChange('_sectionService', this.__sectionService);
+        }
+    },
+
     templateDidLoad: {
         value: function() {
             this.selectionService = SelectionService.instance;

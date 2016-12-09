@@ -1,14 +1,7 @@
-/**
- * @module ui/language-and-region.reel
- */
-var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    _ = require("lodash");
 
-/**
- * @class LanguageAndRegion
- * @extends Component
- */
-exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# */ {
+exports.LanguageAndRegion = AbstractInspector.specialize(/** @lends LanguageAndRegion# */ {
     timezoneOptions: {
         value: null
     },
@@ -74,8 +67,7 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
 
     enterDocument: {
         value: function(isFirstTime) {
-            var self = this,
-                loadingPromises = [];
+            var self = this;
             this.application.applicationContextService.findCurrentUser().then(function (user) {
                 self.user = user;
                 if (!user.attributes.userSettings) {
@@ -86,26 +78,23 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
             if (isFirstTime) {
                 this._dataService = this.application.dataService;
                 this.isLoading = true;
-                loadingPromises.push(
-                    this.application.systemGeneralService.getTimezoneOptions().then(function(timezoneOptions) {
-                        self.timezoneOptions = [];
-                        for(var i=0; i<timezoneOptions.length; i++) {
-                            self.timezoneOptions.push({label: timezoneOptions[i], value: timezoneOptions[i]});
-                        }
+                Promise.all([
+                    this._sectionService.getTimezoneOptions().then(function(timezoneOptions) {
+                        self.timezoneOptions = timezoneOptions.map(function(x) {
+                            return {label: x, value: x};
+                        });
                     }),
-                    this.application.systemGeneralService.getKeymapOptions().then(function(keymapsData) {
-                        self.keymapsOptions = [];
-                        for(var i=0; i<keymapsData.length; i++) {
-                            self.keymapsOptions.push({label: keymapsData[i][1], value: keymapsData[i][0]});
-                        }
+                    this._sectionService.getKeymapOptions().then(function(keymapsData) {
+                        self.keymapsOptions = keymapsData.map(function(x) {
+                            return {label: x[1], value: x[0]};
+                        });
                     }),
-                    this.application.systemGeneralService.getSystemGeneral().then(function(generalData) {
-                        self.generalData = generalData;
+                    this._sectionService.getSystemGeneral().then(function(systemGeneral) {
+                        self.generalData = systemGeneral;
                         self._snapshotDataObjectsIfNecessary();
                     })
-                );
-                Promise.all(loadingPromises).then(function() {
-                    this.isLoading = false;
+                ]).then(function() {
+                    self.isLoading = false;
                 });
                 var today = new Date();
                 this.dateFormatShortOptions = this.generateDateFormatConvertedList(today, this.shortDateFormats);
@@ -162,10 +151,10 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
     _snapshotDataObjectsIfNecessary: {
         value: function() {
             if (!this._generalData) {
-                this._generalData = this._dataService.clone(this.generalData);
+                this._generalData = _.cloneDeep(this.generalData);
             }
             if (!this._user) {
-                this._userSettings = this._dataService.clone(this.user.attributes.userSettings);
+                this._userSettings = _.cloneDeep(this.user.attributes.userSettings);
             }
         }
     }

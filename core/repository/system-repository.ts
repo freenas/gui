@@ -1,5 +1,5 @@
-import { SystemGeneralDao } from 'core/dao/system-general-dao';
-import { SystemTimeDao } from 'core/dao/system-time-dao';
+import {SystemGeneralDao} from "../dao/system-general-dao";
+import {SystemTimeDao} from "../dao/system-time-dao";
 import {SystemDatasetDao} from "../dao/system-dataset-dao";
 import {SystemDeviceDao} from "../dao/system-device-dao";
 import {SystemSectionDao} from "../dao/system-section-dao";
@@ -46,6 +46,14 @@ export class SystemRepository {
 
     public listSystemSections() {
         return this.systemSectionDao.list();
+    }
+
+    public listTimezones(): Promise<Array<string>> {
+        return this.systemGeneralDao.listTimezones();
+    }
+
+    public listKeymaps(): Promise<Array<Array<string>>> {
+        return this.systemGeneralDao.listKeymaps()
     }
 }
 

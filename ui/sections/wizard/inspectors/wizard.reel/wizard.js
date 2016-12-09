@@ -1,22 +1,8 @@
-/**
- * @module ui/wizard.reel
- */
-var Component = require("montage/ui/component").Component,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     WizardSectionService = require("core/service/section/wizard-section-service").WizardSectionService,
     wizardDescriptor = require("./wizard.json");
 
-/**
- * @class Wizard
- * @extends Component
- */
-exports.Wizard = Component.specialize(/** @lends Wizard# */ {
-
-    //TODO: remove when account will have been migrated to the new architecture.
-    _sectionService: {
-        get: function () {
-            return WizardSectionService.instance;
-        }
-    },
+exports.Wizard = AbstractInspector.specialize(/** @lends Wizard# */ {
 
     _currentIndex: {
         value: -1
@@ -53,8 +39,9 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
 
     enterDocument: {
         value: function (isFirstTime) {
+            this._forceSectionService(WizardSectionService.instance);
             if (isFirstTime) {
-                this.application.selectionService.saveSelection(this.application.section, [{}]);
+                this.selectionService.saveSelection(this.application.section, [{}]);
                 this.addEventListener("action", this);
             }
 

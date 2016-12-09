@@ -7,7 +7,7 @@
         {
             "id": "volume",
             "objectType": "Volume",
-            "service": "core/service/section/storage-section-service"
+            "service": "core/service/section/storage-section-service-ng"
         },
         {
             "id": "directoryServices",
@@ -24,7 +24,7 @@
             "id": "share",
             "objectType": "Share",
             "parent": "volume",
-            "service": "core/service/section/storage-section-service"
+            "service": "core/service/section/storage-section-service-ng"
         },
         {
             "id": "mail",

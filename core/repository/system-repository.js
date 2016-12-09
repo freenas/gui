@@ -1,6 +1,6 @@
 "use strict";
-var system_general_dao_1 = require("core/dao/system-general-dao");
-var system_time_dao_1 = require("core/dao/system-time-dao");
+var system_general_dao_1 = require("../dao/system-general-dao");
+var system_time_dao_1 = require("../dao/system-time-dao");
 var system_dataset_dao_1 = require("../dao/system-dataset-dao");
 var system_device_dao_1 = require("../dao/system-device-dao");
 var system_section_dao_1 = require("../dao/system-section-dao");
@@ -32,6 +32,12 @@ var SystemRepository = (function () {
     };
     SystemRepository.prototype.listSystemSections = function () {
         return this.systemSectionDao.list();
+    };
+    SystemRepository.prototype.listTimezones = function () {
+        return this.systemGeneralDao.listTimezones();
+    };
+    SystemRepository.prototype.listKeymaps = function () {
+        return this.systemGeneralDao.listKeymaps();
     };
     return SystemRepository;
 }());

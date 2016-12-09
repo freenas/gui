@@ -18,6 +18,12 @@ var SystemGeneralDao = (function (_super) {
         }
         return SystemGeneralDao.instance;
     };
+    SystemGeneralDao.prototype.listTimezones = function () {
+        return this.middlewareClient.callRpcMethod('system.general.timezones');
+    };
+    SystemGeneralDao.prototype.listKeymaps = function () {
+        return this.middlewareClient.callRpcMethod('system.general.keymaps');
+    };
     return SystemGeneralDao;
 }(abstract_dao_ng_1.AbstractDao));
 exports.SystemGeneralDao = SystemGeneralDao;

@@ -1,15 +1,16 @@
 var AbstractSectionService = require("core/service/section/abstract-section-service").AbstractSectionService,
-    StorageSectionService = require("core/service/section/storage-section-service").StorageSectionService,
     NotificationCenterModule = require("core/backend/notification-center"),
     Application = require("montage/core/application").application,
-    Model = require("core/model/model").Model
+    Model = require("core/model/model").Model,
+    SystemRepository = require("core/repository/system-repository").SystemRepository,
     WizardRepository = require("core/repository/wizard-repository").WizardRepository;
 
 exports.WizardSectionService = AbstractSectionService.specialize({
 
     init: {
-        value: function (wizardRepository) {
+        value: function (wizardRepository, systemRepository) {
             this._wizardRepository = wizardRepository || WizardRepository.instance;
+            this._systemRepository = systemRepository || SystemRepository.getInstance();
             Application.addEventListener("taskDone", this);
         }
     },
@@ -47,6 +48,24 @@ exports.WizardSectionService = AbstractSectionService.specialize({
     getNewShare: {
         value: function () {
             return this._wizardRepository.getNewShare();
+        }
+    },
+
+    getTimezoneOptions: {
+        value: function() {
+            return this._systemRepository.listTimezones();
+        }
+    },
+
+    getKeymapOptions: {
+        value: function() {
+            return this._systemRepository.listKeymaps();
+        }
+    },
+
+    getSystemGeneral: {
+        value: function() {
+            return this._systemRepository.getGeneral();
         }
     },
 
@@ -195,7 +214,7 @@ exports.WizardSectionService = AbstractSectionService.specialize({
 
             return response;
         }
-    },
+    }
 
 },
 //TODO: remove when wizard will have been migrated to the new architecture.
