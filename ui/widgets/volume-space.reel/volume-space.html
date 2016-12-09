@@ -9,7 +9,8 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "card": {"<-": "this.object.context.selectedRootDataset || this.datsets.0.volume"}
+                "card": {"<-": "this.selectedRootDataset || this.datsets.0.volume"},
+                "selectedDatasets": {"<-": "this.datasets.filter{ volume == @owner.selectedRootDataset.volume }"}
             }
         },
         "widget": {
@@ -36,7 +37,8 @@
                 "chartType": "radial"
             },
             "bindings": {
-                "source": {"<-": "'volume-' + @owner.card"}
+                "source": {"<-": "'volume-' + @owner.card"},
+                "data": {"<-": "@owner.selectedDatasets"}
             }
         },
         "selectOptionsConverter": {
@@ -55,7 +57,7 @@
             },
             "bindings": {
                 "options": {"<-": "@owner.datasets.filter{ volume == id }"},
-                "selectedValue": {"<->": "@owner.object.context.selectedRootDataset"}
+                "selectedValue": {"<->": "@owner.selectedRootDataset"}
             }
         }
     }
