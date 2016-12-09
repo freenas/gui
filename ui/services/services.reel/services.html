@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="services.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "cascadingList": {"@": "cascadingList"}
+            }
+        },
+        "cascadingList": {
+            "prototype": "ui/controls/cascading-list.reel",
+            "properties": {
+                "element": {"#": "cascadingList"}
+            },
+            "bindings": {
+                "root": {"<-": "@owner.categories"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Services">
+        <div data-montage-id="cascadingList"></div>
+    </div>
+</body>
+</html>
