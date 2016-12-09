@@ -2,16 +2,35 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
     NotificationCenterModule = require("core/backend/notification-center"),
     Application = require("montage/core/application").application,
     Model = require("core/model/model").Model,
+    TopologyService = require("core/service/topology-service").TopologyService,
+    DiskRepository = require("core/repository/disk-repository").DiskRepository,
+    VolumeRepository = require("core/repository/volume-repository").VolumeRepository,
     SystemRepository = require("core/repository/system-repository").SystemRepository,
     WizardRepository = require("core/repository/wizard-repository").WizardRepository;
 
 exports.WizardSectionService = AbstractSectionService.specialize({
 
     init: {
-        value: function (wizardRepository, systemRepository) {
+        value: function (wizardRepository, systemRepository, diskRepository, volumeRepository, topologyService) {
             this._wizardRepository = wizardRepository || WizardRepository.instance;
             this._systemRepository = systemRepository || SystemRepository.getInstance();
+            this._diskRepository = diskRepository || DiskRepository.getInstance();
+            this._volumeRepository = volumeRepository || VolumeRepository.getInstance();
+            this._topologyService = topologyService || TopologyService.instance;
             Application.addEventListener("taskDone", this);
+
+            var self = this,
+                availablePaths;
+            return this._volumeRepository.listVolumes().then(function() {
+                return self._volumeRepository.getAvailableDisks();
+            }).then(function(paths) {
+                availablePaths = paths;
+                return self._diskRepository.listDisks();
+            }).then(function(disks) {
+                return self._volumeRepository.getDisksAllocations(disks.map(function(x) { return x.id; }));
+            }).then(function(disksAllocations) {
+                return self._diskRepository.updateDiskUsage(availablePaths, disksAllocations);
+            });
         }
     },
 
@@ -66,6 +85,38 @@ exports.WizardSectionService = AbstractSectionService.specialize({
     getSystemGeneral: {
         value: function() {
             return this._systemRepository.getGeneral();
+        }
+    },
+
+    clearReservedDisks: {
+        value: function() {
+            return this._diskRepository.clearReservedDisks();
+        }
+    },
+
+    listAvailableDisks: {
+        value: function() {
+            return this._diskRepository.listAvailableDisks();
+        }
+    },
+
+    generateTopology: {
+        value: function(topology, disks, redundancy, speed, storage) {
+            var self = this;
+            this.clearReservedDisks();
+            var vdev, j, disksLength,
+                priorities = this._topologyService.generateTopology(topology, this._diskRepository.listAvailableDisks(), redundancy, speed, storage);
+            for (var i = 0, vdevsLength = topology.data.length; i < vdevsLength; i++) {
+                vdev = topology.data[i];
+                if (Array.isArray(vdev.children)) {
+                    for (j = 0, disksLength = vdev.children.length; j < disksLength; j++) {
+                        self._diskRepository.markDiskAsReserved(vdev.children[j]);
+                    }
+                } else {
+                    self._diskRepository.markDiskAsReserved(vdev);
+                }
+            }
+            return priorities;
         }
     },
 

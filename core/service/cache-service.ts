@@ -28,7 +28,7 @@ export class CacheService {
     public registerTypeForKey(this: CacheService, type: Object, key: string) {
         let self = this,
             promise;
-        if (!this.types.has(key) || this.types.get(key) !== type || !type.objectPrototype) {
+        if (!this.types.has(key) || this.types.get(key) !== type || !type.objectPrototype || Promise.is(type.objectPrototype)) {
             promise = this.ensureModelIsPopulated(type).then(function() {
                 self.types.set(key, type);
             });
@@ -83,15 +83,19 @@ export class CacheService {
         this.currentState = state;
     }
 
-    private ensureModelIsPopulated(type: Object) {
-        return (!type || type.objectPrototype || !type.typeName) ? Promise.resolve() : Model.populateObjectPrototypeForType(type);
+    private ensureModelIsPopulated(type: any) {
+        return (!type || type.objectPrototype || !type.typeName) ?
+            Promise.is(type.objectPrototype) ?
+                type.objectPrototype.then(function(objectPrototype) { type.objectPrototype = objectPrototype }) :
+                Promise.resolve() :
+            Model.populateObjectPrototypeForType(type);
     }
 
     private updateDataStoreForKey(this: CacheService, key: any, state: Map<string, Map<string, any>>) {
         let self = this,
             cache = self.initializeCacheKey(key),
             cachedKeys = [], object;
-        for (var i = cache.length - 1; i >= 0; i--) {
+        for (let i = cache.length - 1; i >= 0; i--) {
             object = cache[i];
             if (state.has(object.id)) {
                 this.mergeObjects(object, state.get(object.id).toJS());

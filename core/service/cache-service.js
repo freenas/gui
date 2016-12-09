@@ -18,7 +18,7 @@ var CacheService = (function () {
     };
     CacheService.prototype.registerTypeForKey = function (type, key) {
         var self = this, promise;
-        if (!this.types.has(key) || this.types.get(key) !== type || !type.objectPrototype) {
+        if (!this.types.has(key) || this.types.get(key) !== type || !type.objectPrototype || Promise.is(type.objectPrototype)) {
             promise = this.ensureModelIsPopulated(type).then(function () {
                 self.types.set(key, type);
             });
@@ -69,7 +69,11 @@ var CacheService = (function () {
         this.currentState = state;
     };
     CacheService.prototype.ensureModelIsPopulated = function (type) {
-        return (!type || type.objectPrototype || !type.typeName) ? Promise.resolve() : model_1.Model.populateObjectPrototypeForType(type);
+        return (!type || type.objectPrototype || !type.typeName) ?
+            Promise.is(type.objectPrototype) ?
+                type.objectPrototype.then(function (objectPrototype) { type.objectPrototype = objectPrototype; }) :
+                Promise.resolve() :
+            model_1.Model.populateObjectPrototypeForType(type);
     };
     CacheService.prototype.updateDataStoreForKey = function (key, state) {
         var self = this, cache = self.initializeCacheKey(key), cachedKeys = [], object;
