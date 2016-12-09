@@ -63,7 +63,7 @@
         filter: drop-shadow(0 2px 2px rgba(0,0,0,.5));
     }
 
-    & .removedStatus-exported { color: purple; }
+    & .removedStatus-exported { color: #D78F2A; }
 }
 
 .DiskIcon-smartStatus {
@@ -73,7 +73,7 @@
     right: -.5em;
     height: 1.2em;
     width:  1.2em;
-    color: #D95B1B;
+    color: #D78F2A;
 
     & svg {
         height: 1.2em;
