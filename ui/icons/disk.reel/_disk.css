@@ -1,5 +1,5 @@
 @keyframes beacon {
-    0%   {transform: scale(.5); opacity: 1;}
+    0%   {transform: scale(.5); opacity: .5;}
     100% {transform: scale(2); opacity: 0;}
 }
 
@@ -44,35 +44,45 @@
 
 /* states */
 
-.DiskIcon.fail,
-.DiskIcon.warn,
-.DiskIcon.offline {
-    & img { opacity: .5; }
+.DiskIcon-img {
+    @nest .DiskIcon.removed & {
+        opacity: .5;
+    }
 }
 
-.DiskIcon.fail      { color: #E0003A; }
-.DiskIcon.warn      { color: #D95B1B;}
-.DiskIcon.offline   { color: #2F3233; }
-
-
-/* warning icon */
-
-.DiskIcon-statusIcon {
-    position: absolute;
-    top:   1em;
-    left:  50%;
-    margin-left: -.75em;
-    width:  1.5em;
-    height: 1.5em;
+.DiskIcon-removedStatus {
+    position: relative;
     z-index: 1;
+    top: 1.5em;
+    position: absolute;
+    color: #2F3233;
 
     & svg {
-        position: relative;
-        overflow: visible;
+        height: 1.5em;
+        width:  1.5em;
         filter: drop-shadow(0 2px 2px rgba(0,0,0,.5));
     }
 
-    @nest .DiskIcon.fail & {
+    & .removedStatus-exported { color: purple; }
+}
+
+.DiskIcon-smartStatus {
+    position: absolute;
+    z-index: 1;
+    top: -.5em;
+    right: -.5em;
+    height: 1.2em;
+    width:  1.2em;
+    color: #D95B1B;
+
+    & svg {
+        height: 1.2em;
+        width:  1.2em;
+        filter: drop-shadow(0 2px 2px rgba(0,0,0,.25));
+    }
+
+    & .smartStatus-fail {
+        color: #E0003A;
 
         &:after,
         &:before {
@@ -86,11 +96,12 @@
             border: 2px solid currentColor;
             border-radius: 50%;
             animation: beacon 2s infinite linear;
+            z-index: 1;
         }
 
         &:before {
             animation-delay: .5s;
         }
     }
-
 }
+
