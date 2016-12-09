@@ -4,10 +4,6 @@ var Component = require("montage/ui/component").Component,
 exports.RadialChart = Component.specialize(/** @lends Chart# */ {
     OPTIONS: {
         value: {
-            updatePeriod: {
-                defaultValue: 10000,
-                minimum: 500
-            },
             showLegend: {
                 defaultValue: false
             },
@@ -25,29 +21,16 @@ exports.RadialChart = Component.specialize(/** @lends Chart# */ {
             },
             showMinMax: {
                 defaultValue: false
-            },
-            isSunburst: {
-                defaultValue: false
             }
         }
-    },
-
-    _updateInterval: {
-        value: null
     },
 
     _chart: {
         value: null
     },
 
-    _datasets: {
-        value: null
-    },
-
-    constructor: {
-        value: function() {
-            this._datasets = {};
-        }
+    data: {
+        value: []
     },
 
     _getOptionValue: {
