@@ -48,15 +48,19 @@ exports.ChartLive = Component.specialize({
 
     enterDocument: {
         value: function() {
-            this._initializeData();
+            if (this.chartType !== "radial") {
+                this._initializeData();
+            }
         }
     },
 
     exitDocument: {
         value: function() {
-            this._unsubscribeAllUpdates();
-            if (typeof this._cancelDatasourcesChange == "function") {
-                this._cancelDatasourcesChange();
+            if (this.chartType !== "radial" ) {
+                this._unsubscribeAllUpdates();
+                if (typeof this._cancelDatasourcesChange == "function") {
+                    this._cancelDatasourcesChange();
+                }
             }
         }
     },
