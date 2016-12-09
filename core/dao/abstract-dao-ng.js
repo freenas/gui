@@ -41,8 +41,16 @@ var AbstractDao = (function () {
     AbstractDao.prototype.get = function () {
         return this.list().then(function (x) { return x[0]; });
     };
-    AbstractDao.prototype.findSingleEntry = function (criteria) {
-        return this.query(criteria, true).then(function (results) {
+    AbstractDao.prototype.findSingleEntry = function (criteria, params) {
+        params = params || {};
+        params.single = true;
+        return this.query(criteria, params).then(function (results) {
+            return results[0];
+        });
+    };
+    AbstractDao.prototype.find = function (criteria, params) {
+        params = params || {};
+        return this.query(criteria, params).then(function (results) {
             return results[0];
         });
     };
@@ -103,33 +111,20 @@ var AbstractDao = (function () {
             return results;
         });
     };
-    AbstractDao.prototype.getMiddlewareCriteria = function (criteria, isSingle, limit) {
-        var keys = Object.keys(criteria), middlewareCriteria = [], result, key, value;
+    AbstractDao.prototype.getMiddlewareCriteria = function (criteria, params) {
+        var keys = Object.keys(criteria), middlewareCriteria = [], key, value;
         for (var i = 0, length_1 = keys.length; i < length_1; i++) {
             key = keys[i];
             value = criteria[key];
             if (typeof value === 'object') {
-                var subCriteria = this._getMiddlewareCriteriaFromObject(value);
+                var subCriteria = this.getMiddlewareCriteria(value);
                 Array.prototype.push.apply(middlewareCriteria, subCriteria.map(function (x) { return [key + '.' + x[0], x[1], x[2]]; }));
             }
             else {
                 middlewareCriteria.push([key, '=', value]);
             }
         }
-        if (isSingle || (limit && limit !== -1)) {
-            var params = {};
-            if (isSingle) {
-                params.single = true;
-            }
-            if (limit && limit !== -1) {
-                params.limit = limit;
-            }
-            result = [middlewareCriteria, params];
-        }
-        else {
-            result = [middlewareCriteria];
-        }
-        return result;
+        return params ? [middlewareCriteria, params] : [middlewareCriteria];
     };
     return AbstractDao;
 }());

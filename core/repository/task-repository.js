@@ -16,13 +16,13 @@ exports.TaskRepository = AbstractRepository.specialize(/** @lends TaskRepository
 
     listTasks: {
         value: function () {
-            return this._taskDao.find({}, true, 25);
+            return this._taskDao.find({}, { limit: 25 });
         }
     },
 
     findTasks: {
         value: function (filter) {
-            return this._taskDao.find(filter, true, Object.keys(filter).length > 0 ? 0 : 25);
+            return this._taskDao.find(filter, { limit: Object.keys(filter).length > 0 ? -1 : 25 });
         }
     }
 });

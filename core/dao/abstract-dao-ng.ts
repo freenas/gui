@@ -28,7 +28,7 @@ export class AbstractDao {
     private cacheService: CacheService;
     private registerPromise: Promise<void>;
 
-    public constructor(model: Object, config?: any) {
+    public constructor(model: any, config?: any) {
         config = config || {};
         let self = this;
         this.model = model;
@@ -45,7 +45,7 @@ export class AbstractDao {
         // DTM
         this.cacheService = CacheService.getInstance();
         this.registerPromise = this.cacheService.registerTypeForKey(model, model.typeName).then(function() {
-            self.propertyDescriptors = new Map<string, Object>();
+            self.propertyDescriptors = new Map<string, any>();
             if (model.constructor.propertyBlueprints) {
                 for (let descriptor of model.constructor.propertyBlueprints) {
                     self.propertyDescriptors.set(descriptor.name, descriptor);
@@ -62,17 +62,26 @@ export class AbstractDao {
         return this.list().then((x) => x[0]);
     }
 
-    public findSingleEntry(criteria: Object): Promise<Object> {
-        return this.query(criteria, true).then(function(results) {
+    public findSingleEntry(criteria: any, params?: any): Promise<any> {
+        params = params || {};
+        params.single = true;
+        return this.query(criteria, params).then(function(results) {
             return results[0];
         });
     }
 
-    public save(object: Object, args?: Array<any>): Promise<Object> {
+    public find(criteria: any, params?: any): Promise<any> {
+        params = params || {};
+        return this.query(criteria, params).then(function(results) {
+            return results[0];
+        });
+    }
+
+    public save(object: any, args?: Array<any>): Promise<any> {
         return object._isNew ? this.create(object, args) : this.update(object, args);
     }
 
-    public delete(object: Object, args?: Array<any>) {
+    public delete(object: any, args?: Array<any>) {
         args = args || [];
         return this.middlewareClient.submitTask(this.deleteMethod, _.concat([object.id], args));
     }
@@ -98,7 +107,7 @@ export class AbstractDao {
         })
     }
 
-    private update(object: Object, args?: Array<any>): Promise<Object> {
+    private update(object: any, args?: Array<any>): Promise<any> {
         args = args || [];
         return this.middlewareClient.submitTask(this.updateMethod, _.concat([object.id,
             diffProcessor.process(
@@ -112,7 +121,7 @@ export class AbstractDao {
         ], args));
     }
 
-    private create(object: Object, args?: Array<any>): Promise<Object> {
+    private create(object: any, args?: Array<any>): Promise<any> {
         args = args || [];
         return this.middlewareClient.submitTask(this.createMethod, _.concat([
             nullProcessor.process(
@@ -124,7 +133,7 @@ export class AbstractDao {
         ], args));
     }
 
-    private query(criteria?: Object, isSingle?: boolean): Promise<void> {
+    private query(criteria?: any, isSingle?: boolean): Promise<void> {
         let self = this,
             middlewareCriteria = criteria ? this.getMiddlewareCriteria(criteria, isSingle) : [];
         let modelInitializationPromise = this.model.typeName ? Model.populateObjectPrototypeForType(this.model) : Promise.resolve();
@@ -146,34 +155,21 @@ export class AbstractDao {
         });
     }
 
-    private getMiddlewareCriteria(criteria, isSingle, limit): Array<Array<string>> {
-            let keys = Object.keys(criteria),
-                middlewareCriteria = [],
-                result,
-                key, value;
-            for (let i = 0, length = keys.length; i < length; i++) {
-                key = keys[i];
-                value = criteria[key];
-                if (typeof value === 'object') {
-                    let subCriteria = this._getMiddlewareCriteriaFromObject(value);
-                    Array.prototype.push.apply(middlewareCriteria, subCriteria.map(function(x) { return [key + '.' + x[0], x[1], x[2]] }));
-                } else {
-                    middlewareCriteria.push([key, '=', value]);
-                }
-            }
-            if (isSingle || (limit && limit !== -1)) {
-                let params = {};
-                if (isSingle) {
-                    params.single = true;
-                }
-                if (limit && limit !== -1) {
-                    params.limit = limit;
-                }
-                result = [middlewareCriteria, params];
+    private getMiddlewareCriteria(criteria: Object, params?: Object): Array<any> {
+        let keys = Object.keys(criteria),
+            middlewareCriteria = [],
+            key, value;
+        for (let i = 0, length = keys.length; i < length; i++) {
+            key = keys[i];
+            value = criteria[key];
+            if (typeof value === 'object') {
+                let subCriteria = this.getMiddlewareCriteria(value);
+                Array.prototype.push.apply(middlewareCriteria, subCriteria.map(function(x) { return [key + '.' + x[0], x[1], x[2]] }));
             } else {
-                result = [middlewareCriteria];
+                middlewareCriteria.push([key, '=', value]);
             }
-            return result;
+        }
+        return params ? [middlewareCriteria, params] : [middlewareCriteria];
     }
 
 }
