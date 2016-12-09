@@ -1,5 +1,7 @@
 import { EventDispatcherService } from 'core/service/event-dispatcher-service';
 import * as immutable from 'immutable';
+import {ModelEventName} from "../model-event-name";
+import {Map} from "immutable";
 
 export abstract class AbstractRepository {
     protected previousState: immutable.Map<string, immutable.Map<string, Map<string, any>>>;
@@ -27,6 +29,26 @@ export abstract class AbstractRepository {
                 this.previousState = state
             }
         }
+    }
+
+    protected dispatchModelEvents(repositoryEntries: Map<string, Map<string, any>>, modelEventName: ModelEventName, state: any) {
+        let self = this;
+        this.eventDispatcherService.dispatch(modelEventName.listChange, state);
+        state.forEach(function(stateEntry, id){
+            if (!repositoryEntries || !repositoryEntries.has(id)) {
+                self.eventDispatcherService.dispatch(modelEventName.add(id), stateEntry);
+            } else if (repositoryEntries.get(id) !== stateEntry) {
+                self.eventDispatcherService.dispatch(modelEventName.change(id), stateEntry);
+            }
+        });
+        if (repositoryEntries) {
+            repositoryEntries.forEach(function(repositoryEntry, id){
+                if (!state.has(id) || state.get(id) !== repositoryEntry) {
+                    self.eventDispatcherService.dispatch(modelEventName.remove(id), repositoryEntry);
+                }
+            });
+        }
+        return state;
     }
 
     protected abstract handleStateChange(name: string, data: any);

@@ -6,6 +6,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var abstract_repository_ng_1 = require("./abstract-repository-ng");
 var disk_dao_1 = require("core/dao/disk-dao");
+var model_event_name_1 = require("../model-event-name");
 var DiskRepository = (function (_super) {
     __extends(DiskRepository, _super);
     function DiskRepository(diskDao) {
@@ -67,26 +68,9 @@ var DiskRepository = (function (_super) {
         this.eventDispatcherService.dispatch('availableDisksChange', this.listAvailableDisks());
     };
     DiskRepository.prototype.handleStateChange = function (name, state) {
-        var self = this;
         switch (name) {
             case 'Disk':
-                this.eventDispatcherService.dispatch('disksChange', state);
-                state.forEach(function (disk, id) {
-                    if (!self.disks || !self.disks.has(id)) {
-                        self.eventDispatcherService.dispatch('diskAdd.' + id, disk);
-                    }
-                    else if (self.disks.get(id) !== disk) {
-                        self.eventDispatcherService.dispatch('diskChange.' + id, disk);
-                    }
-                });
-                if (this.disks) {
-                    this.disks.forEach(function (disk, id) {
-                        if (!state.has(id) || state.get(id) !== disk) {
-                            self.eventDispatcherService.dispatch('diskRemove.' + id, disk);
-                        }
-                    });
-                }
-                this.disks = state;
+                this.disks = this.dispatchModelEvents(this.disks, model_event_name_1.ModelEventName.Disk, state);
                 break;
             default:
                 break;

@@ -13,7 +13,7 @@ import { CacheService } from 'core/service/cache-service';
 export class AbstractDao {
     protected middlewareClient: MiddlewareClient;
     protected datastoreService: DatastoreService;
-    protected static Model: Object = Model;
+    protected static Model = Model;
     protected model: Object;
     private middlewareName: string;
     private objectType: string;

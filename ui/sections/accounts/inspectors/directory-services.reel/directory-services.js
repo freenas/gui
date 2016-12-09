@@ -1,19 +1,42 @@
-/**
- * @module ui/account-directory-services.reel
- */
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    ModelEventName = require("core/model-event-name").ModelEventName,
     Model = require("core/model/model").Model;
 
-/**
- * @class DirectoryServices
- * @extends Component
- */
 exports.DirectoryServices = AbstractInspector.specialize({
+    _inspectorTemplateDidLoad: {
+        value: function() {
+            var self = this;
+            this._sectionService.listNtpServers().then(function(ntpServers) {
+                self._handleNtpServersChange(ntpServers);
+                if (self.ntpServerOptions.length) {
+                    self.ntpServer = self.ntpServerOptions[0].value;
+                }
+                self.eventDispatcherService.addEventListener(ModelEventName.NtpServer.listChange, self._handleNtpServersChange.bind(self));
+            })
+        }
+    },
 
     enterDocument: {
         value: function () {
             this.super();
             this._fetchDataIfNeeded();
+        }
+    },
+
+    _handleNtpServersChange: {
+        value: function(ntpServers) {
+            if (!Array.isArray(ntpServers)) {
+                ntpServers = ntpServers.toJS();
+            }
+            this.ntpServerOptions = ntpServers.map(function(x) {
+                return { label: x.address, value: x.address };
+            });
+        }
+    },
+
+    handleNtpSyncNowAction: {
+        value: function() {
+            return this._sectionService.syncNtpNow(this.ntpServer);
         }
     },
 

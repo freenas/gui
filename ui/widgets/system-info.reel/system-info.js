@@ -1,5 +1,7 @@
 var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+    VmRepository = require("core/repository/vm-repository").VmRepository,
+    DiskRepository = require("core/repository/disk-repository").DiskRepository,
+    SystemService = require("core/service/system-service").SystemService;
 
 exports.SystemInfo = Component.specialize({
     systemInfo: {
@@ -10,8 +12,9 @@ exports.SystemInfo = Component.specialize({
         value: function() {
             var self = this;
 
-            this._systemService = this.application.systemService;
-            this._dataService = this.application.dataService;
+            this._systemService = SystemService.getInstance();
+            this._vmRepository = VmRepository.instance;
+            this._diskRepository = DiskRepository.getInstance();
 
             this.systemInfo = {};
 
@@ -23,13 +26,13 @@ exports.SystemInfo = Component.specialize({
                 return self._systemService.getGeneral();
             }).then(function(general) {
                 self.systemInfo.general = general;
-                return self._loadDisks();
+                return self._diskRepository.listDisks();
             }).then(function(disks) {
                 self.systemInfo.disks = disks;
                 return self._systemService.getLoad();
             }).then(function(load) {
                 self.systemInfo.load = load;
-                return self._loadHardwareCapabilities();
+                return self._vmRepository.getHardwareCapabilities();
             }).then(function(vm) {
                 self.systemInfo.vmSupport = vm.vtx_enabled ?
                     vm.unrestricted_guest ? "Full" : "Partial" :
@@ -39,26 +42,14 @@ exports.SystemInfo = Component.specialize({
     },
 
     enterDocument: {
-        value: function (firstTime) {
-            return self._systemService.getTime().then(this._startTime.bind(this));
+        value: function () {
+            return this._systemService.getTime().then(this._startTimer.bind(this));
         }
     },
 
     exitDocument: {
         value: function() {
             this._stopTimer();
-        }
-    },
-
-    _loadDisks: {
-        value: function() {
-            return this._dataService.fetchData(Model.Disk);
-        }
-    },
-
-    _loadHardwareCapabilities: {
-        value: function() {
-            return this.application.virtualMachineService.getHardwareCapabilities();
         }
     },
 
@@ -75,7 +66,7 @@ exports.SystemInfo = Component.specialize({
                     uptime: time.uptime + elapsed / 1000,
                     system_time: new Date(startSystemTime + elapsed).toISOString()
                 };
-            }, 1000);
+            }, 500);
         }
     },
 

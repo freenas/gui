@@ -9,7 +9,7 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
 exports.VmRepository = AbstractRepository.specialize({
     init: {
         value: function(vmDao, vmTemplateDao, vmDeviceDao, vmVolumeDao, vmReadmeDao) {
-            this._vmDao = vmDao || VmDao.instance;
+            this._vmDao = vmDao || VmDao.getInstance();
             this._vmTemplateDao = vmTemplateDao || VmTemplateDao.getInstance();
             this._vmDeviceDao = vmDeviceDao || VmDeviceDao.instance;
             this._vmVolumeDao = vmVolumeDao || VmVolumeDao.instance;
@@ -100,6 +100,12 @@ exports.VmRepository = AbstractRepository.specialize({
     getSerialToken: {
         value: function(vmId) {
             return this._vmDao.requestSerialConsole(vmId);
+        }
+    },
+
+    getHardwareCapabilities: {
+        value: function() {
+            return this._vmDao.getHardwareCapabilities();
         }
     }
 

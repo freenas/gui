@@ -22,7 +22,8 @@
     "xterm": "^1.0.0"
   },
   "redirects": {
-    "redux": "redux/dist/redux.min.js"
+    "redux": "redux/dist/redux.min.js",
+    "bluebird": "node_modules/bluebird/js/browser/bluebird.min.js"
   },
   "devDependencies": {
     "browser-sync": "^2.13.0",

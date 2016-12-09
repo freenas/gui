@@ -1,24 +1,33 @@
-import { UserDao } from 'core/dao/user-dao';
-import { GroupDao } from 'core/dao/group-dao';
+import {UserDao} from "core/dao/user-dao";
+import {GroupDao} from "core/dao/group-dao";
 import {DirectoryServicesDao} from "../dao/directory-services-dao";
 import {DirectoryserviceConfigDao} from "../dao/directoryservice-config-dao";
 import {AbstractRepository} from "./abstract-repository-ng";
-import {ShellDao} from "../dao/shell-dao";
+import * as Promise from "bluebird";
+import {DirectoryDao} from "../dao/directory-dao";
+import {Map} from "immutable";
+import {ModelEventName} from "../model-event-name";
 
-export class AccountRepository extends AbstractRepository{
+export class AccountRepository extends AbstractRepository {
     private static instance: AccountRepository;
 
     private users: Map<string, Map<string, any>>;
     private groups: Map<string, Map<string, any>>;
     private directoryServices: Map<string, Map<string, any>>;
+    private directories: Map<string, Map<string, any>>;
 
-    private constructor(
-        private userDao: UserDao,
-        private groupDao: GroupDao,
-        private directoryServiceDao: DirectoryServicesDao,
-        private directoryserviceConfigDao: DirectoryserviceConfigDao,
-        private shellDao: ShellDao
-    ) {
+    private DIRECTORY_TYPES_LABELS = {
+        winbind: "Active Directory",
+        freeipa: "FreeIPA",
+        ldap: "LDAP",
+        nis: "NIS"
+    }
+
+    private constructor(private userDao: UserDao,
+                        private groupDao: GroupDao,
+                        private directoryServiceDao: DirectoryServicesDao,
+                        private directoryserviceConfigDao: DirectoryserviceConfigDao,
+                        private directoryDao: DirectoryDao) {
         super([
             'User',
             'Group',
@@ -33,7 +42,7 @@ export class AccountRepository extends AbstractRepository{
                 GroupDao.getInstance(),
                 DirectoryServicesDao.getInstance(),
                 DirectoryserviceConfigDao.getInstance(),
-                ShellDao.getInstance()
+                DirectoryDao.getInstance()
             );
         }
         return AccountRepository.instance;
@@ -55,82 +64,41 @@ export class AccountRepository extends AbstractRepository{
         return this.groups ? Promise.resolve(this.groups.toSet().toJS()) : this.groupDao.list();
     }
 
-    public listDirectoryServices(): Promise<Array<Object>> {
-        return this.directoryServiceDao.list();
-    }
-
     public getNewDirectoryServices(): Promise<Object> {
         return this.directoryServiceDao.getNewInstance();
     }
 
-    public getDirectoryServiceConfig() {
+    public getDirectoryServiceConfig(): Promise<Object> {
         return this.directoryserviceConfigDao.get();
     }
 
-    public listShells() {
-        return this.shellDao.list();
+    public getNewDirectoryForType(type: string) {
+        return this.directoryDao.getNewInstance().then(function (directory) {
+            directory.type = type;
+            directory.parameters = {"%type": type + "-directory-params"};
+            directory.label = this.DIRECTORY_TYPES_LABELS[type];
+
+            return directory;
+        });
     }
 
     protected handleStateChange(name: string, state: any) {
-        let self = this;
         switch (name) {
             case 'User':
-                this.eventDispatcherService.dispatch('usersChange', state);
-                state.forEach(function(user, id){
-                    if (!self.users || !self.users.has(id)) {
-                        self.eventDispatcherService.dispatch('userAdd.' + id, user);
-                    } else if (self.users.get(id) !== user) {
-                        self.eventDispatcherService.dispatch('userChange.' + id, user);
-                    }
-                });
-                if (this.users) {
-                    this.users.forEach(function(user, id){
-                        if (!state.has(id) || state.get(id) !== user) {
-                            self.eventDispatcherService.dispatch('userRemove.' + id, user);
-                        }
-                    });
-                }
-                this.users = state;
+                this.users = this.dispatchModelEvents(this.users, ModelEventName.User, state);
                 break;
             case 'Group':
-                this.eventDispatcherService.dispatch('groupsChange', state);
-                state.forEach(function(group, id){
-                    if (!self.groups || !self.groups.has(id)) {
-                        self.eventDispatcherService.dispatch('groupAdd.' + id, group);
-                    } else if (self.groups.get(id) !== group) {
-                        self.eventDispatcherService.dispatch('groupChange.' + id, group);
-                    }
-                });
-                if (this.groups) {
-                    this.groups.forEach(function(group, id){
-                        if (!state.has(id) || state.get(id) !== group) {
-                            self.eventDispatcherService.dispatch('groupRemove.' + id, group);
-                        }
-                    });
-                }
-                this.groups = state;
+                this.groups = this.dispatchModelEvents(this.groups, ModelEventName.Group, state);
                 break;
             case 'Directory':
-                this.eventDispatcherService.dispatch('directoriesChange', state);
-                state.forEach(function(directory, id){
-                    if (!self.directorys || !self.directorys.has(id)) {
-                        self.eventDispatcherService.dispatch('directoryAdd.' + id, directory);
-                    } else if (self.directorys.get(id) !== directory) {
-                        self.eventDispatcherService.dispatch('directoryChange.' + id, directory);
-                    }
-                });
-                if (this.directorys) {
-                    this.directorys.forEach(function(directory, id){
-                        if (!state.has(id) || state.get(id) !== directory) {
-                            self.eventDispatcherService.dispatch('directoryRemove.' + id, directory);
-                        }
-                    });
-                }
-                this.directorys = state;
+                this.directories = this.dispatchModelEvents(this.directories, ModelEventName.Directory, state);
                 break;
             default:
                 break;
         }
+    }
+
+    protected handleEvent(name: string, data: any) {
     }
 }
 

@@ -18,14 +18,6 @@ exports.SectionRoot = AbstractInspector.specialize({
             }
             this._disableSectionIfNecessary();
             this.object.entriesTitle = this._sectionService.entriesTitle;
-            this._eventDispatcherService.addEventListener('sectionEntriesChange.' + this.object.id, this._handleEntriesChange.bind(this))
-        }
-    },
-
-    exitDocument: {
-        value: function() {
-            this.super();
-            this._eventDispatcherService.removeEventListener('sectionEntriesChange.' + this.object.id, this._handleEntriesChange.bind(this))
         }
     },
 

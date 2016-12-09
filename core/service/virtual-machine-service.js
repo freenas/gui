@@ -1,6 +1,7 @@
 var Montage = require("montage").Montage,
+    VmRepository
+    MiddlewareClient = require("core/service/middleware-client").MiddlewareClient,
     FreeNASService = require("core/service/freenas-service").FreeNASService,
-    BackEndBridgeModule = require("../backend/backend-bridge"),
     Model = require("core/model/model").Model,
     VmDeviceType = require("core/model/enumerations/vm-device-type").VmDeviceType;
 
@@ -125,17 +126,14 @@ var VirtualMachineService = exports.VirtualMachineService = Montage.specialize({
 
     listVirtualMachines: {
         value: function() {
-            var self = this;
-            return this._dataService.fetchData(Model.Vm).then(function(virtualMachines) {
-                return virtualMachines;
-            });
+            return this._dataService.fetchData(Model.Vm);
         }
     },
 
     getTemplates: {
         value: function() {
             var self = this;
-            return this._callBackend("vm.template.query", []).then(function(templates) {
+            return this._middlewareClient.callRpcMethod("vm.template.query", []).then(function(templates) {
                 var results = [];
                 for (var i = 0, length = templates.data.length; i < length; i++) {
                     results.push(self._dataService.mapRawDataToType(templates.data[i], Model.Vm));
@@ -148,18 +146,9 @@ var VirtualMachineService = exports.VirtualMachineService = Montage.specialize({
     getHardwareCapabilities: {
         value: function() {
             return this._hardwareCapabilitiesPromise = this._hardwareCapabilitiesPromise ||
-                this._callBackend("vm.get_hw_vm_capabilities", []).then(function(response) {
+                this._middlewareClient.callRpcMethod("vm.get_hw_vm_capabilities", []).then(function(response) {
                     return response.data;
                 });
-        }
-    },
-
-    _callBackend: {
-        value: function(method, args) {
-            return this._backendBridge.send("rpc", "call", {
-                method: method,
-                args: args
-            });
         }
     }
 }, {
@@ -168,7 +157,7 @@ var VirtualMachineService = exports.VirtualMachineService = Montage.specialize({
             if (!this._instance) {
                 this._instance = new VirtualMachineService();
                 this._instance._dataService = FreeNASService.instance;
-                this._instance._backendBridge = BackEndBridgeModule.defaultBackendBridge;
+                this._instance._middlewareClient = MiddlewareClient.getInstance();
             }
             return this._instance;
         }

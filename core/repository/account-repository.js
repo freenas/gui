@@ -9,10 +9,12 @@ var group_dao_1 = require("core/dao/group-dao");
 var directory_services_dao_1 = require("../dao/directory-services-dao");
 var directoryservice_config_dao_1 = require("../dao/directoryservice-config-dao");
 var abstract_repository_ng_1 = require("./abstract-repository-ng");
-var shell_dao_1 = require("../dao/shell-dao");
+var Promise = require("bluebird");
+var directory_dao_1 = require("../dao/directory-dao");
+var model_event_name_1 = require("../model-event-name");
 var AccountRepository = (function (_super) {
     __extends(AccountRepository, _super);
-    function AccountRepository(userDao, groupDao, directoryServiceDao, directoryserviceConfigDao, shellDao) {
+    function AccountRepository(userDao, groupDao, directoryServiceDao, directoryserviceConfigDao, directoryDao) {
         var _this = _super.call(this, [
             'User',
             'Group',
@@ -22,12 +24,18 @@ var AccountRepository = (function (_super) {
         _this.groupDao = groupDao;
         _this.directoryServiceDao = directoryServiceDao;
         _this.directoryserviceConfigDao = directoryserviceConfigDao;
-        _this.shellDao = shellDao;
+        _this.directoryDao = directoryDao;
+        _this.DIRECTORY_TYPES_LABELS = {
+            winbind: "Active Directory",
+            freeipa: "FreeIPA",
+            ldap: "LDAP",
+            nis: "NIS"
+        };
         return _this;
     }
     AccountRepository.getInstance = function () {
         if (!AccountRepository.instance) {
-            AccountRepository.instance = new AccountRepository(user_dao_1.UserDao.getInstance(), group_dao_1.GroupDao.getInstance(), directory_services_dao_1.DirectoryServicesDao.getInstance(), directoryservice_config_dao_1.DirectoryserviceConfigDao.getInstance(), shell_dao_1.ShellDao.getInstance());
+            AccountRepository.instance = new AccountRepository(user_dao_1.UserDao.getInstance(), group_dao_1.GroupDao.getInstance(), directory_services_dao_1.DirectoryServicesDao.getInstance(), directoryservice_config_dao_1.DirectoryserviceConfigDao.getInstance(), directory_dao_1.DirectoryDao.getInstance());
         }
         return AccountRepository.instance;
     };
@@ -43,81 +51,36 @@ var AccountRepository = (function (_super) {
     AccountRepository.prototype.listGroups = function () {
         return this.groups ? Promise.resolve(this.groups.toSet().toJS()) : this.groupDao.list();
     };
-    AccountRepository.prototype.listDirectoryServices = function () {
-        return this.directoryServiceDao.list();
-    };
     AccountRepository.prototype.getNewDirectoryServices = function () {
         return this.directoryServiceDao.getNewInstance();
     };
     AccountRepository.prototype.getDirectoryServiceConfig = function () {
         return this.directoryserviceConfigDao.get();
     };
-    AccountRepository.prototype.listShells = function () {
-        return this.shellDao.list();
+    AccountRepository.prototype.getNewDirectoryForType = function (type) {
+        return this.directoryDao.getNewInstance().then(function (directory) {
+            directory.type = type;
+            directory.parameters = { "%type": type + "-directory-params" };
+            directory.label = this.DIRECTORY_TYPES_LABELS[type];
+            return directory;
+        });
     };
     AccountRepository.prototype.handleStateChange = function (name, state) {
-        var self = this;
         switch (name) {
             case 'User':
-                this.eventDispatcherService.dispatch('usersChange', state);
-                state.forEach(function (user, id) {
-                    if (!self.users || !self.users.has(id)) {
-                        self.eventDispatcherService.dispatch('userAdd.' + id, user);
-                    }
-                    else if (self.users.get(id) !== user) {
-                        self.eventDispatcherService.dispatch('userChange.' + id, user);
-                    }
-                });
-                if (this.users) {
-                    this.users.forEach(function (user, id) {
-                        if (!state.has(id) || state.get(id) !== user) {
-                            self.eventDispatcherService.dispatch('userRemove.' + id, user);
-                        }
-                    });
-                }
-                this.users = state;
+                this.users = this.dispatchModelEvents(this.users, model_event_name_1.ModelEventName.User, state);
                 break;
             case 'Group':
-                this.eventDispatcherService.dispatch('groupsChange', state);
-                state.forEach(function (group, id) {
-                    if (!self.groups || !self.groups.has(id)) {
-                        self.eventDispatcherService.dispatch('groupAdd.' + id, group);
-                    }
-                    else if (self.groups.get(id) !== group) {
-                        self.eventDispatcherService.dispatch('groupChange.' + id, group);
-                    }
-                });
-                if (this.groups) {
-                    this.groups.forEach(function (group, id) {
-                        if (!state.has(id) || state.get(id) !== group) {
-                            self.eventDispatcherService.dispatch('groupRemove.' + id, group);
-                        }
-                    });
-                }
-                this.groups = state;
+                this.groups = this.dispatchModelEvents(this.groups, model_event_name_1.ModelEventName.Group, state);
                 break;
             case 'Directory':
-                this.eventDispatcherService.dispatch('directoriesChange', state);
-                state.forEach(function (directory, id) {
-                    if (!self.directorys || !self.directorys.has(id)) {
-                        self.eventDispatcherService.dispatch('directoryAdd.' + id, directory);
-                    }
-                    else if (self.directorys.get(id) !== directory) {
-                        self.eventDispatcherService.dispatch('directoryChange.' + id, directory);
-                    }
-                });
-                if (this.directorys) {
-                    this.directorys.forEach(function (directory, id) {
-                        if (!state.has(id) || state.get(id) !== directory) {
-                            self.eventDispatcherService.dispatch('directoryRemove.' + id, directory);
-                        }
-                    });
-                }
-                this.directorys = state;
+                this.directories = this.dispatchModelEvents(this.directories, model_event_name_1.ModelEventName.Directory, state);
                 break;
             default:
                 break;
         }
+    };
+    AccountRepository.prototype.handleEvent = function (name, data) {
     };
     return AccountRepository;
 }(abstract_repository_ng_1.AbstractRepository));

@@ -8,6 +8,9 @@ var abstract_section_service_ng_1 = require("./abstract-section-service-ng");
 var account_repository_1 = require("../../repository/account-repository");
 var kerberos_repository_1 = require("../../repository/kerberos-repository");
 var shell_repository_1 = require("../../repository/shell-repository");
+var Promise = require("bluebird");
+var model_event_name_1 = require("../../model-event-name");
+var ntp_server_repository_1 = require("../../repository/ntp-server-repository");
 var AccountsSectionService = (function (_super) {
     __extends(AccountsSectionService, _super);
     function AccountsSectionService() {
@@ -17,9 +20,10 @@ var AccountsSectionService = (function (_super) {
         this.accountRepository = account_repository_1.AccountRepository.getInstance();
         this.kerberosRepository = kerberos_repository_1.KerberosRepository.getInstance();
         this.shellRepository = shell_repository_1.ShellRepository.getInstance();
-        this.eventDispatcherService.addEventListener('usersChange', this.handleUsersChange.bind(this));
-        this.eventDispatcherService.addEventListener('groupsChange', this.handleGroupsChange.bind(this));
-        this.eventDispatcherService.addEventListener('directoriesChange', this.handleDirectoriesChange.bind(this));
+        this.ntpServerRepository = ntp_server_repository_1.NtpServerRepository.getInstance();
+        this.eventDispatcherService.addEventListener(model_event_name_1.ModelEventName.User.listChange, this.handleUsersChange.bind(this));
+        this.eventDispatcherService.addEventListener(model_event_name_1.ModelEventName.Group.listChange, this.handleGroupsChange.bind(this));
+        this.eventDispatcherService.addEventListener(model_event_name_1.ModelEventName.Directory.listChange, this.handleDirectoriesChange.bind(this));
     };
     AccountsSectionService.prototype.listGroups = function () {
         return this.accountRepository.listGroups();
@@ -49,8 +53,14 @@ var AccountsSectionService = (function (_super) {
         kerberosKeytab.keytab = { "$binary": keytabStringBase64 };
         return this.kerberosRepository.saveKerberosKeytab(kerberosKeytab);
     };
-    AccountsSectionService.prototype.listShells = function () {
-        return this.shellRepository.listShells();
+    AccountsSectionService.prototype.getNewDirectoryForType = function (type) {
+        return this.accountRepository.getNewDirectoryForType(type);
+    };
+    AccountsSectionService.prototype.listNtpServers = function () {
+        return this.ntpServerRepository.listNtpServers();
+    };
+    AccountsSectionService.prototype.syncNtpNow = function (ntpServerAddress) {
+        return this.ntpServerRepository.syncNow(ntpServerAddress);
     };
     AccountsSectionService.prototype.loadEntries = function () {
         var self = this;
@@ -64,8 +74,8 @@ var AccountsSectionService = (function (_super) {
             self.accountRepository.listUsers(),
             self.accountRepository.listGroups(),
             self.accountRepository.getNewDirectoryServices(),
-        ]).then(function (data) {
-            var users = data[0].filter(function (x) { return !x.builtin; }), groups = data[1].filter(function (x) { return !x.builtin; }), system = data[0].filter(function (x) { return x.builtin; }).concat(data[1].filter(function (x) { return x.builtin; })), directoryServices = data[2];
+        ]).spread(function (allUsers, allGroups, directoryServices) {
+            var users = allUsers.filter(function (x) { return !x.builtin; }), groups = allGroups.filter(function (x) { return !x.builtin; }), system = allUsers.filter(function (x) { return x.builtin; }).concat(allGroups.filter(function (x) { return x.builtin; }));
             users._objectType = 'User';
             users._order = 0;
             groups._objectType = 'Group';

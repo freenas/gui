@@ -9,6 +9,7 @@ import { PeeringService } from 'core/service/peering-service';
 import { FilesystemService } from 'core/service/filesystem-service';
 import { Model } from 'core/model/model';
 import {VmwareRepository} from "../../repository/vmware-repository";
+import {ModelEventName} from "../../model-event-name";
 
 export class StorageSectionService extends AbstractSectionService {
     private shareRepository: ShareRepository;
@@ -38,8 +39,8 @@ export class StorageSectionService extends AbstractSectionService {
             self.topologyService = TopologyService.instance.init(vdevRecommendations);
         });
 
-        this.eventDispatcherService.addEventListener('disksChange', this.handleDisksChange.bind(this));
-        this.eventDispatcherService.addEventListener('volumesChange', this.handleVolumesChange.bind(this));
+        this.eventDispatcherService.addEventListener(ModelEventName.Disk.listChange, this.handleDisksChange.bind(this));
+        this.eventDispatcherService.addEventListener(ModelEventName.Volume.listChange, this.handleVolumesChange.bind(this));
     }
 
     protected loadEntries() {

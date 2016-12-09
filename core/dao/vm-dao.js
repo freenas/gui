@@ -19,6 +19,9 @@ var VmDao = (function (_super) {
     VmDao.prototype.requestSerialConsole = function (vmId) {
         return this.middlewareClient.callRpcMethod('vm.request_serial_console', [vmId]);
     };
+    VmDao.prototype.getHardwareCapabilities = function () {
+        return this.middlewareClient.callRpcMethod("vm.get_hw_vm_capabilities");
+    };
     return VmDao;
 }(abstract_dao_ng_1.AbstractDao));
 exports.VmDao = VmDao;

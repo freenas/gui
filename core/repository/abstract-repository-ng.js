@@ -35,6 +35,26 @@ var AbstractRepository = (function () {
             }
         }
     };
+    AbstractRepository.prototype.dispatchModelEvents = function (repositoryEntries, modelEventName, state) {
+        var self = this;
+        this.eventDispatcherService.dispatch(modelEventName.listChange, state);
+        state.forEach(function (stateEntry, id) {
+            if (!repositoryEntries || !repositoryEntries.has(id)) {
+                self.eventDispatcherService.dispatch(modelEventName.add(id), stateEntry);
+            }
+            else if (repositoryEntries.get(id) !== stateEntry) {
+                self.eventDispatcherService.dispatch(modelEventName.change(id), stateEntry);
+            }
+        });
+        if (repositoryEntries) {
+            repositoryEntries.forEach(function (repositoryEntry, id) {
+                if (!state.has(id) || state.get(id) !== repositoryEntry) {
+                    self.eventDispatcherService.dispatch(modelEventName.remove(id), repositoryEntry);
+                }
+            });
+        }
+        return state;
+    };
     return AbstractRepository;
 }());
 exports.AbstractRepository = AbstractRepository;

@@ -1,5 +1,6 @@
 import { AbstractRepository } from './abstract-repository-ng';
 import { DiskDao } from 'core/dao/disk-dao';
+import {ModelEventName} from "../model-event-name";
 
 export class DiskRepository extends AbstractRepository {
     private static instance: DiskRepository;
@@ -75,25 +76,9 @@ export class DiskRepository extends AbstractRepository {
     }
 
     protected handleStateChange(name: string, state: any) {
-        let self = this;
         switch (name) {
             case 'Disk':
-                this.eventDispatcherService.dispatch('disksChange', state);
-                state.forEach(function(disk, id){
-                    if (!self.disks || !self.disks.has(id)) {
-                        self.eventDispatcherService.dispatch('diskAdd.' + id, disk);
-                    } else if (self.disks.get(id) !== disk) {
-                        self.eventDispatcherService.dispatch('diskChange.' + id, disk);
-                    }
-                });
-                if (this.disks) {
-                    this.disks.forEach(function(disk, id){
-                        if (!state.has(id) || state.get(id) !== disk) {
-                            self.eventDispatcherService.dispatch('diskRemove.' + id, disk);
-                        }
-                    });
-                }
-                this.disks = state;
+                this.disks = this.dispatchModelEvents(this.disks, ModelEventName.Disk, state);
                 break;
             default:
                 break;

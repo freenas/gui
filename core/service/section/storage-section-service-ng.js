@@ -11,6 +11,7 @@ var volume_repository_1 = require("core/repository/volume-repository");
 var topology_service_1 = require("core/service/topology-service");
 var model_1 = require("core/model/model");
 var vmware_repository_1 = require("../../repository/vmware-repository");
+var model_event_name_1 = require("../../model-event-name");
 var StorageSectionService = (function (_super) {
     __extends(StorageSectionService, _super);
     function StorageSectionService() {
@@ -30,8 +31,8 @@ var StorageSectionService = (function (_super) {
         this.volumeRepository.getVdevRecommendations().then(function (vdevRecommendations) {
             self.topologyService = topology_service_1.TopologyService.instance.init(vdevRecommendations);
         });
-        this.eventDispatcherService.addEventListener('disksChange', this.handleDisksChange.bind(this));
-        this.eventDispatcherService.addEventListener('volumesChange', this.handleVolumesChange.bind(this));
+        this.eventDispatcherService.addEventListener(model_event_name_1.ModelEventName.Disk.listChange, this.handleDisksChange.bind(this));
+        this.eventDispatcherService.addEventListener(model_event_name_1.ModelEventName.Volume.listChange, this.handleVolumesChange.bind(this));
     };
     StorageSectionService.prototype.loadEntries = function () {
         this.entries = [];

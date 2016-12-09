@@ -20,7 +20,7 @@ export class DatastoreService {
         this.eventDispatcherService.addEventListener('middlewareModelChange', (args) => self.handleMiddlewareModelChange(args));
         this.middlewareClient = MiddlewareClient.getInstance();
     }
-    
+
     public static getInstance() {
         if (!DatastoreService.instance) {
             DatastoreService.instance = new DatastoreService();
