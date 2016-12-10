@@ -14,7 +14,7 @@
                 "disk": {"<-": "@owner.object ? @owner.object._disk.defined() ? @owner.object._disk : @owner.object : null"},
                 "isOffline": {"<-": "@owner.object._disk.defined() && @owner.object.status != 'ONLINE'" },
                 "isDetached": {"<-": "@owner.disk._allocation.defined() && @owner.disk._allocation.type == 'EXPORTED_VOLUME'"},
-                "classList.has('removed')": {"<-": "isDetached || isOffline"},
+                "classList.has('offline')": {"<-": "isOffline"},
                 "smartFail": {"<-": "@owner.disk.status.smart_info.smart_status != 'PASS'" }
             }
         },
@@ -48,15 +48,6 @@
             "bindings": {
                 "switchValue": {"<-": "'fail'"}
             }
-        },
-        "removedStatus": {
-            "prototype": "montage/ui/substitution.reel",
-            "properties": {
-                "element": {"#": "removedStatus"}
-            },
-            "bindings": {
-                "switchValue": {"<-": "'offline'"}
-            }
         }
     }
     </script>
@@ -67,9 +58,9 @@
         <svg data-arg="warn"><use xlink:href="#i-alert"/></svg>
         <div data-arg="fail" class="smartStatus-fail"><svg><use xlink:href="#i-alert"/></svg></div>
     </div>
-    <div data-montage-id="removedStatus" class="DiskIcon-removedStatus">
-        <svg data-arg="offline"><use xlink:href="#i-offline"/></svg>
-        <svg data-arg="exported" class="removedStatus-exported"><use xlink:href="#i-alert-circle"/></svg>
+    <div class="DiskIcon-states">
+        <div class="DiskIcon-state DiskIcon-state-offline">offline</div>
+        <div class="DiskIcon-state">exported</div>
     </div>
     <div data-montage-id="substitution" class="DiskIcon-img">
         <img data-arg="hdd" src="./hdd.svg" alt="HDD Icon">
