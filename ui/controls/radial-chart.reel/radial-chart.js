@@ -31,6 +31,19 @@ exports.RadialChart = Component.specialize(/** @lends Chart# */ {
 
     data: {
         value: []
+    },
+
+    _drawSunburst: {
+        value: function() {
+            // logic to draw d3 suburst to come here
+        }
+    },
+
+    enterDocument: {
+        value: function() {
+            this._drawSunburst();
+        }
     }
+
 
 });

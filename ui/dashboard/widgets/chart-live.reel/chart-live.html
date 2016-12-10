@@ -29,13 +29,18 @@
                 "useGuideline": {"<-": "@owner.useGuideline.defined() ? @owner.useGuideline : true"},
                 "xLabel": {"<-": "@owner.xLabel"},
                 "yLabel": {"<-": "@owner.yLabel"},
-                "xAxisLable": {"<-": "@owner.xAxisLable"}
+                "xAxisLable": {"<-": "@owner.xAxisLable"},
+                "providesOwnData": {"<-": "@owner.providesOwnData || false"}
             }
         },
         "radialChart": {
             "prototype": "ui/controls/radial-chart.reel",
             "properties": {
                 "element": {"#": "radialChart"}
+            },
+            "bindings": {
+                "data": {"<-": "@owner.data"},
+                "providesOwnData": {"<-": "@owner.providesOwnData || false"}
             }
         },
         "chartTypeSubstitution": {
@@ -44,7 +49,7 @@
                 "element": {"#": "chartTypeSubstitution"}
             },
             "bindings": {
-                "switchValue": {"<-": "@owner.chartType"}
+                "switchValue": {"<-": "@owner.chartTypeSwitch"}
             }
         }
 

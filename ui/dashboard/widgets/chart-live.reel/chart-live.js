@@ -10,8 +10,10 @@ exports.ChartLive = Component.specialize({
         value: null
     },
 
-    chartType: {
-        value: "plottable"
+    chartTypeSwitch: {
+        get: function () {
+            return this.chartType || "plottable";
+        }
     },
 
     datasources: {
@@ -48,7 +50,7 @@ exports.ChartLive = Component.specialize({
 
     enterDocument: {
         value: function() {
-            if (this.chartType !== "radial") {
+            if (!this.providesOwnData) {
                 this._initializeData();
             }
         }
@@ -56,7 +58,7 @@ exports.ChartLive = Component.specialize({
 
     exitDocument: {
         value: function() {
-            if (this.chartType !== "radial" ) {
+            if (!this.providesOwnData) {
                 this._unsubscribeAllUpdates();
                 if (typeof this._cancelDatasourcesChange == "function") {
                     this._cancelDatasourcesChange();

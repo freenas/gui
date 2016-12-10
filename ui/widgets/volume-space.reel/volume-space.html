@@ -9,8 +9,8 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "card": {"<-": "this.selectedRootDataset || this.datsets.0.volume"},
-                "selectedDatasets": {"<-": "this.datasets.filter{ volume == @owner.selectedRootDataset.volume }"}
+                "card": {"<-": "this.object.context.selectedRootDataset || this.datsets.0.volume"},
+                "selectedDatasets": {"<-": "this.datasets.filter{ volume == $card }"}
             }
         },
         "widget": {
@@ -38,7 +38,8 @@
             },
             "bindings": {
                 "source": {"<-": "'volume-' + @owner.card"},
-                "data": {"<-": "@owner.selectedDatasets"}
+                "data": {"<-": "@owner.selectedDatasets"},
+                "providesOwnData": {"<-": "true"}
             }
         },
         "selectOptionsConverter": {
@@ -57,7 +58,7 @@
             },
             "bindings": {
                 "options": {"<-": "@owner.datasets.filter{ volume == id }"},
-                "selectedValue": {"<->": "@owner.selectedRootDataset"}
+                "selectedValue": {"<->": "@owner.object.context.selectedRootDataset"}
             }
         }
     }
