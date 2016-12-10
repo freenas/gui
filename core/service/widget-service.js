@@ -81,14 +81,14 @@ var WIDGETS = [
         imgPreview: null,
         moduleId: "ui/widgets/disk-temperature.reel",
         allowMultiple: false
-    },
-    {
-        title: "volume-space",
-        description: null,
-        imgPreview: null,
-        moduleId: "ui/widgets/volume-space.reel",
-        allowMultiple: true
     }
+    // {
+    //     title: "volume-space",
+    //     description: null,
+    //     imgPreview: null,
+    //     moduleId: "ui/widgets/volume-space.reel",
+    //     allowMultiple: true
+    // }
 ];
 
 
