@@ -1,4 +1,5 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    VmRepository = require("core/repository/vm-repository").VmRepository,
     EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService;
 
 exports.SectionRoot = AbstractInspector.specialize({
@@ -44,7 +45,7 @@ exports.SectionRoot = AbstractInspector.specialize({
             var self = this;
 
             if (this.object.id === 'vms' || this.object.id === 'containers') {
-                return this.application.virtualMachineService.getHardwareCapabilities().then(function(hardware) {
+                return VmRepository.instance.getHardwareCapabilities().then(function(hardware) {
                     self._disabledMessage = !hardware.vtx_enabled && !hardware.svm_features ?
                         'The CPU does not support virtualization.' : null;
                 });

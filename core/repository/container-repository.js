@@ -27,7 +27,7 @@ exports.ContainerRepository = AbstractRepository.specialize({
             ) {
 
             this._dockerContainerSectionDao = dockerContainerSectionDao || DockerContainerSectionDao.instance;
-            this._dockerContainerDao = dockerContainerDao || DockerContainerDao.instance;
+            this._dockerContainerDao = dockerContainerDao || DockerContainerDao.getInstance();
             this._dockerImageDao = dockerImageDao || DockerImageDao.instance;
             this._dockerHostDao = dockerHostDao || DockerHostDao.instance;
             this._dockerConfigDao = dockerConfigDao || DockerConfigDao.getInstance();
@@ -195,7 +195,7 @@ exports.ContainerRepository = AbstractRepository.specialize({
         value: function(containerId) {
             return this._dockerContainerDao.requestInteractiveConsole(containerId);
         }
-    }
+    },
 
     getSerialConsoleToken: {
         value: function(containerId) {
