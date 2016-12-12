@@ -138,6 +138,7 @@ exports.Wizard = AbstractInspector.specialize(/** @lends Wizard# */ {
                 }
             } else if (this._currentIndex === -1) {
                 this._currentObject = this.steps[(this._currentIndex = 0)].object;
+                this._currentUiDescriptor = this.steps[0].uiDescriptor;
             }
         }
     },
@@ -146,6 +147,7 @@ exports.Wizard = AbstractInspector.specialize(/** @lends Wizard# */ {
         value: function (step) {
             this._context.isNextStepDisabled = false;
             this._currentObject = step.object;
+            this._currentUiDescriptor = step.uiDescriptor;
             this._context.sectionService = step.service;
             this._context.previousStep = this._currentIndex > 0 ? this.steps[this._currentIndex - 1] : null;
         }
@@ -172,6 +174,7 @@ exports.Wizard = AbstractInspector.specialize(/** @lends Wizard# */ {
     _resetData: {
         value: function () {
             this._currentObject = null;
+            this._currentUiDescriptor = null;
             this._currentIndex = -1;
             this._context = {};
             this._canSkip = true;

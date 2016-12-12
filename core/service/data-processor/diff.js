@@ -1,6 +1,6 @@
 "use strict";
 var immutable = require("immutable");
-var datastore_service_1 = require("core/service/datastore-service");
+var datastore_service_1 = require("../datastore-service");
 var DiffProcessor = (function () {
     function DiffProcessor(datastoreService) {
         this.datastoreService = datastoreService || datastore_service_1.DatastoreService.getInstance();

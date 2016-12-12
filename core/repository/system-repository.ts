@@ -3,6 +3,7 @@ import {SystemTimeDao} from "../dao/system-time-dao";
 import {SystemDatasetDao} from "../dao/system-dataset-dao";
 import {SystemDeviceDao} from "../dao/system-device-dao";
 import {SystemSectionDao} from "../dao/system-section-dao";
+import * as Promise from "bluebird";
 
 export class SystemRepository {
     private static instance: SystemRepository;
@@ -36,11 +37,11 @@ export class SystemRepository {
         return this.systemTimeDao.get();
     }
 
-    public getDataset(): Promise<Object> {
+    public getDataset(): Promise<any> {
         return this.systemDatasetDao.list();
     }
 
-    public getDevices(deviceClass: string): Promise<Object> {
+    public getDevices(deviceClass: string): Promise<any> {
         return this.systemDeviceDao.getDevices(deviceClass);
     }
 

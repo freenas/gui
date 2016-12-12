@@ -6,6 +6,7 @@ import { processor as diffProcessor } from 'core/service/data-processor/diff';
 import { processor as nullProcessor } from 'core/service/data-processor/null';
 import { dotCase, paramCase } from 'change-case';
 import * as _ from 'lodash';
+import * as Promise from "bluebird";
 
 // DTM
 import { CacheService } from 'core/service/cache-service';
@@ -14,7 +15,7 @@ export class AbstractDao {
     protected middlewareClient: MiddlewareClient;
     protected datastoreService: DatastoreService;
     protected static Model = Model;
-    protected model: Object;
+    protected model: any;
     private middlewareName: string;
     private objectType: string;
     private queryMethod: string;
@@ -22,7 +23,7 @@ export class AbstractDao {
     private updateMethod: string;
     private deleteMethod: string;
     private eventName: string;
-    protected propertyDescriptors: Map<string, Object>;
+    protected propertyDescriptors: Map<string, any>;
 
     // DTM
     private cacheService: CacheService;
@@ -89,12 +90,10 @@ export class AbstractDao {
     public getNewInstance() {
         let self = this;
         return this.cacheService.registerTypeForKey(this.objectType, this.model).then(function() {
-            let newInstance = new Object({
+            return new Object({
                 _isNew: true,
                 _objectType: self.objectType
             });
-
-            return newInstance;
         });
     }
 
@@ -102,35 +101,37 @@ export class AbstractDao {
         let self = this;
         return this.cacheService.registerTypeForKey(this.objectType, this.model).then(function() {
             let emptyList = [];
-            emptyList._objectType = self.objectType;
+            (emptyList as any)._objectType = self.objectType;
             return emptyList;
         })
     }
 
     private update(object: any, args?: Array<any>): Promise<any> {
         args = args || [];
-        return this.middlewareClient.submitTask(this.updateMethod, _.concat([object.id,
-            diffProcessor.process(
-                cleaningProcessor.process(
-                    object,
-                    this.propertyDescriptors
-                ),
-                this.objectType,
-                object.id
-            )
-        ], args));
+        let update = diffProcessor.process(
+            cleaningProcessor.process(
+                object,
+                this.propertyDescriptors
+            ),
+            this.objectType,
+            object.id
+        );
+        if (update || (args && args.length > 0)) {
+            return this.middlewareClient.submitTask(this.updateMethod, _.concat([object.id, update], args));
+        }
     }
 
     private create(object: any, args?: Array<any>): Promise<any> {
         args = args || [];
-        return this.middlewareClient.submitTask(this.createMethod, _.concat([
-            nullProcessor.process(
-                cleaningProcessor.process(
-                    object,
-                    this.propertyDescriptors
-                )
+        let newObject = nullProcessor.process(
+            cleaningProcessor.process(
+                object,
+                this.propertyDescriptors
             )
-        ], args));
+        );
+        if (newObject) {
+            return this.middlewareClient.submitTask(this.createMethod, _.concat([newObject], args));
+        }
     }
 
     private query(criteria?: any, isSingle?: boolean): Promise<void> {

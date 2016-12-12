@@ -9,7 +9,8 @@ var SystemGeneralDao = (function (_super) {
     __extends(SystemGeneralDao, _super);
     function SystemGeneralDao() {
         return _super.call(this, abstract_dao_ng_1.AbstractDao.Model.SystemGeneral, {
-            queryMethod: 'system.general.get_config'
+            queryMethod: 'system.general.get_config',
+            createMethod: 'system.general.update'
         }) || this;
     }
     SystemGeneralDao.getInstance = function () {

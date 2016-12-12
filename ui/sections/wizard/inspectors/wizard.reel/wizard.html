@@ -19,7 +19,7 @@
                 "element": {"#": "stepsLabel"}
             },
             "bindings": {
-                "value": {"<-": "@owner._currentObject.constructor.userInterfaceDescriptor.wizardTitle"}
+                "value": {"<-": "@owner._currentUiDescriptor.wizardTitle"}
             }
         },
 
@@ -29,7 +29,7 @@
                 "element": {"#": "stepPlaceholder"}
             },
             "bindings": {
-                "moduleId": {"<-": "@owner._currentObject.constructor.userInterfaceDescriptor.wizardComponentModuleId"},
+                "moduleId": {"<-": "@owner._currentUiDescriptor.wizardComponentModuleId"},
                 "object": {"<-": "@owner._currentObject"},
                 "context": {"<-": "@owner._context"}
             }

@@ -1,12 +1,12 @@
 import { DataProcessor } from './data-processor';
 import * as immutable from 'immutable';
 
-import { DatastoreService } from 'core/service/datastore-service';
+import { DatastoreService } from '../datastore-service';
 
 class DiffProcessor implements DataProcessor {
     private datastoreService: DatastoreService;
 
-    public constructor(datastoreService?: DataProcessor) {
+    public constructor(datastoreService?: DatastoreService) {
         this.datastoreService = datastoreService || DatastoreService.getInstance();
     }
 

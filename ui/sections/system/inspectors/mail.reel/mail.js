@@ -1,15 +1,8 @@
-/**
- * @module ui/mail.reel
- */
-var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model,
-    MailEncryptionType = require("core/model/enumerations/mail-encryption-type").MailEncryptionType;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    MailEncryptionType = require("core/model/enumerations/mail-encryption-type").MailEncryptionType,
+    _ = require("lodash");
 
-/**
- * @class Mail
- * @extends Component
- */
-exports.Mail = Component.specialize(/** @lends Mail# */ {
+exports.Mail = AbstractInspector.specialize(/** @lends Mail# */ {
 
     handlesendTestMailAction: {
         value: function() {
@@ -29,7 +22,7 @@ exports.Mail = Component.specialize(/** @lends Mail# */ {
                         value: x
                     };
                 });
-                this.application.mailService.getMailData().then(function(mailData) {
+                this._sectionService.getMailConfig().then(function(mailData) {
                     self.object = mailData.mail;
                     self._snapshotDataObjectsIfNecessary();
                 });
@@ -40,7 +33,7 @@ exports.Mail = Component.specialize(/** @lends Mail# */ {
 
     save: {
         value: function() {
-            return this.application.mailService.saveMailData(this.object);
+            return this._sectionService.saveMailConfig(this.object);
         }
     },
 
@@ -53,7 +46,7 @@ exports.Mail = Component.specialize(/** @lends Mail# */ {
     _snapshotDataObjectsIfNecessary: {
         value: function() {
             if (!this._object) {
-                this._object = this.application.dataService.clone(this.object);
+                this._object = _.cloneDeep(this.object);
             }
         }
     }

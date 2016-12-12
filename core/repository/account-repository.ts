@@ -1,5 +1,5 @@
-import {UserDao} from "core/dao/user-dao";
-import {GroupDao} from "core/dao/group-dao";
+import {UserDao} from "../dao/user-dao";
+import {GroupDao} from "../dao/group-dao";
 import {DirectoryServicesDao} from "../dao/directory-services-dao";
 import {DirectoryserviceConfigDao} from "../dao/directoryservice-config-dao";
 import {AbstractRepository} from "./abstract-repository-ng";
@@ -21,7 +21,7 @@ export class AccountRepository extends AbstractRepository {
         freeipa: "FreeIPA",
         ldap: "LDAP",
         nis: "NIS"
-    }
+    };
 
     private constructor(private userDao: UserDao,
                         private groupDao: GroupDao,
@@ -73,10 +73,11 @@ export class AccountRepository extends AbstractRepository {
     }
 
     public getNewDirectoryForType(type: string) {
+        let self = this;
         return this.directoryDao.getNewInstance().then(function (directory) {
             directory.type = type;
             directory.parameters = {"%type": type + "-directory-params"};
-            directory.label = this.DIRECTORY_TYPES_LABELS[type];
+            directory.label = self.DIRECTORY_TYPES_LABELS[type];
 
             return directory;
         });

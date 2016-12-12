@@ -1,12 +1,13 @@
 import { DataProcessor } from './data-processor';
 import * as immutable from 'immutable';
+import * as _ from "lodash";
 
 class NullProcessor implements DataProcessor {
     public process(object: Object, propertyDescriptors?: Map<string, Object>): Object {
         let processed = new Map<string, any>(),
-            keys = Object.keys(object),
+            keys = _.keysIn(object),
             value;
-        for (var property of keys) {
+        for (let property of keys) {
             value = object[property];
             if (value || typeof value !== 'object') {
                 processed.set(property, value);

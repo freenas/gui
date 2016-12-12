@@ -1,10 +1,11 @@
 "use strict";
 var immutable = require("immutable");
+var _ = require("lodash");
 var NullProcessor = (function () {
     function NullProcessor() {
     }
     NullProcessor.prototype.process = function (object, propertyDescriptors) {
-        var processed = new Map(), keys = Object.keys(object), value;
+        var processed = new Map(), keys = _.keysIn(object), value;
         for (var _i = 0, keys_1 = keys; _i < keys_1.length; _i++) {
             var property = keys_1[_i];
             value = object[property];

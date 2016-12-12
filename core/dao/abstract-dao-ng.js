@@ -7,6 +7,7 @@ var diff_1 = require("core/service/data-processor/diff");
 var null_1 = require("core/service/data-processor/null");
 var change_case_1 = require("change-case");
 var _ = require("lodash");
+var Promise = require("bluebird");
 // DTM
 var cache_service_1 = require("core/service/cache-service");
 var AbstractDao = (function () {
@@ -64,11 +65,10 @@ var AbstractDao = (function () {
     AbstractDao.prototype.getNewInstance = function () {
         var self = this;
         return this.cacheService.registerTypeForKey(this.objectType, this.model).then(function () {
-            var newInstance = new Object({
+            return new Object({
                 _isNew: true,
                 _objectType: self.objectType
             });
-            return newInstance;
         });
     };
     AbstractDao.prototype.getEmptyList = function () {
@@ -81,15 +81,17 @@ var AbstractDao = (function () {
     };
     AbstractDao.prototype.update = function (object, args) {
         args = args || [];
-        return this.middlewareClient.submitTask(this.updateMethod, _.concat([object.id,
-            diff_1.processor.process(cleaner_1.processor.process(object, this.propertyDescriptors), this.objectType, object.id)
-        ], args));
+        var update = diff_1.processor.process(cleaner_1.processor.process(object, this.propertyDescriptors), this.objectType, object.id);
+        if (update || (args && args.length > 0)) {
+            return this.middlewareClient.submitTask(this.updateMethod, _.concat([object.id, update], args));
+        }
     };
     AbstractDao.prototype.create = function (object, args) {
         args = args || [];
-        return this.middlewareClient.submitTask(this.createMethod, _.concat([
-            null_1.processor.process(cleaner_1.processor.process(object, this.propertyDescriptors))
-        ], args));
+        var newObject = null_1.processor.process(cleaner_1.processor.process(object, this.propertyDescriptors));
+        if (newObject) {
+            return this.middlewareClient.submitTask(this.createMethod, _.concat([newObject], args));
+        }
     };
     AbstractDao.prototype.query = function (criteria, isSingle) {
         var self = this, middlewareCriteria = criteria ? this.getMiddlewareCriteria(criteria, isSingle) : [];

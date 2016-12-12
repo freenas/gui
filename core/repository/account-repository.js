@@ -4,8 +4,8 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var user_dao_1 = require("core/dao/user-dao");
-var group_dao_1 = require("core/dao/group-dao");
+var user_dao_1 = require("../dao/user-dao");
+var group_dao_1 = require("../dao/group-dao");
 var directory_services_dao_1 = require("../dao/directory-services-dao");
 var directoryservice_config_dao_1 = require("../dao/directoryservice-config-dao");
 var abstract_repository_ng_1 = require("./abstract-repository-ng");
@@ -58,10 +58,11 @@ var AccountRepository = (function (_super) {
         return this.directoryserviceConfigDao.get();
     };
     AccountRepository.prototype.getNewDirectoryForType = function (type) {
+        var self = this;
         return this.directoryDao.getNewInstance().then(function (directory) {
             directory.type = type;
             directory.parameters = { "%type": type + "-directory-params" };
-            directory.label = this.DIRECTORY_TYPES_LABELS[type];
+            directory.label = self.DIRECTORY_TYPES_LABELS[type];
             return directory;
         });
     };

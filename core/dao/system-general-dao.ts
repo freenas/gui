@@ -5,7 +5,8 @@ export class SystemGeneralDao extends AbstractDao {
 
     private constructor() {
         super(AbstractDao.Model.SystemGeneral, {
-            queryMethod: 'system.general.get_config'
+            queryMethod: 'system.general.get_config',
+            createMethod: 'system.general.update'
         });
     }
 
