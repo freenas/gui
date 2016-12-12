@@ -86,7 +86,7 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
             this.object.lifetime = expires ? Math.round((expires - created) / 1000) : null;
 
             return Promise.all([
-                // this.object._isNew ? this.inspector.save(this.object._recursive) : this.inspector.save(),
+                this.object._isNew ? this.inspector.save(this.object._recursive) : this.inspector.save(),
                 this._repetition ? this._calendarService.createNewRepeatedTask(
                     'volume.snapshot_dataset',
                     this.object.name,
