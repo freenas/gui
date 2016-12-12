@@ -53,7 +53,7 @@ exports.CompositeTemperature = Component.specialize(/** @lends CompositeTemperat
     _aggregateStatsForType: {
         value: function(stats, type) {
             var count = 0, sum = 0, highest = 0,
-                stat, temp, i;
+                stat, temp, i, avg = 0;
 
             for (i = stats.length - 1; i >= 0; i--) {
                 stat = stats[i];
@@ -65,14 +65,16 @@ exports.CompositeTemperature = Component.specialize(/** @lends CompositeTemperat
                 }
             }
 
-            this.chart.setValue('highest', {
+            avg = count ? sum / count : 0;
+
+            this.chart.setValue('average', {
                 x: type,
-                y: highest
+                y: avg
             });
 
-            this.chart.setValue('avg', {
+            this.chart.setValue('highest', {
                 x: type,
-                y: count ? sum / count : 0
+                y: highest - avg
             });
         }
     },

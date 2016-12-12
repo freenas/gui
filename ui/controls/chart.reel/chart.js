@@ -60,7 +60,7 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
                 ]
             },
             showLegend: {
-                defaultValue: false
+                defaultValue: true
             },
             showControls: {
                 defaultValue: false
@@ -97,6 +97,9 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
             },
             isTimeSeries: {
                 defaultValue: false
+            },
+            enableInteractions: {
+                defaultValue: true
             }
         }
     },
@@ -291,6 +294,7 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
             this._colorScale = new Plottable.Scales.Color('20');
             this._legend = new Plottable.Components.Legend(this._colorScale);
             this._legend.maxEntriesPerRow(Infinity);
+            !this._getOptionValue('showLegend') && this._legend.addClass('hide');
         }
     },
 
@@ -323,18 +327,21 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
     _setupInteraction: {
         value: function() {
             var self = this;
-            new Plottable.Interactions.Click()
-                .attachTo(this._legend)
-                .onClick(function(p) {
-                    var entity = self._legend.entitiesAt(p)[0];
-                    if (entity !== undefined) {
-                        var series = self._seriesList.filter(function(x) { return x.key === entity.datum; })[0];
-                        if (series) {
-                            series.disabled = !series.disabled;
-                            self.needsDraw = true;
+
+            if (this._getOptionValue('enableInteractions')) {
+                new Plottable.Interactions.Click()
+                    .attachTo(this._legend)
+                    .onClick(function(p) {
+                        var entity = self._legend.entitiesAt(p)[0];
+                        if (entity !== undefined) {
+                            var series = self._seriesList.filter(function(x) { return x.key === entity.datum; })[0];
+                            if (series) {
+                                series.disabled = !series.disabled;
+                                self.needsDraw = true;
+                            }
                         }
-                    }
-                });
+                    });
+            }
         }
     },
 

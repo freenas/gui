@@ -48,8 +48,8 @@ exports.DiskTraffic = Component.specialize(/** @lends DiskTraffic# */ {
                     ['geom_ops_rwd-' + (disk.is_multipath ? 'multipath_' : '') + disk.name, 'read'],
                     ['geom_ops_rwd-' + (disk.is_multipath ? 'multipath_' : '') + disk.name, 'write']
                 ];
-            }).flatten();
-            this.chart.sources = ['geom_stat'];
+            }).flatten().sort();
+            this.chart.datasources = ['geom_stat'];
         }
     }
 });

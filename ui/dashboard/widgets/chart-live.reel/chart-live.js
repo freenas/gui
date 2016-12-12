@@ -106,6 +106,8 @@ exports.ChartLive = Component.specialize({
                 label = this.getChartLabel(source, metric, suffix) ||
                         (self.removeSourcePrefix ? source.label.replace(self.removeSourcePrefix, "") : source.label);
 
+            this.chart.setValue(key, {x: label, y: 0});
+
             return self._statisticsService.getDatasourceCurrentValue(path).then(function (value) {
                 var currentValue = value ?  +value[0] : 0;
                 return self.chart.setValue(key, {

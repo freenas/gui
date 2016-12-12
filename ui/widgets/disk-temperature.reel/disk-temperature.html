@@ -36,7 +36,8 @@
                     "gauge-temperature"
                 ],
                 "removePrefix": "gauge-",
-                "removeSourcePrefix": "disktemp-"
+                "removeSourcePrefix": "disktemp-",
+                "showLegend": false
             },
             "bindings": {
                 "datasources": {"<-": "@owner.disks.map{'disktemp-' + name}"}
