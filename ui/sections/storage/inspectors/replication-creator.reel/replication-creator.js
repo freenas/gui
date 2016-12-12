@@ -31,7 +31,6 @@ exports.ReplicationCreator = AbstractInspector.specialize(/** @lends Replication
 
             if (isFirstTime) {
                 this._calendarService = this.application.calendarService;
-                this._dataService = this.application.dataService;
             }
 
             this.object._transportOptions = {};
@@ -55,7 +54,16 @@ exports.ReplicationCreator = AbstractInspector.specialize(/** @lends Replication
 
             return Promise.all([
                 this._sectionService.replicateDataset(this.object._dataset, this.object._replicationOptions, transportOptions),
-                this._createCalendarTaskIfNeeded(transportOptions)
+                this._repetition ? this._calendarService.createNewRepeatedTask(
+                    'replication.replicate_dataset',
+                    this.object._dataset + '@auto-rep',
+                    [
+                        this.object._dataset,
+                        this.object._replicationOptions,
+                        transportOptions
+                    ],
+                    this._repetition
+                ) : Promise.resolve()
             ]);
         }
     },
@@ -107,105 +115,10 @@ exports.ReplicationCreator = AbstractInspector.specialize(/** @lends Replication
         }
     },
 
-    _getRepeatDuration: {
-        value: function() {
-            if (this._repetition) {
-                for (var i = 1, length = this.constructor.DURATION_UNITS.length; i < length; i++) {
-                    var count = this._repetition / this.constructor.DURATION_UNITS[i].value;
-                    if (count < 1 || Math.round(count) !== count) {
-                        break;
-                    }
-                }
-
-                return {
-                    unit: this.constructor.DURATION_UNITS[i-1].unit,
-                    count: this._repetition / this.constructor.DURATION_UNITS[i-1].value
-                };
-            }
-            return null;
-        }
-    },
-
-    _createScheduleWithRepeatDuration: {
-        value: function(duration) {
-            var date = new Date(),
-                schedule = {
-                    day:    date.getDate(),
-                    hour:   date.getHours(),
-                    minute: date.getMinutes(),
-                    second: 0
-                };
-
-            for (var i = this.constructor.DURATION_UNITS.length - 1; i >= 0; i--) {
-                var unit = this.constructor.DURATION_UNITS[i].unit;
-                if (unit === duration.unit) {
-                    schedule[unit] = '*/' + duration.count;
-                    break;
-                }
-                schedule[unit] = '*';
-            }
-
-            if (duration.unit === 'week') {
-                schedule.day = '*';
-                schedule.day_of_week = date.getDay();
-            }
-
-            return schedule;
-        }
-    },
-
-    _createCalendarTaskIfNeeded: {
-        value: function(transportOptions) {
-            var self = this,
-                duration = this._getRepeatDuration();
-
-            if (duration) {
-                return this._calendarService.getNewTask(new Date(), 'replication.replicate_dataset').then(function(task) {
-                    task.name = self.object._dataset + '@auto-rep';
-                    task.args = [
-                        self.object._dataset,
-                        self.object._replicationOptions,
-                        transportOptions
-                    ];
-                    task.enabled = true;
-                    task.schedule = self._createScheduleWithRepeatDuration(duration);
-                    return self._dataService.saveDataObject(task);
-                });
-            }
-            return Promise.resolve();
-        }
-    },
-
     _resetRepetition: {
         value: function() {
             this._repetition = null;
         }
     }
 
-}, {
-
-    DURATION_UNITS: {
-        value: [
-            {
-                unit: "second",
-                value: 1,
-            },
-            {
-                unit: "minute",
-                value: 60
-            },
-            {
-                unit: "hour",
-                value: 3600
-            },
-            {
-                unit: "day",
-                value: 86400
-            },
-            {
-                unit: "week",
-                value: 604800
-            }
-        ]
-    }
 });
