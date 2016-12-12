@@ -45,7 +45,7 @@ exports.CryptoCertificateCreation = AbstractInspector.specialize(/** @lends Cryp
     enterDocument: {
         value: function(isFirstTime) {
             this.super();
-            if (this.object && this.object.type === CryptoCertificateType.CA_INTERNAL) {
+            if (this.object && (this.object.type === CryptoCertificateType.CA_INTERNAL || this.object.type === CryptoCertificateType.CERT_INTERNAL)) {
                 this.object.selfsigned = true;
             }
             if (this.object) {
