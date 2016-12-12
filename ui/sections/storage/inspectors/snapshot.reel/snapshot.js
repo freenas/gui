@@ -82,7 +82,7 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
         value: function() {
             var self = this,
                 created = this.object.properties ? (+this.object.properties.creation.rawvalue * 1000) : Date.now(),
-                expires = this._expirationType === 'at' ? this._expirationDate.getTime() :
+                expires = this._expirationType === 'on' ? this._expirationDate.getTime() :
                     this._expirationType === 'after' ? (Date.now() + this._lifetime * 1000) : 0;
 
             this.object.lifetime = expires ? Math.round((expires - created) / 1000) : null;
@@ -137,7 +137,7 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
                 expirationDate = defaultExpirationDate;
             }
 
-            this._expirationType = expirationDate ? 'at' : 'never';
+            this._expirationType = expirationDate ? 'on' : 'never';
             this._expirationDate = expirationDate || defaultExpirationDate;
             this._lifetime = Math.ceil((this._expirationDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24)) * (60 * 60 * 24);
         }
@@ -251,8 +251,8 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
                 label: 'Never'
             },
             {
-                value: 'at',
-                label: 'At'
+                value: 'on',
+                label: 'On'
             },
             {
                 value: 'after',
