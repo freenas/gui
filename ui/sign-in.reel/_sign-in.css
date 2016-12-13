@@ -1,11 +1,3 @@
-@keyframes denied {
-    20%  { transform: translateX(-8%); }
-    40%  { transform: translateX(8%);  }
-    60%  { transform: translateX(-8%); }
-    80%  { transform: translateX(8%);  }
-    100% { transform: translateX(0%);  }
-}
-
 .SignIn {
     opacity: 0;
     padding: 2em;
@@ -24,10 +16,6 @@
     background-position: center;
     z-index: 1000;
     transition: visibility .75s, opacity .25s .5s;
-}
-
-.SignIn.isAuthenticating {
-    outline: 1px solid green;
 }
 
 .montage-Overlay--visible .SignIn {
@@ -52,10 +40,10 @@
     background-color: rgba(255, 255, 255, .075);
     position: absolute;
     content: '';
-    top: 0;
+    top:    0;
+    left:   0;
+    right:  0;
     bottom: 0;
-    left: 0;
-    right: 0;
     z-index: -1;
 }
 
@@ -93,27 +81,13 @@
 
 /* Submit button */
 
-.SignIn-submit { margin-top: 2em; }
+.SignIn-submit {
 
-
-.isAuthenticating .SignIn-submit {
-    position: relative;
-    overflow: hidden;
+    @nest .isAuthenticating & {
+        position: relative;
+        overflow: hidden;
+    }
 }
-
-/*
-
-field - wrapper for each input field
-
-$fix this should be a component or global class
-
-*/
-
-.field {
-    margin-bottom: .5em;
-}
-
-.SignIn .field input { margin-bottom: .25em; }
 
 /* field message */
 

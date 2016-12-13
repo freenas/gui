@@ -33,9 +33,9 @@
 /* Disabled Interfaces */
 
 .Overview-disabledInterface {
-   height: 2em;
-   line-height: 2em;
-   padding: 0 1em;
+    height: 2em;
+    line-height: 2em;
+    padding: 0 1em;
 }
 
 .Overview-disabledInterface:nth-child(even) {

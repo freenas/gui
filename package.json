@@ -35,6 +35,7 @@
     "progress": "~1.1.8",
     "prompt": "~0.3.0",
     "rimraf": "~2.5.2",
+    "stylelint": "^7.6.0",
     "typescript": "^2.0.10",
     "ws": "~1.1.1"
   },

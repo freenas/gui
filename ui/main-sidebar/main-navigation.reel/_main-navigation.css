@@ -12,9 +12,7 @@
 /* Preferences Icon */
 
 .MainNavigation-preferences {
-/*
- * FIXME: Display when implemented
- */
+    /* FIXME */
     display: none;
     position: relative;
     margin-top: .5em;

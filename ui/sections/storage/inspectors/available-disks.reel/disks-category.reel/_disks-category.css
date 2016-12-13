@@ -1,11 +1,10 @@
 .AvailableDisksCategory {
     position: relative;
+
     &.is-expanded {
         flex: 1;
 
-        & .Scrollview-transform {
-            display: block;
-        }
+        & .Scrollview-transform { display: block; }
     }
 
     & .Scrollview-transform {
@@ -57,11 +56,6 @@
 .AvailableDisksCategory-grid { padding: .5em; }
 
 .AvailableDisksCategory.willAcceptDrop:before {
-    -webkit-animation-direction: normal;
-    -webkit-animation-duration: 1s;
-    -webkit-animation-iteration-count: infinite;
-    -webkit-animation-name: blink;
-    -webkit-animation-timing-function: ease;
     animation-direction: normal;
     animation-duration: 1s;
     animation-iteration-count: infinite;
@@ -76,6 +70,7 @@
 }
 
 .AvailableDisksCategory .GridItem.unhealthy .Grid-icon.LabeledIcon {
+
     &:before {
         content: '';
         width:  .5em;

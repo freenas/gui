@@ -15,9 +15,6 @@ exports.Calendar = Component.specialize({
             this.application.calendarService.getCalendarInstance().then(function(calendar) {
                 self.calendar = calendar;
             });
-//            this.application.calendarService.listTasks().then(function(tasks) {
-//                self.tasks = tasks;
-//            });
         }
     }
 

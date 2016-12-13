@@ -1,7 +1,6 @@
 .Topologizer {
     display: flex;
     position: relative;
-    -webkit-user-select: none;
     user-select: none;
     padding: 1em;
     background: rgba(0,0,0,.2);
