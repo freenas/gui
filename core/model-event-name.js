@@ -14,4 +14,5 @@ ModelEventName.Volume = new ModelEventName('Volume');
 ModelEventName.User = new ModelEventName('User');
 ModelEventName.Group = new ModelEventName('Group');
 ModelEventName.Directory = new ModelEventName('Directory');
+ModelEventName.Alert = new ModelEventName('Alert');
 exports.ModelEventName = ModelEventName;

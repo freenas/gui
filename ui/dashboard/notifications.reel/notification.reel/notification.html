@@ -12,30 +12,13 @@
                 "classList.has('is-expanded')": {"<-": "@owner.infoExpanded"}
             }
         },
-        "notificationSubstitution": {
-            "prototype": "montage/ui/substitution.reel",
+        "notificationType": {
+            "prototype": "ui/controls/placeholder.reel",
             "properties": {
-                "element": {"#": "notificationSubstitution"}
+                "element": {"#": "notificationType"}
             },
             "bindings": {
-                "switchValue": {"<-": "@owner.object.type"}
-            }
-        },
-        "taskNotification": {
-            "prototype": "./task-notification.reel",
-            "properties": {
-                "element": {"#": "taskNotification"}
-            },
-            "bindings": {
-                "object": {"<-": "@owner.object"}
-            }
-        },
-        "alertNotification": {
-            "prototype": "./alert-notification.reel",
-            "properties": {
-                "element": {"#": "alertNotification"}
-            },
-            "bindings": {
+                "moduleId": {"<-": "'ui/dashboard/notifications.reel/notification.reel/' + @owner.object._objectType.toLowerCase() + '-notification.reel'"},
                 "object": {"<-": "@owner.object"}
             }
         }
@@ -44,9 +27,9 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Notification">
-        <div data-montage-id="notificationSubstitution">
-            <div data-montage-id="taskNotification" data-arg="TASK"></div>
-            <div data-montage-id="alertNotification" data-arg="ALERT"></div>
+        <div data-montage-id="notificationType">
+            <div data-montage-id="taskNotification" data-arg="Task"></div>
+            <div data-montage-id="alertNotification" data-arg="Alert"></div>
         </div>
     </div>
 </body>

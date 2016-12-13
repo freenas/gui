@@ -5,6 +5,7 @@ export class ModelEventName {
     public static User = new ModelEventName('User');
     public static Group = new ModelEventName('Group');
     public static Directory = new ModelEventName('Directory');
+    public static Alert = new ModelEventName('Alert');
 
     public listChange: string;
     public add: Function;
