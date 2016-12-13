@@ -2,6 +2,7 @@
 var ModelEventName = (function () {
     function ModelEventName(modelName) {
         this.listChange = modelName + 'ListChange';
+        this.contentChange = modelName + 'ContentChange';
         this.add = function (id) { return modelName + 'Add.' + id; };
         this.remove = function (id) { return modelName + 'Remove.' + id; };
         this.change = function (id) { return modelName + '.' + id; };
@@ -15,4 +16,5 @@ ModelEventName.User = new ModelEventName('User');
 ModelEventName.Group = new ModelEventName('Group');
 ModelEventName.Directory = new ModelEventName('Directory');
 ModelEventName.Alert = new ModelEventName('Alert');
+ModelEventName.Task = new ModelEventName('Task');
 exports.ModelEventName = ModelEventName;

@@ -10,12 +10,6 @@ var SystemDeviceDao = (function (_super) {
     function SystemDeviceDao() {
         return _super.call(this, {}) || this;
     }
-    SystemDeviceDao.getInstance = function () {
-        if (!SystemDeviceDao.instance) {
-            SystemDeviceDao.instance = new SystemDeviceDao();
-        }
-        return SystemDeviceDao.instance;
-    };
     SystemDeviceDao.prototype.getDevices = function (deviceClass) {
         return this.middlewareClient.callRpcMethod('system.device.get_devices', [deviceClass]);
     };

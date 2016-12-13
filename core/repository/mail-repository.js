@@ -6,7 +6,7 @@ var MailRepository = (function () {
     }
     MailRepository.getInstance = function () {
         if (!MailRepository.instance) {
-            MailRepository.instance = new MailRepository(mail_dao_1.MailDao.getInstance());
+            MailRepository.instance = new MailRepository(new mail_dao_1.MailDao());
         }
         return MailRepository.instance;
     };

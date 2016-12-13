@@ -36,11 +36,12 @@ var AbstractRepository = (function () {
         }
     };
     AbstractRepository.prototype.dispatchModelEvents = function (repositoryEntries, modelEventName, state) {
-        var self = this;
+        var self = this, hasListContentChanged = false;
         this.eventDispatcherService.dispatch(modelEventName.listChange, state);
         state.forEach(function (stateEntry, id) {
             if (!repositoryEntries || !repositoryEntries.has(id)) {
                 self.eventDispatcherService.dispatch(modelEventName.add(id), stateEntry);
+                hasListContentChanged = true;
             }
             else if (repositoryEntries.get(id) !== stateEntry) {
                 self.eventDispatcherService.dispatch(modelEventName.change(id), stateEntry);
@@ -50,8 +51,12 @@ var AbstractRepository = (function () {
             repositoryEntries.forEach(function (repositoryEntry, id) {
                 if (!state.has(id) || state.get(id) !== repositoryEntry) {
                     self.eventDispatcherService.dispatch(modelEventName.remove(id), repositoryEntry);
+                    hasListContentChanged = true;
                 }
             });
+        }
+        if (hasListContentChanged) {
+            this.eventDispatcherService.dispatch(modelEventName.contentChange, state);
         }
         return state;
     };

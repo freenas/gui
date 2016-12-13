@@ -2,17 +2,9 @@ import { AbstractDao } from './abstract-dao-ng';
 import * as systemSections from 'core/data/system-sections.json';
 
 export class SystemSectionDao extends AbstractDao {
-    private static instance: SystemSectionDao;
 
-    private constructor() {
-        super(AbstractDao.Model.SystemSection);
-    }
-
-    public static getInstance() {
-        if (!SystemSectionDao.instance) {
-            SystemSectionDao.instance = new SystemSectionDao();
-        }
-        return SystemSectionDao.instance;
+    public constructor() {
+        super('SystemSection');
     }
 
     public list() {

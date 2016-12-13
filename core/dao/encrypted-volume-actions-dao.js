@@ -8,14 +8,8 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var EncryptedVolumeActionsDao = (function (_super) {
     __extends(EncryptedVolumeActionsDao, _super);
     function EncryptedVolumeActionsDao() {
-        return _super.call(this, abstract_dao_ng_1.AbstractDao.Model.EncryptedVolumeActions) || this;
+        return _super.call(this, 'EncryptedVolumeActions') || this;
     }
-    EncryptedVolumeActionsDao.getInstance = function () {
-        if (!EncryptedVolumeActionsDao.instance) {
-            EncryptedVolumeActionsDao.instance = new EncryptedVolumeActionsDao();
-        }
-        return EncryptedVolumeActionsDao.instance;
-    };
     return EncryptedVolumeActionsDao;
 }(abstract_dao_ng_1.AbstractDao));
 exports.EncryptedVolumeActionsDao = EncryptedVolumeActionsDao;

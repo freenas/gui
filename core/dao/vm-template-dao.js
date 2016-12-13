@@ -8,16 +8,10 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var VmTemplateDao = (function (_super) {
     __extends(VmTemplateDao, _super);
     function VmTemplateDao() {
-        return _super.call(this, abstract_dao_ng_1.AbstractDao.Model.Vm, {
+        return _super.call(this, 'Vm', {
             queryMethod: 'vm.template.query'
         }) || this;
     }
-    VmTemplateDao.getInstance = function () {
-        if (!VmTemplateDao.instance) {
-            VmTemplateDao.instance = new VmTemplateDao();
-        }
-        return VmTemplateDao.instance;
-    };
     return VmTemplateDao;
 }(abstract_dao_ng_1.AbstractDao));
 exports.VmTemplateDao = VmTemplateDao;

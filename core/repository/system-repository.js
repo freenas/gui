@@ -14,7 +14,7 @@ var SystemRepository = (function () {
     }
     SystemRepository.getInstance = function () {
         if (!SystemRepository.instance) {
-            SystemRepository.instance = new SystemRepository(system_general_dao_1.SystemGeneralDao.getInstance(), system_time_dao_1.SystemTimeDao.getInstance(), system_dataset_dao_1.SystemDatasetDao.getInstance(), system_device_dao_1.SystemDeviceDao.getInstance(), system_section_dao_1.SystemSectionDao.getInstance());
+            SystemRepository.instance = new SystemRepository(new system_general_dao_1.SystemGeneralDao(), new system_time_dao_1.SystemTimeDao(), new system_dataset_dao_1.SystemDatasetDao(), new system_device_dao_1.SystemDeviceDao(), new system_section_dao_1.SystemSectionDao());
         }
         return SystemRepository.instance;
     };

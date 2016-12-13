@@ -19,8 +19,8 @@ export class BootPoolRepository extends AbstractRepository{
     public static getInstance() {
         if (!BootPoolRepository.instance) {
             BootPoolRepository.instance = new BootPoolRepository(
-                BootPoolDao.getInstance(),
-                BootEnvironmentDao.getInstance()
+                new BootPoolDao(),
+                new BootEnvironmentDao()
             );
         }
         return BootPoolRepository.instance;

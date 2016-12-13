@@ -9,14 +9,8 @@ var systemSections = require("core/data/system-sections.json");
 var SystemSectionDao = (function (_super) {
     __extends(SystemSectionDao, _super);
     function SystemSectionDao() {
-        return _super.call(this, abstract_dao_ng_1.AbstractDao.Model.SystemSection) || this;
+        return _super.call(this, 'SystemSection') || this;
     }
-    SystemSectionDao.getInstance = function () {
-        if (!SystemSectionDao.instance) {
-            SystemSectionDao.instance = new SystemSectionDao();
-        }
-        return SystemSectionDao.instance;
-    };
     SystemSectionDao.prototype.list = function () {
         var self = this;
         return Promise.all(systemSections.map(function (definition, index) {

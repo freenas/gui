@@ -32,11 +32,13 @@ export abstract class AbstractRepository {
     }
 
     protected dispatchModelEvents(repositoryEntries: Map<string, Map<string, any>>, modelEventName: ModelEventName, state: any) {
-        let self = this;
+        let self = this,
+            hasListContentChanged = false;
         this.eventDispatcherService.dispatch(modelEventName.listChange, state);
         state.forEach(function(stateEntry, id){
             if (!repositoryEntries || !repositoryEntries.has(id)) {
                 self.eventDispatcherService.dispatch(modelEventName.add(id), stateEntry);
+                hasListContentChanged = true;
             } else if (repositoryEntries.get(id) !== stateEntry) {
                 self.eventDispatcherService.dispatch(modelEventName.change(id), stateEntry);
             }
@@ -45,8 +47,12 @@ export abstract class AbstractRepository {
             repositoryEntries.forEach(function(repositoryEntry, id){
                 if (!state.has(id) || state.get(id) !== repositoryEntry) {
                     self.eventDispatcherService.dispatch(modelEventName.remove(id), repositoryEntry);
+                    hasListContentChanged = true;
                 }
             });
+        }
+        if (hasListContentChanged) {
+            this.eventDispatcherService.dispatch(modelEventName.contentChange, state);
         }
         return state;
     }

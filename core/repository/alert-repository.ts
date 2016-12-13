@@ -18,14 +18,16 @@ export class AlertRepository extends AbstractRepository {
     public static getInstance() {
         if (!AlertRepository.instance) {
             AlertRepository.instance = new AlertRepository(
-                AlertDao.getInstance()
+                new AlertDao()
             );
         }
         return AlertRepository.instance;
     }
 
     public listAlerts(): Promise<Array<Object>> {
-        return this.alertDao.list();
+        return this.alerts ?
+            Promise.resolve(this.alerts.toList.toJS()) :
+            this.alertDao.find({active: true, dismissed: false});
     }
 
     public dismissAlert(alert: any): Promise<any> {

@@ -20,7 +20,7 @@ var DiskRepository = (function (_super) {
     }
     DiskRepository.getInstance = function () {
         if (!DiskRepository.instance) {
-            DiskRepository.instance = new DiskRepository(disk_dao_1.DiskDao.getInstance());
+            DiskRepository.instance = new DiskRepository(new disk_dao_1.DiskDao());
         }
         return DiskRepository.instance;
     };

@@ -1,45 +1,15 @@
-var AbstractDao = require("core/dao/abstract-dao").AbstractDao;
-
-exports.DetachedVolumeDao = AbstractDao.specialize({
-    __volumeService: {
-        value: null
-    },
-
-    _volumeService: {
-        get: function() {
-            var self = this,
-                Model = this.constructor.Model,
-                promise = this.__volumeService ? 
-                    Promise.resolve(this.__volumeService) :
-                    Model.populateObjectPrototypeForType(Model.Volume).then(function (Volume) {
-                        return self.__volumeService = Volume.constructor.services;
-                    });
-            return promise;
-        }
-    },
-
-    init: {
-        value: function() {
-            this._model = this.constructor.Model.DetachedVolume;
-        }
-    },
-
-    list: {
-        value: function() {
-            this._checkModelIsInitialized();
-            var self = this;
-            return this._volumeService.then(function(volumeService) {
-                return volumeService.find();
-            }).then(function(rawDetachedVolumes) {
-                return Promise.all(rawDetachedVolumes.filter(function(x) {
-                    return x.status === "ONLINE";
-                }).map(function(x) {
-                    return self._dataService.mapRawDataToType(x, self._model).then(function(detachedVolume) {
-                        detachedVolume.topology._isDetached = true;
-                        return detachedVolume;
-                    });
-                }));
-            });
-        }
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var abstract_dao_ng_1 = require("./abstract-dao-ng");
+var DetachedVolumeDao = (function (_super) {
+    __extends(DetachedVolumeDao, _super);
+    function DetachedVolumeDao() {
+        return _super.call(this, 'DetachedVolume') || this;
     }
-});
+    return DetachedVolumeDao;
+}(abstract_dao_ng_1.AbstractDao));
+exports.DetachedVolumeDao = DetachedVolumeDao;

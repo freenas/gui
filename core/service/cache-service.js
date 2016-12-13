@@ -10,9 +10,9 @@ var CacheService = (function () {
         this.eventDispatcherService = event_dispatcher_service_1.EventDispatcherService.getInstance();
         this.eventDispatcherService.addEventListener('stateChange', function (state) { return self.handleStateChange(state); });
     }
-    CacheService.getInstance = function (storage) {
+    CacheService.getInstance = function () {
         if (!CacheService.instance) {
-            CacheService.instance = new CacheService(storage);
+            CacheService.instance = new CacheService();
         }
         return CacheService.instance;
     };

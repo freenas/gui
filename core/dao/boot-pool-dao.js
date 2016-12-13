@@ -12,12 +12,6 @@ var BootPoolDao = (function (_super) {
             typeName: 'BootPoolConfig'
         }) || this;
     }
-    BootPoolDao.getInstance = function () {
-        if (!BootPoolDao.instance) {
-            BootPoolDao.instance = new BootPoolDao();
-        }
-        return BootPoolDao.instance;
-    };
     BootPoolDao.prototype.getConfig = function () {
         return this.middlewareClient.callRpcMethod('boot.pool.get_config');
     };

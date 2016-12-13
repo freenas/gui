@@ -19,7 +19,7 @@ var BootPoolRepository = (function (_super) {
     }
     BootPoolRepository.getInstance = function () {
         if (!BootPoolRepository.instance) {
-            BootPoolRepository.instance = new BootPoolRepository(boot_pool_dao_1.BootPoolDao.getInstance(), boot_environment_dao_1.BootEnvironmentDao.getInstance());
+            BootPoolRepository.instance = new BootPoolRepository(new boot_pool_dao_1.BootPoolDao(), new boot_environment_dao_1.BootEnvironmentDao());
         }
         return BootPoolRepository.instance;
     };

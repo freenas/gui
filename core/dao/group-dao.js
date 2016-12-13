@@ -8,14 +8,8 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var GroupDao = (function (_super) {
     __extends(GroupDao, _super);
     function GroupDao() {
-        return _super.call(this, abstract_dao_ng_1.AbstractDao.Model.Group) || this;
+        return _super.call(this, 'Group') || this;
     }
-    GroupDao.getInstance = function () {
-        if (!GroupDao.instance) {
-            GroupDao.instance = new GroupDao();
-        }
-        return GroupDao.instance;
-    };
     return GroupDao;
 }(abstract_dao_ng_1.AbstractDao));
 exports.GroupDao = GroupDao;

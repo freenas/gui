@@ -1,5 +1,5 @@
 var Montage = require("montage").Montage,
-    AlertRepository = require("core/repository/alert-repository").AlertRepository;
+    AlertRepository = require("core/repository/alert-filter-repository").AlertRepository;
 
 exports.AlertService = Montage.specialize({
     constructor: {

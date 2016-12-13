@@ -8,16 +8,10 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var NtpServerDao = (function (_super) {
     __extends(NtpServerDao, _super);
     function NtpServerDao() {
-        return _super.call(this, abstract_dao_ng_1.AbstractDao.Model.NtpServer, {
+        return _super.call(this, 'NtpServer', {
             queryMethod: 'ntp_server.query'
         }) || this;
     }
-    NtpServerDao.getInstance = function () {
-        if (!NtpServerDao.instance) {
-            NtpServerDao.instance = new NtpServerDao();
-        }
-        return NtpServerDao.instance;
-    };
     NtpServerDao.prototype.syncNow = function (serverAddress) {
         return this.middlewareClient.submitTask('ntp_server.sync_now', [serverAddress]);
     };

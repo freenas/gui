@@ -18,7 +18,7 @@ var ReplicationRepository = (function (_super) {
     }
     ReplicationRepository.getInstance = function () {
         if (!ReplicationRepository.instance) {
-            ReplicationRepository.instance = new ReplicationRepository(replication_dao_1.ReplicationDao.getInstance(), replication_options_dao_1.ReplicationOptionsDao.getInstance());
+            ReplicationRepository.instance = new ReplicationRepository(new replication_dao_1.ReplicationDao(), new replication_options_dao_1.ReplicationOptionsDao());
         }
         return ReplicationRepository.instance;
     };

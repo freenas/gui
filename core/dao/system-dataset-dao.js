@@ -13,12 +13,6 @@ var SystemDatasetDao = (function (_super) {
             queryMethod: 'system_dataset.status'
         }) || this;
     }
-    SystemDatasetDao.getInstance = function () {
-        if (!SystemDatasetDao.instance) {
-            SystemDatasetDao.instance = new SystemDatasetDao();
-        }
-        return SystemDatasetDao.instance;
-    };
     return SystemDatasetDao;
 }(abstract_dao_ng_1.AbstractDao));
 exports.SystemDatasetDao = SystemDatasetDao;

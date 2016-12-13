@@ -2,7 +2,7 @@
 var system_general_dao_1 = require("core/dao/system-general-dao");
 var SystemGeneralRepository = (function () {
     function SystemGeneralRepository() {
-        this.dao = system_general_dao_1.SystemGeneralDao.getInstance();
+        this.dao = new system_general_dao_1.SystemGeneralDao();
     }
     SystemGeneralRepository.getInstance = function () {
         if (!SystemGeneralRepository.instance) {

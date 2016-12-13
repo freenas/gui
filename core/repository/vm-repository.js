@@ -9,8 +9,8 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
 exports.VmRepository = AbstractRepository.specialize({
     init: {
         value: function(vmDao, vmTemplateDao, vmDeviceDao, vmVolumeDao, vmReadmeDao) {
-            this._vmDao = vmDao || VmDao.getInstance();
-            this._vmTemplateDao = vmTemplateDao || VmTemplateDao.getInstance();
+            this._vmDao = vmDao || new VmDao();
+            this._vmTemplateDao = vmTemplateDao || new VmTemplateDao();
             this._vmDeviceDao = vmDeviceDao || VmDeviceDao.instance;
             this._vmVolumeDao = vmVolumeDao || VmVolumeDao.instance;
             this._vmReadmeDao = vmReadmeDao || VmReadmeDao.instance;

@@ -12,7 +12,7 @@ export class ShellRepository extends AbstractRepository {
     public static getInstance() {
         if (!ShellRepository.instance) {
             ShellRepository.instance = new ShellRepository(
-                ShellDao.getInstance()            );
+                new ShellDao()            );
         }
         return ShellRepository.instance;
     }

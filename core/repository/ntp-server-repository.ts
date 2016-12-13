@@ -14,7 +14,7 @@ export class NtpServerRepository extends AbstractRepository {
     public static getInstance() {
         if (!NtpServerRepository.instance) {
             NtpServerRepository.instance = new NtpServerRepository(
-                NtpServerDao.getInstance()
+                new NtpServerDao()
             );
         }
         return NtpServerRepository.instance;

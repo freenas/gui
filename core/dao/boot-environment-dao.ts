@@ -1,17 +1,9 @@
 import { AbstractDao } from './abstract-dao-ng';
 
 export class BootEnvironmentDao extends AbstractDao {
-    private static instance: BootEnvironmentDao;
 
-    private constructor() {
-        super(AbstractDao.Model.BootEnvironment);
-    }
-
-    public static getInstance() {
-        if (!BootEnvironmentDao.instance) {
-            BootEnvironmentDao.instance = new BootEnvironmentDao();
-        }
-        return BootEnvironmentDao.instance;
+    public constructor() {
+        super('BootEnvironment');
     }
 
     public activate(bootEnvironment: Object) {

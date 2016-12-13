@@ -8,14 +8,8 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var KerberosKeytabDao = (function (_super) {
     __extends(KerberosKeytabDao, _super);
     function KerberosKeytabDao() {
-        return _super.call(this, abstract_dao_ng_1.AbstractDao.Model.KerberosKeytab) || this;
+        return _super.call(this, 'KerberosKeytab') || this;
     }
-    KerberosKeytabDao.getInstance = function () {
-        if (!KerberosKeytabDao.instance) {
-            KerberosKeytabDao.instance = new KerberosKeytabDao();
-        }
-        return KerberosKeytabDao.instance;
-    };
     return KerberosKeytabDao;
 }(abstract_dao_ng_1.AbstractDao));
 exports.KerberosKeytabDao = KerberosKeytabDao;

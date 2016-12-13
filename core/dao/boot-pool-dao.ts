@@ -1,19 +1,11 @@
 import { AbstractDao } from './abstract-dao-ng';
 
 export class BootPoolDao extends AbstractDao {
-    private static instance: BootPoolDao;
 
-    private constructor() {
+    public constructor() {
         super({}, {
             typeName: 'BootPoolConfig'
         });
-    }
-
-    public static getInstance() {
-        if (!BootPoolDao.instance) {
-            BootPoolDao.instance = new BootPoolDao();
-        }
-        return BootPoolDao.instance;
     }
 
     public getConfig() {

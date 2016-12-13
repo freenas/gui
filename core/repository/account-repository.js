@@ -35,7 +35,7 @@ var AccountRepository = (function (_super) {
     }
     AccountRepository.getInstance = function () {
         if (!AccountRepository.instance) {
-            AccountRepository.instance = new AccountRepository(user_dao_1.UserDao.getInstance(), group_dao_1.GroupDao.getInstance(), directory_services_dao_1.DirectoryServicesDao.getInstance(), directoryservice_config_dao_1.DirectoryserviceConfigDao.getInstance(), directory_dao_1.DirectoryDao.getInstance());
+            AccountRepository.instance = new AccountRepository(new user_dao_1.UserDao(), new group_dao_1.GroupDao(), new directory_services_dao_1.DirectoryServicesDao(), new directoryservice_config_dao_1.DirectoryserviceConfigDao(), new directory_dao_1.DirectoryDao());
         }
         return AccountRepository.instance;
     };

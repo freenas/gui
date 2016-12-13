@@ -27,10 +27,10 @@ exports.ContainerRepository = AbstractRepository.specialize({
             ) {
 
             this._dockerContainerSectionDao = dockerContainerSectionDao || DockerContainerSectionDao.instance;
-            this._dockerContainerDao = dockerContainerDao || DockerContainerDao.getInstance();
+            this._dockerContainerDao = dockerContainerDao || new DockerContainerDao();
             this._dockerImageDao = dockerImageDao || DockerImageDao.instance;
             this._dockerHostDao = dockerHostDao || DockerHostDao.instance;
-            this._dockerConfigDao = dockerConfigDao || DockerConfigDao.getInstance();
+            this._dockerConfigDao = dockerConfigDao || new DockerConfigDao();
             this._dockerCollectionDao = dockerCollectionDao || DockerCollectionDao.instance;
             this._dockerContainerCreatorDao = dockerContainerCreatorDao || DockerContainerCreatorDao.instance;
             this._dockerImagePullDao = dockerImagePullDao || DockerImagePullDao.instance;

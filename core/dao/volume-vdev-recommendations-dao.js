@@ -8,16 +8,10 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var VolumeVdevRecommendationsDao = (function (_super) {
     __extends(VolumeVdevRecommendationsDao, _super);
     function VolumeVdevRecommendationsDao() {
-        return _super.call(this, abstract_dao_ng_1.AbstractDao.Model.VolumeVdevRecommendations, {
+        return _super.call(this, 'VolumeVdevRecommendations', {
             queryMethod: 'volume.vdev_recommendations'
         }) || this;
     }
-    VolumeVdevRecommendationsDao.getInstance = function () {
-        if (!VolumeVdevRecommendationsDao.instance) {
-            VolumeVdevRecommendationsDao.instance = new VolumeVdevRecommendationsDao();
-        }
-        return VolumeVdevRecommendationsDao.instance;
-    };
     return VolumeVdevRecommendationsDao;
 }(abstract_dao_ng_1.AbstractDao));
 exports.VolumeVdevRecommendationsDao = VolumeVdevRecommendationsDao;

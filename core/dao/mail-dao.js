@@ -8,17 +8,11 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var MailDao = (function (_super) {
     __extends(MailDao, _super);
     function MailDao() {
-        return _super.call(this, abstract_dao_ng_1.AbstractDao.Model.Mail, {
+        return _super.call(this, 'Mail', {
             queryMethod: 'mail.get_config',
             createMethod: 'mail.update'
         }) || this;
     }
-    MailDao.getInstance = function () {
-        if (!MailDao.instance) {
-            MailDao.instance = new MailDao();
-        }
-        return MailDao.instance;
-    };
     return MailDao;
 }(abstract_dao_ng_1.AbstractDao));
 exports.MailDao = MailDao;

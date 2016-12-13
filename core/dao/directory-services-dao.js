@@ -8,16 +8,10 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var DirectoryServicesDao = (function (_super) {
     __extends(DirectoryServicesDao, _super);
     function DirectoryServicesDao() {
-        return _super.call(this, abstract_dao_ng_1.AbstractDao.Model.DirectoryServices, {
+        return _super.call(this, 'DirectoryServices', {
             queryMethod: 'directory.query'
         }) || this;
     }
-    DirectoryServicesDao.getInstance = function () {
-        if (!DirectoryServicesDao.instance) {
-            DirectoryServicesDao.instance = new DirectoryServicesDao();
-        }
-        return DirectoryServicesDao.instance;
-    };
     return DirectoryServicesDao;
 }(abstract_dao_ng_1.AbstractDao));
 exports.DirectoryServicesDao = DirectoryServicesDao;

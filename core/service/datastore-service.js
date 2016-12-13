@@ -20,7 +20,9 @@ var DatastoreService = (function () {
         return DatastoreService.instance;
     };
     DatastoreService.prototype.query = function (type, methodName, middlewareCriteria) {
-        var queryPromise = this.middlewareClient.callRpcMethod(methodName, middlewareCriteria);
+        var queryPromise = this.middlewareClient.callRpcMethod(methodName, middlewareCriteria).then(function (results) {
+            return Array.isArray(results) ? results : [results];
+        });
         this.store.dispatch({
             type: main_1.ACTIONS.IMPORT_OBJECTS,
             meta: {

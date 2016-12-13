@@ -8,14 +8,8 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var BootEnvironmentDao = (function (_super) {
     __extends(BootEnvironmentDao, _super);
     function BootEnvironmentDao() {
-        return _super.call(this, abstract_dao_ng_1.AbstractDao.Model.BootEnvironment) || this;
+        return _super.call(this, 'BootEnvironment') || this;
     }
-    BootEnvironmentDao.getInstance = function () {
-        if (!BootEnvironmentDao.instance) {
-            BootEnvironmentDao.instance = new BootEnvironmentDao();
-        }
-        return BootEnvironmentDao.instance;
-    };
     BootEnvironmentDao.prototype.activate = function (bootEnvironment) {
         return this.middlewareClient.submitTask('boot.environment.activate', [bootEnvironment.persistedId]);
     };

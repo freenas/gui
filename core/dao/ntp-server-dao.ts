@@ -1,19 +1,11 @@
 import { AbstractDao } from './abstract-dao-ng';
 
 export class NtpServerDao extends AbstractDao {
-    private static instance: NtpServerDao;
 
-    private constructor() {
-        super(AbstractDao.Model.NtpServer, {
+    public constructor() {
+        super('NtpServer', {
             queryMethod: 'ntp_server.query'
         });
-    }
-
-    public static getInstance() {
-        if (!NtpServerDao.instance) {
-            NtpServerDao.instance = new NtpServerDao();
-        }
-        return NtpServerDao.instance;
     }
 
     public syncNow(serverAddress: string) {

@@ -19,11 +19,11 @@ export class SystemRepository {
     public static getInstance() {
         if (!SystemRepository.instance) {
             SystemRepository.instance = new SystemRepository(
-                SystemGeneralDao.getInstance(),
-                SystemTimeDao.getInstance(),
-                SystemDatasetDao.getInstance(),
-                SystemDeviceDao.getInstance(),
-                SystemSectionDao.getInstance()
+                new SystemGeneralDao(),
+                new SystemTimeDao(),
+                new SystemDatasetDao(),
+                new SystemDeviceDao(),
+                new SystemSectionDao()
             );
         }
         return SystemRepository.instance;

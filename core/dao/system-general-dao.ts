@@ -1,20 +1,12 @@
 import { AbstractDao } from './abstract-dao-ng';
 
 export class SystemGeneralDao extends AbstractDao {
-    private static instance: SystemGeneralDao;
 
-    private constructor() {
-        super(AbstractDao.Model.SystemGeneral, {
+    public constructor() {
+        super('SystemGeneral', {
             queryMethod: 'system.general.get_config',
             createMethod: 'system.general.update'
         });
-    }
-
-    public static getInstance() {
-        if (!SystemGeneralDao.instance) {
-            SystemGeneralDao.instance = new SystemGeneralDao();
-        }
-        return SystemGeneralDao.instance;
     }
 
     public listTimezones(): Promise<Array<string>> {

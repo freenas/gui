@@ -15,7 +15,7 @@ var ShellRepository = (function (_super) {
     }
     ShellRepository.getInstance = function () {
         if (!ShellRepository.instance) {
-            ShellRepository.instance = new ShellRepository(shell_dao_1.ShellDao.getInstance());
+            ShellRepository.instance = new ShellRepository(new shell_dao_1.ShellDao());
         }
         return ShellRepository.instance;
     };

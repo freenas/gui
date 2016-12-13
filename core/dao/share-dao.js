@@ -8,14 +8,8 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var ShareDao = (function (_super) {
     __extends(ShareDao, _super);
     function ShareDao() {
-        return _super.call(this, abstract_dao_ng_1.AbstractDao.Model.Share) || this;
+        return _super.call(this, 'Share') || this;
     }
-    ShareDao.getInstance = function () {
-        if (!ShareDao.instance) {
-            ShareDao.instance = new ShareDao();
-        }
-        return ShareDao.instance;
-    };
     return ShareDao;
 }(abstract_dao_ng_1.AbstractDao));
 exports.ShareDao = ShareDao;

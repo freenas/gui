@@ -18,14 +18,14 @@ export class CacheService {
         this.eventDispatcherService.addEventListener('stateChange', (state) => self.handleStateChange(state));
     }
 
-    public static getInstance(storage: Map<any, Array<any>>) {
+    public static getInstance() {
         if (!CacheService.instance) {
-            CacheService.instance = new CacheService(storage);
+            CacheService.instance = new CacheService();
         }
         return CacheService.instance;
     }
 
-    public registerTypeForKey(this: CacheService, type: Object, key: string) {
+    public registerTypeForKey(this: CacheService, type: any, key: string) {
         let self = this,
             promise;
         if (!this.types.has(key) || this.types.get(key) !== type || !type.objectPrototype || Promise.is(type.objectPrototype)) {

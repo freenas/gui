@@ -16,7 +16,7 @@ var NtpServerRepository = (function (_super) {
     }
     NtpServerRepository.getInstance = function () {
         if (!NtpServerRepository.instance) {
-            NtpServerRepository.instance = new NtpServerRepository(ntp_server_dao_1.NtpServerDao.getInstance());
+            NtpServerRepository.instance = new NtpServerRepository(new ntp_server_dao_1.NtpServerDao());
         }
         return NtpServerRepository.instance;
     };

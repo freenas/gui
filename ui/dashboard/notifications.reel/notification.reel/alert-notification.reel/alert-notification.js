@@ -11,7 +11,7 @@ var Component = require("montage/ui/component").Component,
 exports.AlertNotification = Component.specialize(/** @lends AlertNotification# */ {
     enterDocument: {
         value: function() {
-            this.object.date = new Date(this.object.updated_at['$date']);
+            this.object.date = new Date(this.object.updated_at.$date);
         }
     },
 

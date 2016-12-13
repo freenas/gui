@@ -8,14 +8,8 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var UserDao = (function (_super) {
     __extends(UserDao, _super);
     function UserDao() {
-        return _super.call(this, abstract_dao_ng_1.AbstractDao.Model.User) || this;
+        return _super.call(this, 'User') || this;
     }
-    UserDao.getInstance = function () {
-        if (!UserDao.instance) {
-            UserDao.instance = new UserDao();
-        }
-        return UserDao.instance;
-    };
     return UserDao;
 }(abstract_dao_ng_1.AbstractDao));
 exports.UserDao = UserDao;

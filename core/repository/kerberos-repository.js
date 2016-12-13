@@ -8,7 +8,7 @@ var KerberosRepository = (function () {
     }
     KerberosRepository.getInstance = function () {
         if (!KerberosRepository.instance) {
-            KerberosRepository.instance = new KerberosRepository(kerberos_keytab_dao_1.KerberosKeytabDao.getInstance(), kerberos_realm_dao_1.KerberosRealmDao.getInstance());
+            KerberosRepository.instance = new KerberosRepository(new kerberos_keytab_dao_1.KerberosKeytabDao(), new kerberos_realm_dao_1.KerberosRealmDao());
         }
         return KerberosRepository.instance;
     };

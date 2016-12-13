@@ -8,14 +8,8 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var DiskDao = (function (_super) {
     __extends(DiskDao, _super);
     function DiskDao() {
-        return _super.call(this, abstract_dao_ng_1.AbstractDao.Model.Disk) || this;
+        return _super.call(this, 'Disk') || this;
     }
-    DiskDao.getInstance = function () {
-        if (!DiskDao.instance) {
-            DiskDao.instance = new DiskDao();
-        }
-        return DiskDao.instance;
-    };
     return DiskDao;
 }(abstract_dao_ng_1.AbstractDao));
 exports.DiskDao = DiskDao;

@@ -12,12 +12,6 @@ var ShellDao = (function (_super) {
             queryMethod: 'shell.get_shells'
         }) || this;
     }
-    ShellDao.getInstance = function () {
-        if (!ShellDao.instance) {
-            ShellDao.instance = new ShellDao();
-        }
-        return ShellDao.instance;
-    };
     ShellDao.prototype.spawn = function (columns, lines) {
         return this.middlewareClient.callRpcMethod('shell.spawn', ['/usr/local/bin/cli', columns, lines]);
     };

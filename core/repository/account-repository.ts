@@ -38,11 +38,11 @@ export class AccountRepository extends AbstractRepository {
     public static getInstance() {
         if (!AccountRepository.instance) {
             AccountRepository.instance = new AccountRepository(
-                UserDao.getInstance(),
-                GroupDao.getInstance(),
-                DirectoryServicesDao.getInstance(),
-                DirectoryserviceConfigDao.getInstance(),
-                DirectoryDao.getInstance()
+                new UserDao(),
+                new GroupDao(),
+                new DirectoryServicesDao(),
+                new DirectoryserviceConfigDao(),
+                new DirectoryDao()
             );
         }
         return AccountRepository.instance;

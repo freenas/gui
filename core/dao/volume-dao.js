@@ -8,14 +8,8 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var VolumeDao = (function (_super) {
     __extends(VolumeDao, _super);
     function VolumeDao() {
-        return _super.call(this, abstract_dao_ng_1.AbstractDao.Model.Volume) || this;
+        return _super.call(this, 'Volume') || this;
     }
-    VolumeDao.getInstance = function () {
-        if (!VolumeDao.instance) {
-            VolumeDao.instance = new VolumeDao();
-        }
-        return VolumeDao.instance;
-    };
     VolumeDao.prototype.getDisksAllocation = function (diskIds) {
         return this.middlewareClient.callRpcMethod('volume.get_disks_allocation', [diskIds]);
     };

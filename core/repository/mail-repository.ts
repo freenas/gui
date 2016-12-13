@@ -11,7 +11,7 @@ export class MailRepository {
     public static getInstance() {
         if (!MailRepository.instance) {
             MailRepository.instance = new MailRepository(
-                MailDao.getInstance()
+                new MailDao()
             );
         }
         return MailRepository.instance;

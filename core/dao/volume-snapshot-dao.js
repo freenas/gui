@@ -8,16 +8,10 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var VolumeSnapshotDao = (function (_super) {
     __extends(VolumeSnapshotDao, _super);
     function VolumeSnapshotDao() {
-        return _super.call(this, abstract_dao_ng_1.AbstractDao.Model.VolumeSnapshot, {
+        return _super.call(this, 'VolumeSnapshot', {
             eventName: 'entity-subscriber.volume.snapshot.changed'
         }) || this;
     }
-    VolumeSnapshotDao.getInstance = function () {
-        if (!VolumeSnapshotDao.instance) {
-            VolumeSnapshotDao.instance = new VolumeSnapshotDao();
-        }
-        return VolumeSnapshotDao.instance;
-    };
     return VolumeSnapshotDao;
 }(abstract_dao_ng_1.AbstractDao));
 exports.VolumeSnapshotDao = VolumeSnapshotDao;

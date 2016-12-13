@@ -18,7 +18,7 @@ export class VmwareRepository extends AbstractRepository {
     public static getInstance() {
         if (!VmwareRepository.instance) {
             VmwareRepository.instance = new VmwareRepository(
-                VmwareDatasetDao.getInstance()
+                new VmwareDatasetDao()
             );
         }
         return VmwareRepository.instance;

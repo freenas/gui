@@ -16,7 +16,7 @@
             },
             "bindings": {
                 "classList.has('has-error')": {"<-": "@owner.object.state == 'FAILED'"},
-                "classList.has('has-warning')": {"<-": "@owner.object.taskReport.warnings.length > 0"},
+                "classList.has('has-warning')": {"<-": "@owner.object.warnings.length > 0"},
                 "classList.has('has-success')": {"<-": "@owner.object.state == 'FINISHED'"}
             }
         },
@@ -26,8 +26,8 @@
                 "element": {"#": "taskSummary"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.taskReport.description.message"},
-                "classList.has('hide')": {"<-": "!@owner.object.taskReport.description"}
+                "value": {"<-": "@owner.object.description.message"},
+                "classList.has('hide')": {"<-": "!@owner.object.description"}
             }
         },
         "converter": {
@@ -43,7 +43,7 @@
             },
             "bindings": {
                 "value": {
-                    "<-": "@owner.object.startedTime",
+                    "<-": "@owner.object.startDate",
                     "converter": {"@": "converter"}
                 }
             }
@@ -54,8 +54,7 @@
                 "element": {"#": "progress"}
             },
             "bindings": {
-                "percentageComplete": {"<-": "@owner.object.progress"},
-                "classList.has('hide')": {"<-": "@owner.object.type != 'TASK'"},
+                "percentageComplete": {"<-": "@owner.object.progress.percentage"},
                 "status": {"<-": "@owner.statusMap[@owner.object.state]"}
             }
         },

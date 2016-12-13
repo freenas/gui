@@ -8,14 +8,8 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var KerberosRealmDao = (function (_super) {
     __extends(KerberosRealmDao, _super);
     function KerberosRealmDao() {
-        return _super.call(this, abstract_dao_ng_1.AbstractDao.Model.KerberosRealm) || this;
+        return _super.call(this, 'KerberosRealm') || this;
     }
-    KerberosRealmDao.getInstance = function () {
-        if (!KerberosRealmDao.instance) {
-            KerberosRealmDao.instance = new KerberosRealmDao();
-        }
-        return KerberosRealmDao.instance;
-    };
     return KerberosRealmDao;
 }(abstract_dao_ng_1.AbstractDao));
 exports.KerberosRealmDao = KerberosRealmDao;

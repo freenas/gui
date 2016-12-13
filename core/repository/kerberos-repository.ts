@@ -11,8 +11,8 @@ export class KerberosRepository {
     public static getInstance() {
         if (!KerberosRepository.instance) {
             KerberosRepository.instance = new KerberosRepository(
-                KerberosKeytabDao.getInstance(),
-                KerberosRealmDao.getInstance()
+                new KerberosKeytabDao(),
+                new KerberosRealmDao()
             );
         }
         return KerberosRepository.instance;

@@ -16,6 +16,9 @@
                 "element": {"#": "notifications"},
                 "type": "TASK",
                 "emptyText": "No Current Tasks"
+            },
+            "bindings": {
+                "notifications": {"<-": "@owner.tasks.filter{!parent}.sorted{id}.reversed()"}
             }
         },
 

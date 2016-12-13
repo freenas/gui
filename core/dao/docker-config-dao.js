@@ -8,16 +8,10 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var DockerConfigDao = (function (_super) {
     __extends(DockerConfigDao, _super);
     function DockerConfigDao() {
-        return _super.call(this, abstract_dao_ng_1.AbstractDao.Model.DockerConfig, {
+        return _super.call(this, 'DockerConfig', {
             queryMethod: 'docker.config.get_config'
         }) || this;
     }
-    DockerConfigDao.getInstance = function () {
-        if (!DockerConfigDao.instance) {
-            DockerConfigDao.instance = new DockerConfigDao();
-        }
-        return DockerConfigDao.instance;
-    };
     return DockerConfigDao;
 }(abstract_dao_ng_1.AbstractDao));
 exports.DockerConfigDao = DockerConfigDao;

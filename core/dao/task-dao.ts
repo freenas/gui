@@ -1,9 +1,10 @@
 import { AbstractDao } from './abstract-dao-ng';
 
-export class SectionDao extends AbstractDao {
+export class TaskDao extends AbstractDao {
 
     public constructor() {
-        super('Section');
+        super('Task');
     }
 
 }
+

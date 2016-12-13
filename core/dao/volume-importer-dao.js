@@ -8,14 +8,8 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var VolumeImporterDao = (function (_super) {
     __extends(VolumeImporterDao, _super);
     function VolumeImporterDao() {
-        return _super.call(this, abstract_dao_ng_1.AbstractDao.Model.VolumeImporter) || this;
+        return _super.call(this, 'VolumeImporter') || this;
     }
-    VolumeImporterDao.getInstance = function () {
-        if (!VolumeImporterDao.instance) {
-            VolumeImporterDao.instance = new VolumeImporterDao();
-        }
-        return VolumeImporterDao.instance;
-    };
     return VolumeImporterDao;
 }(abstract_dao_ng_1.AbstractDao));
 exports.VolumeImporterDao = VolumeImporterDao;

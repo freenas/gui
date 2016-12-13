@@ -8,14 +8,8 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var DockerContainerDao = (function (_super) {
     __extends(DockerContainerDao, _super);
     function DockerContainerDao() {
-        return _super.call(this, abstract_dao_ng_1.AbstractDao.Model.DockerContainer) || this;
+        return _super.call(this, 'DockerContainer') || this;
     }
-    DockerContainerDao.getInstance = function () {
-        if (!DockerContainerDao.instance) {
-            DockerContainerDao.instance = new DockerContainerDao();
-        }
-        return DockerContainerDao.instance;
-    };
     DockerContainerDao.prototype.requestInteractiveConsole = function (containerId) {
         return this.middlewareClient.callRpcMethod('docker.container.request_interactive_console', [containerId]);
     };

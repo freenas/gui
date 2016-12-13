@@ -17,7 +17,7 @@ var VmwareRepository = (function (_super) {
     }
     VmwareRepository.getInstance = function () {
         if (!VmwareRepository.instance) {
-            VmwareRepository.instance = new VmwareRepository(vmware_dataset_dao_1.VmwareDatasetDao.getInstance());
+            VmwareRepository.instance = new VmwareRepository(new vmware_dataset_dao_1.VmwareDatasetDao());
         }
         return VmwareRepository.instance;
     };

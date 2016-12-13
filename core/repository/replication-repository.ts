@@ -16,8 +16,8 @@ export class ReplicationRepository extends AbstractRepository {
     public static getInstance() {
         if (!ReplicationRepository.instance) {
             ReplicationRepository.instance = new ReplicationRepository(
-                ReplicationDao.getInstance(),
-                ReplicationOptionsDao.getInstance()
+                new ReplicationDao(),
+                new ReplicationOptionsDao()
             );
         }
         return ReplicationRepository.instance;

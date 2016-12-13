@@ -21,7 +21,7 @@ export class DiskRepository extends AbstractRepository {
     public static getInstance() {
         if (!DiskRepository.instance) {
             DiskRepository.instance = new DiskRepository(
-                DiskDao.getInstance()
+                new DiskDao()
             );
         }
         return DiskRepository.instance;

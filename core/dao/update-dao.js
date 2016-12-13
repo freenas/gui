@@ -8,16 +8,10 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var UpdateDao = (function (_super) {
     __extends(UpdateDao, _super);
     function UpdateDao() {
-        return _super.call(this, abstract_dao_ng_1.AbstractDao.Model.Update, {
+        return _super.call(this, 'Update', {
             queryMethod: 'update.get_config'
         }) || this;
     }
-    UpdateDao.getInstance = function () {
-        if (!UpdateDao.instance) {
-            UpdateDao.instance = new UpdateDao();
-        }
-        return UpdateDao.instance;
-    };
     return UpdateDao;
 }(abstract_dao_ng_1.AbstractDao));
 exports.UpdateDao = UpdateDao;

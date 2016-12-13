@@ -1,17 +1,9 @@
 import { AbstractDao } from './abstract-dao-ng';
 
 export class VolumeDao extends AbstractDao {
-    private static instance: VolumeDao;
 
-    private constructor() {
-        super(AbstractDao.Model.Volume);
-    }
-
-    public static getInstance() {
-        if (!VolumeDao.instance) {
-            VolumeDao.instance = new VolumeDao();
-        }
-        return VolumeDao.instance;
+    public constructor() {
+        super('Volume');
     }
 
     public getDisksAllocation(diskIds: Array<string>): Promise<Array<Object>> {

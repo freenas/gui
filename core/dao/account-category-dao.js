@@ -8,14 +8,8 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var AccountCategoryDao = (function (_super) {
     __extends(AccountCategoryDao, _super);
     function AccountCategoryDao() {
-        return _super.call(this, abstract_dao_ng_1.AbstractDao.Model.AccountCategory) || this;
+        return _super.call(this, 'AccountCategory') || this;
     }
-    AccountCategoryDao.getInstance = function () {
-        if (!AccountCategoryDao.instance) {
-            AccountCategoryDao.instance = new AccountCategoryDao();
-        }
-        return AccountCategoryDao.instance;
-    };
     return AccountCategoryDao;
 }(abstract_dao_ng_1.AbstractDao));
 exports.AccountCategoryDao = AccountCategoryDao;

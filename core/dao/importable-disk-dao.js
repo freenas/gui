@@ -8,16 +8,10 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var ImportableDiskDao = (function (_super) {
     __extends(ImportableDiskDao, _super);
     function ImportableDiskDao() {
-        return _super.call(this, abstract_dao_ng_1.AbstractDao.Model.ImportableDisk, {
+        return _super.call(this, 'ImportableDisk', {
             queryMethod: 'volume.find_media'
         }) || this;
     }
-    ImportableDiskDao.getInstance = function () {
-        if (!ImportableDiskDao.instance) {
-            ImportableDiskDao.instance = new ImportableDiskDao();
-        }
-        return ImportableDiskDao.instance;
-    };
     return ImportableDiskDao;
 }(abstract_dao_ng_1.AbstractDao));
 exports.ImportableDiskDao = ImportableDiskDao;

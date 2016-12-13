@@ -1,20 +1,19 @@
-import { MiddlewareClient } from 'core/service/middleware-client';
-import { DatastoreService } from 'core/service/datastore-service';
-import { Model } from 'core/model/model';
-import { processor as cleaningProcessor } from 'core/service/data-processor/cleaner';
-import { processor as diffProcessor } from 'core/service/data-processor/diff';
-import { processor as nullProcessor } from 'core/service/data-processor/null';
+import { MiddlewareClient } from '../service/middleware-client';
+import { DatastoreService } from '../service/datastore-service';
+import { Model } from '../model/model';
+import { processor as cleaningProcessor } from '../service/data-processor/cleaner';
+import { processor as diffProcessor } from '../service/data-processor/diff';
+import { processor as nullProcessor } from '../service/data-processor/null';
 import { dotCase, paramCase } from 'change-case';
 import * as _ from 'lodash';
 import * as Promise from "bluebird";
 
 // DTM
-import { CacheService } from 'core/service/cache-service';
+import { CacheService } from '../service/cache-service';
 
 export class AbstractDao {
     protected middlewareClient: MiddlewareClient;
     protected datastoreService: DatastoreService;
-    protected static Model = Model;
     protected model: any;
     private middlewareName: string;
     private objectType: string;
@@ -29,26 +28,26 @@ export class AbstractDao {
     private cacheService: CacheService;
     private registerPromise: Promise<void>;
 
-    public constructor(model: any, config?: any) {
+    public constructor(objectType: any, config?: any) {
         config = config || {};
         let self = this;
-        this.model = model;
-        this.objectType = config.typeName || model.typeName;
-        this.middlewareName = config.middlewareName || paramCase(this.objectType);
-        this.queryMethod = config.queryMethod || dotCase(this.objectType) + '.query';
-        this.updateMethod = config.updateMethod || dotCase(this.objectType) + '.update';
-        this.createMethod = config.createMethod || dotCase(this.objectType) + '.create';
-        this.deleteMethod = config.deleteMethod || dotCase(this.objectType) + '.delete';
+        this.model = Model[objectType] || {};
+        this.objectType = config.typeName || objectType;
+        this.middlewareName = config.middlewareName || paramCase(objectType);
+        this.queryMethod = config.queryMethod || dotCase(objectType) + '.query';
+        this.updateMethod = config.updateMethod || dotCase(objectType) + '.update';
+        this.createMethod = config.createMethod || dotCase(objectType) + '.create';
+        this.deleteMethod = config.deleteMethod || dotCase(objectType) + '.delete';
         this.eventName = config.eventName || 'entity-subscriber.' + this.middlewareName + '.changed';
         this.middlewareClient = MiddlewareClient.getInstance();
         this.datastoreService = DatastoreService.getInstance();
 
         // DTM
         this.cacheService = CacheService.getInstance();
-        this.registerPromise = this.cacheService.registerTypeForKey(model, model.typeName).then(function() {
+        this.registerPromise = this.cacheService.registerTypeForKey(this.model, objectType).then(function() {
             self.propertyDescriptors = new Map<string, any>();
-            if (model.constructor.propertyBlueprints) {
-                for (let descriptor of model.constructor.propertyBlueprints) {
+            if (self.model.constructor.propertyBlueprints) {
+                for (let descriptor of self.model.constructor.propertyBlueprints) {
                     self.propertyDescriptors.set(descriptor.name, descriptor);
                 }
             }
@@ -71,11 +70,16 @@ export class AbstractDao {
         });
     }
 
-    public find(criteria: any, params?: any): Promise<any> {
+    public find(criteria?: any, params?: any): Promise<any> {
+        criteria = criteria || {};
         params = params || {};
         return this.query(criteria, params).then(function(results) {
-            return results[0];
+            return results;
         });
+    }
+
+    public register() {
+        this.middlewareClient.subscribeToEvents(this.eventName);
     }
 
     public save(object: any, args?: Array<any>): Promise<any> {
@@ -142,7 +146,7 @@ export class AbstractDao {
             return self.datastoreService.query(self.objectType, self.queryMethod, middlewareCriteria);
         }).then(function(entries) {
             entries = Array.isArray(entries) ? entries : [entries];
-            self.middlewareClient.subscribeToEvents(self.eventName);
+            self.register();
             let results = entries.map(function(x) {
                 x._objectType = self.objectType;
                 x.Type = x.constructor.Type = self.model;

@@ -8,17 +8,11 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var SystemGeneralDao = (function (_super) {
     __extends(SystemGeneralDao, _super);
     function SystemGeneralDao() {
-        return _super.call(this, abstract_dao_ng_1.AbstractDao.Model.SystemGeneral, {
+        return _super.call(this, 'SystemGeneral', {
             queryMethod: 'system.general.get_config',
             createMethod: 'system.general.update'
         }) || this;
     }
-    SystemGeneralDao.getInstance = function () {
-        if (!SystemGeneralDao.instance) {
-            SystemGeneralDao.instance = new SystemGeneralDao();
-        }
-        return SystemGeneralDao.instance;
-    };
     SystemGeneralDao.prototype.listTimezones = function () {
         return this.middlewareClient.callRpcMethod('system.general.timezones');
     };

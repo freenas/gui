@@ -5,7 +5,7 @@ export class SystemGeneralRepository {
     private dao: SystemGeneralDao;
 
     private constructor() {
-        this.dao = SystemGeneralDao.getInstance();
+        this.dao = new SystemGeneralDao();
     }
 
     public static getInstance() {

@@ -15,7 +15,7 @@ var ShareRepository = (function (_super) {
     }
     ShareRepository.getInstance = function () {
         if (!ShareRepository.instance) {
-            ShareRepository.instance = new ShareRepository(share_dao_1.ShareDao.getInstance());
+            ShareRepository.instance = new ShareRepository(new share_dao_1.ShareDao());
         }
         return ShareRepository.instance;
     };

@@ -12,7 +12,7 @@ export class ShareRepository extends AbstractRepository {
     public static getInstance() {
         if (!ShareRepository.instance) {
             ShareRepository.instance = new ShareRepository(
-                ShareDao.getInstance()            );
+                new ShareDao()            );
         }
         return ShareRepository.instance;
     }

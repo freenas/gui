@@ -8,14 +8,8 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var AlertDao = (function (_super) {
     __extends(AlertDao, _super);
     function AlertDao() {
-        return _super.call(this, abstract_dao_ng_1.AbstractDao.Model.Alert) || this;
+        return _super.call(this, 'Alert') || this;
     }
-    AlertDao.getInstance = function () {
-        if (!AlertDao.instance) {
-            AlertDao.instance = new AlertDao();
-        }
-        return AlertDao.instance;
-    };
     AlertDao.prototype.dismiss = function (alert) {
         return this.middlewareClient.callRpcMethod('alert.dismiss', [alert.id]);
     };

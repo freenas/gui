@@ -8,14 +8,8 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var ReplicationDao = (function (_super) {
     __extends(ReplicationDao, _super);
     function ReplicationDao() {
-        return _super.call(this, abstract_dao_ng_1.AbstractDao.Model.Replication) || this;
+        return _super.call(this, 'Replication') || this;
     }
-    ReplicationDao.getInstance = function () {
-        if (!ReplicationDao.instance) {
-            ReplicationDao.instance = new ReplicationDao();
-        }
-        return ReplicationDao.instance;
-    };
     ReplicationDao.prototype.replicateDataset = function (dataset, replicationOptions, transportOptions) {
         return this.middlewareClient.submitTask('replication.replicate_dataset', [dataset, replicationOptions, transportOptions]);
     };

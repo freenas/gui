@@ -29,7 +29,9 @@ export class DatastoreService {
     }
 
     public query(this:DatastoreService, type: string, methodName: string, middlewareCriteria: Array<any>) {
-        let queryPromise = this.middlewareClient.callRpcMethod(methodName, middlewareCriteria);
+        let queryPromise = this.middlewareClient.callRpcMethod(methodName, middlewareCriteria).then(function(results) {
+            return Array.isArray(results) ? results : [results];
+        });
         this.store.dispatch({
             type: ACTIONS.IMPORT_OBJECTS,
             meta: {

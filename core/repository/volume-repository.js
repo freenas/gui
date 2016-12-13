@@ -29,7 +29,7 @@ var VolumeRepository = (function (_super) {
     }
     VolumeRepository.getInstance = function () {
         if (!VolumeRepository.instance) {
-            VolumeRepository.instance = new VolumeRepository(volume_dao_1.VolumeDao.getInstance(), volume_snapshot_dao_1.VolumeSnapshotDao.getInstance(), volume_dataset_dao_1.VolumeDatasetDao.getInstance(), volume_importer_dao_1.VolumeImporterDao.getInstance(), encrypted_volume_actions_dao_1.EncryptedVolumeActionsDao.getInstance(), volume_vdev_recommendations_dao_1.VolumeVdevRecommendationsDao.getInstance());
+            VolumeRepository.instance = new VolumeRepository(new volume_dao_1.VolumeDao(), new volume_snapshot_dao_1.VolumeSnapshotDao(), new volume_dataset_dao_1.VolumeDatasetDao(), new volume_importer_dao_1.VolumeImporterDao(), new encrypted_volume_actions_dao_1.EncryptedVolumeActionsDao(), new volume_vdev_recommendations_dao_1.VolumeVdevRecommendationsDao());
         }
         return VolumeRepository.instance;
     };

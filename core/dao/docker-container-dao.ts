@@ -1,17 +1,9 @@
 import { AbstractDao } from './abstract-dao-ng';
 
 export class DockerContainerDao extends AbstractDao {
-    private static instance: DockerContainerDao;
 
-    private constructor() {
-        super(AbstractDao.Model.DockerContainer);
-    }
-
-    public static getInstance() {
-        if (!DockerContainerDao.instance) {
-            DockerContainerDao.instance = new DockerContainerDao();
-        }
-        return DockerContainerDao.instance;
+    public constructor() {
+        super('DockerContainer');
     }
 
     public requestInteractiveConsole(containerId: string): Promise<string> {

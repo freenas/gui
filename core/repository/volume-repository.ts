@@ -32,12 +32,12 @@ export class VolumeRepository extends AbstractRepository {
     public static getInstance() {
         if (!VolumeRepository.instance) {
             VolumeRepository.instance = new VolumeRepository(
-                VolumeDao.getInstance(),
-                VolumeSnapshotDao.getInstance(),
-                VolumeDatasetDao.getInstance(),
-                VolumeImporterDao.getInstance(),
-                EncryptedVolumeActionsDao.getInstance(),
-                VolumeVdevRecommendationsDao.getInstance()
+                new VolumeDao(),
+                new VolumeSnapshotDao(),
+                new VolumeDatasetDao(),
+                new VolumeImporterDao(),
+                new EncryptedVolumeActionsDao(),
+                new VolumeVdevRecommendationsDao()
             );
         }
         return VolumeRepository.instance;

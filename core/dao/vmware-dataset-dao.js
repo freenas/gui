@@ -8,14 +8,8 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var VmwareDatasetDao = (function (_super) {
     __extends(VmwareDatasetDao, _super);
     function VmwareDatasetDao() {
-        return _super.call(this, abstract_dao_ng_1.AbstractDao.Model.VmwareDataset) || this;
+        return _super.call(this, 'VmwareDataset') || this;
     }
-    VmwareDatasetDao.getInstance = function () {
-        if (!VmwareDatasetDao.instance) {
-            VmwareDatasetDao.instance = new VmwareDatasetDao();
-        }
-        return VmwareDatasetDao.instance;
-    };
     return VmwareDatasetDao;
 }(abstract_dao_ng_1.AbstractDao));
 exports.VmwareDatasetDao = VmwareDatasetDao;
