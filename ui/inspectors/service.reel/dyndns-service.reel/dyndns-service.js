@@ -1,5 +1,5 @@
 var Component = require("montage/ui/component").Component,
-    ServiceDyndnsProvider = require("core/model/enumerations/service-dyndns-provider").ServiceDyndnsProvider;
+    ServiceDyndnsService = require("core/service/service-dyndns-service.js").ServiceDyndnsService;
 
 /**
  * @class DynamicDnsService
@@ -9,15 +9,20 @@ exports.DynamicDnsService = Component.specialize({
     providerOptions: {
         value: null
     },
-    
+
+    _serviceDyndnsService: {
+        value: null
+    },
+
     templateDidLoad: {
         value: function() {
-            this.providerOptions = ServiceDyndnsProvider.members.map(function(x) {
-                return {
-                    value: x,
-                    // FIX ME: Ticket: #18103 -- x === "null" is required until fixed
-                    label: x === "null" || !x ? 'None': x
-                };
+            var self = this;
+            this._serviceDyndnsService = ServiceDyndnsService.instance;
+            this._serviceDyndnsService.getProviders().then(function (dyndnsProviders) {
+                self.providerOptions = Object.keys(dyndnsProviders).map(function(x) {
+                    return {label: x, value: dyndnsProviders[x]};
+                });
+                self.providerOptions.unshift({label:"-",value:null});
             });
         }
     }
