@@ -151,10 +151,10 @@ exports.ContainerRepository = AbstractRepository.specialize({
                 self.getNewEmptyDockerContainerSectionList(),
                 //Add sub container sections here
 
-                self.getNewEmptyDockerContainerList(),
-                self.getNewEmptyDockerHostList(),
-                self.getNewEmptyDockerImageList(),
-                self.getNewEmptyDockerCollectionList()
+                self.listDockerContainers(),
+                self.listDockerHosts(),
+                self.listDockerImages(),
+                self.listDockerCollections()
             ]).then(function (data) {
                 var containerSections = data[0];
 
