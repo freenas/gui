@@ -130,6 +130,23 @@
             "bindings": {
                 "checked": {"<->": "!!@owner.object._replicationOptions.followdelete"}
             }
+        },
+        "repetitionSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "repetitionSection"},
+                "title": "Repetition"
+            }
+        },
+        "repetition": {
+            "prototype": "blue-shark/ui/field-duration.reel",
+            "properties": {
+                "element": {"#": "repetition"},
+                "label": "Repeat Every"
+            },
+            "bindings": {
+                "value": {"<->": "@owner._repetition"}
+            }
         }
     }
     </script>
@@ -144,6 +161,9 @@
             <div data-montage-id="throttle"></div>
             <div data-montage-id="recursive"></div>
             <div data-montage-id="followDelete"></div>
+            <div data-montage-id="repetitionSection">
+                <div data-montage-id="repetition"></div>
+            </div>
         </div>
     </div>
 </body>

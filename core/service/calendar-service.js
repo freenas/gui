@@ -56,6 +56,31 @@ var CalendarService = exports.CalendarService = Montage.specialize({
         ]
     },
 
+    DURATION_UNITS: {
+        value: [
+            {
+                unit: "second",
+                value: 1,
+            },
+            {
+                unit: "minute",
+                value: 60
+            },
+            {
+                unit: "hour",
+                value: 3600
+            },
+            {
+                unit: "day",
+                value: 86400
+            },
+            {
+                unit: "week",
+                value: 604800
+            }
+        ]
+    },
+
 // FIXME: Should be a middleware provided enum
     taskCategories: {
         value: [
@@ -149,6 +174,68 @@ var CalendarService = exports.CalendarService = Montage.specialize({
                 return self._buildScheduleFromTasksAndDay(tasks, day);
             }).then(function(schedule) {
                 return self._addConcurrentTasksToSchedule(schedule);
+            });
+        }
+    },
+
+    _getRepeatDuration: {
+        value: function(repetition) {
+            if (repetition) {
+                for (var i = 1, length = this.DURATION_UNITS.length; i < length; i++) {
+                    var count = repetition / this.DURATION_UNITS[i].value;
+                    if (count < 1 || Math.round(count) !== count) {
+                        break;
+                    }
+                }
+
+                return {
+                    unit: this.DURATION_UNITS[i-1].unit,
+                    count: repetition / this.DURATION_UNITS[i-1].value
+                };
+            }
+            return null;
+        }
+    },
+
+    _createScheduleWithRepeatDuration: {
+        value: function(duration) {
+            var date = new Date(),
+                schedule = {
+                    day:    date.getDate(),
+                    hour:   date.getHours(),
+                    minute: date.getMinutes(),
+                    second: 0
+                };
+
+            for (var i = this.DURATION_UNITS.length - 1; i >= 0; i--) {
+                var unit = this.DURATION_UNITS[i].unit;
+                if (unit === duration.unit) {
+                    schedule[unit] = '*/' + duration.count;
+                    break;
+                }
+                schedule[unit] = '*';
+            }
+
+            if (duration.unit === 'week') {
+                schedule.day = '*';
+                schedule.day_of_week = date.getDay();
+            }
+
+            return schedule;
+        }
+    },
+
+    createNewRepeatedTask: {
+        value: function(type, name, args, repetition) {
+            var self = this;
+
+            return this._dataService.getNewInstanceForType(Model.CalendarTask).then(function(task) {
+                task.task = type;
+                task.name = name;
+                task.args = args;
+                task.enabled = true;
+                task.schedule = self._createScheduleWithRepeatDuration(self._getRepeatDuration(repetition));
+                return self._dataService.saveDataObject(task);
             });
         }
     },

@@ -26,13 +26,18 @@ exports.ReplicationCreator = AbstractInspector.specialize(/** @lends Replication
     },
     
     enterDocument: {
-        value: function() {
+        value: function(isFirstTime) {
             var self = this;
+
+            if (isFirstTime) {
+                this._calendarService = this.application.calendarService;
+            }
 
             this.object._transportOptions = {};
             this.object._replicationOptions = {};
 
             this._loadParentDataset();
+            this._resetRepetition();
 
             return this.application.peeringService.list().then(function(peers) {
                 self.peers = peers;
@@ -45,10 +50,21 @@ exports.ReplicationCreator = AbstractInspector.specialize(/** @lends Replication
 
     save: {
         value: function() {
-            var self = this,
-                transportOptions = this._buildTransportOptions();
+            var transportOptions = this._buildTransportOptions();
 
-            return this._sectionService.replicateDataset(this.object._dataset, this.object._replicationOptions, transportOptions);
+            return Promise.all([
+                this._sectionService.replicateDataset(this.object._dataset, this.object._replicationOptions, transportOptions),
+                this._repetition ? this._calendarService.createNewRepeatedTask(
+                    'replication.replicate_dataset',
+                    this.object._dataset + '@auto-rep',
+                    [
+                        this.object._dataset,
+                        this.object._replicationOptions,
+                        transportOptions
+                    ],
+                    this._repetition
+                ) : Promise.resolve()
+            ]);
         }
     },
 
@@ -96,6 +112,12 @@ exports.ReplicationCreator = AbstractInspector.specialize(/** @lends Replication
                     }
                 }
             }
+        }
+    },
+
+    _resetRepetition: {
+        value: function() {
+            this._repetition = null;
         }
     }
 
