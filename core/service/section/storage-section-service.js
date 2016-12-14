@@ -53,6 +53,22 @@ exports.StorageSectionService = AbstractSectionService.specialize({
         }
     },
 
+    __zfsPoolServices: {
+        value: null
+    },
+
+    _zfsPoolServices: {
+        get: function() {
+            var self = this;
+            return this.__zfsPoolServices ?
+                Promise.resolve(this.__zfsPoolServices) :
+                Model.populateObjectPrototypeForType(Model.ZfsPool).then(function (ZfsPool) {
+                    return self.__zfsPoolServices = ZfsPool.services;
+                });
+        }
+    },
+            
+
     SHARE_TYPE: {
         value: Model.Share
     },
@@ -235,6 +251,57 @@ exports.StorageSectionService = AbstractSectionService.specialize({
             });
         }
     },
+
+    iterateVdevs: {
+        value: function(topology) {
+            var vdevs = [];
+            for (var i = 0; i < topology.length; i++) {
+                if (topology[i].type === "disk") {
+                    vdevs.push(topology[i]);
+                }
+                else if (topology[i].children.length > 0) {
+                    vdevs = vdevs.concat(this.iterateVdevs(topology[i].children));
+                }
+            }
+            return vdevs;
+        }
+    },
+
+    getVdev: {
+        value: function(disk) {
+            var volumes = this.entries.slice();
+            var topology;
+            for (var i = 0; i < volumes.length; i++) {
+                if (volumes[i].id === disk._allocation.name) {
+                    topology = volumes[i].topology.data;
+                }
+            }
+            var vdevs = this.iterateVdevs(topology);
+            
+            for (var j = 0; j < vdevs.length; j++) {
+                if (vdevs[j].path === disk.path) {
+                    return vdevs[j];   
+                }
+            }        
+        }
+    },
+
+    offlineDisk: {
+        value: function(disk, vdev) {
+            return this._zfsPoolServices.then(function(zfsPoolServices) {
+                return zfsPoolServices.offlineDisk(disk._allocation.name, vdev.guid);
+            });
+        }
+    },
+
+    onlineDisk: {
+        value: function(disk, vdev) {
+            return this._zfsPoolServices.then(function(zfsPoolServices) {
+                return zfsPoolServices.onlineDisk(disk._allocation.name, vdev.guid);
+            });
+        }
+    },
+
     importDetachedVolume: {
         value: function(detachedVolume) {
             var self = this;
