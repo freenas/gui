@@ -15,6 +15,7 @@ export class EventDispatcherService {
             this.listeners.set(eventName, new Set<Function>());
         }
         this.listeners.get(eventName).add(handler);
+        return handler;
     }
 
     public removeEventListener(eventName: string, handler: Function) {
@@ -25,7 +26,7 @@ export class EventDispatcherService {
 
     public dispatch(eventName: string, detail?: any) {
         if (this.listeners.has(eventName)) {
-            var handlers = this.listeners.get(eventName).values(),
+            let handlers = this.listeners.get(eventName).values(),
                 handler = handlers.next().value;
             while (typeof handler === 'function') {
                 handler.call({}, detail);

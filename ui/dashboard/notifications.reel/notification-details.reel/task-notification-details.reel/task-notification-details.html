@@ -10,7 +10,7 @@
             },
             "bindings": {
                 "classList.has('has-error')": {"<-": "!!@owner.object.errorMessage"},
-                "classList.has('has-warning')": {"<-": "@owner.object.taskReport.warnings.length > 0"}
+                "classList.has('has-warning')": {"<-": "@owner.object.warnings.length > 0"}
             }
         },
         "jobId": {
@@ -46,7 +46,7 @@
                 "element": {"#": "errorCondition"}
             },
             "bindings": {
-                "condition": {"<-": "!!@owner.object.error || @owner.object.taskReport.warnings.length > 0"}
+                "condition": {"<-": "!!@owner.object.error || @owner.object.warnings.length > 0"}
             }
         },
         "errorMessage": {

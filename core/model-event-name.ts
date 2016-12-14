@@ -2,6 +2,8 @@ export class ModelEventName {
     public static NtpServer = new ModelEventName('NtpServer');
     public static Disk = new ModelEventName('Disk');
     public static Volume = new ModelEventName('Volume');
+    public static VolumeSnapshot = new ModelEventName('VolumeSnapshot');
+    public static VolumeDataset = new ModelEventName('VolumeDataset');
     public static User = new ModelEventName('User');
     public static Group = new ModelEventName('Group');
     public static Directory = new ModelEventName('Directory');

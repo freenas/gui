@@ -3,10 +3,7 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
 exports.EncryptedVolumeImporter = AbstractInspector.specialize({
     _inspectorTemplateDidLoad: {
         value: function() {
-            var self = this;
-            return this._sectionService.listDisks().then(function(disks) {
-                return self.disks = disks;
-            });
+            this.availableDisks = this._sectionService.listAvailableDisks();
         }
     },
 
@@ -46,7 +43,7 @@ exports.EncryptedVolumeImporter = AbstractInspector.specialize({
 
     handleImportVolumeAction: {
         value: function () {
-            this._sectionService.importEncryptedVolume(this.object);
+            this._sectionService.importEncryptedVolume(this.object.name, this.object.disks, this.object.key, this.object.password);
         }
     },
 

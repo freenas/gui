@@ -34,7 +34,7 @@
                 "converter": {"@": "bytesConverter"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object._properties.size.parsed"}
+                "value": {"<-": "@owner.object.properties.size.parsed"}
             }
         },
         "validationController": {
@@ -75,7 +75,8 @@
             },
             "bindings": {
                 "object": {"<-": "@owner.datasetShares.concat(@owner.directoryShares)"},
-                "objectType": {"<-": "@owner.shareType"}
+                "objectType": {"<-": "@owner.shareType"},
+                "classList.has('hide')": {"<-": "!!@owner.object._isDetached"}
             }
         },
         "snapshots": {
@@ -85,7 +86,8 @@
             },
             "bindings": {
                 "object": {"<-": "@owner.snapshots.filter{volume == @owner.object.id}"},
-                "objectType": {"<-": "@owner.snapshotType"}
+                "objectType": {"<-": "@owner.snapshotType"},
+                "classList.has('hide')": {"<-": "!!@owner.object._isDetached"}
             }
         },
         "topology": {
@@ -96,7 +98,6 @@
             "bindings": {
                 "object": {"<-": "@owner.object.topology"},
                 "objectType": {"<-": "@owner.topologyType"}
-
             }
         },
         "datasets": {
@@ -106,7 +107,8 @@
             },
             "bindings": {
                 "object": {"<-": "@owner.datasets.filter{volume == @owner.object.id}"},
-                "objectType": {"<-": "@owner.datasetType"}
+                "objectType": {"<-": "@owner.datasetType"},
+                "classList.has('hide')": {"<-": "!!@owner.object._isDetached"}
             }
         },
         "volumeIcon": {
@@ -121,9 +123,9 @@
                 "element": {"#": "allocationBar"}
             },
             "bindings": {
-                "totalSize": {"<-": "@owner.object._properties.size.parsed"},
-                "usedSize": {"<-": "@owner.object._properties.allocated.parsed"},
-                "available": {"<-": "@owner.object._properties.free.parsed"}
+                "totalSize": {"<-": "@owner.object.properties.size.parsed"},
+                "usedSize": {"<-": "@owner.object.properties.allocated.parsed"},
+                "available": {"<-": "@owner.object.properties.free.parsed"}
             }
         },
         "scrub": {

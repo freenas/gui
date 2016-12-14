@@ -5,11 +5,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var abstract_dao_ng_1 = require("./abstract-dao-ng");
-var EncryptedVolumeImporterDao = (function (_super) {
-    __extends(EncryptedVolumeImporterDao, _super);
-    function EncryptedVolumeImporterDao() {
-        return _super.call(this, 'EncryptedVolumeImporter') || this;
+var ZfsTopologyDao = (function (_super) {
+    __extends(ZfsTopologyDao, _super);
+    function ZfsTopologyDao() {
+        return _super.call(this, 'ZfsTopology') || this;
     }
-    return EncryptedVolumeImporterDao;
+    return ZfsTopologyDao;
 }(abstract_dao_ng_1.AbstractDao));
-exports.EncryptedVolumeImporterDao = EncryptedVolumeImporterDao;
+exports.ZfsTopologyDao = ZfsTopologyDao;

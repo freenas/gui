@@ -16,6 +16,8 @@ var DiskRepository = (function (_super) {
         _this.freeDisks = [];
         _this.exportedDisks = new Map();
         _this.usableDisks = [];
+        _this.diskAllocations = new Map();
+        _this.pathToId = new Map();
         return _this;
     }
     DiskRepository.getInstance = function () {
@@ -51,25 +53,42 @@ var DiskRepository = (function (_super) {
         this.reservedDisks.delete(diskId);
         this.eventDispatcherService.dispatch('availableDisksChange', this.listAvailableDisks());
     };
+    DiskRepository.prototype.getDiskAllocation = function (disk) {
+        if (this.diskAllocations.has(disk.path)) {
+            return this.diskAllocations.get(disk.path);
+        }
+    };
     DiskRepository.prototype.updateDiskUsage = function (availableDisks, disksAllocations) {
-        var allocatedDisks = Object.keys(disksAllocations), exportedDisksIds = allocatedDisks.filter(function (x) { return disksAllocations[x].type === 'EXPORTED_DISK'; });
+        var self = this, allocatedDisks = Object.keys(disksAllocations), exportedDisksPaths = allocatedDisks.filter(function (x) { return disksAllocations[x].type === 'EXPORTED_VOLUME'; });
         this.freeDisks = this.disks.valueSeq()
             .filter(function (x) { return availableDisks.indexOf(x.get('path')) != -1; })
-            .filter(function (x) { return allocatedDisks.indexOf(x.get('id')) === -1; })
+            .filter(function (x) { return allocatedDisks.indexOf(x.get('path')) === -1; })
             .map(function (x) { return x.get('id'); })
             .toArray();
         this.usableDisks = this.freeDisks.slice();
         this.exportedDisks = new Map();
-        for (var _i = 0, exportedDisksIds_1 = exportedDisksIds; _i < exportedDisksIds_1.length; _i++) {
-            var diskId = exportedDisksIds_1[_i];
-            this.exportedDisks.set(diskId, disksAllocations[diskId].name);
-            this.usableDisks.push(diskId);
+        for (var _i = 0, exportedDisksPaths_1 = exportedDisksPaths; _i < exportedDisksPaths_1.length; _i++) {
+            var diskPath = exportedDisksPaths_1[_i];
+            this.exportedDisks.set(diskPath, disksAllocations[diskPath].name);
+            this.usableDisks.push(this.pathToId.get(diskPath));
         }
+        this.diskAllocations.clear();
+        this.disks.forEach(function (disk) {
+            var diskPath = disk.get('path');
+            if (allocatedDisks.indexOf(diskPath !== -1)) {
+                self.diskAllocations.set(diskPath, disksAllocations[diskPath]);
+            }
+        });
         this.eventDispatcherService.dispatch('availableDisksChange', this.listAvailableDisks());
     };
     DiskRepository.prototype.handleStateChange = function (name, state) {
         switch (name) {
             case 'Disk':
+                var self_1 = this;
+                this.pathToId.clear();
+                state.forEach(function (disk, id) {
+                    self_1.pathToId.set(disk.get('path'), id);
+                });
                 this.disks = this.dispatchModelEvents(this.disks, model_event_name_1.ModelEventName.Disk, state);
                 break;
             default:

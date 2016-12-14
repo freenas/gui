@@ -1,12 +1,17 @@
 import { AbstractRepository } from './abstract-repository-ng';
-import { VolumeDao } from 'core/dao/volume-dao';
-import { VolumeSnapshotDao } from 'core/dao/volume-snapshot-dao';
-import { VolumeDatasetDao } from 'core/dao/volume-dataset-dao';
-import { VolumeImporterDao } from 'core/dao/volume-importer-dao';
-import { EncryptedVolumeActionsDao } from 'core/dao/encrypted-volume-actions-dao';
+import { VolumeDao } from '../dao/volume-dao';
+import { VolumeSnapshotDao } from '../dao/volume-snapshot-dao';
+import { VolumeDatasetDao } from '../dao/volume-dataset-dao';
+import { VolumeImporterDao } from '../dao/volume-importer-dao';
+import { EncryptedVolumeActionsDao } from '../dao/encrypted-volume-actions-dao';
+import {VolumeVdevRecommendationsDao} from "../dao/volume-vdev-recommendations-dao";
+import {DetachedVolumeDao} from "../dao/detached-volume-dao";
 
 import * as immutable from 'immutable';
-import {VolumeVdevRecommendationsDao} from "../dao/volume-vdev-recommendations-dao";
+import * as Promise from "bluebird";
+import {EncryptedVolumeImporterDao} from "../dao/encrypted-volume-importer-dao";
+import {ZfsTopologyDao} from "../dao/zfs-topology-dao";
+import {ModelEventName} from "../model-event-name";
 
 export class VolumeRepository extends AbstractRepository {
     private static instance: VolumeRepository;
@@ -14,13 +19,18 @@ export class VolumeRepository extends AbstractRepository {
     private volumeSnapshots: immutable.Map<string, Map<string, any>>;
     private volumeDatasets: immutable.Map<string, Map<string, any>>;
 
+    public static readonly TOPOLOGY_KEYS = ["data", "cache", "log", "spare"];
+
     private constructor(
         private volumeDao: VolumeDao,
         private volumeSnapshotDao: VolumeSnapshotDao,
         private volumeDatasetDao: VolumeDatasetDao,
         private volumeImporterDao: VolumeImporterDao,
         private encryptedVolumeActionsDao: EncryptedVolumeActionsDao,
-        private volumeVdevRecommendationsDao: VolumeVdevRecommendationsDao
+        private volumeVdevRecommendationsDao: VolumeVdevRecommendationsDao,
+        private detachedVolumeDao: DetachedVolumeDao,
+        private encryptedVolumeImporterDao: EncryptedVolumeImporterDao,
+        private zfsTopologyDao: ZfsTopologyDao
     ) {
         super([
             'Volume',
@@ -37,7 +47,10 @@ export class VolumeRepository extends AbstractRepository {
                 new VolumeDatasetDao(),
                 new VolumeImporterDao(),
                 new EncryptedVolumeActionsDao(),
-                new VolumeVdevRecommendationsDao()
+                new VolumeVdevRecommendationsDao(),
+                new DetachedVolumeDao(),
+                new EncryptedVolumeImporterDao(),
+                new ZfsTopologyDao()
             );
         }
         return VolumeRepository.instance;
@@ -78,66 +91,142 @@ export class VolumeRepository extends AbstractRepository {
         return this.volumeVdevRecommendationsDao.get();
     }
 
-    public createVolume(volume: Object): Promise<void> {
-        return this.volumeDao.save(volume);
+    public createVolume(volume: any, password?: string): Promise<void> {
+        volume.topology = this.cleanupTopology(volume.topology);
+        return this.volumeDao.save(volume, [password]);
+    }
+
+    public scrubVolume(volume: any) {
+        return this.volumeDao.scrub(volume);
+    }
+
+    public listDetachedVolumes() {
+        return this.detachedVolumeDao.list();
+    }
+
+    public importDetachedVolume(volume: any) {
+        return this.detachedVolumeDao.import(volume);
+    }
+
+    public deleteDetachedVolume(volume: any) {
+        return this.detachedVolumeDao.delete(volume);
+    }
+
+    public exportVolume(volume: any) {
+        return this.volumeDao.export(volume);
+    }
+
+    public lockVolume(volume: any) {
+        return this.volumeDao.lock(volume);
+    }
+
+    public unlockVolume(volume: any, password?: string) {
+        return this.volumeDao.unlock(volume, password);
+    }
+
+    public rekeyVolume(volume: any, key: boolean, password?: string) {
+        return this.volumeDao.rekey(volume, key, password);
+    }
+
+    public getVolumeKey(volume: any) {
+        return this.volumeDao.getVolumeKey(volume);
+    }
+
+    public importEncryptedVolume(name: string, disks: Array<any>, key: string, password: string) {
+        return this.volumeDao.importEncrypted(name, disks, key, password);
+    }
+
+    public getEncryptedVolumeImporterInstance() {
+        return this.encryptedVolumeImporterDao.getNewInstance();
+    }
+
+    public getTopologyInstance() {
+        return this.zfsTopologyDao.getNewInstance().then(function(zfsTopology) {
+            for (let key of VolumeRepository.TOPOLOGY_KEYS) {
+                zfsTopology[key] = [];
+            }
+            return zfsTopology;
+        });
+    }
+
+    public clearTopology(topology: any) {
+        for (let key of VolumeRepository.TOPOLOGY_KEYS) {
+            topology[key] = [];
+        }
+        return topology;
+    }
+
+    private cleanupTopology(topology: any) {
+        let clean = {};
+        for (let key of VolumeRepository.TOPOLOGY_KEYS) {
+            if (topology[key] && topology[key].length > 0) {
+                let part = [];
+                for (let vdev of topology[key]) {
+                    part.push(this.cleanupVdev(vdev));
+                }
+                clean[key] = part;
+            }
+        }
+        return clean;
+    }
+
+    private cleanupVdev(vdev: any) {
+        let clean;
+        if (vdev.type === 'disk') {
+            clean = {
+                type: 'disk'
+            };
+            if (!vdev.path && vdev.children && vdev.children.length === 1) {
+                clean.path = vdev.children[0].path;
+            } else if (vdev.path) {
+                clean.path = vdev.path;
+            }
+        } else {
+            clean = {
+                type: vdev.type,
+                children: []
+            };
+            for (let child of vdev.children) {
+                clean.children.push(this.cleanupVdev(child));
+            }
+        }
+        return clean;
     }
 
     protected handleStateChange(name: string, state: any) {
-        let self = this;
         switch (name) {
             case 'Volume':
-                this.eventDispatcherService.dispatch('volumesChange', state);
-                state.forEach(function(volume, id){
-                    if (!self.volumes || !self.volumes.has(id)) {
-                        self.eventDispatcherService.dispatch('volumeAdd.' + id, volume);
-                    } else if (self.volumes.get(id) !== volume) {
-                        self.eventDispatcherService.dispatch('volumeChange.' + id, volume);
-                    }
-                });
+                let self = this,
+                    hasTopologyChanged = false,
+                    volumeId;
                 if (this.volumes) {
-                    this.volumes.forEach(function(volume, id){
-                        if (!state.has(id) || state.get(id) !== volume) {
-                            self.eventDispatcherService.dispatch('volumeRemove.' + id, volume);
+                    this.volumes.forEach(function(volume) {
+                        volumeId = volume.get('id');
+                        if (!state.has(volumeId) || volume.get('topology') !== state.get(volumeId).get('topology')) {
+                            hasTopologyChanged = true;
                         }
                     });
+                    if (!hasTopologyChanged) {
+                        state.forEach(function(volume) {
+                            volumeId = volume.get('id');
+                            if (!self.volumes.has(volumeId) || volume.get('topology') !== self.volumes.get(volumeId).get('topology')) {
+                                hasTopologyChanged = true;
+                            }
+                        });
+                    }
+                } else {
+                    hasTopologyChanged = true;
                 }
-                this.volumes = state;
+                if (hasTopologyChanged) {
+                    this.eventDispatcherService.dispatch('topologyChange');
+                }
+                this.volumes = this.dispatchModelEvents(this.volumes, ModelEventName.Volume, state);
                 break;
             case 'VolumeSnapshot':
-                this.eventDispatcherService.dispatch('volumeSnapshotsChange', state);
-                state.forEach(function(volumeSnapshot, id){
-                    if (!self.volumeSnapshots || !self.volumeSnapshots.has(id)) {
-                        self.eventDispatcherService.dispatch('volumeSnapshotAdd.' + id, volumeSnapshot);
-                    } else if (self.volumeSnapshots.get(id) !== volumeSnapshot) {
-                        self.eventDispatcherService.dispatch('volumeSnapshotChange.' + id, volumeSnapshot);
-                    }
-                });
-                if (this.volumeSnapshots) {
-                    this.volumeSnapshots.forEach(function(volumeSnapshot, id){
-                        if (!state.has(id) || state.get(id) !== volumeSnapshot) {
-                            self.eventDispatcherService.dispatch('volumeSnapshotRemove.' + id, volumeSnapshot);
-                        }
-                    });
-                }
-                this.volumeSnapshots = state;
+                this.volumeSnapshots = this.dispatchModelEvents(this.volumeSnapshots, ModelEventName.VolumeSnapshot, state);
                 break;
             case 'VolumeDataset':
-                this.eventDispatcherService.dispatch('volumeDatasetsChange', state);
-                state.forEach(function(volumeDataset, id){
-                    if (!self.volumeDatasets || !self.volumeDatasets.has(id)) {
-                        self.eventDispatcherService.dispatch('volumeDatasetAdd.' + id, volumeDataset);
-                    } else if (self.volumeDatasets.get(id) !== volumeDataset) {
-                        self.eventDispatcherService.dispatch('volumeDatasetChange.' + id, volumeDataset);
-                    }
-                });
-                if (this.volumeDatasets) {
-                    this.volumeDatasets.forEach(function(volumeDataset, id){
-                        if (!state.has(id) || state.get(id) !== volumeDataset) {
-                            self.eventDispatcherService.dispatch('volumeDatasetRemove.' + id, volumeDataset);
-                        }
-                    });
-                }
-                this.volumeDatasets = state;
+                this.volumeDatasets = this.dispatchModelEvents(this.volumeDatasets, ModelEventName.VolumeDataset, state);
                 break;
             default:
                 break;

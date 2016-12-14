@@ -6,7 +6,9 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var abstract_repository_ng_1 = require("./abstract-repository-ng");
 var model_event_name_1 = require("../model-event-name");
+var immutable_1 = require("immutable");
 var task_dao_1 = require("../dao/task-dao");
+var Promise = require("bluebird");
 var TaskRepository = (function (_super) {
     __extends(TaskRepository, _super);
     function TaskRepository(taskDao) {
@@ -14,6 +16,7 @@ var TaskRepository = (function (_super) {
             'Task'
         ]) || this;
         _this.taskDao = taskDao;
+        _this.taskPromises = immutable_1.Map();
         return _this;
     }
     TaskRepository.getInstance = function () {
@@ -28,16 +31,46 @@ var TaskRepository = (function (_super) {
     TaskRepository.prototype.registerToTasks = function () {
         return this.taskDao.register();
     };
+    TaskRepository.prototype.getTaskPromise = function (taskId) {
+        return this.taskPromises.get(taskId);
+    };
     TaskRepository.prototype.handleStateChange = function (name, state) {
         switch (name) {
             case 'Task':
+                var self_1 = this;
                 this.tasks = this.dispatchModelEvents(this.tasks, model_event_name_1.ModelEventName.Task, state);
+                this.tasks.forEach(function (task) {
+                    var taskId = task.get('id');
+                    if (self_1.taskPromises.has(taskId)) {
+                        var deferred = self_1.taskPromises.get(taskId);
+                        if (task.state === 'FINISHED') {
+                            deferred.resolve(task);
+                        }
+                        else if (task.state == 'FAILED') {
+                            deferred.reject(task);
+                        }
+                    }
+                    else {
+                        self_1.taskPromises.set(taskId, self_1.defer());
+                    }
+                });
                 break;
             default:
                 break;
         }
     };
     TaskRepository.prototype.handleEvent = function (name, data) {
+    };
+    TaskRepository.prototype.defer = function () {
+        var resolve, reject, promise = new Promise(function () {
+            resolve = arguments[0];
+            reject = arguments[1];
+        });
+        return {
+            resolve: resolve,
+            reject: reject,
+            promise: promise
+        };
     };
     return TaskRepository;
 }(abstract_repository_ng_1.AbstractRepository));

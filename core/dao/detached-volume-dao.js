@@ -8,8 +8,25 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var DetachedVolumeDao = (function (_super) {
     __extends(DetachedVolumeDao, _super);
     function DetachedVolumeDao() {
-        return _super.call(this, 'DetachedVolume') || this;
+        return _super.call(this, 'DetachedVolume', {
+            queryMethod: 'volume.find'
+        }) || this;
     }
+    DetachedVolumeDao.prototype.list = function () {
+        return abstract_dao_ng_1.AbstractDao.prototype.list.call(this).then(function (detachedVolumes) {
+            for (var _i = 0, detachedVolumes_1 = detachedVolumes; _i < detachedVolumes_1.length; _i++) {
+                var detachedVolume = detachedVolumes_1[_i];
+                detachedVolume._isDetached = true;
+            }
+            return detachedVolumes;
+        });
+    };
+    DetachedVolumeDao.prototype.import = function (volume) {
+        return this.middlewareClient.submitTask('volume.import', [volume.id, volume.name]);
+    };
+    DetachedVolumeDao.prototype.delete = function (volume) {
+        return this.middlewareClient.submitTask('volume.delete_exported', [volume.name]);
+    };
     return DetachedVolumeDao;
 }(abstract_dao_ng_1.AbstractDao));
 exports.DetachedVolumeDao = DetachedVolumeDao;

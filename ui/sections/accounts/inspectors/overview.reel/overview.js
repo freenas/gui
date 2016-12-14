@@ -11,14 +11,14 @@ exports.Overview = AbstractInspector.specialize({
     enterDocument: {
         value: function(isFirstTime) {
             this.super(isFirstTime);
-            this._eventDispatcherService.addEventListener('accountsOverviewChange', this._handleOverviewChange.bind(this));
+            this.availableDisksEventListener = this._eventDispatcherService.addEventListener('accountsOverviewChange', this._handleOverviewChange.bind(this));
         }
     },
 
     exitDocument: {
         value: function() {
             this.super();
-            this._eventDispatcherService.removeEventListener('accountsOverviewChange', this._handleOverviewChange.bind(this));
+            this._eventDispatcherService.removeEventListener('accountsOverviewChange', this.availableDisksEventListener);
         }
     },
 

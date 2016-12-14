@@ -62,6 +62,9 @@ var AccountsSectionService = (function (_super) {
     AccountsSectionService.prototype.syncNtpNow = function (ntpServerAddress) {
         return this.ntpServerRepository.syncNow(ntpServerAddress);
     };
+    AccountsSectionService.prototype.listShells = function () {
+        return this.shellRepository.listShells();
+    };
     AccountsSectionService.prototype.loadEntries = function () {
         var self = this;
         this.entries = [

@@ -16,6 +16,36 @@ var VolumeDao = (function (_super) {
     VolumeDao.prototype.getAvailableDisks = function () {
         return this.middlewareClient.callRpcMethod('volume.get_available_disks');
     };
+    VolumeDao.prototype.export = function (volume) {
+        return this.middlewareClient.submitTask('volume.export', [volume.id]);
+    };
+    VolumeDao.prototype.lock = function (volume) {
+        return this.middlewareClient.submitTask('volume.lock', [volume.id]);
+    };
+    VolumeDao.prototype.unlock = function (volume, password) {
+        return this.middlewareClient.submitTask('volume.unlock', [volume.id, password]);
+    };
+    VolumeDao.prototype.rekey = function (volume, key, password) {
+        return this.middlewareClient.submitTask('volume.rekey', [volume.id, !!key, password]);
+    };
+    VolumeDao.prototype.getVolumeKey = function (volume) {
+        return this.middlewareClient.submitTaskWithDownload('volume.keys.backup', [volume.id, 'key_' + volume.id]);
+    };
+    VolumeDao.prototype.importEncrypted = function (name, disks, key, password) {
+        return this.middlewareClient.submitTask('volume.import', [
+            name,
+            name,
+            {},
+            {
+                key: key,
+                disks: disks.map(function (x) { return x.path; })
+            },
+            password
+        ]);
+    };
+    VolumeDao.prototype.scrub = function (volume) {
+        return this.middlewareClient.submitTask('volume.scrub', [volume.id]);
+    };
     return VolumeDao;
 }(abstract_dao_ng_1.AbstractDao));
 exports.VolumeDao = VolumeDao;

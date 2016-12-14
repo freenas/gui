@@ -1,5 +1,6 @@
 import * as uuid from 'node-uuid';
 import { EventDispatcherService } from './event-dispatcher-service';
+import {ModelEventName} from "../model-event-name";
 
 export class MiddlewareClient {
     private REQUEST_TIMEOUT = 60000;
@@ -8,21 +9,23 @@ export class MiddlewareClient {
 
     private static instance: MiddlewareClient;
     private socket;
-    private handlers: Map<string, Promise>;
+    private handlers: Map<string, Promise<any>>;
+    private connectionPromise: Promise<any>;
 
-    private constructor() {
+    public constructor(private eventDispatcherService: EventDispatcherService) {
         this.handlers = new Map<string, Promise>();
-        this.eventDispatcherService = EventDispatcherService.getInstance();
     }
 
     public static getInstance() {
         if (!MiddlewareClient.instance) {
-            MiddlewareClient.instance = new MiddlewareClient();
+            MiddlewareClient.instance = new MiddlewareClient(
+                EventDispatcherService.getInstance()
+            );
         }
         return MiddlewareClient.instance;
     }
 
-    public connect(url: string): Promise {
+    public connect(url: string): Promise<any> {
         if (this.socket) {
             if (this.socket.url !== url && this.socket.readyState === this.socket.OPEN) {
                 this.closeConnection();
@@ -77,12 +80,52 @@ export class MiddlewareClient {
     }
 
     public submitTask(name: string, args?: Array<any>): Promise {
-        let self = this,
-            task = [
+        let self = this;
+        return this.callRpcMethod("task.submit", [
                 name,
                 args || []
-            ];
-        return this.callRpcMethod("task.submit", task);
+            ]).then(function(response) {
+                let taskId = response[0];
+                return {
+                    taskId: taskId,
+                    taskPromise: new Promise(function(resolve, reject) {
+                        let eventListener = self.eventDispatcherService.addEventListener(ModelEventName.Task.change(taskId), function(task) {
+                            if (task.state === 'FINISHED') {
+                                resolve(task.result);
+                                self.eventDispatcherService.removeEventListener(ModelEventName.Task.change(taskId), eventListener);
+                            } else if (task.state === 'FAILED') {
+                                reject(task.error);
+                                self.eventDispatcherService.removeEventListener(ModelEventName.Task.change(taskId), eventListener);
+                            }
+                        });
+                    })
+                }
+        });
+    }
+
+    public submitTaskWithDownload(name: string, args?: Array<any>): Promise<any> {
+        let self = this;
+        return this.callRpcMethod("task.submit_with_download", [
+            name,
+            args || []
+        ]).then(function(response) {
+            let taskId = response[0];
+            return {
+                taskId: taskId,
+                taskPromise: new Promise(function(resolve, reject) {
+                    let eventListener = self.eventDispatcherService.addEventListener(ModelEventName.Task.change(taskId), function(task) {
+                        if (task.get('state') === 'FINISHED') {
+                            resolve(task.get('result'));
+                            self.eventDispatcherService.removeEventListener(ModelEventName.Task.change(taskId), eventListener);
+                        } else if (task.get('state') === 'FAILED') {
+                            reject(task.get('error').toJS());
+                            self.eventDispatcherService.removeEventListener(ModelEventName.Task.change(taskId), eventListener);
+                        }
+                    });
+                }),
+                link: response[1][0]
+            }
+        });
     }
 
     public subscribeToEvents(name: string) {
@@ -209,7 +252,7 @@ export class MiddlewareClient {
         } catch (error) {
             console.warn('[' + event.currentTarget.url + '] Unable to parse message: -' + event.data +'-');
         }
-    } 
+    }
 
     private handleRpcResponse(message: Object) {
         if (this.handlers.has(message.id)) {
@@ -240,7 +283,7 @@ class MiddlewareError extends Error {
     public name: string = 'MiddlewareError';
     public message: string;
     public middlewareMessage: Object;
-    
+
     public constructor(middlewareMessage: Object) {
         super();
         this.message = middlewareMessage.args.message;

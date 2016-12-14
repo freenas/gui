@@ -76,6 +76,10 @@ export class AccountsSectionService extends AbstractSectionService {
         return this.ntpServerRepository.syncNow(ntpServerAddress);
     }
 
+    public listShells() {
+        return this.shellRepository.listShells();
+    }
+
     protected loadEntries() {
         let self = this;
         this.entries = [

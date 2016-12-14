@@ -6,17 +6,18 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var uuid = require("node-uuid");
 var event_dispatcher_service_1 = require("./event-dispatcher-service");
+var model_event_name_1 = require("../model-event-name");
 var MiddlewareClient = (function () {
-    function MiddlewareClient() {
+    function MiddlewareClient(eventDispatcherService) {
+        this.eventDispatcherService = eventDispatcherService;
         this.REQUEST_TIMEOUT = 60000;
         this.KEEPALIVE_MSG = '{"namespace": "rpc", "name": "call", "id": "${ID}", "args": {"method": "session.whoami", "args": []}}';
         this.KEEPALIVE_PERIOD = 30000;
         this.handlers = new Map();
-        this.eventDispatcherService = event_dispatcher_service_1.EventDispatcherService.getInstance();
     }
     MiddlewareClient.getInstance = function () {
         if (!MiddlewareClient.instance) {
-            MiddlewareClient.instance = new MiddlewareClient();
+            MiddlewareClient.instance = new MiddlewareClient(event_dispatcher_service_1.EventDispatcherService.getInstance());
         }
         return MiddlewareClient.instance;
     };
@@ -71,11 +72,53 @@ var MiddlewareClient = (function () {
         });
     };
     MiddlewareClient.prototype.submitTask = function (name, args) {
-        var self = this, task = [
+        var self = this;
+        return this.callRpcMethod("task.submit", [
             name,
             args || []
-        ];
-        return this.callRpcMethod("task.submit", task);
+        ]).then(function (response) {
+            var taskId = response[0];
+            return {
+                taskId: taskId,
+                taskPromise: new Promise(function (resolve, reject) {
+                    var eventListener = self.eventDispatcherService.addEventListener(model_event_name_1.ModelEventName.Task.change(taskId), function (task) {
+                        if (task.state === 'FINISHED') {
+                            resolve(task.result);
+                            self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName.Task.change(taskId), eventListener);
+                        }
+                        else if (task.state === 'FAILED') {
+                            reject(task.error);
+                            self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName.Task.change(taskId), eventListener);
+                        }
+                    });
+                })
+            };
+        });
+    };
+    MiddlewareClient.prototype.submitTaskWithDownload = function (name, args) {
+        var self = this;
+        return this.callRpcMethod("task.submit_with_download", [
+            name,
+            args || []
+        ]).then(function (response) {
+            var taskId = response[0];
+            return {
+                taskId: taskId,
+                taskPromise: new Promise(function (resolve, reject) {
+                    var eventListener = self.eventDispatcherService.addEventListener(model_event_name_1.ModelEventName.Task.change(taskId), function (task) {
+                        if (task.get('state') === 'FINISHED') {
+                            resolve(task.get('result'));
+                            self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName.Task.change(taskId), eventListener);
+                        }
+                        else if (task.get('state') === 'FAILED') {
+                            reject(task.get('error').toJS());
+                            self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName.Task.change(taskId), eventListener);
+                        }
+                    });
+                }),
+                link: response[1][0]
+            };
+        });
     };
     MiddlewareClient.prototype.subscribeToEvents = function (name) {
         return this.setEventSubscription(name, 'subscribe');

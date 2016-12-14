@@ -56,14 +56,14 @@ exports.VolumeCreator = AbstractInspector.specialize({
                 this._parentCascadingListItem.classList.add("CascadingListItem-VolumeCreator");
             }
             this.availableDisks = this._sectionService.listAvailableDisks();
-            this._eventDispatcherService.addEventListener('availableDisksChange', this._handleAvailableDisksChange.bind(this));
+            this.availableDisksEventListener = this._eventDispatcherService.addEventListener('availableDisksChange', this._handleAvailableDisksChange.bind(this));
         }
     },
 
     exitDocument: {
         value: function() {
             this.super();
-            this._eventDispatcherService.removeEventListener('availableDisksChange', this._handleAvailableDisksChange.bind(this));
+            this._eventDispatcherService.removeEventListener('availableDisksChange', this.availableDisksEventListener);
             if (this._parentCascadingListItem) {
                 this._parentCascadingListItem.classList.remove("CascadingListItem-VolumeCreator");
             }

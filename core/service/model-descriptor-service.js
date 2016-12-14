@@ -46,7 +46,7 @@ var ModelDescriptorService = (function () {
         return this.daoCache.has(type) ?
             Promise.resolve(this.daoCache.get(type)) :
             require.async(this.DAO_PREFIX + ChangeCase.paramCase(type) + this.DAO_SUFFIX).then(function (daoModule) {
-                var Dao = daoModule[type + 'Dao'], dao = Dao.getInstance ? Dao.getInstance() : Dao.instance;
+                var dao = new (daoModule[type + 'Dao'])();
                 self.daoCache.set(type, dao);
                 return dao;
             });

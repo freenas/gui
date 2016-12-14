@@ -1,6 +1,5 @@
 var Montage = require("montage").Montage,
-    FakeMontageDataService = require("core/service/fake-montage-data-service").FakeMontageDataService,
-    Model = require("core/model/model").Model;
+    DiskRepository = require("core/repository/disk-repository").DiskRepository;
 
 var TopologyService = exports.TopologyService = Montage.specialize({
 
@@ -180,7 +179,7 @@ var TopologyService = exports.TopologyService = Montage.specialize({
         value: function (vDev) {
             var self = this;
 
-            return this._dataService.fetchData(Model.Disk).then(function (disks) {
+            return this._diskRepository.listDisks().then(function (disks) {
                 var children = vDev.children,
                     tmpVDev;
 
@@ -380,9 +379,10 @@ var TopologyService = exports.TopologyService = Montage.specialize({
     }
 }, {
     instance: {
-        get: function(dataService) {
+        get: function() {
             if (!this._instance) {
-                this._instance = new TopologyService().init(FakeMontageDataService.getInstance());
+                this._instance = new TopologyService();
+                this._instance._diskRepository = DiskRepository.getInstance();
             }
             return this._instance;
         }

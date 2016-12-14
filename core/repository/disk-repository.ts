@@ -9,6 +9,8 @@ export class DiskRepository extends AbstractRepository {
     private freeDisks: Array<string>;
     private exportedDisks: Map<string, string>;
     private usableDisks: Array<string>;
+    private diskAllocations: Map<string, any>;
+    private pathToId:Map<string, string>;
 
     private constructor(private diskDao: DiskDao) {
         super(['Disk']);
@@ -16,6 +18,8 @@ export class DiskRepository extends AbstractRepository {
         this.freeDisks = [];
         this.exportedDisks = new Map<string, string>();
         this.usableDisks = [];
+        this.diskAllocations = new Map<string, any>();
+        this.pathToId = new Map<string, string>();
     }
 
     public static getInstance() {
@@ -58,26 +62,45 @@ export class DiskRepository extends AbstractRepository {
         this.eventDispatcherService.dispatch('availableDisksChange', this.listAvailableDisks());
     }
 
+    public getDiskAllocation(disk: any) {
+        if (this.diskAllocations.has(disk.path)) {
+            return this.diskAllocations.get(disk.path);
+        }
+    }
+
     public updateDiskUsage(availableDisks: Array<string>, disksAllocations: Object) {
-        let allocatedDisks = Object.keys(disksAllocations),
-            exportedDisksIds = allocatedDisks.filter((x) => disksAllocations[x].type === 'EXPORTED_DISK');
+        let self = this,
+            allocatedDisks = Object.keys(disksAllocations),
+            exportedDisksPaths = allocatedDisks.filter((x) => disksAllocations[x].type === 'EXPORTED_VOLUME');
         this.freeDisks = this.disks.valueSeq()
             .filter((x) => availableDisks.indexOf(x.get('path')) != -1)
-            .filter((x) => allocatedDisks.indexOf(x.get('id')) === -1)
+            .filter((x) => allocatedDisks.indexOf(x.get('path')) === -1)
             .map((x) => x.get('id'))
             .toArray();
         this.usableDisks = this.freeDisks.slice();
         this.exportedDisks = new Map<string, string>();
-        for (let diskId of exportedDisksIds) {
-            this.exportedDisks.set(diskId, disksAllocations[diskId].name);
-            this.usableDisks.push(diskId);
+        for (let diskPath of exportedDisksPaths) {
+            this.exportedDisks.set(diskPath, disksAllocations[diskPath].name);
+            this.usableDisks.push(this.pathToId.get(diskPath));
         }
+        this.diskAllocations.clear();
+        this.disks.forEach(function(disk) {
+            let diskPath = disk.get('path');
+            if (allocatedDisks.indexOf(diskPath !== -1) {
+                self.diskAllocations.set(diskPath, disksAllocations[diskPath]);
+            }
+        });
         this.eventDispatcherService.dispatch('availableDisksChange', this.listAvailableDisks());
     }
 
     protected handleStateChange(name: string, state: any) {
         switch (name) {
             case 'Disk':
+                let self = this;
+                this.pathToId.clear();
+                state.forEach(function(disk, id) {
+                    self.pathToId.set(disk.get('path'), id);
+                });
                 this.disks = this.dispatchModelEvents(this.disks, ModelEventName.Disk, state);
                 break;
             default:
