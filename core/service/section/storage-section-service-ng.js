@@ -145,6 +145,9 @@ var StorageSectionService = (function (_super) {
     StorageSectionService.prototype.markDiskAsNonReserved = function (diskId) {
         this.diskRepository.markDiskAsNonReserved(diskId);
     };
+    StorageSectionService.prototype.getDiskAllocation = function (disk) {
+        return this.diskRepository.getDiskAllocation(disk);
+    };
     StorageSectionService.prototype.createVolume = function (volume) {
         var password = volume._password && volume._password.length > 0 ? volume._password : null;
         volume.password_encrypted = !!password;

@@ -54,7 +54,7 @@
                 "topology": {"@": "topology"}
             },
             "bindings": {
-                "disks": {"<-": "@owner.disks.filter{(isAvailable || isTemporaryAvailable) && !isReserved}"},
+                "disks": {"<-": "@owner.availableDisks"},
                 "object": {"<-": "@owner.topologyProxy"}
             }
         }

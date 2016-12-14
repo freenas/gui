@@ -180,6 +180,10 @@ export class StorageSectionService extends AbstractSectionService {
         this.diskRepository.markDiskAsNonReserved(diskId);
     }
 
+    public getDiskAllocation(disk: any) {
+        return this.diskRepository.getDiskAllocation(disk);
+    }
+
     public createVolume(volume: any): Promise<void> {
         let password = volume._password && volume._password.length > 0 ? volume._password : null;
         volume.password_encrypted = !!password;

@@ -25,6 +25,12 @@ exports.Disk = AbstractInspector.specialize({
         }
     },
 
+    enterDocument: {
+        value: function() {
+            this.object._allocation = this._sectionService.getDiskAllocation(this.object);
+        }
+    },
+
     handleEraseAction: {
         value: function() {
             return this._sectionService.eraseDisk(this.object.id);

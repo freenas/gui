@@ -63,10 +63,7 @@ var Topology = exports.Topology = AbstractInspector.specialize(/** @lends Topolo
 
     _inspectorTemplateDidLoad: {
         value: function() {
-            var self = this;
-            return this._sectionService.listDisks().then(function(disks) {
-                self.disks = disks;
-            });
+            this.availableDisks = this._sectionService.listAvailableDisks();
         }
     },
 
