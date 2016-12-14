@@ -1,8 +1,8 @@
 "use strict";
-var immutable = require('immutable');
-var save_object_1 = require('./save-object');
-var delete_object_1 = require('./delete-object');
-var import_objects_1 = require('./import-objects');
+var immutable = require("immutable");
+var save_object_1 = require("./save-object");
+var delete_object_1 = require("./delete-object");
+var import_objects_1 = require("./import-objects");
 exports.ACTIONS = {
     SAVE_OBJECT: 'SAVE_OBJECT',
     DELETE_OBJECT: 'DELETE_OBJECT',

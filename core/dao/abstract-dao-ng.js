@@ -1,15 +1,15 @@
 "use strict";
-var middleware_client_1 = require('../service/middleware-client');
-var datastore_service_1 = require('../service/datastore-service');
-var model_1 = require('../model/model');
-var cleaner_1 = require('../service/data-processor/cleaner');
-var diff_1 = require('../service/data-processor/diff');
-var null_1 = require('../service/data-processor/null');
-var change_case_1 = require('change-case');
-var _ = require('lodash');
+var middleware_client_1 = require("../service/middleware-client");
+var datastore_service_1 = require("../service/datastore-service");
+var model_1 = require("../model/model");
+var cleaner_1 = require("../service/data-processor/cleaner");
+var diff_1 = require("../service/data-processor/diff");
+var null_1 = require("../service/data-processor/null");
+var change_case_1 = require("change-case");
+var _ = require("lodash");
 var Promise = require("bluebird");
 // DTM
-var cache_service_1 = require('../service/cache-service');
+var cache_service_1 = require("../service/cache-service");
 var AbstractDao = (function () {
     function AbstractDao(objectType, config) {
         config = config || {};

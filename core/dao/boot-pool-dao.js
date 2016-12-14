@@ -4,13 +4,13 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_dao_ng_1 = require('./abstract-dao-ng');
+var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var BootPoolDao = (function (_super) {
     __extends(BootPoolDao, _super);
     function BootPoolDao() {
-        _super.call(this, {}, {
+        return _super.call(this, {}, {
             typeName: 'BootPoolConfig'
-        });
+        }) || this;
     }
     BootPoolDao.prototype.getConfig = function () {
         return this.middlewareClient.callRpcMethod('boot.pool.get_config');

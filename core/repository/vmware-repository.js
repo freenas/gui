@@ -4,15 +4,16 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_repository_ng_1 = require('./abstract-repository-ng');
+var abstract_repository_ng_1 = require("./abstract-repository-ng");
 var vmware_dataset_dao_1 = require("../dao/vmware-dataset-dao");
 var VmwareRepository = (function (_super) {
     __extends(VmwareRepository, _super);
     function VmwareRepository(vmwareDatasetDao) {
-        _super.call(this, [
+        var _this = _super.call(this, [
             'VmwareDataset'
-        ]);
-        this.vmwareDatasetDao = vmwareDatasetDao;
+        ]) || this;
+        _this.vmwareDatasetDao = vmwareDatasetDao;
+        return _this;
     }
     VmwareRepository.getInstance = function () {
         if (!VmwareRepository.instance) {

@@ -4,13 +4,13 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_dao_ng_1 = require('./abstract-dao-ng');
+var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var ShellDao = (function (_super) {
     __extends(ShellDao, _super);
     function ShellDao() {
-        _super.call(this, {}, {
+        return _super.call(this, {}, {
             queryMethod: 'shell.get_shells'
-        });
+        }) || this;
     }
     ShellDao.prototype.spawn = function (columns, lines) {
         return this.middlewareClient.callRpcMethod('shell.spawn', ['/usr/local/bin/cli', columns, lines]);

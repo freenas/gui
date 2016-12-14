@@ -11,10 +11,11 @@ var Promise = require("bluebird");
 var AlertRepository = (function (_super) {
     __extends(AlertRepository, _super);
     function AlertRepository(alertDao) {
-        _super.call(this, [
+        var _this = _super.call(this, [
             'Alert'
-        ]);
-        this.alertDao = alertDao;
+        ]) || this;
+        _this.alertDao = alertDao;
+        return _this;
     }
     AlertRepository.getInstance = function () {
         if (!AlertRepository.instance) {

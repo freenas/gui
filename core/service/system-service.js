@@ -1,6 +1,6 @@
 "use strict";
-var system_repository_1 = require('core/repository/system-repository');
-var middleware_client_1 = require('core/service/middleware-client');
+var system_repository_1 = require("core/repository/system-repository");
+var middleware_client_1 = require("core/service/middleware-client");
 var SystemService = (function () {
     function SystemService(systemRepository, middlewareClient) {
         this.systemRepository = systemRepository;

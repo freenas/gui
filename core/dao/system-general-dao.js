@@ -4,14 +4,14 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_dao_ng_1 = require('./abstract-dao-ng');
+var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var SystemGeneralDao = (function (_super) {
     __extends(SystemGeneralDao, _super);
     function SystemGeneralDao() {
-        _super.call(this, 'SystemGeneral', {
+        return _super.call(this, 'SystemGeneral', {
             queryMethod: 'system.general.get_config',
             createMethod: 'system.general.update'
-        });
+        }) || this;
     }
     SystemGeneralDao.prototype.listTimezones = function () {
         return this.middlewareClient.callRpcMethod('system.general.timezones');

@@ -14,7 +14,7 @@ var ntp_server_repository_1 = require("../../repository/ntp-server-repository");
 var AccountsSectionService = (function (_super) {
     __extends(AccountsSectionService, _super);
     function AccountsSectionService() {
-        _super.apply(this, arguments);
+        return _super.apply(this, arguments) || this;
     }
     AccountsSectionService.prototype.init = function () {
         this.accountRepository = account_repository_1.AccountRepository.getInstance();

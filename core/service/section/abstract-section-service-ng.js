@@ -1,6 +1,6 @@
 "use strict";
-var section_repository_1 = require('core/repository/section-repository');
-var event_dispatcher_service_1 = require('core/service/event-dispatcher-service');
+var section_repository_1 = require("core/repository/section-repository");
+var event_dispatcher_service_1 = require("core/service/event-dispatcher-service");
 var AbstractSectionService = (function () {
     function AbstractSectionService() {
         this.eventDispatcherService = event_dispatcher_service_1.EventDispatcherService.getInstance();
@@ -41,7 +41,7 @@ var AbstractSectionService = (function () {
             return self;
         });
     };
-    AbstractSectionService.sectionRepository = section_repository_1.SectionRepository.instance;
     return AbstractSectionService;
 }());
+AbstractSectionService.sectionRepository = section_repository_1.SectionRepository.instance;
 exports.AbstractSectionService = AbstractSectionService;
