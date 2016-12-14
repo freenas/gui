@@ -6,15 +6,19 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "hostPathInput": {"@": "hostPath"}
+            },
+            "bindings": {
+                "object.host_path_input": {"<-": "@owner.hostPathInput.pathInput.value"}
             }
         },
 
         "filesystemTreeController": {
             "prototype": "core/controller/filesystem-tree-controller",
             "properties": {
-                "canListFiles": false,
-                "root": "/mnt"
+                "canListFiles": true,
+                "root": "/"
             },
             "bindings": {
                 "service": {"<-": "@owner.application.filesystemService"}
@@ -27,7 +31,7 @@
                 "element": {"#": "hostPath"},
                 "controller": {"@": "filesystemTreeController"},
                 "placeholder": "e.g. host path",
-                "isNotTypable": true
+                "isNotTypable": false
             },
             "bindings": {
                 "selectedPath": {"<->": "@owner.object.host_path"}
