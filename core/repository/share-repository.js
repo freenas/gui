@@ -4,14 +4,13 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_repository_ng_1 = require("./abstract-repository-ng");
-var share_dao_1 = require("core/dao/share-dao");
+var abstract_repository_ng_1 = require('./abstract-repository-ng');
+var share_dao_1 = require('core/dao/share-dao');
 var ShareRepository = (function (_super) {
     __extends(ShareRepository, _super);
     function ShareRepository(shareDao) {
-        var _this = _super.call(this, ['Share']) || this;
-        _this.shareDao = shareDao;
-        return _this;
+        _super.call(this, ['Share']);
+        this.shareDao = shareDao;
     }
     ShareRepository.getInstance = function () {
         if (!ShareRepository.instance) {

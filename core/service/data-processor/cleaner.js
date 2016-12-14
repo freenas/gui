@@ -1,5 +1,5 @@
 "use strict";
-var immutable = require("immutable");
+var immutable = require('immutable');
 var _ = require("lodash");
 var CleaningProcessor = (function () {
     function CleaningProcessor() {
@@ -37,8 +37,8 @@ var CleaningProcessor = (function () {
             typeof value !== 'function' &&
             (!descriptor || !descriptor.readOnly);
     };
+    CleaningProcessor.validPropertyRegex = /^[a-z0-9][a-z0-9_]*$/;
     return CleaningProcessor;
 }());
-CleaningProcessor.validPropertyRegex = /^[a-z0-9][a-z0-9_]*$/;
 var processor = new CleaningProcessor();
 exports.processor = processor;

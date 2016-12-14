@@ -86,7 +86,7 @@ export class DiskRepository extends AbstractRepository {
         this.diskAllocations.clear();
         this.disks.forEach(function(disk) {
             let diskPath = disk.get('path');
-            if (allocatedDisks.indexOf(diskPath !== -1) {
+            if (allocatedDisks.indexOf(diskPath !== -1)) {
                 self.diskAllocations.set(diskPath, disksAllocations[diskPath]);
             }
         });

@@ -4,8 +4,8 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var uuid = require("node-uuid");
-var event_dispatcher_service_1 = require("./event-dispatcher-service");
+var uuid = require('node-uuid');
+var event_dispatcher_service_1 = require('./event-dispatcher-service');
 var model_event_name_1 = require("../model-event-name");
 var MiddlewareClient = (function () {
     function MiddlewareClient(eventDispatcherService) {
@@ -260,11 +260,10 @@ exports.MiddlewareClient = MiddlewareClient;
 var MiddlewareError = (function (_super) {
     __extends(MiddlewareError, _super);
     function MiddlewareError(middlewareMessage) {
-        var _this = _super.call(this) || this;
-        _this.name = 'MiddlewareError';
-        _this.message = middlewareMessage.args.message;
-        _this.middlewareMessage = middlewareMessage;
-        return _this;
+        _super.call(this);
+        this.name = 'MiddlewareError';
+        this.message = middlewareMessage.args.message;
+        this.middlewareMessage = middlewareMessage;
     }
     return MiddlewareError;
 }(Error));

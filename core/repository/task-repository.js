@@ -12,12 +12,11 @@ var Promise = require("bluebird");
 var TaskRepository = (function (_super) {
     __extends(TaskRepository, _super);
     function TaskRepository(taskDao) {
-        var _this = _super.call(this, [
+        _super.call(this, [
             'Task'
-        ]) || this;
-        _this.taskDao = taskDao;
-        _this.taskPromises = immutable_1.Map();
-        return _this;
+        ]);
+        this.taskDao = taskDao;
+        this.taskPromises = immutable_1.Map();
     }
     TaskRepository.getInstance = function () {
         if (!TaskRepository.instance) {

@@ -1,6 +1,6 @@
 "use strict";
-var middleware_client_1 = require("core/service/middleware-client");
-var ChangeCase = require("change-case");
+var middleware_client_1 = require('core/service/middleware-client');
+var ChangeCase = require('change-case');
 var ModelDescriptorService = (function () {
     function ModelDescriptorService(middlewareClient) {
         this.middlewareClient = middlewareClient;

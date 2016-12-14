@@ -4,13 +4,13 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_dao_ng_1 = require("./abstract-dao-ng");
+var abstract_dao_ng_1 = require('./abstract-dao-ng');
 var DirectoryServicesDao = (function (_super) {
     __extends(DirectoryServicesDao, _super);
     function DirectoryServicesDao() {
-        return _super.call(this, 'DirectoryServices', {
+        _super.call(this, 'DirectoryServices', {
             queryMethod: 'directory.query'
-        }) || this;
+        });
     }
     return DirectoryServicesDao;
 }(abstract_dao_ng_1.AbstractDao));

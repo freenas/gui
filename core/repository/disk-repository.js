@@ -4,21 +4,20 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_repository_ng_1 = require("./abstract-repository-ng");
-var disk_dao_1 = require("core/dao/disk-dao");
+var abstract_repository_ng_1 = require('./abstract-repository-ng');
+var disk_dao_1 = require('core/dao/disk-dao');
 var model_event_name_1 = require("../model-event-name");
 var DiskRepository = (function (_super) {
     __extends(DiskRepository, _super);
     function DiskRepository(diskDao) {
-        var _this = _super.call(this, ['Disk']) || this;
-        _this.diskDao = diskDao;
-        _this.reservedDisks = new Set();
-        _this.freeDisks = [];
-        _this.exportedDisks = new Map();
-        _this.usableDisks = [];
-        _this.diskAllocations = new Map();
-        _this.pathToId = new Map();
-        return _this;
+        _super.call(this, ['Disk']);
+        this.diskDao = diskDao;
+        this.reservedDisks = new Set();
+        this.freeDisks = [];
+        this.exportedDisks = new Map();
+        this.usableDisks = [];
+        this.diskAllocations = new Map();
+        this.pathToId = new Map();
     }
     DiskRepository.getInstance = function () {
         if (!DiskRepository.instance) {

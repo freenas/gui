@@ -1,6 +1,6 @@
 "use strict";
-var event_dispatcher_service_1 = require("./event-dispatcher-service");
-var model_1 = require("core/model/model");
+var event_dispatcher_service_1 = require('./event-dispatcher-service');
+var model_1 = require('core/model/model');
 var CacheService = (function () {
     function CacheService() {
         var self = this;

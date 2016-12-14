@@ -4,12 +4,12 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_dao_ng_1 = require("./abstract-dao-ng");
-var systemSections = require("core/data/system-sections.json");
+var abstract_dao_ng_1 = require('./abstract-dao-ng');
+var systemSections = require('core/data/system-sections.json');
 var SystemSectionDao = (function (_super) {
     __extends(SystemSectionDao, _super);
     function SystemSectionDao() {
-        return _super.call(this, 'SystemSection') || this;
+        _super.call(this, 'SystemSection');
     }
     SystemSectionDao.prototype.list = function () {
         var self = this;

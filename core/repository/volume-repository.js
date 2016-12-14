@@ -4,12 +4,12 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_repository_ng_1 = require("./abstract-repository-ng");
-var volume_dao_1 = require("../dao/volume-dao");
-var volume_snapshot_dao_1 = require("../dao/volume-snapshot-dao");
-var volume_dataset_dao_1 = require("../dao/volume-dataset-dao");
-var volume_importer_dao_1 = require("../dao/volume-importer-dao");
-var encrypted_volume_actions_dao_1 = require("../dao/encrypted-volume-actions-dao");
+var abstract_repository_ng_1 = require('./abstract-repository-ng');
+var volume_dao_1 = require('../dao/volume-dao');
+var volume_snapshot_dao_1 = require('../dao/volume-snapshot-dao');
+var volume_dataset_dao_1 = require('../dao/volume-dataset-dao');
+var volume_importer_dao_1 = require('../dao/volume-importer-dao');
+var encrypted_volume_actions_dao_1 = require('../dao/encrypted-volume-actions-dao');
 var volume_vdev_recommendations_dao_1 = require("../dao/volume-vdev-recommendations-dao");
 var detached_volume_dao_1 = require("../dao/detached-volume-dao");
 var encrypted_volume_importer_dao_1 = require("../dao/encrypted-volume-importer-dao");
@@ -18,21 +18,20 @@ var model_event_name_1 = require("../model-event-name");
 var VolumeRepository = (function (_super) {
     __extends(VolumeRepository, _super);
     function VolumeRepository(volumeDao, volumeSnapshotDao, volumeDatasetDao, volumeImporterDao, encryptedVolumeActionsDao, volumeVdevRecommendationsDao, detachedVolumeDao, encryptedVolumeImporterDao, zfsTopologyDao) {
-        var _this = _super.call(this, [
+        _super.call(this, [
             'Volume',
             'VolumeDataset',
             'VolumeSnapshot'
-        ]) || this;
-        _this.volumeDao = volumeDao;
-        _this.volumeSnapshotDao = volumeSnapshotDao;
-        _this.volumeDatasetDao = volumeDatasetDao;
-        _this.volumeImporterDao = volumeImporterDao;
-        _this.encryptedVolumeActionsDao = encryptedVolumeActionsDao;
-        _this.volumeVdevRecommendationsDao = volumeVdevRecommendationsDao;
-        _this.detachedVolumeDao = detachedVolumeDao;
-        _this.encryptedVolumeImporterDao = encryptedVolumeImporterDao;
-        _this.zfsTopologyDao = zfsTopologyDao;
-        return _this;
+        ]);
+        this.volumeDao = volumeDao;
+        this.volumeSnapshotDao = volumeSnapshotDao;
+        this.volumeDatasetDao = volumeDatasetDao;
+        this.volumeImporterDao = volumeImporterDao;
+        this.encryptedVolumeActionsDao = encryptedVolumeActionsDao;
+        this.volumeVdevRecommendationsDao = volumeVdevRecommendationsDao;
+        this.detachedVolumeDao = detachedVolumeDao;
+        this.encryptedVolumeImporterDao = encryptedVolumeImporterDao;
+        this.zfsTopologyDao = zfsTopologyDao;
     }
     VolumeRepository.getInstance = function () {
         if (!VolumeRepository.instance) {
@@ -199,7 +198,7 @@ var VolumeRepository = (function (_super) {
         }
     };
     VolumeRepository.prototype.handleEvent = function () { };
+    VolumeRepository.TOPOLOGY_KEYS = ["data", "cache", "log", "spare"];
     return VolumeRepository;
 }(abstract_repository_ng_1.AbstractRepository));
-VolumeRepository.TOPOLOGY_KEYS = ["data", "cache", "log", "spare"];
 exports.VolumeRepository = VolumeRepository;
