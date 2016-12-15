@@ -9,7 +9,9 @@ var NtpServerDao = (function (_super) {
     __extends(NtpServerDao, _super);
     function NtpServerDao() {
         return _super.call(this, 'NtpServer', {
-            queryMethod: 'ntp_server.query'
+            queryMethod: 'ntp_server.query',
+            updateMethod: 'ntp_server.update',
+            createMethod: 'ntp_server.create'
         }) || this;
     }
     NtpServerDao.prototype.syncNow = function (serverAddress) {

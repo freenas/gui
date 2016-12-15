@@ -4,7 +4,9 @@ export class NtpServerDao extends AbstractDao {
 
     public constructor() {
         super('NtpServer', {
-            queryMethod: 'ntp_server.query'
+            queryMethod: 'ntp_server.query',
+            updateMethod: 'ntp_server.update',
+            createMethod: 'ntp_server.create'
         });
     }
 
