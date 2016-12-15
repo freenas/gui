@@ -6,6 +6,7 @@ import {SystemSectionDao} from "../dao/system-section-dao";
 import * as Promise from "bluebird";
 import {DatabaseDao} from "../dao/database-dao";
 import {SystemAdvancedDao} from "../dao/system-advanced-dao";
+import {SystemUiDao} from "../dao/system-ui-dao";
 
 export class SystemRepository {
     private static instance: SystemRepository;
@@ -17,7 +18,8 @@ export class SystemRepository {
         private systemDeviceDao: SystemDeviceDao,
         private systemSectionDao: SystemSectionDao,
         private databaseDao: DatabaseDao,
-        private systemAdvancedDao: SystemAdvancedDao
+        private systemAdvancedDao: SystemAdvancedDao,
+        private systemUiDao: SystemUiDao
     ) {}
 
     public static getInstance() {
@@ -29,7 +31,8 @@ export class SystemRepository {
                 new SystemDeviceDao(),
                 new SystemSectionDao(),
                 new DatabaseDao(),
-                new SystemAdvancedDao()
+                new SystemAdvancedDao(),
+                new SystemUiDao()
             );
         }
         return SystemRepository.instance;
@@ -93,6 +96,14 @@ export class SystemRepository {
 
     public getKeymaps() {
         return this.systemGeneralDao.listKeymaps();
+    }
+
+    public getUi() {
+        return this.systemUiDao.get();
+    }
+
+    public saveUi(ui: any) {
+        return this.systemUiDao.save(ui);
     }
 }
 

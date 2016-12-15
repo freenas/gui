@@ -10,7 +10,7 @@ exports.NetworkRepository = AbstractRepository.specialize({
     init: {
         value: function(networkInterfaceDao, networkConfigDao, networkRouteDao, networkHostDao, ipmiDao) {
             this._networkInterfaceDao = networkInterfaceDao || NetworkInterfaceDao.instance;
-            this._networkConfigDao = networkConfigDao || NetworkConfigDao.instance;
+            this._networkConfigDao = networkConfigDao || new NetworkConfigDao();
             this._networkRouteDao = networkRouteDao || NetworkRouteDao.instance;
             this._networkHostDao = networkHostDao || NetworkHostDao.instance;
             this._ipmiDao = ipmiDao || IpmiDao.instance;
@@ -119,6 +119,12 @@ exports.NetworkRepository = AbstractRepository.specialize({
     saveNetworkSettings: {
         value: function() {
             return this._networkConfigDao.save(this._networkSettings.config);
+        }
+    },
+
+    getMyIps: {
+        value: function() {
+            return this._networkConfigDao.getMyIps();
         }
     }
 });

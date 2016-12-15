@@ -32,7 +32,19 @@ class DiffProcessor implements DataProcessor {
                     if (childDifferences) {
                         differences = differences.set(key, childDifferences);
                     }
-                } else if (value instanceof immutable.List || object[key] !== value) {
+                } else if (
+                    (value instanceof immutable.List) ||
+                    (Array.isArray(value))) {
+                    let hasDifference = false;
+                    value.forEach(function(entry, index) {
+                        if (entry !== object[key][index]) {
+                            hasDifference = true;
+                        }
+                    });
+                    if (hasDifference) {
+                        differences.set(key, object[key]);
+                    }
+                } else if (object[key] !== value) {
                     differences = differences.set(key, object[key]);
                 }
             }

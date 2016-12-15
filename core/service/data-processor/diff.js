@@ -26,7 +26,19 @@ var DiffProcessor = (function () {
                         differences = differences.set(key, childDifferences);
                     }
                 }
-                else if (value instanceof immutable.List || object[key] !== value) {
+                else if ((value instanceof immutable.List) ||
+                    (Array.isArray(value))) {
+                    var hasDifference_1 = false;
+                    value.forEach(function (entry, index) {
+                        if (entry !== object[key][index]) {
+                            hasDifference_1 = true;
+                        }
+                    });
+                    if (hasDifference_1) {
+                        differences.set(key, object[key]);
+                    }
+                }
+                else if (object[key] !== value) {
                     differences = differences.set(key, object[key]);
                 }
             }

@@ -1,7 +1,8 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Model = require("core/model/model").Model;
+    Model = require("core/model/model").Model,
+    _ = require("lodash");
 
-exports.WebUi = AbstractInspector.specialize(/** @lends WebUi# */ {
+exports.WebUi = AbstractInspector.specialize({
 
     PROTOCOL_OPTIONS: {
         value: [
@@ -22,21 +23,19 @@ exports.WebUi = AbstractInspector.specialize(/** @lends WebUi# */ {
     certificates: {
         value: null
     },
-    
+
     _inspectorTemplateDidLoad: {
         value: function() {
             var self = this;
             return Promise.all([
-                this.application.systemUIService.getUIData().then(function(uiData) {
+                this.application.systemService.getUi().then(function(uiData) {
                     self.config = uiData;
                     self._snapshotDataObjectsIfNecessary();
                 }),
                 this.application.dataService.fetchData(Model.CryptoCertificate).then(function (certificates) {
                     self.certificates = certificates.filter(self._isCertificate);
                 }),
-                Model.populateObjectPrototypeForType(Model.NetworkConfig).then(function(networkConfig) {
-                    return networkConfig.constructor.services.getMyIps();
-                }).then(function(ipData){
+                this.application.systemService.getMyIps().then(function(ipData){
                     for (var i = 0; i < ipData.length; i++) {
                         if (/^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/.test(ipData[i])) {
                             self.IPv4_OPTIONS.push(ipData[i]);
@@ -47,7 +46,7 @@ exports.WebUi = AbstractInspector.specialize(/** @lends WebUi# */ {
                     self.IPv4_OPTIONS.unshift({label:"all", value: "0.0.0.0"});
                     self.IPv6_OPTIONS.unshift({label:"all", value: "::"});
                 }),
-                this.application.systemAdvancedService.getSystemAdvanced().then(function(systemAdvanced) {
+                this.application.systemService.getAdvanced().then(function(systemAdvanced) {
                     self.systemAdvanced = systemAdvanced;
                 })
             ]);
@@ -57,8 +56,8 @@ exports.WebUi = AbstractInspector.specialize(/** @lends WebUi# */ {
     save: {
         value: function() {
             return Promise.all([
-                this.application.systemAdvancedService.saveAdvanceData(this.systemAdvanced),
-                this.application.systemUIService.saveUIData(this.config)
+                this.application.systemService.saveAdvanced(this.systemAdvanced),
+                this.application.systemService.saveUi(this.config)
             ]);
         }
     },
@@ -87,7 +86,7 @@ exports.WebUi = AbstractInspector.specialize(/** @lends WebUi# */ {
     _snapshotDataObjectsIfNecessary: {
         value: function() {
             if(!this._config) {
-                this._config = this.application.dataService.clone(this.config);
+                this._config = _.cloneDeep(this.config);
             }
         }
     }

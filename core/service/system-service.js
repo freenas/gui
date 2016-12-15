@@ -2,15 +2,17 @@
 var system_repository_1 = require("../repository/system-repository");
 var middleware_client_1 = require("./middleware-client");
 var boot_pool_repository_1 = require("../repository/boot-pool-repository");
+var network_repository_1 = require("core/repository/network-repository");
 var SystemService = (function () {
-    function SystemService(systemRepository, middlewareClient, bootPoolRepository) {
+    function SystemService(systemRepository, middlewareClient, bootPoolRepository, networkRepository) {
         this.systemRepository = systemRepository;
         this.middlewareClient = middlewareClient;
         this.bootPoolRepository = bootPoolRepository;
+        this.networkRepository = networkRepository;
     }
     SystemService.getInstance = function () {
         if (!SystemService.instance) {
-            SystemService.instance = new SystemService(system_repository_1.SystemRepository.getInstance(), middleware_client_1.MiddlewareClient.getInstance(), boot_pool_repository_1.BootPoolRepository.getInstance());
+            SystemService.instance = new SystemService(system_repository_1.SystemRepository.getInstance(), middleware_client_1.MiddlewareClient.getInstance(), boot_pool_repository_1.BootPoolRepository.getInstance(), network_repository_1.NetworkRepository.instance);
         }
         return SystemService.instance;
     };
@@ -64,6 +66,15 @@ var SystemService = (function () {
     };
     SystemService.prototype.saveAdvanced = function (advanced) {
         return this.systemRepository.saveAdvanced(advanced);
+    };
+    SystemService.prototype.getUi = function () {
+        return this.systemRepository.getUi();
+    };
+    SystemService.prototype.saveUi = function (ui) {
+        return this.systemRepository.saveUi(ui);
+    };
+    SystemService.prototype.getMyIps = function () {
+        return this.networkRepository.getMyIps();
     };
     return SystemService;
 }());

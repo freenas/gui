@@ -1,13 +1,15 @@
 import { SystemRepository } from '../repository/system-repository';
 import { MiddlewareClient } from './middleware-client';
 import {BootPoolRepository} from "../repository/boot-pool-repository";
+import {NetworkRepository} from 'core/repository/network-repository';
 
 export class SystemService {
     private static instance: SystemService;
 
     private constructor(private systemRepository: SystemRepository,
                         private middlewareClient: MiddlewareClient,
-                        private bootPoolRepository: BootPoolRepository
+                        private bootPoolRepository: BootPoolRepository,
+                        private networkRepository: NetworkRepository
     ) {}
 
     public static getInstance() {
@@ -15,7 +17,8 @@ export class SystemService {
             SystemService.instance = new SystemService(
                 SystemRepository.getInstance(),
                 MiddlewareClient.getInstance(),
-                BootPoolRepository.getInstance()
+                BootPoolRepository.getInstance(),
+                NetworkRepository.instance
             );
         }
         return SystemService.instance;
@@ -87,5 +90,17 @@ export class SystemService {
 
     public saveAdvanced(advanced: any) {
         return this.systemRepository.saveAdvanced(advanced);
+    }
+
+    public getUi() {
+        return this.systemRepository.getUi();
+    }
+
+    public saveUi(ui: any) {
+        return this.systemRepository.saveUi(ui);
+    }
+
+    public getMyIps() {
+        return this.networkRepository.getMyIps();
     }
 }
