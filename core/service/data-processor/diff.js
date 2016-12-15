@@ -21,10 +21,7 @@ var DiffProcessor = (function () {
         reference.forEach(function (value, key) {
             if (object.hasOwnProperty(key)) {
                 if (value instanceof immutable.Map) {
-                    var childDifferences = self.getDifferences(object[key], value);
-                    if (childDifferences) {
-                        differences = differences.set(key, childDifferences);
-                    }
+                    differences = differences.set(key, value);
                 }
                 else if ((value instanceof immutable.List) ||
                     (Array.isArray(value))) {
