@@ -39,12 +39,17 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
         }
     },
 
+    templateDidLoad: {
+        value: function () {
+            this._mutationObserver = new MutationObserver(this.handleMutations.bind(this));
+        }
+    },
+
     enterDocument: {
         value: function (isFirstTime) {
             AbstractComponentActionDelegate.prototype.enterDocument.call(this, isFirstTime);
 
             if (isFirstTime) {
-                this._mutationObserver = new MutationObserver(this.handleMutations.bind(this));
                 this.element.addEventListener("transitionend", this, false);
             }
 
