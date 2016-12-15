@@ -145,6 +145,26 @@
                 "value": {"<-": "@owner.object._allocation.defined() ? @owner.object._allocation.name : 'None'"}
             }
         },
+        "status": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "status"},
+                "label": "Status"
+            },
+            "bindings": {
+                "value": {"<-": "!@owner.object._vdev && !@owner.object._allocation ? 'Unallocated' : !@owner.object._vdev && @owner.object._allocation.type == 'EXPORTED_VOLUME' ? 'Exported' : @owner.object._vdev.status == 'OFFLINE' ? 'Offline' : 'Online'"}
+            }
+        },
+        "temperature": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "temperature"},
+                "label": "Temperature"
+            },
+            "bindings": {
+                "value": {"<-": "!@owner.object.status.smart_info || !@owner.object.status.smart_info.temperature ? 'Unknown' : @owner.object.status.smart_info.temperature + ' C'"}
+            }
+        },
         "stanbyMode": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
@@ -209,6 +229,35 @@
             "bindings": {
                 "classList.has('hide')": {"<-": "!@owner.object.isAvailable"}
             }
+        },
+        "onlineButtonSubstitution":{
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "onlineButtonSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.object._vdev.status == 'OFFLINE'? 'online' : 'offline'"}
+            }
+        },
+        "offline": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "offline"},
+                "value": "Offline"
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "@owner.object._allocation.type != 'VOLUME'"}
+            }
+        },
+        "online": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "online"},
+                "value": "Online"
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "@owner.object._allocation.type != 'VOLUME'"}
+            }
         }
     }
     </script>
@@ -222,8 +271,10 @@
             <div data-montage-id="diskDescription"></div>
             <div data-montage-id="serial"></div>
             <div data-montage-id="smartStatus"></div>
+            <div data-montage-id="temperature"></div>
             <div data-montage-id="empty"></div>
             <div data-montage-id="allocation"></div>
+            <div data-montage-id="status"></div>
             <div data-montage-id="standbyMode"></div>
             <div data-montage-id="powerManagementMode"></div>
             <div data-montage-id="acousticLevel"></div>
@@ -231,6 +282,10 @@
             <div data-montage-id="smartOptions"></div>
             <div data-arg="footer-additional-button" class="ActionButtons">
                 <div data-montage-id="erase" class="Button--alert"></div>
+                <div data-montage-id="onlineButtonSubstitution">
+                    <div data-arg="offline" data-montage-id="offline" class="Button--alert"></div>
+                    <div data-arg="online" data-montage-id="online"></div>
+                </div>
             </div>
         </div>
     </div>
