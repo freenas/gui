@@ -26,7 +26,6 @@ exports.Tasks = AbstractInspector.specialize(/** @lends Tasks# */ {
             var self = this;
                 this.filter = {};
             this._service = TaskService.getInstance();
-
         }
     },
 
@@ -34,7 +33,7 @@ exports.Tasks = AbstractInspector.specialize(/** @lends Tasks# */ {
         value: function () {
             this.selectedTab = "EXECUTING";
             this.filter.started_after = new Date(new Date().setDate(new Date().getDate()-1));
-            this.filter.finished_at = new Date();
+            this.filter.started_before = new Date();
             this.handleApplyAction();
         }
     },
@@ -42,36 +41,6 @@ exports.Tasks = AbstractInspector.specialize(/** @lends Tasks# */ {
     handleClearAction: {
         value: function () {
             this.filter = {};
-        }
-    },
-
-    handleExecutingAction: {
-        value: function () {
-            this.tasks = this.generateFilterList("EXECUTING");
-        }
-    },
-
-    handleFailedAction: {
-        value: function () {
-            this.tasks = this.generateFilterList("FAILED");
-        }
-    },
-
-    handleFinishedAction: {
-        value: function () {
-            this.tasks = this.generateFilterList("FINISHED");
-        }
-    },
-
-    handleWaitingAction: {
-        value: function () {
-            this.tasks = this.generateFilterList("WAITING");
-        }
-    },
-
-    handleAbortedAction: {
-        value: function () {
-            this.tasks = this.generateFilterList("ABORTED");
         }
     },
 
@@ -83,7 +52,7 @@ exports.Tasks = AbstractInspector.specialize(/** @lends Tasks# */ {
 
     handleTodayAction: {
         value: function () {
-            this.filter.finished_at = new Date();
+            this.filter.started_before = new Date();
         }
     },
 
@@ -92,6 +61,7 @@ exports.Tasks = AbstractInspector.specialize(/** @lends Tasks# */ {
         value:function() {
             var self = this,
                 filter = {};
+                filter.started_at = [];
             if (this.filter.id) {
                 filter.id = this.filter.id;
             }
@@ -106,30 +76,24 @@ exports.Tasks = AbstractInspector.specialize(/** @lends Tasks# */ {
             }
             // FIXME: add the right stuff here
             if (this.filter.started_after) {
-                filter.started_at = {
+                filter.started_at.push({
                     operator : ">=",
                     value: {$date: this.filter.started_after.toISOString().replace('Z', '000')},
                     _isCustom: true
-                }
+                });
+                filter.started_at._isCustom = true;
             }
-            if (this.filter.finished_at) {
-                filter.finished_at = {
+            if (this.filter.started_before) {
+                filter.started_at.push({
                     operator : "<=",
-                    value: {$date: this.filter.finished_at.toISOString().replace('Z', '000')},
+                    value: {$date: this.filter.started_before.toISOString().replace('Z', '000')},
                     _isCustom: true
-                }
+                });
+                filter.started_at._isCustom = true;
             }
             this._service.findTasks(filter).then(function (entries) {
                 self.tasks = entries;
                 self._tasks = entries;
-            })
-        }
-    },
-
-    generateFilterList: {
-        value: function (state) {
-            return this._tasks.filter(function (task) {
-                return task.state === state;
             })
         }
     }
