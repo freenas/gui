@@ -11,8 +11,8 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
 exports.AlertRepository = AbstractRepository.specialize(/** @lends AlertRepository# */ {
     init: {
         value : function (alertFilterDao, mailDao) {
-            this._alertFilterDao = alertFilterDao || AlertFilterDao.instance;
-            this._mailDao = mailDao || MailDao.instance;
+            this._alertFilterDao = alertFilterDao || new AlertFilterDao();
+            this._mailDao = mailDao || new MailDao();
         }
     },
 
