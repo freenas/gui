@@ -89,6 +89,7 @@ var ShareService = exports.ShareService = Montage.specialize({
                     } else if (shareTypes.ISCSI === shareObject.type) {
                         shareObject.properties.block_size = 512;
                         shareObject.properties.size = 0;
+                        shareObject.properties.refreservation = true;
 
                         return (shareObject.__extent = {
                             id: null,
@@ -161,7 +162,8 @@ var ShareService = exports.ShareService = Montage.specialize({
                 isNewShareObject = shareObject._isNew,
                 blockSize = shareObject.properties.block_size,
                 size = shareObject.properties.size,
-                targetId = shareObject.__extent && shareObject.__extent.id;
+                targetId = shareObject.__extent && shareObject.__extent.id,
+                datasetProperties = null;
 
             if (typeof blockSize === "string") {
                 shareObject.properties.block_size = this._storageService.convertSizeStringToBytes(blockSize);
@@ -171,7 +173,16 @@ var ShareService = exports.ShareService = Montage.specialize({
                 shareObject.properties.size = this._storageService.convertSizeStringToBytes(size);
             }
 
-            var args = isNewShareObject ? [shareObject, null, isServiceEnabled] : [shareObject];
+            if (isNewShareObject && shareObject.target_type === 'ZVOL' && !shareObject.properties.refreservation) {
+                // FIXME: Workaround for middleware schema validation - we should use proper VolumeDatasetPropertyRefreservation Model
+                datasetProperties = {
+                    refreservation: {
+                        parsed: 0
+                    }
+                };
+            }
+
+            var args = isNewShareObject ? [shareObject, datasetProperties, isServiceEnabled] : [shareObject];
             return self._dataService.saveDataObject.apply(self._dataService, args).then(function () {
                 if (isNewShareObject) {
                     return self._dataService.getNewInstanceForType(Model.ShareIscsiTarget);
