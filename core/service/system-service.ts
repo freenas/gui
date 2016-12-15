@@ -1,5 +1,5 @@
-import { SystemRepository } from '../repository/system-repository';
-import { MiddlewareClient } from './middleware-client';
+import {SystemRepository} from '../repository/system-repository';
+import {MiddlewareClient} from './middleware-client';
 import {BootPoolRepository} from "../repository/boot-pool-repository";
 import {NetworkRepository} from 'core/repository/network-repository';
 
@@ -9,8 +9,8 @@ export class SystemService {
     private constructor(private systemRepository: SystemRepository,
                         private middlewareClient: MiddlewareClient,
                         private bootPoolRepository: BootPoolRepository,
-                        private networkRepository: NetworkRepository
-    ) {}
+                        private networkRepository: NetworkRepository) {
+    }
 
     public static getInstance() {
         if (!SystemService.instance) {
@@ -102,5 +102,9 @@ export class SystemService {
 
     public getMyIps() {
         return this.networkRepository.getMyIps();
+    }
+
+    public getDevices(deviceClass: string) {
+        return this.systemRepository.getDevices(deviceClass);
     }
 }

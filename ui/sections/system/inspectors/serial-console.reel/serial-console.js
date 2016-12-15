@@ -1,15 +1,8 @@
-/**
- * @module ui/serial-console.reel
- */
-var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model,
-    SystemAdvancedSerialspeed = require("core/model/enumerations/system-advanced-serialspeed").SystemAdvancedSerialspeed;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    SystemAdvancedSerialspeed = require("core/model/enumerations/system-advanced-serialspeed").SystemAdvancedSerialspeed,
+    _ = require("lodash");
 
-/**
- * @class SerialConsole
- * @extends Component
- */
-exports.SerialConsole = Component.specialize(/** @lends SerialConsole# */ {
+exports.SerialConsole = AbstractInspector.specialize({
 
     consoleData: {
         value: null
@@ -46,20 +39,20 @@ exports.SerialConsole = Component.specialize(/** @lends SerialConsole# */ {
                 }
                 this.serialSpeedOptions.unshift({label: "---", value: "none"});
                 loadingPromises.push(
-                    this.application.systemAdvancedService.getSystemAdvanced().then(function(systemAdvanced) {
+                    this.application.systemService.getAdvanced().then(function(systemAdvanced) {
                         self.object = systemAdvanced;
                     }),
-                    this.application.systemGeneralService.getSystemGeneral().then(function(generalData) {
+                    this.application.systemService.getGeneral().then(function(generalData) {
                         self.generalData = generalData;
                     }),
-                    this.application.systemDeviceService.getSerialPorts().then(function(serialPorts) {
+                    this.application.systemService.getDevices('serial_port').then(function(serialPorts) {
                         self.serialPortOptions = [];
                         for(var i=0; i<serialPorts.length; i++) {
                             self.serialPortOptions.push({label: serialPorts[i].name, value: serialPorts[i].name});
                         }
                         self.serialPortOptions.unshift({label:"---", value: "none"});
                     }),
-                    this.application.systemGeneralService.getKeymapOptions().then(function(keymapsData) {
+                    this._sectionService.getKeymapOptions().then(function(keymapsData) {
                         self.keymapsOptions = [];
                         for(var i=0; i<keymapsData.length; i++) {
                             self.keymapsOptions.push({label: keymapsData[i][1], value: keymapsData[i][0]});
@@ -68,7 +61,7 @@ exports.SerialConsole = Component.specialize(/** @lends SerialConsole# */ {
                 );
                 Promise.all(loadingPromises).then(function() {
                     self._snapshotDataObjectsIfNecessary();
-                    this.isLoading = false;
+                    self.isLoading = false;
                 });
             }
         }
@@ -78,8 +71,8 @@ exports.SerialConsole = Component.specialize(/** @lends SerialConsole# */ {
         value: function() {
             var savingPromises = [];
             savingPromises.push(
-                this.application.systemGeneralService.saveGeneralData(this.generalData),
-                this.application.systemAdvancedService.saveAdvanceData(this.object)
+                this.application.systemService.saveGeneral(this.generalData),
+                this.application.systemService.saveAdvanced(this.object)
             );
             return Promise.all(savingPromises);
         }
@@ -98,10 +91,10 @@ exports.SerialConsole = Component.specialize(/** @lends SerialConsole# */ {
     _snapshotDataObjectsIfNecessary: {
         value: function() {
             if (!this._generalData) {
-                this._generalData = this._dataService.clone(this.generalData);
+                this._generalData = _.cloneDeep(this.generalData);
             }
             if (!this._object) {
-                this._object = this._dataService.clone(this.object);
+                this._object = _.cloneDeep(this.object);
             }
         }
     }

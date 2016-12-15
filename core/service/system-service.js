@@ -76,6 +76,9 @@ var SystemService = (function () {
     SystemService.prototype.getMyIps = function () {
         return this.networkRepository.getMyIps();
     };
+    SystemService.prototype.getDevices = function (deviceClass) {
+        return this.systemRepository.getDevices(deviceClass);
+    };
     return SystemService;
 }());
 exports.SystemService = SystemService;
