@@ -1,5 +1,6 @@
 import { EventDispatcherService } from './event-dispatcher-service';
 import { Model } from 'core/model/model';
+import * as _ from "lodash";
 
 export class CacheService {
     private static instance: CacheService;
@@ -28,7 +29,7 @@ export class CacheService {
     public registerTypeForKey(this: CacheService, type: any, key: string) {
         let self = this,
             promise;
-        if (!this.types.has(key) || this.types.get(key) !== type || !type.objectPrototype || Promise.is(type.objectPrototype)) {
+        if (type && (!this.types.has(key) || this.types.get(key) !== type || !type.objectPrototype || Promise.is(type.objectPrototype))) {
             promise = this.ensureModelIsPopulated(type).then(function() {
                 self.types.set(key, type);
             });
@@ -60,9 +61,17 @@ export class CacheService {
 
     public getDataObject(key: string) {
         let type = this.types.get(key),
-            object = Object.create(this.getPrototypeForType(type));
-        if (object) {
-            object = object.constructor.call(object) || object;
+            prototype = this.getPrototypeForType(type),
+            object;
+        if (prototype) {
+            object = Object.create(prototype);
+            if (object) {
+                object = object.constructor.call(object) || object;
+            }
+        } else {
+            object = {
+                _objectType: key
+            };
         }
         return object;
     }
@@ -98,7 +107,7 @@ export class CacheService {
         for (let i = cache.length - 1; i >= 0; i--) {
             object = cache[i];
             if (state.has(object.id)) {
-                this.mergeObjects(object, state.get(object.id).toJS());
+                _.assign(object, state.get(object.id).toJS());
                 cachedKeys.push(object.id);
             } else {
                 cache.splice(i, 1);
@@ -106,47 +115,19 @@ export class CacheService {
         }
         state.forEach(function(value, id) {
             if (cachedKeys.indexOf(id) === -1) {
-                cache.push(self.mergeObjects(self.getDataObject(key), value.toJS()));
+                cache.push(_.assign(self.getDataObject(key), value.toJS()));
             }
         });
         this.eventDispatcherService.dispatch('modelChange.' + key, cache);
         return cache;
     }
 
-    private getPrototypeForType(type: Object) {
-        var prototype = this.dataObjectPrototypes.get(type);
-        if (type && !prototype) {
+    private getPrototypeForType(type: any) {
+        let prototype = this.dataObjectPrototypes.get(type);
+        if (!prototype && type && type.objectPrototype) {
             prototype = Object.create(type.objectPrototype);
             this.dataObjectPrototypes.set(type, prototype);
         }
         return prototype;
     }
-
-    private mergeObjects(target, source) {
-        return Object.assign(target, source);
-    }
-}
-
-if (typeof Object.assign !== 'function') {
-    Object.assign = function (target, varArgs) {
-        'use strict';
-        if (target == null) {
-            throw new TypeError('Cannot convert undefined or null to object');
-        }
-
-        var to = Object(target);
-
-        for (var index = 1; index < arguments.length; index++) {
-            var nextSource = arguments[index];
-
-            if (nextSource != null) {
-                for (var nextKey in nextSource) {
-                    if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
-                        to[nextKey] = nextSource[nextKey];
-                    }
-                }
-            }
-        }
-        return to;
-    };
 }

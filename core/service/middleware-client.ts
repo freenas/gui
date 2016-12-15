@@ -1,9 +1,10 @@
 import * as uuid from 'node-uuid';
 import { EventDispatcherService } from './event-dispatcher-service';
 import {ModelEventName} from "../model-event-name";
+import * as Promise from "bluebird";
 
 export class MiddlewareClient {
-    private REQUEST_TIMEOUT = 60000;
+    private REQUEST_TIMEOUT = 90000;
     private KEEPALIVE_MSG = '{"namespace": "rpc", "name": "call", "id": "${ID}", "args": {"method": "session.whoami", "args": []}}';
     private KEEPALIVE_PERIOD = 30000;
 
@@ -84,17 +85,16 @@ export class MiddlewareClient {
         return this.callRpcMethod("task.submit", [
                 name,
                 args || []
-            ]).then(function(response) {
-                let taskId = response[0];
+            ]).then(function(taskId) {
                 return {
                     taskId: taskId,
                     taskPromise: new Promise(function(resolve, reject) {
                         let eventListener = self.eventDispatcherService.addEventListener(ModelEventName.Task.change(taskId), function(task) {
-                            if (task.state === 'FINISHED') {
-                                resolve(task.result);
+                            if (task.get('state') === 'FINISHED') {
+                                resolve(task.get('result'));
                                 self.eventDispatcherService.removeEventListener(ModelEventName.Task.change(taskId), eventListener);
-                            } else if (task.state === 'FAILED') {
-                                reject(task.error);
+                            } else if (task.get('state') === 'FAILED') {
+                                reject(task.get('error').toJS());
                                 self.eventDispatcherService.removeEventListener(ModelEventName.Task.change(taskId), eventListener);
                             }
                         });

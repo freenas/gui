@@ -7,10 +7,11 @@ var __extends = (this && this.__extends) || function (d, b) {
 var uuid = require("node-uuid");
 var event_dispatcher_service_1 = require("./event-dispatcher-service");
 var model_event_name_1 = require("../model-event-name");
+var Promise = require("bluebird");
 var MiddlewareClient = (function () {
     function MiddlewareClient(eventDispatcherService) {
         this.eventDispatcherService = eventDispatcherService;
-        this.REQUEST_TIMEOUT = 60000;
+        this.REQUEST_TIMEOUT = 90000;
         this.KEEPALIVE_MSG = '{"namespace": "rpc", "name": "call", "id": "${ID}", "args": {"method": "session.whoami", "args": []}}';
         this.KEEPALIVE_PERIOD = 30000;
         this.handlers = new Map();
@@ -76,18 +77,17 @@ var MiddlewareClient = (function () {
         return this.callRpcMethod("task.submit", [
             name,
             args || []
-        ]).then(function (response) {
-            var taskId = response[0];
+        ]).then(function (taskId) {
             return {
                 taskId: taskId,
                 taskPromise: new Promise(function (resolve, reject) {
                     var eventListener = self.eventDispatcherService.addEventListener(model_event_name_1.ModelEventName.Task.change(taskId), function (task) {
-                        if (task.state === 'FINISHED') {
-                            resolve(task.result);
+                        if (task.get('state') === 'FINISHED') {
+                            resolve(task.get('result'));
                             self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName.Task.change(taskId), eventListener);
                         }
-                        else if (task.state === 'FAILED') {
-                            reject(task.error);
+                        else if (task.get('state') === 'FAILED') {
+                            reject(task.get('error').toJS());
                             self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName.Task.change(taskId), eventListener);
                         }
                     });

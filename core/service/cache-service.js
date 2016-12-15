@@ -1,6 +1,7 @@
 "use strict";
 var event_dispatcher_service_1 = require("./event-dispatcher-service");
 var model_1 = require("core/model/model");
+var _ = require("lodash");
 var CacheService = (function () {
     function CacheService() {
         var self = this;
@@ -18,7 +19,7 @@ var CacheService = (function () {
     };
     CacheService.prototype.registerTypeForKey = function (type, key) {
         var self = this, promise;
-        if (!this.types.has(key) || this.types.get(key) !== type || !type.objectPrototype || Promise.is(type.objectPrototype)) {
+        if (type && (!this.types.has(key) || this.types.get(key) !== type || !type.objectPrototype || Promise.is(type.objectPrototype))) {
             promise = this.ensureModelIsPopulated(type).then(function () {
                 self.types.set(key, type);
             });
@@ -46,9 +47,17 @@ var CacheService = (function () {
         return this.storage.get(key);
     };
     CacheService.prototype.getDataObject = function (key) {
-        var type = this.types.get(key), object = Object.create(this.getPrototypeForType(type));
-        if (object) {
-            object = object.constructor.call(object) || object;
+        var type = this.types.get(key), prototype = this.getPrototypeForType(type), object;
+        if (prototype) {
+            object = Object.create(prototype);
+            if (object) {
+                object = object.constructor.call(object) || object;
+            }
+        }
+        else {
+            object = {
+                _objectType: key
+            };
         }
         return object;
     };
@@ -80,7 +89,7 @@ var CacheService = (function () {
         for (var i = cache.length - 1; i >= 0; i--) {
             object = cache[i];
             if (state.has(object.id)) {
-                this.mergeObjects(object, state.get(object.id).toJS());
+                _.assign(object, state.get(object.id).toJS());
                 cachedKeys.push(object.id);
             }
             else {
@@ -89,7 +98,7 @@ var CacheService = (function () {
         }
         state.forEach(function (value, id) {
             if (cachedKeys.indexOf(id) === -1) {
-                cache.push(self.mergeObjects(self.getDataObject(key), value.toJS()));
+                cache.push(_.assign(self.getDataObject(key), value.toJS()));
             }
         });
         this.eventDispatcherService.dispatch('modelChange.' + key, cache);
@@ -97,35 +106,12 @@ var CacheService = (function () {
     };
     CacheService.prototype.getPrototypeForType = function (type) {
         var prototype = this.dataObjectPrototypes.get(type);
-        if (type && !prototype) {
+        if (!prototype && type && type.objectPrototype) {
             prototype = Object.create(type.objectPrototype);
             this.dataObjectPrototypes.set(type, prototype);
         }
         return prototype;
     };
-    CacheService.prototype.mergeObjects = function (target, source) {
-        return Object.assign(target, source);
-    };
     return CacheService;
 }());
 exports.CacheService = CacheService;
-if (typeof Object.assign !== 'function') {
-    Object.assign = function (target, varArgs) {
-        'use strict';
-        if (target == null) {
-            throw new TypeError('Cannot convert undefined or null to object');
-        }
-        var to = Object(target);
-        for (var index = 1; index < arguments.length; index++) {
-            var nextSource = arguments[index];
-            if (nextSource != null) {
-                for (var nextKey in nextSource) {
-                    if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
-                        to[nextKey] = nextSource[nextKey];
-                    }
-                }
-            }
-        }
-        return to;
-    };
-}
