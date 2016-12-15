@@ -86,14 +86,14 @@
                 "value": {"<->": "@owner.filter.started_after"}
             }
         },
-        "finished_at": {
+        "started_before": {
             "prototype": "blue-shark/ui/field-datetime.reel",
             "properties": {
-                "element": {"#": "finished_at"},
+                "element": {"#": "started_before"},
                 "intervalInSeconds": 300
             },
             "bindings": {
-                "value": {"<->": "@owner.filter.finished_at"}
+                "value": {"<->": "@owner.filter.started_before"}
             }
         },
         "today": {
@@ -283,7 +283,7 @@
                         </div>
                         <div class="flex-row flex-align--center">
                             <span class="TasksInspector-filters-dateRange-inputLabel">to:</span>
-                            <div data-montage-id="finished_at"></div>
+                            <div data-montage-id="started_before"></div>
                             <div data-montage-id="today"></div>
                         </div>
                     </div>
