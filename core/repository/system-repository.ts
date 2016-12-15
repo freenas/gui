@@ -86,5 +86,13 @@ export class SystemRepository {
     public saveAdvanced(advanced: any) {
         return this.systemAdvancedDao.save(advanced);
     }
+
+    public getTimezones() {
+        return this.systemGeneralDao.listTimezones();
+    }
+
+    public getKeymaps() {
+        return this.systemGeneralDao.listKeymaps();
+    }
 }
 

@@ -135,7 +135,7 @@ exports.LanguageAndRegion = AbstractInspector.specialize(/** @lends LanguageAndR
         value: function() {
             return Promise.all([
                 this.application.applicationContextService.save(),
-                this.application.systemGeneralService.saveGeneralData(this.generalData)
+                this.application.systemService.saveGeneral(this.generalData)
             ]);
         }
     },

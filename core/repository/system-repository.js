@@ -61,6 +61,12 @@ var SystemRepository = (function () {
     SystemRepository.prototype.saveAdvanced = function (advanced) {
         return this.systemAdvancedDao.save(advanced);
     };
+    SystemRepository.prototype.getTimezones = function () {
+        return this.systemGeneralDao.listTimezones();
+    };
+    SystemRepository.prototype.getKeymaps = function () {
+        return this.systemGeneralDao.listKeymaps();
+    };
     return SystemRepository;
 }());
 exports.SystemRepository = SystemRepository;
