@@ -159,14 +159,32 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
             }
 
             if (volumesValues && volumesValues.length) {
-                this.object.volumes = volumesValues.filter(function (entry) {
-                    return entry.host_path && entry.container_path;
-                });
+                this.object.volumes = this._extractValidVolumes(volumesValues);
             }
 
             return this._sectionService.saveContainer(this.object).then(function () {
                 self._reset();
             });
+        }
+    },
+
+    _extractValidVolumes: {
+        value: function(values) {
+            var volumes = [],
+                entry;
+
+            for (var i = values.length - 1; i >= 0; i--) {
+                entry = values[i];
+                if (entry.host_path_input && entry.host_path_input != entry.host_path) {
+                    entry.host_path = entry.host_path_input;
+                    entry.host_path_input = void 0;
+                }
+                if (entry.host_path && entry.container_path) {
+                    volumes.push(entry);
+                }
+            }
+
+            return volumes;
         }
     },
 

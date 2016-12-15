@@ -148,13 +148,6 @@
                 "options": {"<-": "@owner.guestTypeOptions.sorted{label}"}
             }
         },
-        "volumeOptionConverter": {
-            "prototype": "core/converter/select-option-converter",
-            "properties": {
-                "labelPropertyName": "id",
-                "valuePropertyName": "id"
-            }
-        },
         "volumeSubstitution": {
             "prototype": "montage/ui/substitution.reel",
             "properties": {
@@ -179,12 +172,11 @@
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "target"},
-                "label": "Volume",
-                "converter": {"@": "volumeOptionConverter"}
+                "label": "Volume"
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.object.target"},
-                "options": {"<-": "[{id: @owner.DEFAULT_STRING}].concat(@owner.volumes)"}
+                "options": {"<-": "[{label: @owner.DEFAULT_STRING, value: null}].concat(@owner.volumes.map{{label: id, value: id}})"}
             }
         },
         "description": {
