@@ -2,6 +2,7 @@ import * as uuid from 'node-uuid';
 import { EventDispatcherService } from './event-dispatcher-service';
 import {ModelEventName} from "../model-event-name";
 import * as Promise from "bluebird";
+import _ = require("lodash");
 
 export class MiddlewareClient {
     private REQUEST_TIMEOUT = 90000;
@@ -12,6 +13,9 @@ export class MiddlewareClient {
     private socket;
     private handlers: Map<string, Promise<any>>;
     private connectionPromise: Promise<any>;
+    private keepAliveInterval: number;
+
+    public url: string;
 
     public constructor(private eventDispatcherService: EventDispatcherService) {
         this.handlers = new Map<string, Promise>();
@@ -123,9 +127,67 @@ export class MiddlewareClient {
                         }
                     });
                 }),
-                link: response[1][0]
+                link: self.getRootURL('http') + response[1][0]
             }
         });
+    }
+
+    public submitTaskWithUpload(name: string, args: Array<any>, file: File) {
+        let self = this;
+        return this.callRpcMethod('task.submit_with_upload', _.concat([name], args)).then(function(response) {
+            let token = Array.isArray(response) ? response[1][0] : response;
+            self.sendFileWithToken(file, token);
+        })
+    }
+
+    public uploadFile(file: File, destination: string, mode = '755') {
+        let self = this;
+        return this.callRpcMethod('filesystem.upload', ["/root/" + file.name, file.size, mode]).then(function(response) {
+            let token = Array.isArray(response) ? response[1][0] : response;
+            self.sendFileWithToken(file, token);
+        })
+    }
+
+    private sendFileWithToken(file: File, token: string) {
+        let self = this,
+            connection = new WebSocket(self.getRootURL('ws') + '/dispatcher/file'),
+            BUFSIZE = 1024;
+
+        connection.onopen = function () {
+            let filePos = 0;
+            connection.send(JSON.stringify({token: token}));
+
+
+            while (filePos + BUFSIZE <= file.size) {
+                self.sendChunkOnConnection(connection, file, filePos, filePos + BUFSIZE);
+                filePos = filePos + BUFSIZE;
+            }
+
+            if (filePos < file.size) {
+                self.sendChunkOnConnection(connection, file, filePos, file.size);
+            }
+        };
+    }
+
+    private sendChunkOnConnection(connection: WebSocket, file: File, start: number, stop: number) {
+        start = parseInt(start) || 0;
+        stop = parseInt(stop) || file.size;
+        let reader = new FileReader();
+
+        reader.onloadend = function (event) {
+            let target = event.target;
+
+            if (target.readyState === FileReader.DONE) {
+                connection.send(target.result);
+
+                if (stop === file.size) {
+                    connection.send("");
+                }
+            }
+        };
+
+        let blob = file.slice(start, stop);
+        reader.readAsArrayBuffer(blob);
     }
 
     public subscribeToEvents(name: string) {
@@ -164,7 +226,7 @@ export class MiddlewareClient {
         }
     }
 
-    private send(payload: Object): Promise {
+    private send(payload: any): Promise {
         let self = this;
         return this.connectionPromise.then(function() {
             let resolve, reject,
@@ -254,7 +316,7 @@ export class MiddlewareClient {
         }
     }
 
-    private handleRpcResponse(message: Object) {
+    private handleRpcResponse(message: any) {
         if (this.handlers.has(message.id)) {
             let deferred = this.handlers.get(message.id);
             this.handlers.delete(message.id);
@@ -262,7 +324,7 @@ export class MiddlewareClient {
         }
     }
 
-    private handleRpcError(message: Object) {
+    private handleRpcError(message: any) {
         if (this.handlers.has(message.id)) {
             let deferred = this.handlers.get(message.id);
             this.handlers.delete(message.id);
@@ -270,12 +332,32 @@ export class MiddlewareClient {
         }
     }
 
-    private handleEvent(message: Object) {
+    private handleEvent(message: any) {
         if (message.args.name.indexOf('entity-subscriber.') === 0) {
             this.eventDispatcherService.dispatch('middlewareModelChange', message.args.args);
         } else if (message.args.name.indexOf('statd.') === 0) {
             this.eventDispatcherService.dispatch('statsChange', message.args);
         }
+    }
+
+    private getRootURL(protocol: string): string {
+        let scheme = protocol + (location.protocol === 'https:' ? 's' : ''),
+            host = this.getHost();
+        return `${scheme}://${host}`;
+    }
+
+    private getHost(): string {
+        let result = location.host,
+            hostParam = location.href.split(';').filter(
+                (x) => x.split('=')[0] === 'host'
+            )[0];
+        if (hostParam) {
+            let host = hostParam.split('=')[1];
+            if (host && host.length > 0) {
+                result = host;
+            }
+        }
+        return result;
     }
 }
 
@@ -284,7 +366,7 @@ class MiddlewareError extends Error {
     public message: string;
     public middlewareMessage: Object;
 
-    public constructor(middlewareMessage: Object) {
+    public constructor(middlewareMessage: any) {
         super();
         this.message = middlewareMessage.args.message;
         this.middlewareMessage = middlewareMessage;

@@ -3,15 +3,14 @@ import { processor as cleaningProcessor } from '../service/data-processor/cleane
 import { processor as diffProcessor } from '../service/data-processor/diff';
 import { processor as nullProcessor } from '../service/data-processor/null';
 
-export class SystemGeneralDao extends AbstractDao {
+export class SystemAdvancedDao extends AbstractDao {
 
     public constructor() {
-        super('SystemGeneral', {
-            queryMethod: 'system.general.get_config',
-            createMethod: 'system.general.update'
+        super('SystemAdvanced', {
+            queryMethod: 'system.advanced.get_config',
+            createMethod: 'system.advanced.update'
         });
     }
-
     public save(object: any, args?: Array<any>) {
         let update = nullProcessor.process(
             diffProcessor.process(
@@ -19,20 +18,13 @@ export class SystemGeneralDao extends AbstractDao {
                     object,
                     this.propertyDescriptors
                 ),
-                'SystemGeneral',
+                'SystemAdvanced',
                 object.id
             )
         );
         if (update || (args && args.length > 0)) {
-            return this.middlewareClient.submitTask('system.general.update', [update]);
+            return this.middlewareClient.submitTask('system.advanced.update', [update]);
         }
     }
 
-    public listTimezones(): Promise<Array<string>> {
-        return this.middlewareClient.callRpcMethod('system.general.timezones');
-    }
-
-    public listKeymaps(): Promise<Array<Array<string>>> {
-        return this.middlewareClient.callRpcMethod('system.general.keymaps');
-    }
 }

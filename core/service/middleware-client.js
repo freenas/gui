@@ -8,6 +8,7 @@ var uuid = require("node-uuid");
 var event_dispatcher_service_1 = require("./event-dispatcher-service");
 var model_event_name_1 = require("../model-event-name");
 var Promise = require("bluebird");
+var _ = require("lodash");
 var MiddlewareClient = (function () {
     function MiddlewareClient(eventDispatcherService) {
         this.eventDispatcherService = eventDispatcherService;
@@ -116,9 +117,54 @@ var MiddlewareClient = (function () {
                         }
                     });
                 }),
-                link: response[1][0]
+                link: self.getRootURL('http') + response[1][0]
             };
         });
+    };
+    MiddlewareClient.prototype.submitTaskWithUpload = function (name, args, file) {
+        var self = this;
+        return this.callRpcMethod('task.submit_with_upload', _.concat([name], args)).then(function (response) {
+            var token = Array.isArray(response) ? response[1][0] : response;
+            self.sendFileWithToken(file, token);
+        });
+    };
+    MiddlewareClient.prototype.uploadFile = function (file, destination, mode) {
+        if (mode === void 0) { mode = '755'; }
+        var self = this;
+        return this.callRpcMethod('filesystem.upload', ["/root/" + file.name, file.size, mode]).then(function (response) {
+            var token = Array.isArray(response) ? response[1][0] : response;
+            self.sendFileWithToken(file, token);
+        });
+    };
+    MiddlewareClient.prototype.sendFileWithToken = function (file, token) {
+        var self = this, connection = new WebSocket(self.getRootURL('ws') + '/dispatcher/file'), BUFSIZE = 1024;
+        connection.onopen = function () {
+            var filePos = 0;
+            connection.send(JSON.stringify({ token: token }));
+            while (filePos + BUFSIZE <= file.size) {
+                self.sendChunkOnConnection(connection, file, filePos, filePos + BUFSIZE);
+                filePos = filePos + BUFSIZE;
+            }
+            if (filePos < file.size) {
+                self.sendChunkOnConnection(connection, file, filePos, file.size);
+            }
+        };
+    };
+    MiddlewareClient.prototype.sendChunkOnConnection = function (connection, file, start, stop) {
+        start = parseInt(start) || 0;
+        stop = parseInt(stop) || file.size;
+        var reader = new FileReader();
+        reader.onloadend = function (event) {
+            var target = event.target;
+            if (target.readyState === FileReader.DONE) {
+                connection.send(target.result);
+                if (stop === file.size) {
+                    connection.send("");
+                }
+            }
+        };
+        var blob = file.slice(start, stop);
+        reader.readAsArrayBuffer(blob);
     };
     MiddlewareClient.prototype.subscribeToEvents = function (name) {
         return this.setEventSubscription(name, 'subscribe');
@@ -253,6 +299,20 @@ var MiddlewareClient = (function () {
         else if (message.args.name.indexOf('statd.') === 0) {
             this.eventDispatcherService.dispatch('statsChange', message.args);
         }
+    };
+    MiddlewareClient.prototype.getRootURL = function (protocol) {
+        var scheme = protocol + (location.protocol === 'https:' ? 's' : ''), host = this.getHost();
+        return scheme + "://" + host;
+    };
+    MiddlewareClient.prototype.getHost = function () {
+        var result = location.host, hostParam = location.href.split(';').filter(function (x) { return x.split('=')[0] === 'host'; })[0];
+        if (hostParam) {
+            var host = hostParam.split('=')[1];
+            if (host && host.length > 0) {
+                result = host;
+            }
+        }
+        return result;
     };
     return MiddlewareClient;
 }());

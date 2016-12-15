@@ -1,14 +1,16 @@
 "use strict";
-var system_repository_1 = require("core/repository/system-repository");
-var middleware_client_1 = require("core/service/middleware-client");
+var system_repository_1 = require("../repository/system-repository");
+var middleware_client_1 = require("./middleware-client");
+var boot_pool_repository_1 = require("../repository/boot-pool-repository");
 var SystemService = (function () {
-    function SystemService(systemRepository, middlewareClient) {
+    function SystemService(systemRepository, middlewareClient, bootPoolRepository) {
         this.systemRepository = systemRepository;
         this.middlewareClient = middlewareClient;
+        this.bootPoolRepository = bootPoolRepository;
     }
     SystemService.getInstance = function () {
         if (!SystemService.instance) {
-            SystemService.instance = new SystemService(system_repository_1.SystemRepository.getInstance(), middleware_client_1.MiddlewareClient.getInstance());
+            SystemService.instance = new SystemService(system_repository_1.SystemRepository.getInstance(), middleware_client_1.MiddlewareClient.getInstance(), boot_pool_repository_1.BootPoolRepository.getInstance());
         }
         return SystemService.instance;
     };
@@ -38,6 +40,30 @@ var SystemService = (function () {
     };
     SystemService.prototype.getGeneral = function () {
         return this.systemRepository.getGeneral();
+    };
+    SystemService.prototype.getConfigFileAddress = function () {
+        return this.systemRepository.getConfigFileAddress();
+    };
+    SystemService.prototype.restoreFactorySettings = function () {
+        return this.systemRepository.restoreFactorySettings();
+    };
+    SystemService.prototype.restoreDatabase = function (file) {
+        return this.systemRepository.restoreDatabase(file);
+    };
+    SystemService.prototype.getAdvanced = function () {
+        return this.systemRepository.getAdvanced();
+    };
+    SystemService.prototype.getBootPoolConfig = function () {
+        return this.bootPoolRepository.getBootPoolConfig();
+    };
+    SystemService.prototype.getSystemDatasetPool = function () {
+        return this.systemRepository.getDataset();
+    };
+    SystemService.prototype.saveGeneral = function (general) {
+        return this.systemRepository.saveGeneral(general);
+    };
+    SystemService.prototype.saveAdvanced = function (advanced) {
+        return this.systemRepository.saveAdvanced(advanced);
     };
     return SystemService;
 }());

@@ -1,19 +1,22 @@
-import { SystemRepository } from 'core/repository/system-repository';
-import { MiddlewareClient } from 'core/service/middleware-client';
+import { SystemRepository } from '../repository/system-repository';
+import { MiddlewareClient } from './middleware-client';
+import {BootPoolRepository} from "../repository/boot-pool-repository";
 
 export class SystemService {
     private static instance: SystemService;
-    private systemRepository: SystemRepository;
-    private middlewareClient: MiddlewareClient;
 
-    private constructor(systemRepository: SystemRepository, middlewareClient: MiddlewareClient) {
-        this.systemRepository = systemRepository;
-        this.middlewareClient = middlewareClient;
-    }
+    private constructor(private systemRepository: SystemRepository,
+                        private middlewareClient: MiddlewareClient,
+                        private bootPoolRepository: BootPoolRepository
+    ) {}
 
     public static getInstance() {
         if (!SystemService.instance) {
-            SystemService.instance = new SystemService(SystemRepository.getInstance(), MiddlewareClient.getInstance());
+            SystemService.instance = new SystemService(
+                SystemRepository.getInstance(),
+                MiddlewareClient.getInstance(),
+                BootPoolRepository.getInstance()
+            );
         }
         return SystemService.instance;
     }
@@ -52,5 +55,37 @@ export class SystemService {
 
     public getGeneral() {
         return this.systemRepository.getGeneral();
+    }
+
+    public getConfigFileAddress() {
+        return this.systemRepository.getConfigFileAddress();
+    }
+
+    public restoreFactorySettings() {
+        return this.systemRepository.restoreFactorySettings();
+    }
+
+    public restoreDatabase(file: File) {
+        return this.systemRepository.restoreDatabase(file);
+    }
+
+    public getAdvanced() {
+        return this.systemRepository.getAdvanced();
+    }
+
+    public getBootPoolConfig() {
+        return this.bootPoolRepository.getBootPoolConfig();
+    }
+
+    public getSystemDatasetPool() {
+        return this.systemRepository.getDataset();
+    }
+
+    public saveGeneral(general: any) {
+        return this.systemRepository.saveGeneral(general);
+    }
+
+    public saveAdvanced(advanced: any) {
+        return this.systemRepository.saveAdvanced(advanced);
     }
 }
