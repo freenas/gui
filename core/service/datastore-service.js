@@ -2,7 +2,8 @@
 var redux_1 = require("redux");
 var main_1 = require("../reducers/main");
 var ChangeCase = require("change-case");
-var middleware_client_1 = require("core/service/middleware-client");
+var Promise = require("bluebird");
+var middleware_client_1 = require("./middleware-client");
 var event_dispatcher_service_1 = require("./event-dispatcher-service");
 var DatastoreService = (function () {
     function DatastoreService() {
@@ -91,11 +92,9 @@ var DatastoreService = (function () {
         var dispatch = _ref.dispatch;
         return function (next) {
             return function (action) {
-                return Promise.is(action.payload) ? action.payload.then(function (result) {
-                    return dispatch(Object.assign({}, action, { payload: result }));
-                }, function (error) {
-                    return dispatch(Object.assign({}, action, { payload: error, error: true }));
-                }) : next(action);
+                return Promise.is(action.payload) ?
+                    action.payload.then(function (result) { return dispatch(Object.assign({}, action, { payload: result })); }, function (error) { return dispatch(Object.assign({}, action, { payload: error, error: true })); }) :
+                    next(action);
             };
         };
     };

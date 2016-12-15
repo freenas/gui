@@ -1,58 +1,40 @@
-/**
- * @module ui/updates.reel
- */
-var Component = require("montage/ui/component").Component,
-    UpdateService = require("core/service/update-service").UpdateService,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    UpdateService = require("core/service/update-service-ng").UpdateService,
     Promise = require("montage/core/promise").Promise,
-    Model = require("core/model/model").Model;
+    _ = require("lodash");
 
-/**
- * @class Updates
- * @extends Component
- */
-exports.Updates = Component.specialize(/** @lends Updates# */ {
-    config: {
-        value: null
-    },
-
-    trains: {
-        value: null
-    },
-
-    info: {
-        value: null
-    },
-
-    _remoteConfig: {
-        value: null
-    },
-
-    _updateService: {
-        value: null
+exports.Updates = AbstractInspector.specialize({
+    _inspectorTemplateDidLoad: {
+        value: function() {
+            var self = this;
+            this._updateService = UpdateService.getInstance();
+            return Promise.all([
+                this._updateService.getConfig(),
+                this._updateService.getTrains(),
+                this._refreshUpdateInfo()
+            ]).spread(function(config, trains) {
+                self.config = config;
+                self.trains = trains;
+            });
+        }
     },
 
     enterDocument: {
-        value: function(isFirstTime) {
+        value: function() {
             var self = this;
             this.isLoading = true;
-            if (isFirstTime) {
-                this._dataService = this.application.dataService;
-                this._updateService = this.application.updateService;
-            }
-            var promises = [
-                self._updateService.getConfig().then(function(config) {
-                    self._cacheRemoteConfig(config);
-                    return self.config = config;
-                }),
-                self._updateService.getTrains().then(function(trains) {
-                    return self.trains = trains;
-                }),
-                self._updateService.getInfo().then(function(info) {
-                    return self.info = info;
-                })
-            ];
-            Promise.all(promises).then(function() {
+            return this._updateService.check().then(function() {
+                self._refreshUpdateInfo();
                 self.isLoading = false;
+            });
+        }
+    },
+
+    _refreshUpdateInfo: {
+        value: function() {
+            var self = this;
+            return this._updateService.getInfo().then(function(info) {
+                self.info = info;
             });
         }
     },
@@ -91,7 +73,7 @@ exports.Updates = Component.specialize(/** @lends Updates# */ {
                     check_auto: this.config.check_auto,
                     train: this.config.train
                 };
-            this._updateService.saveConfig().then(function() {
+            this._updateService.saveConfig(config).then(function() {
                 self._cacheRemoteConfig(config);
             });
         }
@@ -106,10 +88,7 @@ exports.Updates = Component.specialize(/** @lends Updates# */ {
 
     _cacheRemoteConfig: {
         value: function(config) {
-            this._remoteConfig = {
-                check_auto: config.check_auto,
-                train: config.train
-            };
+            this._remoteConfig = _.cloneDeep(config);
         }
     }
 });

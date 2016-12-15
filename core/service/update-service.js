@@ -1,4 +1,5 @@
 var Montage = require("montage").Montage,
+    UpdateRepository = require("core/repository/update-repository").UpdateRepository,
     FreeNASService = require("core/service/freenas-service").FreeNASService,
     Promise = require("montage/core/promise").Promise,
     Model = require("core/model/model").Model;
@@ -28,6 +29,7 @@ var UpdateService = exports.UpdateService = Montage.specialize({
 
     getConfig: {
         value: function() {
+
             var self = this;
             if (this._config) {
                 return Promise.resolve(this._config);
@@ -116,6 +118,7 @@ var UpdateService = exports.UpdateService = Montage.specialize({
         get: function() {
             if (!this._instance) {
                 this._instance = new UpdateService();
+                this._instance._updateRepository = UpdateRepository.getInstance();
             }
             return this._instance;
         }

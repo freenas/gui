@@ -1,8 +1,9 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { dispatchAction, ACTIONS } from '../reducers/main';
 import * as ChangeCase from 'change-case';
+import * as Promise from "bluebird";
 
-import { MiddlewareClient } from 'core/service/middleware-client';
+import { MiddlewareClient } from './middleware-client';
 import { EventDispatcherService } from './event-dispatcher-service';
 
 export class DatastoreService {
@@ -105,15 +106,15 @@ export class DatastoreService {
 
     // DTM (should be replaced by redux-promise as soon as mr is out)
     private promiseMiddleware(_ref) {
-        var dispatch = _ref.dispatch;
+        let dispatch = _ref.dispatch;
 
         return function (next) {
             return function (action) {
-                return Promise.is(action.payload) ? action.payload.then(function (result) {
-                    return dispatch(Object.assign({}, action, { payload: result }));
-                }, function (error) {
-                    return dispatch(Object.assign({}, action, { payload: error, error: true }));
-                }) : next(action);
+                return Promise.is(action.payload) ?
+                    action.payload.then(
+                        function (result) { return dispatch(Object.assign({}, action, { payload: result })); },
+                        function (error) { return dispatch(Object.assign({}, action, { payload: error, error: true })); }) :
+                    next(action);
             };
         };
 
