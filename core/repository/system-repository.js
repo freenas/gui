@@ -7,20 +7,22 @@ var system_section_dao_1 = require("../dao/system-section-dao");
 var database_dao_1 = require("../dao/database-dao");
 var system_advanced_dao_1 = require("../dao/system-advanced-dao");
 var system_ui_dao_1 = require("../dao/system-ui-dao");
+var debug_dao_1 = require("../dao/debug-dao");
 var SystemRepository = (function () {
-    function SystemRepository(systemGeneralDao, systemTimeDao, systemDatasetDao, systemDeviceDao, systemSectionDao, databaseDao, systemAdvancedDao, systemUiDao) {
+    function SystemRepository(systemGeneralDao, systemTimeDao, systemDatasetDao, systemDeviceDao, systemSectionDao, databaseDao, debugDao, systemAdvancedDao, systemUiDao) {
         this.systemGeneralDao = systemGeneralDao;
         this.systemTimeDao = systemTimeDao;
         this.systemDatasetDao = systemDatasetDao;
         this.systemDeviceDao = systemDeviceDao;
         this.systemSectionDao = systemSectionDao;
         this.databaseDao = databaseDao;
+        this.debugDao = debugDao;
         this.systemAdvancedDao = systemAdvancedDao;
         this.systemUiDao = systemUiDao;
     }
     SystemRepository.getInstance = function () {
         if (!SystemRepository.instance) {
-            SystemRepository.instance = new SystemRepository(new system_general_dao_1.SystemGeneralDao(), new system_time_dao_1.SystemTimeDao(), new system_dataset_dao_1.SystemDatasetDao(), new system_device_dao_1.SystemDeviceDao(), new system_section_dao_1.SystemSectionDao(), new database_dao_1.DatabaseDao(), new system_advanced_dao_1.SystemAdvancedDao(), new system_ui_dao_1.SystemUiDao());
+            SystemRepository.instance = new SystemRepository(new system_general_dao_1.SystemGeneralDao(), new system_time_dao_1.SystemTimeDao(), new system_dataset_dao_1.SystemDatasetDao(), new system_device_dao_1.SystemDeviceDao(), new system_section_dao_1.SystemSectionDao(), new database_dao_1.DatabaseDao(), new debug_dao_1.DebugDao(), new system_advanced_dao_1.SystemAdvancedDao(), new system_ui_dao_1.SystemUiDao());
         }
         return SystemRepository.instance;
     };
@@ -74,6 +76,9 @@ var SystemRepository = (function () {
     };
     SystemRepository.prototype.saveUi = function (ui) {
         return this.systemUiDao.save(ui);
+    };
+    SystemRepository.prototype.getDebugFileAddress = function () {
+        return this.debugDao.collect("freenasdebug.tar.gz");
     };
     return SystemRepository;
 }());

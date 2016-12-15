@@ -107,4 +107,8 @@ export class SystemService {
     public getDevices(deviceClass: string) {
         return this.systemRepository.getDevices(deviceClass);
     }
+
+    public getDebugFileAddress() {
+        return this.systemRepository.getDebugFileAddress();
+    }
 }

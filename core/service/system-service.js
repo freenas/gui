@@ -79,6 +79,9 @@ var SystemService = (function () {
     SystemService.prototype.getDevices = function (deviceClass) {
         return this.systemRepository.getDevices(deviceClass);
     };
+    SystemService.prototype.getDebugFileAddress = function () {
+        return this.systemRepository.getDebugFileAddress();
+    };
     return SystemService;
 }());
 exports.SystemService = SystemService;

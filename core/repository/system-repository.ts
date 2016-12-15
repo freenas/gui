@@ -7,6 +7,7 @@ import * as Promise from "bluebird";
 import {DatabaseDao} from "../dao/database-dao";
 import {SystemAdvancedDao} from "../dao/system-advanced-dao";
 import {SystemUiDao} from "../dao/system-ui-dao";
+import {DebugDao} from "../dao/debug-dao";
 
 export class SystemRepository {
     private static instance: SystemRepository;
@@ -18,6 +19,7 @@ export class SystemRepository {
         private systemDeviceDao: SystemDeviceDao,
         private systemSectionDao: SystemSectionDao,
         private databaseDao: DatabaseDao,
+        private debugDao: DebugDao,
         private systemAdvancedDao: SystemAdvancedDao,
         private systemUiDao: SystemUiDao
     ) {}
@@ -31,6 +33,7 @@ export class SystemRepository {
                 new SystemDeviceDao(),
                 new SystemSectionDao(),
                 new DatabaseDao(),
+                new DebugDao(),
                 new SystemAdvancedDao(),
                 new SystemUiDao()
             );
@@ -104,6 +107,10 @@ export class SystemRepository {
 
     public saveUi(ui: any) {
         return this.systemUiDao.save(ui);
+    }
+
+    public getDebugFileAddress() {
+        return this.debugDao.collect("freenasdebug.tar.gz");
     }
 }
 
