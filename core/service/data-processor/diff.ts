@@ -2,6 +2,7 @@ import { DataProcessor } from './data-processor';
 import * as immutable from 'immutable';
 
 import { DatastoreService } from '../datastore-service';
+import {Map} from "immutable";
 
 class DiffProcessor implements DataProcessor {
     private datastoreService: DatastoreService;
@@ -22,9 +23,8 @@ class DiffProcessor implements DataProcessor {
         return changes;
     }
 
-    private getDifferences(object: Object, reference: immutable.Map<string, any>): Object {
-        let self = this,
-            differences = new Map<string, any>();
+    private getDifferences(object: Object, reference: Map<string, any>): Object {
+        let differences = Map<string, any>();
         reference.forEach(function(value, key) {
             if (object.hasOwnProperty(key)) {
                 if (value instanceof immutable.Map) {
@@ -46,7 +46,7 @@ class DiffProcessor implements DataProcessor {
                 }
             }
         });
-        return differences.size > 0 ? immutable.Map(differences).toJS() : null;
+        return differences.size > 0 ? differences.toJS() : null;
     }
 }
 
