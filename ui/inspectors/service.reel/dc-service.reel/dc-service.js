@@ -56,9 +56,7 @@ exports.DcService = Component.specialize({
             this._updateIp();
             this._updateUrl();
             this.application.storageService.listVolumes().then(function(volumesList) {
-                for (var i = 0; i < volumesList.length; i++) {
-                    self.volumeOptions.push({label:volumesList[i]["id"], value:volumesList[i]["id"]});
-                }
+                self.volumeOptions = volumesList;
             });
         }
     }
