@@ -3,7 +3,7 @@ import * as _ from "lodash";
 import {Map} from "immutable";
 
 class CleaningProcessor implements DataProcessor {
-    private static validPropertyRegex: RegExp = /^[a-z0-9][a-z0-9_]*$/;
+    private static validPropertyRegex: RegExp = /^[a-z0-9%$][a-z0-9_]*$/;
 
     public process(object: Object, propertyDescriptors?: Map<string, Object>): Object {
         let processed = Map<string, any>(),

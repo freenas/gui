@@ -37,7 +37,9 @@ var AbstractDao = (function () {
         });
     }
     AbstractDao.prototype.list = function () {
-        return this.query();
+        return this.listPromise ?
+            this.listPromise :
+            this.listPromise = this.query();
     };
     AbstractDao.prototype.get = function () {
         return this.list().then(function (x) { return x[0]; });

@@ -39,6 +39,6 @@ var CleaningProcessor = (function () {
     };
     return CleaningProcessor;
 }());
-CleaningProcessor.validPropertyRegex = /^[a-z0-9][a-z0-9_]*$/;
+CleaningProcessor.validPropertyRegex = /^[a-z0-9%$][a-z0-9_]*$/;
 var processor = new CleaningProcessor();
 exports.processor = processor;

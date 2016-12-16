@@ -1,15 +1,16 @@
-import { EventDispatcherService } from 'core/service/event-dispatcher-service';
-import * as immutable from 'immutable';
+import {EventDispatcherService} from '../service/event-dispatcher-service';
 import {ModelEventName} from "../model-event-name";
+import * as immutable from 'immutable';
 import {Map} from "immutable";
+import {ModelDescriptorService} from "../service/model-descriptor-service";
 
 export abstract class AbstractRepository {
     protected previousState: immutable.Map<string, immutable.Map<string, Map<string, any>>>;
-    protected eventDispatcherService: EventDispatcherService;
+    protected readonly eventDispatcherService = EventDispatcherService.getInstance();
+    protected readonly modelDescriptorService =  ModelDescriptorService.getInstance();
 
     protected constructor(subscribedStateChanges: Array<string> = [], subscribedEvents: Array<string> = []) {
         let self = this;
-        this.eventDispatcherService = EventDispatcherService.getInstance();
         for (let subscribedStateChange of subscribedStateChanges) {
             this.eventDispatcherService.addEventListener('stateChange', function(data) {
                 self.dispatchStateChange(subscribedStateChange, data)
@@ -57,6 +58,6 @@ export abstract class AbstractRepository {
         return state;
     }
 
-    protected abstract handleStateChange(name: string, data: any);
+    protected abstract handleStateChange(name: string, state: any);
     protected abstract handleEvent(name: string, data: any);
 }

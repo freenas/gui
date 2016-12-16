@@ -42,9 +42,7 @@ var CalendarRepository = (function (_super) {
     CalendarRepository.prototype.listTasks = function () {
         return this.calendarTasks ?
             Promise.resolve(this.calendarTasks.toList().toJS()) :
-            this.listTasksPromise ?
-                this.listTasksPromise :
-                this.listTasksPromise = this.calendarTaskDao.list();
+            this.calendarTaskDao.list();
     };
     CalendarRepository.prototype.addConcurrentTasksToSchedule = function (schedule) {
         var task, nextTask, timeInMinutes, nextTimeInMinutes, j, tasksLength;

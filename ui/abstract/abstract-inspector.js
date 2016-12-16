@@ -13,7 +13,7 @@ exports.AbstractInspector = AbstractComponentActionDelegate.specialize({
         },
         set: function(selectedObject) {
             if (this._selectedObject !== selectedObject) {
-                this._selectedObject = selectedObject
+                this._selectedObject = selectedObject;
                 if (this.context && this.context.cascadingListItem) {
                     this.context.cascadingListItem.selectedObject = selectedObject;
                 }

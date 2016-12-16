@@ -61,7 +61,8 @@
         "label": "Peering",
         "id": "peering",
         "index": 9,
-        "icon": "peering"
+        "icon": "peering",
+        "service": "core/service/section/peering-section-service"
     },
     "vms": {
         "label": "VMs",

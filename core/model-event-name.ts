@@ -10,6 +10,7 @@ export class ModelEventName {
     public static Alert = new ModelEventName('Alert');
     public static Task = new ModelEventName('Task');
     public static CalendarTask = new ModelEventName('CalendarTask');
+    public static Peer = new ModelEventName('Peer');
 
     public listChange: string;
     public contentChange: string;

@@ -240,9 +240,7 @@ export class CalendarRepository extends AbstractRepository {
     public listTasks() {
         return this.calendarTasks ?
             Promise.resolve(this.calendarTasks.toList().toJS()) :
-            this.listTasksPromise ?
-                this.listTasksPromise :
-                this.listTasksPromise = this.calendarTaskDao.list();
+            this.calendarTaskDao.list();
     }
 
     public addConcurrentTasksToSchedule(schedule: any) {

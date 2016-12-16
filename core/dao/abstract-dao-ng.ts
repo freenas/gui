@@ -14,6 +14,9 @@ import { CacheService } from '../service/cache-service';
 export class AbstractDao {
     protected middlewareClient: MiddlewareClient;
     protected datastoreService: DatastoreService;
+
+    private listPromise: Promise<Array<any>>;
+
     protected model: any;
     private middlewareName: string;
     private objectType: string;
@@ -55,7 +58,9 @@ export class AbstractDao {
     }
 
     public list(): Promise<Array<any>> {
-        return this.query();
+        return this.listPromise ?
+            this.listPromise :
+            this.listPromise = this.query();
     }
 
     public get(): Promise<any> {
