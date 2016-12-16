@@ -17,13 +17,14 @@
             ]
         },
         "volume": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "volume"},
                 "label": "Volume"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.volume"}
+                "options" : {"<-": "@owner.volumeOptions"},
+                "selectedValue": {"<->": "@owner.object.volume"}
             }
         },
         "ip": {

@@ -33,6 +33,10 @@ exports.DcService = Component.specialize({
         }
     },
 
+    volumeOptions: {
+        value: []
+    },
+
     save: {
         value: function() {
             delete this.object.vm_id;
@@ -48,8 +52,14 @@ exports.DcService = Component.specialize({
     },
     enterDocument: {
         value: function() {
+            var self = this;
             this._updateIp();
             this._updateUrl();
+            this.application.storageService.listVolumes().then(function(volumesList) {
+                for (var i = 0; i < volumesList.length; i++) {
+                    self.volumeOptions.push({label:volumesList[i]["id"], value:volumesList[i]["id"]});
+                }
+            });
         }
     }
 });
