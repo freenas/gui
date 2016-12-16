@@ -1,12 +1,12 @@
 import { DataProcessor } from './data-processor';
-import * as immutable from 'immutable';
 import * as _ from "lodash";
+import {Map} from "immutable";
 
 class CleaningProcessor implements DataProcessor {
     private static validPropertyRegex: RegExp = /^[a-z0-9][a-z0-9_]*$/;
 
     public process(object: Object, propertyDescriptors?: Map<string, Object>): Object {
-        let processed = new Map<string, any>(),
+        let processed = Map<string, any>(),
             keys = _.keysIn(object),
             value, propertyDescriptor;
         for (let property of keys) {
@@ -15,11 +15,11 @@ class CleaningProcessor implements DataProcessor {
                 propertyDescriptor = propertyDescriptors && propertyDescriptors.get(property);
                 if (CleaningProcessor.isValidProperty(property, value, propertyDescriptor)) {
                     if (!value || typeof value !== 'object') {
-                        processed.set(property, value);
+                        processed = processed.set(property, value);
                     } else {
                         let processedChild = this.process(value);
                         if (processedChild) {
-                            processed.set(property, processedChild);
+                            processed = processed.set(property, processedChild);
                         }
                     }
                 }
@@ -28,7 +28,7 @@ class CleaningProcessor implements DataProcessor {
 
         return processed.size > 0 ?
             Array.isArray(object) ?
-                immutable.Map(processed).toArray() : immutable.Map(processed).toJS() :
+                processed.toArray() : processed.toJS() :
             null;
     }
 

@@ -20,25 +20,9 @@ var DiffProcessor = (function () {
     DiffProcessor.prototype.getDifferences = function (object, reference) {
         var differences = immutable_1.Map();
         reference.forEach(function (value, key) {
-            if (object.hasOwnProperty(key)) {
-                if (value instanceof immutable.Map) {
-                    differences = differences.set(key, value);
-                }
-                else if ((value instanceof immutable.List) ||
-                    (Array.isArray(value))) {
-                    var hasDifference_1 = false;
-                    value.forEach(function (entry, index) {
-                        if (entry !== object[key][index]) {
-                            hasDifference_1 = true;
-                        }
-                    });
-                    if (hasDifference_1) {
-                        differences.set(key, object[key]);
-                    }
-                }
-                else if (object[key] !== value) {
-                    differences = differences.set(key, object[key]);
-                }
+            if (object.hasOwnProperty(key) &&
+                (value instanceof immutable.Map || value instanceof immutable.List || value !== object[key])) {
+                differences = differences.set(key, object[key]);
             }
         });
         return differences.size > 0 ? differences.toJS() : null;

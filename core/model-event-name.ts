@@ -9,6 +9,7 @@ export class ModelEventName {
     public static Directory = new ModelEventName('Directory');
     public static Alert = new ModelEventName('Alert');
     public static Task = new ModelEventName('Task');
+    public static CalendarTask = new ModelEventName('CalendarTask');
 
     public listChange: string;
     public contentChange: string;

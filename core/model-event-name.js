@@ -19,4 +19,5 @@ ModelEventName.Group = new ModelEventName('Group');
 ModelEventName.Directory = new ModelEventName('Directory');
 ModelEventName.Alert = new ModelEventName('Alert');
 ModelEventName.Task = new ModelEventName('Task');
+ModelEventName.CalendarTask = new ModelEventName('CalendarTask');
 exports.ModelEventName = ModelEventName;

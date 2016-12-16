@@ -1,4 +1,5 @@
 import { AbstractDao } from './abstract-dao-ng';
+import * as Promise from "bluebird";
 
 export class TaskDao extends AbstractDao {
 
@@ -6,5 +7,8 @@ export class TaskDao extends AbstractDao {
         super('Task');
     }
 
+    public submit(name: string, args = []): Promise<any> {
+        return this.middlewareClient.submitTask(name, args);
+    }
 }
 

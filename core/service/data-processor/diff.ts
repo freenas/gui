@@ -26,24 +26,9 @@ class DiffProcessor implements DataProcessor {
     private getDifferences(object: Object, reference: Map<string, any>): Object {
         let differences = Map<string, any>();
         reference.forEach(function(value, key) {
-            if (object.hasOwnProperty(key)) {
-                if (value instanceof immutable.Map) {
-                    differences = differences.set(key, value);
-                } else if (
-                    (value instanceof immutable.List) ||
-                    (Array.isArray(value))) {
-                    let hasDifference = false;
-                    value.forEach(function(entry, index) {
-                        if (entry !== object[key][index]) {
-                            hasDifference = true;
-                        }
-                    });
-                    if (hasDifference) {
-                        differences.set(key, object[key]);
-                    }
-                } else if (object[key] !== value) {
-                    differences = differences.set(key, object[key]);
-                }
+            if (object.hasOwnProperty(key) &&
+                (value instanceof immutable.Map || value instanceof immutable.List || value !== object[key])) {
+                differences = differences.set(key, object[key]);
             }
         });
         return differences.size > 0 ? differences.toJS() : null;

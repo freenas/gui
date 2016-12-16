@@ -2,6 +2,7 @@ var Montage = require("montage").Montage,
     FreeNASService = require("core/service/freenas-service").FreeNASService,
     Promise = require("montage/core/promise").Promise,
     EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
+    CalendarRepository = require("core/repository/calendar-repository").CalendarRepository,
     Model = require("core/model/model").Model;
 
 var EMPTY_STRING = '';
@@ -104,21 +105,6 @@ var CalendarService = exports.CalendarService = Montage.specialize({
             this._eventDispatcherService = EventDispatcherService.getInstance();
             this._eventDispatcherService.addEventListener("calendarTaskUpdated", this._handleTasksChange.bind(this));
             this.addRangeAtPathChangeListener("_tasks", this, "_handleTasksChange");
-        }
-    },
-
-    getCalendarInstance: {
-        value: function() {
-            var calendarPromise;
-            if (!this._calendar) {
-                var self = this;
-                calendarPromise = this._dataService.getNewInstanceForType(Model.Calendar).then(function(calendar) {
-                    return self._calendar = calendar;
-                });
-            } else {
-                calendarPromise = Promise.resolve(this._calendar);
-            }
-            return calendarPromise;
         }
     },
 

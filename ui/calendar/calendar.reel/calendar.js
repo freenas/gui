@@ -1,18 +1,21 @@
-var Component = require("montage/ui/component").Component;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    CalendarSectionService = require("core/service/section/calendar-section-service").CalendarSectionService;
 
-/**
- * @class Calendar
- * @extends Component
- */
-exports.Calendar = Component.specialize({
+exports.Calendar = AbstractInspector.specialize({
     events: {
         value: null
+    },
+
+    _inspectorTemplateDidLoad: {
+        value: function() {
+            this._forceSectionService(new CalendarSectionService());
+        }
     },
 
     enterDocument: {
         value: function () {
             var self = this;
-            this.application.calendarService.getCalendarInstance().then(function(calendar) {
+            this._sectionService.getCalendarInstance().then(function(calendar) {
                 self.calendar = calendar;
             });
         }

@@ -38,24 +38,15 @@ export class TaskRepository extends AbstractRepository {
         return this.taskPromises.get(taskId);
     }
 
+    public submitTask(name: string, args?: Array<any>): Promise<any> {
+        return this.taskDao.submit(name, args);
+    }
+
     protected handleStateChange(name: string, state: any) {
         switch (name) {
             case 'Task':
-                let self = this;
                 this.tasks = this.dispatchModelEvents(this.tasks, ModelEventName.Task, state);
-                this.tasks.forEach(function(task) {
-                    let taskId = task.get('id');
-                    if (self.taskPromises.has(taskId)) {
-                        let deferred = self.taskPromises.get(taskId);
-                        if (task.state === 'FINISHED') {
-                            deferred.resolve(task);
-                        } else if (task.state == 'FAILED') {
-                            deferred.reject(task);
-                        }
-                    } else {
-                        self.taskPromises.set(taskId, self.defer());
-                    }
-                });
+
                 break;
             default:
                 break;
@@ -63,18 +54,5 @@ export class TaskRepository extends AbstractRepository {
     }
 
     protected handleEvent(name: string, data: any) {
-    }
-
-    private defer() {
-        let resolve, reject,
-            promise = new Promise(function() {
-            resolve = arguments[0];
-            reject = arguments[1];
-        });
-        return {
-            resolve: resolve,
-            reject: reject,
-            promise: promise
-        };
     }
 }

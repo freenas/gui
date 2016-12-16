@@ -5,15 +5,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var abstract_dao_ng_1 = require("./abstract-dao-ng");
-var TaskDao = (function (_super) {
-    __extends(TaskDao, _super);
-    function TaskDao() {
-        return _super.call(this, 'Task') || this;
+var CalendarDao = (function (_super) {
+    __extends(CalendarDao, _super);
+    function CalendarDao() {
+        return _super.call(this, 'Calendar') || this;
     }
-    TaskDao.prototype.submit = function (name, args) {
-        if (args === void 0) { args = []; }
-        return this.middlewareClient.submitTask(name, args);
-    };
-    return TaskDao;
+    return CalendarDao;
 }(abstract_dao_ng_1.AbstractDao));
-exports.TaskDao = TaskDao;
+exports.CalendarDao = CalendarDao;

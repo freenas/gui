@@ -72,7 +72,7 @@ exports.CalendarListDay = Component.specialize(/** @lends CalendarListDay# */ {
         value: function() {
             if (this._object) {
                 var self = this;
-                this.application.calendarService.getTasksScheduleOnDay(this._object).then(function(tasks) {
+                this.application.sectionService.getTasksScheduleOnDay(this._object).then(function(tasks) {
                     self.events = tasks;
                 });
             }
