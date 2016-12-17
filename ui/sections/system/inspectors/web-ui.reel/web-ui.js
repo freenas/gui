@@ -64,16 +64,8 @@ exports.WebUi = AbstractInspector.specialize({
 
     revert: {
         value: function() {
-            this.config.webui_protocol = this._config.webui_protocol;
-            this.config.ipv4 = this._config.ipv4;
-            this.config.ipv6 = this._config.ipv6;
-            this.config.webui_http_port = this._config.webui_http_port;
-            this.config.webui_https_port = this._config.webui_https_port;
-            this.config.webui_https_certificate = this._config.webui_https_certificate;
-            this.config.webui_http_redirect_https = this._config.webui_http_redirect_https;
-            this.config.webui_listen = this._config.webui_listen;
-
-            return this.application.systemAdvancedService.revertAdvancedData(this.systemAdvanced);
+            this.config = _.cloneDeep(this._config);
+            this.systemAdvanced = _.cloneDeep(this._systemAdvanced);
         }
     },
 
@@ -87,6 +79,9 @@ exports.WebUi = AbstractInspector.specialize({
         value: function() {
             if(!this._config) {
                 this._config = _.cloneDeep(this.config);
+            }
+            if (!this._systemAdvanced) {
+                this._systemAdvanced = _.cloneDeep(this.systemAdvanced);
             }
         }
     }

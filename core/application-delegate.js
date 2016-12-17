@@ -8,7 +8,6 @@ var ModelDescriptorService = require("core/service/model-descriptor-service").Mo
     ConsoleService = require("core/service/console-service").ConsoleService,
     CalendarService = require("core/service/calendar-service").CalendarService,
     CryptoCertificateService = require("core/service/crypto-certificate-service").CryptoCertificateService,
-    DockerSettingsService = require("core/service/docker-settings-service").DockerSettingsService,
     StorageService = require("core/service/storage-service").StorageService,
     UpdateService = require("core/service/update-service").UpdateService,
     FilesystemService = require("core/service/filesystem-service").FilesystemService,
@@ -19,13 +18,7 @@ var ModelDescriptorService = require("core/service/model-descriptor-service").Mo
     RsyncdModuleService = require("core/service/rsyncd-module-service").RsyncdModuleService,
     SessionService = require("core/service/session-service").SessionService,
     SystemService = require("core/service/system-service").SystemService,
-    SystemDatasetService = require("core/service/system-dataset-service").SystemDatasetService,
-    SystemUIService = require("core/service/system-ui-service").SystemUIService,
     SystemInfoService = require("core/service/system-info-service").SystemInfoService,
-    SystemDeviceService = require("core/service/system-device-service").SystemDeviceService,
-    SystemGeneralService = require("core/service/system-general-service").SystemGeneralService,
-    SystemAdvancedService = require("core/service/system-advanced-service").SystemAdvancedService,
-    NetworkInterfaceService = require("core/service/network-interface-service").NetworkInterfaceService,
     ApplicationContextService = require("core/service/application-context-service").ApplicationContextService,
     WidgetService = require("core/service/widget-service").WidgetService,
     ShareService = require("core/service/share-service").ShareService,
@@ -41,19 +34,7 @@ var ModelDescriptorService = require("core/service/model-descriptor-service").Mo
 
 var FakeMontageDataService = require("core/service/fake-montage-data-service").FakeMontageDataService;
 
-var UserInterfaceDescriptorPromisesMap = new Map();
-
-
 exports.ApplicationDelegate = Montage.specialize({
-
-
-    /**
-     * @function
-     * @public
-     *
-     * @description todo
-     *
-     */
     willFinishLoading: {
         value: function (app) {
             app.dataService = FakeMontageDataService.getInstance();
@@ -66,7 +47,6 @@ exports.ApplicationDelegate = Montage.specialize({
             app.calendarService = CalendarService.instance;
             app.consoleService = ConsoleService.instance;
             app.cryptoCertificateService = CryptoCertificateService.instance;
-            app.dockerSettingsService = DockerSettingsService.instance;
             app.storageService = StorageService.instance;
             app.updateService = UpdateService.instance;
             app.filesystemService = FilesystemService.instance;
@@ -76,15 +56,9 @@ exports.ApplicationDelegate = Montage.specialize({
             app.mailService = MailService.instance;
             app.rsyncdModuleService = RsyncdModuleService.instance;
             app.sessionService = SessionService.instance;
-            app.systemDatasetService = SystemDatasetService.instance;
             app.systemService = SystemService.getInstance();
-            app.systemUIService = SystemUIService.instance;
             app.systemInfoService = SystemInfoService.instance;
-            app.systemGeneralService = SystemGeneralService.instance;
-            app.systemDeviceService = SystemDeviceService.instance;
-            app.networkInterfacesSevice = NetworkInterfaceService.instance;
             app.shareService = ShareService.instance;
-            app.systemAdvancedService = SystemAdvancedService.instance;
             app.accountsService = AccountsService.instance;
             app.virtualMachineService = VirtualMachineService.instance;
             app.applicationContextService = ApplicationContextService.instance;
@@ -123,37 +97,11 @@ exports.ApplicationDelegate = Montage.specialize({
 
     getUserInterfaceDescriptorForType: {
         value: function (modelType) {
-            var key = modelType.typeName || modelType;
-
-            var userInterfaceDescriptorPromise = UserInterfaceDescriptorPromisesMap.get(key);
-
-            if (!userInterfaceDescriptorPromise) {
-                userInterfaceDescriptorPromise = new Promise(function (resolve, reject) {
-                    Model.populateObjectPrototypeForType(key).then(function (objectPrototype) {
-                        if (objectPrototype.constructor.userInterfaceDescriptor) {
-                            resolve(objectPrototype.constructor.userInterfaceDescriptor);
-                        } else {
-                            reject("no user interface descriptor for: " + key);
-                        }
-                    });
-                });
-
-                UserInterfaceDescriptorPromisesMap.set(key, userInterfaceDescriptorPromise);
-            }
-
-            return userInterfaceDescriptorPromise;
+            var objectType = modelType.typeName || modelType;
+            return this.modelDescriptorService.getUiDescriptorForType(objectType);
         }
     },
 
-    /**
-     * @function
-     * @public
-     *
-     * @description todo
-     *
-     * @return {Promise.<UserInterfaceDescriptor>}
-     *
-     */
     userInterfaceDescriptorForObject: {
         value: function (object) {
             return this.modelDescriptorService.getUiDescriptorForObject(object);

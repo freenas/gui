@@ -417,7 +417,7 @@ exports.User = Montage.specialize({
             },
             nameExpression: "id.defined() ? username : 'Create a user'",
             listControlsComponentModule: {
-                id: 'ui/accounts/accounts-list-options.reel'
+                id: 'ui/sections/accounts/inspectors/accounts-list-options.reel'
             },
             subLabelExpression: "origin.domain",
             wizardComponentModuleId: "ui/sections/wizard/inspectors/user.reel",

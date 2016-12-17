@@ -1,8 +1,7 @@
 var Montage = require("montage").Montage,
     WebSocketClient = require("core/backend/websocket-client").WebSocketClient,
     WebSocketConfiguration = require("/core/backend/websocket-configuration").WebSocketConfiguration,
-    MiddlewareClient = require("core/service/middleware-client").MiddlewareClient,
-    BackEndBridgeModule = require("../backend/backend-bridge");
+    MiddlewareClient = require("core/service/middleware-client").MiddlewareClient;
 
 var FilesystemService = exports.FilesystemService = Montage.specialize({
     _SEP: {

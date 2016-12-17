@@ -16,6 +16,10 @@ export class ServiceRepository extends AbstractRepository {
         return ServiceRepository.instance;
     }
 
+    public listServices() {
+        return this.serviceDao.list();
+    }
+
     public saveService(service: any) {
         return this.serviceDao.save(service);
     }

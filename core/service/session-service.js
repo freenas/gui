@@ -1,10 +1,6 @@
 var Montage = require("montage").Montage,
-    FreeNASService = require("core/service/freenas-service").FreeNASService,
-    TopologyService = require("core/service/topology-service").TopologyService,
-    SystemGeneralService = require("core/service/system-general-service").SystemGeneralService,
-    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
-    MiddlewareClient = require('core/service/middleware-client').MiddlewareClient;
-    Model = require("core/model/model").Model;
+    SystemRepository = require("core/repository/system-repository").SystemRepository,
+    ServiceRepository = require("core/repository/service-repository").ServiceRepository;
 
 var SessionService = exports.SessionService = Montage.specialize({
 
@@ -14,36 +10,21 @@ var SessionService = exports.SessionService = Montage.specialize({
 
     sessionDidOpen: {
         value : function(username) {
-            var self = this;
             this.session = {};
             this.session.username = username;
-            this.session.host = this._dataService.host;
-            this._dataService.subscribeToEvents('entity-subscriber.task.changed', Model.Task);
 
-            return Promise.all([
-//                this._dataService.fetchData(Model.Task),
-                this._dataService.fetchData(Model.Alert),
-                this._dataService.fetchData(Model.Service).then(function(services) {
-                    return Promise.all(services.map(function(x) {
-                        return Promise.resolve(x.config).then(function() {
-                            return x;
-                        });
-                    }));
-                })
-            ]);
-        }
-    },
-
-    _getTimeWithUserTimezone: {
-        value: function() {
-            var dateWithTimezone = new Date(new Date().toLocaleString('en-US', { timeZone: this.session.timezone }));
+            return this._serviceRepository.listServices().then(function(services) {
+                return Promise.all(services.map(function(x) {
+                    return Promise.resolve(x.config).then(function() { return x; });
+                }));
+            });
         }
     },
 
     _addUserTimezoneToSession: {
         value: function() {
             var self = this;
-            return this._systemGeneralService.getSystemGeneral().then(function(systemGeneral) {
+            return this._systemRepository.getGeneral().then(function(systemGeneral) {
                 self.session.timezone = systemGeneral.timezone;
             });
         }
@@ -53,11 +34,8 @@ var SessionService = exports.SessionService = Montage.specialize({
         get: function() {
             if(!this._instance) {
                 this._instance = new SessionService();
-                this._instance._dataService = FreeNASService.instance;
-                this._instance._topologyService = TopologyService.instance;
-                this._instance._systemGeneralService = SystemGeneralService.instance;
-                this._instance._middlewareClient = MiddlewareClient.getInstance();
-                this._instance._eventDispatcherService = EventDispatcherService.getInstance();
+                this._instance._systemRepository = SystemRepository.getInstance();
+                this._instance._serviceRepository = ServiceRepository.getInstance();
             }
             return this._instance;
         }

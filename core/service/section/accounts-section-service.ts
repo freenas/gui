@@ -1,6 +1,6 @@
 import {AbstractSectionService} from "./abstract-section-service-ng";
 import {AccountRepository} from "../../repository/account-repository";
-import {Seq, Map, Iterable} from "immutable";
+import {Map, Iterable} from "immutable";
 import {KerberosRepository} from "../../repository/kerberos-repository";
 import {ShellRepository} from "../../repository/shell-repository";
 import * as Promise from "bluebird";

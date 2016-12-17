@@ -161,7 +161,7 @@ exports.Group = Montage.specialize({
                 id: 'ui/sections/accounts/inspectors/group.reel'
             },
             listControlsComponentModule: {
-                id: 'ui/accounts/accounts-list-options.reel'
+                id: 'ui/sections/accounts/inspectors/accounts-list-options.reel'
             },
             subLabelExpression: "origin.domain"
         }

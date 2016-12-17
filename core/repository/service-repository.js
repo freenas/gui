@@ -19,6 +19,9 @@ var ServiceRepository = (function (_super) {
         }
         return ServiceRepository.instance;
     };
+    ServiceRepository.prototype.listServices = function () {
+        return this.serviceDao.list();
+    };
     ServiceRepository.prototype.saveService = function (service) {
         return this.serviceDao.save(service);
     };
