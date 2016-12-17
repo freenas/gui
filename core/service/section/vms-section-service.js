@@ -13,7 +13,9 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
     BytesService = require("core/service/bytes-service").BytesService,
     ConsoleService = require("core/service/console-service").ConsoleService,
     CONSTANTS = require("core/constants"),
-    Dict = require("collections/dict").Dict;
+    Dict = require("collections/dict").Dict,
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
+    _ = require("lodash");
 
 exports.VmsSectionService = AbstractSectionService.specialize({
     DEFAULT_STRING: {
@@ -103,12 +105,16 @@ exports.VmsSectionService = AbstractSectionService.specialize({
             this._networkRepository = networkRepository || NetworkRepository.instance;
             this._consoleService = consoleService || ConsoleService.instance;
             this._bytesService = bytesService || BytesService.instance;
+            EventDispatcherService.getInstance().addEventListener('stateChange', this._handleStateChange.bind(this));
         }
     },
 
     loadEntries: {
         value: function() {
-            return this._vmRepository.listVms();
+            this.entries = [];
+            return this._vmRepository.listVms().then(function(entries) {
+                return _.sortBy(entries, 'name');
+            });
         }
     },
 
@@ -447,6 +453,48 @@ exports.VmsSectionService = AbstractSectionService.specialize({
                     }
                 }
             }
+        }
+    },
+
+    _handleStateChange: {
+        value: function(state) {
+            var self = this,
+                vmState = state.get('Vm');
+            if (vmState) {
+                vmState.forEach(function(stateEntry) {
+                    // DTM
+                    var entry = self._findObjectWithId(self.entries, stateEntry.get('id'));
+                    if (entry) {
+                        _.assign(entry, stateEntry.toJS());
+                    } else {
+                        entry = stateEntry.toJS();
+                        entry._objectType = 'Peer';
+                        // DTM: Why doesn't sortedArray allow to just push in that specific case ?
+                        self.entries.splice(_.sortedIndexBy(self.entries, entry, 'name'), 0, entry);
+                    }
+                });
+                // DTM
+                if (this.entries) {
+                    for (var i = this.entries.length - 1; i >= 0; i--) {
+                        if (!vmState.has(this.entries[i].id)) {
+                            this.entries.splice(i, 1);
+                        }
+                    }
+                }
+            }
+        }
+    },
+
+    _findObjectWithId: {
+        value: function(entries, id) {
+            var entry;
+            for (var i = 0; i < entries.length; i++) {
+                entry = entries[i];
+                if (entry.id === id) {
+                    return entry;
+                }
+            }
+            return null;
         }
     }
 });

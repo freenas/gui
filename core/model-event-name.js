@@ -21,4 +21,5 @@ ModelEventName.Alert = new ModelEventName('Alert');
 ModelEventName.Task = new ModelEventName('Task');
 ModelEventName.CalendarTask = new ModelEventName('CalendarTask');
 ModelEventName.Peer = new ModelEventName('Peer');
+ModelEventName.Vm = new ModelEventName('Vm');
 exports.ModelEventName = ModelEventName;

@@ -4,7 +4,8 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
     VmTemplateDao = require("core/dao/vm-template-dao").VmTemplateDao,
     VmDeviceDao = require("core/dao/vm-device-dao").VmDeviceDao,
     VmVolumeDao = require("core/dao/vm-volume-dao").VmVolumeDao,
-    VmReadmeDao = require("core/dao/vm-readme-dao").VmReadmeDao;
+    VmReadmeDao = require("core/dao/vm-readme-dao").VmReadmeDao,
+    _ = require("lodash");
 
 exports.VmRepository = AbstractRepository.specialize({
     init: {
@@ -93,7 +94,19 @@ exports.VmRepository = AbstractRepository.specialize({
 
     saveVm: {
         value: function(vm) {
-            return this._vmDao.save(vm);
+            var vmPlain = _.toPlainObject(vm);
+            if (Array.isArray(vmPlain.devices)) {
+                var device;
+                for (var i = 0; i < vmPlain.devices.length; i++) {
+                    device = _.toPlainObject(vmPlain.devices[i]);
+                    if (!device.identifier &&
+                        (typeof device.identifier === 'object' || typeof device.identifier === 'object')) {
+                        delete device.identifier;
+                    }
+                    vmPlain.devices[i] = device;
+                }
+            }
+            return this._vmDao.save(vmPlain);
         }
     },
 
