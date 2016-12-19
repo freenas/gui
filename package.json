@@ -7,12 +7,13 @@
     "d3": "^3.5.17",
     "digit": "montagejs/digit",
     "frb": "montagejs/frb#66ba657ae8e7ada7658df3beb6e924c500b7259c",
+    "lodash": "^4.17.2",
+    "maphilight": "~1.2.3",
     "montage": "freenas/montage#bb10e3fece407e61b38fea6f1e1dc238798405e2",
     "montage-data": "montagestudio/montage-data#647f5208fcefbc89c405d1afea205c8184fddeda",
     "plottable": "~2.5.0",
     "validators": "~0.3.1",
-    "xterm": "^1.0.0",
-    "maphilight": "~1.2.3"
+    "xterm": "^1.0.0"
   },
   "devDependencies": {
     "browser-sync": "^2.13.0",
