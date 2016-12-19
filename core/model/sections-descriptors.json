@@ -10,7 +10,7 @@
         "id": "storage",
         "index": 1,
         "icon": "storage",
-        "service": "core/service/section/storage-section-service-ng"
+        "service": "core/service/section/storage-section-service"
     },
     "accounts": {
         "label": "Accounts",

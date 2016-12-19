@@ -1,6 +1,5 @@
 var Montage = require("montage").Montage,
     FreeNASService = require("core/service/freenas-service").FreeNASService,
-    Promise = require("montage/core/promise").Promise,
     Model = require("core/model/model").Model;
 
 var ReplicationService = exports.ReplicationService = Montage.specialize({

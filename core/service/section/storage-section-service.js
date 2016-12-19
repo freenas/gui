@@ -1,578 +1,229 @@
-var AbstractSectionService = require("core/service/section/abstract-section-service").AbstractSectionService,
-    StorageRepository = require("core/repository/storage-repository").StorageRepository,
-    UserRepository = require("core/repository/user-repository").UserRepository,
-    TopologyService = require("core/service/topology-service").TopologyService,
-    PeeringService = require("core/service/peering-service").PeeringService,
-    FilesystemService = require("core/service/filesystem-service").FilesystemService,
-    NotificationCenterModule = require("core/backend/notification-center"),
-    Model = require("core/model/model").Model;
-
-exports.StorageSectionService = AbstractSectionService.specialize({
-    __volumeServices: {
-        value: null
-    },
-
-    _volumeServices: {
-        get: function() {
-            var self = this;
-            return this.__volumeServices ?
-                Promise.resolve(this.__volumeServices) :
-                Model.populateObjectPrototypeForType(Model.Volume).then(function (Volume) {
-                    return self.__volumeServices = Volume.services;
-                });
-        }
-    },
-
-    __diskServices: {
-        value: null
-    },
-
-    _diskServices: {
-        get: function() {
-            var self = this;
-            return this.__diskServices ?
-                Promise.resolve(this.__diskServices) :
-                Model.populateObjectPrototypeForType(Model.Disk).then(function (Disk) {
-                    return self.__diskServices = Disk.services;
-                });
-        }
-    },
-
-    __replicationServices: {
-        value: null
-    },
-
-    _replicationServices: {
-        get: function() {
-            var self = this;
-            return this.__replicationServices ?
-                Promise.resolve(this.__replicationServices) :
-                Model.populateObjectPrototypeForType(Model.Replication).then(function (Replication) {
-                    return self.__replicationServices = Replication.services;
-                });
-        }
-    },
-
-    __zfsPoolServices: {
-        value: null
-    },
-
-    _zfsPoolServices: {
-        get: function() {
-            var self = this;
-            return this.__zfsPoolServices ?
-                Promise.resolve(this.__zfsPoolServices) :
-                Model.populateObjectPrototypeForType(Model.ZfsPool).then(function (ZfsPool) {
-                    return self.__zfsPoolServices = ZfsPool.services;
-                });
-        }
-    },
-            
-
-    SHARE_TYPE: {
-        value: Model.Share
-    },
-
-    VOLUME_DATASET_TYPE: {
-        value: Model.VolumeDataset
-    },
-
-    VOLUME_SNAPSHOT_TYPE: {
-        value: Model.VolumeSnapshot
-    },
-
-    VMWARE_DATASET_TYPE: {
-        value: Model.VmwareDataset
-    },
-
-    ENCRYPTED_VOLUME_ACTIONS_TYPE: {
-        value: Model.EncryptedVolumeActions
-    },
-
-    TOPOLOGY_SECTIONS: {
-        value: [
-            'data',
-            'cache',
-            'log',
-            'spare'
-        ]
-    },
-
-    init: {
-        value: function(storageRepository, topologyService, peeringService, filesystemService, notificationCenter, userRepository) {
-            this._rootDatasetPerVolumeId = new Map();
-            this._volumeRepository = storageRepository || StorageRepository.instance;
-            this._userRepository = userRepository || UserRepository.instance;
-            this._topologyService = topologyService || TopologyService.instance;
-            this._peeringService = peeringService || PeeringService.instance;
-            this._filesystemService = filesystemService || FilesystemService.instance;
-            this._notificationCenter = notificationCenter || NotificationCenterModule.defaultNotificationCenter;
-        }
-    },
-
-    loadEntries: {
-        value: function() {
-            return this._volumeRepository.listVolumes();
-        }
-    },
-
-    loadExtraEntries: {
-        value: function() {
-            return Promise.all([
-                this._volumeRepository.getVolumeImporter()
-            ]);
-        }
-    },
-
-    loadOverview: {
-        value: function() {
-            return this._volumeRepository.getStorageOverview();
-        }
-    },
-
-    loadSettings: {
-        value: function() {
-        }
-    },
-
-    listShares: {
-        value: function() {
-            return this._volumeRepository.listShares();
-        }
-    },
-
-    listVolumeDatasets: {
-        value: function() {
-            var self = this,
-                dataset;
-            return this._datasetsPromise || (this._datasetsPromise = this._volumeRepository.listVolumeDatasets().then(function(datasets) {
-                self._cacheRootDatasetForVolume();
-                return datasets;
-            }));
-        }
-    },
-
-    listVolumeSnapshots: {
-        value: function() {
-            return this._volumeRepository.listVolumeSnapshots();
-        }
-    },
-
-    listVmwareDatastores: {
-        value: function(peer, full) {
-            return this._volumeRepository.listVmwareDatastores(peer, full);
-        }
-    },
-
-    listVmwareDatasets: {
-        value: function() {
-            return this._volumeRepository.listVmwareDatasets();
-        }
-    },
-
-    listPeers: {
-        value: function() {
-            return this._peeringService.listPeers();
-        }
-    },
-
-    listUsers: {
-        value: function() {
-            return this._userRepository.listUsers();
-        }
-    },
-
-    createVolume: {
-        value: function(volume) {
-            for (var i = 0, length = this.TOPOLOGY_SECTIONS.length; i < length; i++) {
-                this._cleanupTopologySection(volume.topology[this.TOPOLOGY_SECTIONS[i]]);
-            }
-            volume.type = 'zfs';
-            volume._isNew = true;
-            var password = volume._password;
-            volume.password_encrypted = !!password && password.length > 0;
-            volume._password = null;
-            if (!volume.key_encrypted) {
-                volume.auto_unlock = false;
-            }
-            return this._volumeRepository.saveVolume(volume, password);
-        }
-    },
-
-    updateVolumeTopology: {
-        value: function(volume, topology) {
-            for (var i = 0, length = this.TOPOLOGY_SECTIONS.length; i < length; i++) {
-                this._cleanupTopologySection(topology[this.TOPOLOGY_SECTIONS[i]]);
-            }
-            volume._topology = topology;
-
-            // FIXME: Remove once the middleware stops sending erroneous data
-            if (!volume.providers_presence) {
-                volume.providers_presence = 'NONE';
-            }
-            return this._volumeRepository.saveVolume(volume);
-        }
-    },
-
-    calculateSizesOnVolume: {
-        value: function(volume) {
-            volume._paritySize = this._getParitySizeOfVolume(volume);
-        }
-    },
-
-    setRootDatasetForVolume: {
-        value: function(volume) {
-            var self = this,
-                promise;
-            if (!this._rootDatasetPerVolumeId.has(volume.id)) {
-                promise = this._cacheRootDatasetForVolume(volume);
-            } else {
-                promise = Promise.resolve();
-            }
-            return promise.then(function() {
-                return self._rootDatasetPerVolumeId.get(volume.id);
-            }).then(function(rootDataset) {
-                volume._rootDataset = rootDataset;
-            });
-        }
-    },
-
-    listDetachedVolumes: {
-        value: function() {
-            return this._volumeRepository.listDetachedVolumes();
-        }
-    },
-
-    importDisk: {
-        value: function(disk, path, fstype) {
-            var self = this;
-            return this._volumeServices.then(function(volumeServices) {
-                return volumeServices.importDisk(disk, path, fstype);
-            });
-        }
-    },
-
-    iterateVdevs: {
-        value: function(topology) {
-            var vdevs = [];
-            for (var i = 0; i < topology.length; i++) {
-                if (topology[i].type === "disk") {
-                    vdevs.push(topology[i]);
-                }
-                else if (topology[i].children.length > 0) {
-                    vdevs = vdevs.concat(this.iterateVdevs(topology[i].children));
-                }
-            }
-            return vdevs;
-        }
-    },
-
-    getVdev: {
-        value: function(disk) {
-            var volumes = this.entries.slice();
-            var topology;
-            for (var i = 0; i < volumes.length; i++) {
-                if (volumes[i].id === disk._allocation.name) {
-                    topology = volumes[i].topology.data;
-                }
-            }
-            var vdevs = this.iterateVdevs(topology);
-            
-            for (var j = 0; j < vdevs.length; j++) {
-                if (vdevs[j].path === disk.path) {
-                    return vdevs[j];   
-                }
-            }        
-        }
-    },
-
-    offlineDisk: {
-        value: function(disk, vdev) {
-            return this._zfsPoolServices.then(function(zfsPoolServices) {
-                return zfsPoolServices.offlineDisk(disk._allocation.name, vdev.guid);
-            });
-        }
-    },
-
-    onlineDisk: {
-        value: function(disk, vdev) {
-            return this._zfsPoolServices.then(function(zfsPoolServices) {
-                return zfsPoolServices.onlineDisk(disk._allocation.name, vdev.guid);
-            });
-        }
-    },
-
-    importDetachedVolume: {
-        value: function(detachedVolume) {
-            var self = this;
-            return this._volumeServices.then(function(volumeServices) {
-                return volumeServices.import(detachedVolume.id, detachedVolume.name);
-            }).then(function() {
-                self._volumeRepository.listDetachedVolumes();
-            });
-        }
-    },
-
-    deleteDetachedVolume: {
-        value: function(detachedVolume) {
-            var self = this;
-            return this._volumeServices.then(function(volumeServices) {
-                return volumeServices.deleteExported(detachedVolume.name);
-            }).then(function() {
-                self._volumeRepository.listDetachedVolumes();
-            });
-        }
-    },
-
-    exportVolume: {
-        value: function(volume) {
-            return this._volumeServices.then(function(volumeServices) {
-                return volumeServices.export(volume.id);
-            });
-        }
-    },
-
-    getEncryptedVolumeImporterInstance: {
-        value: function() {
-            return this._volumeRepository.getEncryptedVolumeImporterInstance();
-        }
-    },
-
-    getEncryptedVolumeActionsForVolume: {
-        value: function (volume) {
-            return this._volumeRepository.getEncryptedVolumeActionsInstance().then(function (encryptedVolumeActions) {
-                encryptedVolumeActions.volume = volume;
-                return encryptedVolumeActions;
-            })
-        }
-    },
-
-    importEncryptedVolume: {
-        value: function(encryptedVolumeImporter) {
-            return this._volumeServices.then(function(volumeServices) {
-                return volumeServices.import(
-                    encryptedVolumeImporter.name,
-                    encryptedVolumeImporter.name,
-                    {},
-                    {
-                        key: encryptedVolumeImporter.key,
-                        disks: encryptedVolumeImporter.disks.map(function(x) { return x.path; })
-                    },
-                    encryptedVolumeImporter.password
-                );
-            });
-        }
-    },
-
-    scrubVolume: {
-        value: function(volume) {
-            return this._volumeServices.then(function(volumeServices) {
-                return volumeServices.scrub(volume.id);
-            });
-        }
-    },
-
-    listImportableDisks: {
-        value: function() {
-            return this._volumeRepository.listImportableDisks();
-        }
-    },
-
-    listDisks: {
-        value: function() {
-            return this._volumeRepository.listDisks();
-        }
-    },
-
-    listAvailableDisks: {
-        value: function() {
-            return this._volumeRepository.listAvailableDisks();
-        }
-    },
-
-    markDiskAsReserved: {
-        value: function(disk, isRefreshBlocked) {
-            return this._volumeRepository.markDiskAsReserved(disk, isRefreshBlocked);
-        }
-    },
-
-    markDiskAsAvailable: {
-        value: function(disk, isTransient) {
-            return this._volumeRepository.markDiskAsAvailable(disk, isTransient);
-        }
-    },
-
-    clearReservedDisks: {
-        value: function(isRefreshBlocked) {
-            return this._volumeRepository.clearReservedDisks(isRefreshBlocked);
-        }
-    },
-
-    eraseDisk: {
-        value: function(diskId) {
-            return this._diskServices.then(function(diskService) {
-                return diskService.erase(diskId);
-            });
-        }
-    },
-
-    clearTemporaryAvailableDisks: {
-        value: function() {
-            return this._volumeRepository.clearTemporaryAvailableDisks();
-        }
-    },
-
-    generateTopology: {
-        value: function(topology, disks, redundancy, speed, storage) {
-            var self = this;
-            return this.clearReservedDisks(true).then(function() {
-                var vdev, j, disksLength,
-                    priorities = self._topologyService.generateTopology(topology, disks.slice(), redundancy, speed, storage),
-                    usedDisks = [];
-                for (var i = 0, vdevsLength = topology.data.length; i < vdevsLength; i++) {
-                    vdev = topology.data[i];
-                    if (Array.isArray(vdev.children)) {
-                        for (j = 0, disksLength = vdev.children.length; j < disksLength; j++) {
-                            self.markDiskAsReserved(vdev.children[j]);
-                            usedDisks.push(vdev.children[j]);
-                        }
-                    } else {
-                        self.markDiskAsReserved(vdev);
-                        usedDisks.push(vdev);
-                    }
-                }
-                return {
-                    priorities: priorities
-                };
-            });
-        }
-    },
-
-    lockVolume: {
-        value: function(volume) {
-            return volume.services.lock(volume.id);
-        }
-    },
-
-    unlockVolume: {
-        value: function(volume, password) {
-            return volume.services.unlock(volume.id, password);
-        }
-    },
-
-    rekeyVolume: {
-        value: function(volume, isKeyEncrypted, password) {
-            return volume.services.rekey(volume.id, isKeyEncrypted, password);
-        }
-    },
-
-    getVolumeKey: {
-        value: function(volume) {
-            var self = this;
-            return Model.populateObjectPrototypeForType(Model.Task).then(function (Task) {
-                return Task.constructor.services.submitWithDownload("volume.keys.backup",  [volume.id, "key_" + volume.id]);
-            }).then(function(response) {
-                var taskId = response[0],
-                    taskPromise = new Promise(function(resolve) {
-                        self._notificationCenter.addEventListener("taskDone", function(event) {
-                            if (event.detail && event.detail.jobId === taskId) {
-                                resolve(event.detail.taskReport.result);
-                            }
-                        });
-                    });
-
-                return {
-                    link: response[1][0],
-                    taskPromise: taskPromise
-                };
-            });
-        }
-    },
-
-    setVolumeKey: {
-        value: function(volume, keyFile, password) {
-            return this._filesystemService.submitTaskWithUpload(keyFile, "task.submit_with_upload", ["volume.keys.restore", [volume.id, null, password]]);
-        }
-    },
-
-    replicateDataset: {
-        value: function(dataset, replicationOptions, transportOptions) {
-            return this._replicationServices.then(function(services) {
-                return services.replicateDataset(dataset, replicationOptions, transportOptions, false);
-            });
-        }
-    },
-
-    getReplicationOptionsInstance: {
-        value: function() {
-            return this._storageRepository.getReplicationOptionsInstance();
-        }
-    },
-
-    _cleanupTopologySection: {
-        value: function(topologySection) {
-            var i, vdevsLength, vdev,
-                j, disksLength, disk, path;
-            for (i = 0, vdevsLength = topologySection.length; i < vdevsLength; i++) {
-                vdev = topologySection[i];
-                if (vdev.children) {
-                    for (j = 0, disksLength = vdev.children.length; j < disksLength; j++) {
-                        disk = vdev.children[j];
-                        path = disk.path;
-                        if (path.indexOf('/dev/') != 0) {
-                            path = '/dev/' + path;
-                        }
-                        vdev.children[j].path = path;
-                        vdev.children[j].type = 'disk';
-                    }
-                    if (vdev.children.length == 1) {
-                        vdev.path = vdev.children[0].path;
-                        vdev.children = [];
-                    }
-                }
-            }
-        }
-    },
-
-    _cacheRootDatasets: {
-        value: function() {
-            return this._cacheRootDatasetForVolume();
-        }
-    },
-
-    _cacheRootDatasetForVolume: {
-        value: function(volume) {
-            var self = this,
-                promise = this._datasetsPromise || this.listVolumeDatasets();
-            return promise.then(function(datasets) {
-                for (var i = 0, length = datasets.length; i < length; i++) {
-                    dataset = datasets[i];
-                    if (dataset.id === dataset.volume) {
-                        self._rootDatasetPerVolumeId.set(dataset.volume, dataset);
-                        if (volume && dataset.volume === volume.id) {
-                            break;
-                        }
-                    }
-                }
-            });
-        }
-    },
-
-    _getParitySizeOfVolume: {
-        value: function(volume) {
-            if (volume && volume.topology) {
-                var vdevs = volume.topology.data,
-                    vdev, i, length,
-                    paritySize = 0;
-                for (i = 0, length = vdevs.length; i < length; i++) {
-                    vdev = vdevs[i];
-                    if (vdev.children) {
-                        paritySize += this._topologyService.getParitySizeOnAllocated(vdev.children.length, vdev.type, vdev.stats.allocated);
-                    }
-                }
-                return paritySize;
-            }
-        }
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var abstract_section_service_ng_1 = require("./abstract-section-service-ng");
+var share_repository_1 = require("core/repository/share-repository");
+var disk_repository_1 = require("core/repository/disk-repository");
+var volume_repository_1 = require("core/repository/volume-repository");
+var topology_service_1 = require("core/service/topology-service");
+var model_1 = require("core/model/model");
+var vmware_repository_1 = require("../../repository/vmware-repository");
+var model_event_name_1 = require("../../model-event-name");
+var replication_repository_1 = require("../../repository/replication-repository");
+var task_repository_1 = require("../../repository/task-repository");
+var StorageSectionService = (function (_super) {
+    __extends(StorageSectionService, _super);
+    function StorageSectionService() {
+        var _this = _super.apply(this, arguments) || this;
+        _this.SHARE_TYPE = model_1.Model.Share;
+        _this.VOLUME_DATASET_TYPE = model_1.Model.VolumeDataset;
+        _this.VOLUME_SNAPSHOT_TYPE = model_1.Model.VolumeSnapshot;
+        _this.TOPOLOGY_TYPE = model_1.Model.ZfsTopology;
+        _this.TOPOLOGY_KEYS = volume_repository_1.VolumeRepository.TOPOLOGY_KEYS;
+        return _this;
     }
-
-});
+    StorageSectionService.prototype.init = function () {
+        var self = this;
+        this.shareRepository = share_repository_1.ShareRepository.getInstance();
+        this.diskRepository = disk_repository_1.DiskRepository.getInstance();
+        this.volumeRepository = volume_repository_1.VolumeRepository.getInstance();
+        this.vmwareRepository = vmware_repository_1.VmwareRepository.getInstance();
+        this.replicationRepository = replication_repository_1.ReplicationRepository.getInstance();
+        this.taskRepository = task_repository_1.TaskRepository.getInstance();
+        this.volumeRepository.getVdevRecommendations().then(function (vdevRecommendations) {
+            self.topologyService = topology_service_1.TopologyService.instance.init(vdevRecommendations);
+        });
+        this.eventDispatcherService.addEventListener(model_event_name_1.ModelEventName.Disk.listChange, this.handleDisksChange.bind(this));
+        this.eventDispatcherService.addEventListener(model_event_name_1.ModelEventName.Volume.listChange, this.handleVolumesChange.bind(this));
+        this.eventDispatcherService.addEventListener('topologyChange', this.refreshDiskUsage.bind(this));
+    };
+    StorageSectionService.prototype.loadEntries = function () {
+        var self = this;
+        this.entries = [];
+        return this.volumeRepository.listVolumes().then(function (volumes) {
+            self.refreshDiskUsage();
+            return volumes;
+        });
+    };
+    StorageSectionService.prototype.loadExtraEntries = function () {
+        return Promise.all([
+            this.volumeRepository.getVolumeImporter()
+        ]);
+    };
+    StorageSectionService.prototype.loadOverview = function () {
+        var self = this;
+        this.storageOverview = {};
+        return Promise.all([
+            this.loadEntries()
+        ]).then(function () {
+            self.storageOverview.volumes = self.entries;
+            return self.storageOverview;
+        });
+    };
+    StorageSectionService.prototype.loadSettings = function () { };
+    StorageSectionService.prototype.setRootDatasetForVolume = function (volume) {
+        return this.volumeRepository.listDatasets().then(function (datasets) {
+            for (var _i = 0, datasets_1 = datasets; _i < datasets_1.length; _i++) {
+                var dataset = datasets_1[_i];
+                if (dataset.id === volume.id) {
+                    return volume._rootDataset = dataset;
+                }
+            }
+        });
+    };
+    StorageSectionService.prototype.listShares = function () {
+        return this.shareRepository.listShares();
+    };
+    StorageSectionService.prototype.listSnapshots = function () {
+        return this.volumeRepository.listSnapshots();
+    };
+    StorageSectionService.prototype.listDatasets = function () {
+        return this.volumeRepository.listDatasets();
+    };
+    StorageSectionService.prototype.listVmwareDatasets = function () {
+        return this.vmwareRepository.listDatasets();
+    };
+    StorageSectionService.prototype.getEncryptedVolumeActionsForVolume = function (volume) {
+        return this.volumeRepository.getEncryptedVolumeActionsInstance().then(function (encryptedVolumeActions) {
+            encryptedVolumeActions.volume = volume;
+            return encryptedVolumeActions;
+        });
+    };
+    StorageSectionService.prototype.listDisks = function () {
+        return this.diskRepository.listDisks();
+    };
+    StorageSectionService.prototype.clearReservedDisks = function () {
+        return this.diskRepository.clearReservedDisks();
+    };
+    StorageSectionService.prototype.listAvailableDisks = function () {
+        return this.diskRepository.listAvailableDisks();
+    };
+    StorageSectionService.prototype.listDetachedVolumes = function () {
+        return this.volumeRepository.listDetachedVolumes();
+    };
+    StorageSectionService.prototype.importDetachedVolume = function (volume) {
+        return this.volumeRepository.importDetachedVolume(volume);
+    };
+    StorageSectionService.prototype.deleteDetachedVolume = function (volume) {
+        return this.volumeRepository.deleteDetachedVolume(volume);
+    };
+    StorageSectionService.prototype.exportVolume = function (volume) {
+        return this.volumeRepository.exportVolume(volume);
+    };
+    StorageSectionService.prototype.getEncryptedVolumeImporterInstance = function () {
+        return this.volumeRepository.getEncryptedVolumeImporterInstance();
+    };
+    StorageSectionService.prototype.getNewTopology = function () {
+        return this.volumeRepository.getTopologyInstance();
+    };
+    StorageSectionService.prototype.clearTopology = function (topology) {
+        return this.volumeRepository.clearTopology(topology);
+    };
+    StorageSectionService.prototype.generateTopology = function (topology, disks, redundancy, speed, storage) {
+        var self = this;
+        this.clearReservedDisks();
+        var vdev, j, disksLength, priorities = self.topologyService.generateTopology(topology, this.diskRepository.listAvailableDisks(), redundancy, speed, storage);
+        for (var i = 0, vdevsLength = topology.data.length; i < vdevsLength; i++) {
+            vdev = topology.data[i];
+            if (Array.isArray(vdev.children)) {
+                for (j = 0, disksLength = vdev.children.length; j < disksLength; j++) {
+                    self.markDiskAsReserved(vdev.children[j]);
+                }
+            }
+            else {
+                self.markDiskAsReserved(vdev);
+            }
+        }
+        return priorities;
+    };
+    StorageSectionService.prototype.markDiskAsReserved = function (diskId) {
+        this.diskRepository.markDiskAsReserved(diskId);
+    };
+    StorageSectionService.prototype.markDiskAsNonReserved = function (diskId) {
+        this.diskRepository.markDiskAsNonReserved(diskId);
+    };
+    StorageSectionService.prototype.getDiskAllocation = function (disk) {
+        return this.diskRepository.getDiskAllocation(disk);
+    };
+    StorageSectionService.prototype.createVolume = function (volume) {
+        var password = volume._password && volume._password.length > 0 ? volume._password : null;
+        volume.password_encrypted = !!password;
+        return this.volumeRepository.createVolume(volume, password);
+    };
+    StorageSectionService.prototype.scrubVolume = function (volume) {
+        return this.volumeRepository.scrubVolume(volume);
+    };
+    StorageSectionService.prototype.lockVolume = function (volume) {
+        return this.volumeRepository.lockVolume(volume);
+    };
+    StorageSectionService.prototype.unlockVolume = function (volume, password) {
+        return this.volumeRepository.unlockVolume(volume, password);
+    };
+    StorageSectionService.prototype.rekeyVolume = function (volume, key, password) {
+        return this.volumeRepository.rekeyVolume(volume, key, password);
+    };
+    StorageSectionService.prototype.getVolumeKey = function (volume) {
+        return this.volumeRepository.getVolumeKey(volume);
+    };
+    StorageSectionService.prototype.importEncryptedVolume = function (name, disks, key, password) {
+        return this.volumeRepository.importEncryptedVolume(name, disks, key, password);
+    };
+    StorageSectionService.prototype.getReplicationOptionsInstance = function () {
+        return this.replicationRepository.getReplicationOptionsInstance();
+    };
+    StorageSectionService.prototype.replicateDataset = function (dataset, replicationOptions, transportOptions) {
+        return this.replicationRepository.replicateDataset(dataset, replicationOptions, transportOptions);
+    };
+    StorageSectionService.prototype.listImportableDisks = function () {
+        return this.volumeRepository.listImportableDisks();
+    };
+    StorageSectionService.prototype.importDisk = function (disk, path, fsType) {
+        return this.volumeRepository.importDisk(disk, path, fsType);
+    };
+    StorageSectionService.prototype.handleDisksChange = function (disks) {
+    };
+    StorageSectionService.prototype.handleVolumesChange = function (volumes) {
+        var self = this;
+        volumes.forEach(function (volume) {
+            // DTM
+            var entry = self.findObjectWithId(self.entries, volume.get('id'));
+            if (entry) {
+                Object.assign(entry, volume.toJS());
+            }
+            else {
+                entry = volume.toJS();
+                entry._objectType = 'Volume';
+                self.entries.push(entry);
+            }
+        });
+        // DTM
+        if (this.entries) {
+            for (var i = this.entries.length - 1; i >= 0; i--) {
+                if (!volumes.has(this.entries[i].id)) {
+                    this.entries.splice(i, 1);
+                }
+            }
+        }
+        this.storageOverview.volumes = this.entries;
+    };
+    StorageSectionService.prototype.refreshDiskUsage = function () {
+        var self = this, availablePaths;
+        return this.refreshPromise ?
+            this.refreshPromise :
+            this.volumeRepository.getAvailableDisks().then(function (paths) {
+                availablePaths = paths;
+                return self.diskRepository.listDisks();
+            }).then(function (disks) {
+                return self.volumeRepository.getDisksAllocations(disks.map(function (x) { return x.path; }));
+            }).then(function (disksAllocations) {
+                return self.diskRepository.updateDiskUsage(availablePaths, disksAllocations);
+            }).then(function () {
+                self.refreshPromise = null;
+            });
+    };
+    return StorageSectionService;
+}(abstract_section_service_ng_1.AbstractSectionService));
+exports.StorageSectionService = StorageSectionService;
