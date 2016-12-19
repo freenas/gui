@@ -22,6 +22,7 @@ var AbstractDao = (function () {
         this.createMethod = config.createMethod || change_case_1.dotCase(objectType) + '.create';
         this.deleteMethod = config.deleteMethod || change_case_1.dotCase(objectType) + '.delete';
         this.eventName = config.eventName || 'entity-subscriber.' + this.middlewareName + '.changed';
+        this.preventQueryCaching = config.preventQueryCaching;
         this.middlewareClient = middleware_client_1.MiddlewareClient.getInstance();
         this.datastoreService = datastore_service_1.DatastoreService.getInstance();
         // DTM
@@ -37,7 +38,7 @@ var AbstractDao = (function () {
         });
     }
     AbstractDao.prototype.list = function () {
-        return this.listPromise ?
+        return (this.listPromise && !this.preventQueryCaching) ?
             this.listPromise :
             this.listPromise = this.query();
     };

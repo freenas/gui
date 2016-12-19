@@ -5,7 +5,8 @@ export class DetachedVolumeDao extends AbstractDao {
 
     public constructor() {
         super('DetachedVolume', {
-            queryMethod: 'volume.find'
+            queryMethod: 'volume.find',
+            preventQueryCaching: true
         });
     }
 

@@ -25,6 +25,7 @@ export class AbstractDao {
     private updateMethod: string;
     private deleteMethod: string;
     private eventName: string;
+    private preventQueryCaching: boolean;
     protected propertyDescriptors: Map<string, any>;
 
     // DTM
@@ -42,6 +43,7 @@ export class AbstractDao {
         this.createMethod = config.createMethod || dotCase(objectType) + '.create';
         this.deleteMethod = config.deleteMethod || dotCase(objectType) + '.delete';
         this.eventName = config.eventName || 'entity-subscriber.' + this.middlewareName + '.changed';
+        this.preventQueryCaching = config.preventQueryCaching;
         this.middlewareClient = MiddlewareClient.getInstance();
         this.datastoreService = DatastoreService.getInstance();
 
@@ -58,7 +60,7 @@ export class AbstractDao {
     }
 
     public list(): Promise<Array<any>> {
-        return this.listPromise ?
+        return (this.listPromise && !this.preventQueryCaching) ?
             this.listPromise :
             this.listPromise = this.query();
     }
@@ -143,7 +145,7 @@ export class AbstractDao {
         }
     }
 
-    private query(criteria?: any, isSingle?: boolean): Promise<void> {
+    private query(criteria?: any, isSingle?: boolean): Promise<any> {
         let self = this,
             middlewareCriteria = criteria ? this.getMiddlewareCriteria(criteria, isSingle) : [];
         let modelInitializationPromise = this.model.typeName ? Model.populateObjectPrototypeForType(this.model) : Promise.resolve();

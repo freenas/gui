@@ -9,7 +9,8 @@ var DetachedVolumeDao = (function (_super) {
     __extends(DetachedVolumeDao, _super);
     function DetachedVolumeDao() {
         return _super.call(this, 'DetachedVolume', {
-            queryMethod: 'volume.find'
+            queryMethod: 'volume.find',
+            preventQueryCaching: true
         }) || this;
     }
     DetachedVolumeDao.prototype.list = function () {
