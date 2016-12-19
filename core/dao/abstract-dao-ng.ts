@@ -26,6 +26,7 @@ export class AbstractDao {
     private deleteMethod: string;
     private eventName: string;
     private preventQueryCaching: boolean;
+    private isRegistered = false;
     protected propertyDescriptors: Map<string, any>;
 
     // DTM
@@ -86,7 +87,10 @@ export class AbstractDao {
     }
 
     public register() {
-        this.middlewareClient.subscribeToEvents(this.eventName);
+        if (!this.isRegistered) {
+            this.middlewareClient.subscribeToEvents(this.eventName);
+            this.isRegistered = true;
+        }
     }
 
     public save(object: any, args?: Array<any>): Promise<any> {

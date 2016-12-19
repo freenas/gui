@@ -12,6 +12,7 @@ var Promise = require("bluebird");
 var cache_service_1 = require("../service/cache-service");
 var AbstractDao = (function () {
     function AbstractDao(objectType, config) {
+        this.isRegistered = false;
         config = config || {};
         var self = this;
         this.model = model_1.Model[objectType] || {};
@@ -60,7 +61,10 @@ var AbstractDao = (function () {
         });
     };
     AbstractDao.prototype.register = function () {
-        this.middlewareClient.subscribeToEvents(this.eventName);
+        if (!this.isRegistered) {
+            this.middlewareClient.subscribeToEvents(this.eventName);
+            this.isRegistered = true;
+        }
     };
     AbstractDao.prototype.save = function (object, args) {
         return object._isNew ? this.create(object, args) : this.update(object, args);
