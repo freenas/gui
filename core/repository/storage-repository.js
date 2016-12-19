@@ -54,7 +54,6 @@ exports.StorageRepository = AbstractRepository.specialize({
             this._importableDisks = [];
             this._reservedDisks = new Set();
             this._temporarilyAvailableDisks = new Set();
-            // this.addRangeAtPathChangeListener("_volumes", this, "_handleDiskAssignationChange");
             this.addRangeAtPathChangeListener("_disks", this, "_handleDiskAssignationChange");
 
         }
