@@ -51,6 +51,14 @@ export class VolumeDao extends AbstractDao {
     public scrub(volume: any) {
         return this.middlewareClient.submitTask('volume.scrub', [volume.id]);
     }
+
+    public findMedia() {
+        return this.middlewareClient.callRpcMethod('volume.find_media');
+    }
+
+    public importDisk(disk: string, path: string, fsType: string) {
+        return this.middlewareClient.submitTask('volume.import_disk', [disk, path, fsType]);
+    }
 }
 
 

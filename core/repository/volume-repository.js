@@ -120,6 +120,12 @@ var VolumeRepository = (function (_super) {
         }
         return topology;
     };
+    VolumeRepository.prototype.listImportableDisks = function () {
+        return this.volumeDao.findMedia();
+    };
+    VolumeRepository.prototype.importDisk = function (disk, path, fsType) {
+        return this.volumeDao.importDisk(disk, path, fsType);
+    };
     VolumeRepository.prototype.cleanupTopology = function (topology) {
         var clean = {};
         for (var _i = 0, _a = VolumeRepository.TOPOLOGY_KEYS; _i < _a.length; _i++) {

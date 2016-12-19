@@ -46,6 +46,12 @@ var VolumeDao = (function (_super) {
     VolumeDao.prototype.scrub = function (volume) {
         return this.middlewareClient.submitTask('volume.scrub', [volume.id]);
     };
+    VolumeDao.prototype.findMedia = function () {
+        return this.middlewareClient.callRpcMethod('volume.find_media');
+    };
+    VolumeDao.prototype.importDisk = function (disk, path, fsType) {
+        return this.middlewareClient.submitTask('volume.import_disk', [disk, path, fsType]);
+    };
     return VolumeDao;
 }(abstract_dao_ng_1.AbstractDao));
 exports.VolumeDao = VolumeDao;

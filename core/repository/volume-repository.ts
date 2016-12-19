@@ -156,6 +156,14 @@ export class VolumeRepository extends AbstractRepository {
         return topology;
     }
 
+    public listImportableDisks() {
+        return this.volumeDao.findMedia();
+    }
+
+    public importDisk(disk: string, path: string, fsType: string) {
+        return this.volumeDao.importDisk(disk, path, fsType);
+    }
+
     private cleanupTopology(topology: any) {
         let clean = {};
         for (let key of VolumeRepository.TOPOLOGY_KEYS) {

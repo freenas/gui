@@ -222,6 +222,14 @@ export class StorageSectionService extends AbstractSectionService {
         return this.replicationRepository.replicateDataset(dataset, replicationOptions, transportOptions);
     }
 
+    public listImportableDisks() {
+        return this.volumeRepository.listImportableDisks();
+    }
+
+    public importDisk(disk: string, path: string, fsType: string) {
+        return this.volumeRepository.importDisk(disk, path, fsType);
+    }
+
     private handleDisksChange(disks: Map<string, Map<string, any>>) {
     }
 

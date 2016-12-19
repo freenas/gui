@@ -177,6 +177,12 @@ var StorageSectionService = (function (_super) {
     StorageSectionService.prototype.replicateDataset = function (dataset, replicationOptions, transportOptions) {
         return this.replicationRepository.replicateDataset(dataset, replicationOptions, transportOptions);
     };
+    StorageSectionService.prototype.listImportableDisks = function () {
+        return this.volumeRepository.listImportableDisks();
+    };
+    StorageSectionService.prototype.importDisk = function (disk, path, fsType) {
+        return this.volumeRepository.importDisk(disk, path, fsType);
+    };
     StorageSectionService.prototype.handleDisksChange = function (disks) {
     };
     StorageSectionService.prototype.handleVolumesChange = function (volumes) {
