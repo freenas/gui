@@ -44,14 +44,14 @@ var MiddlewareClient = (function () {
                 }
             };
             return self.send(payload);
-        }).then(function (message) {
+        }).then(function () {
             return self.startKeepAlive();
         }, function (error) {
             if (error) {
                 if (error.name === 'MiddlewareError') {
-                    var message = error.message;
+                    var message = error.middlewareMessage;
                     if (message.args) {
-                        if (message.args.code === 13) {
+                        if (message.args.message) {
                             throw new Error(message.args.message);
                         }
                     }
@@ -228,13 +228,26 @@ var MiddlewareClient = (function () {
     MiddlewareClient.prototype.openConnection = function (url) {
         var self = this;
         if (!this.socket) {
-            this.connectionPromise = new Promise(function (resolve) {
+            this.connectionPromise = new Promise(function (resolve, reject) {
                 console.log('Opening connection to ' + url);
+                var isResolved = false;
                 self.socket = new WebSocket(url);
                 self.stopKeepalive();
-                self.socket.onopen = resolve;
+                self.socket.onopen = function () {
+                    isResolved = true;
+                    resolve();
+                };
                 self.socket.onmessage = function (event) { return self.handleMessage(event); };
-                self.socket.onerror = function (event) { return self.handleError(event); };
+                self.socket.onerror = function (event) {
+                    if (!isResolved) {
+                        reject(new MiddlewareError({
+                            args: {
+                                message: 'Server connection error'
+                            }
+                        }));
+                    }
+                    self.handleError(event);
+                };
                 self.socket.onclose = function (event) { return self.handleClose(event); };
             }).then(function () {
                 return self.dispatchConnectionStatus();

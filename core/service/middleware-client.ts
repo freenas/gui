@@ -11,7 +11,7 @@ export class MiddlewareClient {
 
     private static instance: MiddlewareClient;
     private socket;
-    private handlers: Map<string, Promise<any>>;
+    private handlers: Map<string, any>;
     private connectionPromise: Promise<any>;
     private keepAliveInterval: number;
 
@@ -52,14 +52,14 @@ export class MiddlewareClient {
                 }
             };
             return self.send(payload);
-        }).then(function(message) {
+        }).then(function() {
             return self.startKeepAlive();
-        }, function(error) {
+        }, function(error: MiddlewareError) {
             if (error) {
                 if (error.name === 'MiddlewareError') {
-                    let message = error.message;
+                    let message = error.middlewareMessage;
                     if (message.args) {
-                        if (message.args.code === 13) {
+                        if (message.args.message) {
                             throw new Error(message.args.message);
                         }
                     }
@@ -264,13 +264,26 @@ export class MiddlewareClient {
     private openConnection(url: string): Promise {
         let self = this;
         if (!this.socket) {
-            this.connectionPromise = new Promise(function(resolve) {
+            this.connectionPromise = new Promise(function(resolve, reject) {
                 console.log('Opening connection to ' + url);
+                let isResolved = false;
                 self.socket = new WebSocket(url);
                 self.stopKeepalive();
-                self.socket.onopen = resolve;
+                self.socket.onopen = function() {
+                    isResolved = true;
+                    resolve();
+                };
                 self.socket.onmessage = (event) => self.handleMessage(event);
-                self.socket.onerror = (event) => self.handleError(event);
+                self.socket.onerror = function(event) {
+                    if (!isResolved) {
+                        reject(new MiddlewareError({
+                            args: {
+                                message: 'Server connection error'
+                            }
+                        }));
+                    }
+                    self.handleError(event);
+                };
                 self.socket.onclose = (event) => self.handleClose(event);
             }).then(function() {
                 return self.dispatchConnectionStatus();
@@ -364,7 +377,7 @@ export class MiddlewareClient {
 class MiddlewareError extends Error {
     public name: string = 'MiddlewareError';
     public message: string;
-    public middlewareMessage: Object;
+    public middlewareMessage: any;
 
     public constructor(middlewareMessage: any) {
         super();
