@@ -67,7 +67,7 @@ exports.StorageSectionService = AbstractSectionService.specialize({
                 });
         }
     },
-            
+
 
     SHARE_TYPE: {
         value: Model.Share
@@ -143,8 +143,7 @@ exports.StorageSectionService = AbstractSectionService.specialize({
 
     listVolumeDatasets: {
         value: function() {
-            var self = this,
-                dataset;
+            var self = this;
             return this._datasetsPromise || (this._datasetsPromise = this._storageRepository.listVolumeDatasets().then(function(datasets) {
                 self._cacheRootDatasetForVolume();
                 return datasets;
@@ -245,7 +244,6 @@ exports.StorageSectionService = AbstractSectionService.specialize({
 
     importDisk: {
         value: function(disk, path, fstype) {
-            var self = this;
             return this._volumeServices.then(function(volumeServices) {
                 return volumeServices.importDisk(disk, path, fstype);
             });
@@ -277,12 +275,12 @@ exports.StorageSectionService = AbstractSectionService.specialize({
                 }
             }
             var vdevs = this.iterateVdevs(topology);
-            
+
             for (var j = 0; j < vdevs.length; j++) {
                 if (vdevs[j].path === disk.path) {
-                    return vdevs[j];   
+                    return vdevs[j];
                 }
-            }        
+            }
         }
     },
 
