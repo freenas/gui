@@ -42,7 +42,7 @@ exports.InspectorOption = Button.specialize({
 
     handleSelectionChange: {
         value: function () {
-            if (this.object && this.parentCascadingListItem.selectedObject === this.object) {
+            if (this.object && this.parentCascadingListItem && this.parentCascadingListItem.selectedObject === this.object) {
                 this.classList.add("selected");
                 this.element.classList.add("selected");
             } else {
