@@ -37,7 +37,7 @@
                 "converter": {"@": "optionsConverter"}
             },
             "bindings": {
-                "options" : {"<-": "[{name:'---'}].concat(@owner.certificates.filter{type=='CA_INTERNAL' || type=='CA_INTERMEDIATE'})"},
+                "options" : {"<-": "[{name:'---'}].concat(@owner.certificates.filter{type=='CA_INTERNAL' || type=='CA_INTERMEDIATE' || type=='CA_EXISTING' })"},
                 "selectedValue": {"<->": "@owner.object.signing_ca_name"}
             }
         },
