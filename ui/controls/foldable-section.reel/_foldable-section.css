@@ -85,6 +85,7 @@ title
 /* content */
 
 .FoldableSection-content {
+    display: none;
     transition: height .3s ease-in-out;
     padding: 0 1em;
     background: rgba(0,0,0,.1);
