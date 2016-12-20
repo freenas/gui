@@ -187,8 +187,8 @@ export class MiddlewareClient {
         reader.onloadend = function (event) {
             let target = event.target;
 
-            if (target.readyState === FileReader.DONE) {
-                connection.send(target.result);
+            if ((target as any).readyState === 2) {
+                connection.send((target as any).result);
 
                 if (stop === file.size) {
                     connection.send("");
@@ -283,7 +283,7 @@ export class MiddlewareClient {
                     isResolved = true;
                     resolve();
                 };
-                self.socket.onmessage = (event) => self.handleMessage(event);
+                self.socket.onmessage = (event) => self.handleMessage(event, self.url);
                 self.socket.onerror = function(event) {
                     if (!isResolved) {
                         reject(new MiddlewareError({
@@ -292,9 +292,9 @@ export class MiddlewareClient {
                             }
                         }));
                     }
-                    self.handleError(event);
+                    self.handleError(event, self.url);
                 };
-                self.socket.onclose = (event) => self.handleClose(event);
+                self.socket.onclose = (event) => self.handleClose(event, self.url);
             }).then(function() {
                 return self.dispatchConnectionStatus();
             });
@@ -306,8 +306,8 @@ export class MiddlewareClient {
         this.eventDispatcherService.dispatch('connectionStatusChange', this.socket ? this.socket.status : 99);
     }
 
-    private handleError(event: Event) {
-        console.warn('[' + event.currentTarget.url + '] WS connection error:', event);
+    private handleError(event: Event, url: string) {
+        console.warn('[' + url + '] WS connection error:', event);
         this.dispatchConnectionStatus();
         this.stopKeepalive();
         this.state = MiddlewareClient.CLOSED;
@@ -315,8 +315,8 @@ export class MiddlewareClient {
         this.socket = null;
     }
 
-    private handleClose(event: Event) {
-        console.log('[' + event.currentTarget.url + '] WS connection closed', event);
+    private handleClose(event: Event, url: string) {
+        console.log('[' + url + '] WS connection closed', event);
         this.dispatchConnectionStatus();
         this.stopKeepalive();
         this.state = MiddlewareClient.CLOSED;
@@ -333,7 +333,7 @@ export class MiddlewareClient {
         }, 2000);
     }
 
-    private handleMessage(event: MessageEvent) {
+    private handleMessage(event: MessageEvent, url: string) {
         try {
             let message = JSON.parse(event.data);
             if (message.namespace === 'rpc') {
@@ -346,7 +346,7 @@ export class MiddlewareClient {
                 this.handleEvent(message);
             }
         } catch (error) {
-            console.warn('[' + event.currentTarget.url + '] Unable to parse message: -' + event.data +'-');
+            console.warn('[' + url + '] Unable to handle message: -' + event.data +'-');
         }
     }
 

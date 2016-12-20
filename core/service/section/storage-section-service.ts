@@ -12,6 +12,7 @@ import {VmwareRepository} from "../../repository/vmware-repository";
 import {ModelEventName} from "../../model-event-name";
 import {ReplicationRepository} from "../../repository/replication-repository";
 import {TaskRepository} from "../../repository/task-repository";
+import {Map} from "immutable";
 
 export class StorageSectionService extends AbstractSectionService {
     private shareRepository: ShareRepository;
@@ -25,7 +26,7 @@ export class StorageSectionService extends AbstractSectionService {
 
     private refreshPromise: Promise<any>;
 
-    private storageOverview: Object;
+    private storageOverview: any;
 
     public readonly SHARE_TYPE = Model.Share;
     public readonly VOLUME_DATASET_TYPE = Model.VolumeDataset;
@@ -55,7 +56,7 @@ export class StorageSectionService extends AbstractSectionService {
 
     protected loadEntries() {
         let self = this;
-        this.entries = [];
+        this.entries = ([] as Array<any>);
         return this.volumeRepository.listVolumes().then(function(volumes) {
             self.refreshDiskUsage();
             return volumes;
@@ -81,7 +82,7 @@ export class StorageSectionService extends AbstractSectionService {
 
     protected loadSettings() {}
 
-    public setRootDatasetForVolume(this: StorageSectionService, volume: Object) {
+    public setRootDatasetForVolume(this: StorageSectionService, volume: any) {
         return this.volumeRepository.listDatasets().then(function(datasets) {
             for (let dataset of datasets) {
                 if (dataset.id === volume.id) {
@@ -242,14 +243,14 @@ export class StorageSectionService extends AbstractSectionService {
                 Object.assign(entry, volume.toJS());
             } else {
                 entry = volume.toJS();
-                entry._objectType = 'Volume';
+                (entry as any)._objectType = 'Volume';
                 self.entries.push(entry);
             }
         });
         // DTM
         if (this.entries) {
             for (let i = this.entries.length - 1; i >= 0; i--) {
-                if (!volumes.has(this.entries[i].id)) {
+                if (!volumes.has((this.entries[i] as any).id)) {
                     this.entries.splice(i, 1);
                 }
             }
