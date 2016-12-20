@@ -157,17 +157,17 @@ exports.ServiceUps = Montage.specialize({
             return this._monitor_password;
         }
     },
-    _monitor_remote: {
+    _allow_remote_connections: {
         value: null
     },
-    monitor_remote: {
+    allow_remote_connections: {
         set: function (value) {
-            if (this._monitor_remote !== value) {
-                this._monitor_remote = value;
+            if (this._allow_remote_connections !== value) {
+                this._allow_remote_connections = value;
             }
         },
         get: function () {
-            return this._monitor_remote;
+            return this._allow_remote_connections;
         }
     },
     _monitor_user: {
@@ -315,7 +315,7 @@ exports.ServiceUps = Montage.specialize({
             valueType: "String"
         }, {
             mandatory: false,
-            name: "monitor_remote",
+            name: "allow_remote_connections",
             valueType: "boolean"
         }, {
             mandatory: false,

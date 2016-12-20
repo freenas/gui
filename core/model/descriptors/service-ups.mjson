@@ -97,10 +97,10 @@
       "valueType": "String"
     }
   },
-  "blueprint_serviceups_monitor_remote": {
+  "blueprint_serviceups_allow_remote_connections": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "monitor_remote",
+      "name": "allow_remote_connections",
       "blueprint": {"@": "root"},
       "valueType": "boolean"
     }
@@ -181,7 +181,7 @@
         {"@": "blueprint_serviceups_identifier"},
         {"@": "blueprint_serviceups_mode"},
         {"@": "blueprint_serviceups_monitor_password"},
-        {"@": "blueprint_serviceups_monitor_remote"},
+        {"@": "blueprint_serviceups_allow_remote_connections"},
         {"@": "blueprint_serviceups_monitor_user"},
         {"@": "blueprint_serviceups_powerdown"},
         {"@": "blueprint_serviceups_remote_host"},

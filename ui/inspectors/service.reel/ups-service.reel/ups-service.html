@@ -35,11 +35,12 @@
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "driver"},
-                "label": "driver"
+                "label": "Driver"
             },
             "bindings": {
                 "options" : {"<-": "@owner.driverOptions"},
-                "selectedValue": {"<->": "@owner.object.driver"}
+                "selectedValue": {"<->": "@owner.object.driver"},
+                "classList.has('hide')": {"<-": "@owner.object.mode=='SLAVE'"}
             }
         },
         "driver_port": {
@@ -50,7 +51,8 @@
             },
             "bindings": {
                 "options" : {"<-": "@owner.driverPortOptions"},
-                "selectedValue": {"<->": "@owner.object.driver_port"}
+                "selectedValue": {"<->": "@owner.object.driver_port"},
+                "classList.has('hide')": {"<-": "@owner.object.mode=='SLAVE'"}
             }
         },
         "remote_host": {
@@ -60,7 +62,8 @@
                 "label": "Remote Host"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.remote_host"}
+                "value": {"<->": "@owner.object.remote_host"},
+                "classList.has('hide')": {"<-": "@owner.object.mode=='MASTER'"}
             }
         },
         "httpPortValidator": {
@@ -81,18 +84,19 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "remote_port"},
-                "label": "remote port",
+                "label": "Remote Port",
                 "converter" : {"@": "httpPortConverter"}
             },
             "bindings": {
-                "value": {"<->": "@owner.object.remote_port"}
+                "value": {"<->": "@owner.object.remote_port"},
+                "classList.has('hide')": {"<-": "@owner.object.mode=='MASTER'"}
             }
         },
         "description": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "description"},
-                "label": "description"
+                "label": "Description"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.description"}
@@ -102,7 +106,7 @@
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "shutdown_mode"},
-                "label": "shutdown_mode"
+                "label": "Shutdown Mode"
             },
             "bindings": {
                 "options" : {"<-": "@owner.shutdownModeOptions"},
@@ -126,7 +130,7 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "shutdown_timer"},
-                "label": "shutdown timer",
+                "label": "Shutdown Timer",
                 "converter": {"@": "upsTimerConverter"}
             },
             "bindings": {
@@ -137,7 +141,7 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "monitor_user"},
-                "label": "monitor user"
+                "label": "Monitor User"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.monitor_user"}
@@ -158,20 +162,22 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "auxiliary_users"},
-                "label": "auxiliary_users"
+                "label": "Auxiliary Users"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.auxiliary_users"}
+                "value": {"<->": "@owner.object.auxiliary_users"},
+                "classList.has('hide')": {"<-": "@owner.object.mode=='SLAVE'"}
             }
         },
-        "monitor_remote": {
+        "allow_remote_connections": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
-                "element": {"#": "monitor_remote"},
-                "label": "Monitor Remote"
+                "element": {"#": "allow_remote_connections"},
+                "label": "Remote Monitor"
             },
             "bindings": {
-                "checked": {"<->": "@owner.object.monitor_remote"}
+                "checked": {"<->": "@owner.object.allow_remote_connections"},
+                "classList.has('hide')": {"<-": "@owner.object.mode=='SLAVE'"}
             }
         },
         "email_notify": {
@@ -188,7 +194,7 @@
             "prototype": "blue-shark/ui/field-multiple-select.reel",
             "properties": {
                 "element": {"#": "email_recipients"},
-                "label": "email recipients",
+                "label": "Email Recipients",
                 "labelPath": "this"
             },
             "bindings": {
@@ -228,7 +234,7 @@
         <div data-montage-id="shutdown_mode"></div>
         <div data-montage-id="shutdown_timer"></div>
         <div data-montage-id="auxiliary_users"></div>
-        <div data-montage-id="monitor_remote"></div>
+        <div data-montage-id="allow_remote_connections"></div>
         <div data-montage-id="monitor_user"></div>
         <div data-montage-id="monitor_password"></div>
         <div data-montage-id="remote_host"></div>
