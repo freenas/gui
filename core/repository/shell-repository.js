@@ -28,6 +28,8 @@ var ShellRepository = (function (_super) {
         lines = lines || 24;
         return this.shellDao.spawn(columns, lines);
     };
+    ShellRepository.prototype.handleStateChange = function (name, state) { };
+    ShellRepository.prototype.handleEvent = function (name, data) { };
     return ShellRepository;
 }(abstract_repository_ng_1.AbstractRepository));
 exports.ShellRepository = ShellRepository;

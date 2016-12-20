@@ -6,12 +6,14 @@ import {ShellRepository} from "../../repository/shell-repository";
 import * as Promise from "bluebird";
 import {ModelEventName} from "../../model-event-name";
 import {NtpServerRepository} from "../../repository/ntp-server-repository";
+import {SystemRepository} from "../../repository/system-repository";
 
 export class AccountsSectionService extends AbstractSectionService {
     private accountRepository: AccountRepository;
     private kerberosRepository: KerberosRepository;
     private shellRepository: ShellRepository;
     private ntpServerRepository: NtpServerRepository;
+    private systemRepository: SystemRepository;
 
     private entriesPromise: Promise<any>;
     public entriesTitle: string;
@@ -21,6 +23,7 @@ export class AccountsSectionService extends AbstractSectionService {
         this.kerberosRepository = KerberosRepository.getInstance();
         this.shellRepository = ShellRepository.getInstance();
         this.ntpServerRepository = NtpServerRepository.getInstance();
+        this.systemRepository = SystemRepository.getInstance();
 
         this.eventDispatcherService.addEventListener(ModelEventName.User.listChange, this.handleUsersChange.bind(this));
         this.eventDispatcherService.addEventListener(ModelEventName.Group.listChange, this.handleGroupsChange.bind(this));
@@ -78,6 +81,10 @@ export class AccountsSectionService extends AbstractSectionService {
 
     public listShells() {
         return this.shellRepository.listShells();
+    }
+
+    public getSystemAdvanced() {
+        return this.systemRepository.getAdvanced();
     }
 
     protected loadEntries() {

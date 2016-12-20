@@ -27,4 +27,7 @@ export class ShellRepository extends AbstractRepository {
         lines = lines || 24;
         return this.shellDao.spawn(columns, lines);
     }
+
+    protected handleStateChange(name: string, state: any) {}
+    protected handleEvent(name: string, data: any) {}
 }

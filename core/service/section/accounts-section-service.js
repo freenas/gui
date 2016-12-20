@@ -11,6 +11,7 @@ var shell_repository_1 = require("../../repository/shell-repository");
 var Promise = require("bluebird");
 var model_event_name_1 = require("../../model-event-name");
 var ntp_server_repository_1 = require("../../repository/ntp-server-repository");
+var system_repository_1 = require("../../repository/system-repository");
 var AccountsSectionService = (function (_super) {
     __extends(AccountsSectionService, _super);
     function AccountsSectionService() {
@@ -21,6 +22,7 @@ var AccountsSectionService = (function (_super) {
         this.kerberosRepository = kerberos_repository_1.KerberosRepository.getInstance();
         this.shellRepository = shell_repository_1.ShellRepository.getInstance();
         this.ntpServerRepository = ntp_server_repository_1.NtpServerRepository.getInstance();
+        this.systemRepository = system_repository_1.SystemRepository.getInstance();
         this.eventDispatcherService.addEventListener(model_event_name_1.ModelEventName.User.listChange, this.handleUsersChange.bind(this));
         this.eventDispatcherService.addEventListener(model_event_name_1.ModelEventName.Group.listChange, this.handleGroupsChange.bind(this));
         this.eventDispatcherService.addEventListener(model_event_name_1.ModelEventName.Directory.listChange, this.handleDirectoriesChange.bind(this));
@@ -64,6 +66,9 @@ var AccountsSectionService = (function (_super) {
     };
     AccountsSectionService.prototype.listShells = function () {
         return this.shellRepository.listShells();
+    };
+    AccountsSectionService.prototype.getSystemAdvanced = function () {
+        return this.systemRepository.getAdvanced();
     };
     AccountsSectionService.prototype.loadEntries = function () {
         var self = this;

@@ -30,7 +30,6 @@ exports.User = AbstractInspector.specialize({
             if (this._object != object) {
                 this._object = object;
                 this.homeDirectory = null;
-                this._loadGroups(object);
 
                 if (object && typeof object.uid != 'number') {
                     this._getNextAvailableUserId();
@@ -50,7 +49,7 @@ exports.User = AbstractInspector.specialize({
     templateDidLoad: {
         value: function() {
             var self = this;
-            this.application.dataService.fetchData(Model.SystemAdvanced).then(function (systemAdvancedCollection) {
+            this._sectionService.getSystemAdvanced().then(function (systemAdvancedCollection) {
                 self.systemAdvancedCollection = systemAdvancedCollection;
                 self.addRangeAtPathChangeListener("systemAdvancedCollection", self, "handleSystemAdvancedCollectionChange");
             });
@@ -62,8 +61,7 @@ exports.User = AbstractInspector.specialize({
             this.super();
 
             var self = this,
-                loadingPromises = [],
-                shell;
+                loadingPromises = [];
 
             this.isLoading = true;
 
@@ -73,6 +71,8 @@ exports.User = AbstractInspector.specialize({
                 this.addPathChangeListener('object.home', this, '_handleHomeChange');
                 loadingPromises.push(this._getShellOptions());
             }
+
+            this._loadGroups(this.object);
 
             this.userType = (this.object.builtin && this.object.uid !== 0) || (this.object.origin && this.object.origin.read_only)  ? "system" : "user";
 
@@ -101,8 +101,6 @@ exports.User = AbstractInspector.specialize({
 
     save: {
         value: function() {
-            var self = this;
-
             this.object.groups = this.additionalGroups.map(function(x) { return x.id; });
             if (this.object._isNew && this.object.home) {
                 this.object.home += '/' + this.object.username;
@@ -149,9 +147,13 @@ exports.User = AbstractInspector.specialize({
 
     _loadGroups: {
         value: function() {
-            var self = this;
-            this._sectionService.listGroups().then(function (groups) {
-                self.groupOptions = groups;
+            var self = this,
+                promise = this.groupOptions ?
+                    Promise.resolve(this.groupOptions) :
+                    this._sectionService.listGroups().then(function(groups) {
+                        return self.groupOptions = groups;
+                    });
+            promise.then(function (groups) {
                 self.additionalGroups = self._object.groups ? groups.filter(function (x) { return self.object.groups.indexOf(x.id) > -1; }) : [];
             });
         }

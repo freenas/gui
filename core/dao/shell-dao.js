@@ -8,10 +8,11 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var ShellDao = (function (_super) {
     __extends(ShellDao, _super);
     function ShellDao() {
-        return _super.call(this, {}, {
-            queryMethod: 'shell.get_shells'
-        }) || this;
+        return _super.call(this, {}) || this;
     }
+    ShellDao.prototype.list = function () {
+        return this.middlewareClient.callRpcMethod('shell.get_shells');
+    };
     ShellDao.prototype.spawn = function (columns, lines) {
         return this.middlewareClient.callRpcMethod('shell.spawn', ['/usr/local/bin/cli', columns, lines]);
     };
