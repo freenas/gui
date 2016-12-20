@@ -11,7 +11,8 @@
             },
             "bindings": {
                 "dashboardWidgets": {"<-": "@owner.currentUser.attributes.dashboardContext.widgets"},
-                "sideBoardWidgets": {"<-": "@owner.currentUser.attributes.sideBoardContext.widgets"}
+                "sideBoardWidgets": {"<-": "@owner.currentUser.attributes.sideBoardContext.widgets"},
+                "classList.has('layout-has-changed')": {"<-": "@owner.hasDashboardLayoutChanged"}
             }
         },
         "horizontalScroll": {
@@ -52,6 +53,20 @@
                 "element": {"#": "closeButton"},
                 "value": "Done Editing"
             }
+        },
+        "restoreDefaultButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "restoreDefaultButton"},
+                "value": "Restore default layout"
+            }
+        },
+        "saveAsDefaultButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "saveAsDefaultButton"},
+                "value": "Save as default layout"
+            }
         }
     }
     </script>
@@ -60,7 +75,11 @@
     <div data-montage-id="owner" class="Drawer">
         <header>
             <h1 class="Drawer-title">Drag to add widgets</h1>
-            <button data-montage-id="closeButton" class="Button--create"></button>
+            <div>
+                <button data-montage-id="restoreDefaultButton" class="Drawer-layoutButton"></button>
+                <button data-montage-id="saveAsDefaultButton" class="Drawer-layoutButton"></button>
+                <button data-montage-id="closeButton" class="Button--primary"></button>
+            </div>
         </header>
         <div class="DrawerContent">
             <div class="Drawer-overlay">

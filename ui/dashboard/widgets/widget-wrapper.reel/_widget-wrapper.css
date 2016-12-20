@@ -6,6 +6,34 @@
         cursor: grab;
     }
 
+
+    &.isDragging {
+        opacity: .75;
+    }
+
+    &.Widget--small {
+        @media (min-width: 65em) {
+            width: calc(50% - 1em);
+            max-width: 100%;
+        }
+
+        @media (min-width: 90em) {
+            width: calc(33.333% - 1em);
+            max-width: calc(50% - 1em);
+        }
+    }
+
+    &.Widget--medium {
+        @media (min-width: 65em) {
+            width: calc(100% - 1em);
+        }
+
+        @media (min-width: 90em) {
+            width: calc(66.666% - 1em);
+            max-width: calc(100% - 1em);
+        }
+    }
+
     @nest .Sideboard & {
         margin-left:    0;
         margin-right:   0;
@@ -13,23 +41,6 @@
         width: 100%;
         max-width: 100%;
     }
-
-    &.isDragging {
-        opacity: .75;
-    }
-
-    @media (min-width: 65em) {
-        width: calc(50% - 1em);
-        max-width: 100%;
-    }
-
-    @media (min-width: 90em) {
-        width: calc(33% - .825em);
-        max-width: calc(50% - 1em);
-    }
-
-    &.Widget-size-2 { width: 50%; }
-    &.Widget-size-3 { width: 100%; max-width: 100%;}
 }
 
 .WidgetWrapper-removeButton {
@@ -55,4 +66,21 @@
         visibility: visible;
         transform: scale(1);
     }
+}
+
+/* Widget Size Selector */
+
+.Widget-sizeSelector {
+    position: absolute;
+    display: none;
+    bottom: .5rem;
+    left: .5rem;
+    font-size: .75em;
+    box-shadow: 0 0 4px 0px rgba(0,0,0,1);
+    z-index: 1;
+
+    @nest .Main.drawer-is-open .Dashboard & {
+        display: block;
+    }
+
 }

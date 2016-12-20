@@ -122,3 +122,12 @@
         margin-right: 1em;
     }
 }
+
+/* Drawer Layout Button */
+
+.Drawer-layoutButton {
+
+    @nest .layout-has-changed & {
+        display: inline-block;
+    }
+}

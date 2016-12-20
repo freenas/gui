@@ -165,6 +165,18 @@ exports.Drawer = AbstractDropZoneComponent.specialize(/** @lends Drawer# */ {
                 this.sideBoardWidgets.splice(index, 1);
             }
         }
+    },
+
+    handleRestoreDefaultButton: {
+        value: function () {
+            console.log("restore default");
+        }
+    },
+
+    handleSaveAsDefaultButton: {
+        value: function () {
+            console.log("save as default");
+        }
     }
 
 });
