@@ -31,7 +31,7 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
 
     _toggleSection: {
         value: function(event) {
-            if(!this.expanded) {
+            if(!this.isExpanded) {
                 this.sectionContent.style.display = "block";
             }
             this.isExpanded = !this.isExpanded;
@@ -58,6 +58,10 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
                 childList: true,
                 attributes: true
             });
+
+            if (this.isExpanded) {
+                this.sectionContent.style.display = "block";
+            }
         }
     },
 
