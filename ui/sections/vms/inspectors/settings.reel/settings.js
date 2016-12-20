@@ -17,7 +17,6 @@ exports.Settings = AbstractInspector.specialize({
     save: {       
         value: function() {
             var templates = [];
-            console.log(this.additional_templates);
             for (var i = 0; i < this.additional_templates.length; i++) {
                 templates.push({
                     id: this.additional_templates[i].replace(/\//g, '-'),
@@ -25,7 +24,6 @@ exports.Settings = AbstractInspector.specialize({
                     driver: 'git'
                 });
             }
-            console.log(templates);
             this.object.settings.config.additional_templates = templates;
             this._sectionService.saveSettings();
         }
