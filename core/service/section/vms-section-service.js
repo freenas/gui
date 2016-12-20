@@ -369,6 +369,25 @@ exports.VmsSectionService = AbstractSectionService.specialize({
         }
     },
 
+    loadSettings: {
+        value: function() {
+            var self = this;
+            return this._vmRepository.getVmSettings();
+        }
+    },
+
+    saveSettings: {
+        value: function() {
+            return this._vmRepository.saveVmSettings();
+        }
+    },
+
+    revertSettings: {
+        value: function() {
+            return this._vmRepository.revertVmSettings();
+        }
+    },
+
     _initializeDevicesOnVm: {
         value: function(vm) {
             var promises = [];

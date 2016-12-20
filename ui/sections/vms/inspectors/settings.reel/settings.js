@@ -1,0 +1,42 @@
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    Model = require("core/model/model").Model;
+
+exports.Settings = AbstractInspector.specialize({
+    additional_templates: {
+        value: []
+    },
+
+    enterDocument: {
+        value: function() {
+            this.additional_templates = this.object.settings.config.additional_templates.map(function(x) {
+                return x.url;
+            });
+        }
+    },
+
+    save: {       
+        value: function() {
+            var templates = [];
+            console.log(this.additional_templates);
+            for (var i = 0; i < this.additional_templates.length; i++) {
+                templates.push({
+                    id: this.additional_templates[i].replace(/\//g, '-'),
+                    url: this.additional_templates[i],
+                    driver: 'git'
+                });
+            }
+            console.log(templates);
+            this.object.settings.config.additional_templates = templates;
+            this._sectionService.saveSettings();
+        }
+    },
+
+    revert: {
+        value: function() {
+            this.additional_templates = this.object.settings.config.additional_templates.map(function(x) {
+                return x.url;
+            });
+            this._sectionService.revertSettings();
+        }
+    }
+});
