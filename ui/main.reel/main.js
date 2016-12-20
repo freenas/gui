@@ -1,17 +1,13 @@
-
 var ComponentModule = require("montage/ui/component"),
     Component = ComponentModule.Component,
-    rootComponent = ComponentModule.__root__;
+    rootComponent = ComponentModule.__root__,
+    MiddlewareClient = require("core/service/middleware-client").MiddlewareClient,
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService;
 
-var EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService;
-
-/**
- * @class Main
- * @extends Component
- */
 exports.Main = Component.specialize({
     templateDidLoad: {
         value: function() {
+            this.middlewareClient = MiddlewareClient.getInstance();
             this._eventDispatcherService = EventDispatcherService.getInstance();
             this._eventDispatcherService.addEventListener('connectionStatusChange', function(status) {
                 self.connectionStatus = status;

@@ -16,12 +16,18 @@
             "prototype": "../main-sidebar/main-sidebar.reel",
             "properties": {
                 "element": {"#": "mainSidebar"}
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "@owner.middlewareClient.state != 'OPEN'"}
             }
         },
         "sideboard": {
             "prototype": "../dashboard/sideboard.reel",
             "properties": {
                 "element": {"#": "sideboard"}
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "@owner.middlewareClient.state != 'OPEN'"}
             }
         },
         "substitution": {
@@ -81,7 +87,7 @@
                 "element": {"#": "disconnectionModal"}
             },
             "bindings": {
-                "connectionStatus": {"<-": "@owner.connectionStatus"}
+                "connectionState": {"<-": "@owner.middlewareClient.state"}
             }
         },
         "icons": {

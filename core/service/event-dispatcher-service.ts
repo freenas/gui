@@ -10,7 +10,7 @@ export class EventDispatcherService {
         return EventDispatcherService.instance || (EventDispatcherService.instance = new EventDispatcherService());
     }
 
-    public addEventListener(eventName: string, handler: Function) {
+    public addEventListener(eventName: string, handler: Function): Function {
         if (!this.listeners.has(eventName)) {
             this.listeners.set(eventName, new Set<Function>());
         }

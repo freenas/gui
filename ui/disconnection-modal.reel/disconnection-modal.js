@@ -1,14 +1,6 @@
-/**
- * @module ui/disconnection-modal.reel
- */
 var Component = require("montage/ui/component").Component;
 
-/**
- * @class DisconnectionModal
- * @extends Component
- */
-exports.DisconnectionModal = Component.specialize(/** @lends DisconnectionModal# */ {
-
+exports.DisconnectionModal = Component.specialize({
     _isConnected: {
         value: null
     },
@@ -18,7 +10,7 @@ exports.DisconnectionModal = Component.specialize(/** @lends DisconnectionModal#
             return this._isConnected;
         },
         set: function (value) {
-            if (value == 'DISCONNECTED') {
+            if (value == 'CLOSED') {
                 if (window.location.hash.length === 0) {
                     window.location.hash = '#';
                 }

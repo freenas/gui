@@ -34,6 +34,7 @@ var MiddlewareClient = (function () {
     };
     MiddlewareClient.prototype.login = function (login, password) {
         var self = this;
+        this.state = MiddlewareClient.CONNECTING;
         return this.connectionPromise.then(function () {
             var payload = {
                 namespace: 'rpc',
@@ -45,6 +46,9 @@ var MiddlewareClient = (function () {
             };
             return self.send(payload);
         }).then(function () {
+            self.url = self.getHost();
+            self.user = login;
+            self.state = MiddlewareClient.OPEN;
             return self.startKeepAlive();
         }, function (error) {
             if (error) {
@@ -151,8 +155,8 @@ var MiddlewareClient = (function () {
         };
     };
     MiddlewareClient.prototype.sendChunkOnConnection = function (connection, file, start, stop) {
-        start = parseInt(start) || 0;
-        stop = parseInt(stop) || file.size;
+        start = start || 0;
+        stop = stop || file.size;
         var reader = new FileReader();
         reader.onloadend = function (event) {
             var target = event.target;
@@ -185,7 +189,9 @@ var MiddlewareClient = (function () {
     };
     MiddlewareClient.prototype.startKeepAlive = function () {
         var self = this;
-        this.keepAliveInterval = setInterval(function () { return self.socket.send(self.KEEPALIVE_MSG.replace('${ID}', uuid.v4())); }, this.KEEPALIVE_PERIOD);
+        this.keepAliveInterval = setInterval(function () {
+            self.connectionPromise.then(function () { return self.socket.send(self.KEEPALIVE_MSG.replace('${ID}', uuid.v4())); });
+        }, this.KEEPALIVE_PERIOD);
     };
     MiddlewareClient.prototype.stopKeepalive = function () {
         if (this.keepAliveInterval) {
@@ -224,6 +230,7 @@ var MiddlewareClient = (function () {
         console.log('Closing connection to ' + this.socket.url);
         this.stopKeepalive();
         this.socket.close(1000);
+        this.state = MiddlewareClient.CLOSED;
     };
     MiddlewareClient.prototype.openConnection = function (url) {
         var self = this;
@@ -262,6 +269,7 @@ var MiddlewareClient = (function () {
         console.warn('[' + event.currentTarget.url + '] WS connection error:', event);
         this.dispatchConnectionStatus();
         this.stopKeepalive();
+        this.state = MiddlewareClient.CLOSED;
         this.connectionPromise = null;
         this.socket = null;
     };
@@ -269,8 +277,18 @@ var MiddlewareClient = (function () {
         console.log('[' + event.currentTarget.url + '] WS connection closed', event);
         this.dispatchConnectionStatus();
         this.stopKeepalive();
+        this.state = MiddlewareClient.CLOSED;
         this.connectionPromise = null;
         this.socket = null;
+        setTimeout(function () {
+            if (window.location.hash.length === 0) {
+                window.location.hash = '#';
+            }
+            if (window.location.hash.indexOf(';disconnected') === -1) {
+                window.location.hash += ';disconnected';
+            }
+            location.reload();
+        }, 2000);
     };
     MiddlewareClient.prototype.handleMessage = function (event) {
         try {
@@ -329,6 +347,9 @@ var MiddlewareClient = (function () {
     };
     return MiddlewareClient;
 }());
+MiddlewareClient.CONNECTING = "CONNECTING";
+MiddlewareClient.OPEN = "OPEN";
+MiddlewareClient.CLOSED = "CLOSED";
 exports.MiddlewareClient = MiddlewareClient;
 var MiddlewareError = (function (_super) {
     __extends(MiddlewareError, _super);

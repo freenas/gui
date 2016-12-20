@@ -9,6 +9,10 @@ export class MiddlewareClient {
     private KEEPALIVE_MSG = '{"namespace": "rpc", "name": "call", "id": "${ID}", "args": {"method": "session.whoami", "args": []}}';
     private KEEPALIVE_PERIOD = 30000;
 
+    private static CONNECTING = "CONNECTING";
+    private static OPEN = "OPEN";
+    private static CLOSED = "CLOSED";
+
     private static instance: MiddlewareClient;
     private socket;
     private handlers: Map<string, any>;
@@ -16,9 +20,11 @@ export class MiddlewareClient {
     private keepAliveInterval: number;
 
     public url: string;
+    public user: string;
+    public state: string;
 
     public constructor(private eventDispatcherService: EventDispatcherService) {
-        this.handlers = new Map<string, Promise>();
+        this.handlers = new Map<string, any>();
     }
 
     public static getInstance() {
@@ -42,6 +48,7 @@ export class MiddlewareClient {
 
     public login(login: string, password: string) {
         let self = this;
+        this.state = MiddlewareClient.CONNECTING;
         return this.connectionPromise.then(function() {
             let payload = {
                 namespace: 'rpc',
@@ -53,6 +60,9 @@ export class MiddlewareClient {
             };
             return self.send(payload);
         }).then(function() {
+            self.url = self.getHost();
+            self.user = login;
+            self.state = MiddlewareClient.OPEN;
             return self.startKeepAlive();
         }, function(error: MiddlewareError) {
             if (error) {
@@ -68,7 +78,7 @@ export class MiddlewareClient {
         });
     }
 
-    public callRpcMethod(name: string, args?: Array<any>): Promise {
+    public callRpcMethod(name: string, args?: Array<any>): Promise<any> {
         let self = this;
         return this.connectionPromise.then(function() {
             let payload = {
@@ -84,7 +94,7 @@ export class MiddlewareClient {
         });
     }
 
-    public submitTask(name: string, args?: Array<any>): Promise {
+    public submitTask(name: string, args?: Array<any>): Promise<any> {
         let self = this;
         return this.callRpcMethod("task.submit", [
                 name,
@@ -170,8 +180,8 @@ export class MiddlewareClient {
     }
 
     private sendChunkOnConnection(connection: WebSocket, file: File, start: number, stop: number) {
-        start = parseInt(start) || 0;
-        stop = parseInt(stop) || file.size;
+        start = start || 0;
+        stop = stop || file.size;
         let reader = new FileReader();
 
         reader.onloadend = function (event) {
@@ -213,10 +223,9 @@ export class MiddlewareClient {
 
     private startKeepAlive() {
         let self = this;
-        this.keepAliveInterval = setInterval(
-            () => self.socket.send(self.KEEPALIVE_MSG.replace('${ID}', uuid.v4())),
-            this.KEEPALIVE_PERIOD
-        );
+        this.keepAliveInterval = setInterval(function() {
+            self.connectionPromise.then(() => self.socket.send(self.KEEPALIVE_MSG.replace('${ID}', uuid.v4())) );
+        }, this.KEEPALIVE_PERIOD);
     }
 
     private stopKeepalive() {
@@ -226,7 +235,7 @@ export class MiddlewareClient {
         }
     }
 
-    private send(payload: any): Promise {
+    private send(payload: any): Promise<any> {
         let self = this;
         return this.connectionPromise.then(function() {
             let resolve, reject,
@@ -259,9 +268,10 @@ export class MiddlewareClient {
         console.log('Closing connection to ' + this.socket.url);
         this.stopKeepalive();
         this.socket.close(1000);
+        this.state = MiddlewareClient.CLOSED
     }
 
-    private openConnection(url: string): Promise {
+    private openConnection(url: string): Promise<any> {
         let self = this;
         if (!this.socket) {
             this.connectionPromise = new Promise(function(resolve, reject) {
@@ -300,6 +310,7 @@ export class MiddlewareClient {
         console.warn('[' + event.currentTarget.url + '] WS connection error:', event);
         this.dispatchConnectionStatus();
         this.stopKeepalive();
+        this.state = MiddlewareClient.CLOSED;
         this.connectionPromise = null;
         this.socket = null;
     }
@@ -308,11 +319,21 @@ export class MiddlewareClient {
         console.log('[' + event.currentTarget.url + '] WS connection closed', event);
         this.dispatchConnectionStatus();
         this.stopKeepalive();
+        this.state = MiddlewareClient.CLOSED;
         this.connectionPromise = null;
         this.socket = null;
+        setTimeout(function() {
+            if (window.location.hash.length === 0) {
+                window.location.hash = '#';
+            }
+            if (window.location.hash.indexOf(';disconnected') === -1) {
+                window.location.hash += ';disconnected';
+            }
+            location.reload();
+        }, 2000);
     }
 
-    private handleMessage(event: Event) {
+    private handleMessage(event: MessageEvent) {
         try {
             let message = JSON.parse(event.data);
             if (message.namespace === 'rpc') {

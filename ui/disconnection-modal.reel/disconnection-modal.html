@@ -16,7 +16,7 @@
                 "element": {"#": "modal"}
             },
             "bindings": {
-                "classList.has('montage-Overlay--visible')": {"<-": "@owner.connectionStatus > 3"}
+                "classList.has('montage-Overlay--visible')": {"<-": "@owner.connectionState == 'CLOSED'"}
             }
         }
     }
