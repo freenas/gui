@@ -38,12 +38,10 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
     },
 
     getDatasourcesHistory: {
-        value: function(datasources, startDate, endDate, periodInSecs) {
+        value: function(datasources, periodInSecs) {
             periodInSecs = periodInSecs || 10;
-            endDate = endDate || new Date();
-            startDate = startDate || new Date(endDate.getTime() - (periodInSecs * 100 * 1000));
             return this._callBackend("stat.get_stats", [datasources, {
-                timespan:   periodInSecs*100,
+                timespan:   periodInSecs * 100,
                 frequency:  periodInSecs + 's'
             }]).then(function(response) {
                 return response.data.data;

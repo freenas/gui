@@ -38,9 +38,10 @@ exports.ChartLive = Component.specialize({
     transformValue: {
         value: function(value) {
             if (typeof this.parentComponent.transformValue === 'function') {
-                return this.parentComponent.transformValue(value);
+                return this.parentComponent.transformValue(+value);
             }
-            return this.callDelegateMethod('transformValue', value) || value;
+            return this.callDelegateMethod('transformValue', +value) ||
+                (value && !isNaN(value) ? +value : 0);
         }
     },
 
@@ -152,7 +153,7 @@ exports.ChartLive = Component.specialize({
             var self = this,
                 allPathes = datasourceProperties.map(function(prop) { return prop.path; }),
                 allEvents = datasourceProperties.map(function(prop) { return prop.event; }),
-                startTimestamp = Math.floor(Date.now() / this.constructor.TIME_SERIES_INTERVAL - 100) * this.constructor.TIME_SERIES_INTERVAL,
+                startTimestamp = Math.ceil(Date.now() / self.constructor.TIME_SERIES_INTERVAL - 100) * self.constructor.TIME_SERIES_INTERVAL,
                 property, eventType, i;
 
             return this._statisticsService.getDatasourcesHistory(allPathes).then(function (values) {
@@ -164,7 +165,7 @@ exports.ChartLive = Component.specialize({
                         values: values.map(function (value, index) {
                             return {
                                 x: property.label || (startTimestamp + index * self.constructor.TIME_SERIES_INTERVAL),
-                                y: self.transformValue(+value[i])
+                                y: self.transformValue(value[i])
                             }
                         })
                     });
@@ -191,18 +192,12 @@ exports.ChartLive = Component.specialize({
                 allEvents = datasourceProperties.map(function(prop) { return prop.event; }),
                 property, eventType, i;
 
-            // initialize chart so that we can keep the order in x-axis
-            for (i = 0; i < datasourceProperties.length; i++) {
-                property = datasourceProperties[i];
-                this.chart.setValue(property.key, {x: property.label, y: 0});
-            }
-
             return this._statisticsService.getDatasourcesCurrentValue(allPathes).then(function(values) {
                 for (i = 0; i < datasourceProperties.length; i++) {
                     property = datasourceProperties[i];
                     self.chart.setValue(property.key, {
                         x: property.label,
-                        y: self.transformValue(values[i] ? values[i].pokeBack() : 0)
+                        y: self.transformValue((values[i] || []).pokeBack())
                     });
                 }
             }).then(function() {
