@@ -104,10 +104,13 @@ export class AccountsSectionService extends AbstractSectionService {
                 groups = allGroups.filter((x) => !x.builtin),
                 system = allUsers.filter((x) => x.builtin).concat(allGroups.filter((x) => x.builtin));
             (users as any)._objectType = 'User';
+            (users as any)._filter = {builtin: false};
             (users as any)._order = 0;
             (groups as any)._objectType = 'Group';
+            (groups as any)._filter = {builtin: false};
             (groups as any)._order = 1;
-            (system as any)._objectType = 'AccountSystem';
+            (system as any)._objectType = ['User', 'Group'];
+            (system as any)._filter = {builtin: true};
             (system as any)._order = 2;
             directoryServices._objectType = 'DirectoryServices';
             directoryServices._order = 3;

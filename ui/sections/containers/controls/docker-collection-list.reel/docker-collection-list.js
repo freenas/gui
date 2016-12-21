@@ -1,66 +1,36 @@
-/**
- * @module ui/docker-collection-list.reel
- */
-var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    _ = require("lodash");
 
-/**
- * @class DockerCollectionList
- * @extends Component
- */
-exports.DockerCollectionList = AbstractInspector.specialize(/** @lends DockerCollectionList# */ {
+var DockerCollectionList = exports.DockerCollectionList = AbstractInspector.specialize({
 
     _inspectorTemplateDidLoad: {
         value: function () {
             var self = this;
-
             return this._sectionService.listDockerCollections().then(function (dockerCollections) {
-                self._dockerCollections = dockerCollections;
+                self.instances = self._dockerCollections = dockerCollections;
             });
-        }
-    },
-
-    _object: {
-        value: null
-    },
-
-    object: {
-        set: function (object) {
-            if (this._object !== object) {
-                this._object = object;
-                this.selectedCollection = null;
-            }
-        },
-        get: function () {
-            return this._object;
         }
     },
 
     enterDocument: {
         value: function (isFirstTime) {
-            this.super();
-
-            if (isFirstTime) {
-                this.addPathChangeListener("selectedCollection", this, "handleSelectedCollectionChange");
-            }
-        }
-    },
-
-    handleSelectedCollectionChange: {
-        value: function () {
-            if (this.selectedCollection) {
-                var self = this;
-
-                this._sectionService.getNewInstanceRelatedToObjectModel(this.object).then(function (objectUIDescriptor) {
-                    objectUIDescriptor.dockerCollection = self.selectedCollection;
-                    objectUIDescriptor.modelObject = self.object;
-                    self.selectedObject = objectUIDescriptor;
-                });
-            } else {
-                this.selectedObject = null;
-            }
+            this.super(isFirstTime);
+            var self = this;
+            this._canDrawGate.setField(DockerCollectionList.DATA_GATE_BLOCK_KEY, false);
+            Promise.all(
+                _.map(this._dockerCollections, function(collection) {
+                    return self._sectionService.getNewInstanceFromObjectType(self.context.objectType).then(function(instance) {
+                        instance.dockerCollection = collection;
+                        instance._isNewObject = true;
+                        return instance;
+                    });
+                })
+            ).then(function(instances) {
+                self.instances = instances;
+                self._canDrawGate.setField(DockerCollectionList.DATA_GATE_BLOCK_KEY, true);
+            })
         }
     }
-
 }, {
 
     DATA_GATE_BLOCK_KEY: {

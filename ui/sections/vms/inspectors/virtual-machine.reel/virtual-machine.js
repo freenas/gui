@@ -26,7 +26,6 @@ exports.VirtualMachine = AbstractInspector.specialize({
 
     _inspectorTemplateDidLoad: {
         value: function() {
-            var self = this;
             this.DEFAULT_STRING = this._sectionService.DEFAULT_STRING;
             this.guestTypeOptions = this._sectionService.GUEST_TYPES;
             this.bootloaderOptions = this._sectionService.BOOTLOADERS;
@@ -47,8 +46,7 @@ exports.VirtualMachine = AbstractInspector.specialize({
             this.editMode = this.object._isNew ? "edit" : "display";
 
             Promise.all(loadingPromises).then(function() {
-                return self._sectionService.initializeVm(self.object);
-            }).then(function() {
+                self._sectionService.initializeVm(self.object);
                 self.addPathChangeListener("object._bootDevice", self, "_handleBootDeviceChange");
                 self.addPathChangeListener("object._selectedTemplate", self, "_handleTemplateChange");
                 self._cancelDevicesListener = self.addRangeAtPathChangeListener("object.devices", self, "_handleDevicesChange");

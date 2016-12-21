@@ -9,7 +9,14 @@ class NullProcessor implements DataProcessor {
             value;
         for (let property of keys) {
             value = object[property];
-            if (value || typeof value !== 'object') {
+            if (typeof value === 'object') {
+                if (value) {
+                    let cleaned = this.process(value);
+                    if (cleaned) {
+                        processed.set(property, cleaned);
+                    }
+                }
+            } else {
                 processed.set(property, value);
             }
         }

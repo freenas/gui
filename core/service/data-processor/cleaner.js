@@ -33,6 +33,7 @@ var CleaningProcessor = (function () {
         return property &&
             property.length > 0 &&
             property[0] !== '_' &&
+            property !== 'constructor' &&
             CleaningProcessor.validPropertyRegex.test(property) &&
             typeof value !== 'function' &&
             (!descriptor || !descriptor.readOnly);

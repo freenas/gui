@@ -21,6 +21,14 @@ export class ShareRepository extends AbstractRepository {
         return this.shareDao.list();
     }
 
+    public getNewShare() {
+        return this.shareDao.getNewInstance();
+    }
+
+    public saveShare(object: any, isServiceEnabled: boolean) {
+        return this.shareDao.save(object, object._isNew ? [null, isServiceEnabled] : [isServiceEnabled]);
+    }
+
     protected handleStateChange(name: string, state: any) {
         let self = this;
         switch (name) {

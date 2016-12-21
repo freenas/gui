@@ -1,15 +1,16 @@
-import {SectionRepository} from 'core/repository/section-repository';
-import {Section} from 'core/model/models/section';
-import {EventDispatcherService} from 'core/service/event-dispatcher-service';
+import {SectionRepository} from '../../repository/section-repository';
+import {Section} from '../../model/models/section';
+import {EventDispatcherService} from '../event-dispatcher-service';
+import * as Promise from "bluebird";
 
 export abstract class AbstractSectionService {
     private static readonly sectionRepository: SectionRepository = SectionRepository.instance;
     protected eventDispatcherService: EventDispatcherService;
     public instanciationPromise: Promise<AbstractSectionService>;
     public section: Section;
-    public entries: Array<Object>;
-    public extraEntries: Array<Object>;
-    public overview: Object;
+    public entries: Array<any>;
+    public extraEntries: Array<any>;
+    public overview: any;
 
     protected constructor() {
         this.eventDispatcherService = EventDispatcherService.getInstance();
@@ -25,15 +26,15 @@ export abstract class AbstractSectionService {
 
     protected abstract init(...args: any[])
 
-    protected abstract loadEntries()
+    protected abstract loadEntries(): Promise<Array<any>>
 
-    protected abstract loadExtraEntries()
+    protected abstract loadExtraEntries(): Promise<Array<any>>
 
-    protected abstract loadSettings()
+    protected abstract loadSettings(): Promise<any>
 
-    protected abstract loadOverview()
+    protected abstract loadOverview(): Promise<any>
 
-    protected findObjectWithId(entries: Array<Object>, id: string) {
+    protected findObjectWithId(entries: Array<any>, id: string) {
         for (let entry of entries) {
             if (entry.id === id) {
                 return entry;
@@ -52,14 +53,14 @@ export abstract class AbstractSectionService {
             self.loadExtraEntries(),
             self.loadSettings(),
             self.loadOverview()
-        ]).then(function (data) {
-            self.section = data[0];
-            self.section.settings = data[1];
-            self.entries = self.section.entries = data[2];
-            self.extraEntries = self.section.extraEntries = data[3]
-            self.section.settings.section = self.section;
-            self.section.settings.settings = data[4];
-            self.overview = self.section.overview = data[5];
+        ]).spread(function(section, sectionSettings, entries, extraEntries, settings, overview) {
+            sectionSettings.section = section;
+            sectionSettings.settings = settings;
+            self.section = section;
+            self.section.settings = sectionSettings;
+            self.entries = self.section.entries = entries;
+            self.extraEntries = self.section.extraEntries = extraEntries;
+            self.overview = self.section.overview = overview;
             return self;
         });
     }

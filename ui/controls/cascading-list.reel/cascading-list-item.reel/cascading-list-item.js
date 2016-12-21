@@ -1,11 +1,15 @@
-var Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component,
+    ModelDescriptorService = require("core/service/model-descriptor-service").ModelDescriptorService,
+    RoutingService = require("core/service/routing-service").RoutingService,
+    _ = require("lodash");
 
-/**
- * @class CascadingListItem
- * @extends Component
- */
 exports.CascadingListItem = Component.specialize({
-
+    templateDidLoad: {
+        value: function() {
+            this.modelDescriptorService = ModelDescriptorService.getInstance();
+            this.routingService = RoutingService.getInstance();
+        }
+    },
 
     _data: {
         value: null
@@ -87,21 +91,39 @@ exports.CascadingListItem = Component.specialize({
             return this._selectedObject;
         },
         set: function (selectedObject) {
-            if (this._selectedObject !== selectedObject) {
+            if (selectedObject !== this._selectedObject) {
                 this._selectedObject = selectedObject;
-
-                if (selectedObject !== void 0 && selectedObject !== null) {
-                    this.selectedId = this.application.modelDescriptorService.getObjectType(selectedObject) + '#' +
-                        (selectedObject.id || '');
-                    this.cascadingList.expand(selectedObject, this.data.columnIndex + 1);
-
-                } else if (this.data.columnIndex < this.cascadingList._currentIndex) {
-                    if (!this._isResetting) {
-                        this.selectedId = null;
-                    }
-                    this.cascadingList.popAtIndex(this.data.columnIndex + 1, this._isResetting);
+                if (selectedObject) {
+                    this.selectObject(selectedObject);
                 }
             }
+        }
+    },
+
+    selectObject: {
+        value: function(object) {
+            var self = this,
+                columnIndex = this.data && this.data.columnIndex || 0;
+            if (object._isNewObject) {
+                this.modelDescriptorService.getUiDescriptorForObject(object).then(function(uiDescriptor) {
+                    var data = _.clone(self.data);
+                    data.userInterfaceDescriptor = uiDescriptor;
+                    data.object = object;
+                    self.data = data;
+                });
+            } else {
+                this.routingService.getKeyFromObject(object).then(function(selectedKey) {
+                    self.selectedKey = selectedKey;
+                    return self.routingService.selectObject(object, columnIndex);
+                });
+            }
+        }
+    },
+
+    selectProperty: {
+        value: function(property, objectType) {
+            var columnIndex = this.data && this.data.columnIndex || 0;
+            this.selectedKey = this.routingService.selectProperty(property, columnIndex, objectType);
         }
     },
 
@@ -114,6 +136,14 @@ exports.CascadingListItem = Component.specialize({
             if (isFirstTime) {
                 this.addEventListener("placeholderContentLoaded", this);
             }
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            this.data = null;
+            this.object = null;
+            this.selectedKey = null;
         }
     },
 

@@ -50,10 +50,7 @@ var VolumeRepository = (function (_super) {
         return this.volumeSnapshotDao.list();
     };
     VolumeRepository.prototype.getVolumeImporter = function () {
-        return this.volumeImporterDao.getNewInstance().then(function (volumeImporter) {
-            volumeImporter._isNew = false;
-            return volumeImporter;
-        });
+        return this.volumeImporterDao.get();
     };
     VolumeRepository.prototype.getEncryptedVolumeActionsInstance = function () {
         return this.encryptedVolumeActionsDao.getNewInstance();
@@ -126,6 +123,14 @@ var VolumeRepository = (function (_super) {
     VolumeRepository.prototype.importDisk = function (disk, path, fsType) {
         return this.volumeDao.importDisk(disk, path, fsType);
     };
+    VolumeRepository.prototype.updateVolumeTopology = function (volume, topology) {
+        volume.topology = this.cleanupTopology(topology);
+        // FIXME: Remove once the middleware stops sending erroneous data
+        if (!volume.providers_presence) {
+            volume.providers_presence = 'NONE';
+        }
+        return this.volumeDao.save(volume);
+    };
     VolumeRepository.prototype.cleanupTopology = function (topology) {
         var clean = {};
         for (var _i = 0, _a = VolumeRepository.TOPOLOGY_KEYS; _i < _a.length; _i++) {
@@ -141,9 +146,10 @@ var VolumeRepository = (function (_super) {
         }
         return clean;
     };
-    VolumeRepository.prototype.cleanupVdev = function (vdev) {
+    VolumeRepository.prototype.cleanupVdev = function (vdev, isChild) {
+        if (isChild === void 0) { isChild = false; }
         var clean;
-        if (vdev.type === 'disk') {
+        if (vdev.type === 'disk' || isChild) {
             clean = {
                 type: 'disk'
             };
@@ -161,8 +167,11 @@ var VolumeRepository = (function (_super) {
             };
             for (var _i = 0, _a = vdev.children; _i < _a.length; _i++) {
                 var child = _a[_i];
-                clean.children.push(this.cleanupVdev(child));
+                clean.children.push(this.cleanupVdev(child, true));
             }
+        }
+        if (vdev.guid) {
+            clean.guid = vdev.guid;
         }
         return clean;
     };

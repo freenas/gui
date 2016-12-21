@@ -139,6 +139,9 @@ var StorageSectionService = (function (_super) {
         }
         return priorities;
     };
+    StorageSectionService.prototype.updateVolumeTopology = function (volume, topology) {
+        return this.volumeRepository.updateVolumeTopology(volume, topology);
+    };
     StorageSectionService.prototype.markDiskAsReserved = function (diskId) {
         this.diskRepository.markDiskAsReserved(diskId);
     };

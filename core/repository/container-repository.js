@@ -7,35 +7,25 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
     DockerContainerCreatorDao = require("core/dao/docker-container-creator-dao").DockerContainerCreatorDao,
     DockerContainerLogsDao = require("core/dao/docker-container-logs-dao").DockerContainerLogsDao,
     DockerImagePullDao = require("core/dao/docker-image-pull-dao").DockerImagePullDao,
-    DockerContainerDao = require("core/dao/docker-container-dao").DockerContainerDao;
-    DockerContainerBridgeDao = require("core/dao/docker-container-bridge-dao").DockerContainerBridgeDao;
+    DockerContainerDao = require("core/dao/docker-container-dao").DockerContainerDao,
+    DockerContainerBridgeDao = require("core/dao/docker-container-bridge-dao").DockerContainerBridgeDao,
+    ModelDescriptorService = require("core/service/model-descriptor-service").ModelDescriptorService;
 
 exports.ContainerRepository = AbstractRepository.specialize({
 
     init: {
-        value: function (
-            dockerContainerSectionDao,
-            dockerContainerDao,
-            dockerImageDao,
-            dockerHostDao,
-            dockerConfigDao,
-            dockerCollectionDao,
-            dockerContainerCreatorDao,
-            dockerImagePullDao,
-            dockerContainerLogsDao,
-            dockerContainerBridgeDao
-            ) {
-
-            this._dockerContainerSectionDao = dockerContainerSectionDao || DockerContainerSectionDao.instance;
-            this._dockerContainerDao = dockerContainerDao || new DockerContainerDao();
-            this._dockerImageDao = dockerImageDao || DockerImageDao.instance;
-            this._dockerHostDao = dockerHostDao || DockerHostDao.instance;
-            this._dockerConfigDao = dockerConfigDao || new DockerConfigDao();
-            this._dockerCollectionDao = dockerCollectionDao || DockerCollectionDao.instance;
-            this._dockerContainerCreatorDao = dockerContainerCreatorDao || DockerContainerCreatorDao.instance;
-            this._dockerImagePullDao = dockerImagePullDao || DockerImagePullDao.instance;
-            this._dockerContainerLogsRepository = dockerContainerLogsDao || DockerContainerLogsDao.instance;
-            this._dockerContainerBridgeDao = dockerContainerBridgeDao || DockerContainerBridgeDao.instance;
+        value: function () {
+            this._dockerContainerSectionDao = DockerContainerSectionDao.instance;
+            this._dockerContainerDao = new DockerContainerDao();
+            this._dockerImageDao = new DockerImageDao();
+            this._dockerHostDao = new DockerHostDao();
+            this._dockerConfigDao = new DockerConfigDao();
+            this._dockerCollectionDao = new DockerCollectionDao();
+            this._dockerContainerCreatorDao = DockerContainerCreatorDao.instance;
+            this._dockerImagePullDao = DockerImagePullDao.instance;
+            this._dockerContainerLogsRepository = DockerContainerLogsDao.instance;
+            this._dockerContainerBridgeDao = DockerContainerBridgeDao.instance;
+            this._modelDescriptorService = ModelDescriptorService.getInstance();
         }
     },
 
@@ -60,6 +50,17 @@ exports.ContainerRepository = AbstractRepository.specialize({
     getNewDockerContainerBridge: {
         value: function () {
             return this._dockerContainerBridgeDao.getNewInstance();
+        }
+    },
+
+    getNewInstanceFromObjectType: {
+        value: function(objectType) {
+            if (objectType === 'DockerImage') {
+                objectType = 'DockerImagePull';
+            }
+            return this._modelDescriptorService.getDaoForType(objectType).then(function(dao) {
+                return dao.getNewInstance();
+            });
         }
     },
 

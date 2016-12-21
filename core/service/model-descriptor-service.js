@@ -1,6 +1,7 @@
 "use strict";
-var middleware_client_1 = require("core/service/middleware-client");
+var middleware_client_1 = require("./middleware-client");
 var ChangeCase = require("change-case");
+var Promise = require("bluebird");
 var ModelDescriptorService = (function () {
     function ModelDescriptorService(middlewareClient) {
         this.middlewareClient = middlewareClient;
@@ -26,6 +27,9 @@ var ModelDescriptorService = (function () {
     };
     ModelDescriptorService.prototype.getUiDescriptorForType = function (type) {
         var self = this;
+        if (!type) {
+            console.trace('no type');
+        }
         return this.uiCache.has(type) ?
             Promise.resolve(this.uiCache.get(type)) :
             SystemJS.import(this.UI_DESCRIPTOR_PREFIX + ChangeCase.paramCase(type) + this.UI_DESCRIPTOR_SUFFIX)
@@ -52,7 +56,7 @@ var ModelDescriptorService = (function () {
             });
     };
     ModelDescriptorService.prototype.getObjectType = function (object) {
-        var type = object._objectType || (Array.isArray(object) && object.length > 0 && object[0]._objectType);
+        var type = (Array.isArray(object._objectType) && object._objectType[0]) || object._objectType || (Array.isArray(object) && object.length > 0 && object[0]._objectType);
         if (!type) {
             var model = object.Type ||
                 object.constructor.Type ||
@@ -62,6 +66,36 @@ var ModelDescriptorService = (function () {
             }
         }
         return type;
+    };
+    ModelDescriptorService.prototype.getPropertyType = function (type, property) {
+        return this.loadRemoteSchema().then(function (schema) {
+            var result;
+            if (schema.has(type)) {
+                var propertyDescriptor = schema.get(type).properties[property];
+                if (propertyDescriptor) {
+                    if (propertyDescriptor.type) {
+                        result = propertyDescriptor.type;
+                    }
+                    else if (propertyDescriptor['$ref']) {
+                        result = ChangeCase.pascalCase(propertyDescriptor['$ref']);
+                    }
+                }
+            }
+            return result;
+        });
+    };
+    ModelDescriptorService.prototype.loadRemoteSchema = function () {
+        var self = this;
+        return this.schema ?
+            Promise.resolve(this.schema) :
+            this.middlewareClient.callRpcMethod('discovery.get_schema').then(function (schema) {
+                self.schema = new Map();
+                for (var schemaType in schema.definitions) {
+                    var objectType = ChangeCase.pascalCase(schemaType);
+                    self.schema.set(objectType, schema.definitions[schemaType]);
+                }
+                return self.schema;
+            });
     };
     return ModelDescriptorService;
 }());

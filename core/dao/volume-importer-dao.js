@@ -10,6 +10,18 @@ var VolumeImporterDao = (function (_super) {
     function VolumeImporterDao() {
         return _super.call(this, 'VolumeImporter') || this;
     }
+    VolumeImporterDao.prototype.list = function () {
+        var self = this;
+        return this.entries ?
+            Promise.resolve(this.entries) :
+            this.getNewInstance().then(function (volumeImporter) {
+                volumeImporter._isNew = false;
+                volumeImporter.id = '-';
+                self.entries = [volumeImporter];
+                self.entries._objectType = 'VolumeImporter';
+                return self.entries;
+            });
+    };
     return VolumeImporterDao;
 }(abstract_dao_ng_1.AbstractDao));
 exports.VolumeImporterDao = VolumeImporterDao;

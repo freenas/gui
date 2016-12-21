@@ -126,6 +126,12 @@ exports.NetworkSectionService = AbstractSectionService.specialize({
         }
     },
 
+    getNewNetworkInterface: {
+        value: function() {
+            return this._networkRepository.getNewNetworkInterface();
+        }
+    },
+
     handleDhcpChangeOnInterface: {
         value: function(interface) {
             if (interface.dhcp) {

@@ -9,6 +9,7 @@ import {DetachedVolumeDao} from "../dao/detached-volume-dao";
 
 import * as immutable from 'immutable';
 import * as Promise from "bluebird";
+import * as _ from "lodash";
 import {EncryptedVolumeImporterDao} from "../dao/encrypted-volume-importer-dao";
 import {ZfsTopologyDao} from "../dao/zfs-topology-dao";
 import {ModelEventName} from "../model-event-name";
@@ -69,10 +70,7 @@ export class VolumeRepository extends AbstractRepository {
     }
 
     public getVolumeImporter(): Promise<Object> {
-        return this.volumeImporterDao.getNewInstance().then(function(volumeImporter) {
-            volumeImporter._isNew = false;
-            return volumeImporter;
-        });
+        return this.volumeImporterDao.get();
     }
 
     public getEncryptedVolumeActionsInstance(): Promise<Object> {
@@ -83,7 +81,7 @@ export class VolumeRepository extends AbstractRepository {
         return this.volumeDao.getDisksAllocation(diskIds);
     }
 
-    public getAvailableDisks(): Promise<string> {
+    public getAvailableDisks(): Promise<Array<string>> {
         return this.volumeDao.getAvailableDisks();
     }
 
@@ -164,6 +162,16 @@ export class VolumeRepository extends AbstractRepository {
         return this.volumeDao.importDisk(disk, path, fsType);
     }
 
+    public updateVolumeTopology(volume: any, topology: any) {
+        volume.topology = this.cleanupTopology(topology);
+
+        // FIXME: Remove once the middleware stops sending erroneous data
+        if (!volume.providers_presence) {
+            volume.providers_presence = 'NONE';
+        }
+        return this.volumeDao.save(volume);
+    }
+
     private cleanupTopology(topology: any) {
         let clean = {};
         for (let key of VolumeRepository.TOPOLOGY_KEYS) {
@@ -178,9 +186,9 @@ export class VolumeRepository extends AbstractRepository {
         return clean;
     }
 
-    private cleanupVdev(vdev: any) {
+    private cleanupVdev(vdev: any, isChild = false) {
         let clean;
-        if (vdev.type === 'disk') {
+        if (vdev.type === 'disk' || isChild) {
             clean = {
                 type: 'disk'
             };
@@ -195,8 +203,11 @@ export class VolumeRepository extends AbstractRepository {
                 children: []
             };
             for (let child of vdev.children) {
-                clean.children.push(this.cleanupVdev(child));
+                clean.children.push(this.cleanupVdev(child, true));
             }
+        }
+        if (vdev.guid) {
+            clean.guid = vdev.guid;
         }
         return clean;
     }

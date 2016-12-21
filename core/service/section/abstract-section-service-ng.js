@@ -1,6 +1,7 @@
 "use strict";
-var section_repository_1 = require("core/repository/section-repository");
-var event_dispatcher_service_1 = require("core/service/event-dispatcher-service");
+var section_repository_1 = require("../../repository/section-repository");
+var event_dispatcher_service_1 = require("../event-dispatcher-service");
+var Promise = require("bluebird");
 var AbstractSectionService = (function () {
     function AbstractSectionService() {
         this.eventDispatcherService = event_dispatcher_service_1.EventDispatcherService.getInstance();
@@ -30,14 +31,14 @@ var AbstractSectionService = (function () {
             self.loadExtraEntries(),
             self.loadSettings(),
             self.loadOverview()
-        ]).then(function (data) {
-            self.section = data[0];
-            self.section.settings = data[1];
-            self.entries = self.section.entries = data[2];
-            self.extraEntries = self.section.extraEntries = data[3];
-            self.section.settings.section = self.section;
-            self.section.settings.settings = data[4];
-            self.overview = self.section.overview = data[5];
+        ]).spread(function (section, sectionSettings, entries, extraEntries, settings, overview) {
+            sectionSettings.section = section;
+            sectionSettings.settings = settings;
+            self.section = section;
+            self.section.settings = sectionSettings;
+            self.entries = self.section.entries = entries;
+            self.extraEntries = self.section.extraEntries = extraEntries;
+            self.overview = self.section.overview = overview;
             return self;
         });
     };

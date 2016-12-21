@@ -112,8 +112,11 @@ exports.VmsSectionService = AbstractSectionService.specialize({
     loadEntries: {
         value: function() {
             this.entries = [];
+            this.entries._objectType = 'Vm';
             return this._vmRepository.listVms().then(function(entries) {
-                return _.sortBy(entries, 'name');
+                var sortedEntries = _.sortBy(entries, 'name');
+                sortedEntries._objectType = 'Vm';
+                return sortedEntries;
             });
         }
     },
@@ -365,41 +368,29 @@ exports.VmsSectionService = AbstractSectionService.specialize({
     initializeVm: {
         value: function(vm) {
             var self = this;
-            return this._initializeDevicesOnVm(vm).then(function() {
-                if (vm._isNew) {
-                    self._initializeNewVm(vm);
-                }
-                self._setMemoryOnVm(vm);
-                vm._bootDevice = vm.config.boot_device;
-            });
+            this._initializeDevicesOnVm(vm);
+            if (vm._isNew) {
+                self._initializeNewVm(vm);
+            }
+            self._setMemoryOnVm(vm);
+            vm._bootDevice = vm.config.boot_device;
         }
     },
 
     _initializeDevicesOnVm: {
         value: function(vm) {
-            var promises = [];
             if (!vm.devices) {
-                promises.push(
-                    this._vmRepository.getNewVmDeviceList().then(function(devices) {
-                        return vm.devices = devices;
-                    })
-                );
+                vm.devices = [];
+                vm.devices._objectType = 'VmDevice';
             }
             if (!vm._nonVolumeDevices) {
-                promises.push(
-                    this._vmRepository.getNewVmDeviceList().then(function(devices) {
-                        return vm._nonVolumeDevices = devices;
-                    })
-                );
+                vm._nonVolumeDevices = [];
+                vm._nonVolumeDevices._objectType = 'VmDevice';
             }
             if (!vm._volumeDevices) {
-                promises.push(
-                    this._vmRepository.getNewVmVolumeList().then(function(devices) {
-                        return vm._volumeDevices = devices;
-                    })
-                );
+                vm._volumeDevices = [];
+                vm._volumeDevices._objectType = 'VmDevice';
             }
-            return Promise.all(promises);
         }
     },
 

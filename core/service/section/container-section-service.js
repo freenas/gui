@@ -2,8 +2,7 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
     ContainerRepository = require("core/repository/container-repository").ContainerRepository,
     MiddlewareTaskRepository = require("core/repository/middleware-task-repository").MiddlewareTaskRepository,
     UserRepository = require("core/repository/user-repository").UserRepository,
-    ApplicationContextService = require("core/service/application-context-service").ApplicationContextService
-    BackendBridge = require('core/backend/backend-bridge'),
+    ApplicationContextService = require("core/service/application-context-service").ApplicationContextService,
     Model = require("core/model/model").Model;
 
 exports.ContainerSectionService = AbstractSectionService.specialize({
@@ -85,6 +84,12 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         }
     },
 
+    getNewInstanceFromObjectType: {
+        value: function (objectType) {
+            return this._containerRepository.getNewInstanceFromObjectType(objectType);
+        }
+    },
+
     getNewDockerContainerLogs: {
         value: function () {
             return this._containerRepository.getNewDockerContainerLogs();
@@ -106,6 +111,12 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
     getNewDockerContainerCreator: {
         value: function () {
             return this._containerRepository.getNewDockerContainerCreator();
+        }
+    },
+
+    getNewDockerImagePull: {
+        value: function() {
+            return this._containerRepository.getNewImagePull();
         }
     },
 

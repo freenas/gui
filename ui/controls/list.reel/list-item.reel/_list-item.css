@@ -22,7 +22,7 @@
 
 /* States ---------------------------------- */
 
-.selected .ListItem {
+.ListItem.selected {
     background: #2B9CD8;
     cursor: default;
     color: #fff;

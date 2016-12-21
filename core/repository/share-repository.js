@@ -22,6 +22,12 @@ var ShareRepository = (function (_super) {
     ShareRepository.prototype.listShares = function () {
         return this.shareDao.list();
     };
+    ShareRepository.prototype.getNewShare = function () {
+        return this.shareDao.getNewInstance();
+    };
+    ShareRepository.prototype.saveShare = function (object, isServiceEnabled) {
+        return this.shareDao.save(object, object._isNew ? [null, isServiceEnabled] : [isServiceEnabled]);
+    };
     ShareRepository.prototype.handleStateChange = function (name, state) {
         var self = this;
         switch (name) {

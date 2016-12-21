@@ -5,11 +5,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var abstract_dao_ng_1 = require("./abstract-dao-ng");
-var DockerCollectionDao = (function (_super) {
-    __extends(DockerCollectionDao, _super);
-    function DockerCollectionDao() {
-        return _super.call(this, 'DockerCollection') || this;
+var TunableDao = (function (_super) {
+    __extends(TunableDao, _super);
+    function TunableDao() {
+        return _super.call(this, 'Tunable') || this;
     }
-    return DockerCollectionDao;
+    return TunableDao;
 }(abstract_dao_ng_1.AbstractDao));
-exports.DockerCollectionDao = DockerCollectionDao;
+exports.TunableDao = TunableDao;

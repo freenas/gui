@@ -9,7 +9,15 @@ var NullProcessor = (function () {
         for (var _i = 0, keys_1 = keys; _i < keys_1.length; _i++) {
             var property = keys_1[_i];
             value = object[property];
-            if (value || typeof value !== 'object') {
+            if (typeof value === 'object') {
+                if (value) {
+                    var cleaned = this.process(value);
+                    if (cleaned) {
+                        processed.set(property, cleaned);
+                    }
+                }
+            }
+            else {
                 processed.set(property, value);
             }
         }

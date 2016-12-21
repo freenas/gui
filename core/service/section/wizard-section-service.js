@@ -1,7 +1,6 @@
 var AbstractSectionService = require("core/service/section/abstract-section-service").AbstractSectionService,
     NotificationCenterModule = require("core/backend/notification-center"),
     Application = require("montage/core/application").application,
-    Model = require("core/model/model").Model,
     ModelDescriptorService = require("core/service/model-descriptor-service").ModelDescriptorService,
     TopologyService = require("core/service/topology-service").TopologyService,
     DiskRepository = require("core/repository/disk-repository").DiskRepository,

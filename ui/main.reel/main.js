@@ -2,11 +2,13 @@ var ComponentModule = require("montage/ui/component"),
     Component = ComponentModule.Component,
     rootComponent = ComponentModule.__root__,
     MiddlewareClient = require("core/service/middleware-client").MiddlewareClient,
-    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService;
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
+    RoutingService = require("core/service/routing-service").RoutingService;
 
 exports.Main = Component.specialize({
     templateDidLoad: {
         value: function() {
+            this.routingService = RoutingService.getInstance();
             this.middlewareClient = MiddlewareClient.getInstance();
             this._eventDispatcherService = EventDispatcherService.getInstance();
             this._eventDispatcherService.addEventListener('connectionStatusChange', function(status) {
@@ -51,6 +53,7 @@ exports.Main = Component.specialize({
                             }
                         }).then(function(service) {
                             service.section.id = sectionDescriptor.id;
+                            service.section.settings.id = sectionDescriptor.id;
                             service.section.label = sectionDescriptor.label;
                             service.section.icon = sectionDescriptor.icon;
                             return service;
@@ -63,6 +66,7 @@ exports.Main = Component.specialize({
                         this._canDrawGate.setField(this.constructor.DRAW_GATE_FIELD, true);
                     }
                 }
+                self.routingService.selectSection(self.application.section.id);
                 if (Promise.is(servicePromise)) {
                     this.sectionGeneration = 'new';
                     this.sectionId = null;

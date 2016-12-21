@@ -85,10 +85,13 @@ var AccountsSectionService = (function (_super) {
         ]).spread(function (allUsers, allGroups, directoryServices) {
             var users = allUsers.filter(function (x) { return !x.builtin; }), groups = allGroups.filter(function (x) { return !x.builtin; }), system = allUsers.filter(function (x) { return x.builtin; }).concat(allGroups.filter(function (x) { return x.builtin; }));
             users._objectType = 'User';
+            users._filter = { builtin: false };
             users._order = 0;
             groups._objectType = 'Group';
+            groups._filter = { builtin: false };
             groups._order = 1;
-            system._objectType = 'AccountSystem';
+            system._objectType = ['User', 'Group'];
+            system._filter = { builtin: true };
             system._order = 2;
             directoryServices._objectType = 'DirectoryServices';
             directoryServices._order = 3;

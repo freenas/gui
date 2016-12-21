@@ -173,6 +173,10 @@ export class StorageSectionService extends AbstractSectionService {
         return priorities;
     }
 
+    public updateVolumeTopology(volume: any, topology: any) {
+        return this.volumeRepository.updateVolumeTopology(volume, topology);
+    }
+
     public markDiskAsReserved(diskId: string) {
         this.diskRepository.markDiskAsReserved(diskId);
     }

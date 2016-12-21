@@ -112,7 +112,8 @@ exports.Viewer = AbstractComponentActionDelegate.specialize({
     _setViewerMetaDataWithObject: {
         value: function (object) {
             var self = this;
-            return this.application.modelDescriptorService.getUiDescriptorForObject(object).then(function (uiDescriptor) {
+            var uiDescriptorForObject = this.application.modelDescriptorService.getUiDescriptorForObject(object);
+            return uiDescriptorForObject.then(function (uiDescriptor) {
                 self.userInterfaceDescriptor = uiDescriptor;
                 if (uiDescriptor) {
                     self.hasCreateEditor = !!uiDescriptor.creatorComponentModule;
