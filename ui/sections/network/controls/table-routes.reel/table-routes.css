@@ -1,8 +1,0 @@
-.TableRoutes {
-
-}
-
-.TableRoutes .Table-cells > div:nth-child(1),
-.TableRoutes .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(1) {
-    max-width: 6em;
-}
