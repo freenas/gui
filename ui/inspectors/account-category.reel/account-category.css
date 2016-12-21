@@ -1,0 +1,1 @@
+.AccountCategory.is-loading .AccountCategory-body,.AccountCategory.is-loading .AccountCategory-footer{display:none}.AccountCategory .AccountCategory-loading{display:none;width:100%}.AccountCategory .AccountCategory-loading svg{position:absolute;top:2em;width:3em;height:3em;left:50%;margin-left:-1.5em}.AccountCategory.is-loading .AccountCategory-loading{display:block}
