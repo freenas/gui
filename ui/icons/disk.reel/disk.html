@@ -46,7 +46,18 @@
                 "element": {"#": "smartStatus"}
             },
             "bindings": {
-                "switchValue": {"<-": "'fail'"}
+                "classList.has('hide')": {"<-": "!@owner.smartFail"},
+                "switchValue": {"<-": "@owner.disk.status.smart_info.smart_status == 'FAIL' ? 'fail' : 'warn'"}
+            }
+        },
+        "diskState": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "diskState"}
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "!@owner.isOffline && !@owner.isDetached"},
+                "switchValue": {"<-": "@owner.isOffline ? 'offline' : 'exported'"}
             }
         }
     }
@@ -58,9 +69,9 @@
         <svg data-arg="warn"><use xlink:href="#i-alert"/></svg>
         <div data-arg="fail" class="smartStatus-fail"><svg><use xlink:href="#i-alert"/></svg></div>
     </div>
-    <div class="DiskIcon-states">
-        <div class="DiskIcon-state DiskIcon-state-offline">offline</div>
-        <div class="DiskIcon-state">exported</div>
+    <div data-montage-id="diskState" class="DiskIcon-states">
+        <div data-arg="offline" class="DiskIcon-state DiskIcon-state-offline">offline</div>
+        <div data-arg="exported" class="DiskIcon-state">exported</div>
     </div>
     <div data-montage-id="substitution" class="DiskIcon-img">
         <img data-arg="hdd" src="./hdd.svg" alt="HDD Icon">
@@ -71,30 +82,3 @@
 </body>
 </html>
 
-<!-- "statusStateSubstitution": {
-    "prototype": "montage/ui/substitution.reel",
-    "properties": {
-        "element": {"#": "statusStateSubstitution"}
-    },
-    "bindings": {
-        "switchValue": {"<-": "@owner.smartFail ? 'smart' : @owner.isOffline ? 'offline' : 'healthy'"}
-    }
-},
-"warningStateSituation": {
-    "prototype": "montage/ui/substitution.reel",
-    "properties": {
-        "element": {"#": "warningStateSituation"}
-    },
-    "bindings": {
-        "switchValue": {"<-": "@owner.disk.status.smart_info.smart_status == 'FAIL'? 'fail' : 'warn'"}
-    }
-},
-"warningConditional": {
-    "prototype": "montage/ui/condition.reel",
-    "properties": {
-        "element": {"#": "warningConditional"}
-    },
-    "bindings": {
-        "condition": {"<-": "@owner.disk._allocation.defined() && @owner.disk._allocation.type == 'EXPORTED_VOLUME'"}
-    }
-}, -->
