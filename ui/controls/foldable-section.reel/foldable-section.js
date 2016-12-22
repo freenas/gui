@@ -78,10 +78,19 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
     prepareForActivationEvents: {
         value: function() {
             KeyComposer.createKey(this, "enter", "enter").addEventListener("keyPress", this);
+            KeyComposer.createKey(this, "space", "space").addEventListener("keyPress", this);
         }
     },
 
     handleEnterKeyPress: {
+        value: function(event) {
+            if(document.activeElement == this.expandButton) {
+                this._toggleSection(event);
+            }
+        }
+    },
+
+    handleSpaceKeyPress: {
         value: function(event) {
             if(document.activeElement == this.expandButton) {
                 this._toggleSection(event);
@@ -101,7 +110,6 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
             if (event.type === "attributes" && event.attributeName !== "style") {
                 return void 0;
             }
-
             this.needsDraw = true;
         }
     },

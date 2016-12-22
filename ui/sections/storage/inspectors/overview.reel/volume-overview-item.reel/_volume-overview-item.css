@@ -15,26 +15,36 @@
     display: none;
     padding-left: 2em;
 
-    @nest .VolumeOverviewItem.is-expanded & {
-        display: block;
-    }
+    @nest .VolumeOverviewItem.is-expanded & { display: block; }
 }
 
 .VolumeOverviewItem-toggle {
     cursor: pointer;
+
+    /* expands hit area */
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
     & svg {
         height: 1rem;
         width:  1rem;
+        transform: rotate(-90deg);
+        position: relative;
+        top: 2px;
+        left: -2px;
     }
 
-    @nest .VolumeOverviewItem.is-expanded & svg {
-        transform: rotate(180deg);
-    }
+    @nest .InterfaceOverviewItem.is-expanded & svg { transform: rotate(0); }
 }
 
 .VolumeOverviewItem-name {
-    width: 10em;
-    padding-left: 1.25rem;
+    margin-left: .5em;
 }
 
 .VolumeOverviewItem-size {
@@ -42,25 +52,14 @@
     text-align: right;
     margin-right: 1em;
 
-    @nest .VolumeOverviewItem.is-expanded & {
-        visibility: hidden;
-    }
+    @nest .VolumeOverviewItem.is-expanded & { visibility: hidden; }
 }
 
 .VolumeOverviewItem-status {
-    position: absolute;
     font-size: .5em;
-    top: 50%;
-    transform: translateY(-50%);
-    margin: 0;
-    padding: 0;
+    margin-left: 1em;
+
+    & .TrafficLight-legend { display: none; }
 }
 
-.VolumeOverviewItem-details .Field {
-    margin-bottom: inherit;
-}
-
-.VolumeOverviewItem-status .TrafficLight-legend {
-    display: none;
-}
-
+.VolumeOverviewItem-details .Field { margin-bottom: inherit; }
