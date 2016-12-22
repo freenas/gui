@@ -1,14 +1,11 @@
 import {SystemRepository} from "../../repository/system-repository";
 import {ServiceRepository} from "../../repository/service-repository";
+import {AbstractSectionService} from "./abstract-section-service-ng";
+import * as Promise from "bluebird";
 
-// TODO: inherit from AbstractSectionService
-export class ServiceSectionService {
+export class ServiceSectionService extends AbstractSectionService{
     private systemRepository: SystemRepository;
     private serviceRepository: ServiceRepository;
-
-    public constructor() {
-        this.init();
-    }
 
     protected init() {
         this.systemRepository = SystemRepository.getInstance();
@@ -21,5 +18,21 @@ export class ServiceSectionService {
 
     public saveService(service: any) {
         return this.serviceRepository.saveService(service);
+    }
+
+    protected loadEntries(): Promise<Array<any>> {
+        return this.serviceRepository.listServicesCategories();
+    }
+
+    protected loadExtraEntries(): Promise<Array<any>> {
+        return undefined;
+    }
+
+    protected loadSettings(): Promise<any> {
+        return undefined;
+    }
+
+    protected loadOverview(): Promise<any> {
+        return undefined;
     }
 }

@@ -59,7 +59,6 @@ exports.Main = Component.specialize({
                             return service;
                         });
                     } else {
-                        console.warn("Old fashion section:", sectionDescriptor.id)
                         this.sectionGeneration = 'old';
                         this.sectionId = sectionDescriptor.id;
                         this.application.sectionService = null;

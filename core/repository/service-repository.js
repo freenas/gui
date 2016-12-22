@@ -6,16 +6,20 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var abstract_repository_ng_1 = require("./abstract-repository-ng");
 var service_dao_1 = require("../dao/service-dao");
+var services_category_dao_1 = require("../dao/services-category-dao");
+var Promise = require("bluebird");
+var _ = require("lodash");
 var ServiceRepository = (function (_super) {
     __extends(ServiceRepository, _super);
-    function ServiceRepository(serviceDao) {
+    function ServiceRepository(serviceDao, servicesCategoryDao) {
         var _this = _super.call(this, ['Service']) || this;
         _this.serviceDao = serviceDao;
+        _this.servicesCategoryDao = servicesCategoryDao;
         return _this;
     }
     ServiceRepository.getInstance = function () {
         if (!ServiceRepository.instance) {
-            ServiceRepository.instance = new ServiceRepository(new service_dao_1.ServiceDao());
+            ServiceRepository.instance = new ServiceRepository(new service_dao_1.ServiceDao(), new services_category_dao_1.ServicesCategoryDao());
         }
         return ServiceRepository.instance;
     };
@@ -24,6 +28,47 @@ var ServiceRepository = (function (_super) {
     };
     ServiceRepository.prototype.saveService = function (service) {
         return this.serviceDao.save(service);
+    };
+    ServiceRepository.prototype.listServicesCategories = function () {
+        var self = this;
+        return this.listServices().then(function (services) {
+            return Promise.all([
+                self.getServicesCategory('Sharing', services, [
+                    'smb',
+                    'nfs',
+                    'afp',
+                    'webdav',
+                    'iscsi'
+                ]),
+                self.getServicesCategory('Management', services, [
+                    'sshd',
+                    'smartd',
+                    'dyndns',
+                    'snmp',
+                    'lldp',
+                    'ups',
+                    'dc'
+                ]),
+                self.getServicesCategory('File Transfer', services, [
+                    'ftp',
+                    'rsyncd',
+                    'tftpd'
+                ])
+            ]);
+        }).then(function (categories) {
+            categories._objectType = 'ServicesCategory';
+            return categories;
+        });
+    };
+    ServiceRepository.prototype.getServicesCategory = function (name, services, selectedIds) {
+        return this.servicesCategoryDao.getNewInstance().then(function (category) {
+            category._isNew = false;
+            category.id = _.kebabCase(name);
+            category.name = name;
+            category.services = services;
+            category.types = selectedIds.map(function (x) { return 'service-' + x; });
+            return category;
+        });
     };
     ServiceRepository.prototype.handleStateChange = function (name, data) { };
     ServiceRepository.prototype.handleEvent = function (name, data) { };

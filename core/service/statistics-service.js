@@ -63,10 +63,10 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
             var self = this;
             return Promise.all(datasources.map(function(datasource) {
                 var name = "statd." + datasource;
-                if (this._subscribedUpdates.indexOf(datasource) == -1) {
-                    this._subscribedUpdates.push(datasource);
+                if (self._subscribedUpdates.indexOf(datasource) == -1) {
+                    self._subscribedUpdates.push(datasource);
                 }
-                return this._middlewareClient.subscribeToEvents(name).then(function() {
+                return self._middlewareClient.subscribeToEvents(name).then(function() {
                     if (!self._listeners.has(name)) {
                         self._listeners.set(name, new Set());
                     }
@@ -78,13 +78,14 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
     },
 
     unsubscribeToDatasourcesUpdates: {
-        value: function(datasources, listener) {
-            for (var i = datasources.length - 1; i >= 0; i--) {
+        value: function(datasources) {
+            var self = this;
+            return Promise.all(datasources.map(function(datasource) {
                 var name = "statd." + datasource;
-                this._listeners.delete(name);
-                this._subscribedUpdates.splice(this._subscribedUpdates.indexOf(datasources[i]), 1);
-                return this._middlewareClient.unsubscribeFromEvents(name);
-            }
+                self._listeners.delete(name);
+                self._subscribedUpdates.splice(self._subscribedUpdates.indexOf(datasources[i]), 1);
+                return self._middlewareClient.unsubscribeFromEvents(name);
+            }));
         }
     },
 

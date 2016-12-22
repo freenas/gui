@@ -37,7 +37,8 @@
         "label": "Services",
         "id": "services",
         "index": 5,
-        "icon": "services"
+        "icon": "services",
+        "service": "core/service/section/service-section-service"
     },
     "console": {
         "label": "Console",
