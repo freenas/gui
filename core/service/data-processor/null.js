@@ -9,19 +9,40 @@ var NullProcessor = (function () {
         for (var _i = 0, keys_1 = keys; _i < keys_1.length; _i++) {
             var property = keys_1[_i];
             value = object[property];
-            if (typeof value === 'object') {
-                if (value) {
-                    var cleaned = this.process(value);
-                    if (cleaned) {
-                        processed.set(property, cleaned);
-                    }
-                }
-            }
-            else {
-                processed.set(property, value);
+            var cleanupResult = this.cleanupValue(value);
+            var cleanedValue = cleanupResult.cleanedValue;
+            var hasValue = cleanupResult.hasValue;
+            if (hasValue) {
+                processed.set(property, cleanedValue);
             }
         }
         return processed.size > 0 ? immutable.Map(processed).toJS() : null;
+    };
+    NullProcessor.prototype.cleanupValue = function (value) {
+        var cleanedValue, hasValue = false;
+        if (typeof value === 'object') {
+            if (value) {
+                if (Array.isArray(value)) {
+                    cleanedValue = [];
+                    hasValue = true;
+                    for (var _i = 0, value_1 = value; _i < value_1.length; _i++) {
+                        var entry = value_1[_i];
+                        cleanedValue.push(this.cleanupValue(entry).cleanedValue);
+                    }
+                }
+                else {
+                    cleanedValue = this.process(value);
+                    if (cleanedValue) {
+                        hasValue = true;
+                    }
+                }
+            }
+        }
+        else {
+            hasValue = true;
+            cleanedValue = value;
+        }
+        return { cleanedValue: cleanedValue, hasValue: hasValue };
     };
     return NullProcessor;
 }());

@@ -1,6 +1,3 @@
-/**
- * @module ui/vdev.reel
- */
 var AbstractDropZoneComponent = require("blue-shark/core/drag-drop/abstract-dropzone-component").AbstractDropZoneComponent,
     TopologyItem = require("ui/controls/topology.reel/topology-item.reel").TopologyItem,
     CascadingList = require("ui/controls/cascading-list.reel").CascadingList,
@@ -8,12 +5,7 @@ var AbstractDropZoneComponent = require("blue-shark/core/drag-drop/abstract-drop
     AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate,
     _ = require('lodash');
 
-
-/**
- * @class Vdev
- * @extends Component
- */
-exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
+exports.Vdev = AbstractDropZoneComponent.specialize({
     _topologyItem: {
         value: void 0
     },
@@ -328,7 +320,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
 
     _defineDefaultType: {
         value: function(isAdd) {
-            if (this.topologyItem && !this._hasUserDefinedType) {
+            if (this.topologyItem && !this._hasUserDefinedType && this.children) {
                 var childrenCount = this.children.length;
 
                 if (this.isEditorMode && !this.isNewVDev) {

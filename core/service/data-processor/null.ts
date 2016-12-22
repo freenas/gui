@@ -9,18 +9,40 @@ class NullProcessor implements DataProcessor {
             value;
         for (let property of keys) {
             value = object[property];
-            if (typeof value === 'object') {
-                if (value) {
-                    let cleaned = this.process(value);
-                    if (cleaned) {
-                        processed.set(property, cleaned);
-                    }
-                }
-            } else {
-                processed.set(property, value);
+            let cleanupResult = this.cleanupValue(value);
+            var cleanedValue = cleanupResult.cleanedValue;
+            var hasValue = cleanupResult.hasValue;
+            if (hasValue) {
+                processed.set(property, cleanedValue);
             }
+
         }
         return processed.size > 0 ? immutable.Map(processed).toJS() : null;
+    }
+
+    private cleanupValue(value) {
+        let cleanedValue,
+            hasValue = false;
+        if (typeof value === 'object') {
+            if (value) {
+                if (Array.isArray(value)) {
+                    cleanedValue = [];
+                    hasValue = true;
+                    for (let entry of value) {
+                        cleanedValue.push(this.cleanupValue(entry).cleanedValue);
+                    }
+                } else {
+                    cleanedValue = this.process(value);
+                    if (cleanedValue) {
+                        hasValue = true;
+                    }
+                }
+            }
+        } else {
+            hasValue = true
+            cleanedValue = value;
+        }
+        return {cleanedValue: cleanedValue, hasValue: hasValue};
     }
 }
 

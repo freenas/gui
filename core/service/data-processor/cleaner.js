@@ -12,15 +12,7 @@ var CleaningProcessor = (function () {
                 value = object[property];
                 propertyDescriptor = propertyDescriptors && propertyDescriptors.get(property);
                 if (CleaningProcessor.isValidProperty(property, value, propertyDescriptor)) {
-                    if (!value || typeof value !== 'object') {
-                        processed = processed.set(property, value);
-                    }
-                    else {
-                        var processedChild = this.process(value);
-                        if (processedChild) {
-                            processed = processed.set(property, processedChild);
-                        }
-                    }
+                    processed = processed.set(property, this.cleanupValue(value));
                 }
             }
         }
@@ -28,6 +20,23 @@ var CleaningProcessor = (function () {
             Array.isArray(object) ?
                 processed.toArray() : processed.toJS() :
             null;
+    };
+    CleaningProcessor.prototype.cleanupValue = function (value) {
+        var cleanedValue;
+        if (!value || typeof value !== 'object') {
+            cleanedValue = value;
+        }
+        else if (Array.isArray(value)) {
+            cleanedValue = [];
+            for (var _i = 0, value_1 = value; _i < value_1.length; _i++) {
+                var entry = value_1[_i];
+                cleanedValue.push(this.cleanupValue(entry));
+            }
+        }
+        else {
+            cleanedValue = this.process(value);
+        }
+        return cleanedValue;
     };
     CleaningProcessor.isValidProperty = function (property, value, descriptor) {
         return property &&

@@ -10,18 +10,11 @@ class CleaningProcessor implements DataProcessor {
             keys = _.keysIn(object),
             value, propertyDescriptor;
         for (let property of keys) {
-           if (!propertyDescriptors || propertyDescriptors.has(property)) {
+            if (!propertyDescriptors || propertyDescriptors.has(property)) {
                 value = object[property];
                 propertyDescriptor = propertyDescriptors && propertyDescriptors.get(property);
                 if (CleaningProcessor.isValidProperty(property, value, propertyDescriptor)) {
-                    if (!value || typeof value !== 'object') {
-                        processed = processed.set(property, value);
-                    } else {
-                        let processedChild = this.process(value);
-                        if (processedChild) {
-                            processed = processed.set(property, processedChild);
-                        }
-                    }
+                    processed = processed.set(property, this.cleanupValue(value));
                 }
             }
         }
@@ -30,6 +23,21 @@ class CleaningProcessor implements DataProcessor {
             Array.isArray(object) ?
                 processed.toArray() : processed.toJS() :
             null;
+    }
+
+    private cleanupValue(value) {
+        let cleanedValue;
+        if (!value || typeof value !== 'object') {
+            cleanedValue = value;
+        } else if (Array.isArray(value)) {
+            cleanedValue = [];
+            for (let entry of value) {
+                cleanedValue.push(this.cleanupValue(entry));
+            }
+        } else {
+            cleanedValue = this.process(value);
+        }
+        return cleanedValue;
     }
 
     private static isValidProperty(property: string, value: any, descriptor: any) {
