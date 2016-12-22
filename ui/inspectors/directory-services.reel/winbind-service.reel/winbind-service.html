@@ -88,6 +88,23 @@
             }
         },
 
+        "saslWrapping": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "saslWrapping"},
+                "label": "SASL Wrapping",
+                "options": [
+                    "PLAIN",
+                    "SIGN",
+                    "SEAL"
+                ]
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.parameters.sasl_wrapping"}
+            }
+        },
+
+
         "allowDNSUpdates": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -111,6 +128,7 @@
             <div data-montage-id="domainController"></div>
             <div data-montage-id="globalCatalogServer"></div>
             <div data-montage-id="siteName"></div>
+            <div data-montage-id="saslWrapping"></div>
             <div data-montage-id="allowDNSUpdates"></div>
         </div>
     </div>
