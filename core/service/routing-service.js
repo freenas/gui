@@ -47,6 +47,15 @@ var RoutingService = (function () {
         this.dispatchParamChange('path');
         return property;
     };
+    RoutingService.prototype.closeColumnAtIndex = function (index) {
+        var path = _.split(this.getParams().get('path') || RoutingService.SEPARATOR, RoutingService.SEPARATOR), pathElement;
+        while (path.length >= index) {
+            pathElement = path.pop();
+        }
+        this.params = this.getParams().set('path', _.join(path, RoutingService.SEPARATOR));
+        this.buildParams();
+        this.dispatchParamChange('path');
+    };
     RoutingService.prototype.subscribe = function (param, listener) {
         var listeners = this.listeners.has(param) ?
             this.listeners.get(param).add(listener) :

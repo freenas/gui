@@ -127,6 +127,13 @@ exports.CascadingListItem = Component.specialize({
         }
     },
 
+    close: {
+        value: function() {
+            var columnIndex = this.data && this.data.columnIndex || 0;
+            this.routingService.closeColumnAtIndex(columnIndex)
+        }
+    },
+
     needToScrollIntoView: {
         value: false
     },

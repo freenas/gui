@@ -64,6 +64,17 @@ export class RoutingService {
         return property;
     }
 
+    public closeColumnAtIndex(index: number) {
+        let path = _.split(this.getParams().get('path') || RoutingService.SEPARATOR, RoutingService.SEPARATOR),
+            pathElement;
+        while (path.length >= index) {
+            pathElement = path.pop();
+        }
+        this.params = this.getParams().set('path', _.join(path, RoutingService.SEPARATOR));
+        this.buildParams();
+        this.dispatchParamChange('path');
+    }
+
     public subscribe(param: string, listener: Function) {
         let listeners = this.listeners.has(param) ?
             this.listeners.get(param).add(listener) :

@@ -1,6 +1,7 @@
 var Component = require("montage/ui/component").Component,
     Promise = require("montage/core/promise").Promise,
     ModelDescriptorService = require("core/service/model-descriptor-service").ModelDescriptorService,
+    CascadingList = require("ui/controls/cascading-list.reel").CascadingList,
     _ = require("lodash");
 
 exports.Inspector = Component.specialize({
@@ -10,6 +11,13 @@ exports.Inspector = Component.specialize({
 
     isSaveDisabled: {
         value: false
+    },
+
+    parentCascadingListItem: {
+        get: function () {
+            return this._parentCascadingListItem ||
+                (this._parentCascadingListItem = CascadingList.findCascadingListItemContextWithComponent(this));
+        }
     },
 
     templateDidLoad: {
@@ -52,6 +60,7 @@ exports.Inspector = Component.specialize({
                 if (Promise.is(promise)) {
                     promise.catch(this._logError);
                 }
+                this.clearObjectSelection();
             } else if (this.object) {
                 this.object.__isLocked = true;
                 this.clearObjectSelection();
@@ -155,12 +164,10 @@ exports.Inspector = Component.specialize({
 
     clearObjectSelection: {
         value: function() {
-            var viewer = this._findParentViewer();
-            if (viewer) {
-                viewer.cascadingListItem.selectedObject = null;
-            }
+            return this.parentCascadingListItem.close();
         }
     },
+
 
     _findParentViewer: {
         value: function() {

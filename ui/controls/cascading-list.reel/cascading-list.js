@@ -132,7 +132,6 @@ exports.CascadingList = Component.specialize({
                 }
                 this._currentIndex = common.length+1;
                 var previousObject = this._stack.slice(-1)[0] && this._stack.slice(-1)[0].object;
-console.log(common, previousObject);
                 Promise.mapSeries(_.slice(pathElements, common.length), function(key) {
                     var promise,
                         isRelative = false;
@@ -153,6 +152,10 @@ console.log(common, previousObject);
                 }).then(function() {
                     self._selectionService.saveSelection(self.application.section, self._stack);
                 });
+            } else {
+                while (this._stack.length > 1) {
+                    this._stack.pop();
+                }
             }
         }
     },
