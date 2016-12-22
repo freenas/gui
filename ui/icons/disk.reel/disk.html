@@ -13,8 +13,9 @@
             "bindings": {
                 "disk": {"<-": "@owner.object ? @owner.object._disk.defined() ? @owner.object._disk : @owner.object : null"},
                 "isOffline": {"<-": "@owner.object._disk.defined() && @owner.object.status != 'ONLINE'" },
-                "smartFail": {"<-": "@owner.disk.status.smart_info.smart_status != 'PASS'" },
-                "classList.has('unhealthy')": {"<-": "@owner.isOffline || @owner.smartFail" }
+                "isDetached": {"<-": "@owner.disk._allocation.defined() && @owner.disk._allocation.type == 'EXPORTED_VOLUME'"},
+                "classList.has('is-unavailable')": {"<-": "isOffline || isDetached"},
+                "smartFail": {"<-": "@owner.disk.status.smart_info.smart_status != 'PASS'" }
             }
         },
         "bytesConverter": {
@@ -39,51 +40,40 @@
                 "switchValue": {"<-": "!!@owner.disk.status.is_ssd ? 'ssd' : 'hdd'"}
             }
         },
-        "statusStateSubstitution": {
+        "smartStatus": {
             "prototype": "montage/ui/substitution.reel",
             "properties": {
-                "element": {"#": "statusStateSubstitution"}
+                "element": {"#": "smartStatus"}
             },
             "bindings": {
-                "switchValue": {"<-": "@owner.smartFail ? 'smart' : @owner.isOffline ? 'offline' : 'healthy'"}
+                "classList.has('hide')": {"<-": "!@owner.smartFail"},
+                "switchValue": {"<-": "@owner.disk.status.smart_info.smart_status == 'FAIL' ? 'fail' : 'warn'"}
             }
         },
-        "warningStateSituation": {
+        "diskState": {
             "prototype": "montage/ui/substitution.reel",
             "properties": {
-                "element": {"#": "warningStateSituation"}
+                "element": {"#": "diskState"}
             },
             "bindings": {
-                "switchValue": {"<-": "@owner.disk.status.smart_info.smart_status == 'FAIL'? 'fail' : 'warn'"}
-            }
-        },
-        "warningConditional": {
-            "prototype": "montage/ui/condition.reel",
-            "properties": {
-                "element": {"#": "warningConditional"}
-            },
-            "bindings": {
-                "condition": {"<-": "@owner.disk._allocation.defined() && @owner.disk._allocation.type == 'EXPORTED_VOLUME'"}
+                "classList.has('hide')": {"<-": "!@owner.isOffline && !@owner.isDetached"},
+                "switchValue": {"<-": "@owner.isOffline ? 'offline' : 'exported'"}
             }
         }
     }
     </script>
 </head>
 <body>
-<div data-montage-id="owner" class="DiskIcon warn">
-    <div data-montage-id="statusStateSubstitution" class="DiskIcon-statusIcon">
-        <div data-arg="smart" data-montage-id="warningStateSituation" class="DiskIcon-statusIcon">
-            <svg data-arg="warn"><use xlink:href="#i-alert"/></svg>
-            <svg data-arg="fail"><use xlink:href="#i-alert-circle"/></svg>
-        </div>
-        <svg data-arg="offline"><use xlink:href="#i-offline"/></svg>
-        <div data-arg="healthy">
-            <div data-montage-id="warningConditional" class="DiskIcon-statusIcon">
-                <svg><use xlink:href="#i-alert"/></svg>
-            </div>
-        </div>
+<div data-montage-id="owner" class="DiskIcon">
+    <div data-montage-id="smartStatus" class="DiskIcon-smartStatus">
+        <svg data-arg="warn"><use xlink:href="#i-alert"/></svg>
+        <div data-arg="fail" class="smartStatus-fail"><svg><use xlink:href="#i-alert"/></svg></div>
     </div>
-    <div data-montage-id="substitution">
+    <div data-montage-id="diskState" class="DiskIcon-states">
+        <div data-arg="offline" class="DiskIcon-state DiskIcon-state-offline">offline</div>
+        <div data-arg="exported" class="DiskIcon-state">exported</div>
+    </div>
+    <div data-montage-id="substitution" class="DiskIcon-img">
         <img data-arg="hdd" src="./hdd.svg" alt="HDD Icon">
         <img data-arg="ssd" src="./ssd.svg" alt="SSD Icon">
     </div>
@@ -91,3 +81,4 @@
 </div>
 </body>
 </html>
+
