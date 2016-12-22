@@ -8,6 +8,9 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "selectedRow": {"<-": "@table.selectedRow"}
             }
         },
         "table": {
@@ -15,7 +18,7 @@
             "properties": {
                 "element": {"#": "table"},
                 "delegate": {"@": "owner"},
-                "label": "Tasks",
+                "isSelectionEnabled": true,
                 "columns": [
                     {
                         "value": "ID",

@@ -59,18 +59,17 @@
                 "value": {"<->": "@owner.filter.name"}
             }
         },
-        "state": {
-            "prototype": "blue-shark/ui/field-select.reel",
+        "regex": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
-                "element": {"#": "state"},
-                "label": "Status"
+                "element": {"#": "regex"},
+                "label": "Is regex"
             },
             "bindings": {
-                "options": {"<-": "[{label: '-', value: null}].concat(@owner.stateOptions)"},
-                "selectedValue": {"<->": "@owner.filter.state"}
+                "checked": {"<->": "@owner.filter.regex"}
             }
         },
-        "dateRagne": {
+        "dateRange": {
             "prototype": "blue-shark/ui/field.reel",
             "properties": {
                 "element": {"#": "dateRange"},
@@ -78,28 +77,37 @@
             }
         },
         "started_after": {
-            "prototype": "blue-shark/ui/date.reel",
+            "prototype": "blue-shark/ui/field-datetime.reel",
             "properties": {
-                "element": {"#": "started_after"}
+                "element": {"#": "started_after"},
+                "intervalInSeconds": 300
             },
             "bindings": {
                 "value": {"<->": "@owner.filter.started_after"}
             }
         },
-        "finished_at": {
-            "prototype": "blue-shark/ui/date.reel",
+        "started_before": {
+            "prototype": "blue-shark/ui/field-datetime.reel",
             "properties": {
-                "element": {"#": "finished_at"}
+                "element": {"#": "started_before"},
+                "intervalInSeconds": 300
             },
             "bindings": {
-                "value": {"<->": "@owner.filter.finished_at"}
+                "value": {"<->": "@owner.filter.started_before"}
+            }
+        },
+        "today": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "today"},
+                "label": "Now"
             }
         },
         "apply": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
                 "element": {"#": "apply"},
-                "value": "Apply Filters"
+                "label": "apply"
             }
         },
         "clear": {
@@ -109,13 +117,28 @@
                 "value": "Clear Filters"
             }
         },
+        "tabs": {
+            "prototype": "blue-shark/ui/tabs.reel",
+            "properties": {
+                "element": {"#": "tabs"},
+                "options": [
+                    {"label": "All",    "value": "ALL"},
+                    {"label": "Executing",   "value": "EXECUTING"},
+                    {"label": "Failed",  "value": "FAILED"},
+                    {"label": "Finished",   "value": "FINISHED"}
+                ]
+            },
+            "bindings": {
+                "selection": {"<->": "@owner.selectedTab"}
+            }
+        },
         "table": {
             "prototype": "ui/sections/task/controls/table-task.reel",
             "properties": {
                 "element": {"#": "table"}
             },
             "bindings": {
-                "rows": {"<-": "@owner.tasks"}
+                "rows": {"<-": "@tabs.selection != 'ALL' ? @owner.tasks.filter{state == @tabs.selection}.sorted{id}.reversed() : @owner.tasks.sorted{id}.reversed()"}
             }
         },
         "filtersTitle": {
@@ -123,6 +146,122 @@
             "properties": {
                 "element": {"#": "filtersTitle"},
                 "value": "Filter Tasks"
+            }
+        },
+        "detail": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "detail"}
+            },
+            "bindings": {
+                "condition": {"<-": "!!@table.selectedRow"}
+            }
+        },
+        "detail_id": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "detail_id"},
+                "label": "ID"
+            },
+            "bindings": {
+                "value": {"<-": "@table.selectedRow.id"}
+            }
+        },
+        "detail_object": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "detail_object"},
+                "label": "Object Name"
+            },
+            "bindings": {
+                "value": {"<-": "@table.selectedRow.object"}
+            }
+        },
+        "detail_state": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "detail_state"},
+                "label": "State"
+            },
+            "bindings": {
+                "value": {"<-": "@table.selectedRow.state"}
+            }
+        },
+        "detail_args": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "detail_args"},
+                "label": "Arguments"
+            },
+            "bindings": {
+                "value": {"<-": "@table.selectedRow.arguments"}
+            }
+        },
+        "argumentsCondition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "argumentsCondition"}
+            },
+            "bindings": {
+                "condition": {"<-": "!!@table.selectedRow.arguments"}
+            }
+        },
+        "errorCondition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "errorCondition"}
+            },
+            "bindings": {
+                "condition": {"<-": "!!@table.selectedRow.error"}
+            }
+        },
+        "objectCondition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "objectCondition"}
+            },
+            "bindings": {
+                "condition": {"<-": "!!@table.selectedRow.object"}
+            }
+        },
+        "detail_error_type": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "detail_error_type"},
+                "label": "Type"
+            },
+            "bindings": {
+                "value": {"<-": "@table.selectedRow.error.type"}
+            }
+        },
+        "detail_error_code": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "detail_error_code"},
+                "label": "Code"
+            },
+            "bindings": {
+                "value": {"<-": "@table.selectedRow.error.code"}
+            }
+        },
+        "detail_error_msg": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "detail_error_msg"},
+                "label": "Message"
+            },
+            "bindings": {
+                "value": {"<-": "@table.selectedRow.error.message"}
+            }
+        },
+        "detail_error_traceback": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "detail_error_traceback"},
+                "label": "Traceback"
+            },
+            "bindings": {
+                "value": {"<-": "@table.selectedRow.error.stacktrace"}
             }
         }
     }
@@ -136,7 +275,7 @@
                 <div class="TasksInspector-filters g-margin-bottom--double col-1">
                     <div data-montage-id="id"></div>
                     <div data-montage-id="name"></div>
-                    <div data-montage-id="state"></div>
+                    <div data-montage-id="regex"></div>
                     <div data-montage-id="dateRange" class="TasksInspector-filters-dateRange">
                         <div class="flex-row flex-align--center g-margin-bottom--half">
                             <span class="TasksInspector-filters-dateRange-inputLabel">from:</span>
@@ -144,15 +283,33 @@
                         </div>
                         <div class="flex-row flex-align--center">
                             <span class="TasksInspector-filters-dateRange-inputLabel">to:</span>
-                            <div data-montage-id="finished_at"></div>
+                            <div data-montage-id="started_before"></div>
+                            <div data-montage-id="today"></div>
                         </div>
                     </div>
                     <div class="flex-row">
-                        <button data-montage-id="apply"></button>
+                        <button data-montage-id="apply" class="g-margin-left--half"></button>
                         <button data-montage-id="clear" class="g-margin-left--half"></button>
                     </div>
                 </div>
+                <div data-montage-id="tabs"></div>
                 <div data-montage-id="table"></div>
+                <div data-montage-id="detail">
+                    <div data-montage-id="detail_id"></div>
+                    <div data-montage-id="objectCondition">
+                        <div data-montage-id="detail_object"></div>
+                    </div>
+                    <div data-montage-id="detail_state"></div>
+                    <div data-montage-id="argumentsCondition">
+                        <div data-montage-id="detail_args"></div>
+                    </div>
+                    <div data-montage-id="errorCondition">
+                        <div data-montage-id="detail_error_type"></div>
+                        <div data-montage-id="detail_error_code"></div>
+                        <div data-montage-id="detail_error_msg"></div>
+                        <div data-montage-id="detail_error_traceback"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
