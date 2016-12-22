@@ -4,16 +4,18 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
     VmTemplateDao = require("core/dao/vm-template-dao").VmTemplateDao,
     VmDeviceDao = require("core/dao/vm-device-dao").VmDeviceDao,
     VmVolumeDao = require("core/dao/vm-volume-dao").VmVolumeDao,
-    VmReadmeDao = require("core/dao/vm-readme-dao").VmReadmeDao;
+    VmReadmeDao = require("core/dao/vm-readme-dao").VmReadmeDao,
+    VmConfigDao = require("core/dao/vm-config-dao").VmConfigDao;
 
 exports.VmRepository = AbstractRepository.specialize({
     init: {
-        value: function(vmDao, vmTemplateDao, vmDeviceDao, vmVolumeDao, vmReadmeDao) {
+        value: function(vmDao, vmTemplateDao, vmDeviceDao, vmVolumeDao, vmReadmeDao, vmConfigDao) {
             this._vmDao = vmDao || VmDao.instance;
             this._vmTemplateDao = vmTemplateDao || VmTemplateDao.instance;
             this._vmDeviceDao = vmDeviceDao || VmDeviceDao.instance;
             this._vmVolumeDao = vmVolumeDao || VmVolumeDao.instance;
             this._vmReadmeDao = vmReadmeDao || VmReadmeDao.instance;
+            this._vmConfigDao = vmConfigDao || VmConfigDao.instance;
 
             this.DEFAULT_VM_CONFIG = this.constructor.DEFAULT_VM_CONFIG;
             this.DEFAULT_DEVICE_PROPERTIES = this.constructor.DEFAULT_DEVICE_PROPERTIES;
@@ -56,6 +58,29 @@ exports.VmRepository = AbstractRepository.specialize({
         }
     },
 
+    getVmSettings: {
+        value: function() {
+            var self = this;
+            this._vmSettings = {};
+            return this._vmConfigDao.get().then(function(config) {
+                self._vmSettings.config = config;
+                return self._vmSettings;
+            });
+        }
+    },
+
+    saveVmSettings: {
+        value: function() {
+            return this._vmConfigDao.save(this._vmSettings.config);
+        }
+    },
+
+    revertVmSettings: {
+        value: function() {
+            return this._vmConfigDao.revert(this._vmSettings.config);
+        }
+    },
+
     getNewVmDeviceList: {
         value: function() {
             return this._vmDeviceDao.getEmptyList();
@@ -73,7 +98,7 @@ exports.VmRepository = AbstractRepository.specialize({
             return this._vmReadmeDao.getNewInstance().then(function(vmReadme) {
                 vmReadme.text = vm.config ? vm.config.readme : null;
                 return vmReadme;
-            })
+            });
         }
     },
 
