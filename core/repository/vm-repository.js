@@ -16,7 +16,7 @@ exports.VmRepository = AbstractRepository.specialize({
             this._vmDeviceDao = new VmDeviceDao();
             this._vmVolumeDao = VmVolumeDao.instance;
             this._vmReadmeDao = VmReadmeDao.instance;
-            this._vmConfigDao = VmConfigDao.instance;
+            this._vmConfigDao = new VmConfigDao();
 
             this.DEFAULT_VM_CONFIG = this.constructor.DEFAULT_VM_CONFIG;
             this.DEFAULT_DEVICE_PROPERTIES = this.constructor.DEFAULT_DEVICE_PROPERTIES;
