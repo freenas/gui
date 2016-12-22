@@ -37,13 +37,11 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
         }
     },
 
-    getDatasourceHistory: {
-        value: function(datasource, startDate, endDate, periodInSecs) {
+    getDatasourcesHistory: {
+        value: function(datasources, periodInSecs) {
             periodInSecs = periodInSecs || 10;
-            endDate = endDate || new Date();
-            startDate = startDate || new Date(endDate.getTime() - (periodInSecs * 100 * 1000));
-            return this._callBackend("stat.get_stats", [datasource, {
-                timespan:   periodInSecs*100,
+            return this._callBackend("stat.get_stats", [datasources, {
+                timespan:   periodInSecs * 100,
                 frequency:  periodInSecs + 's'
             }]).then(function(response) {
                 return response.data.data;
@@ -51,30 +49,36 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
         }
     },
 
-    getDatasourceCurrentValue: {
-        value: function(datasource) {
-            return this._callBackend("stat.get_stats", [datasource, {
+    getDatasourcesCurrentValue: {
+        value: function(datasources) {
+            return this._callBackend("stat.get_stats", [datasources, {
                 timespan:   20,
                 frequency:  '10s'
             }]).then(function(response) {
-                return response.data.data.slice(-1);
+                return response.data.data;
             });
         }
     },
 
-    subscribeToUpdates: {
-        value: function(datasource, listener) {
-            if (this._subscribedUpdates.indexOf(datasource) == -1) {
-                this._subscribedUpdates.push(datasource);
+    subscribeToDatasourcesUpdates: {
+        value: function(datasources, listener) {
+            for (var i = datasources.length - 1; i >= 0; i--) {
+                if (this._subscribedUpdates.indexOf(datasources[i]) == -1) {
+                    this._subscribedUpdates.push(datasources[i]);
+                }
             }
-                return this._backendBridge.subscribeToEvent("statd." + datasource, listener);
+
+            return this._backendBridge.subscribeToEvents(datasources.map(function(datasource) { return "statd." + datasource; }), listener);
         }
     },
 
-    unSubscribeToUpdates: {
-        value: function(datasource, listener) {
-            this._subscribedUpdates.splice(this._subscribedUpdates.indexOf(datasource), 1);
-            return this._backendBridge.unSubscribeToEvent("statd." + datasource, listener);
+    unsubscribeToDatasourcesUpdates: {
+        value: function(datasources, listener) {
+            for (var i = datasources.length - 1; i >= 0; i--) {
+                this._subscribedUpdates.splice(this._subscribedUpdates.indexOf(datasources[i]), 1);
+            }
+
+            return this._backendBridge.unSubscribeToEvents(datasources.map(function(datasource) { return "statd." + datasource; }), listener);
         }
     },
 

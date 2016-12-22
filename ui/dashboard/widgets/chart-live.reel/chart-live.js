@@ -38,21 +38,22 @@ exports.ChartLive = Component.specialize({
     transformValue: {
         value: function(value) {
             if (typeof this.parentComponent.transformValue === 'function') {
-                return this.parentComponent.transformValue(value);
+                return this.parentComponent.transformValue(+value);
             }
-            return this.callDelegateMethod('transformValue', value) || value;
+            return this.callDelegateMethod('transformValue', +value) ||
+                (value && !isNaN(value) ? +value : 0);
         }
     },
 
     getChartKey: {
-        value: function(source, metric, suffix, isTimeSeries) {
-            return this.callDelegateMethod('getChartKey', source, metric, suffix, isTimeSeries);
+        value: function(source, metric, suffix) {
+            return this.callDelegateMethod('getChartKey', source, metric, suffix, this.isTimeSeries);
         }
     },
 
     getChartLabel: {
-        value: function(source, metric, suffix, isTimeSeries) {
-            return this.callDelegateMethod('getChartLabel', source, metric, suffix, isTimeSeries);
+        value: function(source, metric, suffix) {
+            return this.callDelegateMethod('getChartLabel', source, metric, suffix, this.isTimeSeries);
         }
     },
 
@@ -67,11 +68,9 @@ exports.ChartLive = Component.specialize({
 
     _unsubscribeAllUpdates: {
         value: function() {
-            var i, length;
             if (this._subscribedUpdates) {
-                for (i = 0, length = this._subscribedUpdates.length; i < length; i++) {
-                    this._statisticsService.unSubscribeToUpdates(this._subscribedUpdates[i]);
-                }
+                this._statisticsService.unsubscribeToDatasourcesUpdates(this._subscribedUpdates, this);
+                this._subscribedUpdates = null;
             }
         }
     },
@@ -88,89 +87,141 @@ exports.ChartLive = Component.specialize({
         }
     },
 
-    _addSnapshotDatasourceToChart: {
-        value: function (source, metric, prefix, suffix) {
-            var hasSuffix = !!suffix;
-            suffix = suffix || 'value';
-            var self = this,
-                path = source.children[metric].path.join('.') + '.' + suffix,
-                key  = this.getChartKey(source, metric, suffix) ||
-                        [
-                            metric,
-                            hasSuffix ? suffix : ''
-                        ]
-                            .filter(function(x) { return x.length; })
-                            .join('.')
-                            .replace(prefix, ''),
-                event = path + '.pulse',
-                label = this.getChartLabel(source, metric, suffix) ||
-                        (self.removeSourcePrefix ? source.label.replace(self.removeSourcePrefix, "") : source.label);
-
-            this.chart.setValue(key, {x: label, y: 0});
-
-            return self._statisticsService.getDatasourceCurrentValue(path).then(function (value) {
-                var currentValue = value ?  +value[0] : 0;
-                return self.chart.setValue(key, {
-                    x: label,
-                    y: self.transformValue(currentValue)
-                });
-            }).then(function() {
-                return self._statisticsService.subscribeToUpdates(event, self).then(function(eventType) {
-                    self._eventToKey[eventType] = key;
-                    self._eventToSource[eventType] = label;
-                    self._subscribedUpdates.push(event);
-                });
-            });
-
-        }
-    },
-
-    _addTimeseriesDatasourceToChart: {
-        value: function (source, metric, prefix, suffix) {
-            var hasSuffix = !!suffix;
-            suffix = suffix || 'value';
-            var self = this,
-                path = source.children[metric].path.join('.') + '.' + suffix,
-                key  = this.getChartKey(source, metric, suffix, true) ||
+    _getTimeseriesDatasourceProperties: {
+        value: function(source, metric, prefix, suffix) {
+            var suffixSafe = suffix || 'value',
+                path = source.children[metric].path.join('.') + '.' + suffixSafe,
+                key  = this.getChartKey(source, metric, suffixSafe) ||
                         [
                             this.datasources.length > 1 ? source.label : '',
                             metric,
-                            hasSuffix ? suffix : ''
+                            suffix || ''
                         ]
                             .filter(function(x) { return x.length; })
                             .join('.')
                             .replace(prefix, ''),
-                series = {
-                    key: key
-                },
                 event = path + '.pulse',
-                startTimestamp = Math.floor(Date.now() / this.constructor.TIME_SERIES_INTERVAL - 100) * this.constructor.TIME_SERIES_INTERVAL;
+                label = this.getChartLabel(source, metric, suffixSafe);
 
-            return self._statisticsService.getDatasourceHistory(path).then(function (values) {
-                series.values = values.map(function (value, index) {
-                        return {
-                            x: self.getChartLabel(source, metric, suffix, true) || (startTimestamp + index * self.constructor.TIME_SERIES_INTERVAL),
-                            y: self.transformValue(+value)
-                        }
-                    });
-                series.disabled = self.disabledMetrics && self.disabledMetrics.indexOf(metric) != -1;
-                return self.chart.addSeries(series);
-            }).then(function() {
-                return self._statisticsService.subscribeToUpdates(event, self).then(function(eventType) {
-                    self._eventToKey[eventType] = key;
-                    self._subscribedUpdates.push(event);
-                });
-            });
-
+            return {
+                path:  path,
+                key:   key,
+                event: event,
+                label: label,
+                disabled: this.disabledMetrics && this.disabledMetrics.indexOf(metric) != -1
+            };
         }
     },
 
-    _addDatasourceToChart: {
+    _getSnapshotDatasourceProperties: {
+        value: function(source, metric, prefix, suffix) {
+            var suffixSafe = suffix || 'value',
+                path = source.children[metric].path.join('.') + '.' + suffixSafe,
+                key  = this.getChartKey(source, metric, suffixSafe) ||
+                        [
+                            metric,
+                            suffix || ''
+                        ]
+                            .filter(function(x) { return x.length; })
+                            .join('.')
+                            .replace(prefix, ''),
+                event = path + '.pulse',
+                label = this.getChartLabel(source, metric, suffixSafe) ||
+                        (this.removeSourcePrefix ? source.label.replace(this.removeSourcePrefix, "") : source.label);
+
+            return {
+                path:  path,
+                key:   key,
+                event: event,
+                label: label
+            };
+        }
+    },
+
+    _getDatasourceProperties: {
         value: function(source, metric, prefix, suffix) {
             if (this.isTimeSeries) {
-                return this._addTimeseriesDatasourceToChart(source, metric, prefix, suffix);
+                return this._getTimeseriesDatasourceProperties(source, metric, prefix, suffix);
             } else {
-                return this._addSnapshotDatasourceToChart(source, metric, prefix, suffix);
+                return this._getSnapshotDatasourceProperties(source, metric, prefix, suffix);
+            }
+        }
+    },
+
+    _setupTimeseriesDatasources: {
+        value: function(datasourceProperties) {
+            var self = this,
+                allPathes = datasourceProperties.map(function(prop) { return prop.path; }),
+                allEvents = datasourceProperties.map(function(prop) { return prop.event; }),
+                startTimestamp = Math.ceil(Date.now() / self.constructor.TIME_SERIES_INTERVAL - 100) * self.constructor.TIME_SERIES_INTERVAL,
+                property, eventType, i;
+
+            return this._statisticsService.getDatasourcesHistory(allPathes).then(function (values) {
+                for (i = 0; i < datasourceProperties.length; i++) {
+                    property = datasourceProperties[i];
+                    self.chart.addSeries({
+                        key: property.key,
+                        disabled: property.disabled,
+                        values: values.map(function (value, index) {
+                            return {
+                                x: property.label || (startTimestamp + index * self.constructor.TIME_SERIES_INTERVAL),
+                                y: self.transformValue(value[i])
+                            }
+                        })
+                    });
+                }
+            }).then(function() {
+                return self._statisticsService.subscribeToDatasourcesUpdates(allEvents, self).then(function() {
+                    for (i = 0; i < datasourceProperties.length; i++) {
+                        property = datasourceProperties[i];
+                        // FIXME: backend bridge _addEventListeners should return 
+                        // event & eventType key-value pairs, rather than an array of eventTypes
+                        eventType = 'Statd' + property.event.toCamelCase();
+                        self._eventToKey[eventType] = property.key;
+                    }
+                    self._subscribedUpdates = self._subscribedUpdates.concat(allEvents);
+                });
+            });
+        }
+    },
+
+    _setupSnapshotDatasources: {
+        value: function(datasourceProperties) {
+            var self = this,
+                allPathes = datasourceProperties.map(function(prop) { return prop.path; }),
+                allEvents = datasourceProperties.map(function(prop) { return prop.event; }),
+                property, eventType, i;
+
+            return this._statisticsService.getDatasourcesCurrentValue(allPathes).then(function(values) {
+                for (i = 0; i < datasourceProperties.length; i++) {
+                    property = datasourceProperties[i];
+                    self.chart.setValue(property.key, {
+                        x: property.label,
+                        y: self.transformValue((values[i] || []).pokeBack())
+                    });
+                }
+            }).then(function() {
+                return self._statisticsService.subscribeToDatasourcesUpdates(allEvents, self).then(function() {
+                    for (i = 0; i < datasourceProperties.length; i++) {
+                        property = datasourceProperties[i];
+                        // FIXME: backend bridge _addEventListeners should return 
+                        // event & eventType key-value pairs, rather than an array of eventTypes
+                        eventType = 'Statd' + property.event.toCamelCase();
+                        self._eventToKey[eventType] = property.key;
+                        self._eventToSource[eventType] = property.label;
+                    }
+                    self._subscribedUpdates = self._subscribedUpdates.concat(allEvents);
+                });
+            });
+        }
+    },
+
+    _setupDatasources: {
+        value: function(datasourceProperties) {
+            if (this.isTimeSeries) {
+                return this._setupTimeseriesDatasources(datasourceProperties);
+            } else {
+                return this._setupSnapshotDatasources(datasourceProperties);
             }
         }
     },
@@ -188,19 +239,19 @@ exports.ChartLive = Component.specialize({
             }).then(function(datasources) {
                 var i, sourceLength, source,
                     j, metricsLength, metric,
-                    datasourcesPromises = [];
+                    datasourceProperties = [];
                 for (i = 0, sourceLength = datasources.length; i < sourceLength; i++) {
                     source = datasources[i];
                     for (j = 0, metricsLength = self.metrics.length; j < metricsLength; j++) {
                         metric = self.metrics[j];
                         if (typeof metric === 'object' && metric && metric.length) {
-                            datasourcesPromises.push(self._addDatasourceToChart(source, metric[0], self.removePrefix, metric[1]));
+                            datasourceProperties.push(self._getDatasourceProperties(source, metric[0], self.removePrefix, metric[1]));
                         } else {
-                            datasourcesPromises.push(self._addDatasourceToChart(source, metric, self.removePrefix));
+                            datasourceProperties.push(self._getDatasourceProperties(source, metric, self.removePrefix));
                         }
                     }
                 }
-                return Promise.all(datasourcesPromises);
+                return self._setupDatasources(datasourceProperties);
             }).then(function() {
                 setTimeout(function() {
                     self.chart.finishRendering();
