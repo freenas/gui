@@ -37,16 +37,15 @@ export class ModelDescriptorService {
 
     public getUiDescriptorForType(type: string): Promise<Object> {
         let self = this;
-        if (!type) {
-            console.trace('no type');
+        if (type) {
+            return this.uiCache.has(type) ?
+                Promise.resolve(this.uiCache.get(type)) :
+                SystemJS.import(this.UI_DESCRIPTOR_PREFIX + ChangeCase.paramCase(type) + this.UI_DESCRIPTOR_SUFFIX)
+                    .then(function (uiDescriptor) {
+                        self.uiCache.set(type, uiDescriptor.root.properties);
+                        return uiDescriptor.root.properties;
+                    });
         }
-        return this.uiCache.has(type) ?
-            Promise.resolve(this.uiCache.get(type)) :
-            SystemJS.import(this.UI_DESCRIPTOR_PREFIX + ChangeCase.paramCase(type) + this.UI_DESCRIPTOR_SUFFIX)
-                .then(function (uiDescriptor) {
-                    self.uiCache.set(type, uiDescriptor.root.properties);
-                    return uiDescriptor.root.properties;
-                });
     }
 
     public getDaoForObject(object: Object): Promise<AbstractDao> {
