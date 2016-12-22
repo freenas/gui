@@ -13,6 +13,7 @@ import {ModelEventName} from "../../model-event-name";
 import {ReplicationRepository} from "../../repository/replication-repository";
 import {TaskRepository} from "../../repository/task-repository";
 import {Map} from "immutable";
+import {PeerRepository} from "../../repository/peer-repository";
 
 export class StorageSectionService extends AbstractSectionService {
     private shareRepository: ShareRepository;
@@ -21,6 +22,7 @@ export class StorageSectionService extends AbstractSectionService {
     private vmwareRepository: VmwareRepository;
     private replicationRepository: ReplicationRepository;
     private taskRepository: TaskRepository;
+    private peerRepository: PeerRepository;
 
     private topologyService: TopologyService;
 
@@ -44,6 +46,7 @@ export class StorageSectionService extends AbstractSectionService {
         this.vmwareRepository = VmwareRepository.getInstance();
         this.replicationRepository = ReplicationRepository.getInstance();
         this.taskRepository = TaskRepository.getInstance();
+        this.peerRepository = PeerRepository.getInstance();
 
         this.volumeRepository.getVdevRecommendations().then(function(vdevRecommendations) {
             self.topologyService = TopologyService.instance.init(vdevRecommendations);
@@ -106,6 +109,10 @@ export class StorageSectionService extends AbstractSectionService {
 
     public listVmwareDatasets() {
         return this.vmwareRepository.listDatasets();
+    }
+
+    public listPeers() {
+        return this.peerRepository.listPeers();
     }
 
     public getEncryptedVolumeActionsForVolume(volume: Object): Promise<Object> {

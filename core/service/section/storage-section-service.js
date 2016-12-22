@@ -14,6 +14,7 @@ var vmware_repository_1 = require("../../repository/vmware-repository");
 var model_event_name_1 = require("../../model-event-name");
 var replication_repository_1 = require("../../repository/replication-repository");
 var task_repository_1 = require("../../repository/task-repository");
+var peer_repository_1 = require("../../repository/peer-repository");
 var StorageSectionService = (function (_super) {
     __extends(StorageSectionService, _super);
     function StorageSectionService() {
@@ -33,6 +34,7 @@ var StorageSectionService = (function (_super) {
         this.vmwareRepository = vmware_repository_1.VmwareRepository.getInstance();
         this.replicationRepository = replication_repository_1.ReplicationRepository.getInstance();
         this.taskRepository = task_repository_1.TaskRepository.getInstance();
+        this.peerRepository = peer_repository_1.PeerRepository.getInstance();
         this.volumeRepository.getVdevRecommendations().then(function (vdevRecommendations) {
             self.topologyService = topology_service_1.TopologyService.instance.init(vdevRecommendations);
         });
@@ -85,6 +87,9 @@ var StorageSectionService = (function (_super) {
     };
     StorageSectionService.prototype.listVmwareDatasets = function () {
         return this.vmwareRepository.listDatasets();
+    };
+    StorageSectionService.prototype.listPeers = function () {
+        return this.peerRepository.listPeers();
     };
     StorageSectionService.prototype.getEncryptedVolumeActionsForVolume = function (volume) {
         return this.volumeRepository.getEncryptedVolumeActionsInstance().then(function (encryptedVolumeActions) {
