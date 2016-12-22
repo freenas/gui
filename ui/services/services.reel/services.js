@@ -44,6 +44,10 @@ exports.Services = Component.specialize({
                         ])
                     ]);
                 }).then(function(categories) {
+                    categories.forEach(function(category) {
+                        category._objectType = 'ServicesCategory';
+                    });
+                    categories._objectType = 'ServicesCategory';
                     self.categories = categories;
                 });
             }

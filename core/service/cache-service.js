@@ -1,37 +1,116 @@
 "use strict";
+var event_dispatcher_service_1 = require("./event-dispatcher-service");
+var model_1 = require("core/model/model");
+var _ = require("lodash");
 var CacheService = (function () {
-    function CacheService(dataStore) {
-        this.dataStore = dataStore || new Map();
+    function CacheService() {
+        var self = this;
+        this.storage = new Map();
+        this.types = new Map();
+        this.dataObjectPrototypes = new Map();
+        this.eventDispatcherService = event_dispatcher_service_1.EventDispatcherService.getInstance();
+        this.eventDispatcherService.addEventListener('stateChange', function (state) { return self.handleStateChange(state); });
     }
-    CacheService.getInstance = function (dataStore) {
+    CacheService.getInstance = function () {
         if (!CacheService.instance) {
-            CacheService.instance = new CacheService(dataStore);
+            CacheService.instance = new CacheService();
         }
         return CacheService.instance;
     };
-    CacheService.prototype.addToCache = function (key, values) {
-        var cache;
-        if (!this.dataStore.has(key)) {
-            this.dataStore.set(key, values);
-            cache = values;
+    CacheService.prototype.registerTypeForKey = function (type, key) {
+        var self = this, promise;
+        if (type && (!this.types.has(key) || this.types.get(key) !== type || !type.objectPrototype || Promise.is(type.objectPrototype))) {
+            promise = this.ensureModelIsPopulated(type).then(function () {
+                self.types.set(key, type);
+            });
         }
         else {
-            cache = this.dataStore.get(key);
-            for (var i = 0; i < values.length; i++) {
-                cache.push(values[i]);
-            }
+            promise = Promise.resolve();
         }
-        return cache;
+        return promise;
     };
-    CacheService.prototype.clearCacheEntry = function (key) {
-        var isExistingEntry = this.dataStore.has(key);
-        if (isExistingEntry) {
-            this.dataStore.get(key).splice(0);
+    CacheService.prototype.initializeCacheKey = function (key) {
+        if (!this.storage.has(key)) {
+            var cacheArray = [];
+            cacheArray._meta_data = {
+                collectionModelType: this.types.get(key)
+            };
+            this.storage.set(key, cacheArray);
+            this.registerTypeForKey(model_1.Model[key], key);
         }
-        return isExistingEntry;
+        return this.storage.get(key);
+    };
+    CacheService.prototype.hasCacheKey = function (key) {
+        return this.storage.has(key);
     };
     CacheService.prototype.getCacheEntry = function (key) {
-        return this.dataStore.get(key);
+        return this.storage.get(key);
+    };
+    CacheService.prototype.getDataObject = function (key) {
+        var type = this.types.get(key), prototype = this.getPrototypeForType(type), object;
+        if (prototype) {
+            object = Object.create(prototype);
+            if (object) {
+                object = object.constructor.call(object) || object;
+            }
+        }
+        else {
+            object = {
+                _objectType: key
+            };
+        }
+        return object;
+    };
+    CacheService.prototype.handleStateChange = function (state) {
+        var self = this;
+        if (this.currentState) {
+            state.forEach(function (value, key) {
+                if (!self.currentState.has(key) || self.currentState !== value) {
+                    self.updateDataStoreForKey(key, value);
+                }
+            });
+        }
+        else {
+            state.forEach(function (value, key) {
+                self.updateDataStoreForKey(key, value);
+            });
+        }
+        this.currentState = state;
+    };
+    CacheService.prototype.ensureModelIsPopulated = function (type) {
+        return (!type || type.objectPrototype || !type.typeName) ?
+            Promise.is(type.objectPrototype) ?
+                type.objectPrototype.then(function (objectPrototype) { type.objectPrototype = objectPrototype; }) :
+                Promise.resolve() :
+            model_1.Model.populateObjectPrototypeForType(type);
+    };
+    CacheService.prototype.updateDataStoreForKey = function (key, state) {
+        var self = this, cache = self.initializeCacheKey(key), cachedKeys = [], object;
+        for (var i = cache.length - 1; i >= 0; i--) {
+            object = cache[i];
+            if (state.has(object.id)) {
+                _.assign(object, state.get(object.id).toJS());
+                cachedKeys.push(object.id);
+            }
+            else {
+                cache.splice(i, 1);
+            }
+        }
+        state.forEach(function (value, id) {
+            if (cachedKeys.indexOf(id) === -1) {
+                cache.push(_.assign(self.getDataObject(key), value.toJS()));
+            }
+        });
+        this.eventDispatcherService.dispatch('modelChange.' + key, cache);
+        return cache;
+    };
+    CacheService.prototype.getPrototypeForType = function (type) {
+        var prototype = this.dataObjectPrototypes.get(type);
+        if (!prototype && type && type.objectPrototype) {
+            prototype = Object.create(type.objectPrototype);
+            this.dataObjectPrototypes.set(type, prototype);
+        }
+        return prototype;
     };
     return CacheService;
 }());

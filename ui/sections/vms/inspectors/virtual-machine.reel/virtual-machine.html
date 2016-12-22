@@ -252,33 +252,37 @@
         "readme": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
-                "element": {"#": "readme"}
+                "element": {"#": "readme"},
+                "objectType": "VmReadme",
+                "name": "Readme",
+                "property": "_readme"
             },
             "bindings": {
-                "context": {"<-": "@owner.context"},
-                "object": {"<-": "@owner.object._readme"}
+                "context": {"<-": "@owner.context"}
             }
         },
         "devices": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
                 "element": {"#": "devices"},
-                "name": "Devices"
+                "name": "Devices",
+                "objectType": "VmDevice",
+                "property": "_nonVolumeDevices"
             },
             "bindings": {
-                "context": {"<-": "@owner.context"},
-                "object": {"<-": "@owner.object._nonVolumeDevices"}
+                "context": {"<-": "@owner.context"}
             }
         },
         "volumeDevices": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
                 "element": {"#": "volumeDevices"},
-                "name": "Volumes"
+                "name": "Volumes",
+                "objectType": "VmDevice",
+                "property": "_volumeDevices"
             },
             "bindings": {
-                "context": {"<-": "@owner.context"},
-                "object": {"<-": "@owner.object._volumeDevices"}
+                "context": {"<-": "@owner.context"}
             }
         },
         "start": {

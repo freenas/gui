@@ -1,92 +1,88 @@
-var AbstractRepository = require("core/repository/abstract-repository").AbstractRepository,
-    KerberosKeytabDao = require("core/dao/kerberos-keytab-dao").KerberosKeytabDao,
-    KerberosRealmDao = require("core/dao/kerberos-realm-dao").KerberosRealmDao,
-    NtpServerDao = require("core/dao/ntp-server-dao").NtpServerDao,
-    DirectoryDao = require("core/dao/directory-dao").DirectoryDao,
-    KerberosRealmDao = require("core/dao/kerberos-realm-dao").KerberosRealmDao;
-
-
-var DIRECTORY_TYPES_LABELS = {
-        winbind: "Active Directory",
-        freeipa: "FreeIPA",
-        ldap: "LDAP",
-        nis: "NIS"
-    };
-
-
-exports.AccountRepository = AbstractRepository.specialize({
-    init: {
-        value: function(kerberosRealmDao, kerberosKeytabDao, directoryDao, ntpServerDao) {
-            this._kerberosRealmDao = kerberosRealmDao || KerberosRealmDao.instance;
-            this._kerberosKeytabDao = kerberosKeytabDao || KerberosKeytabDao.instance;
-            this._ntpServerDao = ntpServerDao || NtpServerDao.instance;
-            this._directoryDao = directoryDao || DirectoryDao.instance;
-        }
-    },
-
-    getNewKerberosRealm: {
-        value: function () {
-            return this._kerberosRealmDao.getNewInstance();
-        }
-    },
-
-    getKerberosRealmEmptyList: {
-        value: function () {
-            return this._kerberosRealmDao.getEmptyList();
-        }
-    },
-
-    getKerberosKeytabEmptyList: {
-        value: function () {
-            return this._kerberosKeytabDao.getEmptyList();
-        }
-    },
-
-    getNewKerberosKeytab: {
-        value: function () {
-            return this._kerberosKeytabDao.getNewInstance();
-        }
-    },
-
-    getNewDirectoryForType: {
-        value: function (type) {
-            return this._directoryDao.getNewInstance().then(function (directory) {
-                directory.type = type;
-                directory.parameters = {"%type": type + "-directory-params"};
-                directory.label = DIRECTORY_TYPES_LABELS[type];
-
-                return directory;
-            });
-        }
-    },
-
-    listKerberosRealms: {
-        value: function () {
-            return this._kerberosRealmDao.list();
-        }
-    },
-
-    saveKerberosRealm: {
-        value: function (kerberosRealm) {
-            return this._kerberosRealmDao.save(kerberosRealm);
-        }
-    },
-
-    deleteKerberosRealm: {
-        value: function (kerberosRealm) {
-            return this._kerberosRealmDao.delete(kerberosRealm);
-        }
-    },
-
-    saveKerberosKeytab: {
-        value: function (kerberosKeytab) {
-            return this._kerberosKeytabDao.save(kerberosKeytab);
-        }
-    },
-
-    listNtpServers: {
-        value: function (ntpServers) {
-            return this._ntpServerDao.list();
-        }
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var user_dao_1 = require("../dao/user-dao");
+var group_dao_1 = require("../dao/group-dao");
+var directory_services_dao_1 = require("../dao/directory-services-dao");
+var directoryservice_config_dao_1 = require("../dao/directoryservice-config-dao");
+var abstract_repository_ng_1 = require("./abstract-repository-ng");
+var Promise = require("bluebird");
+var directory_dao_1 = require("../dao/directory-dao");
+var model_event_name_1 = require("../model-event-name");
+var AccountRepository = (function (_super) {
+    __extends(AccountRepository, _super);
+    function AccountRepository(userDao, groupDao, directoryServiceDao, directoryserviceConfigDao, directoryDao) {
+        var _this = _super.call(this, [
+            'User',
+            'Group',
+            'Directory'
+        ]) || this;
+        _this.userDao = userDao;
+        _this.groupDao = groupDao;
+        _this.directoryServiceDao = directoryServiceDao;
+        _this.directoryserviceConfigDao = directoryserviceConfigDao;
+        _this.directoryDao = directoryDao;
+        _this.DIRECTORY_TYPES_LABELS = {
+            winbind: "Active Directory",
+            freeipa: "FreeIPA",
+            ldap: "LDAP",
+            nis: "NIS"
+        };
+        return _this;
     }
-});
+    AccountRepository.getInstance = function () {
+        if (!AccountRepository.instance) {
+            AccountRepository.instance = new AccountRepository(new user_dao_1.UserDao(), new group_dao_1.GroupDao(), new directory_services_dao_1.DirectoryServicesDao(), new directoryservice_config_dao_1.DirectoryserviceConfigDao(), new directory_dao_1.DirectoryDao());
+        }
+        return AccountRepository.instance;
+    };
+    AccountRepository.prototype.listUsers = function () {
+        return this.userDao.list();
+    };
+    AccountRepository.prototype.findUserWithName = function (name) {
+        return this.userDao.findSingleEntry({ username: name });
+    };
+    AccountRepository.prototype.saveUser = function (user) {
+        return this.userDao.save(user);
+    };
+    AccountRepository.prototype.listGroups = function () {
+        return this.groups ? Promise.resolve(this.groups.toSet().toJS()) : this.groupDao.list();
+    };
+    AccountRepository.prototype.getNewDirectoryServices = function () {
+        return this.directoryServiceDao.getNewInstance();
+    };
+    AccountRepository.prototype.getDirectoryServiceConfig = function () {
+        return this.directoryserviceConfigDao.get();
+    };
+    AccountRepository.prototype.getNewDirectoryForType = function (type) {
+        var self = this;
+        return this.directoryDao.getNewInstance().then(function (directory) {
+            directory.type = type;
+            directory.parameters = { "%type": type + "-directory-params" };
+            directory.label = self.DIRECTORY_TYPES_LABELS[type];
+            return directory;
+        });
+    };
+    AccountRepository.prototype.handleStateChange = function (name, state) {
+        switch (name) {
+            case 'User':
+                this.users = this.dispatchModelEvents(this.users, model_event_name_1.ModelEventName.User, state);
+                break;
+            case 'Group':
+                this.groups = this.dispatchModelEvents(this.groups, model_event_name_1.ModelEventName.Group, state);
+                break;
+            case 'Directory':
+                this.directories = this.dispatchModelEvents(this.directories, model_event_name_1.ModelEventName.Directory, state);
+                break;
+            default:
+                break;
+        }
+    };
+    AccountRepository.prototype.handleEvent = function (name, data) {
+    };
+    return AccountRepository;
+}(abstract_repository_ng_1.AbstractRepository));
+exports.AccountRepository = AccountRepository;

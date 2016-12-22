@@ -1,31 +1,13 @@
-var Component = require("montage/ui/component").Component,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     RsyncCopyRsyncdirection = require('core/model/enumerations/rsync-copy-rsyncdirection').RsyncCopyRsyncdirection,
     RsyncCopyRsyncmode = require('core/model/enumerations/rsync-copy-rsyncmode').RsyncCopyRsyncmode,
     Model = require("core/model/model").Model;
 
 
 
-exports.RsyncArgs = Component.specialize({
-    
-    _loadUsersIfNeeded: {
+exports.RsyncArgs = AbstractInspector.specialize({
+    _inspectorTemplateDidLoad: {
         value: function() {
-            var self = this;
-            return this.application.dataService.fetchData(Model.User).then(function (users) {
-                return self.users = users;
-            });
-        }
-    },
-
-    templateDidLoad: {
-        value: function() {
-            var self = this;
-
-            this._canDrawGate.setField("usersLoaded", false);
-
-            this._loadUsersIfNeeded().then(function() {
-                self._canDrawGate.setField("usersLoaded", true);
-            });
-
             this.rsyncDirections = RsyncCopyRsyncdirection.members.map(function(x) {
                 return {
                     label: x.toLowerCase().toCapitalized(),
@@ -39,11 +21,14 @@ exports.RsyncArgs = Component.specialize({
                     value: x
                 };
             });
+
+            return this._sectionService.listUsers();
         }
     },
 
     enterDocument: {
-        value: function() {
+        value: function(isFirstTime) {
+            this.super(isFirstTime);
             if (!this.object || this.object.length !== 1) {
                 this.object = [{rsync_properties: {}}];
                 this.object.__type = this.type;

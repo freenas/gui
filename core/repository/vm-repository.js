@@ -5,17 +5,18 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
     VmDeviceDao = require("core/dao/vm-device-dao").VmDeviceDao,
     VmVolumeDao = require("core/dao/vm-volume-dao").VmVolumeDao,
     VmReadmeDao = require("core/dao/vm-readme-dao").VmReadmeDao,
-    VmConfigDao = require("core/dao/vm-config-dao").VmConfigDao;
+    VmConfigDao = require("core/dao/vm-config-dao").VmConfigDao,
+    _ = require("lodash");
 
 exports.VmRepository = AbstractRepository.specialize({
     init: {
-        value: function(vmDao, vmTemplateDao, vmDeviceDao, vmVolumeDao, vmReadmeDao, vmConfigDao) {
-            this._vmDao = vmDao || VmDao.instance;
-            this._vmTemplateDao = vmTemplateDao || VmTemplateDao.instance;
-            this._vmDeviceDao = vmDeviceDao || VmDeviceDao.instance;
-            this._vmVolumeDao = vmVolumeDao || VmVolumeDao.instance;
-            this._vmReadmeDao = vmReadmeDao || VmReadmeDao.instance;
-            this._vmConfigDao = vmConfigDao || VmConfigDao.instance;
+        value: function() {
+            this._vmDao = new VmDao();
+            this._vmTemplateDao = new VmTemplateDao();
+            this._vmDeviceDao = new VmDeviceDao();
+            this._vmVolumeDao = VmVolumeDao.instance;
+            this._vmReadmeDao = VmReadmeDao.instance;
+            this._vmConfigDao = new VmConfigDao();
 
             this.DEFAULT_VM_CONFIG = this.constructor.DEFAULT_VM_CONFIG;
             this.DEFAULT_DEVICE_PROPERTIES = this.constructor.DEFAULT_DEVICE_PROPERTIES;
@@ -118,7 +119,31 @@ exports.VmRepository = AbstractRepository.specialize({
 
     saveVm: {
         value: function(vm) {
-            return this._vmDao.save(vm);
+            var vmPlain = _.toPlainObject(vm);
+            if (Array.isArray(vmPlain.devices)) {
+                var device;
+                for (var i = 0; i < vmPlain.devices.length; i++) {
+                    device = _.toPlainObject(vmPlain.devices[i]);
+                    if (!device.identifier &&
+                        (typeof device.identifier === 'object' || typeof device.identifier === 'object')) {
+                        delete device.identifier;
+                    }
+                    vmPlain.devices[i] = device;
+                }
+            }
+            return this._vmDao.save(vmPlain);
+        }
+    },
+
+    getSerialToken: {
+        value: function(vmId) {
+            return this._vmDao.requestSerialConsole(vmId);
+        }
+    },
+
+    getHardwareCapabilities: {
+        value: function() {
+            return this._vmDao.getHardwareCapabilities();
         }
     }
 

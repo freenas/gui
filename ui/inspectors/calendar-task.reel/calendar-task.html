@@ -19,7 +19,7 @@
                     "disk.parallel_test": "smart",
                     "calendar_task.command": "cron",
                     "replication.replicate_dataset": "replication",
-                    "rsync.copy": "rsync" 
+                    "rsync.copy": "rsync"
                 }
             },
             "bindings": {
@@ -52,18 +52,6 @@
             "bindings": {
                 "context": {"<-": "@owner.context"},
                 "isLoading": {"<-": "!@owner.object"}
-            }
-        },
-        "type": {
-            "prototype": "blue-shark/ui/field-select.reel",
-            "properties": {
-                "element": {"#": "type"},
-                "label": "Type of task",
-                "converter": {"@": "optionsConverter"}
-            },
-            "bindings": {
-                "options": {"<-": "@owner.taskCategories"},
-                "selectedValue": {"<->": "@owner.object.task"}
             }
         },
         "name": {
@@ -205,7 +193,6 @@
 <body>
     <div data-montage-id="owner" class="CalendarTask">
         <div data-montage-id="inspector">
-            <div data-montage-id="type" class="CalendarTask-type"></div>
             <div data-montage-id="name"></div>
             <div data-montage-id="description"></div>
             <div data-montage-id="enabled"></div>

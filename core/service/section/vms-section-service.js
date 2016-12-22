@@ -8,12 +8,14 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
     VmDeviceUsbDevice = require("core/model/enumerations/vm-device-usb-device").VmDeviceUsbDevice,
     VmDeviceVolumeType = require("core/model/enumerations/vm-device-volume-type").VmDeviceVolumeType,
     VmRepository = require("core/repository/vm-repository").VmRepository,
-    StorageRepository = require("core/repository/storage-repository").StorageRepository,
+    VolumeRepository = require("core/repository/volume-repository").VolumeRepository,
     NetworkRepository = require("core/repository/network-repository").NetworkRepository,
     BytesService = require("core/service/bytes-service").BytesService,
     ConsoleService = require("core/service/console-service").ConsoleService,
     CONSTANTS = require("core/constants"),
-    Dict = require("collections/dict").Dict;
+    Dict = require("collections/dict").Dict,
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
+    _ = require("lodash");
 
 exports.VmsSectionService = AbstractSectionService.specialize({
     DEFAULT_STRING: {
@@ -97,24 +99,31 @@ exports.VmsSectionService = AbstractSectionService.specialize({
     },
 
     init: {
-        value: function(vmRepository, storageRepository, networkRepository, bytesService, consoleService) {
+        value: function(vmRepository, volumeRepository, networkRepository, bytesService, consoleService) {
             this._vmRepository = vmRepository || VmRepository.instance;
-            this._storageRepository = storageRepository || StorageRepository.instance;
+            this._volumeRepository = volumeRepository || VolumeRepository.getInstance();
             this._networkRepository = networkRepository || NetworkRepository.instance;
             this._consoleService = consoleService || ConsoleService.instance;
             this._bytesService = bytesService || BytesService.instance;
+            EventDispatcherService.getInstance().addEventListener('stateChange', this._handleStateChange.bind(this));
         }
     },
 
     loadEntries: {
         value: function() {
-            return this._vmRepository.listVms();
+            this.entries = [];
+            this.entries._objectType = 'Vm';
+            return this._vmRepository.listVms().then(function(entries) {
+                var sortedEntries = _.sortBy(entries, 'name');
+                sortedEntries._objectType = 'Vm';
+                return sortedEntries;
+            });
         }
     },
 
     listVolumes: {
         value: function() {
-            return this._storageRepository.listVolumes();
+            return this._volumeRepository.listVolumes();
         }
     },
 
@@ -286,7 +295,7 @@ exports.VmsSectionService = AbstractSectionService.specialize({
                 var i, length, entry;
                 for (i = 0, length = vm.devices.length; i < length; i++) {
                     entry = vm.devices[i];
-                    if (this._isDeviceBootable(entry) 
+                    if (this._isDeviceBootable(entry)
                         && vm._bootDevices.filter(function(x) { return x.label === entry.name }).length === 0) {
                         vm._bootDevices.push({
                             label: entry.name,
@@ -313,11 +322,11 @@ exports.VmsSectionService = AbstractSectionService.specialize({
         value: function(vm) {
             return vm.constructor.services.requestWebvncConsole(vm.id);
         }
-    }, 
+    },
 
     getSerialConsoleForVm: {
         value: function(vm) {
-            return this._consoleService.getSerialToken(vm.id).then(function(token) {
+            return this._vmRepository.getSerialToken(vm.id).then(function(token) {
                 return "/serial-console-app/#" + token;
             });
         }
@@ -359,13 +368,12 @@ exports.VmsSectionService = AbstractSectionService.specialize({
     initializeVm: {
         value: function(vm) {
             var self = this;
-            return this._initializeDevicesOnVm(vm).then(function() {
-                if (vm._isNew) {
-                    self._initializeNewVm(vm);
-                }
-                self._setMemoryOnVm(vm);
-                vm._bootDevice = vm.config.boot_device;
-            });
+            this._initializeDevicesOnVm(vm);
+            if (vm._isNew) {
+                self._initializeNewVm(vm);
+            }
+            self._setMemoryOnVm(vm);
+            vm._bootDevice = vm.config.boot_device;
         }
     },
 
@@ -390,29 +398,18 @@ exports.VmsSectionService = AbstractSectionService.specialize({
 
     _initializeDevicesOnVm: {
         value: function(vm) {
-            var promises = [];
             if (!vm.devices) {
-                promises.push(
-                    this._vmRepository.getNewVmDeviceList().then(function(devices) {
-                        return vm.devices = devices;
-                    })
-                );
+                vm.devices = [];
+                vm.devices._objectType = 'VmDevice';
             }
             if (!vm._nonVolumeDevices) {
-                promises.push(
-                    this._vmRepository.getNewVmDeviceList().then(function(devices) {
-                        return vm._nonVolumeDevices = devices;
-                    })
-                );
+                vm._nonVolumeDevices = [];
+                vm._nonVolumeDevices._objectType = 'VmDevice';
             }
             if (!vm._volumeDevices) {
-                promises.push(
-                    this._vmRepository.getNewVmVolumeList().then(function(devices) {
-                        return vm._volumeDevices = devices;
-                    })
-                );
+                vm._volumeDevices = [];
+                vm._volumeDevices._objectType = 'VmDevice';
             }
-            return Promise.all(promises);
         }
     },
 
@@ -466,6 +463,48 @@ exports.VmsSectionService = AbstractSectionService.specialize({
                     }
                 }
             }
+        }
+    },
+
+    _handleStateChange: {
+        value: function(state) {
+            var self = this,
+                vmState = state.get('Vm');
+            if (vmState) {
+                vmState.forEach(function(stateEntry) {
+                    // DTM
+                    var entry = self._findObjectWithId(self.entries, stateEntry.get('id'));
+                    if (entry) {
+                        _.assign(entry, stateEntry.toJS());
+                    } else {
+                        entry = stateEntry.toJS();
+                        entry._objectType = 'Peer';
+                        // DTM: Why doesn't sortedArray allow to just push in that specific case ?
+                        self.entries.splice(_.sortedIndexBy(self.entries, entry, 'name'), 0, entry);
+                    }
+                });
+                // DTM
+                if (this.entries) {
+                    for (var i = this.entries.length - 1; i >= 0; i--) {
+                        if (!vmState.has(this.entries[i].id)) {
+                            this.entries.splice(i, 1);
+                        }
+                    }
+                }
+            }
+        }
+    },
+
+    _findObjectWithId: {
+        value: function(entries, id) {
+            var entry;
+            for (var i = 0; i < entries.length; i++) {
+                entry = entries[i];
+                if (entry.id === id) {
+                    return entry;
+                }
+            }
+            return null;
         }
     }
 });

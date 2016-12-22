@@ -46,7 +46,7 @@ exports.CalendarWidgetDay = AbstractDropZoneComponent.specialize({
                 this._data = data;
                 if (data) {
                     var self = this;
-                    this.application.calendarService.getTasksScheduleOnDay(data).then(function(tasks) {
+                    this.application.sectionService.getTasksScheduleOnDay(data).then(function(tasks) {
                         self.tasks = tasks;
                     });
                 }

@@ -1,23 +1,30 @@
-/**
- * @module ui/inspector.reel
- */
 var Component = require("montage/ui/component").Component,
-    CascadingList = require("ui/controls/cascading-list.reel").CascadingList,
-    Model = require("core/model/model").Model,
     Promise = require("montage/core/promise").Promise,
-    FastSet = require("collections/fast-set");
+    ModelDescriptorService = require("core/service/model-descriptor-service").ModelDescriptorService,
+    CascadingList = require("ui/controls/cascading-list.reel").CascadingList,
+    _ = require("lodash");
 
-/**
- * @class Inspector
- * @extends Component
- */
-exports.Inspector = Component.specialize(/** @lends Inspector# */ {
+exports.Inspector = Component.specialize({
     confirmDeleteMessage: {
         value: null
     },
 
     isSaveDisabled: {
         value: false
+    },
+
+    parentCascadingListItem: {
+        get: function () {
+            return this._parentCascadingListItem ||
+                (this._parentCascadingListItem = CascadingList.findCascadingListItemContextWithComponent(this));
+        }
+    },
+
+    templateDidLoad: {
+        value: function() {
+            this.super();
+            this._modelDescriptorService = ModelDescriptorService.getInstance();
+        }
     },
 
     enterDocument: {
@@ -53,6 +60,7 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                 if (Promise.is(promise)) {
                     promise.catch(this._logError);
                 }
+                this.clearObjectSelection();
             } else if (this.object) {
                 this.object.__isLocked = true;
                 this.clearObjectSelection();
@@ -145,26 +153,21 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
 
     save: {
         value: function() {
-            if (arguments && arguments.length > 0) {
-                var args = [this.object];
-                for (var i = 0, length = arguments.length; i < length; i++) {
-                    args.push(arguments[i]);
-                }
-                return this.application.dataService.saveDataObject.apply(this.application.dataService, args).catch(this._logError);
-            }else {
-                return this.application.dataService.saveDataObject(this.object).catch(this._logError);
-            }
+            var self = this;
+            (function(object, args) {
+                self._getObjectDao(object).then(function(dao) {
+                    return dao.save(object, _.values(args)).catch(self._logError);
+                });
+            })(this.object, arguments);
         }
     },
 
     clearObjectSelection: {
         value: function() {
-            var viewer = this._findParentViewer();
-            if (viewer) {
-                viewer.cascadingListItem.selectedObject = null;
-            }
+            return this.parentCascadingListItem.close();
         }
     },
+
 
     _findParentViewer: {
         value: function() {
@@ -191,6 +194,12 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                 }
                 return self.object;
             });
+        }
+    },
+
+    _getObjectDao: {
+        value: function() {
+            return this._modelDescriptorService.getDaoForObject(this.object);
         }
     },
 

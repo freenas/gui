@@ -88,7 +88,7 @@
                 "controller": {"@": "owner"}
             },
             "bindings": {
-                "disks": {"<-": "@owner.disks.filter{isAvailable && !isReserved}"}
+                "disks": {"<-": "@owner.availableDisks"}
             }
         },
         "importVolume": {

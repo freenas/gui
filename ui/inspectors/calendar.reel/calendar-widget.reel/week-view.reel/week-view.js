@@ -75,7 +75,7 @@ exports.WeekView = Component.specialize({
                 });
             }
             Promise.each(days, function(day) {
-                return self.application.calendarService.getTasksScheduleOnDay(day).then(function(tasks) {
+                return self.application.sectionService.getTasksScheduleOnDay(day).then(function(tasks) {
                     day.events = tasks;
                 });
             });

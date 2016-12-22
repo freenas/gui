@@ -11,6 +11,7 @@ var EventDispatcherService = (function () {
             this.listeners.set(eventName, new Set());
         }
         this.listeners.get(eventName).add(handler);
+        return handler;
     };
     EventDispatcherService.prototype.removeEventListener = function (eventName, handler) {
         if (this.listeners.has(eventName)) {
@@ -21,7 +22,7 @@ var EventDispatcherService = (function () {
         if (this.listeners.has(eventName)) {
             var handlers = this.listeners.get(eventName).values(), handler = handlers.next().value;
             while (typeof handler === 'function') {
-                handler.call(detail);
+                handler.call({}, detail);
                 handler = handlers.next().value;
             }
         }

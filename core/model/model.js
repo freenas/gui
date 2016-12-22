@@ -6,7 +6,10 @@ var Promise = require("montage/core/promise").Promise,
 
     EMPTY_ARRAY = [];
 
-var _Model = null;
+var MiddlewareClient = require("core/service/middleware-client").MiddlewareClient;
+
+var _Model = null,
+    _middlewareClient = null;
 
 Object.defineProperty(exports, "Model", {
     get: function () {
@@ -20,6 +23,7 @@ Object.defineProperty(exports, "Model", {
 
 
 function _initialize () {
+    _middlewareClient = MiddlewareClient.getInstance();    
     var models = modelsMJSON.models,
         model;
 
@@ -133,13 +137,7 @@ function _applyServiceOnPrototype (serviceName, serviceDescriptor, object) {
                 args = args ? args : EMPTY_ARRAY;
             }
 
-            return backendBridge.send(
-                serviceDescriptor.namespace,
-                serviceDescriptor.name, {
-                    method: serviceDescriptor.method,
-                    args:  args
-                }
-            ).then(function (response) {
+            return _middlewareClient.callRpcMethod(serviceDescriptor.method, args).then(function (response) {
                 return response.data;
             }).catch(function (response) {
                 console.warn(response.error || response);

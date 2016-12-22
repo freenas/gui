@@ -4,7 +4,7 @@
         "properties": {
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "collectionNameExpression": "'System Section'",
-            "inspectorComponentModule": {"%": "ui/inspectors/system-section.reel"},
+            "inspectorComponentModule": {"%": "ui/sections/system/inspectors/system-section.reel"},
             "nameExpression": "label",
             "sortExpression": "order"
         }

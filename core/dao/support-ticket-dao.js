@@ -1,15 +1,17 @@
-/**
- * @module core/dao/support-ticket-dao
- */
-var AbstractDao = require("core/dao/abstract-dao").AbstractDao;
-/**
- * @class SupportTicketDao
- * @extends AbstractDao
- */
-exports.SupportTicketDao = AbstractDao.specialize(/** @lends SupportTicketDao# */ {
-    init: {
-        value: function() {
-            this._model = this.constructor.Model.SupportTicket;
-        }
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var abstract_dao_ng_1 = require("./abstract-dao-ng");
+var SupportTicketDao = (function (_super) {
+    __extends(SupportTicketDao, _super);
+    function SupportTicketDao() {
+        return _super.call(this, 'SupportTicket', {
+            createMethod: 'support.submit'
+        }) || this;
     }
-});
+    return SupportTicketDao;
+}(abstract_dao_ng_1.AbstractDao));
+exports.SupportTicketDao = SupportTicketDao;

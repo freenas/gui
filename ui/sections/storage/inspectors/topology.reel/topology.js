@@ -5,7 +5,8 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
     VolumeCreator = require("ui/sections/storage/inspectors/volume-creator.reel").VolumeCreator,
     Promise = require("montage/core/promise").Promise,
     CascadingList = require("ui/controls/cascading-list.reel").CascadingList,
-    Model = require("core/model/model").Model;
+    Model = require("core/model/model").Model,
+    _ = require("lodash");
 
 /**
  * @class Topology
@@ -50,7 +51,9 @@ var Topology = exports.Topology = AbstractInspector.specialize(/** @lends Topolo
                     Model.populateObjectPrototypeForType(Model.ZfsTopology),
                     Model.populateObjectPrototypeForType(Model.ZfsVdev)
                 ]).then(function () {
-                    self._topologyProxy = self._getNewTopologyProxy();
+                    return self._getNewTopologyProxy();
+                }).then(function(topologyProxy) {
+                    self._topologyProxy = topologyProxy;
                 });
             }
 
@@ -60,10 +63,7 @@ var Topology = exports.Topology = AbstractInspector.specialize(/** @lends Topolo
 
     _inspectorTemplateDidLoad: {
         value: function() {
-            var self = this;
-            return this._sectionService.listDisks().then(function(disks) {
-                self.disks = disks; 
-            });
+            this.availableDisks = this._sectionService.listAvailableDisks();
         }
     },
 
@@ -91,7 +91,7 @@ var Topology = exports.Topology = AbstractInspector.specialize(/** @lends Topolo
             this.super();
             this._clearDisk();
             this._freeTopologyProxy();
-            
+
             if (this._parentCascadingListItem) {
                 this._parentCascadingListItem.classList.remove("CascadingListItem-Topology");
             }
@@ -111,7 +111,7 @@ var Topology = exports.Topology = AbstractInspector.specialize(/** @lends Topolo
             } else if (!this.topologySelectedDisk && !this.availableSelectedDisk) {
                 this.selectedObject = null;
             }
-        } 
+        }
     },
 
     _handleAvailableSelectedDiskChange: {
@@ -127,7 +127,6 @@ var Topology = exports.Topology = AbstractInspector.specialize(/** @lends Topolo
 
     _handleTopologySelectedDiskChange: {
         value: function() {
-            var disk;
             if (this.topologySelectedDisk && this.topologySelectedDisk.length == 1) {
                 if (this.availableSelectedDisk) {
                     this.availableSelectedDisk.splice(0, this.availableSelectedDisk.length);
@@ -140,11 +139,7 @@ var Topology = exports.Topology = AbstractInspector.specialize(/** @lends Topolo
     _freeTopologyProxy: {
         value: function () {
             if (this._topologyProxy) {
-                var topologyKeys = this.constructor.TOPOLOGY_KEYS;
-
-                for (var i = 0, l = topologyKeys.length; i < l; i++) {
-                    this._topologyProxy[topologyKeys[i]].clear();
-                }
+                this._sectionService.clearTopology(this._topologyProxy);
             }
         }
     },
@@ -174,28 +169,21 @@ var Topology = exports.Topology = AbstractInspector.specialize(/** @lends Topolo
 
     _mapTopologyToTopologyProxy: {
         value: function (topology, topologyProxy) {
-            var topologyKeys = this.constructor.TOPOLOGY_KEYS;
+            var topologyKeys = this._sectionService.TOPOLOGY_KEYS;
 
             for (var i = 0, l = topologyKeys.length; i < l; i++) {
-                this.addVDevsToTopologyProxyVDevs(topology[topologyKeys[i]], topologyProxy[topologyKeys[i]]);
+                this._addVDevsToTopologyProxyVDevs(topology[topologyKeys[i]], topologyProxy[topologyKeys[i]]);
             }
         }
     },
 
     _getNewTopologyProxy: {
         value: function () {
-            var topologyProxy = this.application.dataService.getDataObject(Model.ZfsTopology),
-                topologyKeys = this.constructor.TOPOLOGY_KEYS;
-
-            for (var i = 0, l = topologyKeys.length; i < l; i++) {
-                topologyProxy[topologyKeys[i]] = [];
-            }
-
-            return topologyProxy;
+            return this._sectionService.getNewTopology();
         }
     },
 
-    addVDevsToTopologyProxyVDevs: {
+    _addVDevsToTopologyProxyVDevs: {
         value: function (vDevs, targetProxyVDevs) {
             var proxyVDev, proxyVDevDisk, vDev, vDevChildren, i, ii , l, ll;
 
@@ -222,19 +210,11 @@ var Topology = exports.Topology = AbstractInspector.specialize(/** @lends Topolo
 
     _mapVDevToProxyVDev: {
         value: function (vDev) {
-            var propertyBlueprints = Model.ZfsVdev.objectPrototype.constructor.propertyBlueprints,
-                proxyVDev = this.application.dataService.getDataObject(Model.ZfsVdev),
-                key;
-
-            for (var i = 0, length = propertyBlueprints.length; i < length; i++) {
-                key = propertyBlueprints[i].name;
-
-                if (key !== "children") {
-                    proxyVDev[key] = vDev[key];
+            return _.cloneWith(vDev, function(value, key) {
+                if (key !== 'children') {
+                    return value;
                 }
-            }
-
-            return proxyVDev;
+            });
         }
     },
 
@@ -276,14 +256,6 @@ var Topology = exports.Topology = AbstractInspector.specialize(/** @lends Topolo
             }
         }
     }
-
-
-}, {
-
-    TOPOLOGY_KEYS: {
-        value: ["data", "cache", "log", "spare"]
-    }
-
 });
 
 

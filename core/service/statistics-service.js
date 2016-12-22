@@ -1,12 +1,9 @@
 var Montage = require("montage").Montage,
-    BackEndBridgeModule = require("../backend/backend-bridge");
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
+    MiddlewareClient = require("core/service/middleware-client").MiddlewareClient;
 
 var StatisticsService = exports.StatisticsService = Montage.specialize({
     _instance: {
-        value: null
-    },
-
-    _backendBridge: {
         value: null
     },
 
@@ -22,6 +19,7 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
         value: function() {
             this._datasources = {};
             this._subscribedUpdates = [];
+            this._listeners = new Map();
         }
     },
 
@@ -30,7 +28,7 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
             hostname = hostname || 'localhost';
             if (!this._datasources[hostname]) {
                 this._datasources[hostname] = this._callBackend("stat.get_data_sources_tree", []).then(function(response) {
-                    return response.data.children[hostname].children;
+                    return response.children[hostname].children;
                 });
             }
             return this._datasources[hostname];
@@ -44,7 +42,7 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
                 timespan:   periodInSecs * 100,
                 frequency:  periodInSecs + 's'
             }]).then(function(response) {
-                return response.data.data;
+                return response.data;
             });
         }
     },
@@ -55,30 +53,49 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
                 timespan:   20,
                 frequency:  '10s'
             }]).then(function(response) {
-                return response.data.data;
+                return response.data;
             });
         }
     },
 
     subscribeToDatasourcesUpdates: {
         value: function(datasources, listener) {
-            for (var i = datasources.length - 1; i >= 0; i--) {
-                if (this._subscribedUpdates.indexOf(datasources[i]) == -1) {
-                    this._subscribedUpdates.push(datasources[i]);
+            var self = this;
+            return Promise.all(datasources.map(function(datasource) {
+                var name = "statd." + datasource;
+                if (self._subscribedUpdates.indexOf(datasource) == -1) {
+                    self._subscribedUpdates.push(datasource);
                 }
-            }
-
-            return this._backendBridge.subscribeToEvents(datasources.map(function(datasource) { return "statd." + datasource; }), listener);
+                return self._middlewareClient.subscribeToEvents(name).then(function() {
+                    if (!self._listeners.has(name)) {
+                        self._listeners.set(name, new Set());
+                    }
+                    self._listeners.get(name).add(listener);
+                    return name;
+                });
+            }))
         }
     },
 
     unsubscribeToDatasourcesUpdates: {
-        value: function(datasources, listener) {
-            for (var i = datasources.length - 1; i >= 0; i--) {
-                this._subscribedUpdates.splice(this._subscribedUpdates.indexOf(datasources[i]), 1);
-            }
+        value: function(datasources) {
+            var self = this;
+            return Promise.all(datasources.map(function(datasource) {
+                var name = "statd." + datasource;
+                self._listeners.delete(name);
+                self._subscribedUpdates.splice(self._subscribedUpdates.indexOf(datasources[i]), 1);
+                return self._middlewareClient.unsubscribeFromEvents(name);
+            }));
+        }
+    },
 
-            return this._backendBridge.unSubscribeToEvents(datasources.map(function(datasource) { return "statd." + datasource; }), listener);
+    _handleStatsChange: {
+        value: function(stats) {
+            if (this._listeners.has(stats.name)) {
+                this._listeners.get(stats.name).forEach(function(listener) {
+                    listener.handleEvent(stats);
+                })
+            }
         }
     },
 
@@ -92,10 +109,7 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
 
     _callBackend: {
         value: function(method, args) {
-            return this._backendBridge.send("rpc", "call", {
-                method: method,
-                args: args
-            });
+            return this._middlewareClient.callRpcMethod(method, args);
         }
     }
 
@@ -104,7 +118,9 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
         get: function() {
             if (!this._instance) {
                 this._instance = new StatisticsService();
-                this._instance._backendBridge = BackEndBridgeModule.defaultBackendBridge;
+                this._instance._middlewareClient = MiddlewareClient.getInstance()
+                this._instance._eventDispatcherService = EventDispatcherService.getInstance();
+                this._instance._eventDispatcherService.addEventListener('statsChange', this._instance._handleStatsChange.bind(this._instance))
             }
             return this._instance;
         }

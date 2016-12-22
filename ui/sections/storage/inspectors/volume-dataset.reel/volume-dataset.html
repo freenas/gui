@@ -133,11 +133,11 @@
         "snapshots": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
-                "element": {"#": "snapshots"}
+                "element": {"#": "snapshots"},
+                "objectType": "VolumeSnapshot"
             },
             "bindings": {
-                "object": {"<-": "@owner.snapshots.filter{dataset == @owner.object.id}"},
-                "objectType": {"<-": "@owner.snapshotType"}
+                "object": {"<-": "@owner.snapshots.filter{dataset == @owner.object.id}"}
             }
         },
         "typeCondition": {
@@ -162,11 +162,11 @@
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
                 "element": {"#": "vmwareSnapshots"},
-                "label": "VMware Snapshots"
+                "label": "VMware Snapshots",
+                "objectType": "VmwareDataset"
             },
             "bindings": {
-                "object": {"<-": "@owner.vmwareDatasets.filter{dataset == @owner.object.id}"},
-                "objectType": {"<-": "@owner.vmwareDatasetType"}
+                "object": {"<-": "@owner.vmwareDatasets.filter{dataset == @owner.object.id}"}
             }
         }
     }

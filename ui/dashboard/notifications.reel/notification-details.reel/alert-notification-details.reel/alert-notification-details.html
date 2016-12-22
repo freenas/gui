@@ -9,9 +9,9 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "classList.has('has-warning')": {"<-": "@owner.object.data.severity == 'WARNING'"},
-                "classList.has('has-info')": {"<-": "@owner.object.data.severity == 'INFO'"},
-                "classList.has('has-critical')": {"<-": "@owner.object.data.severity == 'CRITICAL'"}
+                "classList.has('has-warning')": {"<-": "@owner.object.severity == 'WARNING'"},
+                "classList.has('has-info')": {"<-": "@owner.object.severity == 'INFO'"},
+                "classList.has('has-critical')": {"<-": "@owner.object.severity == 'CRITICAL'"}
             }
         },
         "jobId": {
@@ -20,7 +20,7 @@
                 "element": {"#": "jobId"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.type + ' #' + @owner.object.jobId"}
+                "value": {"<-": "@owner.object.type + ' #' + @owner.object.idd"}
             }
         },
         "taskName": {
@@ -29,7 +29,7 @@
                 "element": {"#": "taskName"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.taskName"}
+                "value": {"<-": "@owner.object.title"}
             }
         },
         "description": {
@@ -38,7 +38,7 @@
                 "element": {"#": "description"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.data.description"}
+                "value": {"<-": "@owner.object.description"}
             }
         }
     }

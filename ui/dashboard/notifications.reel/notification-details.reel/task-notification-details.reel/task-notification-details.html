@@ -10,7 +10,7 @@
             },
             "bindings": {
                 "classList.has('has-error')": {"<-": "!!@owner.object.errorMessage"},
-                "classList.has('has-warning')": {"<-": "@owner.object.taskReport.warnings.length > 0"}
+                "classList.has('has-warning')": {"<-": "@owner.object.warnings.length > 0"}
             }
         },
         "jobId": {
@@ -19,7 +19,7 @@
                 "element": {"#": "jobId"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.type + ' #' + @owner.object.jobId"}
+                "value": {"<-": "'TASK #' + @owner.object.id"}
             }
         },
         "taskName": {
@@ -28,7 +28,7 @@
                 "element": {"#": "taskName"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.taskName"}
+                "value": {"<-": "@owner.object.name"}
             }
         },
         "state": {
@@ -46,7 +46,7 @@
                 "element": {"#": "errorCondition"}
             },
             "bindings": {
-                "condition": {"<-": "!!@owner.object.errorMessage || @owner.object.taskReport.warnings.length > 0"}
+                "condition": {"<-": "!!@owner.object.error || @owner.object.warnings.length > 0"}
             }
         },
         "errorMessage": {
@@ -55,7 +55,7 @@
                 "element": {"#": "errorMessage"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.errorMessage"}
+                "value": {"<-": "@owner.object.error.message"}
             }
         },
         "warnings": {
@@ -64,7 +64,7 @@
                 "element": {"#": "warnings"}
             },
             "bindings": {
-                "content": {"<-": "@owner.object.taskReport.warnings"}
+                "content": {"<-": "@owner.object.warnings"}
             }
         },
         "warning": {

@@ -2,8 +2,7 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
     ContainerRepository = require("core/repository/container-repository").ContainerRepository,
     MiddlewareTaskRepository = require("core/repository/middleware-task-repository").MiddlewareTaskRepository,
     UserRepository = require("core/repository/user-repository").UserRepository,
-    ApplicationContextService = require("core/service/application-context-service").ApplicationContextService
-    BackendBridge = require('core/backend/backend-bridge'),
+    ApplicationContextService = require("core/service/application-context-service").ApplicationContextService,
     Model = require("core/model/model").Model;
 
 exports.ContainerSectionService = AbstractSectionService.specialize({
@@ -85,6 +84,12 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         }
     },
 
+    getNewInstanceFromObjectType: {
+        value: function (objectType) {
+            return this._containerRepository.getNewInstanceFromObjectType(objectType);
+        }
+    },
+
     getNewDockerContainerLogs: {
         value: function () {
             return this._containerRepository.getNewDockerContainerLogs();
@@ -109,6 +114,12 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         }
     },
 
+    getNewDockerImagePull: {
+        value: function() {
+            return this._containerRepository.getNewImagePull();
+        }
+    },
+
     getCurrentUser: {
         value: function () {
             return this._applicationContextService.findCurrentUser();
@@ -119,10 +130,7 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         value: function (dockerContainer) {
             var self = this;
 
-            return BackendBridge.defaultBackendBridge.send('rpc', 'call', {
-                method: 'docker.container.request_interactive_console',
-                args: [dockerContainer.id]
-            }).then(function (response) {
+            return this._containerRepository.getInteractiveConsoleToken(dockerContainer.id).then(function (response) {
                 return self.getSerialTokenWithDockerContainerId(response.data);
             });
         }
@@ -130,10 +138,7 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
 
     getSerialTokenWithDockerContainerId: {
         value: function (dockerContainerId) {
-            return BackendBridge.defaultBackendBridge.send('rpc', 'call', {
-                method: 'docker.container.request_serial_console',
-                args: [dockerContainerId]
-            }).then(function (response) {
+            return this._containerRepository.getSerialConsoleToken(dockerContainerId).then(function (response) {
                 return response.data;
             });
         }

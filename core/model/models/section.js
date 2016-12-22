@@ -120,7 +120,7 @@ exports.Section = Montage.specialize({
     userInterfaceDescriptor: {
         value: {
             inspectorComponentModule: {
-                id: 'ui/controls/section.reel/section-root.reel'
+                id: 'ui/controls/section-root.reel'
             },
             nameExpression: "label",
             sortExpression: "order"

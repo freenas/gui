@@ -1,32 +1,47 @@
-/**
- * @module core/repository/alert-repository
- */
-var AbstractRepository = require("core/repository/abstract-repository").AbstractRepository,
-    AlertFilterDao = require("core/dao/alert-filter-dao").AlertFilterDao,
-    MailDao = require("core/dao/mail-dao").MailDao;
-/**
- * @class AlertRepository
- * @extends AbstractRepository
- */
-exports.AlertRepository = AbstractRepository.specialize(/** @lends AlertRepository# */ {
-    init: {
-        value : function (alertFilterDao, mailDao) {
-            this._alertFilterDao = alertFilterDao || AlertFilterDao.instance;
-            this._mailDao = mailDao || MailDao.instance;
-        }
-    },
-
-    listAlertFilters: {
-        value: function () {
-            return this._alertFilterDao.list();
-        }
-    },
-
-    getMail: {
-        value: function () {
-            return this._mailDao.get();
-        }
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var abstract_repository_ng_1 = require("./abstract-repository-ng");
+var model_event_name_1 = require("../model-event-name");
+var alert_dao_1 = require("../dao/alert-dao");
+var Promise = require("bluebird");
+var AlertRepository = (function (_super) {
+    __extends(AlertRepository, _super);
+    function AlertRepository(alertDao) {
+        var _this = _super.call(this, [
+            'Alert'
+        ]) || this;
+        _this.alertDao = alertDao;
+        return _this;
     }
-
-
-});
+    AlertRepository.getInstance = function () {
+        if (!AlertRepository.instance) {
+            AlertRepository.instance = new AlertRepository(new alert_dao_1.AlertDao());
+        }
+        return AlertRepository.instance;
+    };
+    AlertRepository.prototype.listAlerts = function () {
+        return this.alerts ?
+            Promise.resolve(this.alerts.toList.toJS()) :
+            this.alertDao.find({ active: true, dismissed: false });
+    };
+    AlertRepository.prototype.dismissAlert = function (alert) {
+        return this.alertDao.dismiss(alert);
+    };
+    AlertRepository.prototype.handleStateChange = function (name, state) {
+        switch (name) {
+            case 'Alert':
+                this.alerts = this.dispatchModelEvents(this.alerts, model_event_name_1.ModelEventName.Alert, state);
+                break;
+            default:
+                break;
+        }
+    };
+    AlertRepository.prototype.handleEvent = function (name, data) {
+    };
+    return AlertRepository;
+}(abstract_repository_ng_1.AbstractRepository));
+exports.AlertRepository = AlertRepository;

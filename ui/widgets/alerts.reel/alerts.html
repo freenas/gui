@@ -8,6 +8,9 @@
             "properties": {
                 "element": {"#": "owner"},
                 "notifications": {"@": "notifications"}
+            },
+            "bindings": {
+                "displayedAlerts": {"<-": "@owner.alerts.filter{active && !dismissed}.sorted{id}.reversed()"}
             }
         },
         "widget": {
@@ -22,6 +25,9 @@
                 "element": {"#": "notifications"},
                 "type": "ALERT",
                 "emptyText": "No Alerts Reported"
+            },
+            "bindings": {
+                "notifications": {"<-": "@owner.displayedAlerts"}
             }
         },
         "clear": {

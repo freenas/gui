@@ -1,15 +1,19 @@
-
 var ComponentModule = require("montage/ui/component"),
     Component = ComponentModule.Component,
-    rootComponent = ComponentModule.__root__;
+    rootComponent = ComponentModule.__root__,
+    MiddlewareClient = require("core/service/middleware-client").MiddlewareClient,
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
+    RoutingService = require("core/service/routing-service").RoutingService;
 
-/**
- * @class Main
- * @extends Component
- */
 exports.Main = Component.specialize({
     templateDidLoad: {
         value: function() {
+            this.routingService = RoutingService.getInstance();
+            this.middlewareClient = MiddlewareClient.getInstance();
+            this._eventDispatcherService = EventDispatcherService.getInstance();
+            this._eventDispatcherService.addEventListener('connectionStatusChange', function(status) {
+                self.connectionStatus = status;
+            });
             this._sectionsServices = new Map();
             this.addPathChangeListener("application.section", this, "_handleSectionChange");
         }
@@ -41,24 +45,27 @@ exports.Main = Component.specialize({
                         servicePromise = require.async(sectionDescriptor.service).then(function(module) {
                             var exports = Object.keys(module);
                             if (exports.length === 1) {
-                                var instance = module[exports[0]].instance;
+                                var clazz = module[exports[0]],
+                                    instance = clazz.instance || new clazz(),
+                                    instancePromise = instance.instanciationPromise;
                                 self._sectionsServices.set(sectionDescriptor.id, instance);
-                                return instance;
+                                return instancePromise;
                             }
                         }).then(function(service) {
                             service.section.id = sectionDescriptor.id;
+                            service.section.settings.id = sectionDescriptor.id;
                             service.section.label = sectionDescriptor.label;
                             service.section.icon = sectionDescriptor.icon;
                             return service;
                         });
                     } else {
-                        console.warn("Old fashion section:", sectionDescriptor.id)
                         this.sectionGeneration = 'old';
                         this.sectionId = sectionDescriptor.id;
                         this.application.sectionService = null;
                         this._canDrawGate.setField(this.constructor.DRAW_GATE_FIELD, true);
                     }
                 }
+                self.routingService.selectSection(self.application.section.id);
                 if (Promise.is(servicePromise)) {
                     this.sectionGeneration = 'new';
                     this.sectionId = null;

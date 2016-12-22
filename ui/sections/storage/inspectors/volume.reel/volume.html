@@ -34,7 +34,7 @@
                 "converter": {"@": "bytesConverter"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object._properties.size.parsed"}
+                "value": {"<-": "@owner.object.properties.size.parsed"}
             }
         },
         "validationController": {
@@ -60,51 +60,53 @@
         "encryptionActions": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
-                "element": {"#": "encryptionActions"}
+                "element": {"#": "encryptionActions"},
+                "objectType": "EncryptedVolumeActions"
             },
             "bindings": {
                 "classList.has('hide')": {"<-": "!@owner.object.password_encrypted && !@owner.object.key_encrypted"},
-                "object": {"<-": "@owner.encryptedVolumeActions"},
-                "objectType": {"<-": "@owner.encryptedVolumeActionsType"}
+                "object": {"<-": "@owner.encryptedVolumeActions"}
             }
         },
         "shares": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
-                "element": {"#": "shares"}
+                "element": {"#": "shares"},
+                "objectType": "Share"
             },
             "bindings": {
                 "object": {"<-": "@owner.datasetShares.concat(@owner.directoryShares)"},
-                "objectType": {"<-": "@owner.shareType"}
+                "classList.has('hide')": {"<-": "!!@owner.object._isDetached"}
             }
         },
         "snapshots": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
-                "element": {"#": "snapshots"}
+                "element": {"#": "snapshots"},
+                "objectType": "VolumeSnapshot"
             },
             "bindings": {
                 "object": {"<-": "@owner.snapshots.filter{volume == @owner.object.id}"},
-                "objectType": {"<-": "@owner.snapshotType"}
+                "classList.has('hide')": {"<-": "!!@owner.object._isDetached"}
             }
         },
         "topology": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
-                "element": {"#": "topology"}
-            },
-            "bindings": {
-                "object": {"<-": "@owner.object.topology"}
+                "element": {"#": "topology"},
+                "property": "topology",
+                "name": "Topology"
             }
         },
         "datasets": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
-                "element": {"#": "datasets"}
+                "element": {"#": "datasets"},
+                "objectType": "VolumeDataset"
             },
             "bindings": {
                 "object": {"<-": "@owner.datasets.filter{volume == @owner.object.id}"},
-                "objectType": {"<-": "@owner.datasetType"}
+                "classList.has('hide')": {"<-": "!!@owner.object._isDetached"}
             }
         },
         "volumeIcon": {
@@ -119,9 +121,9 @@
                 "element": {"#": "allocationBar"}
             },
             "bindings": {
-                "totalSize": {"<-": "@owner.object._properties.size.parsed"},
-                "usedSize": {"<-": "@owner.object._properties.allocated.parsed"},
-                "available": {"<-": "@owner.object._properties.free.parsed"}
+                "totalSize": {"<-": "@owner.object.properties.size.parsed"},
+                "usedSize": {"<-": "@owner.object.properties.allocated.parsed"},
+                "available": {"<-": "@owner.object.properties.free.parsed"}
             }
         },
         "scrub": {

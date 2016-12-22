@@ -16,12 +16,18 @@
             "prototype": "../main-sidebar/main-sidebar.reel",
             "properties": {
                 "element": {"#": "mainSidebar"}
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "@owner.middlewareClient.state != 'OPEN'"}
             }
         },
         "sideboard": {
             "prototype": "../dashboard/sideboard.reel",
             "properties": {
                 "element": {"#": "sideboard"}
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "@owner.middlewareClient.state != 'OPEN'"}
             }
         },
         "substitution": {
@@ -39,22 +45,10 @@
                 "element": {"#": "dashboard"}
             }
         },
-        "accounts": {
-            "prototype": "../accounts/accounts.reel",
-            "properties": {
-                "element": {"#": "accounts"}
-            }
-        },
         "task": {
             "prototype": "ui/sections/task/inspectors/tasks.reel",
             "properties": {
                 "element": {"#": "task"}
-            }
-        },
-        "hardware": {
-            "prototype": "../hardware/hardware.reel",
-            "properties": {
-                "element": {"#": "hardware"}
             }
         },
         "services": {
@@ -67,12 +61,6 @@
             "prototype": "../console.reel",
             "properties": {
                 "element": {"#": "console"}
-            }
-        },
-        "peering": {
-            "prototype": "ui/sections/peering/peering.reel",
-            "properties": {
-                "element": {"#": "peering"}
             }
         },
         "calendar": {
@@ -97,6 +85,9 @@
             "prototype": "ui/disconnection-modal.reel",
             "properties": {
                 "element": {"#": "disconnectionModal"}
+            },
+            "bindings": {
+                "connectionState": {"<-": "@owner.middlewareClient.state"}
             }
         },
         "icons": {
@@ -128,6 +119,21 @@
             "bindings": {
                 "switchValue": {"<-": "@owner.sectionGeneration"}
             }
+        },
+        "signInModal": {
+            "prototype": "ui/controls/modal.reel",
+            "properties": {
+                "element": {"#": "signInModal"}
+            },
+            "bindings": {
+                "classList.has('montage-Overlay--visible')": {"<-": "!@signIn.isLoggedIn"}
+            }
+        },
+        "signIn": {
+            "prototype": "ui/sign-in.reel",
+            "properties": {
+                "element": {"#": "signIn"}
+            }
         }
     }
     </script>
@@ -143,11 +149,9 @@
                         <div data-arg="dashboard" data-montage-id="dashboard"></div>
                         <div data-arg="accounts" data-montage-id="accounts"></div>
                         <div data-arg="network" data-montage-id="network"></div>
-                        <div data-arg="hardware" data-montage-id="hardware"></div>
                         <div data-arg="services" data-montage-id="services"></div>
                         <div data-arg="console" data-montage-id="console"></div>
                         <div data-arg="task" data-montage-id="task"></div>
-                        <div data-arg="peering" data-montage-id="peering"></div>
                         <div data-arg="calendar" data-montage-id="calendar"></div>
                         <div data-arg="virtualization" data-montage-id="virtualization"></div>
                         <div data-arg="containers" data-montage-id="containers"></div>
@@ -161,6 +165,9 @@
             </div>
                 <div data-montage-id="drawer"></div>
         </main>
+        <div data-montage-id="signInModal" class="SignInModal">
+            <div data-montage-id="signIn"></div>
+        </div>
         <div data-montage-id="modal" class="Main-modal"></div>
         <div data-montage-id="disconnectionModal"></div>
     </div>

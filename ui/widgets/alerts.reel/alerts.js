@@ -1,30 +1,41 @@
-/**
- * @module ui/alerts.reel
- */
-var AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate;
+var AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate,
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
+    ModelEventName = require("core/model-event-name").ModelEventName,
+    DashboardService = require("core/service/dashboard-service").DashboardService;
 
-/**
- * @class Alerts
- * @extends Component
- */
 exports.Alerts = AbstractComponentActionDelegate.specialize(/** @lends Alerts# */ {
+    templateDidLoad: {
+        value: function() {
+            var self = this;
+            this._eventDispatcherService = EventDispatcherService.getInstance();
+            this._dashboardService = DashboardService.getInstance();
+            this._dashboardService.listAlerts().then(function(alerts) {
+                self.alerts = alerts;
+                self._eventDispatcherService.addEventListener(ModelEventName.Alert.listChange, self._handleAlertsChange.bind(self));
+                self._eventDispatcherService.addEventListener('alertDismiss', self._handleAlertDismiss.bind(self));
+            });
+        }
+    },
 
     handleClearAction: {
         value: function () {
-            var alerts = this.notifications.items.content,
-                length = alerts.length, i;
-
-            if (length) {
-                return this.application.alertServicePromise.then(function (alertService) {
-                    var promises = [];
-
-                    for (i = 0; i < length; i++) {
-                        promises.push(alertService.services.dismiss(alerts[i].jobId));
-                    }
-
-                    return Promise.all(promises);
-                });
+            for (var i = this.displayedAlerts.length - 1; i >= 0; i--) {
+                this._dashboardService.dismissAlert(this.displayedAlerts[i]);
             }
+        }
+    },
+
+    _handleAlertDismiss: {
+        value: function (alert) {
+            if (alert && !alert.dismissed) {
+                return this._dashboardService.dismissAlert(alert);
+            }
+        }
+    },
+
+    _handleAlertsChange: {
+        value: function(alerts) {
+            this.alerts = alerts.toList().toJS();
         }
     }
 

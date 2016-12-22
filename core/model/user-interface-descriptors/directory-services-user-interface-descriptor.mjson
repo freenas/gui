@@ -2,7 +2,7 @@
     "root": {
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
-            "inspectorComponentModule": {"%": "ui/inspectors/directory-services.reel"},
+            "inspectorComponentModule": {"%": "ui/sections/accounts/inspectors/directory-services.reel"},
             "iconComponentModule": {"%": "ui/icons/directory-services.reel"},
             "nameExpression": "'Directory Services'",
             "wizardComponentModuleId": "ui/sections/wizard/inspectors/directory-services.reel",

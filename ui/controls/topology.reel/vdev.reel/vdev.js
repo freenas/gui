@@ -1,18 +1,11 @@
-/**
- * @module ui/vdev.reel
- */
 var AbstractDropZoneComponent = require("blue-shark/core/drag-drop/abstract-dropzone-component").AbstractDropZoneComponent,
     TopologyItem = require("ui/controls/topology.reel/topology-item.reel").TopologyItem,
     CascadingList = require("ui/controls/cascading-list.reel").CascadingList,
     Topology = require("ui/controls/topology.reel").Topology,
-    AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate;
+    AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate,
+    _ = require('lodash');
 
-
-/**
- * @class Vdev
- * @extends Component
- */
-exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
+exports.Vdev = AbstractDropZoneComponent.specialize({
     _topologyItem: {
         value: void 0
     },
@@ -327,7 +320,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
 
     _defineDefaultType: {
         value: function(isAdd) {
-            if (this.topologyItem && !this._hasUserDefinedType) {
+            if (this.topologyItem && !this._hasUserDefinedType && this.children) {
                 var childrenCount = this.children.length;
 
                 if (this.isEditorMode && !this.isNewVDev) {
@@ -391,7 +384,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
             if (this._populateDiskPromise || gridItem.object && gridItem.object._disk) {
                 var promise = this._populateDiskPromise || Promise.resolve();
                 promise.then(function() {
-                    if (gridItem.object.getPath('_disk.status.smart_info.smart_status') === 'FAIL') {
+                    if (_.get(gridItem.object, '_disk.status.smart_info.smart_status') === 'FAIL') {
                         gridItem.classList.add('unhealthy');
                     }
                 });

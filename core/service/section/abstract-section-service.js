@@ -17,10 +17,10 @@ exports.AbstractSectionService = Montage.specialize({
             return Promise.all([
                 self.constructor._sectionRepository.getNewSection(),
                 self.constructor._sectionRepository.getNewSectionSettings(),
-                self.loadEntries(),
-                self.loadExtraEntries(),
-                self.loadSettings(),
-                self.loadOverview()
+                self.loadEntries ? self.loadEntries() : function() {},
+                self.loadExtraEntries ? self.loadExtraEntries() : function() {},
+                self.loadSettings ? self.loadSettings() : function() {},
+                self.loadOverview ? self.loadOverview() : function() {}
             ]).then(function(data) {
                 self.section = data[0];
                 self.section.settings = data[1];
@@ -33,22 +33,22 @@ exports.AbstractSectionService = Montage.specialize({
             });
         }
     },
-    
+
     loadEntries: {
         value: function() {
         }
     },
-    
+
     loadExtraEntries: {
         value: function() {
         }
     },
-    
+
     loadSettings: {
         value: function() {
         }
     },
-    
+
     loadOverview: {
         value: function() {
         }
@@ -65,12 +65,11 @@ exports.AbstractSectionService = Montage.specialize({
                 if (!Promise.is(initReturn)) {
                     initReturn = Promise.resolve();
                 }
-                return initReturn.then(function() {
-                    return self._instance._load();
+                this._instance.instanciationPromise = initReturn.then(function() {
+                    return self._instance._load()
                 });
-            } else {
-                return Promise.resolve(this._instance);
-             }
+            }
+            return this._instance;
          }
     }
 });

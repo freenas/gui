@@ -43,3 +43,7 @@
         url(../../assets/images/bg.png);
 }
 
+.SignInModal.montage-Overlay--visible {
+    opacity: 1;
+    visibility: visible;
+}

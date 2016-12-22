@@ -1,37 +1,27 @@
-/**
- * @module ui/inspectors/system-section.reel/overview.reel
- */
-var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
-/**
- * @class Overview
- * @extends Component
- */
-exports.Overview = Component.specialize(/** @lends Overview# */ {
+exports.Overview = AbstractInspector.specialize({
 
     systemInfo: {
         value: null
     },
 
-    templateDidLoad: {
+    _inspectorTemplateDidLoad: {
         value: function () {
-            var self = this,
-                loadingPromises = [];
-            this._canDrawGate.setField(this.constructor._CAN_DRAW_FIELD, false);
+            var self = this;
             this.isLoading = true;
             this.systemInfo = {};
-            loadingPromises.push(
-                this.application.systemGeneralService.getSystemGeneral().then(function (systemGeneral) {
+            return Promise.all([
+                this.application.systemService.getGeneral().then(function (systemGeneral) {
                     self.systemInfo.general = systemGeneral;
                 }),
-                this.application.systemTimeService.getSystemTime().then(function (time) {
+                this.application.systemService.getTime().then(function (time) {
                     self.systemTime = time
                 }),
-                this.application.virtualMachineService.listVirtualMachines().then(function (virtualMachines) {
+                this._sectionService.listVms().then(function (virtualMachines) {
                     self.virtualMachines = virtualMachines;
                 }),
-                this.application.dockerSettingsService.getDockerContainers().then(function (dockerContainers) {
+                this._sectionService.listContainers().then(function (dockerContainers) {
                     self.containers = dockerContainers;
                 }),
                 this.application.storageService.listDatasets().then(function (datasetList) {
@@ -43,7 +33,7 @@ exports.Overview = Component.specialize(/** @lends Overview# */ {
                 this.application.storageService.getShareData().then(function (shares) {
                     self.systemInfo.shares = shares;
                 }),
-                this.application.systemInfoService.getVersion().then(function (version) {
+                this.application.systemService.getVersion().then(function (version) {
                     self.systemInfo.systemVersion = version;
                 }),
                 this.application.peeringService.listPeers().then(function (peers) {
@@ -58,21 +48,15 @@ exports.Overview = Component.specialize(/** @lends Overview# */ {
                 this.application.storageService.listDisks().then(function (disks) {
                     self.systemInfo.disks = disks
                 }),
-                this.application.systemDatasetService.getSystemDatasetPool().then(function(systemDatasetPool) {
+                this.application.systemService.getSystemDatasetPool().then(function(systemDatasetPool) {
                     self.systemDatasetData = systemDatasetPool.pool;
                 }),
-                this.application.networkInterfacesSevice.getNetworkInterfaces().then(function (totalNetworkInterfaces) {
+                this._sectionService.listNetworkInterfaces().then(function (totalNetworkInterfaces) {
                     self.systemInfo.totalNetworkInterfaces = totalNetworkInterfaces;
                 })
-            );
-            Promise.all(loadingPromises).then(function() {
-                this.isLoading = false;
-                self._canDrawGate.setField(self.constructor._CAN_DRAW_FIELD, true);
+            ]).then(function() {
+                self.isLoading = false;
             })
         }
-    }
-}, {
-    _CAN_DRAW_FIELD: {
-        value: "infoLoaded"
     }
 });

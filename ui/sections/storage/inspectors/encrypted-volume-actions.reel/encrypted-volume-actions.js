@@ -4,7 +4,7 @@ exports.EncryptedVolumeActions = AbstractInspector.specialize({
     enterDocument: {
         value: function(isFirstTime) {
             if (isFirstTime) {
-                this.addPathChangeListener("object.volume._providers_presence", this, "_handleProvidersPresenceChange");
+                this.addPathChangeListener("object.volume.providers_presence", this, "_handleProvidersPresenceChange");
             }
         }
     },

@@ -1,19 +1,6 @@
-/**
- * @module ui/share.reel
- */
-var Component = require("montage/ui/component").Component;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
-/**
- * @class Share
- * @extends Component
- */
-exports.Share = Component.specialize(/** @lends Share# */ {
-
-    templateDidLoad: {
-        value: function () {
-            this._sectionService = this.context.sectionService;
-        }
-    },
+exports.Share = AbstractInspector.specialize(/** @lends Share# */ {
 
     context: {
         value: null

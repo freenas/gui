@@ -18,7 +18,7 @@
             "prototype": "montage/core/range-controller",
             "bindings": {
                 "content": {"<-": "@owner.object"},
-                "sortPath": {"<-": "@owner.sortingKey"}
+                "sortPath": {"<-": "@owner.sortingPath"}
             }
         },
         "list": {
@@ -28,7 +28,7 @@
                 "controller": {"@": "controller"}
             },
             "bindings": {
-                "showSubLabel": {"<-": "@owner.showSubLabel.defined() ? @owner.showSubLabel : @owner.object._meta_data.collectionModelType.constructor.userInterfaceDescriptor.subLabelExpression.defined()"}
+                "showSubLabel": {"<-": "@owner.showSubLabel ?? @owner.userInterfaceDescriptor.subLabelExpression.defined()"}
             }
         },
 
@@ -65,7 +65,7 @@
                 "element": {"#": "title"}
             },
             "bindings": {
-                "value": {"<-": "!!@owner.title ? @owner.title : @owner.object._meta_data.collectionModelType.constructor.userInterfaceDescriptor.collectionNameExpression.slice(1,-1)"},
+                "value": {"<-": "@owner.title ?? @owner.userInterfaceDescriptor.collectionNameExpression.slice(1,-1)"},
                 "classList.has('is-hidden')": {"<-": "!value.length"}
             }
         },
@@ -84,7 +84,7 @@
                 "element": {"#": "emptyMessage"}
             },
             "bindings": {
-                "value": {"<-": "!!@owner.emptyMessage ? @owner.emptyMessage : 'There are currently no items in ' + @title.value"}
+                "value": {"<-": "@owner.emptyMessage ?? 'There are currently no items in ' + @title.value"}
             }
         },
         "viewerControls": {
@@ -103,7 +103,7 @@
                 "element": {"#": "controls"}
             },
             "bindings": {
-                "moduleId": {"<-": "@owner.object._meta_data.collectionModelType.constructor.userInterfaceDescriptor.listControlsComponentModule.id"},
+                "moduleId": {"<-": "@owner.userInterfaceDescriptor.listControlsComponentModule.id || @owner.userInterfaceDescriptor.listControlsComponentModule['%']"},
                 "component.showSubLabel": {"<->": "@owner.showSubLabel"}
             }
         }

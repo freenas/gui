@@ -21,7 +21,8 @@
                 "validationController": {"@": "validationController"},
                 "canDelete": true,
                 "canSave": true,
-                "canRevert": true
+                "canRevert": true,
+                "controller": {"@": "owner"}
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},

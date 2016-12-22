@@ -22,12 +22,14 @@ exports.ValidationController = Montage.specialize(/** @lends ValidationControlle
     load: {
         value: function(form, object) {
             this._form = form;
-            this._context = this._form.context
+            this._context = this._form.context;
             this._object = object || this._context.object;
-            this._action = this._object._isNew ? 
-                ValidationService.ACTIONS.CREATE : 
+            this._action = this._object._isNew ?
+                ValidationService.ACTIONS.CREATE :
                 ValidationService.ACTIONS.UPDATE;
-            this._type = this._object.Type;
+            this._type = this._object._objectType
+                || (this._object.Type && this._object.Type.typeName)
+                || (this._object.constructor.Type && this._object.constructor.Type.typeName);
             this._loadFromObjectDescriptor();
             this._loadFromFields();
             this._linkErrorMessages();
@@ -38,11 +40,13 @@ exports.ValidationController = Montage.specialize(/** @lends ValidationControlle
         value: function() {
             var propertyBlueprints = this._object.constructor.propertyBlueprints,
                 component, path;
-            for (var i = 0, length = propertyBlueprints.length; i < length; i++) {
-                path = propertyBlueprints[i].name;
-                component = this._form.templateObjects[propertyBlueprints[i].name];
-                if (component) {
-                    this._validateComponentWithPath(component, path);
+            if (propertyBlueprints) {
+                for (var i = 0, length = propertyBlueprints.length; i < length; i++) {
+                    path = propertyBlueprints[i].name;
+                    component = this._form.templateObjects[propertyBlueprints[i].name];
+                    if (component) {
+                        this._validateComponentWithPath(component, path);
+                    }
                 }
             }
         }
@@ -52,14 +56,14 @@ exports.ValidationController = Montage.specialize(/** @lends ValidationControlle
         value: function() {
             if (this.fields && typeof this.fields === "object") {
                 var paths = Object.keys(this.fields),
-                    path, 
+                    path,
                     components, component, j, componentsLength;
                 for (var i = 0, length = paths.length; i < length; i++) {
                     path = paths[i];
                     components = this.fields[path];
                     if (Array.isArray(components)) {
                         for (j = 0, componentsLength = components.length; j < componentsLength; j++) {
-                            this._validateComponentWithPath(components[j], path);                   
+                            this._validateComponentWithPath(components[j], path);
                         }
                     } else {
                         this._validateComponentWithPath(components, path);

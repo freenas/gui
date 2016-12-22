@@ -3,17 +3,27 @@
   "version": "0.3.0",
   "dependencies": {
     "blue-shark": "freenas/blue-shark#46111830ec4a4531c44087b3652f5db519d2b8f8",
+    "change-case": "^3.0.0",
     "collections": "montagejs/collections#90210529c7b01ed373b65d4a60409f5edd36a93a",
     "d3": "^3.5.17",
     "digit": "montagejs/digit",
     "frb": "montagejs/frb#66ba657ae8e7ada7658df3beb6e924c500b7259c",
+    "immutable": "^3.8.1",
     "lodash": "^4.17.2",
     "maphilight": "~1.2.3",
     "montage": "freenas/montage#bb10e3fece407e61b38fea6f1e1dc238798405e2",
     "montage-data": "montagestudio/montage-data#647f5208fcefbc89c405d1afea205c8184fddeda",
     "plottable": "~2.5.0",
+    "node-uuid": "^1.4.7",
+    "redux": "^3.6.0",
+    "systemjs": "^0.19.41",
+    "systemjs-plugin-json": "^0.2.2",
     "validators": "~0.3.1",
     "xterm": "^1.0.0"
+  },
+  "redirects": {
+    "redux": "redux/dist/redux.min.js",
+    "bluebird": "node_modules/montage/node_modules/bluebird/js/browser/bluebird.min.js"
   },
   "devDependencies": {
     "browser-sync": "^2.13.0",

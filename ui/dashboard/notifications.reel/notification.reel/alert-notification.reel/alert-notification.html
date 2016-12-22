@@ -9,10 +9,16 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "classList.has('has-warning')": {"<-": "@owner.object.data.severity == 'WARNING'"},
-                "classList.has('has-info')": {"<-": "@owner.object.data.severity == 'INFO'"},
-                "classList.has('has-critical')": {"<-": "@owner.object.data.severity == 'CRITICAL'"}
-            }
+                "classList.has('has-warning')": {"<-": "@owner.object.severity == 'WARNING'"},
+                "classList.has('has-info')": {"<-": "@owner.object.severity == 'INFO'"},
+                "classList.has('has-critical')": {"<-": "@owner.object.severity == 'CRITICAL'"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
         },
         "converter": {
             "prototype": "montage/core/converter/date-converter",
@@ -26,8 +32,8 @@
                 "element": {"#": "summary"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.taskName"},
-                "classList.has('hide')": {"<-": "!@owner.object.taskName"}
+                "value": {"<-": "@owner.object.title"},
+                "classList.has('hide')": {"<-": "!@owner.object.title"}
             }
         },
         "timestamp": {
@@ -37,7 +43,7 @@
             },
             "bindings": {
                 "value": {
-                    "<-": "@owner.object.startedTime",
+                    "<-": "@owner.object.date",
                     "converter": {"@": "converter"}
                 }
             }
@@ -46,6 +52,9 @@
             "prototype": "montage/ui/button.reel",
             "properties": {
                 "element": {"#": "dismissButton"}
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "@owner.object._dismissing"}
             }
         },
         "expandButton": {

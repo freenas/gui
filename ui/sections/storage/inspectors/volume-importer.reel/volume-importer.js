@@ -1,8 +1,11 @@
-var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
+    ModelEventName = require("core/model-event-name").ModelEventName;
 
 exports.VolumeImporter = AbstractInspector.specialize({
     _inspectorTemplateDidLoad: {
         value: function() {
+            this._eventDispatcherService = EventDispatcherService.getInstance();
             return this._listDetachedVolumes();
         }
     },
@@ -10,9 +13,16 @@ exports.VolumeImporter = AbstractInspector.specialize({
     enterDocument: {
         value: function() {
             var self = this;
+            this. availableDisksEventListener = this._eventDispatcherService.addEventListener(ModelEventName.Volume.contentChange, this._listDetachedVolumes.bind(this));
             this._sectionService.getEncryptedVolumeImporterInstance().then(function(encryptedVolumeImporter) {
                self.encryptedVolumeImporter = encryptedVolumeImporter;
             });
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            this._eventDispatcherService.removeEventListener(ModelEventName.Volume.contentChange, this.availableDisksEventListener);
         }
     },
 
@@ -45,7 +55,7 @@ exports.VolumeImporter = AbstractInspector.specialize({
                     var label = x.label;
                     if (label === null) {
                         label = x.path.replace(/\/dev\//, '');
-                    }    
+                    }
                     return { label: label, value: x.path };
                 });
             });

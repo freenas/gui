@@ -3,6 +3,7 @@ var Montage = require("montage").Montage,
     application = require("montage/core/application").application,
     FreeNASService = require("core/service/freenas-service").FreeNASService,
     StorageService = require("core/service/storage-service").StorageService,
+    ShareRepository = require("core/repository/share-repository").ShareRepository,
     Promise = require("montage/core/promise").Promise,
     Model = require("core/model/model").Model;
 
@@ -148,11 +149,7 @@ var ShareService = exports.ShareService = Montage.specialize({
                 return this._saveIscsiShareObject(shareObject, isServiceEnabled);
             }
 
-            if (shareObject._isNew) {
-                return this._dataService.saveDataObject(shareObject, null, isServiceEnabled);
-            } else {
-                return this._dataService.saveDataObject(shareObject, isServiceEnabled);
-            }
+            return this.shareRepository.saveShare(shareObject, isServiceEnabled);
         }
     },
 
@@ -208,7 +205,7 @@ var ShareService = exports.ShareService = Montage.specialize({
 
     _createNewShare: {
         value: function (shareType, volume) {
-            return this._dataService.getNewInstanceForType(Model.Share).then(function(share) {
+            return this.shareRepository.getNewShare().then(function(share) {
                 share._isNewObject = true;
                 share.type = shareType;
                 share.enabled = true;
@@ -255,6 +252,7 @@ var ShareService = exports.ShareService = Montage.specialize({
                 this._instance = new ShareService();
                 this._instance._dataService = FreeNASService.instance;
                 this._instance._storageService = StorageService.instance;
+                this._instance.shareRepository = ShareRepository.getInstance();
             }
 
             return this._instance;

@@ -1,4 +1,5 @@
 var Montage = require("montage").Montage,
+    ModelDescriptorService = require("core/service/model-descriptor-service").ModelDescriptorService,
     Uuid = require("montage/core/uuid").Uuid;
 
 var SelectionService = exports.SelectionService = Montage.specialize({
@@ -16,6 +17,7 @@ var SelectionService = exports.SelectionService = Montage.specialize({
 
     constructor: {
         value: function() {
+            this._modelDescriptorService = ModelDescriptorService.getInstance();
             this._sections = new Map();
             this._tasks = new Map();
         }
@@ -26,7 +28,7 @@ var SelectionService = exports.SelectionService = Montage.specialize({
             if (section && selection && selection.length > 0) {
                 this._section = section;
                 this._sections.set(
-                    section, 
+                    section,
                     selection.slice(1).map(function(x) { return x.object; })
                 );
             }
@@ -42,6 +44,21 @@ var SelectionService = exports.SelectionService = Montage.specialize({
     getCurrentSelection: {
         value: function() {
             return this._sections.get(this._section);
+        }
+    },
+
+    getClosestParentWithObjectType: {
+        value: function(objectType, columnIndex, selection) {
+            selection = selection || this.getCurrentSelection();
+            var parent,
+                parentType;
+            for (var i = columnIndex - 1; i >= 0; i--) {
+                parent = selection[i];
+                parentType = this._modelDescriptorService.getObjectType(parent);
+                if (parentType === objectType) {
+                    return parent;
+                }
+            }
         }
     },
 

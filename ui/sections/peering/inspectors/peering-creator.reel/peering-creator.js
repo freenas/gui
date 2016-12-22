@@ -1,14 +1,6 @@
-/**
- * @module ui/sections/peering/peering-creator.reel
- */
-var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
-/**
- * @class PeeringCreator
- * @extends Component
- */
-exports.PeeringCreator = Component.specialize(/** @lends PeeringCreator# */ {
+exports.PeeringCreator = AbstractInspector.specialize({
 
     newSsh: {
         value: null
@@ -33,43 +25,24 @@ exports.PeeringCreator = Component.specialize(/** @lends PeeringCreator# */ {
     },
 
     enterDocument: {
-        value: function (isFirstTime) {
-            if (isFirstTime) {
-                this._selectionService = this.application.selectionService;
-                this._peeringService = this.application.peeringService;
-            }
-
+        value: function () {
             this._populateNewPeerObjectList();
-        }
-    },
-
-    _getCurrentVolume: {
-        value: function() {
-            var currentSelection = this._selectionService.getCurrentSelection();
-
-            for (var i = currentSelection.length - 1; i >= 0; i--) {
-                if (currentSelection[i].constructor.Type == Model.Volume) {
-                    return currentSelection[i];
-                }
-            }
         }
     },
 
     _populateNewPeerObjectList: {
         value: function () {
-            var volume = this._getCurrentVolume(),
-                peeringService = this._peeringService;
-
+            var self = this;
             Promise.all([
-                peeringService.createSshPeer(),
-                peeringService.createFreenasPeer(),
-                peeringService.createAmazonS3Peer(),
-                peeringService.createVmwarePeer(),
-            ]).bind(this).then(function (peeringCredentials) {
-                this.newSsh = peeringCredentials[0];
-                this.newFreenas = peeringCredentials[1];
-                this.newAmazonS3 = peeringCredentials[2];
-                this.newVmware = peeringCredentials[3];
+                this._sectionService.getNewPeerWithType(this._sectionService.PEER_TYPES.SSH),
+                this._sectionService.getNewPeerWithType(this._sectionService.PEER_TYPES.FREENAS),
+                this._sectionService.getNewPeerWithType(this._sectionService.PEER_TYPES.AMAZON_S3),
+                this._sectionService.getNewPeerWithType(this._sectionService.PEER_TYPES.VMWARE),
+            ]).spread(function (sshPeer, freenasPeer, s3Peer, vmwarePeer) {
+                self.newSsh = sshPeer;
+                self.newFreenas = freenasPeer;
+                self.newAmazonS3 = s3Peer;
+                self.newVmware = vmwarePeer;
             });
         }
     }

@@ -28,7 +28,7 @@
                 "element": {"#": "name"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.path(@owner.object.Type.constructor.userInterfaceDescriptor.nameExpression)"}
+                "value": {"<-": "@owner.object.path(@owner.userInterfaceDescriptor.nameExpression)"}
             }
         },
         "size": {
@@ -38,7 +38,7 @@
                 "converter": {"@": "bytesConverter"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object._properties.size.parsed"}
+                "value": {"<-": "@owner.object.properties.size.parsed"}
             }
         },
         "totalDetail": {
@@ -49,7 +49,7 @@
                 "label": "Total"
             },
             "bindings": {
-                "value": {"<-": "@owner.object._properties.size.parsed"}
+                "value": {"<-": "@owner.object.properties.size.parsed"}
             }
         },
         "usedDetail": {
@@ -60,7 +60,7 @@
                 "label": "Used"
             },
             "bindings": {
-                "value": {"<-": "@owner.object._properties.allocated.parsed"}
+                "value": {"<-": "@owner.object.properties.allocated.parsed"}
             }
         },
         "availableDetail": {
@@ -71,7 +71,7 @@
                 "label": "Free"
             },
             "bindings": {
-                "value": {"<-": "@owner.object._properties.free.parsed"}
+                "value": {"<-": "@owner.object.properties.free.parsed"}
             }
         },
         "status": {

@@ -1,9 +1,6 @@
-var Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component,
+    MiddlewareClient = require("core/service/middleware-client").MiddlewareClient;
 
-/**
- * @class CurrentUserSummary
- * @extends Component
- */
 exports.CurrentUserSummary = Component.specialize({
 
     dotRegEx: {
@@ -20,6 +17,12 @@ exports.CurrentUserSummary = Component.specialize({
 
     _intervalTime: {
         value: 10 // sec
+    },
+
+    templateDidLoad: {
+        value: function() {
+            this.middlewareClient = MiddlewareClient.getInstance();
+        }
     },
 
     enterDocument: {

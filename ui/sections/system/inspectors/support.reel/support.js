@@ -1,9 +1,8 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Model = require("core/model/model").Model,
     SupportService = require("core/service/support-service").SupportService;
 
 exports.Support = AbstractInspector.specialize({
-  
+
     categoryOptions: {
         value: null
     },
@@ -16,7 +15,7 @@ exports.Support = AbstractInspector.specialize({
                 this.object.attachments = []; // fixme when attachments are implemented
             }
             return this._supportService.saveSupportTicket(this.object).then(function() {
-                self._getNewTicket();    
+                self._getNewTicket();
             }, function() {});
         }
     },
@@ -56,7 +55,7 @@ exports.Support = AbstractInspector.specialize({
             this._supportService = SupportService.instance;
             this.typeOptions = this._supportService.supportTicketTypes;
             return this._supportService.listCategories().then(function(categories) {
-                self.categoryOptions = Object.keys(categories).map(function(x) {
+                self.categoryOptions = Object.keys(categories).sort().map(function(x) {
                     return {label: x, value: categories[x]};
                 });
             });

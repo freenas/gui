@@ -1,30 +1,17 @@
-/**
- * @module core/dao/vmware-datastore-dao
- */
-var AbstractDao = require("core/dao/abstract-dao").AbstractDao,
-  	BackEndBridgeModule = require("../backend/backend-bridge");
-/**
- * @class VmwareDatastoreDao
- * @extends AbstractDao
- */
-exports.VmwareDatastoreDao = AbstractDao.specialize(/** @lends VmwareDatastoreDao# */ {
-    init: {
-        value: function(backendBridge, dataService) {
-            this._backendBridge = backendBridge || BackEndBridgeModule.defaultBackendBridge;
-            this._model = this.constructor.Model.VmwareDatastore;
-        }
-    },
-	  list: {
-		    value: function(peer, full) {
-			      var self = this;
-			      return this._backendBridge.send("rpc", "call", {
-                method: "vmware.get_datastores", 
-                args: [peer.credentials.address, peer.credentials.username, peer.credentials.password, full]
-            }).then(function(response) {
-				        return Promise.all(response.data.map(function(x) {
-                    return self._dataService.mapRawDataToType(x, self._model);
-                }));
-			      });
-	    	}
-	  }
-});
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var abstract_dao_ng_1 = require("./abstract-dao-ng");
+var VmwareDatastoreDao = (function (_super) {
+    __extends(VmwareDatastoreDao, _super);
+    function VmwareDatastoreDao() {
+        return _super.call(this, 'VmwareDatastore', {
+            queryMethod: 'vmware.get_datastore'
+        }) || this;
+    }
+    return VmwareDatastoreDao;
+}(abstract_dao_ng_1.AbstractDao));
+exports.VmwareDatastoreDao = VmwareDatastoreDao;
