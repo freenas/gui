@@ -44,8 +44,7 @@
 
 /* states */
 
-.DiskIcon.offline .DiskIcon-img,
-.DiskIcon.exported .DiskIcon-img {
+.DiskIcon.is-unavailable.DiskIcon-img {
     opacity: .5;
 }
 
