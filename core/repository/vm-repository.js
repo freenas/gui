@@ -5,6 +5,7 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
     VmDeviceDao = require("core/dao/vm-device-dao").VmDeviceDao,
     VmVolumeDao = require("core/dao/vm-volume-dao").VmVolumeDao,
     VmReadmeDao = require("core/dao/vm-readme-dao").VmReadmeDao,
+    VmConfigDao = require("core/dao/vm-config-dao").VmConfigDao,
     _ = require("lodash");
 
 exports.VmRepository = AbstractRepository.specialize({
@@ -15,6 +16,7 @@ exports.VmRepository = AbstractRepository.specialize({
             this._vmDeviceDao = new VmDeviceDao();
             this._vmVolumeDao = VmVolumeDao.instance;
             this._vmReadmeDao = VmReadmeDao.instance;
+            this._vmConfigDao = VmConfigDao.instance;
 
             this.DEFAULT_VM_CONFIG = this.constructor.DEFAULT_VM_CONFIG;
             this.DEFAULT_DEVICE_PROPERTIES = this.constructor.DEFAULT_DEVICE_PROPERTIES;
@@ -57,6 +59,29 @@ exports.VmRepository = AbstractRepository.specialize({
         }
     },
 
+    getVmSettings: {
+        value: function() {
+            var self = this;
+            this._vmSettings = {};
+            return this._vmConfigDao.get().then(function(config) {
+                self._vmSettings.config = config;
+                return self._vmSettings;
+            });
+        }
+    },
+
+    saveVmSettings: {
+        value: function() {
+            return this._vmConfigDao.save(this._vmSettings.config);
+        }
+    },
+
+    revertVmSettings: {
+        value: function() {
+            return this._vmConfigDao.revert(this._vmSettings.config);
+        }
+    },
+
     getNewVmDeviceList: {
         value: function() {
             return this._vmDeviceDao.getEmptyList();
@@ -74,7 +99,7 @@ exports.VmRepository = AbstractRepository.specialize({
             return this._vmReadmeDao.getNewInstance().then(function(vmReadme) {
                 vmReadme.text = vm.config ? vm.config.readme : null;
                 return vmReadme;
-            })
+            });
         }
     },
 

@@ -55,10 +55,10 @@
         },
         "id": {
             "prototype": "blue-shark/ui/field-text-input.reel",
-             "properties": {
+            "properties": {
                 "element": {"#": "nameInput"},
                 "label": "Name"
-             },
+            },
              "bindings": {
                 "value": {"<->": "@owner.name"}
             }
@@ -68,7 +68,8 @@
             "properties": {
                 "element": {"#": "pathSelector"},
                 "controller": {"@": "datasetTreeController"},
-                "label": "Path"
+                "label": "Path",
+                "allowPathInput": true
             },
             "bindings": {
                 "selectedPath": {"<->": "@owner.path"},

@@ -1,8 +1,0 @@
-.TableActiveDirectory {
-
-}
-
-.TableActiveDirectory .Table-cells > div:nth-child(1),
-.TableActiveDirectory .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(1) {
-    max-width: 8em;
-}

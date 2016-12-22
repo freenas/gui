@@ -18,7 +18,7 @@ exports.FieldTreeview = AbstractComponentActionDelegate.specialize(/** @lends Fi
         value: function () {
             this.super();
             this.isExpanded = false;
-            this._checkForEmptyPath();
+            this._checkForPathInput();
         }
     },
 
@@ -27,17 +27,35 @@ exports.FieldTreeview = AbstractComponentActionDelegate.specialize(/** @lends Fi
            var self = this;
            return {
                 didEndEditing: function () {
-                    self._checkForEmptyPath();
+                    self._checkForPathInput();
                 }
             }
         }
     },
 
-    _checkForEmptyPath: {
-        value: function () {
+    _checkForPathInput: {
+        value: function() {
             if (!this.pathInput.value) {
                 this.selectedPath = null;
                 this.dispatchOwnPropertyChange("selectedPath",this.selectedPath);
+            } else if (this.allowPathInput) {
+                var normalizedPath = this.pathInput.value,
+                    suffix = '/' + (this.suffix || '');
+
+                if (this.removePrefix) {
+                    normalizedPath = this.removePrefix + normalizedPath;
+                }
+
+                if (normalizedPath.endsWith(suffix)) {
+                    normalizedPath = normalizedPath.slice(0, -suffix.length);
+                }
+
+                while (normalizedPath.endsWith('/')) {
+                    normalizedPath = normalizedPath.slice(0, -1);
+                }
+
+                this.selectedPath = normalizedPath;
+                this.dispatchOwnPropertyChange("selectedPath", this.selectedPath);
             }
         }
     }

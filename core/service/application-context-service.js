@@ -74,7 +74,17 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
                     currentUser = user;
 
                     if (user.attributes && user.attributes.dashboardContext) {
-                        return user.attributes;
+                        return self._widgetService.getAvailableWidgets().then(function(widgets) {
+                            user.attributes.dashboardContext.widgets = (user.attributes.dashboardContext.widgets || []).filter(function(widget) {
+                                return !!widgets.get(widget.moduleId);
+                            });
+                            if (user.attributes.sideBoardContext) {
+                                user.attributes.sideBoardContext.widgets = (user.attributes.sideBoardContext.widgets || []).filter(function(widget) {
+                                    return !!widgets.get(widget.moduleId);
+                                });
+                            }
+                            return user.attributes;
+                        });
                     }
 
                     return self._getDefaultApplicationContext();

@@ -35,13 +35,11 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
         }
     },
 
-    getDatasourceHistory: {
-        value: function(datasource, startDate, endDate, periodInSecs) {
+    getDatasourcesHistory: {
+        value: function(datasources, periodInSecs) {
             periodInSecs = periodInSecs || 10;
-            endDate = endDate || new Date();
-            startDate = startDate || new Date(endDate.getTime() - (periodInSecs * 100 * 1000));
-            return this._callBackend("stat.get_stats", [datasource, {
-                timespan:   periodInSecs*100,
+            return this._callBackend("stat.get_stats", [datasources, {
+                timespan:   periodInSecs * 100,
                 frequency:  periodInSecs + 's'
             }]).then(function(response) {
                 return response.data;
@@ -49,40 +47,44 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
         }
     },
 
-    getDatasourceCurrentValue: {
-        value: function(datasource) {
-            return this._callBackend("stat.get_stats", [datasource, {
+    getDatasourcesCurrentValue: {
+        value: function(datasources) {
+            return this._callBackend("stat.get_stats", [datasources, {
                 timespan:   20,
                 frequency:  '10s'
             }]).then(function(response) {
-                return response.data.slice(-1);
+                return response.data;
             });
         }
     },
 
-    subscribeToUpdates: {
-        value: function(datasource, listener) {
-            var self = this,
-                name = "statd." + datasource;
-            if (this._subscribedUpdates.indexOf(datasource) == -1) {
-                this._subscribedUpdates.push(datasource);
-            }
-            return this._middlewareClient.subscribeToEvents(name).then(function() {
-                if (!self._listeners.has(name)) {
-                    self._listeners.set(name, new Set());
+    subscribeToDatasourcesUpdates: {
+        value: function(datasources, listener) {
+            var self = this;
+            return Promise.all(datasources.map(function(datasource) {
+                var name = "statd." + datasource;
+                if (this._subscribedUpdates.indexOf(datasource) == -1) {
+                    this._subscribedUpdates.push(datasource);
                 }
-                self._listeners.get(name).add(listener);
-                return name;
-            });
+                return this._middlewareClient.subscribeToEvents(name).then(function() {
+                    if (!self._listeners.has(name)) {
+                        self._listeners.set(name, new Set());
+                    }
+                    self._listeners.get(name).add(listener);
+                    return name;
+                });
+            }))
         }
     },
 
-    unSubscribeToUpdates: {
-        value: function(datasource, listener) {
-            var name = "statd." + datasource;
-            this._subscribedUpdates.splice(this._subscribedUpdates.indexOf(datasource), 1);
-            this._listeners.delete(name);
-            return this._middlewareClient.unsubscribeFromEvents(name);
+    unsubscribeToDatasourcesUpdates: {
+        value: function(datasources, listener) {
+            for (var i = datasources.length - 1; i >= 0; i--) {
+                var name = "statd." + datasource;
+                this._listeners.delete(name);
+                this._subscribedUpdates.splice(this._subscribedUpdates.indexOf(datasources[i]), 1);
+                return this._middlewareClient.unsubscribeFromEvents(name);
+            }
         }
     },
 

@@ -20,6 +20,12 @@ exports.CryptoCertificate = AbstractInspector.specialize({
             if (this.object._action === 'import') {
                 this.application.cryptoCertificateService.import(this.object);
             } else {
+                if ( [null, "Self Signed"].indexOf(this.object.signing_ca_name) !== -1 &&
+                    [CryptoCertificateType.CA_INTERNAL, CryptoCertificateType.CERT_INTERNAL].indexOf(this.object.type) !== -1
+                ) {
+                    this.signing_ca_name = null;
+                    this.object.selfsigned = true;
+                }
                 this.inspector.save();
             }
         }
