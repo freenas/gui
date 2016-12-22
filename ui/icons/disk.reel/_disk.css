@@ -44,12 +44,15 @@
 
 /* states */
 
-.DiskIcon.offline .DiskIcon-img { opacity: .5;}
+.DiskIcon.offline .DiskIcon-img,
+.DiskIcon.exported .DiskIcon-img {
+    opacity: .5;
+}
 
 .DiskIcon-states {
     position: absolute;
     z-index: 1;
-    bottom: 1.25em;
+    bottom: 2em;
     left: 50%;
     width: 3em;
     margin-left: -1.5em;
@@ -59,7 +62,7 @@
     text-align: center;
     font-size: .7em;
     padding: 0 .15em .1em;
-    background: #666;
+    background: var(--orange, #bb8e00);
     border-radius: .25em;
     color: #fff;
     margin-bottom: .15em;
@@ -98,7 +101,7 @@
             border: 2px solid currentColor;
             border-radius: 50%;
             animation: beacon 2s infinite linear;
-            z-index: 1;
+            /* z-index: 1; */
         }
 
         &:before {

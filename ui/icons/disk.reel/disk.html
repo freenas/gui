@@ -15,6 +15,7 @@
                 "isOffline": {"<-": "@owner.object._disk.defined() && @owner.object.status != 'ONLINE'" },
                 "isDetached": {"<-": "@owner.disk._allocation.defined() && @owner.disk._allocation.type == 'EXPORTED_VOLUME'"},
                 "classList.has('offline')": {"<-": "isOffline"},
+                "classList.has('exported')": {"<-": "isDetached"},
                 "smartFail": {"<-": "@owner.disk.status.smart_info.smart_status != 'PASS'" }
             }
         },
