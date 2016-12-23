@@ -15,8 +15,9 @@
                 "element": {"#": "containerInspector"}
             },
             "bindings": {
-                "moduleId": {"<-": "'ui/sections/containers/inspectors/' + (@owner.object._isNew ? 'container-creator' : 'container-editor') + '.reel'"},
-                "context": {"<-": "@owner.context"}
+                "moduleId": {"<-": "'ui/sections/containers/inspectors/' + (!!@owner.object._isNew ? 'container-creator' : 'container-editor') + '.reel'"},
+                "context": {"<-": "@owner.context"},
+                "object": {"<-": "@owner.context.object"}
             }
         }
     }
