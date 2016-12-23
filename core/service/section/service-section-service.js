@@ -10,7 +10,7 @@ var abstract_section_service_ng_1 = require("./abstract-section-service-ng");
 var ServiceSectionService = (function (_super) {
     __extends(ServiceSectionService, _super);
     function ServiceSectionService() {
-        return _super.apply(this, arguments) || this;
+        _super.apply(this, arguments);
     }
     ServiceSectionService.prototype.init = function () {
         this.systemRepository = system_repository_1.SystemRepository.getInstance();

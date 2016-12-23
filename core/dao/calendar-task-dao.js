@@ -8,12 +8,12 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var CalendarTaskDao = (function (_super) {
     __extends(CalendarTaskDao, _super);
     function CalendarTaskDao() {
-        return _super.call(this, 'CalendarTask', {
+        _super.call(this, 'CalendarTask', {
             queryMethod: 'calendar_task.query',
             updateMethod: 'calendar_task.update',
             createMethod: 'calendar_task.create',
             eventName: 'entity-subscriber.calendar_task.changed'
-        }) || this;
+        });
     }
     return CalendarTaskDao;
 }(abstract_dao_ng_1.AbstractDao));

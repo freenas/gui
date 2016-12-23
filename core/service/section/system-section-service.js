@@ -13,7 +13,7 @@ var network_repository_1 = require("core/repository/network-repository");
 var SystemSectionService = (function (_super) {
     __extends(SystemSectionService, _super);
     function SystemSectionService() {
-        return _super.apply(this, arguments) || this;
+        _super.apply(this, arguments);
     }
     SystemSectionService.prototype.init = function () {
         this.systemRepository = system_repository_1.SystemRepository.getInstance();

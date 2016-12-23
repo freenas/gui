@@ -8,7 +8,7 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var CalendarDao = (function (_super) {
     __extends(CalendarDao, _super);
     function CalendarDao() {
-        return _super.call(this, 'Calendar') || this;
+        _super.call(this, 'Calendar');
     }
     return CalendarDao;
 }(abstract_dao_ng_1.AbstractDao));
