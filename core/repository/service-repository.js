@@ -7,18 +7,20 @@ var __extends = (this && this.__extends) || function (d, b) {
 var abstract_repository_ng_1 = require("./abstract-repository-ng");
 var service_dao_1 = require("../dao/service-dao");
 var services_category_dao_1 = require("../dao/services-category-dao");
+var service_dyndns_dao_1 = require("../dao/service-dyndns-dao");
 var Promise = require("bluebird");
 var _ = require("lodash");
 var ServiceRepository = (function (_super) {
     __extends(ServiceRepository, _super);
-    function ServiceRepository(serviceDao, servicesCategoryDao) {
+    function ServiceRepository(serviceDao, serviceDyndnsDao, servicesCategoryDao) {
         _super.call(this, ['Service']);
         this.serviceDao = serviceDao;
+        this.serviceDyndnsDao = serviceDyndnsDao;
         this.servicesCategoryDao = servicesCategoryDao;
     }
     ServiceRepository.getInstance = function () {
         if (!ServiceRepository.instance) {
-            ServiceRepository.instance = new ServiceRepository(new service_dao_1.ServiceDao(), new services_category_dao_1.ServicesCategoryDao());
+            ServiceRepository.instance = new ServiceRepository(new service_dao_1.ServiceDao(), new service_dyndns_dao_1.ServiceDyndnsDao, new services_category_dao_1.ServicesCategoryDao());
         }
         return ServiceRepository.instance;
     };
@@ -68,6 +70,9 @@ var ServiceRepository = (function (_super) {
             category.types = selectedIds.map(function (x) { return 'service-' + x; });
             return category;
         });
+    };
+    ServiceRepository.prototype.listDyndnsProviders = function () {
+        return this.serviceDyndnsDao.getProviders();
     };
     ServiceRepository.prototype.handleStateChange = function (name, data) { };
     ServiceRepository.prototype.handleEvent = function (name, data) { };

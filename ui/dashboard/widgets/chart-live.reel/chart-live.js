@@ -176,7 +176,7 @@ exports.ChartLive = Component.specialize({
                         property = datasourceProperties[i];
                         // FIXME: backend bridge _addEventListeners should return 
                         // event & eventType key-value pairs, rather than an array of eventTypes
-                        eventType = 'Statd' + property.event.toCamelCase();
+                        eventType = 'statd.' + property.event;
                         self._eventToKey[eventType] = property.key;
                     }
                     self._subscribedUpdates = self._subscribedUpdates.concat(allEvents);
@@ -197,7 +197,7 @@ exports.ChartLive = Component.specialize({
                     property = datasourceProperties[i];
                     self.chart.setValue(property.key, {
                         x: property.label,
-                        y: self.transformValue((values[i] || []).pokeBack())
+                        y: self.transformValue(values[0][i])
                     });
                 }
             }).then(function() {
@@ -206,7 +206,7 @@ exports.ChartLive = Component.specialize({
                         property = datasourceProperties[i];
                         // FIXME: backend bridge _addEventListeners should return 
                         // event & eventType key-value pairs, rather than an array of eventTypes
-                        eventType = 'Statd' + property.event.toCamelCase();
+                        eventType = 'statd.' + property.event;
                         self._eventToKey[eventType] = property.key;
                         self._eventToSource[eventType] = property.label;
                     }
@@ -265,17 +265,17 @@ exports.ChartLive = Component.specialize({
 
     handleEvent: {
         value: function(event) {
-            var key = this._eventToKey[event.type];
+            var key = this._eventToKey[event.name];
             if (key) {
                 if (this.isTimeSeries) {
                     this.chart.addPoint(key, {
-                        x: this._dateToTimestamp(event.detail.timestamp),
-                        y: this.transformValue(event.detail.value)
+                        x: this._dateToTimestamp(event.args.timestamp),
+                        y: this.transformValue(event.args.value)
                     });
                 } else {
                     this.chart.setValue(key, {
-                        x: this._eventToSource[event.type],
-                        y: this.transformValue(event.detail.value)
+                        x: this._eventToSource[event.name],
+                        y: this.transformValue(event.args.value)
                     });
                 }
             }

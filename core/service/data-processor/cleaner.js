@@ -47,7 +47,7 @@ var CleaningProcessor = (function () {
             typeof value !== 'function' &&
             (!descriptor || !descriptor.readOnly);
     };
-    CleaningProcessor.validPropertyRegex = /^[a-z0-9%$][a-z0-9_]*$/;
+    CleaningProcessor.validPropertyRegex = /^[a-z0-9%$][a-zA-Z0-9_]*$/;
     return CleaningProcessor;
 }());
 var processor = new CleaningProcessor();

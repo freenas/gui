@@ -82,18 +82,7 @@ var MiddlewareClient = (function () {
         ]).then(function (taskId) {
             return {
                 taskId: taskId,
-                taskPromise: new Promise(function (resolve, reject) {
-                    var eventListener = self.eventDispatcherService.addEventListener(model_event_name_1.ModelEventName.Task.change(taskId), function (task) {
-                        if (task.get('state') === 'FINISHED') {
-                            resolve(task.get('result'));
-                            self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName.Task.change(taskId), eventListener);
-                        }
-                        else if (task.get('state') === 'FAILED') {
-                            reject(task.get('error').toJS());
-                            self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName.Task.change(taskId), eventListener);
-                        }
-                    });
-                })
+                taskPromise: self.getTaskPromise(taskId)
             };
         });
     };
@@ -106,20 +95,24 @@ var MiddlewareClient = (function () {
             var taskId = response[0];
             return {
                 taskId: taskId,
-                taskPromise: new Promise(function (resolve, reject) {
-                    var eventListener = self.eventDispatcherService.addEventListener(model_event_name_1.ModelEventName.Task.change(taskId), function (task) {
-                        if (task.get('state') === 'FINISHED') {
-                            resolve(task.get('result'));
-                            self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName.Task.change(taskId), eventListener);
-                        }
-                        else if (task.get('state') === 'FAILED') {
-                            reject(task.get('error').toJS());
-                            self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName.Task.change(taskId), eventListener);
-                        }
-                    });
-                }),
+                taskPromise: self.getTaskPromise(taskId),
                 link: self.getRootURL('http') + response[1][0]
             };
+        });
+    };
+    MiddlewareClient.prototype.getTaskPromise = function (taskId) {
+        var self = this;
+        return new Promise(function (resolve, reject) {
+            var eventListener = self.eventDispatcherService.addEventListener(model_event_name_1.ModelEventName.Task.change(taskId), function (task) {
+                if (task.get('state') === 'FINISHED') {
+                    resolve(task.get('result'));
+                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName.Task.change(taskId), eventListener);
+                }
+                else if (task.get('state') === 'FAILED') {
+                    reject(task.get('error').toJS());
+                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName.Task.change(taskId), eventListener);
+                }
+            });
         });
     };
     MiddlewareClient.prototype.submitTaskWithUpload = function (name, args, file) {
@@ -305,10 +298,10 @@ var MiddlewareClient = (function () {
         }
     };
     MiddlewareClient.prototype.handleEvent = function (message) {
-        if (message.args.name.indexOf('entity-subscriber.') === 0) {
+        if (_.startsWith(message.args.name, 'entity-subscriber.')) {
             this.eventDispatcherService.dispatch('middlewareModelChange', message.args.args);
         }
-        else if (message.args.name.indexOf('statd.') === 0) {
+        else if (_.startsWith(message.args.name, 'statd.')) {
             this.eventDispatcherService.dispatch('statsChange', message.args);
         }
     };

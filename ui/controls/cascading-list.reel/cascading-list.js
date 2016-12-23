@@ -31,7 +31,7 @@ exports.CascadingList = Component.specialize({
                 this._root = root;
                 this._stack.clear();
                 if (root) {
-                    this._populateColumnAtIndexWithObjectAndTypeAndSelectionKey(0, root, this._modelDescriptorService.getObjectType(root)).then(function(context) {
+                    this. rootPromise = this._populateColumnAtIndexWithObjectAndTypeAndSelectionKey(0, root, this._modelDescriptorService.getObjectType(root)).then(function(context) {
                         self.rootPromise = null;
                         return context;
                     });
@@ -50,21 +50,19 @@ exports.CascadingList = Component.specialize({
 
     enterDocument: {
         value: function() {
+            var self = this;
             this._pathListener = this._routingService.subscribe('path', this._handlePathChange.bind(this));
-            this._sectionListener = this._routingService.subscribe('section', this._handleSectionChange.bind(this));
+            this._stack.clear();
+            var promise = this.rootPromise || this._populateColumnAtIndexWithObjectAndTypeAndSelectionKey(0, this.root, this._modelDescriptorService.getObjectType(this.root));
+            promise.then(function() {
+                self._handlePathChange(self._routingService.getPath());
+            })
         }
     },
 
     exitDocument: {
         value: function () {
             this._routingService.unsubscribe('path', this._pathListener);
-            this._routingService.unsubscribe('path', this._sectionListener);
-        }
-    },
-
-    _handleSectionChange: {
-        value: function() {
-            this._stack.clear();
         }
     },
 

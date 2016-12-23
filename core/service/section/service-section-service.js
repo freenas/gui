@@ -22,6 +22,9 @@ var ServiceSectionService = (function (_super) {
     ServiceSectionService.prototype.saveService = function (service) {
         return this.serviceRepository.saveService(service);
     };
+    ServiceSectionService.prototype.getDyndnsProviders = function () {
+        return this.serviceRepository.listDyndnsProviders();
+    };
     ServiceSectionService.prototype.loadEntries = function () {
         return this.serviceRepository.listServicesCategories();
     };
