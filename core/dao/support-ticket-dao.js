@@ -8,9 +8,9 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var SupportTicketDao = (function (_super) {
     __extends(SupportTicketDao, _super);
     function SupportTicketDao() {
-        return _super.call(this, 'SupportTicket', {
+        _super.call(this, 'SupportTicket', {
             createMethod: 'support.submit'
-        }) || this;
+        });
     }
     return SupportTicketDao;
 }(abstract_dao_ng_1.AbstractDao));

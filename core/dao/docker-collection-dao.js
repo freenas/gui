@@ -8,7 +8,7 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var DockerCollectionDao = (function (_super) {
     __extends(DockerCollectionDao, _super);
     function DockerCollectionDao() {
-        return _super.call(this, 'DockerCollection') || this;
+        _super.call(this, 'DockerCollection');
     }
     return DockerCollectionDao;
 }(abstract_dao_ng_1.AbstractDao));

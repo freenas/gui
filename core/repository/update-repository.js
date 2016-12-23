@@ -9,9 +9,8 @@ var update_dao_1 = require("../dao/update-dao");
 var UpdateRepository = (function (_super) {
     __extends(UpdateRepository, _super);
     function UpdateRepository(updateDao) {
-        var _this = _super.call(this, ['Update']) || this;
-        _this.updateDao = updateDao;
-        return _this;
+        _super.call(this, ['Update']);
+        this.updateDao = updateDao;
     }
     UpdateRepository.getInstance = function () {
         if (!UpdateRepository.instance) {

@@ -8,7 +8,7 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var DebugDao = (function (_super) {
     __extends(DebugDao, _super);
     function DebugDao() {
-        return _super.call(this, 'Debug') || this;
+        _super.call(this, 'Debug');
     }
     DebugDao.prototype.collect = function (filename) {
         return this.middlewareClient.submitTaskWithDownload('debug.collect', [filename]);

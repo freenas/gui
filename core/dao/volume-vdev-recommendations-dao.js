@@ -4,13 +4,13 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_dao_ng_1 = require("./abstract-dao-ng");
+var abstract_dao_ng_1 = require('./abstract-dao-ng');
 var VolumeVdevRecommendationsDao = (function (_super) {
     __extends(VolumeVdevRecommendationsDao, _super);
     function VolumeVdevRecommendationsDao() {
-        return _super.call(this, 'VolumeVdevRecommendations', {
+        _super.call(this, 'VolumeVdevRecommendations', {
             queryMethod: 'volume.vdev_recommendations'
-        }) || this;
+        });
     }
     return VolumeVdevRecommendationsDao;
 }(abstract_dao_ng_1.AbstractDao));

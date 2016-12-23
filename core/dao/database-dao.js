@@ -8,7 +8,7 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var DatabaseDao = (function (_super) {
     __extends(DatabaseDao, _super);
     function DatabaseDao() {
-        return _super.call(this, 'Database') || this;
+        _super.call(this, 'Database');
     }
     DatabaseDao.prototype.dump = function (filename) {
         return this.middlewareClient.submitTaskWithDownload('database.dump', [filename]);

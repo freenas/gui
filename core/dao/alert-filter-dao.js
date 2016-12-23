@@ -8,7 +8,7 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var AlertFilterDao = (function (_super) {
     __extends(AlertFilterDao, _super);
     function AlertFilterDao() {
-        return _super.call(this, 'AlertFilter') || this;
+        _super.call(this, 'AlertFilter');
     }
     return AlertFilterDao;
 }(abstract_dao_ng_1.AbstractDao));

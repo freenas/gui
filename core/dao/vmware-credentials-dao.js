@@ -8,7 +8,7 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var VmwareCredentialsDao = (function (_super) {
     __extends(VmwareCredentialsDao, _super);
     function VmwareCredentialsDao() {
-        return _super.call(this, 'VmwareCredentials') || this;
+        _super.call(this, 'VmwareCredentials');
     }
     return VmwareCredentialsDao;
 }(abstract_dao_ng_1.AbstractDao));
