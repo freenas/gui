@@ -15,7 +15,7 @@ var system_repository_1 = require("../../repository/system-repository");
 var AccountsSectionService = (function (_super) {
     __extends(AccountsSectionService, _super);
     function AccountsSectionService() {
-        return _super.apply(this, arguments) || this;
+        _super.apply(this, arguments);
     }
     AccountsSectionService.prototype.init = function () {
         this.accountRepository = account_repository_1.AccountRepository.getInstance();

@@ -9,7 +9,8 @@ var SystemTimeDao = (function (_super) {
     __extends(SystemTimeDao, _super);
     function SystemTimeDao() {
         _super.call(this, 'SystemTime', {
-            queryMethod: 'system.time.get_config'
+            queryMethod: 'system.time.get_config',
+            preventQueryCaching: true
         });
     }
     return SystemTimeDao;

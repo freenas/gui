@@ -1,4 +1,5 @@
 var Component = require("montage/ui/component").Component,
+    SystemService = require("core/service/system-service").SystemService,
     MiddlewareClient = require("core/service/middleware-client").MiddlewareClient;
 
 exports.CurrentUserSummary = Component.specialize({
@@ -22,6 +23,18 @@ exports.CurrentUserSummary = Component.specialize({
     templateDidLoad: {
         value: function() {
             this.middlewareClient = MiddlewareClient.getInstance();
+            this.systemService = SystemService.getInstance();
+        }
+    },
+
+    _loadTime: {
+        value: function() {
+            var self = this;
+            return this.application.sessionService.session.username ?
+                self.systemService.getTime().then(function (time) {
+                    return new Date(time.system_time.$date);
+                }) :
+                Promise.resolve(new Date());
         }
     },
 
@@ -31,17 +44,18 @@ exports.CurrentUserSummary = Component.specialize({
 
                 // Bind a function in order to avoid to create several time this function.
                 this._timeChangetimeoutCallBack = (function (initial) {
-                    var now = new Date(),
-                        seconds = now.getSeconds(),
-                        timeLag = seconds % this._intervalTime ;
-
-                    now.setSeconds(seconds + (
-                            initial ? -timeLag : timeLag > this._intervalTime / 2 ? this._intervalTime - timeLag : -timeLag
+                    var self = this;
+                    this._loadTime().then(function (now) {
+                        var seconds = now.getSeconds(),
+                            timeLag = seconds % self._intervalTime;
+                        
+                        now.setSeconds(seconds + (
+                            initial ? -timeLag : timeLag > self._intervalTime / 2 ? self._intervalTime - timeLag : -timeLag
                         ));
-                    now.setMilliseconds(0);
+                        now.setMilliseconds(0);
 
-                    this.now = now.getTime();
-
+                        self.now = now.getTime();
+                    });
                 }).bind(this);
             }
             this._synchronizeTime();
