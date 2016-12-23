@@ -152,15 +152,15 @@ export class FakeMontageDataService {
 
     private getMiddlewareCriteria(criteria, isSingle, limit): Array<Array<string>> {
         criteria = criteria || {};
-        var keys = Object.keys(criteria),
+        let keys = Object.keys(criteria),
             middlewareCriteria = [],
             result,
             key, value;
-        for (var i = 0, length = keys.length; i < length; i++) {
+        for (let i = 0, length = keys.length; i < length; i++) {
             key = keys[i];
             value = criteria[key];
             if (typeof value === 'object') {
-                var subCriteria = this._getMiddlewareCriteriaFromObject(value);
+                let subCriteria = this._getMiddlewareCriteriaFromObject(value);
                 Array.prototype.push.apply(middlewareCriteria, subCriteria.map(function (x) {
                     return [key + '.' + x[0], x[1], x[2]]
                 }));
@@ -169,7 +169,7 @@ export class FakeMontageDataService {
             }
         }
         if (isSingle || (limit && limit !== -1)) {
-            var params = {};
+            let params = ({} as any);
             if (isSingle) {
                 params.single = true;
             }
@@ -184,7 +184,7 @@ export class FakeMontageDataService {
     }
 
     private getURL(): string {
-        var scheme = location.protocol === 'https:' ? 'wss' : 'ws',
+        let scheme = location.protocol === 'https:' ? 'wss' : 'ws',
             host = this.getHost();
         return `${scheme}://${host}/dispatcher/socket`;
     }
@@ -195,11 +195,11 @@ export class FakeMontageDataService {
                 (x) => x.split('=')[0] === 'host'
             )[0];
         if (hostParam) {
-            var host = hostParam.split('=')[1];
+            let host = hostParam.split('=')[1];
             if (host && host.length > 0) {
                 result = host;
             }
         }
-        return host;
+        return result;
     }
 }

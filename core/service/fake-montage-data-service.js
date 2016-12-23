@@ -109,7 +109,7 @@ var FakeMontageDataService = (function () {
     FakeMontageDataService.prototype.getMiddlewareCriteria = function (criteria, isSingle, limit) {
         criteria = criteria || {};
         var keys = Object.keys(criteria), middlewareCriteria = [], result, key, value;
-        for (var i = 0, length = keys.length; i < length; i++) {
+        for (var i = 0, length_1 = keys.length; i < length_1; i++) {
             key = keys[i];
             value = criteria[key];
             if (typeof value === 'object') {
@@ -149,7 +149,7 @@ var FakeMontageDataService = (function () {
                 result = host;
             }
         }
-        return host;
+        return result;
     };
     return FakeMontageDataService;
 }());
