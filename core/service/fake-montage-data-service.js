@@ -1,12 +1,12 @@
 "use strict";
-var middleware_client_1 = require("./middleware-client");
-var datastore_service_1 = require("./datastore-service");
-var cache_service_1 = require("./cache-service");
-var cleaner_1 = require("core/service/data-processor/cleaner");
-var diff_1 = require("core/service/data-processor/diff");
-var null_1 = require("core/service/data-processor/null");
-var model_1 = require("core/model/model");
-var ChangeCase = require("change-case");
+var middleware_client_1 = require('./middleware-client');
+var datastore_service_1 = require('./datastore-service');
+var cache_service_1 = require('./cache-service');
+var cleaner_1 = require('core/service/data-processor/cleaner');
+var diff_1 = require('core/service/data-processor/diff');
+var null_1 = require('core/service/data-processor/null');
+var model_1 = require('core/model/model');
+var ChangeCase = require('change-case');
 // DTM
 var FakeMontageDataService = (function () {
     function FakeMontageDataService() {

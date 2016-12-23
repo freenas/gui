@@ -1,6 +1,6 @@
 "use strict";
-var immutable = require("immutable");
-var datastore_service_1 = require("../datastore-service");
+var immutable = require('immutable');
+var datastore_service_1 = require('../datastore-service');
 var immutable_1 = require("immutable");
 var DiffProcessor = (function () {
     function DiffProcessor(datastoreService) {

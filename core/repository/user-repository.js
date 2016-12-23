@@ -6,10 +6,10 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
 exports.UserRepository = AbstractRepository.specialize({
 
     init: {
-        value: function(userDao, directoryserviceConfigDao, eventDispatcherService) {
-            this._userDao = userDao || UserDao.instance;
-            this._directoryserviceConfigDao = directoryserviceConfigDao || DirectoryserviceConfigDao.instance;
-            this._eventDispatcherService = eventDispatcherService || EventDispatcherService.getInstance();
+        value: function() {
+            this._userDao = new UserDao();
+            this._directoryserviceConfigDao = new DirectoryserviceConfigDao();
+            this._eventDispatcherService = EventDispatcherService.getInstance();
         }
     },
 
@@ -51,5 +51,5 @@ exports.UserRepository = AbstractRepository.specialize({
             return this._userDao.getNewInstance();
         }
     }
-    
+
 });

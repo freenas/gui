@@ -119,7 +119,7 @@ var RoutingService = (function () {
         }
         location.hash = this.hash;
     };
+    RoutingService.SEPARATOR = '~';
     return RoutingService;
 }());
-RoutingService.SEPARATOR = '~';
 exports.RoutingService = RoutingService;

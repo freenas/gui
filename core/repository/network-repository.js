@@ -8,12 +8,12 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
 
 exports.NetworkRepository = AbstractRepository.specialize({
     init: {
-        value: function(networkRouteDao, networkHostDao, ipmiDao) {
+        value: function() {
             this._networkInterfaceDao = new NetworkInterfaceDao();
             this._networkConfigDao = new NetworkConfigDao();
-            this._networkRouteDao = networkRouteDao || NetworkRouteDao.instance;
-            this._networkHostDao = networkHostDao || NetworkHostDao.instance;
-            this._ipmiDao = ipmiDao || IpmiDao.instance;
+            this._networkRouteDao = new NetworkRouteDao();
+            this._networkHostDao = new NetworkHostDao();
+            this._ipmiDao = new IpmiDao();
         }
     },
 

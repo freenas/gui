@@ -8,7 +8,7 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var AmazonS3CredentialsDao = (function (_super) {
     __extends(AmazonS3CredentialsDao, _super);
     function AmazonS3CredentialsDao() {
-        return _super.call(this, 'AmazonS3Credentials') || this;
+        _super.call(this, 'AmazonS3Credentials');
     }
     return AmazonS3CredentialsDao;
 }(abstract_dao_ng_1.AbstractDao));

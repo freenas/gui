@@ -8,7 +8,7 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var NetworkInterfaceDao = (function (_super) {
     __extends(NetworkInterfaceDao, _super);
     function NetworkInterfaceDao() {
-        return _super.call(this, 'NetworkInterface') || this;
+        _super.call(this, 'NetworkInterface');
     }
     return NetworkInterfaceDao;
 }(abstract_dao_ng_1.AbstractDao));

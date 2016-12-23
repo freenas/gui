@@ -13,14 +13,13 @@ var model_event_name_1 = require("../model-event-name");
 var CalendarRepository = (function (_super) {
     __extends(CalendarRepository, _super);
     function CalendarRepository(calendarDao, calendarTaskDao) {
-        var _this = _super.call(this, [
+        _super.call(this, [
             'Calendar',
             'CalendarTask'
-        ]) || this;
-        _this.calendarDao = calendarDao;
-        _this.calendarTaskDao = calendarTaskDao;
-        _this.tasksPerDay = {};
-        return _this;
+        ]);
+        this.calendarDao = calendarDao;
+        this.calendarTaskDao = calendarTaskDao;
+        this.tasksPerDay = {};
     }
     CalendarRepository.getInstance = function () {
         if (!CalendarRepository.instance) {
@@ -482,196 +481,196 @@ var CalendarRepository = (function (_super) {
         }
     };
     CalendarRepository.prototype.handleEvent = function (name, data) { };
-    return CalendarRepository;
-}(abstract_repository_ng_1.AbstractRepository));
-CalendarRepository.SCHEDULE_OPTIONS = {
-    MONTHLY: {
-        value: 'MONTHLY',
-        label: 'every month',
-        stringTemplate: "Monthly on {days} at {time}."
-    },
-    WEEKLY: {
-        value: 'WEEKLY',
-        label: 'every week',
-        stringTemplate: "Weekly on {days} at {time}."
-    },
-    DAILY: {
-        value: 'DAILY',
-        label: 'every day',
-        stringTemplate: "Daily at {time}."
-    },
-    CUSTOM: {
-        value: 'CUSTOM',
-        label: 'custom',
-        stringTemplate: "Custom schedule, see dedicated panel."
-    }
-};
-CalendarRepository.DAYS = CalendarRepository.getIntegerSeries(1, 31);
-CalendarRepository.HOURS = CalendarRepository.getIntegerSeries(0, 23);
-CalendarRepository.MINUTES = CalendarRepository.getIntegerSeries(0, 59);
-CalendarRepository.MONTHS = [
-    {
-        value: {
-            label: "January",
+    CalendarRepository.SCHEDULE_OPTIONS = {
+        MONTHLY: {
+            value: 'MONTHLY',
+            label: 'every month',
+            stringTemplate: "Monthly on {days} at {time}."
+        },
+        WEEKLY: {
+            value: 'WEEKLY',
+            label: 'every week',
+            stringTemplate: "Weekly on {days} at {time}."
+        },
+        DAILY: {
+            value: 'DAILY',
+            label: 'every day',
+            stringTemplate: "Daily at {time}."
+        },
+        CUSTOM: {
+            value: 'CUSTOM',
+            label: 'custom',
+            stringTemplate: "Custom schedule, see dedicated panel."
+        }
+    };
+    CalendarRepository.DAYS = CalendarRepository.getIntegerSeries(1, 31);
+    CalendarRepository.HOURS = CalendarRepository.getIntegerSeries(0, 23);
+    CalendarRepository.MINUTES = CalendarRepository.getIntegerSeries(0, 59);
+    CalendarRepository.MONTHS = [
+        {
+            value: {
+                label: "January",
+                index: 0
+            },
+            label: "Jan",
             index: 0
         },
-        label: "Jan",
-        index: 0
-    },
-    {
-        value: {
-            label: "February",
+        {
+            value: {
+                label: "February",
+                index: 1
+            },
+            label: "Feb",
             index: 1
         },
-        label: "Feb",
-        index: 1
-    },
-    {
-        value: {
-            label: "March",
+        {
+            value: {
+                label: "March",
+                index: 2
+            },
+            label: "Mar",
             index: 2
         },
-        label: "Mar",
-        index: 2
-    },
-    {
-        value: {
-            label: "April",
+        {
+            value: {
+                label: "April",
+                index: 3
+            },
+            label: "Apr",
             index: 3
         },
-        label: "Apr",
-        index: 3
-    },
-    {
-        value: {
+        {
+            value: {
+                label: "May",
+                index: 4
+            },
             label: "May",
             index: 4
         },
-        label: "May",
-        index: 4
-    },
-    {
-        value: {
-            label: "June",
+        {
+            value: {
+                label: "June",
+                index: 5
+            },
+            label: "Jun",
             index: 5
         },
-        label: "Jun",
-        index: 5
-    },
-    {
-        value: {
-            label: "July",
+        {
+            value: {
+                label: "July",
+                index: 6
+            },
+            label: "Jul",
             index: 6
         },
-        label: "Jul",
-        index: 6
-    },
-    {
-        value: {
-            label: "August",
+        {
+            value: {
+                label: "August",
+                index: 7
+            },
+            label: "Aug",
             index: 7
         },
-        label: "Aug",
-        index: 7
-    },
-    {
-        value: {
-            label: "September",
+        {
+            value: {
+                label: "September",
+                index: 8
+            },
+            label: "Sep",
             index: 8
         },
-        label: "Sep",
-        index: 8
-    },
-    {
-        value: {
-            label: "October",
+        {
+            value: {
+                label: "October",
+                index: 9
+            },
+            label: "Oct",
             index: 9
         },
-        label: "Oct",
-        index: 9
-    },
-    {
-        value: {
-            label: "November",
+        {
+            value: {
+                label: "November",
+                index: 10
+            },
+            label: "Nov",
             index: 10
         },
-        label: "Nov",
-        index: 10
-    },
-    {
-        value: {
-            label: "December",
+        {
+            value: {
+                label: "December",
+                index: 11
+            },
+            label: "Dec",
             index: 11
-        },
-        label: "Dec",
-        index: 11
-    }
-];
-CalendarRepository.DAYS_OF_WEEK = [
-    {
-        value: {
-            label: "Sunday",
+        }
+    ];
+    CalendarRepository.DAYS_OF_WEEK = [
+        {
+            value: {
+                label: "Sunday",
+                index: 0
+            },
+            label: "S",
             index: 0
         },
-        label: "S",
-        index: 0
-    },
-    {
-        value: {
-            label: "Monday",
+        {
+            value: {
+                label: "Monday",
+                index: 1
+            },
+            label: "M",
             index: 1
         },
-        label: "M",
-        index: 1
-    },
-    {
-        value: {
-            label: "Tuesday",
+        {
+            value: {
+                label: "Tuesday",
+                index: 2
+            },
+            label: "T",
             index: 2
         },
-        label: "T",
-        index: 2
-    },
-    {
-        value: {
-            label: "Wednesday",
+        {
+            value: {
+                label: "Wednesday",
+                index: 3
+            },
+            label: "W",
             index: 3
         },
-        label: "W",
-        index: 3
-    },
-    {
-        value: {
-            label: "Thursday",
+        {
+            value: {
+                label: "Thursday",
+                index: 4
+            },
+            label: "Th",
             index: 4
         },
-        label: "Th",
-        index: 4
-    },
-    {
-        value: {
-            label: "Friday",
+        {
+            value: {
+                label: "Friday",
+                index: 5
+            },
+            label: "F",
             index: 5
         },
-        label: "F",
-        index: 5
-    },
-    {
-        value: {
-            label: "Saturday",
+        {
+            value: {
+                label: "Saturday",
+                index: 6
+            },
+            label: "S",
             index: 6
-        },
-        label: "S",
-        index: 6
-    }
-];
-CalendarRepository.CALENDAR_TASK_CATEGORIES = [
-    { name: "Scrub", value: "volume.scrub", checked: true },
-    { name: "Replication", value: "replication.replicate_dataset", checked: true },
-    { name: "Smart", value: "disk.parallel_test", checked: true },
-    { name: "Update", value: "update.checkfetch", checked: true },
-    { name: "Command", value: "calendar_task.command", checked: true },
-    { name: "Snapshot", value: "volume.snapshot_dataset", checked: true },
-    { name: "Rsync", value: "rsync.copy", checked: true }
-];
+        }
+    ];
+    CalendarRepository.CALENDAR_TASK_CATEGORIES = [
+        { name: "Scrub", value: "volume.scrub", checked: true },
+        { name: "Replication", value: "replication.replicate_dataset", checked: true },
+        { name: "Smart", value: "disk.parallel_test", checked: true },
+        { name: "Update", value: "update.checkfetch", checked: true },
+        { name: "Command", value: "calendar_task.command", checked: true },
+        { name: "Snapshot", value: "volume.snapshot_dataset", checked: true },
+        { name: "Rsync", value: "rsync.copy", checked: true }
+    ];
+    return CalendarRepository;
+}(abstract_repository_ng_1.AbstractRepository));
 exports.CalendarRepository = CalendarRepository;

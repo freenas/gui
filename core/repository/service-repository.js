@@ -12,10 +12,9 @@ var _ = require("lodash");
 var ServiceRepository = (function (_super) {
     __extends(ServiceRepository, _super);
     function ServiceRepository(serviceDao, servicesCategoryDao) {
-        var _this = _super.call(this, ['Service']) || this;
-        _this.serviceDao = serviceDao;
-        _this.servicesCategoryDao = servicesCategoryDao;
-        return _this;
+        _super.call(this, ['Service']);
+        this.serviceDao = serviceDao;
+        this.servicesCategoryDao = servicesCategoryDao;
     }
     ServiceRepository.getInstance = function () {
         if (!ServiceRepository.instance) {

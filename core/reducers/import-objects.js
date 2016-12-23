@@ -1,5 +1,5 @@
 "use strict";
-var immutable = require("immutable");
+var immutable = require('immutable');
 function importObjects(previousState, action) {
     var type = action.meta.type, typeState = previousState.has(type) ? previousState.get(type) : immutable.Map(), objectState;
     for (var _i = 0, _a = action.payload; _i < _a.length; _i++) {

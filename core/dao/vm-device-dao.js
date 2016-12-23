@@ -8,7 +8,7 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var VmDeviceDao = (function (_super) {
     __extends(VmDeviceDao, _super);
     function VmDeviceDao() {
-        return _super.call(this, 'VmDevice') || this;
+        _super.call(this, 'VmDevice');
     }
     return VmDeviceDao;
 }(abstract_dao_ng_1.AbstractDao));

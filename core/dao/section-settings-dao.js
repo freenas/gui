@@ -9,7 +9,7 @@ var Promise = require("bluebird");
 var SectionSettingsDao = (function (_super) {
     __extends(SectionSettingsDao, _super);
     function SectionSettingsDao() {
-        return _super.call(this, 'SectionSettings') || this;
+        _super.call(this, 'SectionSettings');
     }
     SectionSettingsDao.prototype.list = function () {
         return Promise.resolve(SectionSettingsDao.entries);
@@ -20,7 +20,7 @@ var SectionSettingsDao = (function (_super) {
             return instance;
         });
     };
+    SectionSettingsDao.entries = [];
     return SectionSettingsDao;
 }(abstract_dao_ng_1.AbstractDao));
-SectionSettingsDao.entries = [];
 exports.SectionSettingsDao = SectionSettingsDao;

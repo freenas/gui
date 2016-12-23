@@ -15,16 +15,16 @@ exports.ContainerRepository = AbstractRepository.specialize({
 
     init: {
         value: function () {
-            this._dockerContainerSectionDao = DockerContainerSectionDao.instance;
+            this._dockerContainerSectionDao = new DockerContainerSectionDao();
             this._dockerContainerDao = new DockerContainerDao();
             this._dockerImageDao = new DockerImageDao();
             this._dockerHostDao = new DockerHostDao();
             this._dockerConfigDao = new DockerConfigDao();
             this._dockerCollectionDao = new DockerCollectionDao();
-            this._dockerContainerCreatorDao = DockerContainerCreatorDao.instance;
-            this._dockerImagePullDao = DockerImagePullDao.instance;
-            this._dockerContainerLogsRepository = DockerContainerLogsDao.instance;
-            this._dockerContainerBridgeDao = DockerContainerBridgeDao.instance;
+            this._dockerContainerCreatorDao = new DockerContainerCreatorDao();
+            this._dockerImagePullDao = new DockerImagePullDao();
+            this._dockerContainerLogsDao = new DockerContainerLogsDao();
+            this._dockerContainerBridgeDao = new DockerContainerBridgeDao();
             this._modelDescriptorService = ModelDescriptorService.getInstance();
         }
     },
@@ -80,7 +80,7 @@ exports.ContainerRepository = AbstractRepository.specialize({
 
     getNewDockerContainerLogs: {
         value: function () {
-            return this._dockerContainerLogsRepository.getNewInstance();
+            return this._dockerContainerLogsDao.getNewInstance();
         }
     },
 
@@ -201,6 +201,18 @@ exports.ContainerRepository = AbstractRepository.specialize({
     getSerialConsoleToken: {
         value: function(containerId) {
             return this._dockerContainerDao.requestSerialConsole(containerId);
+        }
+    },
+
+    pullImage: {
+        value: function(image, dockerHostId) {
+            return this._dockerImageDao.pullToHost(image, dockerHostId);
+        }
+    },
+
+    deleteImage: {
+        value: function(image, dockerHostId) {
+            return this._dockerImageDao.deleteFromHost(image, dockerHostId);
         }
     }
 
