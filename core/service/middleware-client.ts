@@ -102,17 +102,7 @@ export class MiddlewareClient {
             ]).then(function(taskId) {
                 return {
                     taskId: taskId,
-                    taskPromise: new Promise(function(resolve, reject) {
-                        let eventListener = self.eventDispatcherService.addEventListener(ModelEventName.Task.change(taskId), function(task) {
-                            if (task.get('state') === 'FINISHED') {
-                                resolve(task.get('result'));
-                                self.eventDispatcherService.removeEventListener(ModelEventName.Task.change(taskId), eventListener);
-                            } else if (task.get('state') === 'FAILED') {
-                                reject(task.get('error').toJS());
-                                self.eventDispatcherService.removeEventListener(ModelEventName.Task.change(taskId), eventListener);
-                            }
-                        });
-                    })
+                    taskPromise: self.getTaskPromise(taskId)
                 }
         });
     }
@@ -126,19 +116,24 @@ export class MiddlewareClient {
             let taskId = response[0];
             return {
                 taskId: taskId,
-                taskPromise: new Promise(function(resolve, reject) {
-                    let eventListener = self.eventDispatcherService.addEventListener(ModelEventName.Task.change(taskId), function(task) {
-                        if (task.get('state') === 'FINISHED') {
-                            resolve(task.get('result'));
-                            self.eventDispatcherService.removeEventListener(ModelEventName.Task.change(taskId), eventListener);
-                        } else if (task.get('state') === 'FAILED') {
-                            reject(task.get('error').toJS());
-                            self.eventDispatcherService.removeEventListener(ModelEventName.Task.change(taskId), eventListener);
-                        }
-                    });
-                }),
+                taskPromise: self.getTaskPromise(taskId),
                 link: self.getRootURL('http') + response[1][0]
             }
+        });
+    }
+
+    private getTaskPromise(taskId: any): Promise<any> {
+        let self = this;
+        return new Promise(function (resolve, reject) {
+            let eventListener = self.eventDispatcherService.addEventListener(ModelEventName.Task.change(taskId), function (task) {
+                if (task.get('state') === 'FINISHED') {
+                    resolve(task.get('result'));
+                    self.eventDispatcherService.removeEventListener(ModelEventName.Task.change(taskId), eventListener);
+                } else if (task.get('state') === 'FAILED') {
+                    reject(task.get('error').toJS());
+                    self.eventDispatcherService.removeEventListener(ModelEventName.Task.change(taskId), eventListener);
+                }
+            });
         });
     }
 
@@ -336,6 +331,7 @@ export class MiddlewareClient {
     private handleMessage(event: MessageEvent, url: string) {
         try {
             let message = JSON.parse(event.data);
+
             if (message.namespace === 'rpc') {
                 if (message.name === 'response') {
                     this.handleRpcResponse(message);
@@ -367,9 +363,9 @@ export class MiddlewareClient {
     }
 
     private handleEvent(message: any) {
-        if (message.args.name.indexOf('entity-subscriber.') === 0) {
+        if (_.startsWith(message.args.name, 'entity-subscriber.')) {
             this.eventDispatcherService.dispatch('middlewareModelChange', message.args.args);
-        } else if (message.args.name.indexOf('statd.') === 0) {
+        } else if (_.startsWith(message.args.name, 'statd.')) {
             this.eventDispatcherService.dispatch('statsChange', message.args);
         }
     }

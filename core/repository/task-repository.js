@@ -6,17 +6,14 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var abstract_repository_ng_1 = require("./abstract-repository-ng");
 var model_event_name_1 = require("../model-event-name");
-var immutable_1 = require("immutable");
 var task_dao_1 = require("../dao/task-dao");
 var TaskRepository = (function (_super) {
     __extends(TaskRepository, _super);
     function TaskRepository(taskDao) {
-        var _this = _super.call(this, [
+        _super.call(this, [
             'Task'
-        ]) || this;
-        _this.taskDao = taskDao;
-        _this.taskPromises = immutable_1.Map();
-        return _this;
+        ]);
+        this.taskDao = taskDao;
     }
     TaskRepository.getInstance = function () {
         if (!TaskRepository.instance) {
@@ -29,9 +26,6 @@ var TaskRepository = (function (_super) {
     };
     TaskRepository.prototype.registerToTasks = function () {
         return this.taskDao.register();
-    };
-    TaskRepository.prototype.getTaskPromise = function (taskId) {
-        return this.taskPromises.get(taskId);
     };
     TaskRepository.prototype.submitTask = function (name, args) {
         return this.taskDao.submit(name, args);
