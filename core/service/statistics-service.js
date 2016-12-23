@@ -53,7 +53,7 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
                 timespan:   20,
                 frequency:  '10s'
             }]).then(function(response) {
-                return response.data;
+                return response.data.slice(-1);
             });
         }
     },
