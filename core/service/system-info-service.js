@@ -18,25 +18,19 @@ var SystemInfoService = exports.SystemInfoService = Montage.specialize({
 
     getVersion: {
         value: function() {
-            return this._callBackend('version').then(function(response) {
-                return response.data;
-            });
+            return this._callBackend('version');
         }
     },
 
     getHardware: {
         value: function() {
-            return this._callBackend('hardware').then(function(response) {
-                return response.data;
-            });
+            return this._callBackend('hardware');
         }
     },
 
     getUname: {
         value: function() {
-            return this._callBackend('uname_full').then(function(response) {
-                return response.data;
-            });
+            return this._callBackend('uname_full');
         }
     },
 
@@ -50,9 +44,7 @@ var SystemInfoService = exports.SystemInfoService = Montage.specialize({
 
     getLoad: {
         value: function() {
-            return this._callBackend('load_avg').then(function(response) {
-                return response.data;
-            });
+            return this._callBackend('load_avg');
         }
     },
 
