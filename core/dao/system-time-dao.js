@@ -4,13 +4,14 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_dao_ng_1 = require("./abstract-dao-ng");
+var abstract_dao_ng_1 = require('./abstract-dao-ng');
 var SystemTimeDao = (function (_super) {
     __extends(SystemTimeDao, _super);
     function SystemTimeDao() {
-        return _super.call(this, 'SystemTime', {
-            queryMethod: 'system.time.get_config'
-        }) || this;
+        _super.call(this, 'SystemTime', {
+            queryMethod: 'system.time.get_config',
+            preventQueryCaching: true
+        });
     }
     return SystemTimeDao;
 }(abstract_dao_ng_1.AbstractDao));
