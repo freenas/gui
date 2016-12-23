@@ -53,7 +53,7 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
                 timespan:   20,
                 frequency:  '10s'
             }]).then(function(response) {
-                return response.data;
+                return response.data.slice(-1);
             });
         }
     },
@@ -101,9 +101,7 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
 
     getTemperatureStats: {
         value: function() {
-            return this._callBackend("stat.query", [[["name", "~", "temperature"]]]).then(function(response) {
-                return response.data;
-            });
+            return this._callBackend("stat.query", [[["name", "~", "temperature"]]]);
         }
     },
 
