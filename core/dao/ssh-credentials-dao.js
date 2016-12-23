@@ -8,7 +8,7 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var SshCredentialsDao = (function (_super) {
     __extends(SshCredentialsDao, _super);
     function SshCredentialsDao() {
-        return _super.call(this, 'SshCredentials') || this;
+        _super.call(this, 'SshCredentials');
     }
     return SshCredentialsDao;
 }(abstract_dao_ng_1.AbstractDao));

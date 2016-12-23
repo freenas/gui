@@ -8,7 +8,7 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var FreenasCredentialsDao = (function (_super) {
     __extends(FreenasCredentialsDao, _super);
     function FreenasCredentialsDao() {
-        return _super.call(this, 'FreenasCredentials') || this;
+        _super.call(this, 'FreenasCredentials');
     }
     return FreenasCredentialsDao;
 }(abstract_dao_ng_1.AbstractDao));

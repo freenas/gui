@@ -8,7 +8,7 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var TunableDao = (function (_super) {
     __extends(TunableDao, _super);
     function TunableDao() {
-        return _super.call(this, 'Tunable') || this;
+        _super.call(this, 'Tunable');
     }
     return TunableDao;
 }(abstract_dao_ng_1.AbstractDao));

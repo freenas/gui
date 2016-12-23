@@ -4,12 +4,12 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_section_service_ng_1 = require("./abstract-section-service-ng");
-var share_repository_1 = require("core/repository/share-repository");
-var disk_repository_1 = require("core/repository/disk-repository");
-var volume_repository_1 = require("core/repository/volume-repository");
-var topology_service_1 = require("core/service/topology-service");
-var model_1 = require("core/model/model");
+var abstract_section_service_ng_1 = require('./abstract-section-service-ng');
+var share_repository_1 = require('core/repository/share-repository');
+var disk_repository_1 = require('core/repository/disk-repository');
+var volume_repository_1 = require('core/repository/volume-repository');
+var topology_service_1 = require('core/service/topology-service');
+var model_1 = require('core/model/model');
 var vmware_repository_1 = require("../../repository/vmware-repository");
 var model_event_name_1 = require("../../model-event-name");
 var replication_repository_1 = require("../../repository/replication-repository");
@@ -18,13 +18,12 @@ var peer_repository_1 = require("../../repository/peer-repository");
 var StorageSectionService = (function (_super) {
     __extends(StorageSectionService, _super);
     function StorageSectionService() {
-        var _this = _super.apply(this, arguments) || this;
-        _this.SHARE_TYPE = model_1.Model.Share;
-        _this.VOLUME_DATASET_TYPE = model_1.Model.VolumeDataset;
-        _this.VOLUME_SNAPSHOT_TYPE = model_1.Model.VolumeSnapshot;
-        _this.TOPOLOGY_TYPE = model_1.Model.ZfsTopology;
-        _this.TOPOLOGY_KEYS = volume_repository_1.VolumeRepository.TOPOLOGY_KEYS;
-        return _this;
+        _super.apply(this, arguments);
+        this.SHARE_TYPE = model_1.Model.Share;
+        this.VOLUME_DATASET_TYPE = model_1.Model.VolumeDataset;
+        this.VOLUME_SNAPSHOT_TYPE = model_1.Model.VolumeSnapshot;
+        this.TOPOLOGY_TYPE = model_1.Model.ZfsTopology;
+        this.TOPOLOGY_KEYS = volume_repository_1.VolumeRepository.TOPOLOGY_KEYS;
     }
     StorageSectionService.prototype.init = function () {
         var self = this;

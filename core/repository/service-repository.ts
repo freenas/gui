@@ -1,20 +1,23 @@
 import {AbstractRepository} from "./abstract-repository-ng";
 import {ServiceDao} from "../dao/service-dao";
 import {ServicesCategoryDao} from "../dao/services-category-dao";
+import {ServiceDyndnsDao} from "../dao/service-dyndns-dao";
 import * as Promise from "bluebird";
 import * as _ from "lodash";
 
 export class ServiceRepository extends AbstractRepository {
     private static instance: ServiceRepository;
     private constructor(private serviceDao: ServiceDao,
+                        private serviceDyndnsDao: ServiceDyndnsDao,
                         private servicesCategoryDao: ServicesCategoryDao) {
         super(['Service']);
-    }
+        }
 
     public static getInstance() {
         if (!ServiceRepository.instance) {
             ServiceRepository.instance = new ServiceRepository(
                 new ServiceDao(),
+                new ServiceDyndnsDao,
                 new ServicesCategoryDao()
             );
         }
@@ -71,6 +74,10 @@ export class ServiceRepository extends AbstractRepository {
             return category;
         });
 
+    }
+
+    public listDyndnsProviders(): Promise<Array<any>> {
+        return this.serviceDyndnsDao.getProviders();
     }
 
     protected handleStateChange(name: string, data: any) {}

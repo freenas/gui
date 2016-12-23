@@ -20,6 +20,10 @@ export class ServiceSectionService extends AbstractSectionService{
         return this.serviceRepository.saveService(service);
     }
 
+    public getDyndnsProviders() {
+        return this.serviceRepository.listDyndnsProviders();
+    }
+
     protected loadEntries(): Promise<Array<any>> {
         return this.serviceRepository.listServicesCategories();
     }

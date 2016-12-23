@@ -9,7 +9,7 @@ var service_repository_1 = require("../repository/service-repository");
 var ServicesCategoryDao = (function (_super) {
     __extends(ServicesCategoryDao, _super);
     function ServicesCategoryDao() {
-        return _super.call(this, 'ServicesCategory') || this;
+        _super.call(this, 'ServicesCategory');
     }
     ServicesCategoryDao.prototype.list = function () {
         return service_repository_1.ServiceRepository.getInstance().listServicesCategories();
