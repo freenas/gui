@@ -6,8 +6,6 @@ import _ = require("lodash");
 
 export class MiddlewareClient {
     private REQUEST_TIMEOUT = 90000;
-    private KEEPALIVE_MSG = '{"namespace": "rpc", "name": "call", "id": "${ID}", "args": {"method": "session.whoami", "args": []}}';
-    private KEEPALIVE_PERIOD = 30000;
 
     private static CONNECTING = "CONNECTING";
     private static OPEN = "OPEN";
@@ -17,7 +15,6 @@ export class MiddlewareClient {
     private socket;
     private handlers: Map<string, any>;
     private connectionPromise: Promise<any>;
-    private keepAliveInterval: number;
 
     public url: string;
     public user: string;
@@ -62,8 +59,7 @@ export class MiddlewareClient {
         }).then(function() {
             self.url = self.getHost();
             self.user = login;
-            self.state = MiddlewareClient.OPEN;
-            return self.startKeepAlive();
+            return self.state = MiddlewareClient.OPEN;
         }, function(error: MiddlewareError) {
             if (error) {
                 if (error.name === 'MiddlewareError') {
@@ -221,20 +217,6 @@ export class MiddlewareClient {
         });
     }
 
-    private startKeepAlive() {
-        let self = this;
-        this.keepAliveInterval = setInterval(function() {
-            self.connectionPromise.then(() => self.socket.send(self.KEEPALIVE_MSG.replace('${ID}', uuid.v4())) );
-        }, this.KEEPALIVE_PERIOD);
-    }
-
-    private stopKeepalive() {
-        if (this.keepAliveInterval) {
-            clearInterval(this.keepAliveInterval);
-            this.keepAliveInterval = null;
-        }
-    }
-
     private send(payload: any): Promise<any> {
         let self = this;
         return this.connectionPromise.then(function() {
@@ -266,7 +248,6 @@ export class MiddlewareClient {
 
     private closeConnection() {
         console.log('Closing connection to ' + this.socket.url);
-        this.stopKeepalive();
         this.socket.close(1000);
         this.state = MiddlewareClient.CLOSED
     }
@@ -278,7 +259,6 @@ export class MiddlewareClient {
                 console.log('Opening connection to ' + url);
                 let isResolved = false;
                 self.socket = new WebSocket(url);
-                self.stopKeepalive();
                 self.socket.onopen = function() {
                     isResolved = true;
                     resolve();
@@ -309,7 +289,6 @@ export class MiddlewareClient {
     private handleError(event: Event, url: string) {
         console.warn('[' + url + '] WS connection error:', event);
         this.dispatchConnectionStatus();
-        this.stopKeepalive();
         this.state = MiddlewareClient.CLOSED;
         this.connectionPromise = null;
         this.socket = null;
@@ -318,7 +297,6 @@ export class MiddlewareClient {
     private handleClose(event: Event, url: string) {
         console.log('[' + url + '] WS connection closed', event);
         this.dispatchConnectionStatus();
-        this.stopKeepalive();
         this.state = MiddlewareClient.CLOSED;
         this.connectionPromise = null;
         this.socket = null;

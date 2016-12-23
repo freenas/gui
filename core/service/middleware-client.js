@@ -4,8 +4,8 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var uuid = require("node-uuid");
-var event_dispatcher_service_1 = require("./event-dispatcher-service");
+var uuid = require('node-uuid');
+var event_dispatcher_service_1 = require('./event-dispatcher-service');
 var model_event_name_1 = require("../model-event-name");
 var Promise = require("bluebird");
 var _ = require("lodash");
@@ -13,8 +13,6 @@ var MiddlewareClient = (function () {
     function MiddlewareClient(eventDispatcherService) {
         this.eventDispatcherService = eventDispatcherService;
         this.REQUEST_TIMEOUT = 90000;
-        this.KEEPALIVE_MSG = '{"namespace": "rpc", "name": "call", "id": "${ID}", "args": {"method": "session.whoami", "args": []}}';
-        this.KEEPALIVE_PERIOD = 30000;
         this.handlers = new Map();
     }
     MiddlewareClient.getInstance = function () {
@@ -48,8 +46,7 @@ var MiddlewareClient = (function () {
         }).then(function () {
             self.url = self.getHost();
             self.user = login;
-            self.state = MiddlewareClient.OPEN;
-            return self.startKeepAlive();
+            return self.state = MiddlewareClient.OPEN;
         }, function (error) {
             if (error) {
                 if (error.name === 'MiddlewareError') {
@@ -187,18 +184,6 @@ var MiddlewareClient = (function () {
             return self.socket.send(JSON.stringify(payload));
         });
     };
-    MiddlewareClient.prototype.startKeepAlive = function () {
-        var self = this;
-        this.keepAliveInterval = setInterval(function () {
-            self.connectionPromise.then(function () { return self.socket.send(self.KEEPALIVE_MSG.replace('${ID}', uuid.v4())); });
-        }, this.KEEPALIVE_PERIOD);
-    };
-    MiddlewareClient.prototype.stopKeepalive = function () {
-        if (this.keepAliveInterval) {
-            clearInterval(this.keepAliveInterval);
-            this.keepAliveInterval = null;
-        }
-    };
     MiddlewareClient.prototype.send = function (payload) {
         var self = this;
         return this.connectionPromise.then(function () {
@@ -228,7 +213,6 @@ var MiddlewareClient = (function () {
     };
     MiddlewareClient.prototype.closeConnection = function () {
         console.log('Closing connection to ' + this.socket.url);
-        this.stopKeepalive();
         this.socket.close(1000);
         this.state = MiddlewareClient.CLOSED;
     };
@@ -239,7 +223,6 @@ var MiddlewareClient = (function () {
                 console.log('Opening connection to ' + url);
                 var isResolved = false;
                 self.socket = new WebSocket(url);
-                self.stopKeepalive();
                 self.socket.onopen = function () {
                     isResolved = true;
                     resolve();
@@ -268,7 +251,6 @@ var MiddlewareClient = (function () {
     MiddlewareClient.prototype.handleError = function (event, url) {
         console.warn('[' + url + '] WS connection error:', event);
         this.dispatchConnectionStatus();
-        this.stopKeepalive();
         this.state = MiddlewareClient.CLOSED;
         this.connectionPromise = null;
         this.socket = null;
@@ -276,7 +258,6 @@ var MiddlewareClient = (function () {
     MiddlewareClient.prototype.handleClose = function (event, url) {
         console.log('[' + url + '] WS connection closed', event);
         this.dispatchConnectionStatus();
-        this.stopKeepalive();
         this.state = MiddlewareClient.CLOSED;
         this.connectionPromise = null;
         this.socket = null;
@@ -345,20 +326,19 @@ var MiddlewareClient = (function () {
         }
         return result;
     };
+    MiddlewareClient.CONNECTING = "CONNECTING";
+    MiddlewareClient.OPEN = "OPEN";
+    MiddlewareClient.CLOSED = "CLOSED";
     return MiddlewareClient;
 }());
-MiddlewareClient.CONNECTING = "CONNECTING";
-MiddlewareClient.OPEN = "OPEN";
-MiddlewareClient.CLOSED = "CLOSED";
 exports.MiddlewareClient = MiddlewareClient;
 var MiddlewareError = (function (_super) {
     __extends(MiddlewareError, _super);
     function MiddlewareError(middlewareMessage) {
-        var _this = _super.call(this) || this;
-        _this.name = 'MiddlewareError';
-        _this.message = middlewareMessage.args.message;
-        _this.middlewareMessage = middlewareMessage;
-        return _this;
+        _super.call(this);
+        this.name = 'MiddlewareError';
+        this.message = middlewareMessage.args.message;
+        this.middlewareMessage = middlewareMessage;
     }
     return MiddlewareError;
 }(Error));
