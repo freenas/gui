@@ -2,21 +2,25 @@
 var _ = require("lodash");
 var immutable_1 = require("immutable");
 var model_descriptor_service_1 = require("./model-descriptor-service");
+var session_service_1 = require("core/service/session-service");
 var RoutingService = (function () {
-    function RoutingService(modelDescriptorService) {
+    function RoutingService(modelDescriptorService, sessionService) {
         this.modelDescriptorService = modelDescriptorService;
+        this.sessionService = sessionService;
         this.getParams();
         this.listeners = immutable_1.Map();
         this.history = immutable_1.Map();
     }
     RoutingService.getInstance = function () {
         if (!RoutingService.instance) {
-            RoutingService.instance = new RoutingService(model_descriptor_service_1.ModelDescriptorService.getInstance());
+            RoutingService.instance = new RoutingService(model_descriptor_service_1.ModelDescriptorService.getInstance(), session_service_1.SessionService.instance);
         }
         return RoutingService.instance;
     };
     RoutingService.prototype.selectSection = function (section) {
-        this.history = this.history.set(this.getParams().get('section'), this.getParams().get('path'));
+        if (this.sessionService.session) {
+            this.history = this.history.set(this.getParams().get('section'), this.getParams().get('path'));
+        }
         this.params = this.getParams().set('section', section).set('path', this.history.get(section) || '');
         this.buildParams();
         this.dispatchParamChange('section');
@@ -83,6 +87,12 @@ var RoutingService = (function () {
             return prefix + self.getObjectTypeString(object) + (suffix ? '|' + suffix : '');
         });
     };
+    RoutingService.prototype.getSection = function () {
+        return this.params.get('section');
+    };
+    RoutingService.prototype.getPath = function () {
+        return this.params.get('path');
+    };
     RoutingService.prototype.getObjectId = function (object) {
         return this.modelDescriptorService.getUiDescriptorForObject(object).then(function (uiDescriptor) {
             return _.get(object, (object._isNew ? uiDescriptor.newIdPath : uiDescriptor.idPath) || 'id');
@@ -101,7 +111,9 @@ var RoutingService = (function () {
     RoutingService.prototype.dispatchParamChange = function (param) {
         if (this.listeners.has(param)) {
             var self_1 = this, listeners = this.listeners.get(param);
+            console.log('dispatching', param);
             listeners.forEach(function (listener) {
+                console.log('calling for', param, self_1.params.get(param));
                 listener.call({}, self_1.params.get(param));
             });
         }
@@ -119,7 +131,7 @@ var RoutingService = (function () {
         }
         location.hash = this.hash;
     };
+    RoutingService.SEPARATOR = '~';
     return RoutingService;
 }());
-RoutingService.SEPARATOR = '~';
 exports.RoutingService = RoutingService;
