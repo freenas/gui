@@ -79,7 +79,7 @@ exports.DockerImage = AbstractInspector.specialize({
 
     delete: {
         value: function () {
-            return this._sectionService.deleteDockerImage(this.object);
+            return this._sectionService.deleteDockerImage(this.object.names[0]);
         }
     }
 
