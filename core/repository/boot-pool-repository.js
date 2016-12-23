@@ -10,12 +10,11 @@ var boot_environment_dao_1 = require("../dao/boot-environment-dao");
 var BootPoolRepository = (function (_super) {
     __extends(BootPoolRepository, _super);
     function BootPoolRepository(bootPoolDao, bootEnvironmentDao) {
-        var _this = _super.call(this, [
+        _super.call(this, [
             'BootEnvironment'
-        ]) || this;
-        _this.bootPoolDao = bootPoolDao;
-        _this.bootEnvironmentDao = bootEnvironmentDao;
-        return _this;
+        ]);
+        this.bootPoolDao = bootPoolDao;
+        this.bootEnvironmentDao = bootEnvironmentDao;
     }
     BootPoolRepository.getInstance = function () {
         if (!BootPoolRepository.instance) {

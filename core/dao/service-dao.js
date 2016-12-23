@@ -8,7 +8,7 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var ServiceDao = (function (_super) {
     __extends(ServiceDao, _super);
     function ServiceDao() {
-        return _super.call(this, 'Service') || this;
+        _super.call(this, 'Service');
     }
     return ServiceDao;
 }(abstract_dao_ng_1.AbstractDao));

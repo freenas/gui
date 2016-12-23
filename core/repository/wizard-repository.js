@@ -3,50 +3,25 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
     MailDao = require("core/dao/mail-dao").MailDao,
     ShareDao = require("core/dao/share-dao").ShareDao,
     UserDao = require("core/dao/user-dao").UserDao,
-    DirectoryDao = require("core/dao/directory-dao").DirectoryDao,
     DirectoryServicesDao = require("core/dao/directory-services-dao").DirectoryServicesDao,
     SystemGeneralDao = require("core/dao/system-general-dao").SystemGeneralDao;
 
 exports.WizardRepository = AbstractRepository.specialize({
 
     init: {
-        value: function(systemGeneralDao, volumeDao, directoryServicesDao, mailDao, shareDao, userDao) {
-            this._systemGeneralDao = systemGeneralDao || SystemGeneralDao.instance;
-            this._volumeDao = volumeDao || VolumeDao.instance;
-            this._directoryServicesDao = directoryServicesDao || DirectoryServicesDao.instance;
-            this._mailDao = mailDao || MailDao.instance;
-            this._shareDao = shareDao || ShareDao.instance;
-            this._userDao = userDao || UserDao.instance;
-        }
-    },
-
-    getNewSystemGeneral: {
-        value: function () {
-            return this._systemGeneralDao.getNewInstance();
-        }
-    },
-
-    getNewVolume: {
-        value: function () {
-            return this._volumeDao.getNewInstance();
+        value: function() {
+            this._systemGeneralDao = new SystemGeneralDao();
+            this._volumeDao = new VolumeDao();
+            this._directoryServicesDao = new DirectoryServicesDao();
+            this._mailDao = new MailDao();
+            this._shareDao = new ShareDao();
+            this._userDao = new UserDao();
         }
     },
 
     getNewDirectoryServices: {
         value: function () {
             return this._directoryServicesDao.getNewInstance();
-        }
-    },
-
-    getNewMail: {
-        value: function () {
-            return this._mailDao.getNewInstance();
-        }
-    },
-
-    getMailData: {
-        value: function () {
-            return this._mailDao.getNewInstance();
         }
     },
 
@@ -59,12 +34,6 @@ exports.WizardRepository = AbstractRepository.specialize({
     saveUser: {
         value: function(user) {
             return this._userDao.save(user);
-        }
-    },
-
-    getNewShare: {
-        value: function () {
-            return this._shareDao.getNewInstance();
         }
     },
 

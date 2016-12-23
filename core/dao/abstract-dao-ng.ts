@@ -1,6 +1,6 @@
 import { MiddlewareClient } from '../service/middleware-client';
 import { DatastoreService } from '../service/datastore-service';
-import { Model } from '../model/model';
+import { Model } from 'core/model/model';
 import { processor as cleaningProcessor } from '../service/data-processor/cleaner';
 import { processor as diffProcessor } from '../service/data-processor/diff';
 import { processor as nullProcessor } from '../service/data-processor/null';

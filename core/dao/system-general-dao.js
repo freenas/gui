@@ -4,17 +4,17 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_dao_ng_1 = require("./abstract-dao-ng");
-var cleaner_1 = require("../service/data-processor/cleaner");
-var diff_1 = require("../service/data-processor/diff");
-var null_1 = require("../service/data-processor/null");
+var abstract_dao_ng_1 = require('./abstract-dao-ng');
+var cleaner_1 = require('../service/data-processor/cleaner');
+var diff_1 = require('../service/data-processor/diff');
+var null_1 = require('../service/data-processor/null');
 var SystemGeneralDao = (function (_super) {
     __extends(SystemGeneralDao, _super);
     function SystemGeneralDao() {
-        return _super.call(this, 'SystemGeneral', {
+        _super.call(this, 'SystemGeneral', {
             queryMethod: 'system.general.get_config',
             createMethod: 'system.general.update'
-        }) || this;
+        });
     }
     SystemGeneralDao.prototype.save = function (object, args) {
         var update = null_1.processor.process(diff_1.processor.process(cleaner_1.processor.process(object, this.propertyDescriptors), 'SystemGeneral', object.id));

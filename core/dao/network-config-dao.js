@@ -8,9 +8,9 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var NetworkConfigDao = (function (_super) {
     __extends(NetworkConfigDao, _super);
     function NetworkConfigDao() {
-        return _super.call(this, 'NetworkConfig', {
+        _super.call(this, 'NetworkConfig', {
             queryMethod: 'network.config.get_config'
-        }) || this;
+        });
     }
     NetworkConfigDao.prototype.getMyIps = function () {
         return this.middlewareClient.callRpcMethod('network.config.get_my_ips');

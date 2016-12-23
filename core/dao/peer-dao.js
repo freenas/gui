@@ -8,7 +8,7 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var PeerDao = (function (_super) {
     __extends(PeerDao, _super);
     function PeerDao() {
-        return _super.call(this, 'Peer') || this;
+        _super.call(this, 'Peer');
     }
     return PeerDao;
 }(abstract_dao_ng_1.AbstractDao));

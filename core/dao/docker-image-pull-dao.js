@@ -8,7 +8,7 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var DockerImagePullDao = (function (_super) {
     __extends(DockerImagePullDao, _super);
     function DockerImagePullDao() {
-        return _super.call(this, 'DockerImagePull') || this;
+        _super.call(this, 'DockerImagePull');
     }
     return DockerImagePullDao;
 }(abstract_dao_ng_1.AbstractDao));

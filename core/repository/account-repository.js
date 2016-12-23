@@ -15,23 +15,22 @@ var model_event_name_1 = require("../model-event-name");
 var AccountRepository = (function (_super) {
     __extends(AccountRepository, _super);
     function AccountRepository(userDao, groupDao, directoryServiceDao, directoryserviceConfigDao, directoryDao) {
-        var _this = _super.call(this, [
+        _super.call(this, [
             'User',
             'Group',
             'Directory'
-        ]) || this;
-        _this.userDao = userDao;
-        _this.groupDao = groupDao;
-        _this.directoryServiceDao = directoryServiceDao;
-        _this.directoryserviceConfigDao = directoryserviceConfigDao;
-        _this.directoryDao = directoryDao;
-        _this.DIRECTORY_TYPES_LABELS = {
+        ]);
+        this.userDao = userDao;
+        this.groupDao = groupDao;
+        this.directoryServiceDao = directoryServiceDao;
+        this.directoryserviceConfigDao = directoryserviceConfigDao;
+        this.directoryDao = directoryDao;
+        this.DIRECTORY_TYPES_LABELS = {
             winbind: "Active Directory",
             freeipa: "FreeIPA",
             ldap: "LDAP",
             nis: "NIS"
         };
-        return _this;
     }
     AccountRepository.getInstance = function () {
         if (!AccountRepository.instance) {

@@ -1,6 +1,4 @@
 var AbstractSectionService = require("core/service/section/abstract-section-service").AbstractSectionService,
-    NotificationCenterModule = require("core/backend/notification-center"),
-    Application = require("montage/core/application").application,
     ModelDescriptorService = require("core/service/model-descriptor-service").ModelDescriptorService,
     TopologyService = require("core/service/topology-service").TopologyService,
     DiskRepository = require("core/repository/disk-repository").DiskRepository,
@@ -22,7 +20,6 @@ exports.WizardSectionService = AbstractSectionService.specialize({
             this._mailRepository = MailRepository.getInstance();
             this._topologyService = TopologyService.instance;
             this._modelDescriptorService = ModelDescriptorService.getInstance();
-            Application.addEventListener("taskDone", this);
 
             var self = this,
                 availablePaths;
@@ -39,18 +36,6 @@ exports.WizardSectionService = AbstractSectionService.specialize({
         }
     },
 
-    getNewSystemGeneral: {
-        value: function () {
-            return this._wizardRepository.getNewSystemGeneral();
-        }
-    },
-
-    getNewVolume: {
-        value: function () {
-            return this._wizardRepository.getNewVolume();
-        }
-    },
-
     getNewUser: {
         value: function() {
             return this._wizardRepository.getNewUser();
@@ -60,18 +45,6 @@ exports.WizardSectionService = AbstractSectionService.specialize({
     getNewDirectoryServices: {
         value: function () {
             return this._wizardRepository.getNewDirectoryServices();
-        }
-    },
-
-    getMailData: {
-        value: function () {
-            return this._wizardRepository.getMailData();
-        }
-    },
-
-    getNewShare: {
-        value: function () {
-            return this._wizardRepository.getNewShare();
         }
     },
 
@@ -147,7 +120,6 @@ exports.WizardSectionService = AbstractSectionService.specialize({
         value: function (wizardDescriptor) {
             var self = this,
                 stepsDescriptor = wizardDescriptor.steps,
-                dataService = Application.dataService,
                 promises = [],
                 wizardSteps = [];
 
@@ -190,64 +162,13 @@ exports.WizardSectionService = AbstractSectionService.specialize({
         }
     },
 
-    notificationCenter: {
-        get: function () {
-            return NotificationCenterModule.defaultNotificationCenter;
-        }
-    },
-
-    handleTaskDone: {
-        value: function (event) {
-            var notification = event.detail;
-
-            if (this._wizardsMap.has(notification.jobId)) {
-                if (notification.state === "FINISHED") {
-                    var steps = this._wizardsMap.get(notification.jobId),
-                        shareStep = this._findWizardStepWithStepsAndId(steps, "share"),
-                        volumeStep = this._findWizardStepWithStepsAndId(steps, "volume"),
-                        userStep = this._findWizardStepWithStepsAndId(steps, "user"),
-                        dataService = Application.dataService,
-                        volume = volumeStep.object,
-                        promises = [];
-
-                    if (!shareStep.isSkipped) {
-                        var shares = shareStep.object.__shares;
-
-                        shares.forEach(function (share) {
-                            if (share.name) {
-                                share.target_path = volume.id;
-                                promises.push(dataService.saveDataObject(share));
-                            }
-                        });
-                    }
-
-                    if (!userStep.isSkipped) {
-                        var users = userStep.object.__users;
-
-                        users.forEach(function (user) {
-                            if (user.username) {
-                                user.home = '/mnt/' + volume.id + '/' + user.username;
-                                promises.push(dataService.saveDataObject(user));
-                            }
-                        });
-                    }
-
-                    Promise.all(promises);
-                }
-
-                this._wizardsMap.delete(notification.jobId);
-            }
-        }
-    },
-
     _wizardsMap: {
         value: new Map()
     },
 
     saveWizard: {
         value: function (steps) {
-            var dataService = Application.dataService,
-                self = this,
+            var self = this,
                 indexVolume = -1,
                 promises = [];
 

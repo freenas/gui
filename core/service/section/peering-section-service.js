@@ -10,9 +10,8 @@ var model_event_name_1 = require("../../model-event-name");
 var PeeringSectionService = (function (_super) {
     __extends(PeeringSectionService, _super);
     function PeeringSectionService() {
-        var _this = _super.apply(this, arguments) || this;
-        _this.PEER_TYPES = peer_repository_1.PeerRepository.PEER_TYPES;
-        return _this;
+        _super.apply(this, arguments);
+        this.PEER_TYPES = peer_repository_1.PeerRepository.PEER_TYPES;
     }
     PeeringSectionService.prototype.init = function () {
         this.peerRepository = peer_repository_1.PeerRepository.getInstance();
