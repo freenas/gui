@@ -4,9 +4,26 @@ var Component = require("montage/ui/component").Component,
     _ = require("lodash");
 
 exports.TaskNotification = Component.specialize({
-    templateDidLoad: {
-        value: function() {
-            this._eventDispatcherService = EventDispatcherService.getInstance();
+    eventDispatcherService: {
+        get: function() {
+            if (!this._eventDispatcherService) {
+                this._eventDispatcherService = EventDispatcherService.getInstance();
+            }
+            return this._eventDispatcherService;
+        }
+    },
+
+    _object: {
+        value: null
+    },
+
+    object: {
+        get: function() {
+            return this._object;
+        },
+        set: function(object) {
+            this._object = object;
+            this.availableDisksEventListener = this.eventDispatcherService.addEventListener(ModelEventName.Task.change(this.object.id), this._handleChange.bind(this));
         }
     },
 
@@ -14,13 +31,12 @@ exports.TaskNotification = Component.specialize({
         value: function() {
             var displayedDate = this.object.started_at || this.object.created_at;
             this.object.startDate = new Date(displayedDate.$date);
-            this.availableDisksEventListener = this._eventDispatcherService.addEventListener(ModelEventName.Task.change(this.object.id), this._handleChange.bind(this));
         }
     },
 
     _unregisterUpdates: {
         value: function () {
-            this._eventDispatcherService.removeEventListener(ModelEventName.Task.change(this.object.id), this.availableDisksEventListener);
+            this.eventDispatcherService.removeEventListener(ModelEventName.Task.change(this.object.id), this.availableDisksEventListener);
         }
     },
 
@@ -34,6 +50,7 @@ exports.TaskNotification = Component.specialize({
         value: function(state) {
             _.assign(this.object, state.toJS());
             if (this.object.state === 'FINISHED' || this.object.state === 'FAILED') {
+                this.object.progress.percentage = 100;
                 this._unregisterUpdates();
             }
         }

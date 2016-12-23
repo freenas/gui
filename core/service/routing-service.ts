@@ -2,6 +2,7 @@ import * as _ from "lodash";
 import * as Promise from "bluebird";
 import {Map, Set} from "immutable";
 import {ModelDescriptorService} from "./model-descriptor-service";
+import {SessionService} from "core/service/session-service";
 
 export class RoutingService {
     private static instance: RoutingService;
@@ -12,7 +13,8 @@ export class RoutingService {
 
     public static SEPARATOR = '~';
 
-    private constructor(private modelDescriptorService: ModelDescriptorService) {
+    private constructor(private modelDescriptorService: ModelDescriptorService,
+                        private sessionService: SessionService) {
         this.getParams();
         this.listeners = Map<string, Set<Function>>();
         this.history = Map<string, string>();
@@ -21,14 +23,17 @@ export class RoutingService {
     public static getInstance() {
         if (!RoutingService.instance) {
             RoutingService.instance = new RoutingService(
-                ModelDescriptorService.getInstance()
+                ModelDescriptorService.getInstance(),
+                SessionService.instance
             );
         }
         return RoutingService.instance;
     }
 
     public selectSection(section: string) {
-        this.history = this.history.set(this.getParams().get('section'), this.getParams().get('path'));
+        if (this.sessionService.session) {
+            this.history = this.history.set(this.getParams().get('section'), this.getParams().get('path'));
+        }
         this.params = this.getParams().set('section', section).set('path', this.history.get(section) || '');
         this.buildParams();
         this.dispatchParamChange('section');
@@ -105,6 +110,14 @@ export class RoutingService {
                 suffix = id || ((params.filter || params.sorted) && JSON.stringify(params)) || null;
             return prefix + self.getObjectTypeString(object) + (suffix ? '|' + suffix : '');
         });
+    }
+
+    public getSection(): string {
+        return this.params.get('section');
+    }
+
+    public getPath(): string {
+        return this.params.get('path');
     }
 
     private getObjectId(object: any): Promise<any> {

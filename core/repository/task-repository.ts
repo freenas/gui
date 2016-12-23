@@ -8,13 +8,11 @@ export class TaskRepository extends AbstractRepository {
     private static instance: TaskRepository;
 
     private tasks: Map<string, Map<string, any>>;
-    private taskPromises: Map<number, any>;
 
     private constructor(private taskDao: TaskDao) {
         super([
             'Task'
         ]);
-        this.taskPromises = Map<number, any>();
     }
 
     public static getInstance() {
@@ -34,10 +32,6 @@ export class TaskRepository extends AbstractRepository {
         return this.taskDao.register();
     }
 
-    public getTaskPromise(taskId: number): Promise<any> {
-        return this.taskPromises.get(taskId);
-    }
-
     public submitTask(name: string, args?: Array<any>): Promise<any> {
         return this.taskDao.submit(name, args);
     }
@@ -46,7 +40,6 @@ export class TaskRepository extends AbstractRepository {
         switch (name) {
             case 'Task':
                 this.tasks = this.dispatchModelEvents(this.tasks, ModelEventName.Task, state);
-
                 break;
             default:
                 break;
