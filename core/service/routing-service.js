@@ -111,9 +111,7 @@ var RoutingService = (function () {
     RoutingService.prototype.dispatchParamChange = function (param) {
         if (this.listeners.has(param)) {
             var self_1 = this, listeners = this.listeners.get(param);
-            console.log('dispatching', param);
             listeners.forEach(function (listener) {
-                console.log('calling for', param, self_1.params.get(param));
                 listener.call({}, self_1.params.get(param));
             });
         }
