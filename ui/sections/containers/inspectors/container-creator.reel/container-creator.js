@@ -177,8 +177,10 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
                 entry = values[i];
                 if (entry.host_path_input && entry.host_path_input != entry.host_path) {
                     entry.host_path = entry.host_path_input;
-                    delete entry.host_path_input;
                 }
+
+                delete entry.host_path_input;
+
                 if (entry.host_path && entry.container_path) {
                     volumes.push(entry);
                 }
