@@ -98,6 +98,10 @@ export class VolumeRepository extends AbstractRepository {
         return this.volumeDao.scrub(volume);
     }
 
+    public upgradeVolume(volume: any) {
+        return this.volumeDao.upgrade(volume);
+    }
+
     public listDetachedVolumes() {
         return this.detachedVolumeDao.list();
     }

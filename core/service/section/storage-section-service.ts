@@ -206,6 +206,10 @@ export class StorageSectionService extends AbstractSectionService {
         return this.volumeRepository.scrubVolume(volume);
     }
 
+    public upgradeVolume(volume: any) {
+        return this.volumeRepository.upgradeVolume(volume);
+    }
+
     public lockVolume(volume: any) {
         return this.volumeRepository.lockVolume(volume);
     }
