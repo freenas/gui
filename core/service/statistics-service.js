@@ -83,7 +83,7 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
             return Promise.all(datasources.map(function(datasource) {
                 var name = "statd." + datasource;
                 self._listeners.delete(name);
-                self._subscribedUpdates.splice(self._subscribedUpdates.indexOf(datasources[i]), 1);
+                self._subscribedUpdates.splice(self._subscribedUpdates.indexOf(datasource), 1);
                 return self._middlewareClient.unsubscribeFromEvents(name);
             }));
         }
