@@ -1,5 +1,7 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     _ = require("lodash");
+    NotificationCenterModule = require("core/backend/notification-center"),
+    Model = require("core/model/model").Model;
 
 exports.WebUi = AbstractInspector.specialize({
 
@@ -54,10 +56,60 @@ exports.WebUi = AbstractInspector.specialize({
 
     save: {
         value: function() {
+            var self = this;
+
             return Promise.all([
                 this.application.systemService.saveAdvanced(this.systemAdvanced),
                 this.application.systemService.saveUi(this.config)
-            ]);
+            ]).then(function (tasks) {
+                //FIXME:  task.taskPromise doesn't seem to work.
+                self._scrubTaskId = tasks[1].taskId;
+            });
+        }
+    },
+
+    enterDocument: {
+        value: function () {
+            this.super();
+            NotificationCenterModule.defaultNotificationCenter.addEventListener("taskDone", this);
+        }
+    },
+
+    exitDocument: {
+        value: function () {
+            this.super();
+            NotificationCenterModule.defaultNotificationCenter.removeEventListener("taskDone", this);
+        }
+    },
+
+    handleTaskDone: {
+        value: function (event) {
+            if (this._scrubTaskId === event.detail.jobId) {
+                this._scrubTaskId = 0;
+
+                if (!event.detail.errorMessage) {
+                    //TODO: move that part to the section service
+                    //and check for delta with snapshoting.
+                    var config = this.config,
+                        protocol = config.webui_protocol[0],
+                        isHttpProtocol = protocol === "HTTP",
+                        isHttpsProtocol = protocol === "HTTPS",
+                        url = isHttpProtocol ? "http://" :
+                            isHttpsProtocol ? "https://" : void 0,
+
+                        httpsPort = config.webui_https_port || 443,
+                        httpPort = config.webui_http_port || 80,
+                        port = isHttpProtocol ? httpPort : httpsPort,
+
+                        ipv6 = config.ipv6,
+                        ipv4 = config.ipv4,
+                        ip = ipv6 || ipv4 || window.location.hostname;
+
+                    if (url) {
+                        window.location.href = url + ip + ":" + port;
+                    }
+                }
+            }
         }
     },
 
