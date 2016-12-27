@@ -230,6 +230,19 @@
             },
             "bindings": {
                 "value": {"<->": "@owner.object.bridge.address"},
+                "disabled": {"<-": "@bridgeDHCP.checked"},
+                "classList.has('hide')": {"<-": "!@owner.object.bridge.enable"}
+            }
+        },
+
+        "bridgeDHCP": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "bridgeDHCP"},
+                "label": "DHCP"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.bridge.dhcp"},
                 "classList.has('hide')": {"<-": "!@owner.object.bridge.enable"}
             }
         },
@@ -266,6 +279,7 @@
                 <div data-montage-id="volumesTable" class="g-margin-bottom--double"></div>
                 <div data-montage-id="interactive"></div>
                 <div data-montage-id="bridged"></div>
+                <div data-montage-id="bridgeDHCP"></div>
                 <div data-montage-id="bridgeAddress"></div>
                 <div data-montage-id="command"></div>
                 <div data-montage-id="autostart"></div>
