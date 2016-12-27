@@ -1,12 +1,12 @@
 "use strict";
-var middleware_client_1 = require('./middleware-client');
-var datastore_service_1 = require('./datastore-service');
-var cache_service_1 = require('./cache-service');
-var cleaner_1 = require('core/service/data-processor/cleaner');
-var diff_1 = require('core/service/data-processor/diff');
-var null_1 = require('core/service/data-processor/null');
-var model_1 = require('core/model/model');
-var ChangeCase = require('change-case');
+var middleware_client_1 = require("./middleware-client");
+var datastore_service_1 = require("./datastore-service");
+var cache_service_1 = require("./cache-service");
+var cleaner_1 = require("core/service/data-processor/cleaner");
+var diff_1 = require("core/service/data-processor/diff");
+var null_1 = require("core/service/data-processor/null");
+var model_1 = require("core/model/model");
+var ChangeCase = require("change-case");
 // DTM
 var FakeMontageDataService = (function () {
     function FakeMontageDataService() {
@@ -23,9 +23,11 @@ var FakeMontageDataService = (function () {
         return FakeMontageDataService.instance;
     };
     FakeMontageDataService.prototype.loginWithCredentials = function (login, password) {
-        var self = this;
+        var _this = this;
         return this.middlewareClient.connect(this.getURL()).then(function () {
-            return self.middlewareClient.login(login, password);
+            return _this.middlewareClient.login(login, password);
+        }).then(function () {
+            return _this.middlewareClient.enableStreamingResponses();
         });
     };
     FakeMontageDataService.prototype.fetchData = function (type, criteria, isSingle) {

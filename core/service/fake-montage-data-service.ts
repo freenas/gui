@@ -34,9 +34,10 @@ export class FakeMontageDataService {
     }
 
     public loginWithCredentials(login: string, password: string) {
-        let self = this;
-        return this.middlewareClient.connect(this.getURL()).then(function () {
-            return self.middlewareClient.login(login, password);
+        return this.middlewareClient.connect(this.getURL()).then(() => {
+            return this.middlewareClient.login(login, password);
+        }).then(() => {
+            return this.middlewareClient.enableStreamingResponses();
         });
     }
 

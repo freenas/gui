@@ -1,15 +1,15 @@
 "use strict";
-var middleware_client_1 = require('../service/middleware-client');
-var datastore_service_1 = require('../service/datastore-service');
-var model_1 = require('../model/model');
-var cleaner_1 = require('../service/data-processor/cleaner');
-var diff_1 = require('../service/data-processor/diff');
-var null_1 = require('../service/data-processor/null');
-var change_case_1 = require('change-case');
-var _ = require('lodash');
+var middleware_client_1 = require("../service/middleware-client");
+var datastore_service_1 = require("../service/datastore-service");
+var model_1 = require("../model/model");
+var cleaner_1 = require("../service/data-processor/cleaner");
+var diff_1 = require("../service/data-processor/diff");
+var null_1 = require("../service/data-processor/null");
+var change_case_1 = require("change-case");
+var _ = require("lodash");
 var Promise = require("bluebird");
 // DTM
-var cache_service_1 = require('../service/cache-service');
+var cache_service_1 = require("../service/cache-service");
 var AbstractDao = (function () {
     function AbstractDao(objectType, config) {
         this.isRegistered = false;
@@ -39,12 +39,24 @@ var AbstractDao = (function () {
         });
     }
     AbstractDao.prototype.list = function () {
+        var _this = this;
         return (this.listPromise && !this.preventQueryCaching) ?
             this.listPromise :
-            this.listPromise = this.query();
+            this.listPromise = this.stream().then(function (stream) {
+                var data = stream.get("data");
+                data._objectType = _this.objectType;
+                return data;
+            });
+    };
+    AbstractDao.prototype.stream = function () {
+        var _this = this;
+        var modelInitializationPromise = this.model.typeName ? model_1.Model.populateObjectPrototypeForType(this.model) : Promise.resolve();
+        return modelInitializationPromise.then(function () {
+            return _this.datastoreService.stream(_this.objectType, _this.queryMethod);
+        });
     };
     AbstractDao.prototype.get = function () {
-        return this.list().then(function (x) { return x[0]; });
+        return this.query().then(function (x) { return x[0]; });
     };
     AbstractDao.prototype.findSingleEntry = function (criteria, params) {
         params = params || {};
@@ -53,6 +65,7 @@ var AbstractDao = (function () {
             return results[0];
         });
     };
+    //TODO: need support for streamming responses.
     AbstractDao.prototype.find = function (criteria, params) {
         criteria = criteria || {};
         params = params || {};

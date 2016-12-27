@@ -4,8 +4,8 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var uuid = require('node-uuid');
-var event_dispatcher_service_1 = require('./event-dispatcher-service');
+var uuid = require("node-uuid");
+var event_dispatcher_service_1 = require("./event-dispatcher-service");
 var model_event_name_1 = require("../model-event-name");
 var Promise = require("bluebird");
 var _ = require("lodash");
@@ -59,6 +59,21 @@ var MiddlewareClient = (function () {
                 }
             }
         });
+    };
+    MiddlewareClient.prototype.continueRpcMethod = function (id, sequence) {
+        var _this = this;
+        return this.connectionPromise.then(function () {
+            var payload = {
+                namespace: 'rpc',
+                name: 'continue',
+                id: id,
+                args: sequence
+            };
+            return _this.send(payload);
+        });
+    };
+    MiddlewareClient.prototype.enableStreamingResponses = function () {
+        return this.callRpcMethod('management.enable_features', [['streaming_responses']]);
     };
     MiddlewareClient.prototype.callRpcMethod = function (name, args) {
         var self = this;
@@ -184,7 +199,9 @@ var MiddlewareClient = (function () {
                 resolve = _resolve;
                 reject = _reject;
             });
-            payload.id = uuid.v4();
+            if (!payload.id) {
+                payload.id = uuid.v4();
+            }
             self.socket.send(JSON.stringify(payload));
             self.handlers.set(payload.id, {
                 resolve: resolve,
@@ -268,11 +285,20 @@ var MiddlewareClient = (function () {
         try {
             var message = JSON.parse(event.data);
             if (message.namespace === 'rpc') {
-                if (message.name === 'response') {
-                    this.handleRpcResponse(message);
-                }
-                else if (message.name == 'error') {
-                    this.handleRpcError(message);
+                var messageName = message.name;
+                switch (message.name) {
+                    case "response":
+                        this.handleRpcResponse(message);
+                        break;
+                    case "error":
+                        this.handleRpcError(message);
+                        break;
+                    case "fragment":
+                    case "end":
+                        this.handleFragmentResponse(message);
+                        break;
+                    default:
+                        break;
                 }
             }
             else if (message.namespace === 'events' && message.name === 'event') {
@@ -297,6 +323,14 @@ var MiddlewareClient = (function () {
             deferred.reject(new MiddlewareError(message));
         }
     };
+    MiddlewareClient.prototype.handleFragmentResponse = function (message) {
+        var messageId = message.id;
+        if (this.handlers.has(messageId)) {
+            var deferred = this.handlers.get(messageId);
+            this.handlers.delete(messageId);
+            deferred.resolve(message);
+        }
+    };
     MiddlewareClient.prototype.handleEvent = function (message) {
         if (_.startsWith(message.args.name, 'entity-subscriber.')) {
             this.eventDispatcherService.dispatch('middlewareModelChange', message.args.args);
@@ -319,19 +353,20 @@ var MiddlewareClient = (function () {
         }
         return result;
     };
-    MiddlewareClient.CONNECTING = "CONNECTING";
-    MiddlewareClient.OPEN = "OPEN";
-    MiddlewareClient.CLOSED = "CLOSED";
     return MiddlewareClient;
 }());
+MiddlewareClient.CONNECTING = "CONNECTING";
+MiddlewareClient.OPEN = "OPEN";
+MiddlewareClient.CLOSED = "CLOSED";
 exports.MiddlewareClient = MiddlewareClient;
 var MiddlewareError = (function (_super) {
     __extends(MiddlewareError, _super);
     function MiddlewareError(middlewareMessage) {
-        _super.call(this);
-        this.name = 'MiddlewareError';
-        this.message = middlewareMessage.args.message;
-        this.middlewareMessage = middlewareMessage;
+        var _this = _super.call(this) || this;
+        _this.name = 'MiddlewareError';
+        _this.message = middlewareMessage.args.message;
+        _this.middlewareMessage = middlewareMessage;
+        return _this;
     }
     return MiddlewareError;
 }(Error));
