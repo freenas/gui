@@ -2,7 +2,10 @@ var Component = require("montage/ui/component").Component,
     ModelDescriptorService = require("core/service/model-descriptor-service").ModelDescriptorService,
     CascadingListItem = require("ui/controls/cascading-list.reel/cascading-list-item.reel").CascadingListItem,
     RoutingService = require("core/service/routing-service").RoutingService,
-    _ = require("lodash");
+    ModelEventName = require("core/model-event-name").ModelEventName,
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
+    _ = require("lodash"),
+    immutable = require("immutable");
 
 
 exports.CascadingList = Component.specialize({
@@ -45,6 +48,7 @@ exports.CascadingList = Component.specialize({
             this._routingService = RoutingService.getInstance();
             this._modelDescriptorService = ModelDescriptorService.getInstance();
             this._selectionService = this.application.selectionService;
+            this._eventDispatcherService = EventDispatcherService.getInstance();
         }
     },
 
@@ -56,7 +60,7 @@ exports.CascadingList = Component.specialize({
             var promise = this.rootPromise || this._populateColumnAtIndexWithObjectAndTypeAndSelectionKey(0, this.root, this._modelDescriptorService.getObjectType(this.root));
             promise.then(function() {
                 self._handlePathChange(self._routingService.getPath());
-            })
+            });
         }
     },
 
@@ -126,13 +130,15 @@ exports.CascadingList = Component.specialize({
                     stack = self._stack,
                     common = this._getCommonPart(pathElements, stack);
                 while (this._stack.length > common.length+1) {
-                    this._stack.pop();
+                    var context = this._stack.pop();
+                    if (context.eventName && _.isFunction(context.changeEventListener)) {
+                        this._eventDispatcherService.removeEventListener(context.eventName, context.changeEventListener);
+                    }
                 }
                 this._currentIndex = common.length+1;
                 var previousObject = this._stack.slice(-1)[0] && this._stack.slice(-1)[0].object;
                 Promise.mapSeries(_.slice(pathElements, common.length), function(key) {
-                    var promise,
-                        isRelative = false;
+                    var promise;
                     if (_.startsWith(key, 'list_')) {
                         promise = self._getListForKey(key);
                     } else if (_.startsWith(key, 'new_')) {
@@ -140,12 +146,11 @@ exports.CascadingList = Component.specialize({
                     } else if (_.indexOf(key, '|') !== -1) {
                         promise = self._getObjectFromKey(key);
                     } else {
-                        isRelative = true;
                         promise = self._getPropertyForObjectAndKey(previousObject, key);
                     }
-                    return promise.spread(function(object, objectType) {
+                    return promise.spread(function(object, objectType, propertyName) {
                         previousObject = object;
-                        return self._populateColumnAtIndexWithObjectAndTypeAndSelectionKey(self._currentIndex++, object, objectType, key, isRelative);
+                        return self._populateColumnAtIndexWithObjectAndTypeAndSelectionKey(self._currentIndex++, object, objectType, key, propertyName);
                     });
                 }).then(function() {
                     self._selectionService.saveSelection(self.application.section, self._stack);
@@ -183,7 +188,7 @@ exports.CascadingList = Component.specialize({
             }
             return promise.then(function (propertyType) {
                 object._objectType = propertyType;
-                return [object, propertyType];
+                return [object, propertyType, propertyName];
             });
         }
     },
@@ -212,7 +217,6 @@ exports.CascadingList = Component.specialize({
                 if (params && params.sorted) {
                     results = _.sortBy(results, params.sorted);
                 }
-                // results._objectType = types[0];
                 results._objectType = types;
                 if (params) {
                     results._filter = params.filter;
@@ -303,7 +307,7 @@ exports.CascadingList = Component.specialize({
     },
 
     _populateColumnAtIndexWithObjectAndTypeAndSelectionKey: {
-        value: function (columnIndex, object, objectType, selectionKey, isRelative) {
+        value: function (columnIndex, object, objectType, selectionKey, propertyName) {
             var self = this,
                 currentStackLength = self._stack.length,
                 promise = this._populatePromise || Promise.resolve();
@@ -317,10 +321,19 @@ exports.CascadingList = Component.specialize({
                         columnIndex: columnIndex,
                         objectType: objectType,
                         selectionKey: selectionKey,
-                        isRelative: !!isRelative
+                        isRelative: !!propertyName
                     };
                     if (currentStackLength > 0) {
                         context.parentContext = self._stack[currentStackLength - 1];
+                    }
+                    if (_.isArray(object)) {
+                        context.eventName = ModelEventName[objectType].listChange;
+                        context.changeEventListener = self._eventDispatcherService.addEventListener(context.eventName, (function(object) {
+                            return function(state) {
+                                var newState = propertyName ? immutable.fromJS(context.parentContext.object[propertyName]) : state;
+                                return self._handleArrayChange(object, newState, objectType);
+                            };
+                        })(object));
                     }
                     self._stack.push(context);
                     self._populatePromise = null;
@@ -328,6 +341,30 @@ exports.CascadingList = Component.specialize({
                     return context;
                 });
             });
+        }
+    },
+
+    _handleArrayChange: {
+        value: function(array, state, objectType) {
+            state.forEach(function(stateEntry) {
+                // DTM
+                var entry = _.find(array, {id: stateEntry.get('id')});
+                if (entry) {
+                    _.assign(entry, stateEntry.toJS());
+                } else {
+                    entry = stateEntry.toJS();
+                    entry._objectType = objectType;
+                    array.push(entry);
+                }
+            });
+            // DTM
+            if (array) {
+                for (var i = array.length - 1; i >= 0; i--) {
+                    if (!state.has(array[i].id)) {
+                        array.splice(i, 1);
+                    }
+                }
+            }
         }
     }
 

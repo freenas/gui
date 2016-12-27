@@ -2,10 +2,6 @@ var AbstractComponentActionDelegate = require("ui/abstract/abstract-component-ac
     _ = require("lodash"),
     CascadingList = require("ui/controls/cascading-list.reel").CascadingList;
 
-/**
- * @class Viewer
- * @extends Component
- */
 exports.Viewer = AbstractComponentActionDelegate.specialize({
 
     initWithDao: {

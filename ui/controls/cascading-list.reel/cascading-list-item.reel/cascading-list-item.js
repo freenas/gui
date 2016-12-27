@@ -70,21 +70,17 @@ exports.CascadingListItem = Component.specialize({
         }
     },
 
-
     isCollection: {
         value: false
     },
-
 
     inspectorComponentModuleId: {
         value: null
     },
 
-
     _selectedObject: {
         value: void 0
     },
-
 
     selectedObject: {
         get: function () {

@@ -216,8 +216,8 @@ export class VolumeRepository extends AbstractRepository {
         switch (name) {
             case 'Volume':
                 let self = this,
-                    hasTopologyChanged = false,
                     volumeId;
+                let hasTopologyChanged = false;
                 if (this.volumes) {
                     this.volumes.forEach(function(volume) {
                         volumeId = volume.get('id');

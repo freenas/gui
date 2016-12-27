@@ -177,7 +177,8 @@ var VolumeRepository = (function (_super) {
     VolumeRepository.prototype.handleStateChange = function (name, state) {
         switch (name) {
             case 'Volume':
-                var self_1 = this, hasTopologyChanged_1 = false, volumeId_1;
+                var self_1 = this, volumeId_1;
+                var hasTopologyChanged_1 = false;
                 if (this.volumes) {
                     this.volumes.forEach(function (volume) {
                         volumeId_1 = volume.get('id');
