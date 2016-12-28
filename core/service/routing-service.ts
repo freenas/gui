@@ -12,7 +12,7 @@ import {EventDispatcherService} from "./event-dispatcher-service";
 
 export class RoutingService {
     private static instance: RoutingService;
-    private currentStack: Array<any>;
+    private currentStacks: Map<string, Array<any>>;
 
     private constructor(private modelDescriptorService: ModelDescriptorService,
                         private eventDispatcherService: EventDispatcherService,
@@ -64,54 +64,55 @@ export class RoutingService {
     }
 
     private loadRoutes() {
+        this.currentStacks = new Map();
+
         crossroads.addRoute('/storage', () => this.loadSection('storage'));
         crossroads.addRoute('/storage/volume/_/{volumeId}',
-            (volumeId) => this.volumeRoute.get(volumeId, this.currentStack));
+            (volumeId) => this.volumeRoute.get(volumeId, this.currentStacks.get("storage")));
         crossroads.addRoute('/storage/volume/_/{volumeId}/share',
-            (volumeId) => this.shareRoute.list(volumeId, this.currentStack));
+            (volumeId) => this.shareRoute.list(volumeId, this.currentStacks.get("storage")));
         crossroads.addRoute('/storage/volume/_/{volumeId}/share/create',
-            (volumeId) => this.shareRoute.selectNewType(volumeId, this.currentStack));
+            (volumeId) => this.shareRoute.selectNewType(volumeId, this.currentStacks.get("storage")));
         crossroads.addRoute('/storage/volume/_/{volumeId}/share/create/{type}',
-            (volumeId, type) => this.shareRoute.create(volumeId, type, this.currentStack));
+            (volumeId, type) => this.shareRoute.create(volumeId, type, this.currentStacks.get("storage")));
         crossroads.addRoute('/storage/volume/_/{volumeId}/share/_/{shareId}',
-            (volumeId, shareId) => this.shareRoute.get(volumeId, shareId, this.currentStack));
+            (volumeId, shareId) => this.shareRoute.get(volumeId, shareId, this.currentStacks.get("storage")));
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-snapshot',
-            (volumeId) => this.snapshotRoute.list(volumeId, this.currentStack));
+            (volumeId) => this.snapshotRoute.list(volumeId, this.currentStacks.get("storage")));
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-snapshot/create',
-            (volumeId) => this.snapshotRoute.create(volumeId, this.currentStack));
+            (volumeId) => this.snapshotRoute.create(volumeId, this.currentStacks.get("storage")));
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-snapshot/_/{snapshotId*}',
-            (volumeId, snapshotId) => this.snapshotRoute.get(volumeId, snapshotId, this.currentStack));
+            (volumeId, snapshotId) => this.snapshotRoute.get(volumeId, snapshotId, this.currentStacks.get("storage")));
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset',
-            (volumeId) => this.datasetRoute.list(volumeId, this.currentStack));
+            (volumeId) => this.datasetRoute.list(volumeId, this.currentStacks.get("storage")));
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/create',
-            (volumeId) => this.datasetRoute.create(volumeId, this.currentStack));
+            (volumeId) => this.datasetRoute.create(volumeId, this.currentStacks.get("storage")));
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}',
-            (volumeId, datasetId) => this.datasetRoute.get(volumeId, datasetId, this.currentStack));
+            (volumeId, datasetId) => this.datasetRoute.get(volumeId, datasetId, this.currentStacks.get("storage")));
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/volume-snapshot',
-            (volumeId, datasetId) => this.snapshotRoute.listForDataset(volumeId, datasetId, this.currentStack), 1);
+            (volumeId, datasetId) => this.snapshotRoute.listForDataset(volumeId, datasetId, this.currentStacks.get("storage")), 1);
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/volume-snapshot/create',
-            (volumeId, datasetId) => this.snapshotRoute.createForDataset(volumeId, datasetId, this.currentStack), 1);
+            (volumeId, datasetId) => this.snapshotRoute.createForDataset(volumeId, datasetId, this.currentStacks.get("storage")), 1);
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/volume-snapshot/_/{snapshotId*}',
-            (volumeId, datasetId, snapshotId) => this.snapshotRoute.getForDataset(volumeId, snapshotId, this.currentStack), 1);
+            (volumeId, datasetId, snapshotId) => this.snapshotRoute.getForDataset(volumeId, snapshotId, this.currentStacks.get("storage")), 1);
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/replication',
-            (volumeId, datasetId) => this.datasetRoute.replication(datasetId, this.currentStack), 1);
+            (volumeId, datasetId) => this.datasetRoute.replication(datasetId, this.currentStacks.get("storage")), 1);
         crossroads.addRoute('/storage/volume/_/{volumeId}/topology',
-            (volumeId) => this.volumeRoute.topology(volumeId, this.currentStack));
+            (volumeId) => this.volumeRoute.topology(volumeId, this.currentStacks.get("storage")));
         crossroads.addRoute('/storage/volume/_/{volumeId}/topology/disk/_/{diskId}',
-            (volumeId, diskId) => this.volumeRoute.topologyDisk(diskId, this.currentStack));
+            (volumeId, diskId) => this.volumeRoute.topologyDisk(diskId, this.currentStacks.get("storage")));
         crossroads.addRoute('/storage/create',
-            () => this.volumeRoute.create(this.currentStack));
+            () => this.volumeRoute.create(this.currentStacks.get("storage")));
         crossroads.addRoute('/storage/create/disk/_/{diskId}',
-            (diskId) => this.volumeRoute.creatorDisk(diskId, this.currentStack));
+            (diskId) => this.volumeRoute.creatorDisk(diskId, this.currentStacks.get("storage")));
 
 
         crossroads.addRoute('/accounts', () => this.loadSection('accounts'));
     }
 
-    private loadSection(sectionDescriptor: any) {
-        let self = this;
-        return this.sectionRoute.get(sectionDescriptor).then(function(stack) {
-            self.currentStack = stack;
+    private loadSection(sectionDescriptor: string) {
+        return this.sectionRoute.get(sectionDescriptor).then((stack) => {
+            this.currentStacks.set(sectionDescriptor, stack);
         });
     }
 }
