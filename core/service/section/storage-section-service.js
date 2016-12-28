@@ -190,6 +190,9 @@ var StorageSectionService = (function (_super) {
     StorageSectionService.prototype.importDisk = function (disk, path, fsType) {
         return this.volumeRepository.importDisk(disk, path, fsType);
     };
+    StorageSectionService.prototype.listVmwareDatastores = function (peer) {
+        return this.vmwareRepository.listDatastores(peer);
+    };
     StorageSectionService.prototype.handleDisksChange = function (disks) {
     };
     StorageSectionService.prototype.handleVolumesChange = function (volumes) {

@@ -2,23 +2,27 @@ import { AbstractRepository } from './abstract-repository-ng';
 
 import * as immutable from 'immutable';
 import {VmwareDatasetDao} from "../dao/vmware-dataset-dao";
+import {VmwareDatastoreDao} from "../dao/vmware-datastore-dao";
 
 export class VmwareRepository extends AbstractRepository {
     private static instance: VmwareRepository;
     private datasets: immutable.Map<string, Map<string, any>>;
 
     private constructor(
-        private vmwareDatasetDao: VmwareDatasetDao
+        private vmwareDatasetDao: VmwareDatasetDao,
+        private vmwareDatastoreDao: VmwareDatastoreDao
     ) {
         super([
-            'VmwareDataset'
+            'VmwareDataset',
+            'VmwareSnapshot'
         ]);
     }
 
     public static getInstance() {
         if (!VmwareRepository.instance) {
             VmwareRepository.instance = new VmwareRepository(
-                new VmwareDatasetDao()
+                new VmwareDatasetDao(),
+                new VmwareDatastoreDao()
             );
         }
         return VmwareRepository.instance;
@@ -28,8 +32,12 @@ export class VmwareRepository extends AbstractRepository {
         return this.vmwareDatasetDao.list();
     }
 
-    public listDatastores(peer: Object, isFull: boolean) {
+    public getNewVmwareDataset() {
+        return this.vmwareDatasetDao.getNewInstance();
+    }
 
+    public listDatastores(peer: any) {
+        return this.vmwareDatastoreDao.list(peer);
     }
 
     protected handleStateChange(name: string, state: any) {

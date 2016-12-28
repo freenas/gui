@@ -7,10 +7,12 @@ var model_event_name_1 = require("../model-event-name");
 var _ = require("lodash");
 var Promise = require("bluebird");
 var replication_repository_1 = require("../repository/replication-repository");
+var vmware_repository_1 = require("../repository/vmware-repository");
 var DatasetRoute = (function () {
-    function DatasetRoute(volumeRepository, replicationRepository, eventDispatcherService, modelDescriptorService, dataObjectChangeService) {
+    function DatasetRoute(volumeRepository, replicationRepository, vmwareRepository, eventDispatcherService, modelDescriptorService, dataObjectChangeService) {
         this.volumeRepository = volumeRepository;
         this.replicationRepository = replicationRepository;
+        this.vmwareRepository = vmwareRepository;
         this.eventDispatcherService = eventDispatcherService;
         this.modelDescriptorService = modelDescriptorService;
         this.dataObjectChangeService = dataObjectChangeService;
@@ -18,7 +20,7 @@ var DatasetRoute = (function () {
     }
     DatasetRoute.getInstance = function () {
         if (!DatasetRoute.instance) {
-            DatasetRoute.instance = new DatasetRoute(volume_repository_1.VolumeRepository.getInstance(), replication_repository_1.ReplicationRepository.getInstance(), event_dispatcher_service_1.EventDispatcherService.getInstance(), model_descriptor_service_1.ModelDescriptorService.getInstance(), new data_object_change_service_1.DataObjectChangeService());
+            DatasetRoute.instance = new DatasetRoute(volume_repository_1.VolumeRepository.getInstance(), replication_repository_1.ReplicationRepository.getInstance(), vmware_repository_1.VmwareRepository.getInstance(), event_dispatcher_service_1.EventDispatcherService.getInstance(), model_descriptor_service_1.ModelDescriptorService.getInstance(), new data_object_change_service_1.DataObjectChangeService());
         }
         return DatasetRoute.instance;
     };
@@ -126,6 +128,86 @@ var DatasetRoute = (function () {
                 var context_3 = stack.pop();
                 if (context_3 && context_3.changeListener) {
                     self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_3.objectType].listChange, context_3.changeListener);
+                }
+            }
+            stack.push(context);
+            return stack;
+        });
+    };
+    DatasetRoute.prototype.listVmware = function (datasetId, stack) {
+        var self = this, columnIndex = 4, parentContext = stack[columnIndex - 1], context = {
+            columnIndex: columnIndex,
+            objectType: this.objectType,
+            parentContext: parentContext,
+            path: parentContext.path + '/vmware-dataset'
+        };
+        return Promise.all([
+            this.vmwareRepository.listDatasets(),
+            this.modelDescriptorService.getUiDescriptorForType('VmwareDataset')
+        ]).spread(function (vmwareDatasets, uiDescriptor) {
+            var filteredVmwareDatasets = _.filter(vmwareDatasets, { dataset: datasetId });
+            filteredVmwareDatasets._objectType = 'VmwareDataset';
+            context.object = filteredVmwareDatasets;
+            context.userInterfaceDescriptor = uiDescriptor;
+            context.changeListener = self.eventDispatcherService.addEventListener(model_event_name_1.ModelEventName.VmwareDataset.listChange, function (state) {
+                self.dataObjectChangeService.handleDataChange(filteredVmwareDatasets, state);
+                for (var i = filteredVmwareDatasets.length - 1; i >= 0; i--) {
+                    if (filteredVmwareDatasets[i].dataset !== datasetId) {
+                        filteredVmwareDatasets.splice(i, 1);
+                    }
+                }
+            });
+            while (stack.length > columnIndex) {
+                var context_4 = stack.pop();
+                if (context_4 && context_4.changeListener) {
+                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_4.objectType].listChange, context_4.changeListener);
+                }
+            }
+            stack.push(context);
+            return stack;
+        });
+    };
+    DatasetRoute.prototype.createVmware = function (datasetId, stack) {
+        var self = this, columnIndex = 5, parentContext = stack[columnIndex - 1], context = {
+            columnIndex: columnIndex,
+            objectType: this.objectType,
+            parentContext: parentContext,
+            path: parentContext.path + '/create'
+        };
+        return Promise.all([
+            this.vmwareRepository.getNewVmwareDataset(),
+            this.modelDescriptorService.getUiDescriptorForType('VmwareDataset')
+        ]).spread(function (vmwareDataset, uiDescriptor) {
+            vmwareDataset.dataset = datasetId;
+            context.object = vmwareDataset;
+            context.userInterfaceDescriptor = uiDescriptor;
+            while (stack.length > columnIndex) {
+                var context_5 = stack.pop();
+                if (context_5 && context_5.changeListener) {
+                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_5.objectType].listChange, context_5.changeListener);
+                }
+            }
+            stack.push(context);
+            return stack;
+        });
+    };
+    DatasetRoute.prototype.getVmware = function (vmwareDatasetId, stack) {
+        var self = this, columnIndex = 5, parentContext = stack[columnIndex - 1], context = {
+            columnIndex: columnIndex,
+            objectType: this.objectType,
+            parentContext: parentContext,
+            path: parentContext.path + '/_/' + vmwareDatasetId
+        };
+        return Promise.all([
+            this.vmwareRepository.listDatasets(),
+            this.modelDescriptorService.getUiDescriptorForType('VmwareDataset')
+        ]).spread(function (vmwareDatasets, uiDescriptor) {
+            context.object = _.find(vmwareDatasets, { id: vmwareDatasetId });
+            context.userInterfaceDescriptor = uiDescriptor;
+            while (stack.length > columnIndex) {
+                var context_6 = stack.pop();
+                if (context_6 && context_6.changeListener) {
+                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_6.objectType].listChange, context_6.changeListener);
                 }
             }
             stack.push(context);

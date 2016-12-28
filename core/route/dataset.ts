@@ -6,6 +6,7 @@ import {ModelEventName} from "../model-event-name";
 import _ = require("lodash");
 import Promise = require("bluebird");
 import {ReplicationRepository} from "../repository/replication-repository";
+import {VmwareRepository} from "../repository/vmware-repository";
 
 export class DatasetRoute {
     private static instance: DatasetRoute;
@@ -13,6 +14,7 @@ export class DatasetRoute {
 
     private constructor(private volumeRepository: VolumeRepository,
                         private replicationRepository: ReplicationRepository,
+                        private vmwareRepository: VmwareRepository,
                         private eventDispatcherService: EventDispatcherService,
                         private modelDescriptorService: ModelDescriptorService,
                         private dataObjectChangeService: DataObjectChangeService) {
@@ -25,6 +27,7 @@ export class DatasetRoute {
             DatasetRoute.instance = new DatasetRoute(
                 VolumeRepository.getInstance(),
                 ReplicationRepository.getInstance(),
+                VmwareRepository.getInstance(),
                 EventDispatcherService.getInstance(),
                 ModelDescriptorService.getInstance(),
                 new DataObjectChangeService()
@@ -153,6 +156,105 @@ export class DatasetRoute {
         ]).spread(function(replicationOptions, uiDescriptor) {
             replicationOptions._dataset = datasetId;
             context.object = replicationOptions;
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            while (stack.length > columnIndex) {
+                let context = stack.pop();
+                if (context && context.changeListener) {
+                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
+                }
+            }
+
+            stack.push(context);
+            return stack;
+        });
+    }
+
+    public listVmware(datasetId: string, stack: Array<any>) {
+        let self = this,
+            columnIndex = 4,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: this.objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/vmware-dataset'
+            };
+        return Promise.all([
+            this.vmwareRepository.listDatasets(),
+            this.modelDescriptorService.getUiDescriptorForType('VmwareDataset')
+        ]).spread(function(vmwareDatasets, uiDescriptor) {
+            let filteredVmwareDatasets = _.filter(vmwareDatasets, {dataset: datasetId});
+            filteredVmwareDatasets._objectType = 'VmwareDataset';
+            context.object = filteredVmwareDatasets;
+            context.userInterfaceDescriptor = uiDescriptor;
+            context.changeListener = self.eventDispatcherService.addEventListener(ModelEventName.VmwareDataset.listChange, function(state) {
+                self.dataObjectChangeService.handleDataChange(filteredVmwareDatasets, state);
+                for (let i = filteredVmwareDatasets.length - 1; i >= 0; i--) {
+                    if (filteredVmwareDatasets[i].dataset !== datasetId) {
+                        filteredVmwareDatasets.splice(i, 1);
+                    }
+                }
+            });
+
+            while (stack.length > columnIndex) {
+                let context = stack.pop();
+                if (context && context.changeListener) {
+                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
+                }
+            }
+
+            stack.push(context);
+            return stack;
+        });
+    }
+
+    public createVmware(datasetId: string, stack: Array<any>) {
+        let self = this,
+            columnIndex = 5,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: this.objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/create'
+            };
+        return Promise.all([
+            this.vmwareRepository.getNewVmwareDataset(),
+            this.modelDescriptorService.getUiDescriptorForType('VmwareDataset')
+        ]).spread(function(vmwareDataset, uiDescriptor) {
+            vmwareDataset.dataset = datasetId;
+            context.object = vmwareDataset;
+            context.userInterfaceDescriptor = uiDescriptor;
+
+
+            while (stack.length > columnIndex) {
+                let context = stack.pop();
+                if (context && context.changeListener) {
+                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
+                }
+            }
+
+            stack.push(context);
+            return stack;
+        });
+    }
+
+    public getVmware(vmwareDatasetId: string, stack: Array<any>) {
+        let self = this,
+            columnIndex = 5,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: this.objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/_/' + vmwareDatasetId
+            };
+        return Promise.all([
+            this.vmwareRepository.listDatasets(),
+            this.modelDescriptorService.getUiDescriptorForType('VmwareDataset')
+        ]).spread(function(vmwareDatasets, uiDescriptor) {
+            context.object = _.find(vmwareDatasets, {id: vmwareDatasetId});
             context.userInterfaceDescriptor = uiDescriptor;
 
             while (stack.length > columnIndex) {

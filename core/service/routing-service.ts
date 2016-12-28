@@ -95,6 +95,12 @@ export class RoutingService {
             (volumeId, datasetId) => this.snapshotRoute.createForDataset(volumeId, datasetId, this.currentStacks.get("storage")), 1);
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/volume-snapshot/_/{snapshotId*}',
             (volumeId, datasetId, snapshotId) => this.snapshotRoute.getForDataset(volumeId, snapshotId, this.currentStacks.get("storage")), 1);
+        crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/vmware-dataset',
+            (volumeId, datasetId) => this.datasetRoute.listVmware(datasetId, this.currentStacks.get("storage")), 1);
+        crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/vmware-dataset/create',
+            (volumeId, datasetId) => this.datasetRoute.createVmware(datasetId, this.currentStacks.get("storage")), 1);
+        crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/vmware-dataset/_/{vmwareDatasetId*}',
+            (volumeId, datasetId, vmwareDatasetId) => this.datasetRoute.getVmware(vmwareDatasetId, this.currentStacks.get("storage")), 1);
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/replication',
             (volumeId, datasetId) => this.datasetRoute.replication(datasetId, this.currentStacks.get("storage")), 1);
         crossroads.addRoute('/storage/volume/_/{volumeId}/topology',
@@ -105,6 +111,10 @@ export class RoutingService {
             () => this.volumeRoute.create(this.currentStacks.get("storage")));
         crossroads.addRoute('/storage/create/disk/_/{diskId}',
             (diskId) => this.volumeRoute.creatorDisk(diskId, this.currentStacks.get("storage")));
+        crossroads.addRoute('/storage/volume-importer/_/-',
+            () => this.volumeRoute.import(this.currentStacks.get("storage")));
+        crossroads.addRoute('/storage/volume-importer/_/-/encrypted',
+            () => this.volumeRoute.importEncrypted(this.currentStacks.get("storage")));
 
 
         crossroads.addRoute('/accounts', () => this.loadSection('accounts'));

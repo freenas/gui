@@ -6,24 +6,31 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var abstract_repository_ng_1 = require('./abstract-repository-ng');
 var vmware_dataset_dao_1 = require("../dao/vmware-dataset-dao");
+var vmware_datastore_dao_1 = require("../dao/vmware-datastore-dao");
 var VmwareRepository = (function (_super) {
     __extends(VmwareRepository, _super);
-    function VmwareRepository(vmwareDatasetDao) {
+    function VmwareRepository(vmwareDatasetDao, vmwareDatastoreDao) {
         _super.call(this, [
-            'VmwareDataset'
+            'VmwareDataset',
+            'VmwareSnapshot'
         ]);
         this.vmwareDatasetDao = vmwareDatasetDao;
+        this.vmwareDatastoreDao = vmwareDatastoreDao;
     }
     VmwareRepository.getInstance = function () {
         if (!VmwareRepository.instance) {
-            VmwareRepository.instance = new VmwareRepository(new vmware_dataset_dao_1.VmwareDatasetDao());
+            VmwareRepository.instance = new VmwareRepository(new vmware_dataset_dao_1.VmwareDatasetDao(), new vmware_datastore_dao_1.VmwareDatastoreDao());
         }
         return VmwareRepository.instance;
     };
     VmwareRepository.prototype.listDatasets = function () {
         return this.vmwareDatasetDao.list();
     };
-    VmwareRepository.prototype.listDatastores = function (peer, isFull) {
+    VmwareRepository.prototype.getNewVmwareDataset = function () {
+        return this.vmwareDatasetDao.getNewInstance();
+    };
+    VmwareRepository.prototype.listDatastores = function (peer) {
+        return this.vmwareDatastoreDao.list(peer);
     };
     VmwareRepository.prototype.handleStateChange = function (name, state) {
         var self = this;

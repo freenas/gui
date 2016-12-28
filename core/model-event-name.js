@@ -21,6 +21,7 @@ var ModelEventName = (function () {
     ModelEventName.Peer = new ModelEventName('Peer');
     ModelEventName.Vm = new ModelEventName('Vm');
     ModelEventName.Share = new ModelEventName('Share');
+    ModelEventName.VmwareDataset = new ModelEventName('VmwareDataset');
     return ModelEventName;
 }());
 exports.ModelEventName = ModelEventName;

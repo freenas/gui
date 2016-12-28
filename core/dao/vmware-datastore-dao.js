@@ -5,13 +5,20 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var abstract_dao_ng_1 = require('./abstract-dao-ng');
+var _ = require("lodash");
 var VmwareDatastoreDao = (function (_super) {
     __extends(VmwareDatastoreDao, _super);
     function VmwareDatastoreDao() {
-        _super.call(this, 'VmwareDatastore', {
-            queryMethod: 'vmware.get_datastore'
-        });
+        _super.call(this, 'VmwareDatastore');
     }
+    VmwareDatastoreDao.prototype.list = function (peer) {
+        return this.middlewareClient.callRpcMethod('vmware.get_datastores', [
+            peer.credentials.address,
+            peer.credentials.username,
+            peer.credentials.password,
+            false
+        ]).then(function (datastores) { return _.forEach(datastores, function (datastore) { return datastore._objectType = 'VmwareDatastore'; }); });
+    };
     return VmwareDatastoreDao;
 }(abstract_dao_ng_1.AbstractDao));
 exports.VmwareDatastoreDao = VmwareDatastoreDao;

@@ -242,6 +242,10 @@ export class StorageSectionService extends AbstractSectionService {
         return this.volumeRepository.importDisk(disk, path, fsType);
     }
 
+    public listVmwareDatastores(peer: any) {
+        return this.vmwareRepository.listDatastores(peer);
+    }
+
     private handleDisksChange(disks: Map<string, Map<string, any>>) {
     }
 

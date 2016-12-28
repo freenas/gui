@@ -23,37 +23,6 @@ exports.VmwareSnapshot = AbstractInspector.specialize({
         }
     },
 
-    _context: {
-        value: null
-    },
-
-    context: {
-        get: function() {
-            return this._context;
-        },
-        set: function(context) {
-            if (this._context != context) {
-                this._context = context;
-            }
-            this._loadParentDataset();
-        }
-    },
-
-    _object: {
-        value: null
-    },
-
-    object: {
-        get: function() {
-            return this._object;
-        },
-        set: function (object) {
-            if (this._object !== object) {
-                this._object = object;
-            }
-        }
-    },
-
     enterDocument: {
         value: function(isFirstTime) {
             this.super();
@@ -63,7 +32,6 @@ exports.VmwareSnapshot = AbstractInspector.specialize({
             if (this.object.vm_filter_op === null) {
                 this.object.vm_filter_op = "NONE";
             }
-            this._loadParentDataset();
         }
     },
 
@@ -103,7 +71,7 @@ exports.VmwareSnapshot = AbstractInspector.specialize({
             var self = this,
                 peer;
             this.datastoreOptions = [];
-            
+
             if (this.object.peer) {
                 for (var i = 0, length = this.peerOptions.length; i < length; i++) {
                     if (this.peerOptions[i].id === this.object.peer) {

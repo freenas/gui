@@ -110,5 +110,45 @@ export class VolumeRoute {
             return stack;
         });
     }
+
+    public import(stack: Array<any>) {
+        return Promise.all([
+            this.volumeRepository.getVolumeImporter(),
+            this.modelDescriptorService.getUiDescriptorForType('VolumeImporter')
+        ]).spread(function(volumeImporter, uiDescriptor) {
+            while (stack.length > 1) {
+                stack.pop();
+            }
+            stack.push({
+                object: volumeImporter,
+                userInterfaceDescriptor: uiDescriptor,
+                columnIndex: 1,
+                objectType: 'VolumeImporter',
+                parentContext: stack[0],
+                path: stack[0].path + '/volume-importer/_/-'
+            });
+            return stack;
+        });
+    }
+
+    public importEncrypted(stack: Array<any>) {
+        return Promise.all([
+            this.volumeRepository.getEncryptedVolumeImporterInstance(),
+            this.modelDescriptorService.getUiDescriptorForType('EncryptedVolumeImporter')
+        ]).spread(function(encryptedVolumeImporter, uiDescriptor) {
+            while (stack.length > 2) {
+                stack.pop();
+            }
+            stack.push({
+                object: encryptedVolumeImporter,
+                userInterfaceDescriptor: uiDescriptor,
+                columnIndex: 2,
+                objectType: 'EncryptedVolumeImporter',
+                parentContext: stack[1],
+                path: stack[1].path + '/encrypted'
+            });
+            return stack;
+        });
+    }
 }
 

@@ -13,6 +13,7 @@ export class ModelEventName {
     public static Peer = new ModelEventName('Peer');
     public static Vm = new ModelEventName('Vm');
     public static Share = new ModelEventName('Share');
+    public static VmwareDataset = new ModelEventName('VmwareDataset');
 
     public listChange: string;
     public contentChange: string;
