@@ -27,12 +27,12 @@ exports.UpsService = Component.specialize({
             });
             Promise.all([
                 this.application.powerManagementService.listDrivers().then(function (drivers) {
-                    for (var i = 0; i < drivers.length; i++) {
+                    for (var i = 0; i < (drivers || []).length; i++) {
                         self.driverOptions.push({label: drivers[i]['description'], value: drivers[i]['driver_name']});
                     }
                 }),
                 this.application.powerManagementService.listUsbDevices().then(function (usbDevices) {
-                    for (var i = 0; i < usbDevices.length; i++) {
+                    for (var i = 0; i < (usbDevices || []).length; i++) {
                         self.driverPortOptions.push({label: usbDevices[i]['device'] + ' - ' + usbDevices[i]['description'], value: usbDevices[i]['device']});
                     }
                 })
