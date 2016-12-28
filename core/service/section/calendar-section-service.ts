@@ -1,7 +1,8 @@
 import {CalendarRepository} from "../../repository/calendar-repository";
 import {TaskRepository} from "../../repository/task-repository";
+import {AbstractSectionService} from "./abstract-section-service-ng";
 
-export class CalendarSectionService {
+export class CalendarSectionService extends AbstractSectionService {
     private calendarRepository: CalendarRepository;
     private taskRepository: TaskRepository;
 
@@ -13,13 +14,27 @@ export class CalendarSectionService {
     public readonly DAYS_OF_WEEK = CalendarRepository.DAYS_OF_WEEK;
     public readonly CALENDAR_TASK_CATEGORIES = CalendarRepository.CALENDAR_TASK_CATEGORIES;
 
-    public constructor() {
-        this.init();
-    }
-
     protected init() {
         this.calendarRepository = CalendarRepository.getInstance();
         this.taskRepository = TaskRepository.getInstance();
+    }
+
+    protected loadEntries(): Promise<Array<any>> {
+        return this.calendarRepository.getNewCalendarInstance().then(function(calendar) {
+            return [calendar];
+        });
+    }
+
+    protected loadExtraEntries(): Promise<Array<any>> {
+        return undefined;
+    }
+
+    protected loadSettings(): Promise<any> {
+        return undefined;
+    }
+
+    protected loadOverview(): Promise<any> {
+        return undefined;
     }
 
     public getCalendarInstance() {

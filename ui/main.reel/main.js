@@ -18,6 +18,7 @@ exports.Main = Component.specialize({
             });
 
             this._eventDispatcherService.addEventListener('sectionChange', this._handleSectionChange.bind(this));
+            this._eventDispatcherService.addEventListener('oldSectionChange', this._handleOldSectionChange.bind(this));
             this._eventDispatcherService.addEventListener('pathChange', this._handlePathChange.bind(this));
             this.addPathChangeListener("application.section", this, "_handleApplicationSectionChange");
         }
@@ -35,9 +36,19 @@ exports.Main = Component.specialize({
         }
     },
 
+    _handleOldSectionChange: {
+        value: function(sectionId) {
+            this.sectionService = this.application.sectionService = null;
+            this.sectionId = sectionId;
+            this.sectionGeneration = 'old';
+        }
+    },
+
     _handleSectionChange: {
         value: function(sectionService) {
             this.sectionService = this.application.sectionService = sectionService;
+            this.sectionId = null;
+            this.sectionGeneration = 'new';
         }
     },
 

@@ -3,22 +3,21 @@ var Promise = require("bluebird");
 var event_dispatcher_service_1 = require("../service/event-dispatcher-service");
 var model_descriptor_service_1 = require("../service/model-descriptor-service");
 var sectionsDescriptors = require("core/model/sections-descriptors.json");
-var SectionRoute = (function () {
-    function SectionRoute(modelDescriptorService, eventDispatcherService) {
+var CalendarRoute = (function () {
+    function CalendarRoute(modelDescriptorService, eventDispatcherService) {
         this.modelDescriptorService = modelDescriptorService;
         this.eventDispatcherService = eventDispatcherService;
-        this.sectionsServices = new Map();
     }
-    SectionRoute.getInstance = function () {
-        if (!SectionRoute.instance) {
-            SectionRoute.instance = new SectionRoute(model_descriptor_service_1.ModelDescriptorService.getInstance(), event_dispatcher_service_1.EventDispatcherService.getInstance());
+    CalendarRoute.getInstance = function () {
+        if (!CalendarRoute.instance) {
+            CalendarRoute.instance = new CalendarRoute(model_descriptor_service_1.ModelDescriptorService.getInstance(), event_dispatcher_service_1.EventDispatcherService.getInstance());
         }
-        return SectionRoute.instance;
+        return CalendarRoute.instance;
     };
-    SectionRoute.prototype.get = function (sectionId) {
-        var self = this, sectionDescriptor = sectionsDescriptors[sectionId], servicePromise;
-        if (this.sectionsServices.has(sectionDescriptor.id)) {
-            servicePromise = Promise.resolve(this.sectionsServices.get(sectionDescriptor.id));
+    CalendarRoute.prototype.get = function () {
+        var self = this, sectionDescriptor = sectionsDescriptors.calendar, servicePromise;
+        if (this.calendarService) {
+            servicePromise = Promise.resolve(this.calendarService);
         }
         else {
             servicePromise = Promise.resolve().then(function () {
@@ -27,7 +26,7 @@ var SectionRoute = (function () {
                 var exports = Object.keys(module);
                 if (exports.length === 1) {
                     var clazz = module[exports[0]], instance = clazz.instance || new clazz(), instancePromise = instance.instanciationPromise;
-                    self.sectionsServices.set(sectionDescriptor.id, instance);
+                    self.calendarService = instance;
                     return instancePromise;
                 }
             }).then(function (service) {
@@ -43,15 +42,15 @@ var SectionRoute = (function () {
             return servicePromise.then(function (service) {
                 return [
                     service,
-                    self.modelDescriptorService.getUiDescriptorForType('Section')
+                    self.modelDescriptorService.getUiDescriptorForType('Calendar')
                 ];
             }).spread(function (service, uiDescriptor) {
                 var stack = [
                     {
-                        object: service.section,
+                        object: service.entries[0],
                         userInterfaceDescriptor: uiDescriptor,
                         columnIndex: 0,
-                        objectType: 'Section',
+                        objectType: 'Calendar',
                         path: '/' + sectionDescriptor.id
                     }
                 ];
@@ -63,9 +62,6 @@ var SectionRoute = (function () {
             });
         }
     };
-    SectionRoute.prototype.getOld = function (sectionId) {
-        this.eventDispatcherService.dispatch('oldSectionChange', sectionId);
-    };
-    return SectionRoute;
+    return CalendarRoute;
 }());
-exports.SectionRoute = SectionRoute;
+exports.CalendarRoute = CalendarRoute;

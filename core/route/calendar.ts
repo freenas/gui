@@ -4,31 +4,30 @@ import {ModelDescriptorService} from "../service/model-descriptor-service";
 
 import sectionsDescriptors  = require("core/model/sections-descriptors.json");
 
-export class SectionRoute {
-    private static instance: SectionRoute;
-    private sectionsServices: Map<string, any>;
+export class CalendarRoute {
+    private static instance: CalendarRoute;
+    private calendarService: any;
 
     private constructor(private modelDescriptorService: ModelDescriptorService,
                         private eventDispatcherService: EventDispatcherService) {
-        this.sectionsServices = new Map<string, any>();
     }
 
     public static getInstance() {
-        if (!SectionRoute.instance) {
-            SectionRoute.instance = new SectionRoute(
+        if (!CalendarRoute.instance) {
+            CalendarRoute.instance = new CalendarRoute(
                 ModelDescriptorService.getInstance(),
                 EventDispatcherService.getInstance()
             );
         }
-        return SectionRoute.instance;
+        return CalendarRoute.instance;
     }
 
-    public get(sectionId: string): Promise<Array<any>> {
+    public get() {
         let self = this,
-            sectionDescriptor = sectionsDescriptors[sectionId],
+            sectionDescriptor = sectionsDescriptors.calendar,
             servicePromise;
-        if (this.sectionsServices.has(sectionDescriptor.id)) {
-            servicePromise = Promise.resolve(this.sectionsServices.get(sectionDescriptor.id));
+        if (this.calendarService) {
+            servicePromise = Promise.resolve(this.calendarService);
         } else {
             servicePromise = Promise.resolve().then(function() {
                 return require.async(sectionDescriptor.service)
@@ -38,7 +37,7 @@ export class SectionRoute {
                     let clazz = module[exports[0]],
                         instance = clazz.instance || new clazz(),
                         instancePromise = instance.instanciationPromise;
-                    self.sectionsServices.set(sectionDescriptor.id, instance);
+                    self.calendarService = instance;
                     return instancePromise;
                 }
             }).then(function(service) {
@@ -54,15 +53,15 @@ export class SectionRoute {
             return servicePromise.then(function(service) {
                 return [
                     service,
-                    self.modelDescriptorService.getUiDescriptorForType('Section')
+                    self.modelDescriptorService.getUiDescriptorForType('Calendar')
                 ];
             }).spread(function(service, uiDescriptor) {
                 let stack = [
                     {
-                        object: service.section,
+                        object: service.entries[0],
                         userInterfaceDescriptor: uiDescriptor,
                         columnIndex: 0,
-                        objectType: 'Section',
+                        objectType: 'Calendar',
                         path: '/' + sectionDescriptor.id
                     }
                 ];
@@ -74,9 +73,6 @@ export class SectionRoute {
                 console.warn(error.message);
             });
         }
-    }
 
-    public getOld(sectionId: string) {
-        this.eventDispatcherService.dispatch('oldSectionChange', sectionId);
     }
 }

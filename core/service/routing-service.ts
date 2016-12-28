@@ -9,6 +9,7 @@ import {ShareRoute} from "../route/share";
 import {SnapshotRoute} from "../route/snapshot";
 import {DatasetRoute} from "../route/dataset";
 import {EventDispatcherService} from "./event-dispatcher-service";
+import {CalendarRoute} from "../route/calendar";
 
 export class RoutingService {
     private static instance: RoutingService;
@@ -21,7 +22,8 @@ export class RoutingService {
                         private volumeRoute: VolumeRoute,
                         private shareRoute: ShareRoute,
                         private snapshotRoute: SnapshotRoute,
-                        private datasetRoute: DatasetRoute) {
+                        private datasetRoute: DatasetRoute,
+                        private calendarRoute: CalendarRoute) {
         this.loadRoutes();
         hasher.prependHash = '!';
         hasher.changed.add(this.handleHashChange.bind(this));
@@ -37,7 +39,8 @@ export class RoutingService {
                 VolumeRoute.getInstance(),
                 ShareRoute.getInstance(),
                 SnapshotRoute.getInstance(),
-                DatasetRoute.getInstance()
+                DatasetRoute.getInstance(),
+                CalendarRoute.getInstance()
             );
         }
         return RoutingService.instance;
@@ -65,7 +68,67 @@ export class RoutingService {
 
     private loadRoutes() {
         this.currentStacks = new Map();
+        this.loadDashboardRoutes();
+        this.loadStorageRoutes();
+        this.loadAccountsRoutes();
+        this.loadNetworkRoutes();
+        this.loadSettingsRoutes();
+        this.loadServicesRoutes();
+        this.loadConsoleRoutes();
+        this.loadCalendarRoutes();
+        this.loadPeeringRoutes();
+        this.loadVmsRoutes();
+        this.loadContainersRoutes();
+        this.loadWizardRoutes();
 
+
+    }
+
+    private loadCalendarRoutes() {
+        crossroads.addRoute('/calendar', () => this.calendarRoute.get());
+    }
+
+    private loadNetworkRoutes() {
+        crossroads.addRoute('/network', () => this.loadSection('network'));
+    }
+
+    private loadContainersRoutes() {
+        crossroads.addRoute('/containers', () => this.loadSection('containers'));
+    }
+
+    private loadVmsRoutes() {
+        crossroads.addRoute('/vms', () => this.loadSection('vms'));
+    }
+
+    private loadPeeringRoutes() {
+        crossroads.addRoute('/peering', () => this.loadSection('peering'));
+    }
+
+    private loadSettingsRoutes() {
+        crossroads.addRoute('/settings', () => this.loadSection('settings'));
+    }
+
+    private loadServicesRoutes() {
+        crossroads.addRoute('/services', () => this.loadSection('services'));
+    }
+
+    private loadAccountsRoutes() {
+        crossroads.addRoute('/accounts', () => this.loadSection('accounts'));
+    }
+
+    private loadDashboardRoutes() {
+        crossroads.addRoute('/dashboard', () => this.sectionRoute.getOld('dashboard'))
+    }
+
+    private loadConsoleRoutes() {
+        crossroads.addRoute('/console', () => this.sectionRoute.getOld('console'))
+    }
+
+    private loadWizardRoutes() {
+        crossroads.addRoute('/wizard', () => this.sectionRoute.getOld('wizard'))
+    }
+
+    private loadStorageRoutes() {
         crossroads.addRoute('/storage', () => this.loadSection('storage'));
         crossroads.addRoute('/storage/volume/_/{volumeId}',
             (volumeId) => this.volumeRoute.get(volumeId, this.currentStacks.get("storage")));
@@ -115,14 +178,11 @@ export class RoutingService {
             () => this.volumeRoute.import(this.currentStacks.get("storage")));
         crossroads.addRoute('/storage/volume-importer/_/-/encrypted',
             () => this.volumeRoute.importEncrypted(this.currentStacks.get("storage")));
-
-
-        crossroads.addRoute('/accounts', () => this.loadSection('accounts'));
     }
 
-    private loadSection(sectionDescriptor: string) {
-        return this.sectionRoute.get(sectionDescriptor).then((stack) => {
-            this.currentStacks.set(sectionDescriptor, stack);
+    private loadSection(sectionId: string) {
+        return this.sectionRoute.get(sectionId).then((stack) => {
+            this.currentStacks.set(sectionId, stack);
         });
     }
 }

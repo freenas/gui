@@ -57,7 +57,8 @@
         "label": "Calendar",
         "id": "calendar",
         "index": 8,
-        "icon": "calendar"
+        "icon": "calendar",
+        "service": "core/service/section/calendar-section-service"
     },
     "peering": {
         "label": "Peering",
