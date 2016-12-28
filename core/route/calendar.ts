@@ -3,20 +3,25 @@ import {EventDispatcherService} from "../service/event-dispatcher-service";
 import {ModelDescriptorService} from "../service/model-descriptor-service";
 
 import sectionsDescriptors  = require("core/model/sections-descriptors.json");
+import {CalendarRepository} from "../repository/calendar-repository";
+import _ = require("lodash");
+import {ModelEventName} from "../model-event-name";
 
 export class CalendarRoute {
     private static instance: CalendarRoute;
     private calendarService: any;
 
     private constructor(private modelDescriptorService: ModelDescriptorService,
-                        private eventDispatcherService: EventDispatcherService) {
+                        private eventDispatcherService: EventDispatcherService,
+                        private calendarRepository: CalendarRepository) {
     }
 
     public static getInstance() {
         if (!CalendarRoute.instance) {
             CalendarRoute.instance = new CalendarRoute(
                 ModelDescriptorService.getInstance(),
-                EventDispatcherService.getInstance()
+                EventDispatcherService.getInstance(),
+                CalendarRepository.getInstance()
             );
         }
         return CalendarRoute.instance;
@@ -74,5 +79,34 @@ export class CalendarRoute {
             });
         }
 
+    }
+
+    public getTask(calendarTaskId: string, stack: Array<any>) {
+        let self = this,
+            columnIndex = 1,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: 'CalendarTask',
+                parentContext: parentContext,
+                path: parentContext.path + '/calendar-task/_/' + calendarTaskId
+            };
+        return Promise.all([
+            this.calendarRepository.listTasks(),
+            this.modelDescriptorService.getUiDescriptorForType('CalendarTask')
+        ]).spread(function(calendarTasks, uiDescriptor) {
+            context.object = _.find(calendarTasks, {id: calendarTaskId});
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            while (stack.length > columnIndex) {
+                let context = stack.pop();
+                if (context && context.changeListener) {
+                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
+                }
+            }
+
+            stack.push(context);
+            return stack;
+        });
     }
 }

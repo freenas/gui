@@ -3,14 +3,18 @@ var Promise = require("bluebird");
 var event_dispatcher_service_1 = require("../service/event-dispatcher-service");
 var model_descriptor_service_1 = require("../service/model-descriptor-service");
 var sectionsDescriptors = require("core/model/sections-descriptors.json");
+var calendar_repository_1 = require("../repository/calendar-repository");
+var _ = require("lodash");
+var model_event_name_1 = require("../model-event-name");
 var CalendarRoute = (function () {
-    function CalendarRoute(modelDescriptorService, eventDispatcherService) {
+    function CalendarRoute(modelDescriptorService, eventDispatcherService, calendarRepository) {
         this.modelDescriptorService = modelDescriptorService;
         this.eventDispatcherService = eventDispatcherService;
+        this.calendarRepository = calendarRepository;
     }
     CalendarRoute.getInstance = function () {
         if (!CalendarRoute.instance) {
-            CalendarRoute.instance = new CalendarRoute(model_descriptor_service_1.ModelDescriptorService.getInstance(), event_dispatcher_service_1.EventDispatcherService.getInstance());
+            CalendarRoute.instance = new CalendarRoute(model_descriptor_service_1.ModelDescriptorService.getInstance(), event_dispatcher_service_1.EventDispatcherService.getInstance(), calendar_repository_1.CalendarRepository.getInstance());
         }
         return CalendarRoute.instance;
     };
@@ -61,6 +65,29 @@ var CalendarRoute = (function () {
                 console.warn(error.message);
             });
         }
+    };
+    CalendarRoute.prototype.getTask = function (calendarTaskId, stack) {
+        var self = this, columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
+            columnIndex: columnIndex,
+            objectType: 'CalendarTask',
+            parentContext: parentContext,
+            path: parentContext.path + '/calendar-task/_/' + calendarTaskId
+        };
+        return Promise.all([
+            this.calendarRepository.listTasks(),
+            this.modelDescriptorService.getUiDescriptorForType('CalendarTask')
+        ]).spread(function (calendarTasks, uiDescriptor) {
+            context.object = _.find(calendarTasks, { id: calendarTaskId });
+            context.userInterfaceDescriptor = uiDescriptor;
+            while (stack.length > columnIndex) {
+                var context_1 = stack.pop();
+                if (context_1 && context_1.changeListener) {
+                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_1.objectType].listChange, context_1.changeListener);
+                }
+            }
+            stack.push(context);
+            return stack;
+        });
     };
     return CalendarRoute;
 }());

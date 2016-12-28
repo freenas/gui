@@ -66,7 +66,8 @@ var RoutingService = (function () {
     };
     RoutingService.prototype.loadCalendarRoutes = function () {
         var _this = this;
-        crossroads.addRoute('/calendar', function () { return _this.calendarRoute.get(); });
+        crossroads.addRoute('/calendar', function () { return _this.calendarRoute.get().then(function (stack) { return _this.currentStacks.set('calendar', stack); }); });
+        crossroads.addRoute('/calendar/calendar-task/_/{calendarTaskId}', function (calendarTaskId) { return _this.calendarRoute.getTask(calendarTaskId, _this.currentStacks.get('calendar')); });
     };
     RoutingService.prototype.loadNetworkRoutes = function () {
         var _this = this;

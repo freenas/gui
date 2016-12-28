@@ -85,7 +85,10 @@ export class RoutingService {
     }
 
     private loadCalendarRoutes() {
-        crossroads.addRoute('/calendar', () => this.calendarRoute.get());
+        crossroads.addRoute('/calendar',
+            () => this.calendarRoute.get().then((stack) => this.currentStacks.set('calendar', stack)));
+        crossroads.addRoute('/calendar/calendar-task/_/{calendarTaskId}',
+            (calendarTaskId) => this.calendarRoute.getTask(calendarTaskId, this.currentStacks.get('calendar')));
     }
 
     private loadNetworkRoutes() {
