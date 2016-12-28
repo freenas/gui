@@ -166,6 +166,9 @@ var MiddlewareClient = (function () {
     MiddlewareClient.prototype.unsubscribeFromEvents = function (name) {
         return this.setEventSubscription(typeof name === 'string' ? [name] : name, 'unsubscribe');
     };
+    MiddlewareClient.prototype.getExplicitHostParam = function () {
+        return this.getHostParam() || '';
+    };
     MiddlewareClient.prototype.setEventSubscription = function (name, status) {
         var self = this, payload = {
             namespace: 'events',
@@ -310,7 +313,7 @@ var MiddlewareClient = (function () {
         return scheme + "://" + host;
     };
     MiddlewareClient.prototype.getHost = function () {
-        var result = location.host, hostParam = location.href.split(';').filter(function (x) { return x.split('=')[0] === 'host'; })[0];
+        var result = location.host, hostParam = this.getHostParam();
         if (hostParam) {
             var host = hostParam.split('=')[1];
             if (host && host.length > 0) {
@@ -318,6 +321,10 @@ var MiddlewareClient = (function () {
             }
         }
         return result;
+    };
+    MiddlewareClient.prototype.getHostParam = function () {
+        var hostParam = location.href.split(';').filter(function (x) { return x.split('=')[0] === 'host'; })[0];
+        return hostParam;
     };
     MiddlewareClient.CONNECTING = "CONNECTING";
     MiddlewareClient.OPEN = "OPEN";

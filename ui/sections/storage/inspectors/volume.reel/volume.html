@@ -72,10 +72,11 @@
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
                 "element": {"#": "shares"},
-                "objectType": "Share"
+                "objectType": "Share",
+                "property": "share",
+                "name": "Shares"
             },
             "bindings": {
-                "object": {"<-": "@owner.datasetShares.concat(@owner.directoryShares)"},
                 "classList.has('hide')": {"<-": "!!@owner.object._isDetached"}
             }
         },
@@ -83,10 +84,11 @@
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
                 "element": {"#": "snapshots"},
-                "objectType": "VolumeSnapshot"
+                "objectType": "VolumeSnapshot",
+                "property": "volume-snapshot",
+                "name": "Snapshots"
             },
             "bindings": {
-                "object": {"<-": "@owner.snapshots.filter{volume == @owner.object.id}"},
                 "classList.has('hide')": {"<-": "!!@owner.object._isDetached"}
             }
         },
@@ -102,10 +104,11 @@
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
                 "element": {"#": "datasets"},
-                "objectType": "VolumeDataset"
+                "objectType": "VolumeDataset",
+                "property": "volume-dataset",
+                "name": "Datasets"
             },
             "bindings": {
-                "object": {"<-": "@owner.datasets.filter{volume == @owner.object.id}"},
                 "classList.has('hide')": {"<-": "!!@owner.object._isDetached"}
             }
         },

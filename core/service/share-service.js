@@ -205,15 +205,7 @@ var ShareService = exports.ShareService = Montage.specialize({
 
     _createNewShare: {
         value: function (shareType, volume) {
-            return this.shareRepository.getNewShare().then(function(share) {
-                share._isNewObject = true;
-                share.type = shareType;
-                share.enabled = true;
-                share.description = '';
-                share.volume = volume;
-
-                return share;
-            });
+            return this.shareRepository.getNewShare(volume, shareType);
         }
     },
 

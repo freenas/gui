@@ -51,6 +51,15 @@ var VolumeRepository = (function (_super) {
     VolumeRepository.prototype.getVolumeImporter = function () {
         return this.volumeImporterDao.get();
     };
+    VolumeRepository.prototype.getNewVolumeSnapshot = function () {
+        return this.volumeSnapshotDao.getNewInstance();
+    };
+    VolumeRepository.prototype.getNewVolumeDataset = function () {
+        return this.volumeDatasetDao.getNewInstance();
+    };
+    VolumeRepository.prototype.getNewVolume = function () {
+        return this.volumeDao.getNewInstance();
+    };
     VolumeRepository.prototype.getEncryptedVolumeActionsInstance = function () {
         return this.encryptedVolumeActionsDao.getNewInstance();
     };
@@ -180,7 +189,8 @@ var VolumeRepository = (function (_super) {
     VolumeRepository.prototype.handleStateChange = function (name, state) {
         switch (name) {
             case 'Volume':
-                var self_1 = this, hasTopologyChanged_1 = false, volumeId_1;
+                var self_1 = this, volumeId_1;
+                var hasTopologyChanged_1 = false;
                 if (this.volumes) {
                     this.volumes.forEach(function (volume) {
                         volumeId_1 = volume.get('id');

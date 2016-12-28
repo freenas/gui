@@ -1,12 +1,9 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
     Model = require("core/model/model").Model,
+    RoutingService = require("core/service/routing-service").RoutingService,
     CascadingList = require("ui/controls/cascading-list.reel").CascadingList;
 
-/**
- * @class VolumeCreator
- * @extends Component
- */
 exports.VolumeCreator = AbstractInspector.specialize({
 
 
@@ -39,7 +36,7 @@ exports.VolumeCreator = AbstractInspector.specialize({
 
     _inspectorTemplateDidLoad: {
         value: function() {
-            // var self = this;
+            this._routingService = RoutingService.getInstance();
             this._eventDispatcherService = EventDispatcherService.getInstance();
         }
     },
@@ -78,14 +75,9 @@ exports.VolumeCreator = AbstractInspector.specialize({
 
     _handleSelectedDiskChange: {
         value: function(value) {
-            if (this.topologySelectedDisk && this.topologySelectedDisk === value) {
-                this.selectedObject = this.topologySelectedDisk._disk;
-                this.availableSelectedDisk = null;
-            } else if (this.availableSelectedDisk && this.availableSelectedDisk === value) {
-                this.selectedObject = this.availableSelectedDisk;
-                this.topologySelectedDisk = null;
-            } else if (!this.topologySelectedDisk && !this.availableSelectedDisk) {
-                this.selectedObject = null;
+            if (value) {
+                var diskId = value._disk ? value._disk.id : value.id;
+                this._routingService.navigate(this._parentCascadingListItem.data.path + '/disk/_/' + diskId);
             }
         }
     },

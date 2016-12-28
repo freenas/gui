@@ -70,22 +70,18 @@ exports.CascadingListItem = Component.specialize({
         }
     },
 
-
     isCollection: {
         value: false
     },
-
 
     inspectorComponentModuleId: {
         value: null
     },
 
-
     _selectedObject: {
         value: void 0
     },
-
-
+/*
     selectedObject: {
         get: function () {
             return this._selectedObject;
@@ -133,7 +129,7 @@ exports.CascadingListItem = Component.specialize({
             this.routingService.closeColumnAtIndex(columnIndex)
         }
     },
-
+*/
     needToScrollIntoView: {
         value: false
     },

@@ -1,171 +1,117 @@
 import * as _ from "lodash";
-import * as Promise from "bluebird";
-import {Map, Set} from "immutable";
+import * as crossroads from "crossroads";
 import {ModelDescriptorService} from "./model-descriptor-service";
-import {SessionService} from "core/service/session-service";
+import {MiddlewareClient} from "./middleware-client";
+import hasher = require("hasher");
+import {SectionRoute} from "../route/section";
+import {VolumeRoute} from "../route/volume";
+import {ShareRoute} from "../route/share";
+import {SnapshotRoute} from "../route/snapshot";
+import {DatasetRoute} from "../route/dataset";
+import {EventDispatcherService} from "./event-dispatcher-service";
 
 export class RoutingService {
     private static instance: RoutingService;
-    private hash: string;
-    private params: Map<string, string>;
-    private listeners: Map<string, Set<Function>>;
-    private history: Map<string, string>;
-
-    public static SEPARATOR = '~';
+    private currentStack: Array<any>;
 
     private constructor(private modelDescriptorService: ModelDescriptorService,
-                        private sessionService: SessionService) {
-        this.getParams();
-        this.listeners = Map<string, Set<Function>>();
-        this.history = Map<string, string>();
+                        private eventDispatcherService: EventDispatcherService,
+                        private middlewareClient: MiddlewareClient,
+                        private sectionRoute: SectionRoute,
+                        private volumeRoute: VolumeRoute,
+                        private shareRoute: ShareRoute,
+                        private snapshotRoute: SnapshotRoute,
+                        private datasetRoute: DatasetRoute) {
+        this.loadRoutes();
+        hasher.prependHash = '!';
+        hasher.changed.add(this.handleHashChange.bind(this));
     }
 
     public static getInstance() {
         if (!RoutingService.instance) {
             RoutingService.instance = new RoutingService(
                 ModelDescriptorService.getInstance(),
-                SessionService.instance
+                EventDispatcherService.getInstance(),
+                MiddlewareClient.getInstance(),
+                SectionRoute.getInstance(),
+                VolumeRoute.getInstance(),
+                ShareRoute.getInstance(),
+                SnapshotRoute.getInstance(),
+                DatasetRoute.getInstance()
             );
         }
         return RoutingService.instance;
     }
 
-    public selectSection(section: string) {
-        if (this.sessionService.session) {
-            this.history = this.history.set(this.getParams().get('section'), this.getParams().get('path'));
-        }
-        this.params = this.getParams().set('section', section).set('path', this.history.get(section) || '');
-        this.buildParams();
-        this.dispatchParamChange('section');
-        this.dispatchParamChange('path');
-    }
-
-    public selectObject(object: any, atIndex: number) {
-        let self = this;
-        return this.getKeyFromObject(object).then(function(objectKey) {
-            let path = _.split(self.getParams().get('path') || '', RoutingService.SEPARATOR);
-            while (path.length > atIndex) {
-                path.pop();
-            }
-            path.push(objectKey);
-            self.params = self.getParams().set('path', _.join(path, RoutingService.SEPARATOR));
-            self.buildParams();
-            self.dispatchParamChange('path');
-            return objectKey;
-        })
-    }
-
-    public selectProperty(property: string, atIndex: number, objectType?: string) {
-        let path = _.split(this.getParams().get('path') || RoutingService.SEPARATOR, RoutingService.SEPARATOR),
-            key = property + (objectType ? '[' + objectType : ''),
-            pathElement;
-        while (path.length > atIndex) {
-            pathElement = path.pop();
-        }
-        path.push(key);
-        this.params = this.getParams().set('path', _.join(path, RoutingService.SEPARATOR));
-        this.buildParams();
-        this.dispatchParamChange('path');
-        return property;
-    }
-
-    public closeColumnAtIndex(index: number) {
-        let path = _.split(this.getParams().get('path') || RoutingService.SEPARATOR, RoutingService.SEPARATOR),
-            pathElement;
-        while (path.length >= index) {
-            pathElement = path.pop();
-        }
-        this.params = this.getParams().set('path', _.join(path, RoutingService.SEPARATOR));
-        this.buildParams();
-        this.dispatchParamChange('path');
-    }
-
-    public subscribe(param: string, listener: Function) {
-        let listeners = this.listeners.has(param) ?
-            this.listeners.get(param).add(listener) :
-            Set([listener]);
-        this.listeners = this.listeners.set(param, listeners);
-        return listener;
-    }
-
-    public unsubscribe(param: string, listener: Function) {
-        if (this.listeners.has(param)) {
-            let listeners = this.listeners.get(param).delete(listener);
-            this.listeners = this.listeners.set(param, listeners);
-        }
-    }
-
-    public getKeyFromObject(object: any): Promise<string> {
-        let self = this;
-        return this.getObjectId(object).then(function(id) {
-            let prefix = object._isNew ?
-                            'new_' :
-                            Array.isArray(object) ?
-                                'list_' :
-                                '',
-                params = {
-                    filter: object._filter,
-                    sorted: object._sorted
-                },
-                suffix = id || ((params.filter || params.sorted) && JSON.stringify(params)) || null;
-            return prefix + self.getObjectTypeString(object) + (suffix ? '|' + suffix : '');
-        });
-    }
-
-    public getSection(): string {
-        return this.params.get('section');
-    }
-
-    public getPath(): string {
-        return this.params.get('path');
-    }
-
-    private getObjectId(object: any): Promise<any> {
-        return this.modelDescriptorService.getUiDescriptorForObject(object).then(function(uiDescriptor) {
-            return _.get(object, (object._isNew ? uiDescriptor.newIdPath : uiDescriptor.idPath) || 'id');
-        });
-    }
-
-    private getObjectTypeString(object: any): string {
-        let results;
-        if (Array.isArray(object._objectType)) {
-            results = _.join(object._objectType, ',');
+    public navigate(path: string) {
+        hasher.appendHash = ';' + this.middlewareClient.getExplicitHostParam();
+        if (path[0] === '/') {
+            hasher.setHash(path)
         } else {
-            results = this.modelDescriptorService.getObjectType(object);
-        }
-        return results;
-    }
-
-    private dispatchParamChange(param: string) {
-        if (this.listeners.has(param)) {
-            let self = this,
-                listeners = this.listeners.get(param);
-            listeners.forEach(function(listener) {
-                listener.call({}, self.params.get(param));
-            });
+            hasher.setHash(hasher.getHash() + '/' + path);
         }
     }
 
-    private getParams(): Map<string, string> {
-        if (!this.params || this.hash != location.hash) {
-            this.params = Map<string, string>(_.map(
-                _.split(location.hash, ';'),
-                (x) => _.split(x, '=')
-            ));
-            this.hash = location.hash;
-        }
-        return this.params;
+    public getURLFromObject(object: any) {
+        let objectType = this.modelDescriptorService.getObjectType(object),
+            url = objectType === 'Section' ? '/' : _.kebabCase(objectType) + '/_/';
+        return url + object.id;
     }
 
-    private buildParams() {
-        if (this.params) {
-            this.hash = _.join(
-                _.map(
-                    _.sortBy(_.toPairs(this.params.toJS()), [0]),
-                    (x) => _.join(x, '=')
-                ), ';'
-            );
-        }
-        location.hash = this.hash;
+    private handleHashChange(newHash, oldHash) {
+        crossroads.parse(newHash);
+        this.eventDispatcherService.dispatch('hashChange', newHash);
+    }
+
+    private loadRoutes() {
+        crossroads.addRoute('/storage', () => this.loadSection('storage'));
+        crossroads.addRoute('/storage/volume/_/{volumeId}',
+            (volumeId) => this.volumeRoute.get(volumeId, this.currentStack));
+        crossroads.addRoute('/storage/volume/_/{volumeId}/share',
+            (volumeId) => this.shareRoute.list(volumeId, this.currentStack));
+        crossroads.addRoute('/storage/volume/_/{volumeId}/share/create',
+            (volumeId) => this.shareRoute.selectNewType(volumeId, this.currentStack));
+        crossroads.addRoute('/storage/volume/_/{volumeId}/share/create/{type}',
+            (volumeId, type) => this.shareRoute.create(volumeId, type, this.currentStack));
+        crossroads.addRoute('/storage/volume/_/{volumeId}/share/_/{shareId}',
+            (volumeId, shareId) => this.shareRoute.get(volumeId, shareId, this.currentStack));
+        crossroads.addRoute('/storage/volume/_/{volumeId}/volume-snapshot',
+            (volumeId) => this.snapshotRoute.list(volumeId, this.currentStack));
+        crossroads.addRoute('/storage/volume/_/{volumeId}/volume-snapshot/create',
+            (volumeId) => this.snapshotRoute.create(volumeId, this.currentStack));
+        crossroads.addRoute('/storage/volume/_/{volumeId}/volume-snapshot/_/{snapshotId*}',
+            (volumeId, snapshotId) => this.snapshotRoute.get(volumeId, snapshotId, this.currentStack));
+        crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset',
+            (volumeId) => this.datasetRoute.list(volumeId, this.currentStack));
+        crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/create',
+            (volumeId) => this.datasetRoute.create(volumeId, this.currentStack));
+        crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}',
+            (volumeId, datasetId) => this.datasetRoute.get(volumeId, datasetId, this.currentStack));
+        crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/volume-snapshot',
+            (volumeId, datasetId) => this.snapshotRoute.listForDataset(volumeId, datasetId, this.currentStack), 1);
+        crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/volume-snapshot/create',
+            (volumeId, datasetId) => this.snapshotRoute.createForDataset(volumeId, datasetId, this.currentStack), 1);
+        crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/volume-snapshot/_/{snapshotId*}',
+            (volumeId, datasetId, snapshotId) => this.snapshotRoute.getForDataset(volumeId, snapshotId, this.currentStack), 1);
+        crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/replication',
+            (volumeId, datasetId) => this.datasetRoute.replication(datasetId, this.currentStack), 1);
+        crossroads.addRoute('/storage/volume/_/{volumeId}/topology',
+            (volumeId) => this.volumeRoute.topology(volumeId, this.currentStack));
+        crossroads.addRoute('/storage/volume/_/{volumeId}/topology/disk/_/{diskId}',
+            (volumeId, diskId) => this.volumeRoute.topologyDisk(diskId, this.currentStack));
+        crossroads.addRoute('/storage/create',
+            () => this.volumeRoute.create(this.currentStack));
+        crossroads.addRoute('/storage/create/disk/_/{diskId}',
+            (diskId) => this.volumeRoute.creatorDisk(diskId, this.currentStack));
+
+
+        crossroads.addRoute('/accounts', () => this.loadSection('accounts'));
+    }
+
+    private loadSection(sectionDescriptor: any) {
+        let self = this;
+        return this.sectionRoute.get(sectionDescriptor).then(function(stack) {
+            self.currentStack = stack;
+        });
     }
 }

@@ -28,7 +28,6 @@ exports.ReplicationCreator = AbstractInspector.specialize(/** @lends Replication
             this.object._transportOptions = {};
             this.object._replicationOptions = {};
 
-            this._loadParentDataset();
             this._resetRepetition();
 
             return this.application.peeringService.list().then(function(peers) {
@@ -82,28 +81,6 @@ exports.ReplicationCreator = AbstractInspector.specialize(/** @lends Replication
                 });
             }
             return transportOptions;
-        }
-    },
-
-    _loadParentDataset: {
-        value: function() {
-            var dataset = this.selectionService.getClosestParentWithObjectType('VolumeDataset', this.context.columnIndex);
-            if (dataset) {
-                this.object._dataset = dataset.id;
-            }
-        }
-    },
-
-    _getCurrentDataset: {
-        value: function() {
-            if (this._context) {
-                var currentSelection = this.application.selectionService.getCurrentSelection();
-                for (var i = this._context.columnIndex - 1; i >= 0; i--) {
-                    if (currentSelection[i].constructor.Type == Model.VolumeDataset) {
-                        return currentSelection[i];
-                    }
-                }
-            }
         }
     },
 

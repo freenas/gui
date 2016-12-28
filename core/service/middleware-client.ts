@@ -199,6 +199,10 @@ export class MiddlewareClient {
         return this.setEventSubscription(typeof name === 'string' ? [name] : name, 'unsubscribe');
     }
 
+    public getExplicitHostParam(): string {
+        return this.getHostParam() || '';
+    }
+
     private setEventSubscription(name: Array<string>, status: string) {
         let self = this,
             payload = {
@@ -356,9 +360,7 @@ export class MiddlewareClient {
 
     private getHost(): string {
         let result = location.host,
-            hostParam = location.href.split(';').filter(
-                (x) => x.split('=')[0] === 'host'
-            )[0];
+            hostParam = this.getHostParam();
         if (hostParam) {
             let host = hostParam.split('=')[1];
             if (host && host.length > 0) {
@@ -366,6 +368,13 @@ export class MiddlewareClient {
             }
         }
         return result;
+    }
+
+    private getHostParam() {
+        let hostParam = location.href.split(';').filter(
+            (x) => x.split('=')[0] === 'host'
+        )[0];
+        return hostParam;
     }
 }
 

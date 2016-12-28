@@ -1,10 +1,11 @@
 import { AbstractRepository } from './abstract-repository-ng';
 import { ShareDao } from 'core/dao/share-dao';
+import {ModelEventName} from "../model-event-name";
+import {Map} from "immutable";
 
 export class ShareRepository extends AbstractRepository {
     private static instance: ShareRepository;
-    private shares: immutable.Map<string, Map<string, any>>;
-
+    private shares: Map<string, Map<string, any>>;
     private constructor(private shareDao: ShareDao) {
         super(['Share']);
     }
@@ -21,8 +22,17 @@ export class ShareRepository extends AbstractRepository {
         return this.shareDao.list();
     }
 
-    public getNewShare() {
-        return this.shareDao.getNewInstance();
+    public getNewShare(volume, shareType) {
+        return this.shareDao.getNewInstance().then(function(share) {
+            share._isNewObject = true;
+            share._tmpId = shareType;
+            share._volume = volume;
+            share.type = shareType;
+            share.enabled = true;
+            share.description = '';
+
+            return share;
+        });
     }
 
     public saveShare(object: any, isServiceEnabled: boolean) {
@@ -30,30 +40,16 @@ export class ShareRepository extends AbstractRepository {
     }
 
     protected handleStateChange(name: string, state: any) {
-        let self = this;
         switch (name) {
             case 'Share':
-                this.eventDispatcherService.dispatch('sharesChange', state);
-                state.forEach(function(share, id){
-                    if (!self.shares || !self.shares.has(id)) {
-                        self.eventDispatcherService.dispatch('shareAdd.' + id, share);
-                    } else if (self.shares.get(id) !== share) {
-                        self.eventDispatcherService.dispatch('shareChange.' + id, share);
-                    }
-                });
-                if (this.shares) {
-                    this.shares.forEach(function(share, id){
-                        if (!state.has(id) || state.get(id) !== share) {
-                            self.eventDispatcherService.dispatch('shareRemove.' + id, share);
-                        }
-                    });
-                }
-                this.shares = state;
+                this.shares = this.dispatchModelEvents(this.shares, ModelEventName.Share, state);
                 break;
             default:
                 break;
         }
     }
+
+    protected handleEvent(name: string, data: any) {}
 }
 
 

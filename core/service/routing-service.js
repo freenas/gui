@@ -1,135 +1,82 @@
 "use strict";
 var _ = require("lodash");
-var immutable_1 = require("immutable");
+var crossroads = require("crossroads");
 var model_descriptor_service_1 = require("./model-descriptor-service");
-var session_service_1 = require("core/service/session-service");
+var middleware_client_1 = require("./middleware-client");
+var hasher = require("hasher");
+var section_1 = require("../route/section");
+var volume_1 = require("../route/volume");
+var share_1 = require("../route/share");
+var snapshot_1 = require("../route/snapshot");
+var dataset_1 = require("../route/dataset");
+var event_dispatcher_service_1 = require("./event-dispatcher-service");
 var RoutingService = (function () {
-    function RoutingService(modelDescriptorService, sessionService) {
+    function RoutingService(modelDescriptorService, eventDispatcherService, middlewareClient, sectionRoute, volumeRoute, shareRoute, snapshotRoute, datasetRoute) {
         this.modelDescriptorService = modelDescriptorService;
-        this.sessionService = sessionService;
-        this.getParams();
-        this.listeners = immutable_1.Map();
-        this.history = immutable_1.Map();
+        this.eventDispatcherService = eventDispatcherService;
+        this.middlewareClient = middlewareClient;
+        this.sectionRoute = sectionRoute;
+        this.volumeRoute = volumeRoute;
+        this.shareRoute = shareRoute;
+        this.snapshotRoute = snapshotRoute;
+        this.datasetRoute = datasetRoute;
+        this.loadRoutes();
+        hasher.prependHash = '!';
+        hasher.changed.add(this.handleHashChange.bind(this));
     }
     RoutingService.getInstance = function () {
         if (!RoutingService.instance) {
-            RoutingService.instance = new RoutingService(model_descriptor_service_1.ModelDescriptorService.getInstance(), session_service_1.SessionService.instance);
+            RoutingService.instance = new RoutingService(model_descriptor_service_1.ModelDescriptorService.getInstance(), event_dispatcher_service_1.EventDispatcherService.getInstance(), middleware_client_1.MiddlewareClient.getInstance(), section_1.SectionRoute.getInstance(), volume_1.VolumeRoute.getInstance(), share_1.ShareRoute.getInstance(), snapshot_1.SnapshotRoute.getInstance(), dataset_1.DatasetRoute.getInstance());
         }
         return RoutingService.instance;
     };
-    RoutingService.prototype.selectSection = function (section) {
-        if (this.sessionService.session) {
-            this.history = this.history.set(this.getParams().get('section'), this.getParams().get('path'));
-        }
-        this.params = this.getParams().set('section', section).set('path', this.history.get(section) || '');
-        this.buildParams();
-        this.dispatchParamChange('section');
-        this.dispatchParamChange('path');
-    };
-    RoutingService.prototype.selectObject = function (object, atIndex) {
-        var self = this;
-        return this.getKeyFromObject(object).then(function (objectKey) {
-            var path = _.split(self.getParams().get('path') || '', RoutingService.SEPARATOR);
-            while (path.length > atIndex) {
-                path.pop();
-            }
-            path.push(objectKey);
-            self.params = self.getParams().set('path', _.join(path, RoutingService.SEPARATOR));
-            self.buildParams();
-            self.dispatchParamChange('path');
-            return objectKey;
-        });
-    };
-    RoutingService.prototype.selectProperty = function (property, atIndex, objectType) {
-        var path = _.split(this.getParams().get('path') || RoutingService.SEPARATOR, RoutingService.SEPARATOR), key = property + (objectType ? '[' + objectType : ''), pathElement;
-        while (path.length > atIndex) {
-            pathElement = path.pop();
-        }
-        path.push(key);
-        this.params = this.getParams().set('path', _.join(path, RoutingService.SEPARATOR));
-        this.buildParams();
-        this.dispatchParamChange('path');
-        return property;
-    };
-    RoutingService.prototype.closeColumnAtIndex = function (index) {
-        var path = _.split(this.getParams().get('path') || RoutingService.SEPARATOR, RoutingService.SEPARATOR), pathElement;
-        while (path.length >= index) {
-            pathElement = path.pop();
-        }
-        this.params = this.getParams().set('path', _.join(path, RoutingService.SEPARATOR));
-        this.buildParams();
-        this.dispatchParamChange('path');
-    };
-    RoutingService.prototype.subscribe = function (param, listener) {
-        var listeners = this.listeners.has(param) ?
-            this.listeners.get(param).add(listener) :
-            immutable_1.Set([listener]);
-        this.listeners = this.listeners.set(param, listeners);
-        return listener;
-    };
-    RoutingService.prototype.unsubscribe = function (param, listener) {
-        if (this.listeners.has(param)) {
-            var listeners = this.listeners.get(param).delete(listener);
-            this.listeners = this.listeners.set(param, listeners);
-        }
-    };
-    RoutingService.prototype.getKeyFromObject = function (object) {
-        var self = this;
-        return this.getObjectId(object).then(function (id) {
-            var prefix = object._isNew ?
-                'new_' :
-                Array.isArray(object) ?
-                    'list_' :
-                    '', params = {
-                filter: object._filter,
-                sorted: object._sorted
-            }, suffix = id || ((params.filter || params.sorted) && JSON.stringify(params)) || null;
-            return prefix + self.getObjectTypeString(object) + (suffix ? '|' + suffix : '');
-        });
-    };
-    RoutingService.prototype.getSection = function () {
-        return this.params.get('section');
-    };
-    RoutingService.prototype.getPath = function () {
-        return this.params.get('path');
-    };
-    RoutingService.prototype.getObjectId = function (object) {
-        return this.modelDescriptorService.getUiDescriptorForObject(object).then(function (uiDescriptor) {
-            return _.get(object, (object._isNew ? uiDescriptor.newIdPath : uiDescriptor.idPath) || 'id');
-        });
-    };
-    RoutingService.prototype.getObjectTypeString = function (object) {
-        var results;
-        if (Array.isArray(object._objectType)) {
-            results = _.join(object._objectType, ',');
+    RoutingService.prototype.navigate = function (path) {
+        hasher.appendHash = ';' + this.middlewareClient.getExplicitHostParam();
+        if (path[0] === '/') {
+            hasher.setHash(path);
         }
         else {
-            results = this.modelDescriptorService.getObjectType(object);
-        }
-        return results;
-    };
-    RoutingService.prototype.dispatchParamChange = function (param) {
-        if (this.listeners.has(param)) {
-            var self_1 = this, listeners = this.listeners.get(param);
-            listeners.forEach(function (listener) {
-                listener.call({}, self_1.params.get(param));
-            });
+            hasher.setHash(hasher.getHash() + '/' + path);
         }
     };
-    RoutingService.prototype.getParams = function () {
-        if (!this.params || this.hash != location.hash) {
-            this.params = immutable_1.Map(_.map(_.split(location.hash, ';'), function (x) { return _.split(x, '='); }));
-            this.hash = location.hash;
-        }
-        return this.params;
+    RoutingService.prototype.getURLFromObject = function (object) {
+        var objectType = this.modelDescriptorService.getObjectType(object), url = objectType === 'Section' ? '/' : _.kebabCase(objectType) + '/_/';
+        return url + object.id;
     };
-    RoutingService.prototype.buildParams = function () {
-        if (this.params) {
-            this.hash = _.join(_.map(_.sortBy(_.toPairs(this.params.toJS()), [0]), function (x) { return _.join(x, '='); }), ';');
-        }
-        location.hash = this.hash;
+    RoutingService.prototype.handleHashChange = function (newHash, oldHash) {
+        crossroads.parse(newHash);
+        this.eventDispatcherService.dispatch('hashChange', newHash);
     };
-    RoutingService.SEPARATOR = '~';
+    RoutingService.prototype.loadRoutes = function () {
+        var _this = this;
+        crossroads.addRoute('/storage', function () { return _this.loadSection('storage'); });
+        crossroads.addRoute('/storage/volume/_/{volumeId}', function (volumeId) { return _this.volumeRoute.get(volumeId, _this.currentStack); });
+        crossroads.addRoute('/storage/volume/_/{volumeId}/share', function (volumeId) { return _this.shareRoute.list(volumeId, _this.currentStack); });
+        crossroads.addRoute('/storage/volume/_/{volumeId}/share/create', function (volumeId) { return _this.shareRoute.selectNewType(volumeId, _this.currentStack); });
+        crossroads.addRoute('/storage/volume/_/{volumeId}/share/create/{type}', function (volumeId, type) { return _this.shareRoute.create(volumeId, type, _this.currentStack); });
+        crossroads.addRoute('/storage/volume/_/{volumeId}/share/_/{shareId}', function (volumeId, shareId) { return _this.shareRoute.get(volumeId, shareId, _this.currentStack); });
+        crossroads.addRoute('/storage/volume/_/{volumeId}/volume-snapshot', function (volumeId) { return _this.snapshotRoute.list(volumeId, _this.currentStack); });
+        crossroads.addRoute('/storage/volume/_/{volumeId}/volume-snapshot/create', function (volumeId) { return _this.snapshotRoute.create(volumeId, _this.currentStack); });
+        crossroads.addRoute('/storage/volume/_/{volumeId}/volume-snapshot/_/{snapshotId*}', function (volumeId, snapshotId) { return _this.snapshotRoute.get(volumeId, snapshotId, _this.currentStack); });
+        crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset', function (volumeId) { return _this.datasetRoute.list(volumeId, _this.currentStack); });
+        crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/create', function (volumeId) { return _this.datasetRoute.create(volumeId, _this.currentStack); });
+        crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}', function (volumeId, datasetId) { return _this.datasetRoute.get(volumeId, datasetId, _this.currentStack); });
+        crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/volume-snapshot', function (volumeId, datasetId) { return _this.snapshotRoute.listForDataset(volumeId, datasetId, _this.currentStack); }, 1);
+        crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/volume-snapshot/create', function (volumeId, datasetId) { return _this.snapshotRoute.createForDataset(volumeId, datasetId, _this.currentStack); }, 1);
+        crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/volume-snapshot/_/{snapshotId*}', function (volumeId, datasetId, snapshotId) { return _this.snapshotRoute.getForDataset(volumeId, snapshotId, _this.currentStack); }, 1);
+        crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/replication', function (volumeId, datasetId) { return _this.datasetRoute.replication(datasetId, _this.currentStack); }, 1);
+        crossroads.addRoute('/storage/volume/_/{volumeId}/topology', function (volumeId) { return _this.volumeRoute.topology(volumeId, _this.currentStack); });
+        crossroads.addRoute('/storage/volume/_/{volumeId}/topology/disk/_/{diskId}', function (volumeId, diskId) { return _this.volumeRoute.topologyDisk(diskId, _this.currentStack); });
+        crossroads.addRoute('/storage/create', function () { return _this.volumeRoute.create(_this.currentStack); });
+        crossroads.addRoute('/storage/create/disk/_/{diskId}', function (diskId) { return _this.volumeRoute.creatorDisk(diskId, _this.currentStack); });
+        crossroads.addRoute('/accounts', function () { return _this.loadSection('accounts'); });
+    };
+    RoutingService.prototype.loadSection = function (sectionDescriptor) {
+        var self = this;
+        return this.sectionRoute.get(sectionDescriptor).then(function (stack) {
+            self.currentStack = stack;
+        });
+    };
     return RoutingService;
 }());
 exports.RoutingService = RoutingService;

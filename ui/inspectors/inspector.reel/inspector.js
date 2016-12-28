@@ -172,7 +172,7 @@ exports.Inspector = Component.specialize({
     _findParentViewer: {
         value: function() {
             var result,
-                cascadingListItems = this.context.cascadingListItem.cascadingList._stack,
+                cascadingListItems = this.context.cascadingListItem.cascadingList.stack,
                 cascadingListItem;
             for (var i = cascadingListItems.length -1; i >= 0; i--) {
                 cascadingListItem = cascadingListItems[i];

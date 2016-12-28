@@ -12,6 +12,7 @@ export class ModelEventName {
     public static CalendarTask = new ModelEventName('CalendarTask');
     public static Peer = new ModelEventName('Peer');
     public static Vm = new ModelEventName('Vm');
+    public static Share = new ModelEventName('Share');
 
     public listChange: string;
     public contentChange: string;

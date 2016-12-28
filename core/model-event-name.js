@@ -20,6 +20,7 @@ var ModelEventName = (function () {
     ModelEventName.CalendarTask = new ModelEventName('CalendarTask');
     ModelEventName.Peer = new ModelEventName('Peer');
     ModelEventName.Vm = new ModelEventName('Vm');
+    ModelEventName.Share = new ModelEventName('Share');
     return ModelEventName;
 }());
 exports.ModelEventName = ModelEventName;

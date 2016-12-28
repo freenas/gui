@@ -3,19 +3,23 @@ var ComponentModule = require("montage/ui/component"),
     rootComponent = ComponentModule.__root__,
     MiddlewareClient = require("core/service/middleware-client").MiddlewareClient,
     EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
-    RoutingService = require("core/service/routing-service").RoutingService;
+    RoutingService = require("core/service/routing-service").RoutingService,
+    SectionRepository = require("core/repository/section-repository").SectionRepository;
 
 exports.Main = Component.specialize({
     templateDidLoad: {
         value: function() {
+            this.sectionRepository = SectionRepository.instance;
             this.routingService = RoutingService.getInstance();
             this.middlewareClient = MiddlewareClient.getInstance();
             this._eventDispatcherService = EventDispatcherService.getInstance();
             this._eventDispatcherService.addEventListener('connectionStatusChange', function(status) {
                 self.connectionStatus = status;
             });
-            this._sectionsServices = new Map();
-            this.addPathChangeListener("application.section", this, "_handleSectionChange");
+
+            this._eventDispatcherService.addEventListener('sectionChange', this._handleSectionChange.bind(this));
+            this._eventDispatcherService.addEventListener('pathChange', this._handlePathChange.bind(this));
+            this.addPathChangeListener("application.section", this, "_handleApplicationSectionChange");
         }
     },
 
@@ -32,51 +36,26 @@ exports.Main = Component.specialize({
     },
 
     _handleSectionChange: {
+        value: function(sectionService) {
+            this.sectionService = this.application.sectionService = sectionService;
+        }
+    },
+
+    _handlePathChange: {
+        value: function(stack) {
+            this.stack = stack;
+        }
+    },
+
+    _handleApplicationSectionChange: {
         value: function() {
-            var self = this,
-                sectionDescriptor = this.application.section,
-                servicePromise;
-            if (sectionDescriptor) {
-                this._canDrawGate.setField(this.constructor.DRAW_GATE_FIELD, false);
-                if (this._sectionsServices.has(sectionDescriptor.id)) {
-                    servicePromise = Promise.resolve(this._sectionsServices.get(sectionDescriptor.id));
-                } else {
-                    if (sectionDescriptor.service) {
-                        servicePromise = require.async(sectionDescriptor.service).then(function(module) {
-                            var exports = Object.keys(module);
-                            if (exports.length === 1) {
-                                var clazz = module[exports[0]],
-                                    instance = clazz.instance || new clazz(),
-                                    instancePromise = instance.instanciationPromise;
-                                self._sectionsServices.set(sectionDescriptor.id, instance);
-                                return instancePromise;
-                            }
-                        }).then(function(service) {
-                            service.section.id = sectionDescriptor.id;
-                            service.section.settings.id = sectionDescriptor.id;
-                            service.section.label = sectionDescriptor.label;
-                            service.section.icon = sectionDescriptor.icon;
-                            return service;
-                        });
-                    } else {
-                        this.sectionGeneration = 'old';
-                        this.sectionId = sectionDescriptor.id;
-                        this.application.sectionService = null;
-                        this._canDrawGate.setField(this.constructor.DRAW_GATE_FIELD, true);
-                    }
-                }
-                self.routingService.selectSection(self.application.section.id);
-                if (Promise.is(servicePromise)) {
-                    this.sectionGeneration = 'new';
-                    this.sectionId = null;
-                    servicePromise.then(function(service) {
-                        return self.sectionService = self.application.sectionService = service;
-                    }, function(error) {
-                        console.warn(error.message);
-                    }).finally(function() {
-                        self._canDrawGate.setField(self.constructor.DRAW_GATE_FIELD, true);
-                    });
-                }
+            if (this.application.section) {
+                var self = this,
+                    sectionDescriptor = this.application.section;
+                this.sectionRepository.getNewSection().then(function(section) {
+                    section.id = sectionDescriptor.id;
+                    self.routingService.navigate('/' + section.id);
+                });
             }
         }
     }

@@ -1,12 +1,49 @@
-var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    _ = require("lodash");
 
-/**
- * @class Volume
- * @extends Component
- */
 exports.Volume = AbstractInspector.specialize({
     rootDataset: {
         value: null
+    },
+
+    _setVolumeShares: {
+        value: function () {
+            var volumeId = this.object.id;
+            this.object._shares = _.sortBy(
+                _.filter(this.shares, function (share) {
+                    var targetPath = share.target_path;
+                    return  _.startsWith(targetPath, '/mnt/' + volumeId + '/') ||
+                            _.isEqual(targetPath, '/mnt/' + volumeId) ||
+                            _.startsWith(targetPath, volumeId + '/') ||
+                            _.isEqual(targetPath, volumeId);
+                }),
+                'name'
+            );
+        }
+    },
+
+    _setVolumeSnapshots: {
+        value: function () {
+            var volumeId = this.object.id;
+            this.object._snapshots = _.sortBy(
+                _.filter(this.snapshots, function (snapshot) {
+                    return _.isEqual(snapshot.volume, volumeId);
+                }),
+                'name'
+            );
+        }
+    },
+
+    _setVolumeDatasets: {
+        value: function () {
+            var volumeId = this.object.id;
+            this.object._datasets = _.sortBy(
+                _.filter(this.datasets, function (snapshot) {
+                    return _.isEqual(snapshot.volume, volumeId);
+                }),
+                'name'
+            );
+        }
     },
 
     enterDocument: {
@@ -16,6 +53,9 @@ exports.Volume = AbstractInspector.specialize({
             this._sectionService.getEncryptedVolumeActionsForVolume(this.object).then(function (encryptedVolumeActions) {
                 self.encryptedVolumeActions = encryptedVolumeActions;
             });
+            this._setVolumeShares();
+            this._setVolumeSnapshots();
+            this._setVolumeDatasets();
             this.sharesEventListener = this.eventDispatcherService.addEventListener('sharesChange', this._handleSharesChange.bind(this));
             this.snapshotsEventListener = this.eventDispatcherService.addEventListener('volumeSnapshotsChange', this._handleSnapshotsChange.bind(this));
             this.datasetsEventListener = this.eventDispatcherService.addEventListener('volumeDatasetsChange', this._handleDatasetsChange.bind(this));
@@ -34,10 +74,6 @@ exports.Volume = AbstractInspector.specialize({
         value: function () {
             var self = this;
             this.shareType = this._sectionService.SHARE_TYPE;
-            this.datasetType = this._sectionService.VOLUME_DATASET_TYPE;
-            this.snapshotType = this._sectionService.VOLUME_SNAPSHOT_TYPE;
-            this.topologyType = this._sectionService.TOPOLOGY_TYPE;
-            this.encryptedVolumeActionsType = this._sectionService.ENCRYPTED_VOLUME_ACTIONS_TYPE;
             this.addPathChangeListener("object", this, "_handleObjectChange");
             return Promise.all([
                 this._sectionService.listShares().then(function (shares) {
@@ -59,7 +95,8 @@ exports.Volume = AbstractInspector.specialize({
             this.shares.clear();
             shares.forEach(function (share) {
                 self.shares.push(share.toJS());
-            })
+            });
+            this._setVolumeShares();
         }
     },
 
@@ -69,7 +106,8 @@ exports.Volume = AbstractInspector.specialize({
             this.snapshots.clear();
             snapshots.forEach(function (snapshot) {
                 self.snapshots.push(snapshot.toJS());
-            })
+            });
+            this._setVolumeSnapshots();
         }
     },
 
@@ -79,7 +117,8 @@ exports.Volume = AbstractInspector.specialize({
             this.datasets.clear();
             datasets.forEach(function (dataset) {
                 self.datasets.push(dataset.toJS());
-            })
+            });
+            this._setVolumeDatasets();
         }
     },
 

@@ -73,6 +73,18 @@ export class VolumeRepository extends AbstractRepository {
         return this.volumeImporterDao.get();
     }
 
+    public getNewVolumeSnapshot() {
+        return this.volumeSnapshotDao.getNewInstance();
+    }
+
+    public getNewVolumeDataset() {
+        return this.volumeDatasetDao.getNewInstance();
+    }
+
+    public getNewVolume() {
+        return this.volumeDao.getNewInstance();
+    }
+
     public getEncryptedVolumeActionsInstance(): Promise<Object> {
         return this.encryptedVolumeActionsDao.getNewInstance();
     }
@@ -220,8 +232,8 @@ export class VolumeRepository extends AbstractRepository {
         switch (name) {
             case 'Volume':
                 let self = this,
-                    hasTopologyChanged = false,
                     volumeId;
+                let hasTopologyChanged = false;
                 if (this.volumes) {
                     this.volumes.forEach(function(volume) {
                         volumeId = volume.get('id');
