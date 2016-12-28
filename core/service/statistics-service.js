@@ -18,7 +18,7 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
     constructor: {
         value: function() {
             this._datasources = {};
-            this._subscribedUpdates = [];
+            this._subscribedUpdates = new Set();
             this._listeners = new Map();
         }
     },
@@ -60,32 +60,31 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
 
     subscribeToDatasourcesUpdates: {
         value: function(datasources, listener) {
-            var self = this;
-            return Promise.all(datasources.map(function(datasource) {
-                var name = "statd." + datasource;
-                if (self._subscribedUpdates.indexOf(datasource) == -1) {
-                    self._subscribedUpdates.push(datasource);
-                }
-                return self._middlewareClient.subscribeToEvents(name).then(function() {
+            var self = this,
+                names = datasources.map(function(d) { return 'statd.' + d; });
+
+            return this._middlewareClient.subscribeToEvents(names).then(function() {
+                self._subscribedUpdates.addEach(names);
+                names.forEach(function(name) {
                     if (!self._listeners.has(name)) {
                         self._listeners.set(name, new Set());
                     }
                     self._listeners.get(name).add(listener);
-                    return name;
                 });
-            }))
+                return names;
+            });
         }
     },
 
     unsubscribeToDatasourcesUpdates: {
         value: function(datasources) {
-            var self = this;
-            return Promise.all(datasources.map(function(datasource) {
-                var name = "statd." + datasource;
-                self._listeners.delete(name);
-                self._subscribedUpdates.splice(self._subscribedUpdates.indexOf(datasource), 1);
-                return self._middlewareClient.unsubscribeFromEvents(name);
-            }));
+            var self = this,
+                names = datasources.map(function(d) { return 'statd.' + d; });
+
+            return this._middlewareClient.unsubscribeFromEvents(names).then(function() {
+                self._listeners.deleteEach(names);
+                self._subscribedUpdates.deleteEach(names);
+            });
         }
     },
 
