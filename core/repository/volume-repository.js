@@ -51,6 +51,15 @@ var VolumeRepository = (function (_super) {
     VolumeRepository.prototype.getVolumeImporter = function () {
         return this.volumeImporterDao.get();
     };
+    VolumeRepository.prototype.getNewVolumeSnapshot = function () {
+        return this.volumeSnapshotDao.getNewInstance();
+    };
+    VolumeRepository.prototype.getNewVolumeDataset = function () {
+        return this.volumeDatasetDao.getNewInstance();
+    };
+    VolumeRepository.prototype.getNewVolume = function () {
+        return this.volumeDao.getNewInstance();
+    };
     VolumeRepository.prototype.getEncryptedVolumeActionsInstance = function () {
         return this.encryptedVolumeActionsDao.getNewInstance();
     };

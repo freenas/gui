@@ -1,17 +1,11 @@
- /**
- * @module ui/topology.reel
- */
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     VolumeCreator = require("ui/sections/storage/inspectors/volume-creator.reel").VolumeCreator,
     Promise = require("montage/core/promise").Promise,
     CascadingList = require("ui/controls/cascading-list.reel").CascadingList,
     Model = require("core/model/model").Model,
+    RoutingService = require("core/service/routing-service").RoutingService,
     _ = require("lodash");
 
-/**
- * @class Topology
- * @extends Component
- */
 var Topology = exports.Topology = AbstractInspector.specialize(/** @lends Topology# */ {
     topologySelectedDisk: {
         value: null
@@ -63,6 +57,7 @@ var Topology = exports.Topology = AbstractInspector.specialize(/** @lends Topolo
 
     _inspectorTemplateDidLoad: {
         value: function() {
+            this._routingService = RoutingService.getInstance();
             this.availableDisks = this._sectionService.listAvailableDisks();
         }
     },
@@ -102,14 +97,9 @@ var Topology = exports.Topology = AbstractInspector.specialize(/** @lends Topolo
 
     _handleSelectedDiskChange: {
         value: function(value) {
-            if (this.topologySelectedDisk && this.topologySelectedDisk === value) {
-                this.selectedObject = this.topologySelectedDisk._disk;
-                this.availableSelectedDisk = null;
-            } else if (this.availableSelectedDisk && this.availableSelectedDisk === value) {
-                this.selectedObject = this.availableSelectedDisk;
-                this.topologySelectedDisk = null;
-            } else if (!this.topologySelectedDisk && !this.availableSelectedDisk) {
-                this.selectedObject = null;
+            if (value) {
+                var diskId = value._disk ? value._disk.id : value.id;
+                this._routingService.navigate(this._parentCascadingListItem.data.path + '/disk/_/' + diskId);
             }
         }
     },

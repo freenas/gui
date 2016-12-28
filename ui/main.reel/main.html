@@ -51,12 +51,6 @@
                 "element": {"#": "task"}
             }
         },
-        "services": {
-            "prototype": "../services/services.reel",
-            "properties": {
-                "element": {"#": "services"}
-            }
-        },
         "console": {
             "prototype": "../console.reel",
             "properties": {
@@ -108,7 +102,7 @@
                 "element": {"#": "cascadingList"}
             },
             "bindings": {
-                "root": {"<-": "@owner.sectionService.section"}
+                "stack": {"<-": "@owner.stack"}
             }
         },
         "migrationSubstitution": {
@@ -117,7 +111,7 @@
                 "element": {"#": "migrationSubstitution"}
             },
             "bindings": {
-                "switchValue": {"<-": "@owner.sectionGeneration"}
+                "switchValue": {"<-": "@owner.sectionService.sectionGeneration"}
             }
         },
         "signInModal": {
@@ -147,14 +141,9 @@
                 <div data-montage-id="migrationSubstitution" class="Main-content">
                     <div data-arg="old" data-montage-id="substitution" class="Main-substitution">
                         <div data-arg="dashboard" data-montage-id="dashboard"></div>
-                        <div data-arg="accounts" data-montage-id="accounts"></div>
-                        <div data-arg="network" data-montage-id="network"></div>
-                        <div data-arg="services" data-montage-id="services"></div>
                         <div data-arg="console" data-montage-id="console"></div>
                         <div data-arg="task" data-montage-id="task"></div>
                         <div data-arg="calendar" data-montage-id="calendar"></div>
-                        <div data-arg="virtualization" data-montage-id="virtualization"></div>
-                        <div data-arg="containers" data-montage-id="containers"></div>
                         <div data-arg="wizard" data-montage-id="wizard"></div>
                     </div>
                     <div data-arg="new" class="Main-cascadingListWrapper">

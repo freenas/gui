@@ -124,7 +124,8 @@
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
                 "element": {"#": "replicate"},
-                "label": "Replicate"
+                "name": "Replicate",
+                "path": "replication"
             },
             "bindings": {
                 "object": {"<-": "@owner.replicationOptions"}
@@ -134,10 +135,8 @@
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
                 "element": {"#": "snapshots"},
-                "objectType": "VolumeSnapshot"
-            },
-            "bindings": {
-                "object": {"<-": "@owner.snapshots.filter{dataset == @owner.object.id}"}
+                "objectType": "VolumeSnapshot",
+                "name": "Snapshots"
             }
         },
         "typeCondition": {
@@ -162,7 +161,7 @@
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
                 "element": {"#": "vmwareSnapshots"},
-                "label": "VMware Snapshots",
+                "name": "VMware Snapshots",
                 "objectType": "VmwareDataset"
             },
             "bindings": {

@@ -19,14 +19,14 @@
                 "targetTreeview": {"@": "target"}
             },
             "bindings": {
-                "volumePath": {"<-": "'/mnt/' + @owner.volume.id"}
+                "volumePath": {"<-": "'/mnt/' + @owner._volume.id"}
             }
         },
         "datasetTreeController": {
             "prototype": "core/controller/dataset-tree-controller",
             "bindings": {
                 "service": {"<-": "@owner.application.dataService"},
-                "root": {"<-": "@owner.volume.id"}
+                "root": {"<-": "@owner._volume.id"}
             }
         },
         "directoryTreeController": {

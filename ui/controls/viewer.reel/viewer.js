@@ -1,8 +1,14 @@
 var AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate,
     _ = require("lodash"),
+    RoutingService = require("core/service/routing-service").RoutingService,
     CascadingList = require("ui/controls/cascading-list.reel").CascadingList;
 
 exports.Viewer = AbstractComponentActionDelegate.specialize({
+    templateDidLoad: {
+        value: function() {
+            this._routingService = RoutingService.getInstance();
+        }
+    },
 
     initWithDao: {
         value: function (dao) {
@@ -82,6 +88,8 @@ exports.Viewer = AbstractComponentActionDelegate.specialize({
 
     handleCreateButtonAction: {
         value: function () {
+            this._routingService.navigate(this.parentCascadingListItem.data.path + '/create');
+/*
             var self = this;
             if (this.hasCreateEditor) {
                 return this.application.modelDescriptorService.getDaoForObject(this.object).then(function(dao) {
@@ -102,6 +110,7 @@ exports.Viewer = AbstractComponentActionDelegate.specialize({
                     }
                 });
             }
+*/
         }
     },
 

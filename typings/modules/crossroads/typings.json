@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/89cb02de7d8feacac634820dc59a727b662c1af5/crossroads/index.d.ts",
+    "raw": "registry:dt/crossroads#0.0.0+20160628004037",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/89cb02de7d8feacac634820dc59a727b662c1af5/crossroads/index.d.ts"
+  }
+}

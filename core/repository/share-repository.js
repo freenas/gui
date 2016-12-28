@@ -22,8 +22,16 @@ var ShareRepository = (function (_super) {
     ShareRepository.prototype.listShares = function () {
         return this.shareDao.list();
     };
-    ShareRepository.prototype.getNewShare = function () {
-        return this.shareDao.getNewInstance();
+    ShareRepository.prototype.getNewShare = function (volume, shareType) {
+        return this.shareDao.getNewInstance().then(function (share) {
+            share._isNewObject = true;
+            share._tmpId = shareType;
+            share._volume = volume;
+            share.type = shareType;
+            share.enabled = true;
+            share.description = '';
+            return share;
+        });
     };
     ShareRepository.prototype.saveShare = function (object, isServiceEnabled) {
         return this.shareDao.save(object, object._isNew ? [null, isServiceEnabled] : [isServiceEnabled]);
@@ -37,6 +45,7 @@ var ShareRepository = (function (_super) {
                 break;
         }
     };
+    ShareRepository.prototype.handleEvent = function (name, data) { };
     return ShareRepository;
 }(abstract_repository_ng_1.AbstractRepository));
 exports.ShareRepository = ShareRepository;

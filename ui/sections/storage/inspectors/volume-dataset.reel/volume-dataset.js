@@ -68,8 +68,6 @@ exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# *
     _inspectorTemplateDidLoad: {
         value:function() {
             var self = this;
-            this.snapshotType = this._sectionService.VOLUME_SNAPSHOT_TYPE;
-            this.vmwareDatasetType = this._sectionService.VMWARE_DATASET_TYPE;
             return Promise.all([
                 this._sectionService.listSnapshots(),
                 this._sectionService.listVmwareDatasets(),
@@ -85,11 +83,10 @@ exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# *
     enterDocument: {
         value: function(isFirstTime) {
             this.super();
-            this.volume = this.selectionService.getClosestParentWithObjectType('Volume', this.context.columnIndex);
 
             if (this.object._isNew) {
                 this.object.type = "FILESYSTEM";
-                this.object.volume = this.path = this.volume.id;
+                this.object.volume = this.path = this.object._volume.id;
                 this.name = null;
                 this.treeController.open();
             }

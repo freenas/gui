@@ -73,6 +73,18 @@ export class VolumeRepository extends AbstractRepository {
         return this.volumeImporterDao.get();
     }
 
+    public getNewVolumeSnapshot() {
+        return this.volumeSnapshotDao.getNewInstance();
+    }
+
+    public getNewVolumeDataset() {
+        return this.volumeDatasetDao.getNewInstance();
+    }
+
+    public getNewVolume() {
+        return this.volumeDao.getNewInstance();
+    }
+
     public getEncryptedVolumeActionsInstance(): Promise<Object> {
         return this.encryptedVolumeActionsDao.getNewInstance();
     }

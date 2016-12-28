@@ -1,6 +1,8 @@
 var Button = require("montage/ui/button.reel").Button,
     RoutingService = require("core/service/routing-service").RoutingService,
-    CascadingList = require("ui/controls/cascading-list.reel").CascadingList;
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
+    CascadingList = require("ui/controls/cascading-list.reel").CascadingList,
+    _ = require("lodash");
 
 exports.ListItem = Button.specialize({
 
@@ -35,42 +37,56 @@ exports.ListItem = Button.specialize({
 
     templateDidLoad: {
         value: function() {
+            this.eventDispatcherService = EventDispatcherService.getInstance();
             this.routingService = RoutingService.getInstance();
         }
     },
 
     enterDocument: {
-        value: function() {
-            var self = this;
-            this._canDrawGate.setField(this.constructor.CAN_DRAW_FIELD, false);
-            Promise.all([
-                this.getSelectionKey(this.object),
-                this._loadUserInterfaceDescriptor()
-            ]).spread(function(selectionKey) {
-                self.selectionKey = selectionKey;
-                self._canDrawGate.setField(self.constructor.CAN_DRAW_FIELD, true);
-            });
-            this.pathChangeListener = this.routingService.subscribe('path', this.handlePathChange.bind(this));
-            this.handlePathChange();
+        value: function(isFirstTime) {
+            if (isFirstTime) {
+                this.addPathChangeListener('path', this, '_handlePathChange');
+                this.addPathChangeListener('property', this, '_handlePathChange');
+                this.addPathChangeListener('object', this, '_handlePathChange');
+            }
+            this._handlePathChange();
+            this.navigationListener = this.eventDispatcherService.addEventListener('hashChange', this._handleNavigation.bind(this));
         }
     },
 
     exitDocument: {
         value: function() {
-            this.routingService.unsubscribe(this.pathChangeListener);
+            this._path = '';
+            this.eventDispatcherService.removeEventListener('hashChange', this.navigationListener);
         }
     },
 
-    getSelectionKey: {
-        value: function (object) {
-            var result = this.property;
-            if (result && this.objectType) {
-                result += '[' + this.objectType;
-            } else if (object) {
-                object._objectType = this.objectType || object._objectType;
-                result = this.routingService.getKeyFromObject(object);
+    _handleNavigation: {
+        value: function(newPath) {
+            if (this._path === newPath) {
+                this.classList.add("selected");
+                this.element.classList.add("selected");
+            } else {
+                this.classList.remove("selected");
+                this.element.classList.remove("selected");
             }
-            return Promise.resolve(result);
+        }
+    },
+
+    _handlePathChange: {
+        value: function() {
+            var parentPath = this.parentCascadingListItem.data.path,
+                parentLast = _.last(_.split(parentPath, '/')),
+                itemPath =  this.path || this.property || _.kebabCase(this.objectType) ||
+                            (this.object ? this.routingService.getURLFromObject(this.object) : '');
+            if (parentLast === 'create') {
+                this._path = parentPath + '/' + this.object._tmpId;
+            } else {
+                if (parentLast === _.head(_.split(itemPath, '/'))) {
+                    itemPath = _.join(_.drop(_.split(itemPath, '/')), '/');
+                }
+                this._path =  parentPath + '/' + itemPath;
+            }
         }
     },
 
@@ -109,14 +125,7 @@ exports.ListItem = Button.specialize({
     handlePress: {
         value: function () {
             this.active = false;
-            if (this.parentCascadingListItem && this.parentCascadingListItem.data.isRelative) {
-                this.property = this.index;
-            }
-            if (this.property || this.parentCascadingListItem.data.isRelative) {
-                this.parentCascadingListItem.selectProperty(this.property, this.objectType);
-            } else if (this.object) {
-                this.parentCascadingListItem.selectObject(this.object);
-            }
+            this.routingService.navigate(this._path);
             this.classList.add("selected");
             this.element.classList.add("selected");
             this._removeEventListeners();

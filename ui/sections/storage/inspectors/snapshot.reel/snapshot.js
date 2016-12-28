@@ -14,27 +14,6 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
         value: null
     },
 
-    _context: {
-        value: null
-    },
-
-    context: {
-        get: function() {
-            return this._context;
-        },
-        set: function(context) {
-            if (this._context != context) {
-                this._context = context;
-            }
-            this._loadVolume();
-            this._loadParentDataset();
-        }
-    },
-
-    _object: {
-        value: null
-    },
-
     object: {
         get: function() {
             return this._object;
@@ -61,8 +40,12 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
                 this._calendarService = this.application.calendarService;
             }
 
-            this._loadVolume();
-            this._loadParentDataset();
+            if (this.object._volume) {
+                this.object.volume = this.object._volume.id;
+            }
+            if (this.object._dataset) {
+                this.object.dataset = this.object._dataset.id;
+            }
             this._loadExpirationDate();
             this._resetRepetition();
         }
@@ -106,16 +89,15 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
     delete: {
         value: function() {
             var self = this;
- 
+
             return this.inspector.delete(this.extraDeleteFlags[0].checked);
         }
     },
 
     _loadVolume: {
         value: function() {
-            this.volume = this._getCurrentVolume();
-            if (this._object && this.volume) {
-                this._object.volume = this.volume.id;
+            if (this._object && this._volume) {
+                this._object.volume = this._volume.id;
             }
         }
     },
@@ -141,7 +123,7 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
 
             if (!this.object._isNew) {
                 if (this._object.lifetime && this._object.properties) {
-                    expirationDate = new Date((+this.object.properties.creation.rawvalue + this.object.lifetime) * 1000);    
+                    expirationDate = new Date((+this.object.properties.creation.rawvalue + this.object.lifetime) * 1000);
                 }
             } else {
                 expirationDate = defaultExpirationDate;

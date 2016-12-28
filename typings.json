@@ -1,7 +1,12 @@
 {
   "dependencies": {
     "bluebird": "registry:npm/bluebird#3.4.1+20160909132857",
+    "crossroads": "registry:dt/crossroads#0.0.0+20160628004037",
+    "hasher": "registry:dt/hasher#0.0.0+20160628004037",
     "lodash": "registry:npm/lodash#4.0.0+20161015015725",
     "node-uuid": "registry:npm/node-uuid#1.4.7+20160723033700"
+  },
+  "globalDependencies": {
+    "systemjs": "registry:dt/systemjs#0.19.29+20161215140219"
   }
 }
