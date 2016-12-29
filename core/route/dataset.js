@@ -1,4 +1,9 @@
 "use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var volume_repository_1 = require("../repository/volume-repository");
 var event_dispatcher_service_1 = require("../service/event-dispatcher-service");
 var model_descriptor_service_1 = require("../service/model-descriptor-service");
@@ -8,12 +13,14 @@ var _ = require("lodash");
 var Promise = require("bluebird");
 var replication_repository_1 = require("../repository/replication-repository");
 var vmware_repository_1 = require("../repository/vmware-repository");
-var DatasetRoute = (function () {
+var abstract_route_1 = require("./abstract-route");
+var DatasetRoute = (function (_super) {
+    __extends(DatasetRoute, _super);
     function DatasetRoute(volumeRepository, replicationRepository, vmwareRepository, eventDispatcherService, modelDescriptorService, dataObjectChangeService) {
+        _super.call(this, eventDispatcherService);
         this.volumeRepository = volumeRepository;
         this.replicationRepository = replicationRepository;
         this.vmwareRepository = vmwareRepository;
-        this.eventDispatcherService = eventDispatcherService;
         this.modelDescriptorService = modelDescriptorService;
         this.dataObjectChangeService = dataObjectChangeService;
         this.objectType = 'VolumeDataset';
@@ -215,5 +222,5 @@ var DatasetRoute = (function () {
         });
     };
     return DatasetRoute;
-}());
+}(abstract_route_1.AbstractRoute));
 exports.DatasetRoute = DatasetRoute;

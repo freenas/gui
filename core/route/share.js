@@ -1,4 +1,9 @@
 "use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var share_repository_1 = require("../repository/share-repository");
 var model_descriptor_service_1 = require("../service/model-descriptor-service");
 var event_dispatcher_service_1 = require("../service/event-dispatcher-service");
@@ -7,11 +12,13 @@ var _ = require("lodash");
 var volume_repository_1 = require("../repository/volume-repository");
 var model_event_name_1 = require("../model-event-name");
 var data_object_change_service_1 = require("../service/data-object-change-service");
-var ShareRoute = (function () {
+var abstract_route_1 = require("./abstract-route");
+var ShareRoute = (function (_super) {
+    __extends(ShareRoute, _super);
     function ShareRoute(shareRepository, volumeRepository, eventDispatcherService, modelDescriptorService, dataObjectChangeService) {
+        _super.call(this, eventDispatcherService);
         this.shareRepository = shareRepository;
         this.volumeRepository = volumeRepository;
-        this.eventDispatcherService = eventDispatcherService;
         this.modelDescriptorService = modelDescriptorService;
         this.dataObjectChangeService = dataObjectChangeService;
     }
@@ -108,19 +115,12 @@ var ShareRoute = (function () {
             ]).then(function (shares) {
                 shares._objectType = 'Share';
                 context.object = shares;
-                while (stack.length > 3) {
-                    var context_1 = stack.pop();
-                    if (context_1 && context_1.changeListener) {
-                        self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_1.objectType].listChange, context_1.changeListener);
-                    }
-                }
-                stack.push(context);
-                return stack;
+                return self.updateStackWithContext(stack, context);
             });
         });
     };
     ShareRoute.prototype.create = function (volumeId, type, stack) {
-        var self = this, columnIndex = 4, parentContext = stack[columnIndex - 1], context = {
+        var self = this, columnIndex = 3, parentContext = stack[columnIndex], context = {
             columnIndex: columnIndex,
             objectType: 'Share',
             parentContext: parentContext,
@@ -134,16 +134,9 @@ var ShareRoute = (function () {
             share._volume = _.find(volumes, { id: volumeId });
             context.userInterfaceDescriptor = uiDescriptor;
             context.object = share;
-            while (stack.length > columnIndex - 1) {
-                var context_2 = stack.pop();
-                if (context_2 && context_2.changeListener) {
-                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_2.objectType].listChange, context_2.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     };
     return ShareRoute;
-}());
+}(abstract_route_1.AbstractRoute));
 exports.ShareRoute = ShareRoute;

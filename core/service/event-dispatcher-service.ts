@@ -15,6 +15,7 @@ export class EventDispatcherService {
             this.listeners.set(eventName, new Set<Function>());
         }
         this.listeners.get(eventName).add(handler);
+        (handler as any).eventName = eventName;
         return handler;
     }
 

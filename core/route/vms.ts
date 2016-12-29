@@ -2,15 +2,15 @@ import {ModelDescriptorService} from "../service/model-descriptor-service";
 import {EventDispatcherService} from "../service/event-dispatcher-service";
 import {VmRepository} from 'core/repository/vm-repository';
 import _ = require("lodash");
-import {ModelEventName} from "../model-event-name";
+import {AbstractRoute} from "./abstract-route";
 
-export class VmsRoute {
+export class VmsRoute extends AbstractRoute {
     private static instance: VmsRoute;
 
     private constructor(private modelDescriptorService: ModelDescriptorService,
-                        private eventDispatcherService: EventDispatcherService,
+                        eventDispatcherService: EventDispatcherService,
                         private vmRepository: VmRepository) {
-
+        super(eventDispatcherService);
     }
 
     public static getInstance() {
@@ -42,15 +42,7 @@ export class VmsRoute {
             context.object = _.find(vms, {id: vmId});
             context.userInterfaceDescriptor = uiDescriptor;
 
-            while (stack.length > columnIndex) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     }
 
@@ -71,15 +63,7 @@ export class VmsRoute {
             context.object = parentContext.object._readme;
             context.userInterfaceDescriptor = uiDescriptor;
 
-            while (stack.length > columnIndex) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     }
 
@@ -100,15 +84,7 @@ export class VmsRoute {
             context.object = _.forEach(parentContext.object._nonVolumeDevices, (device) => device._objectType = objectType);
             context.userInterfaceDescriptor = uiDescriptor;
 
-            while (stack.length > columnIndex) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     }
 
@@ -129,15 +105,7 @@ export class VmsRoute {
             context.object = _.find(parentContext.object, {id: deviceId};
             context.userInterfaceDescriptor = uiDescriptor;
 
-            while (stack.length > columnIndex) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     }
 
@@ -158,15 +126,7 @@ export class VmsRoute {
             context.object = _.forEach(parentContext.object._volumeDevices, (device) => device._objectType = objectType);
             context.userInterfaceDescriptor = uiDescriptor;
 
-            while (stack.length > columnIndex) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     }
 
@@ -187,15 +147,7 @@ export class VmsRoute {
             context.object = _.find(parentContext.object, {id: volumeId};
             context.userInterfaceDescriptor = uiDescriptor;
 
-            while (stack.length > columnIndex) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     }
 

@@ -16,8 +16,9 @@ var services_1 = require("../route/services");
 var peering_1 = require("../route/peering");
 var network_1 = require("../route/network");
 var vms_1 = require("../route/vms");
+var accounts_1 = require("../route/accounts");
 var RoutingService = (function () {
-    function RoutingService(modelDescriptorService, eventDispatcherService, middlewareClient, sectionRoute, volumeRoute, shareRoute, snapshotRoute, datasetRoute, calendarRoute, systemRoute, serviceRoute, peeringRoute, vmsRoute, networkRoute) {
+    function RoutingService(modelDescriptorService, eventDispatcherService, middlewareClient, sectionRoute, volumeRoute, shareRoute, snapshotRoute, datasetRoute, calendarRoute, systemRoute, serviceRoute, peeringRoute, vmsRoute, networkRoute, accountsRoute) {
         this.modelDescriptorService = modelDescriptorService;
         this.eventDispatcherService = eventDispatcherService;
         this.middlewareClient = middlewareClient;
@@ -32,6 +33,7 @@ var RoutingService = (function () {
         this.peeringRoute = peeringRoute;
         this.vmsRoute = vmsRoute;
         this.networkRoute = networkRoute;
+        this.accountsRoute = accountsRoute;
         this.currentStacks = new Map();
         this.loadRoutes();
         hasher.prependHash = '!';
@@ -39,7 +41,7 @@ var RoutingService = (function () {
     }
     RoutingService.getInstance = function () {
         if (!RoutingService.instance) {
-            RoutingService.instance = new RoutingService(model_descriptor_service_1.ModelDescriptorService.getInstance(), event_dispatcher_service_1.EventDispatcherService.getInstance(), middleware_client_1.MiddlewareClient.getInstance(), section_1.SectionRoute.getInstance(), volume_1.VolumeRoute.getInstance(), share_1.ShareRoute.getInstance(), snapshot_1.SnapshotRoute.getInstance(), dataset_1.DatasetRoute.getInstance(), calendar_1.CalendarRoute.getInstance(), system_1.SystemRoute.getInstance(), services_1.ServicesRoute.getInstance(), peering_1.PeeringRoute.getInstance(), vms_1.VmsRoute.getInstance(), network_1.NetworkRoute.getInstance());
+            RoutingService.instance = new RoutingService(model_descriptor_service_1.ModelDescriptorService.getInstance(), event_dispatcher_service_1.EventDispatcherService.getInstance(), middleware_client_1.MiddlewareClient.getInstance(), section_1.SectionRoute.getInstance(), volume_1.VolumeRoute.getInstance(), share_1.ShareRoute.getInstance(), snapshot_1.SnapshotRoute.getInstance(), dataset_1.DatasetRoute.getInstance(), calendar_1.CalendarRoute.getInstance(), system_1.SystemRoute.getInstance(), services_1.ServicesRoute.getInstance(), peering_1.PeeringRoute.getInstance(), vms_1.VmsRoute.getInstance(), network_1.NetworkRoute.getInstance(), accounts_1.AccountsRoute.getInstance());
         }
         return RoutingService.instance;
     };
@@ -53,8 +55,12 @@ var RoutingService = (function () {
         }
     };
     RoutingService.prototype.getURLFromObject = function (object) {
-        var objectType = this.modelDescriptorService.getObjectType(object), url = objectType === 'Section' ? '/' : _.kebabCase(objectType);
-        return Array.isArray(object) ? url : url + '/_/' + object.id;
+        var objectType = this.modelDescriptorService.getObjectType(object), url = objectType === 'Section' ? '/' : _.kebabCase(objectType), id = !_.isNil(object.id) ?
+            object.id :
+            !_.isNil(object._tmpId) ?
+                object._tmpId :
+                null;
+        return (Array.isArray(object) || _.isNull(id)) ? url : url + '/_/' + id;
     };
     RoutingService.prototype.handleHashChange = function (newHash, oldHash) {
         crossroads.parse(newHash);
@@ -131,6 +137,21 @@ var RoutingService = (function () {
     RoutingService.prototype.loadAccountsRoutes = function () {
         var _this = this;
         crossroads.addRoute('/accounts', function () { return _this.loadSection('accounts'); });
+        crossroads.addRoute('/accounts/user', function () { return _this.accountsRoute.listUsers(_this.currentStacks.get('accounts')); });
+        crossroads.addRoute('/accounts/user/_/{userId}', function (userId) { return _this.accountsRoute.getUser(userId, _this.currentStacks.get('accounts')); });
+        crossroads.addRoute('/accounts/group', function () { return _this.accountsRoute.listGroups(_this.currentStacks.get('accounts')); });
+        crossroads.addRoute('/accounts/group/_/{groupId}', function (groupId) { return _this.accountsRoute.getGroup(groupId, _this.currentStacks.get('accounts')); });
+        crossroads.addRoute('/accounts/account-system', function () { return _this.accountsRoute.listAccountSystems(_this.currentStacks.get('accounts')); });
+        crossroads.addRoute('/accounts/account-system/user/_/{userId}', function (userId) { return _this.accountsRoute.getUser(userId, _this.currentStacks.get('accounts')); });
+        crossroads.addRoute('/accounts/account-system/group/_/{groupId}', function (groupId) { return _this.accountsRoute.getGroup(groupId, _this.currentStacks.get('accounts')); });
+        crossroads.addRoute('/accounts/directory-services', function () { return _this.accountsRoute.getDirectoryServices(_this.currentStacks.get('accounts')); });
+        crossroads.addRoute('/accounts/directory-services/directory/_/{directoryId}', function (directoryId) { return _this.accountsRoute.getDirectory(directoryId, _this.currentStacks.get('accounts')); });
+        crossroads.addRoute('/accounts/directory-services/kerberos-realm', function () { return _this.accountsRoute.listKerberosRealms(_this.currentStacks.get('accounts')); });
+        crossroads.addRoute('/accounts/directory-services/kerberos-realm/create', function () { return _this.accountsRoute.createKerberosRealm(_this.currentStacks.get('accounts')); });
+        crossroads.addRoute('/accounts/directory-services/kerberos-realm/_/{kerberosRealmId}', function (kerberosRealmId) { return _this.accountsRoute.getKerberosRealm(kerberosRealmId, _this.currentStacks.get('accounts')); });
+        crossroads.addRoute('/accounts/directory-services/kerberos-keytab', function () { return _this.accountsRoute.listKerberosKeytabs(_this.currentStacks.get('accounts')); });
+        crossroads.addRoute('/accounts/directory-services/kerberos-keytab/create', function () { return _this.accountsRoute.createKerberosKeytab(_this.currentStacks.get('accounts')); });
+        crossroads.addRoute('/accounts/directory-services/kerberos-keytab/_/{kerberosKeytabId}', function (kerberosKeytabId) { return _this.accountsRoute.getKerberosKeytab(kerberosKeytabId, _this.currentStacks.get('accounts')); });
     };
     RoutingService.prototype.loadDashboardRoutes = function () {
         var _this = this;

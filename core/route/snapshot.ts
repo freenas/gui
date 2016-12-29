@@ -5,15 +5,17 @@ import {DataObjectChangeService} from "../service/data-object-change-service";
 import {ModelEventName} from "../model-event-name";
 import _ = require("lodash");
 import Promise = require("bluebird");
+import {AbstractRoute} from "./abstract-route";
 
-export class SnapshotRoute {
+export class SnapshotRoute extends AbstractRoute {
     private static instance: SnapshotRoute;
     private objectType: string;
 
     private constructor(private volumeRepository: VolumeRepository,
-                        private eventDispatcherService: EventDispatcherService,
+                        eventDispatcherService: EventDispatcherService,
                         private modelDescriptorService: ModelDescriptorService,
                         private dataObjectChangeService: DataObjectChangeService) {
+        super(eventDispatcherService);
         this.objectType = 'VolumeSnapshot';
     }
 
@@ -96,15 +98,7 @@ export class SnapshotRoute {
                 }
             });
 
-            while (stack.length > columnIndex) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     }
 
@@ -128,15 +122,7 @@ export class SnapshotRoute {
             context.userInterfaceDescriptor = uiDescriptor;
 
 
-            while (stack.length > columnIndex) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     }
 
@@ -162,15 +148,7 @@ export class SnapshotRoute {
             context.userInterfaceDescriptor = uiDescriptor;
 
 
-            while (stack.length > columnIndex) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     }
 
@@ -201,15 +179,7 @@ export class SnapshotRoute {
             context.object = snapshot;
             context.userInterfaceDescriptor = uiDescriptor;
 
-            while (stack.length > columnIndex) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     }
 }

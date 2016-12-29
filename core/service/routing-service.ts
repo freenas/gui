@@ -15,6 +15,7 @@ import {ServicesRoute} from "../route/services";
 import {PeeringRoute} from "../route/peering";
 import {NetworkRoute} from "../route/network";
 import {VmsRoute} from "../route/vms";
+import {AccountsRoute} from "../route/accounts";
 
 export class RoutingService {
     private static instance: RoutingService;
@@ -33,7 +34,8 @@ export class RoutingService {
                         private serviceRoute: ServicesRoute,
                         private peeringRoute: PeeringRoute,
                         private vmsRoute: VmsRoute,
-                        private networkRoute: NetworkRoute) {
+                        private networkRoute: NetworkRoute,
+                        private accountsRoute: AccountsRoute) {
         this.currentStacks = new Map<string, any>();
 
         this.loadRoutes();
@@ -57,7 +59,8 @@ export class RoutingService {
                 ServicesRoute.getInstance(),
                 PeeringRoute.getInstance(),
                 VmsRoute.getInstance(),
-                NetworkRoute.getInstance()
+                NetworkRoute.getInstance(),
+                AccountsRoute.getInstance()
             );
         }
         return RoutingService.instance;
@@ -74,8 +77,13 @@ export class RoutingService {
 
     public getURLFromObject(object: any) {
         let objectType = this.modelDescriptorService.getObjectType(object),
-            url = objectType === 'Section' ? '/' : _.kebabCase(objectType);
-        return Array.isArray(object) ? url : url + '/_/' + object.id;
+            url = objectType === 'Section' ? '/' : _.kebabCase(objectType),
+            id = !_.isNil(object.id) ?
+                    object.id :
+                    !_.isNil(object._tmpId) ?
+                        object._tmpId :
+                        null;
+        return (Array.isArray(object) || _.isNull(id)) ? url : url + '/_/' + id;
     }
 
     private handleHashChange(newHash, oldHash) {
@@ -182,6 +190,36 @@ export class RoutingService {
 
     private loadAccountsRoutes() {
         crossroads.addRoute('/accounts', () => this.loadSection('accounts'));
+        crossroads.addRoute('/accounts/user',
+            () => this.accountsRoute.listUsers(this.currentStacks.get('accounts')));
+        crossroads.addRoute('/accounts/user/_/{userId}',
+            (userId) => this.accountsRoute.getUser(userId, this.currentStacks.get('accounts')));
+        crossroads.addRoute('/accounts/group',
+            () => this.accountsRoute.listGroups(this.currentStacks.get('accounts')));
+        crossroads.addRoute('/accounts/group/_/{groupId}',
+            (groupId) => this.accountsRoute.getGroup(groupId, this.currentStacks.get('accounts')));
+        crossroads.addRoute('/accounts/account-system',
+            () => this.accountsRoute.listAccountSystems(this.currentStacks.get('accounts')));
+        crossroads.addRoute('/accounts/account-system/user/_/{userId}',
+            (userId) => this.accountsRoute.getUser(userId, this.currentStacks.get('accounts')));
+        crossroads.addRoute('/accounts/account-system/group/_/{groupId}',
+            (groupId) => this.accountsRoute.getGroup(groupId, this.currentStacks.get('accounts')));
+        crossroads.addRoute('/accounts/directory-services',
+            () => this.accountsRoute.getDirectoryServices(this.currentStacks.get('accounts')));
+        crossroads.addRoute('/accounts/directory-services/directory/_/{directoryId}',
+            (directoryId) => this.accountsRoute.getDirectory(directoryId, this.currentStacks.get('accounts')));
+        crossroads.addRoute('/accounts/directory-services/kerberos-realm',
+            () => this.accountsRoute.listKerberosRealms(this.currentStacks.get('accounts')));
+        crossroads.addRoute('/accounts/directory-services/kerberos-realm/create',
+            () => this.accountsRoute.createKerberosRealm(this.currentStacks.get('accounts')));
+        crossroads.addRoute('/accounts/directory-services/kerberos-realm/_/{kerberosRealmId}',
+            (kerberosRealmId) => this.accountsRoute.getKerberosRealm(kerberosRealmId, this.currentStacks.get('accounts')));
+        crossroads.addRoute('/accounts/directory-services/kerberos-keytab',
+            () => this.accountsRoute.listKerberosKeytabs(this.currentStacks.get('accounts')));
+        crossroads.addRoute('/accounts/directory-services/kerberos-keytab/create',
+            () => this.accountsRoute.createKerberosKeytab(this.currentStacks.get('accounts')));
+        crossroads.addRoute('/accounts/directory-services/kerberos-keytab/_/{kerberosKeytabId}',
+            (kerberosKeytabId) => this.accountsRoute.getKerberosKeytab(kerberosKeytabId, this.currentStacks.get('accounts')));
     }
 
     private loadDashboardRoutes() {

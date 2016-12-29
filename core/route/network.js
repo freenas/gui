@@ -1,14 +1,20 @@
 "use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var _ = require("lodash");
 var Promise = require("bluebird");
-var model_event_name_1 = require("../model-event-name");
 var event_dispatcher_service_1 = require("../service/event-dispatcher-service");
 var model_descriptor_service_1 = require("../service/model-descriptor-service");
 var network_repository_1 = require("../repository/network-repository");
-var NetworkRoute = (function () {
+var abstract_route_1 = require("./abstract-route");
+var NetworkRoute = (function (_super) {
+    __extends(NetworkRoute, _super);
     function NetworkRoute(modelDescriptorService, eventDispatcherService, networkRepository) {
+        _super.call(this, eventDispatcherService);
         this.modelDescriptorService = modelDescriptorService;
-        this.eventDispatcherService = eventDispatcherService;
         this.networkRepository = networkRepository;
     }
     NetworkRoute.getInstance = function () {
@@ -30,14 +36,7 @@ var NetworkRoute = (function () {
         ]).spread(function (interfaces, uiDescriptor) {
             context.object = _.find(interfaces, { id: interfaceId });
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_1 = stack.pop();
-                if (context_1 && context_1.changeListener) {
-                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_1.objectType].listChange, context_1.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     };
     NetworkRoute.prototype.selectNewInterfaceType = function (stack) {
@@ -55,18 +54,11 @@ var NetworkRoute = (function () {
             interfaces._objectType = objectType;
             context.object = _.compact(interfaces);
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_2 = stack.pop();
-                if (context_2 && context_2.changeListener) {
-                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_2.objectType].listChange, context_2.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     };
     NetworkRoute.prototype.create = function (interfaceType, stack) {
-        var self = this, objectType = 'NetworkInterface', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = 'NetworkInterface', columnIndex = 1, parentContext = stack[columnIndex], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -78,16 +70,9 @@ var NetworkRoute = (function () {
             var newInterface = _.find(parentContext.object, { _tmpId: interfaceType });
             context.userInterfaceDescriptor = uiDescriptor;
             context.object = newInterface;
-            while (stack.length > columnIndex - 1) {
-                var context_3 = stack.pop();
-                if (context_3 && context_3.changeListener) {
-                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_3.objectType].listChange, context_3.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     };
     return NetworkRoute;
-}());
+}(abstract_route_1.AbstractRoute));
 exports.NetworkRoute = NetworkRoute;

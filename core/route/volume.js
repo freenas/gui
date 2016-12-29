@@ -1,18 +1,27 @@
 "use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var volume_repository_1 = require("../repository/volume-repository");
 var model_descriptor_service_1 = require("../service/model-descriptor-service");
 var _ = require("lodash");
 var Promise = require("bluebird");
 var disk_repository_1 = require("../repository/disk-repository");
-var VolumeRoute = (function () {
-    function VolumeRoute(modelDescriptorService, volumeRepository, diskRepository) {
+var abstract_route_1 = require("./abstract-route");
+var event_dispatcher_service_1 = require("../service/event-dispatcher-service");
+var VolumeRoute = (function (_super) {
+    __extends(VolumeRoute, _super);
+    function VolumeRoute(modelDescriptorService, eventDispatcherService, volumeRepository, diskRepository) {
+        _super.call(this, eventDispatcherService);
         this.modelDescriptorService = modelDescriptorService;
         this.volumeRepository = volumeRepository;
         this.diskRepository = diskRepository;
     }
     VolumeRoute.getInstance = function () {
         if (!VolumeRoute.instance) {
-            VolumeRoute.instance = new VolumeRoute(model_descriptor_service_1.ModelDescriptorService.getInstance(), volume_repository_1.VolumeRepository.getInstance(), disk_repository_1.DiskRepository.getInstance());
+            VolumeRoute.instance = new VolumeRoute(model_descriptor_service_1.ModelDescriptorService.getInstance(), event_dispatcher_service_1.EventDispatcherService.getInstance(), volume_repository_1.VolumeRepository.getInstance(), disk_repository_1.DiskRepository.getInstance());
         }
         return VolumeRoute.instance;
     };
@@ -61,22 +70,20 @@ var VolumeRoute = (function () {
         this.openDiskAtColumnIndex(diskId, 2, stack);
     };
     VolumeRoute.prototype.openDiskAtColumnIndex = function (diskId, columnIndex, stack) {
+        var self = this;
         return Promise.all([
             this.diskRepository.listDisks(),
             this.modelDescriptorService.getUiDescriptorForType('Disk')
         ]).spread(function (disks, uiDescriptor) {
-            while (stack.length > columnIndex) {
-                stack.pop();
-            }
-            stack.push({
+            var context = {
                 object: _.find(disks, { id: diskId }),
                 userInterfaceDescriptor: uiDescriptor,
                 columnIndex: columnIndex,
                 objectType: 'Disk',
                 parentContext: stack[columnIndex - 1],
                 path: stack[columnIndex - 1].path + '/disk'
-            });
-            return stack;
+            };
+            return self.updateStackWithContext(stack, context);
         });
     };
     VolumeRoute.prototype.create = function (stack) {
@@ -137,5 +144,5 @@ var VolumeRoute = (function () {
         });
     };
     return VolumeRoute;
-}());
+}(abstract_route_1.AbstractRoute));
 exports.VolumeRoute = VolumeRoute;

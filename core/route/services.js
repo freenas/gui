@@ -1,14 +1,20 @@
 "use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var _ = require("lodash");
 var Promise = require("bluebird");
-var model_event_name_1 = require("../model-event-name");
 var event_dispatcher_service_1 = require("../service/event-dispatcher-service");
 var model_descriptor_service_1 = require("../service/model-descriptor-service");
 var service_repository_1 = require("../repository/service-repository");
-var ServicesRoute = (function () {
+var abstract_route_1 = require("./abstract-route");
+var ServicesRoute = (function (_super) {
+    __extends(ServicesRoute, _super);
     function ServicesRoute(modelDescriptorService, eventDispatcherService, serviceRepository) {
+        _super.call(this, eventDispatcherService);
         this.modelDescriptorService = modelDescriptorService;
-        this.eventDispatcherService = eventDispatcherService;
         this.serviceRepository = serviceRepository;
     }
     ServicesRoute.getInstance = function () {
@@ -30,14 +36,7 @@ var ServicesRoute = (function () {
         ]).spread(function (categories, uiDescriptor) {
             context.object = _.find(categories, { id: categoryId });
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_1 = stack.pop();
-                if (context_1 && context_1.changeListener) {
-                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_1.objectType].listChange, context_1.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     };
     ServicesRoute.prototype.getService = function (serviceId, stack) {
@@ -55,16 +54,9 @@ var ServicesRoute = (function () {
             context.userInterfaceDescriptor = uiDescriptor;
             return Promise.resolve(context.object.config);
         }).then(function () {
-            while (stack.length > columnIndex) {
-                var context_2 = stack.pop();
-                if (context_2 && context_2.changeListener) {
-                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_2.objectType].listChange, context_2.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     };
     return ServicesRoute;
-}());
+}(abstract_route_1.AbstractRoute));
 exports.ServicesRoute = ServicesRoute;

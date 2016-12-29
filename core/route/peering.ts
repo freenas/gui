@@ -4,14 +4,15 @@ import {ModelEventName} from "../model-event-name";
 import {EventDispatcherService} from "../service/event-dispatcher-service";
 import {ModelDescriptorService} from "../service/model-descriptor-service";
 import {PeerRepository} from "../repository/peer-repository";
+import {AbstractRoute} from "./abstract-route";
 
-export class PeeringRoute {
+export class PeeringRoute extends AbstractRoute {
     private static instance: PeeringRoute;
 
     private constructor(private modelDescriptorService: ModelDescriptorService,
-                        private eventDispatcherService: EventDispatcherService,
+                        eventDispatcherService: EventDispatcherService,
                         private peerRepository: PeerRepository) {
-
+        super(eventDispatcherService);
     }
 
     public static getInstance() {

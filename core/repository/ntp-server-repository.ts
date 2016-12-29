@@ -21,7 +21,7 @@ export class NtpServerRepository extends AbstractRepository {
     }
 
     public listNtpServers(): Promise<Array<Object>> {
-        return this.ntpServers ? this.ntpServers.toJS() : this.ntpServerDao.list();
+        return this.ntpServers ? Promise.resolve(this.ntpServers.valueSeq().toJS()) : this.ntpServerDao.list();
     }
 
     public syncNow(serverAddress: string) {

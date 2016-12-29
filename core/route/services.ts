@@ -4,14 +4,15 @@ import {ModelEventName} from "../model-event-name";
 import {EventDispatcherService} from "../service/event-dispatcher-service";
 import {ModelDescriptorService} from "../service/model-descriptor-service";
 import {ServiceRepository} from "../repository/service-repository";
+import {AbstractRoute} from "./abstract-route";
 
-export class ServicesRoute {
+export class ServicesRoute extends AbstractRoute {
     private static instance: ServicesRoute;
 
     private constructor(private modelDescriptorService: ModelDescriptorService,
-                        private eventDispatcherService: EventDispatcherService,
+                        eventDispatcherService: EventDispatcherService,
                         private serviceRepository: ServiceRepository) {
-
+        super(eventDispatcherService);
     }
 
     public static getInstance() {
@@ -43,15 +44,7 @@ export class ServicesRoute {
             context.object = _.find(categories, {id: categoryId});
             context.userInterfaceDescriptor = uiDescriptor;
 
-            while (stack.length > columnIndex) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     }
 
@@ -74,15 +67,7 @@ export class ServicesRoute {
             context.userInterfaceDescriptor = uiDescriptor;
             return Promise.resolve(context.object.config);
         }).then(function() {
-            while (stack.length > columnIndex) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     }
 }

@@ -1,4 +1,9 @@
 "use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var Promise = require("bluebird");
 var event_dispatcher_service_1 = require("../service/event-dispatcher-service");
 var model_descriptor_service_1 = require("../service/model-descriptor-service");
@@ -6,10 +11,12 @@ var sectionsDescriptors = require("core/model/sections-descriptors.json");
 var calendar_repository_1 = require("../repository/calendar-repository");
 var _ = require("lodash");
 var model_event_name_1 = require("../model-event-name");
-var CalendarRoute = (function () {
+var abstract_route_1 = require("./abstract-route");
+var CalendarRoute = (function (_super) {
+    __extends(CalendarRoute, _super);
     function CalendarRoute(modelDescriptorService, eventDispatcherService, calendarRepository) {
+        _super.call(this, eventDispatcherService);
         this.modelDescriptorService = modelDescriptorService;
-        this.eventDispatcherService = eventDispatcherService;
         this.calendarRepository = calendarRepository;
     }
     CalendarRoute.getInstance = function () {
@@ -90,5 +97,5 @@ var CalendarRoute = (function () {
         });
     };
     return CalendarRoute;
-}());
+}(abstract_route_1.AbstractRoute));
 exports.CalendarRoute = CalendarRoute;

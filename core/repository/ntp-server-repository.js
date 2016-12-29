@@ -20,7 +20,7 @@ var NtpServerRepository = (function (_super) {
         return NtpServerRepository.instance;
     };
     NtpServerRepository.prototype.listNtpServers = function () {
-        return this.ntpServers ? this.ntpServers.toJS() : this.ntpServerDao.list();
+        return this.ntpServers ? Promise.resolve(this.ntpServers.valueSeq().toJS()) : this.ntpServerDao.list();
     };
     NtpServerRepository.prototype.syncNow = function (serverAddress) {
         return this.ntpServerDao.syncNow(serverAddress);

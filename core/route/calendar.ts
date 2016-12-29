@@ -6,14 +6,16 @@ import sectionsDescriptors  = require("core/model/sections-descriptors.json");
 import {CalendarRepository} from "../repository/calendar-repository";
 import _ = require("lodash");
 import {ModelEventName} from "../model-event-name";
+import {AbstractRoute} from "./abstract-route";
 
-export class CalendarRoute {
+export class CalendarRoute extends AbstractRoute {
     private static instance: CalendarRoute;
     private calendarService: any;
 
     private constructor(private modelDescriptorService: ModelDescriptorService,
-                        private eventDispatcherService: EventDispatcherService,
+                        eventDispatcherService: EventDispatcherService,
                         private calendarRepository: CalendarRepository) {
+        super(eventDispatcherService);
     }
 
     public static getInstance() {

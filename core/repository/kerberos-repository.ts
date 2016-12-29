@@ -38,6 +38,10 @@ export class KerberosRepository {
         return this.kerberosRealmDao.list();
     }
 
+    public listKerberosKeytabs() {
+        return this.kerberosKeytabDao.list();
+    }
+
     public saveKerberosRealm(kerberosRealm) {
         return this.kerberosRealmDao.save(kerberosRealm);
     }
@@ -48,10 +52,6 @@ export class KerberosRepository {
 
     public saveKerberosKeytab(kerberosKeytab) {
         return this.kerberosKeytabDao.save(kerberosKeytab);
-    }
-
-    public listNtpServers() {
-        return this.ntpServerDao.list();
     }
 }
 

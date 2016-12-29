@@ -6,16 +6,17 @@ import _ = require("lodash");
 import {VolumeRepository} from "../repository/volume-repository";
 import {ModelEventName} from "../model-event-name";
 import {DataObjectChangeService} from "../service/data-object-change-service";
+import {AbstractRoute} from "./abstract-route";
 
-export class ShareRoute {
+export class ShareRoute extends AbstractRoute {
     private static instance: ShareRoute;
 
     private constructor(private shareRepository: ShareRepository,
                         private volumeRepository: VolumeRepository,
-                        private eventDispatcherService: EventDispatcherService,
+                        eventDispatcherService: EventDispatcherService,
                         private modelDescriptorService: ModelDescriptorService,
                         private dataObjectChangeService: DataObjectChangeService) {
-
+        super(eventDispatcherService);
     }
 
     public static getInstance() {
@@ -128,23 +129,15 @@ export class ShareRoute {
                 shares._objectType = 'Share';
                 context.object = shares;
 
-                while (stack.length > 3) {
-                    let context = stack.pop();
-                    if (context && context.changeListener) {
-                        self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                    }
-                }
-
-                stack.push(context);
-                return stack;
+                return self.updateStackWithContext(stack, context);
             })
         });
     }
 
     public create(volumeId: string, type: string, stack: Array<any>) {
         let self = this,
-            columnIndex = 4,
-            parentContext = stack[columnIndex-1],
+            columnIndex = 3,
+            parentContext = stack[columnIndex],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: 'Share',
@@ -161,15 +154,7 @@ export class ShareRoute {
             context.object = share;
 
 
-            while (stack.length > columnIndex-1) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     }
 }

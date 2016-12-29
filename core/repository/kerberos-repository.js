@@ -27,6 +27,9 @@ var KerberosRepository = (function () {
     KerberosRepository.prototype.listKerberosRealms = function () {
         return this.kerberosRealmDao.list();
     };
+    KerberosRepository.prototype.listKerberosKeytabs = function () {
+        return this.kerberosKeytabDao.list();
+    };
     KerberosRepository.prototype.saveKerberosRealm = function (kerberosRealm) {
         return this.kerberosRealmDao.save(kerberosRealm);
     };
@@ -35,9 +38,6 @@ var KerberosRepository = (function () {
     };
     KerberosRepository.prototype.saveKerberosKeytab = function (kerberosKeytab) {
         return this.kerberosKeytabDao.save(kerberosKeytab);
-    };
-    KerberosRepository.prototype.listNtpServers = function () {
-        return this.ntpServerDao.list();
     };
     return KerberosRepository;
 }());

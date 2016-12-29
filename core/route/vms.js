@@ -1,13 +1,19 @@
 "use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var model_descriptor_service_1 = require("../service/model-descriptor-service");
 var event_dispatcher_service_1 = require("../service/event-dispatcher-service");
 var vm_repository_1 = require('core/repository/vm-repository');
 var _ = require("lodash");
-var model_event_name_1 = require("../model-event-name");
-var VmsRoute = (function () {
+var abstract_route_1 = require("./abstract-route");
+var VmsRoute = (function (_super) {
+    __extends(VmsRoute, _super);
     function VmsRoute(modelDescriptorService, eventDispatcherService, vmRepository) {
+        _super.call(this, eventDispatcherService);
         this.modelDescriptorService = modelDescriptorService;
-        this.eventDispatcherService = eventDispatcherService;
         this.vmRepository = vmRepository;
     }
     VmsRoute.getInstance = function () {
@@ -29,14 +35,7 @@ var VmsRoute = (function () {
         ]).spread(function (vms, uiDescriptor) {
             context.object = _.find(vms, { id: vmId });
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_1 = stack.pop();
-                if (context_1 && context_1.changeListener) {
-                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_1.objectType].listChange, context_1.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     };
     VmsRoute.prototype.getReadme = function (stack) {
@@ -51,14 +50,7 @@ var VmsRoute = (function () {
         ]).spread(function (uiDescriptor) {
             context.object = parentContext.object._readme;
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_2 = stack.pop();
-                if (context_2 && context_2.changeListener) {
-                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_2.objectType].listChange, context_2.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     };
     VmsRoute.prototype.getDevices = function (stack) {
@@ -73,14 +65,7 @@ var VmsRoute = (function () {
         ]).spread(function (uiDescriptor) {
             context.object = _.forEach(parentContext.object._nonVolumeDevices, function (device) { return device._objectType = objectType; });
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_3 = stack.pop();
-                if (context_3 && context_3.changeListener) {
-                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_3.objectType].listChange, context_3.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     };
     VmsRoute.prototype.getDevice = function (deviceId, stack) {
@@ -95,14 +80,7 @@ var VmsRoute = (function () {
         ]).spread(function (uiDescriptor) {
             context.object = _.find(parentContext.object, { id: deviceId });
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_4 = stack.pop();
-                if (context_4 && context_4.changeListener) {
-                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_4.objectType].listChange, context_4.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     };
     VmsRoute.prototype.getVolumes = function (stack) {
@@ -117,14 +95,7 @@ var VmsRoute = (function () {
         ]).spread(function (uiDescriptor) {
             context.object = _.forEach(parentContext.object._volumeDevices, function (device) { return device._objectType = objectType; });
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_5 = stack.pop();
-                if (context_5 && context_5.changeListener) {
-                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_5.objectType].listChange, context_5.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     };
     VmsRoute.prototype.getVolume = function (volumeId, stack) {
@@ -139,16 +110,9 @@ var VmsRoute = (function () {
         ]).spread(function (uiDescriptor) {
             context.object = _.find(parentContext.object, { id: volumeId });
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_6 = stack.pop();
-                if (context_6 && context_6.changeListener) {
-                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_6.objectType].listChange, context_6.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     };
     return VmsRoute;
-}());
+}(abstract_route_1.AbstractRoute));
 exports.VmsRoute = VmsRoute;

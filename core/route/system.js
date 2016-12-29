@@ -1,6 +1,10 @@
 "use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var system_repository_1 = require("../repository/system-repository");
-var model_event_name_1 = require("../model-event-name");
 var model_descriptor_service_1 = require("../service/model-descriptor-service");
 var event_dispatcher_service_1 = require("../service/event-dispatcher-service");
 var crypto_certificate_type_1 = require("core/model/enumerations/crypto-certificate-type");
@@ -11,10 +15,12 @@ var alert_filter_repository_1 = require("core/repository/alert-filter-repository
 var mail_repository_1 = require("../repository/mail-repository");
 var tunable_repository_1 = require("../repository/tunable-repository");
 var ntp_server_repository_1 = require("../repository/ntp-server-repository");
-var SystemRoute = (function () {
+var abstract_route_1 = require("./abstract-route");
+var SystemRoute = (function (_super) {
+    __extends(SystemRoute, _super);
     function SystemRoute(modelDescriptorService, eventDispatcherService, systemRepository, cryptoCertificateRepository, alertFilterRepository, mailRepository, tunableRepository, ntpServerRepository) {
+        _super.call(this, eventDispatcherService);
         this.modelDescriptorService = modelDescriptorService;
-        this.eventDispatcherService = eventDispatcherService;
         this.systemRepository = systemRepository;
         this.cryptoCertificateRepository = cryptoCertificateRepository;
         this.alertFilterRepository = alertFilterRepository;
@@ -42,14 +48,7 @@ var SystemRoute = (function () {
         ]).spread(function (systemSections, uiDescriptor) {
             context.object = _.find(systemSections, { id: systemSectionId });
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_1 = stack.pop();
-                if (context_1 && context_1.changeListener) {
-                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_1.objectType].listChange, context_1.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     };
     SystemRoute.prototype.getCertificate = function (certificateId, stack) {
@@ -65,14 +64,7 @@ var SystemRoute = (function () {
         ]).spread(function (certificates, uiDescriptor) {
             context.object = _.find(certificates, { id: certificateId });
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_2 = stack.pop();
-                if (context_2 && context_2.changeListener) {
-                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_2.objectType].listChange, context_2.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     };
     SystemRoute.prototype.selectNewCertificateType = function (stack) {
@@ -90,18 +82,11 @@ var SystemRoute = (function () {
             cryptoCertificates._objectType = objectType;
             context.object = _.compact(cryptoCertificates);
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_3 = stack.pop();
-                if (context_3 && context_3.changeListener) {
-                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_3.objectType].listChange, context_3.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     };
     SystemRoute.prototype.createCertificate = function (certificateType, stack) {
-        var self = this, objectType = 'CryptoCertificate', columnIndex = 3, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = 'CryptoCertificate', columnIndex = 2, parentContext = stack[columnIndex], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -113,14 +98,7 @@ var SystemRoute = (function () {
             var share = _.find(parentContext.object, { _tmpId: certificateType });
             context.userInterfaceDescriptor = uiDescriptor;
             context.object = share;
-            while (stack.length > columnIndex - 1) {
-                var context_4 = stack.pop();
-                if (context_4 && context_4.changeListener) {
-                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_4.objectType].listChange, context_4.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     };
     SystemRoute.prototype.getAlertFilter = function (filterId, stack) {
@@ -136,14 +114,7 @@ var SystemRoute = (function () {
         ]).spread(function (alterFilters, uiDescriptor) {
             context.object = _.find(alterFilters, { id: filterId });
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_5 = stack.pop();
-                if (context_5 && context_5.changeListener) {
-                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_5.objectType].listChange, context_5.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     };
     SystemRoute.prototype.createAlertFilter = function (stack) {
@@ -159,14 +130,7 @@ var SystemRoute = (function () {
         ]).spread(function (alterFilter, uiDescriptor) {
             context.object = alterFilter;
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_6 = stack.pop();
-                if (context_6 && context_6.changeListener) {
-                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_6.objectType].listChange, context_6.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     };
     SystemRoute.prototype.getAlertSettings = function (stack) {
@@ -182,14 +146,7 @@ var SystemRoute = (function () {
         ]).spread(function (mailConfig, uiDescriptor) {
             context.object = mailConfig;
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_7 = stack.pop();
-                if (context_7 && context_7.changeListener) {
-                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_7.objectType].listChange, context_7.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     };
     SystemRoute.prototype.createTunable = function (stack) {
@@ -205,14 +162,7 @@ var SystemRoute = (function () {
         ]).spread(function (tunable, uiDescriptor) {
             context.object = tunable;
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_8 = stack.pop();
-                if (context_8 && context_8.changeListener) {
-                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_8.objectType].listChange, context_8.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     };
     SystemRoute.prototype.getTunable = function (tunableId, stack) {
@@ -228,14 +178,7 @@ var SystemRoute = (function () {
         ]).spread(function (tunables, uiDescriptor) {
             context.object = _.find(tunables, { id: tunableId });
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_9 = stack.pop();
-                if (context_9 && context_9.changeListener) {
-                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_9.objectType].listChange, context_9.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     };
     SystemRoute.prototype.createNtpServer = function (stack) {
@@ -251,14 +194,7 @@ var SystemRoute = (function () {
         ]).spread(function (ntpServer, uiDescriptor) {
             context.object = ntpServer;
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_10 = stack.pop();
-                if (context_10 && context_10.changeListener) {
-                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_10.objectType].listChange, context_10.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     };
     SystemRoute.prototype.getNtpServer = function (ntpServerId, stack) {
@@ -274,16 +210,9 @@ var SystemRoute = (function () {
         ]).spread(function (ntpServers, uiDescriptor) {
             context.object = _.find(ntpServers, { id: ntpServerId });
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_11 = stack.pop();
-                if (context_11 && context_11.changeListener) {
-                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_11.objectType].listChange, context_11.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     };
     return SystemRoute;
-}());
+}(abstract_route_1.AbstractRoute));
 exports.SystemRoute = SystemRoute;

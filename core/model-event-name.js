@@ -26,6 +26,8 @@ var ModelEventName = (function () {
     ModelEventName.CryptoCertificate = new ModelEventName('CryptoCertificate');
     ModelEventName.Tunable = new ModelEventName('Tunable');
     ModelEventName.NetworkInterface = new ModelEventName('NetworkInterface');
+    ModelEventName.KerberosRealm = new ModelEventName('KerberosRealm');
+    ModelEventName.KerberosKeytab = new ModelEventName('KerberosKeytab');
     return ModelEventName;
 }());
 exports.ModelEventName = ModelEventName;

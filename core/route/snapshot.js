@@ -1,4 +1,9 @@
 "use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var volume_repository_1 = require("../repository/volume-repository");
 var event_dispatcher_service_1 = require("../service/event-dispatcher-service");
 var model_descriptor_service_1 = require("../service/model-descriptor-service");
@@ -6,10 +11,12 @@ var data_object_change_service_1 = require("../service/data-object-change-servic
 var model_event_name_1 = require("../model-event-name");
 var _ = require("lodash");
 var Promise = require("bluebird");
-var SnapshotRoute = (function () {
+var abstract_route_1 = require("./abstract-route");
+var SnapshotRoute = (function (_super) {
+    __extends(SnapshotRoute, _super);
     function SnapshotRoute(volumeRepository, eventDispatcherService, modelDescriptorService, dataObjectChangeService) {
+        _super.call(this, eventDispatcherService);
         this.volumeRepository = volumeRepository;
-        this.eventDispatcherService = eventDispatcherService;
         this.modelDescriptorService = modelDescriptorService;
         this.dataObjectChangeService = dataObjectChangeService;
         this.objectType = 'VolumeSnapshot';
@@ -78,14 +85,7 @@ var SnapshotRoute = (function () {
                     }
                 }
             });
-            while (stack.length > columnIndex) {
-                var context_1 = stack.pop();
-                if (context_1 && context_1.changeListener) {
-                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_1.objectType].listChange, context_1.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     };
     SnapshotRoute.prototype.create = function (volumeId, stack) {
@@ -103,14 +103,7 @@ var SnapshotRoute = (function () {
             snapshot._volume = _.find(volumes, { id: volumeId });
             context.object = snapshot;
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_2 = stack.pop();
-                if (context_2 && context_2.changeListener) {
-                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_2.objectType].listChange, context_2.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     };
     SnapshotRoute.prototype.createForDataset = function (volumeId, datasetId, stack) {
@@ -130,14 +123,7 @@ var SnapshotRoute = (function () {
             snapshot._dataset = _.find(datasets, { id: datasetId });
             context.object = snapshot;
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_3 = stack.pop();
-                if (context_3 && context_3.changeListener) {
-                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_3.objectType].listChange, context_3.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     };
     SnapshotRoute.prototype.get = function (volumeId, snapshotId, stack) {
@@ -162,16 +148,9 @@ var SnapshotRoute = (function () {
             snapshot._volume = _.find(volumes, { id: volumeId });
             context.object = snapshot;
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_4 = stack.pop();
-                if (context_4 && context_4.changeListener) {
-                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_4.objectType].listChange, context_4.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     };
     return SnapshotRoute;
-}());
+}(abstract_route_1.AbstractRoute));
 exports.SnapshotRoute = SnapshotRoute;

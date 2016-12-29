@@ -13,10 +13,9 @@ export class AccountRepository extends AbstractRepository {
 
     private users: Map<string, Map<string, any>>;
     private groups: Map<string, Map<string, any>>;
-    private directoryServices: Map<string, Map<string, any>>;
     private directories: Map<string, Map<string, any>>;
 
-    private DIRECTORY_TYPES_LABELS = {
+    public static readonly DIRECTORY_TYPES_LABELS = {
         winbind: "Active Directory",
         freeipa: "FreeIPA",
         ldap: "LDAP",
@@ -72,12 +71,16 @@ export class AccountRepository extends AbstractRepository {
         return this.directoryserviceConfigDao.get();
     }
 
+    public listDirectories() {
+        return this.directoryDao.list();
+    }
+
     public getNewDirectoryForType(type: string) {
-        let self = this;
         return this.directoryDao.getNewInstance().then(function (directory) {
             directory.type = type;
+            directory._tmpId = type;
             directory.parameters = {"%type": type + "-directory-params"};
-            directory.label = self.DIRECTORY_TYPES_LABELS[type];
+            directory.label = AccountRepository.DIRECTORY_TYPES_LABELS[type];
 
             return directory;
         });

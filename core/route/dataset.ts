@@ -7,17 +7,19 @@ import _ = require("lodash");
 import Promise = require("bluebird");
 import {ReplicationRepository} from "../repository/replication-repository";
 import {VmwareRepository} from "../repository/vmware-repository";
+import {AbstractRoute} from "./abstract-route";
 
-export class DatasetRoute {
+export class DatasetRoute extends AbstractRoute {
     private static instance: DatasetRoute;
     private objectType: string;
 
     private constructor(private volumeRepository: VolumeRepository,
                         private replicationRepository: ReplicationRepository,
                         private vmwareRepository: VmwareRepository,
-                        private eventDispatcherService: EventDispatcherService,
+                        eventDispatcherService: EventDispatcherService,
                         private modelDescriptorService: ModelDescriptorService,
                         private dataObjectChangeService: DataObjectChangeService) {
+        super(eventDispatcherService);
         this.objectType = 'VolumeDataset';
     }
 

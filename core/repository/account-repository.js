@@ -25,12 +25,6 @@ var AccountRepository = (function (_super) {
         this.directoryServiceDao = directoryServiceDao;
         this.directoryserviceConfigDao = directoryserviceConfigDao;
         this.directoryDao = directoryDao;
-        this.DIRECTORY_TYPES_LABELS = {
-            winbind: "Active Directory",
-            freeipa: "FreeIPA",
-            ldap: "LDAP",
-            nis: "NIS"
-        };
     }
     AccountRepository.getInstance = function () {
         if (!AccountRepository.instance) {
@@ -56,12 +50,15 @@ var AccountRepository = (function (_super) {
     AccountRepository.prototype.getDirectoryServiceConfig = function () {
         return this.directoryserviceConfigDao.get();
     };
+    AccountRepository.prototype.listDirectories = function () {
+        return this.directoryDao.list();
+    };
     AccountRepository.prototype.getNewDirectoryForType = function (type) {
-        var self = this;
         return this.directoryDao.getNewInstance().then(function (directory) {
             directory.type = type;
+            directory._tmpId = type;
             directory.parameters = { "%type": type + "-directory-params" };
-            directory.label = self.DIRECTORY_TYPES_LABELS[type];
+            directory.label = AccountRepository.DIRECTORY_TYPES_LABELS[type];
             return directory;
         });
     };
@@ -81,6 +78,12 @@ var AccountRepository = (function (_super) {
         }
     };
     AccountRepository.prototype.handleEvent = function (name, data) {
+    };
+    AccountRepository.DIRECTORY_TYPES_LABELS = {
+        winbind: "Active Directory",
+        freeipa: "FreeIPA",
+        ldap: "LDAP",
+        nis: "NIS"
     };
     return AccountRepository;
 }(abstract_repository_ng_1.AbstractRepository));

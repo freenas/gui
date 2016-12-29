@@ -18,6 +18,8 @@ export class ModelEventName {
     public static CryptoCertificate = new ModelEventName('CryptoCertificate');
     public static Tunable = new ModelEventName('Tunable');
     public static NetworkInterface = new ModelEventName('NetworkInterface');
+    public static KerberosRealm = new ModelEventName('KerberosRealm');
+    public static KerberosKeytab = new ModelEventName('KerberosKeytab');
 
     public listChange: string;
     public contentChange: string;

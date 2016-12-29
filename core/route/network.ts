@@ -4,13 +4,16 @@ import {ModelEventName} from "../model-event-name";
 import {EventDispatcherService} from "../service/event-dispatcher-service";
 import {ModelDescriptorService} from "../service/model-descriptor-service";
 import {NetworkRepository} from "../repository/network-repository";
+import {AbstractRoute} from "./abstract-route";
+import stack = Plottable.Utils.Stacking.stack;
 
-export class NetworkRoute {
+export class NetworkRoute extends AbstractRoute {
     private static instance: NetworkRoute;
 
     private constructor(private modelDescriptorService: ModelDescriptorService,
-                        private eventDispatcherService: EventDispatcherService,
+                        eventDispatcherService: EventDispatcherService,
                         private networkRepository: NetworkRepository) {
+        super(eventDispatcherService);
     }
 
     public static getInstance() {
@@ -42,15 +45,7 @@ export class NetworkRoute {
             context.object = _.find(interfaces, {id: interfaceId});
             context.userInterfaceDescriptor = uiDescriptor;
 
-            while (stack.length > columnIndex) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     }
 
@@ -73,23 +68,15 @@ export class NetworkRoute {
             context.object = _.compact(interfaces);
             context.userInterfaceDescriptor = uiDescriptor;
 
-            while (stack.length > columnIndex) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     }
 
     public create(interfaceType: string, stack: Array<any>) {
         let self = this,
             objectType = 'NetworkInterface',
-            columnIndex = 2,
-            parentContext = stack[columnIndex-1],
+            columnIndex = 1,
+            parentContext = stack[columnIndex],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -103,15 +90,7 @@ export class NetworkRoute {
             context.userInterfaceDescriptor = uiDescriptor;
             context.object = newInterface;
 
-            while (stack.length > columnIndex-1) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     }
 

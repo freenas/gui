@@ -11,6 +11,7 @@ var EventDispatcherService = (function () {
             this.listeners.set(eventName, new Set());
         }
         this.listeners.get(eventName).add(handler);
+        handler.eventName = eventName;
         return handler;
     };
     EventDispatcherService.prototype.removeEventListener = function (eventName, handler) {

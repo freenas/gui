@@ -1,12 +1,19 @@
 "use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var Promise = require("bluebird");
 var event_dispatcher_service_1 = require("../service/event-dispatcher-service");
 var model_descriptor_service_1 = require("../service/model-descriptor-service");
 var sectionsDescriptors = require("core/model/sections-descriptors.json");
-var SectionRoute = (function () {
+var abstract_route_1 = require("./abstract-route");
+var SectionRoute = (function (_super) {
+    __extends(SectionRoute, _super);
     function SectionRoute(modelDescriptorService, eventDispatcherService) {
+        _super.call(this, eventDispatcherService);
         this.modelDescriptorService = modelDescriptorService;
-        this.eventDispatcherService = eventDispatcherService;
         this.sectionsServices = new Map();
     }
     SectionRoute.getInstance = function () {
@@ -67,5 +74,5 @@ var SectionRoute = (function () {
         this.eventDispatcherService.dispatch('oldSectionChange', sectionId);
     };
     return SectionRoute;
-}());
+}(abstract_route_1.AbstractRoute));
 exports.SectionRoute = SectionRoute;

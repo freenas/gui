@@ -10,19 +10,21 @@ import {AlertFilterRepository} from "core/repository/alert-filter-repository";
 import {MailRepository} from "../repository/mail-repository";
 import {TunableRepository} from "../repository/tunable-repository";
 import {NtpServerRepository} from "../repository/ntp-server-repository";
+import {AbstractRoute} from "./abstract-route";
 
-export class SystemRoute {
+export class SystemRoute extends AbstractRoute {
     private static instance: SystemRoute;
     private objectType: string;
 
     private constructor(private modelDescriptorService: ModelDescriptorService,
-                        private eventDispatcherService: EventDispatcherService,
+                        eventDispatcherService: EventDispatcherService,
                         private systemRepository: SystemRepository,
                         private cryptoCertificateRepository: CryptoCertificateRepository,
                         private alertFilterRepository: AlertFilterRepository,
                         private mailRepository: MailRepository,
                         private tunableRepository: TunableRepository,
                         private ntpServerRepository: NtpServerRepository) {
+        super(eventDispatcherService);
         this.objectType = 'SystemSection';
     }
 
@@ -59,15 +61,7 @@ export class SystemRoute {
             context.object = _.find(systemSections, {id: systemSectionId});
             context.userInterfaceDescriptor = uiDescriptor;
 
-            while (stack.length > columnIndex) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     }
 
@@ -89,15 +83,7 @@ export class SystemRoute {
             context.object = _.find(certificates, {id: certificateId});
             context.userInterfaceDescriptor = uiDescriptor;
 
-            while (stack.length > columnIndex) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     }
 
@@ -120,23 +106,15 @@ export class SystemRoute {
             context.object = _.compact(cryptoCertificates);
             context.userInterfaceDescriptor = uiDescriptor;
 
-            while (stack.length > columnIndex) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     }
 
     public createCertificate(certificateType: string, stack: Array<any>) {
         let self = this,
             objectType = 'CryptoCertificate',
-            columnIndex = 3,
-            parentContext = stack[columnIndex-1],
+            columnIndex = 2,
+            parentContext = stack[columnIndex],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -150,16 +128,7 @@ export class SystemRoute {
             context.userInterfaceDescriptor = uiDescriptor;
             context.object = share;
 
-
-            while (stack.length > columnIndex-1) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     }
 
@@ -181,15 +150,7 @@ export class SystemRoute {
             context.object = _.find(alterFilters, {id: filterId});
             context.userInterfaceDescriptor = uiDescriptor;
 
-            while (stack.length > columnIndex) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     }
 
@@ -211,15 +172,7 @@ export class SystemRoute {
             context.object = alterFilter;
             context.userInterfaceDescriptor = uiDescriptor;
 
-            while (stack.length > columnIndex) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     }
 
@@ -241,15 +194,7 @@ export class SystemRoute {
             context.object = mailConfig;
             context.userInterfaceDescriptor = uiDescriptor;
 
-            while (stack.length > columnIndex) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     }
 
@@ -271,15 +216,7 @@ export class SystemRoute {
             context.object = tunable;
             context.userInterfaceDescriptor = uiDescriptor;
 
-            while (stack.length > columnIndex) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     }
 
@@ -301,15 +238,7 @@ export class SystemRoute {
             context.object = _.find(tunables, {id: tunableId});
             context.userInterfaceDescriptor = uiDescriptor;
 
-            while (stack.length > columnIndex) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     }
 
@@ -331,15 +260,7 @@ export class SystemRoute {
             context.object = ntpServer;
             context.userInterfaceDescriptor = uiDescriptor;
 
-            while (stack.length > columnIndex) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     }
 
@@ -361,15 +282,7 @@ export class SystemRoute {
             context.object = _.find(ntpServers, {id: ntpServerId});
             context.userInterfaceDescriptor = uiDescriptor;
 
-            while (stack.length > columnIndex) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     }
 

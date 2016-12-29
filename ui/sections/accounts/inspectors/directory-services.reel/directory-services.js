@@ -1,6 +1,6 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     ModelEventName = require("core/model-event-name").ModelEventName,
-    Model = require("core/model/model").Model;
+    _ = require("lodash");
 
 exports.DirectoryServices = AbstractInspector.specialize({
     _inspectorTemplateDidLoad: {
@@ -25,9 +25,6 @@ exports.DirectoryServices = AbstractInspector.specialize({
 
     _handleNtpServersChange: {
         value: function(ntpServers) {
-            if (!Array.isArray(ntpServers)) {
-                ntpServers = ntpServers.toJS();
-            }
             this.ntpServerOptions = ntpServers.map(function(x) {
                 return { label: x.address, value: x.address };
             });
@@ -42,24 +39,24 @@ exports.DirectoryServices = AbstractInspector.specialize({
 
     handleDirectoriesChange: {
         value: function () {
-            var directoryTypesKeyValuesKeys = Object.keys(this.constructor.DIRECTORY_TYPES_KEY_VALUES),
+            var directoryTypesKeyValuesKeys = _.keys(this._sectionService.DIRECTORY_TYPES_LABELS),
                 directoryTypesValueKeys = this.constructor.DIRECTORY_TYPES_VALUE_KEYS,
-                directoryTypesLabels = this.constructor.DIRECTORY_TYPES_LABELS,
+                directoryTypesLabels = this._sectionService.DIRECTORY_TYPES_LABELS,
                 directoryServicesMap = new Map(),
                 directories = this._directories,
-                directoryServices, directoryService,
+                directory,
                 directoryTypesValueKey,
                 directoryTypesKeyValue,
-                directory, i, length,
+                i, length,
                 promises = [],
                 self = this;
 
             for (i = 0, length = directories.length; i < length; i++) {
-                directoryService = directories[i];
+                directory = directories[i];
 
-                if ((directoryTypesValueKey = directoryTypesValueKeys[directoryService.type]) && directoryService.name) {
-                    directoryServicesMap.set(directoryTypesValueKey, directoryService);
-                    directoryService.label = directoryTypesLabels[directoryService.type];
+                if ((directoryTypesValueKey = directoryTypesValueKeys[directory.type]) && directory.name) {
+                    directoryServicesMap.set(directoryTypesValueKey, directory);
+                    directory.label = directoryTypesLabels[directory.type];
                 }
             }
 
@@ -113,7 +110,7 @@ exports.DirectoryServices = AbstractInspector.specialize({
                 this._sectionService.getDirectoryServiceConfig().then(function(directoryServiceConfig) {
                     self.directoryServiceConfig = directoryServiceConfig;
                     self._originalSearchOrder = self.directoryServiceConfig.search_order.slice();
-                    return self.application.dataService.fetchData(Model.Directory)
+                    return self._sectionService.listDirectories();
                 }).then(function (directories) {
                     self._directories = directories;
                     self.addRangeAtPathChangeListener("_directories", self, "handleDirectoriesChange");
@@ -125,30 +122,12 @@ exports.DirectoryServices = AbstractInspector.specialize({
 
     _getNewDirectoryInstance: {
         value: function (type) {
-            var directoryTypesKeyValues = this.constructor.DIRECTORY_TYPES_KEY_VALUES,
-                directoryTypesLabels = this.constructor.DIRECTORY_TYPES_LABELS;
-
-            return this.application.dataService.getNewInstanceForType(Model.Directory).then(function (directory) {
-                directory.type = directoryTypesKeyValues[type];
-                directory.parameters = {"%type": directory.type + "-directory-params"};
-                directory.label = directoryTypesLabels[directory.type];
-
-                return directory;
-            });
+            return this._sectionService.getNewDirectoryForType(type);
         }
     }
 
 
 }, {
-
-    DIRECTORY_TYPES_LABELS: {
-        value: {
-            winbind: "Active Directory",
-            freeipa: "FreeIPA",
-            ldap: "LDAP",
-            nis: "NIS"
-        }
-    },
 
     DIRECTORY_TYPES_KEY_VALUES: {
         value: {

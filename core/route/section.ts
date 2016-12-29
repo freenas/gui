@@ -3,13 +3,15 @@ import {EventDispatcherService} from "../service/event-dispatcher-service";
 import {ModelDescriptorService} from "../service/model-descriptor-service";
 
 import sectionsDescriptors  = require("core/model/sections-descriptors.json");
+import {AbstractRoute} from "./abstract-route";
 
-export class SectionRoute {
+export class SectionRoute extends AbstractRoute {
     private static instance: SectionRoute;
     private sectionsServices: Map<string, any>;
 
     private constructor(private modelDescriptorService: ModelDescriptorService,
-                        private eventDispatcherService: EventDispatcherService) {
+                        eventDispatcherService: EventDispatcherService) {
+        super(eventDispatcherService);
         this.sectionsServices = new Map<string, any>();
     }
 

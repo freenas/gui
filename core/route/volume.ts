@@ -3,19 +3,24 @@ import {ModelDescriptorService} from "../service/model-descriptor-service";
 import _ = require("lodash");
 import Promise = require("bluebird");
 import {DiskRepository} from "../repository/disk-repository";
+import {AbstractRoute} from "./abstract-route";
+import {EventDispatcherService} from "../service/event-dispatcher-service";
 
-export class VolumeRoute {
+export class VolumeRoute extends AbstractRoute {
     private static instance: VolumeRoute;
 
     private constructor(private modelDescriptorService: ModelDescriptorService,
+                        eventDispatcherService: EventDispatcherService,
                         private volumeRepository: VolumeRepository,
                         private diskRepository: DiskRepository) {
+        super(eventDispatcherService);
     }
 
     public static getInstance() {
         if (!VolumeRoute.instance) {
             VolumeRoute.instance = new VolumeRoute(
                 ModelDescriptorService.getInstance(),
+                EventDispatcherService.getInstance(),
                 VolumeRepository.getInstance(),
                 DiskRepository.getInstance()
             );
@@ -72,22 +77,20 @@ export class VolumeRoute {
     }
 
     private openDiskAtColumnIndex(diskId: string, columnIndex: number, stack: Array<any>) {
+        let self = this;
         return Promise.all([
             this.diskRepository.listDisks(),
             this.modelDescriptorService.getUiDescriptorForType('Disk')
         ]).spread(function (disks, uiDescriptor) {
-            while (stack.length > columnIndex) {
-                stack.pop();
-            }
-            stack.push({
+            let context = {
                 object: _.find(disks, {id: diskId}),
                 userInterfaceDescriptor: uiDescriptor,
                 columnIndex: columnIndex,
                 objectType: 'Disk',
                 parentContext: stack[columnIndex - 1],
                 path: stack[columnIndex - 1].path + '/disk'
-            });
-            return stack;
+            };
+            return self.updateStackWithContext(stack, context);
         });
     }
 
