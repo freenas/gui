@@ -192,10 +192,14 @@ export class RoutingService {
         crossroads.addRoute('/accounts', () => this.loadSection('accounts'));
         crossroads.addRoute('/accounts/user',
             () => this.accountsRoute.listUsers(this.currentStacks.get('accounts')));
+        crossroads.addRoute('/accounts/user/create',
+            () => this.accountsRoute.createUser(this.currentStacks.get('accounts')));
         crossroads.addRoute('/accounts/user/_/{userId}',
             (userId) => this.accountsRoute.getUser(userId, this.currentStacks.get('accounts')));
         crossroads.addRoute('/accounts/group',
             () => this.accountsRoute.listGroups(this.currentStacks.get('accounts')));
+        crossroads.addRoute('/accounts/group/create',
+            () => this.accountsRoute.createGroup(this.currentStacks.get('accounts')));
         crossroads.addRoute('/accounts/group/_/{groupId}',
             (groupId) => this.accountsRoute.getGroup(groupId, this.currentStacks.get('accounts')));
         crossroads.addRoute('/accounts/account-system',

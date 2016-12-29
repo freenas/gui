@@ -138,8 +138,10 @@ var RoutingService = (function () {
         var _this = this;
         crossroads.addRoute('/accounts', function () { return _this.loadSection('accounts'); });
         crossroads.addRoute('/accounts/user', function () { return _this.accountsRoute.listUsers(_this.currentStacks.get('accounts')); });
+        crossroads.addRoute('/accounts/user/create', function () { return _this.accountsRoute.createUser(_this.currentStacks.get('accounts')); });
         crossroads.addRoute('/accounts/user/_/{userId}', function (userId) { return _this.accountsRoute.getUser(userId, _this.currentStacks.get('accounts')); });
         crossroads.addRoute('/accounts/group', function () { return _this.accountsRoute.listGroups(_this.currentStacks.get('accounts')); });
+        crossroads.addRoute('/accounts/group/create', function () { return _this.accountsRoute.createGroup(_this.currentStacks.get('accounts')); });
         crossroads.addRoute('/accounts/group/_/{groupId}', function (groupId) { return _this.accountsRoute.getGroup(groupId, _this.currentStacks.get('accounts')); });
         crossroads.addRoute('/accounts/account-system', function () { return _this.accountsRoute.listAccountSystems(_this.currentStacks.get('accounts')); });
         crossroads.addRoute('/accounts/account-system/user/_/{userId}', function (userId) { return _this.accountsRoute.getUser(userId, _this.currentStacks.get('accounts')); });

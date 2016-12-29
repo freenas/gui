@@ -63,6 +63,14 @@ export class AccountRepository extends AbstractRepository {
         return this.groups ? Promise.resolve(this.groups.toSet().toJS()) : this.groupDao.list();
     }
 
+    public getNewUser() {
+        return this.userDao.getNewInstance();
+    }
+
+    public getNewGroup() {
+        return this.groupDao.getNewInstance();
+    }
+
     public getNewDirectoryServices(): Promise<Object> {
         return this.directoryServiceDao.getNewInstance();
     }

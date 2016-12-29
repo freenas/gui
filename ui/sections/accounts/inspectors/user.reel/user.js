@@ -49,9 +49,9 @@ exports.User = AbstractInspector.specialize({
     templateDidLoad: {
         value: function() {
             var self = this;
-            this._sectionService.getSystemAdvanced().then(function (systemAdvancedCollection) {
-                self.systemAdvancedCollection = systemAdvancedCollection;
-                self.addRangeAtPathChangeListener("systemAdvancedCollection", self, "handleSystemAdvancedCollectionChange");
+            this._sectionService.getSystemAdvanced().then(function (systemAdvanced) {
+                self.systemAdvanced = systemAdvanced;
+                self.homeDirectory = systemAdvanced.home_directory_root;
             });
         }
     },
@@ -89,16 +89,6 @@ exports.User = AbstractInspector.specialize({
         }
     },
 
-    handleSystemAdvancedCollectionChange: {
-        value: function () {
-            this.systemAdvanced = this.systemAdvancedCollection[0];
-
-            if (this._object._isNew) {
-                this.homeDirectory = this.systemAdvanced.home_directory_root;
-            }
-        }
-    },
-
     save: {
         value: function() {
             this.object.groups = this.additionalGroups.map(function(x) { return x.id; });
@@ -112,8 +102,6 @@ exports.User = AbstractInspector.specialize({
 
     delete: {
         value: function() {
-            var self = this;
-
             return this.inspector.delete(this.extraDeleteFlags[0].checked, this.extraDeleteFlags[1].checked);
         }
     },

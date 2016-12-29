@@ -44,6 +44,12 @@ var AccountRepository = (function (_super) {
     AccountRepository.prototype.listGroups = function () {
         return this.groups ? Promise.resolve(this.groups.toSet().toJS()) : this.groupDao.list();
     };
+    AccountRepository.prototype.getNewUser = function () {
+        return this.userDao.getNewInstance();
+    };
+    AccountRepository.prototype.getNewGroup = function () {
+        return this.groupDao.getNewInstance();
+    };
     AccountRepository.prototype.getNewDirectoryServices = function () {
         return this.directoryServiceDao.getNewInstance();
     };

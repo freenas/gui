@@ -83,6 +83,27 @@ export class AccountsRoute extends AbstractRoute {
         });
     }
 
+    public createUser(stack: Array<any>) {
+        let self = this,
+            objectType = 'User',
+            columnIndex = 2,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/create'
+            };
+        return Promise.all([
+            this.accountRepository.getNewUser(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(user, uiDescriptor) {
+            context.object = user;
+            context.userInterfaceDescriptor = uiDescriptor;
+            return self.updateStackWithContext(stack, context);
+        });
+    }
+
     public listGroups(stack: Array<any>) {
         let self = this,
             objectType = 'Group',
@@ -129,6 +150,27 @@ export class AccountsRoute extends AbstractRoute {
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(groups, uiDescriptor) {
             context.object = _.find(groups, {id: groupId});
+            context.userInterfaceDescriptor = uiDescriptor;
+            return self.updateStackWithContext(stack, context);
+        });
+    }
+
+    public createGroup(stack: Array<any>) {
+        let self = this,
+            objectType = 'Group',
+            columnIndex = 2,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/create'
+            };
+        return Promise.all([
+            this.accountRepository.getNewGroup(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(group, uiDescriptor) {
+            context.object = group;
             context.userInterfaceDescriptor = uiDescriptor;
             return self.updateStackWithContext(stack, context);
         });
