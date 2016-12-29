@@ -13,6 +13,7 @@
     display: flex;
     flex-direction: column;
     max-height: 15em;
+    background: #2f3233;
 
     &:after {
         position: absolute;
@@ -30,9 +31,12 @@
         flex-direction: column;
     }
 
-    & .Scrollview-transform {
-        display: block;
-    }
+    & .Scrollview-transform { display: block; }
+
+    & .Overview-content { padding: 1em 1em 0; }
+
+    & .InspectorSectionTitle { margin-top: 1rem;}
+
 }
 
 .SectionRoot-title {

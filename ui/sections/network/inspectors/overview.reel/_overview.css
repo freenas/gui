@@ -1,14 +1,3 @@
-.Overview {
-    width: 22em;
-    background: #2F3233;
-}
-
-.Overview .ScrollviewContent { width: 100%; }
-
-.Overview-content {
-    padding: 1em 1em 0em 1em;
-}
-
 .Overview table {
     margin-bottom: 0;
 }
@@ -40,10 +29,6 @@
 
 .Overview-disabledInterface:nth-child(even) {
     background: rgba(0,0,0,.05);
-}
-
-.Overview-listItem {
-    line-height: 1.5em;
 }
 
 /* Foldable Section Overriedes */
