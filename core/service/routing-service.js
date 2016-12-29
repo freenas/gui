@@ -51,8 +51,8 @@ var RoutingService = (function () {
         }
     };
     RoutingService.prototype.getURLFromObject = function (object) {
-        var objectType = this.modelDescriptorService.getObjectType(object), url = objectType === 'Section' ? '/' : _.kebabCase(objectType) + '/_/';
-        return url + object.id;
+        var objectType = this.modelDescriptorService.getObjectType(object), url = objectType === 'Section' ? '/' : _.kebabCase(objectType);
+        return Array.isArray(object) ? url : url + '/_/' + object.id;
     };
     RoutingService.prototype.handleHashChange = function (newHash, oldHash) {
         crossroads.parse(newHash);

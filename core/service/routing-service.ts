@@ -71,8 +71,8 @@ export class RoutingService {
 
     public getURLFromObject(object: any) {
         let objectType = this.modelDescriptorService.getObjectType(object),
-            url = objectType === 'Section' ? '/' : _.kebabCase(objectType) + '/_/';
-        return url + object.id;
+            url = objectType === 'Section' ? '/' : _.kebabCase(objectType);
+        return Array.isArray(object) ? url : url + '/_/' + object.id;
     }
 
     private handleHashChange(newHash, oldHash) {
