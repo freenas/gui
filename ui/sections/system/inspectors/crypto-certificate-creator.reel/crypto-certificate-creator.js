@@ -1,13 +1,5 @@
-/**
- * @module ui/inspectors/crypto-certificate-creator.reel
- */
-var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+var Component = require("montage/ui/component").Component;
 
-/**
- * @class CryptoCertificateCreator
- * @extends Component
- */
 exports.CryptoCertificateCreator = Component.specialize(/** @lends CryptoCertificateCreator# */ {
 
     newImportCert: {

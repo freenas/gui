@@ -1,22 +1,16 @@
 var Montage = require("montage").Montage,
-    AlertRepository = require("core/repository/alert-filter-repository").AlertRepository;
+    AlertFilterRepository = require("core/repository/alert-filter-repository").AlertFilterRepository;
 
 exports.AlertService = Montage.specialize({
     constructor: {
         value: function () {
-            this._alertRepository = AlertRepository.instance;
+            this._alertFilterRepository = AlertFilterRepository.instance;
         }
     },
 
     loadEntries: {
         value: function () {
-            return this._alertRepository.listAlertFilters();
-        }
-    },
-
-    loadSettings: {
-        value: function () {
-            return this._alertRepository.getMail();
+            return this._alertFilterRepository.listAlertFilters();
         }
     }
 

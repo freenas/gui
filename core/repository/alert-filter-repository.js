@@ -1,18 +1,18 @@
-/**
- * @module core/repository/alert-repository
- */
 var AbstractRepository = require("core/repository/abstract-repository").AbstractRepository,
     AlertFilterDao = require("core/dao/alert-filter-dao").AlertFilterDao,
     MailDao = require("core/dao/mail-dao").MailDao;
-/**
- * @class AlertRepository
- * @extends AbstractRepository
- */
-exports.AlertRepository = AbstractRepository.specialize(/** @lends AlertRepository# */ {
+
+exports.AlertFilterRepository = AbstractRepository.specialize(/** @lends AlertRepository# */ {
     init: {
-        value : function (alertFilterDao, mailDao) {
-            this._alertFilterDao = alertFilterDao || new AlertFilterDao();
-            this._mailDao = mailDao || new MailDao();
+        value : function() {
+            this._alertFilterDao = new AlertFilterDao();
+            this._mailDao = new MailDao();
+        }
+    },
+
+    getNewAlertFilter: {
+        value: function() {
+            return this._alertFilterDao.getNewInstance();
         }
     },
 

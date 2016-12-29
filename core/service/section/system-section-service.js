@@ -10,6 +10,8 @@ var ntp_server_repository_1 = require("../../repository/ntp-server-repository");
 var vm_repository_1 = require("core/repository/vm-repository");
 var container_repository_1 = require("core/repository/container-repository");
 var network_repository_1 = require("core/repository/network-repository");
+var crypto_certificate_repository_1 = require("../../repository/crypto-certificate-repository");
+var tunable_repository_1 = require("../../repository/tunable-repository");
 var SystemSectionService = (function (_super) {
     __extends(SystemSectionService, _super);
     function SystemSectionService() {
@@ -21,6 +23,8 @@ var SystemSectionService = (function (_super) {
         this.vmRepository = vm_repository_1.VmRepository.instance;
         this.containerRepository = container_repository_1.ContainerRepository.instance;
         this.networkRepository = network_repository_1.NetworkRepository.instance;
+        this.cryptoCertificateRepository = crypto_certificate_repository_1.CryptoCertificateRepository.getInstance();
+        this.tunableRepository = tunable_repository_1.TunableRepository.getInstance();
     };
     SystemSectionService.prototype.loadEntries = function () {
         return this.systemRepository.listSystemSections();
@@ -49,11 +53,23 @@ var SystemSectionService = (function (_super) {
     SystemSectionService.prototype.listNetworkInterfaces = function () {
         return this.networkRepository.listNetworkInterfaces();
     };
+    SystemSectionService.prototype.listCertificates = function () {
+        return this.cryptoCertificateRepository.listCryptoCertificates();
+    };
+    SystemSectionService.prototype.listCountryCodes = function () {
+        return this.cryptoCertificateRepository.listCountryCodes();
+    };
+    SystemSectionService.prototype.listTunables = function () {
+        return this.tunableRepository.listTunables();
+    };
     SystemSectionService.prototype.loadExtraEntries = function () {
+        return undefined;
     };
     SystemSectionService.prototype.loadSettings = function () {
+        return undefined;
     };
     SystemSectionService.prototype.loadOverview = function () {
+        return undefined;
     };
     return SystemSectionService;
 }(abstract_section_service_ng_1.AbstractSectionService));

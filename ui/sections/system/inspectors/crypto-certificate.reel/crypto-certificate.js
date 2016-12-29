@@ -1,7 +1,5 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Model = require("core/model/model").Model,
-    CryptoCertificateType = require("core/model/enumerations/crypto-certificate-type").CryptoCertificateType,
-    CryptoCertificateDigestalgorithm = require("core/model/enumerations/crypto-certificate-digestalgorithm").CryptoCertificateDigestalgorithm;
+    CryptoCertificateType = require("core/model/enumerations/crypto-certificate-type").CryptoCertificateType;
 
 exports.CryptoCertificate = AbstractInspector.specialize({
     enterDocument: {

@@ -32,6 +32,10 @@ export class NtpServerRepository extends AbstractRepository {
         return this.ntpServerDao.save(server);
     }
 
+    public getNewNtpServer() {
+        return this.ntpServerDao.getNewInstance();
+    }
+
     protected handleStateChange(name: string, state: any) {
         switch (name) {
             case 'NtpServer':

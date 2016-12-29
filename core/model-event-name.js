@@ -22,6 +22,9 @@ var ModelEventName = (function () {
     ModelEventName.Vm = new ModelEventName('Vm');
     ModelEventName.Share = new ModelEventName('Share');
     ModelEventName.VmwareDataset = new ModelEventName('VmwareDataset');
+    ModelEventName.Replication = new ModelEventName('Replication');
+    ModelEventName.CryptoCertificate = new ModelEventName('CryptoCertificate');
+    ModelEventName.Tunable = new ModelEventName('Tunable');
     return ModelEventName;
 }());
 exports.ModelEventName = ModelEventName;

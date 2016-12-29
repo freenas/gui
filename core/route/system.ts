@@ -1,0 +1,377 @@
+import {SystemRepository} from "../repository/system-repository";
+import {ModelEventName} from "../model-event-name";
+import {ModelDescriptorService} from "../service/model-descriptor-service";
+import {EventDispatcherService} from "../service/event-dispatcher-service";
+import {CryptoCertificateType} from "core/model/enumerations/crypto-certificate-type";
+import _ = require("lodash");
+import Promise = require("bluebird");
+import {CryptoCertificateRepository} from "../repository/crypto-certificate-repository";
+import {AlertFilterRepository} from "core/repository/alert-filter-repository";
+import {MailRepository} from "../repository/mail-repository";
+import {TunableRepository} from "../repository/tunable-repository";
+import {NtpServerRepository} from "../repository/ntp-server-repository";
+
+export class SystemRoute {
+    private static instance: SystemRoute;
+    private objectType: string;
+
+    private constructor(private modelDescriptorService: ModelDescriptorService,
+                        private eventDispatcherService: EventDispatcherService,
+                        private systemRepository: SystemRepository,
+                        private cryptoCertificateRepository: CryptoCertificateRepository,
+                        private alertFilterRepository: AlertFilterRepository,
+                        private mailRepository: MailRepository,
+                        private tunableRepository: TunableRepository,
+                        private ntpServerRepository: NtpServerRepository) {
+        this.objectType = 'SystemSection';
+    }
+
+    public static getInstance() {
+        if (!SystemRoute.instance) {
+            SystemRoute.instance = new SystemRoute(
+                ModelDescriptorService.getInstance(),
+                EventDispatcherService.getInstance(),
+                SystemRepository.getInstance(),
+                CryptoCertificateRepository.getInstance(),
+                AlertFilterRepository.instance,
+                MailRepository.getInstance(),
+                TunableRepository.getInstance(),
+                NtpServerRepository.getInstance()
+            );
+        }
+        return SystemRoute.instance;
+    }
+
+    public get(systemSectionId: string, stack: Array<any>) {
+        let self = this,
+            columnIndex = 1,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: this.objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/system-section/_/' + systemSectionId
+            };
+        return Promise.all([
+            this.systemRepository.listSystemSections(),
+            this.modelDescriptorService.getUiDescriptorForType(this.objectType)
+        ]).spread(function(systemSections, uiDescriptor) {
+            context.object = _.find(systemSections, {id: systemSectionId});
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            while (stack.length > columnIndex) {
+                let context = stack.pop();
+                if (context && context.changeListener) {
+                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
+                }
+            }
+
+            stack.push(context);
+            return stack;
+        });
+    }
+
+    public getCertificate(certificateId: string, stack: Array<any>) {
+        let self = this,
+            objectType = 'CryptoCertificate',
+            columnIndex = 2,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/crypto-certificate/_/' + certificateId
+            };
+        return Promise.all([
+            this.cryptoCertificateRepository.listCryptoCertificates(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(certificates, uiDescriptor) {
+            context.object = _.find(certificates, {id: certificateId});
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            while (stack.length > columnIndex) {
+                let context = stack.pop();
+                if (context && context.changeListener) {
+                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
+                }
+            }
+
+            stack.push(context);
+            return stack;
+        });
+    }
+
+    public selectNewCertificateType(stack: Array<any>) {
+        let self = this,
+            objectType = 'CryptoCertificate',
+            columnIndex = 2,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/create'
+            };
+        return Promise.all([
+            Promise.all(_.map(_.keys(CryptoCertificateType), (type) => this.cryptoCertificateRepository.getNewCryptoCertificate(type))),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(cryptoCertificates, uiDescriptor) {
+            cryptoCertificates._objectType = objectType;
+            context.object = _.compact(cryptoCertificates);
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            while (stack.length > columnIndex) {
+                let context = stack.pop();
+                if (context && context.changeListener) {
+                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
+                }
+            }
+
+            stack.push(context);
+            return stack;
+        });
+    }
+
+    public createCertificate(certificateType: string, stack: Array<any>) {
+        let self = this,
+            objectType = 'CryptoCertificate',
+            columnIndex = 3,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/' + certificateType
+            };
+        return Promise.all([
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(uiDescriptor) {
+            let share = _.find(parentContext.object, {_tmpId: certificateType});
+            context.userInterfaceDescriptor = uiDescriptor;
+            context.object = share;
+
+
+            while (stack.length > columnIndex-1) {
+                let context = stack.pop();
+                if (context && context.changeListener) {
+                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
+                }
+            }
+
+            stack.push(context);
+            return stack;
+        });
+    }
+
+    public getAlertFilter(filterId: string, stack: Array<any>) {
+        let self = this,
+            objectType = 'AlertFilter',
+            columnIndex = 2,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/alert-filter/_/' + filterId
+            };
+        return Promise.all([
+            this.alertFilterRepository.listAlertFilters(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(alterFilters, uiDescriptor) {
+            context.object = _.find(alterFilters, {id: filterId});
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            while (stack.length > columnIndex) {
+                let context = stack.pop();
+                if (context && context.changeListener) {
+                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
+                }
+            }
+
+            stack.push(context);
+            return stack;
+        });
+    }
+
+    public createAlertFilter(stack: Array<any>) {
+        let self = this,
+            objectType = 'AlertFilter',
+            columnIndex = 2,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/create'
+            };
+        return Promise.all([
+            this.alertFilterRepository.getNewAlertFilter(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(alterFilter, uiDescriptor) {
+            context.object = alterFilter;
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            while (stack.length > columnIndex) {
+                let context = stack.pop();
+                if (context && context.changeListener) {
+                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
+                }
+            }
+
+            stack.push(context);
+            return stack;
+        });
+    }
+
+    public getAlertSettings(stack: Array<any>) {
+        let self = this,
+            objectType = 'Mail',
+            columnIndex = 2,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/settings'
+            };
+        return Promise.all([
+            this.mailRepository.getConfig(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(mailConfig, uiDescriptor) {
+            context.object = mailConfig;
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            while (stack.length > columnIndex) {
+                let context = stack.pop();
+                if (context && context.changeListener) {
+                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
+                }
+            }
+
+            stack.push(context);
+            return stack;
+        });
+    }
+
+    public createTunable(stack: Array<any>) {
+        let self = this,
+            objectType = 'Tunable',
+            columnIndex = 2,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/create'
+            };
+        return Promise.all([
+            this.tunableRepository.getNewTunable(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(tunable, uiDescriptor) {
+            context.object = tunable;
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            while (stack.length > columnIndex) {
+                let context = stack.pop();
+                if (context && context.changeListener) {
+                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
+                }
+            }
+
+            stack.push(context);
+            return stack;
+        });
+    }
+
+    public getTunable(tunableId: string, stack: Array<any>) {
+        let self = this,
+            objectType = 'Tunable',
+            columnIndex = 2,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/tunable/_/' + tunableId
+            };
+        return Promise.all([
+            this.tunableRepository.listTunables(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(tunables, uiDescriptor) {
+            context.object = _.find(tunables, {id: tunableId});
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            while (stack.length > columnIndex) {
+                let context = stack.pop();
+                if (context && context.changeListener) {
+                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
+                }
+            }
+
+            stack.push(context);
+            return stack;
+        });
+    }
+
+    public createNtpServer(stack: Array<any>) {
+        let self = this,
+            objectType = 'NtpServer',
+            columnIndex = 2,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/create'
+            };
+        return Promise.all([
+            this.ntpServerRepository.getNewNtpServer(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(ntpServer, uiDescriptor) {
+            context.object = ntpServer;
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            while (stack.length > columnIndex) {
+                let context = stack.pop();
+                if (context && context.changeListener) {
+                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
+                }
+            }
+
+            stack.push(context);
+            return stack;
+        });
+    }
+
+    public getNtpServer(ntpServerId: string, stack: Array<any>) {
+        let self = this,
+            objectType = 'NtpServer',
+            columnIndex = 2,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/ntp-server/_/' + ntpServerId
+            };
+        return Promise.all([
+            this.ntpServerRepository.listNtpServers(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(ntpServers, uiDescriptor) {
+            context.object = _.find(ntpServers, {id: ntpServerId});
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            while (stack.length > columnIndex) {
+                let context = stack.pop();
+                if (context && context.changeListener) {
+                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
+                }
+            }
+
+            stack.push(context);
+            return stack;
+        });
+    }
+
+}
+

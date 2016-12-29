@@ -4,6 +4,9 @@ import {NtpServerRepository} from "../../repository/ntp-server-repository";
 import {VmRepository} from "core/repository/vm-repository";
 import {ContainerRepository} from "core/repository/container-repository";
 import {NetworkRepository} from "core/repository/network-repository";
+import {CryptoCertificateRepository} from "../../repository/crypto-certificate-repository";
+import Promise = require("bluebird");
+import {TunableRepository} from "../../repository/tunable-repository";
 
 export class SystemSectionService extends AbstractSectionService {
     private systemRepository: SystemRepository;
@@ -11,6 +14,8 @@ export class SystemSectionService extends AbstractSectionService {
     private vmRepository: VmRepository;
     private containerRepository: ContainerRepository;
     private networkRepository: NetworkRepository;
+    private cryptoCertificateRepository: CryptoCertificateRepository;
+    private tunableRepository: TunableRepository;
 
     protected init() {
         this.systemRepository = SystemRepository.getInstance();
@@ -18,6 +23,8 @@ export class SystemSectionService extends AbstractSectionService {
         this.vmRepository = VmRepository.instance;
         this.containerRepository = ContainerRepository.instance;
         this.networkRepository = NetworkRepository.instance;
+        this.cryptoCertificateRepository = CryptoCertificateRepository.getInstance();
+        this.tunableRepository = TunableRepository.getInstance();
     }
 
     protected loadEntries() {
@@ -56,12 +63,27 @@ export class SystemSectionService extends AbstractSectionService {
         return this.networkRepository.listNetworkInterfaces();
     }
 
+    public listCertificates() {
+        return this.cryptoCertificateRepository.listCryptoCertificates();
+    }
+
+    public listCountryCodes() {
+        return this.cryptoCertificateRepository.listCountryCodes();
+    }
+
+    public listTunables() {
+        return this.tunableRepository.listTunables();
+    }
+
     protected loadExtraEntries() {
+        return undefined;
     }
 
     protected loadSettings() {
+        return undefined;
     }
 
     protected loadOverview() {
+        return undefined;
     }
 }

@@ -10,6 +10,7 @@ import {SnapshotRoute} from "../route/snapshot";
 import {DatasetRoute} from "../route/dataset";
 import {EventDispatcherService} from "./event-dispatcher-service";
 import {CalendarRoute} from "../route/calendar";
+import {SystemRoute} from "../route/system";
 
 export class RoutingService {
     private static instance: RoutingService;
@@ -23,7 +24,10 @@ export class RoutingService {
                         private shareRoute: ShareRoute,
                         private snapshotRoute: SnapshotRoute,
                         private datasetRoute: DatasetRoute,
-                        private calendarRoute: CalendarRoute) {
+                        private calendarRoute: CalendarRoute,
+                        private systemRoute: SystemRoute) {
+        this.currentStacks = new Map<string, any>();
+
         this.loadRoutes();
         hasher.prependHash = '!';
         hasher.changed.add(this.handleHashChange.bind(this));
@@ -40,7 +44,8 @@ export class RoutingService {
                 ShareRoute.getInstance(),
                 SnapshotRoute.getInstance(),
                 DatasetRoute.getInstance(),
-                CalendarRoute.getInstance()
+                CalendarRoute.getInstance(),
+                SystemRoute.getInstance()
             );
         }
         return RoutingService.instance;
@@ -67,7 +72,6 @@ export class RoutingService {
     }
 
     private loadRoutes() {
-        this.currentStacks = new Map();
         this.loadDashboardRoutes();
         this.loadStorageRoutes();
         this.loadAccountsRoutes();
@@ -109,6 +113,29 @@ export class RoutingService {
 
     private loadSettingsRoutes() {
         crossroads.addRoute('/settings', () => this.loadSection('settings'));
+        crossroads.addRoute('/settings/system-section/_/{systemSectionId}',
+            (systemSectionId) => this.systemRoute.get(systemSectionId, this.currentStacks.get('settings')));
+        crossroads.addRoute('/settings/system-section/_/certificates/crypto-certificate/_/{certificateId}',
+            (certificateId) => this.systemRoute.getCertificate(certificateId, this.currentStacks.get('settings')));
+        crossroads.addRoute('/settings/system-section/_/certificates/create',
+            () => this.systemRoute.selectNewCertificateType(this.currentStacks.get('settings')));
+        crossroads.addRoute('/settings/system-section/_/certificates/create/{certificateType}',
+            (certificateType) => this.systemRoute.createCertificate(certificateType, this.currentStacks.get('settings')));
+        crossroads.addRoute('/settings/system-section/_/alert/alert-filter/_/{filterId}',
+            (filterId) => this.systemRoute.getAlertFilter(filterId, this.currentStacks.get('settings')));
+        crossroads.addRoute('/settings/system-section/_/alert/create',
+            () => this.systemRoute.createAlertFilter(this.currentStacks.get('settings')));
+        crossroads.addRoute('/settings/system-section/_/alert/settings',
+            () => this.systemRoute.getAlertSettings(this.currentStacks.get('settings')));
+        crossroads.addRoute('/settings/system-section/_/tunables/tunable/_/{tunableId}',
+            (tunableId) => this.systemRoute.getTunable(tunableId, this.currentStacks.get('settings')));
+        crossroads.addRoute('/settings/system-section/_/tunables/create',
+            () => this.systemRoute.createTunable(this.currentStacks.get('settings')));
+        crossroads.addRoute('/settings/system-section/_/ntpservers/ntp-server/_/{ntpServerId}',
+            (ntpServerId) => this.systemRoute.getNtpServer(ntpServerId, this.currentStacks.get('settings')));
+        crossroads.addRoute('/settings/system-section/_/ntpservers/create',
+            () => this.systemRoute.createNtpServer(this.currentStacks.get('settings')));
+
     }
 
     private loadServicesRoutes() {

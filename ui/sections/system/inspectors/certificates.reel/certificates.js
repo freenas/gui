@@ -1,5 +1,4 @@
-var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Model = require("core/model/model").Model;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
 
 exports.Certificates = AbstractInspector.specialize({
@@ -7,7 +6,7 @@ exports.Certificates = AbstractInspector.specialize({
     _inspectorTemplateDidLoad: {
         value: function (){
             var self = this;
-            return this.application.dataService.fetchData(Model.CryptoCertificate).then(function (certificates) {
+            return this._sectionService.listCertificates().then(function (certificates) {
                 self.certificates = certificates;
             });
         }

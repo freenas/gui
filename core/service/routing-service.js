@@ -11,8 +11,9 @@ var snapshot_1 = require("../route/snapshot");
 var dataset_1 = require("../route/dataset");
 var event_dispatcher_service_1 = require("./event-dispatcher-service");
 var calendar_1 = require("../route/calendar");
+var system_1 = require("../route/system");
 var RoutingService = (function () {
-    function RoutingService(modelDescriptorService, eventDispatcherService, middlewareClient, sectionRoute, volumeRoute, shareRoute, snapshotRoute, datasetRoute, calendarRoute) {
+    function RoutingService(modelDescriptorService, eventDispatcherService, middlewareClient, sectionRoute, volumeRoute, shareRoute, snapshotRoute, datasetRoute, calendarRoute, systemRoute) {
         this.modelDescriptorService = modelDescriptorService;
         this.eventDispatcherService = eventDispatcherService;
         this.middlewareClient = middlewareClient;
@@ -22,13 +23,15 @@ var RoutingService = (function () {
         this.snapshotRoute = snapshotRoute;
         this.datasetRoute = datasetRoute;
         this.calendarRoute = calendarRoute;
+        this.systemRoute = systemRoute;
+        this.currentStacks = new Map();
         this.loadRoutes();
         hasher.prependHash = '!';
         hasher.changed.add(this.handleHashChange.bind(this));
     }
     RoutingService.getInstance = function () {
         if (!RoutingService.instance) {
-            RoutingService.instance = new RoutingService(model_descriptor_service_1.ModelDescriptorService.getInstance(), event_dispatcher_service_1.EventDispatcherService.getInstance(), middleware_client_1.MiddlewareClient.getInstance(), section_1.SectionRoute.getInstance(), volume_1.VolumeRoute.getInstance(), share_1.ShareRoute.getInstance(), snapshot_1.SnapshotRoute.getInstance(), dataset_1.DatasetRoute.getInstance(), calendar_1.CalendarRoute.getInstance());
+            RoutingService.instance = new RoutingService(model_descriptor_service_1.ModelDescriptorService.getInstance(), event_dispatcher_service_1.EventDispatcherService.getInstance(), middleware_client_1.MiddlewareClient.getInstance(), section_1.SectionRoute.getInstance(), volume_1.VolumeRoute.getInstance(), share_1.ShareRoute.getInstance(), snapshot_1.SnapshotRoute.getInstance(), dataset_1.DatasetRoute.getInstance(), calendar_1.CalendarRoute.getInstance(), system_1.SystemRoute.getInstance());
         }
         return RoutingService.instance;
     };
@@ -50,7 +53,6 @@ var RoutingService = (function () {
         this.eventDispatcherService.dispatch('hashChange', newHash);
     };
     RoutingService.prototype.loadRoutes = function () {
-        this.currentStacks = new Map();
         this.loadDashboardRoutes();
         this.loadStorageRoutes();
         this.loadAccountsRoutes();
@@ -88,6 +90,17 @@ var RoutingService = (function () {
     RoutingService.prototype.loadSettingsRoutes = function () {
         var _this = this;
         crossroads.addRoute('/settings', function () { return _this.loadSection('settings'); });
+        crossroads.addRoute('/settings/system-section/_/{systemSectionId}', function (systemSectionId) { return _this.systemRoute.get(systemSectionId, _this.currentStacks.get('settings')); });
+        crossroads.addRoute('/settings/system-section/_/certificates/crypto-certificate/_/{certificateId}', function (certificateId) { return _this.systemRoute.getCertificate(certificateId, _this.currentStacks.get('settings')); });
+        crossroads.addRoute('/settings/system-section/_/certificates/create', function () { return _this.systemRoute.selectNewCertificateType(_this.currentStacks.get('settings')); });
+        crossroads.addRoute('/settings/system-section/_/certificates/create/{certificateType}', function (certificateType) { return _this.systemRoute.createCertificate(certificateType, _this.currentStacks.get('settings')); });
+        crossroads.addRoute('/settings/system-section/_/alert/alert-filter/_/{filterId}', function (filterId) { return _this.systemRoute.getAlertFilter(filterId, _this.currentStacks.get('settings')); });
+        crossroads.addRoute('/settings/system-section/_/alert/create', function () { return _this.systemRoute.createAlertFilter(_this.currentStacks.get('settings')); });
+        crossroads.addRoute('/settings/system-section/_/alert/settings', function () { return _this.systemRoute.getAlertSettings(_this.currentStacks.get('settings')); });
+        crossroads.addRoute('/settings/system-section/_/tunables/tunable/_/{tunableId}', function (tunableId) { return _this.systemRoute.getTunable(tunableId, _this.currentStacks.get('settings')); });
+        crossroads.addRoute('/settings/system-section/_/tunables/create', function () { return _this.systemRoute.createTunable(_this.currentStacks.get('settings')); });
+        crossroads.addRoute('/settings/system-section/_/ntpservers/ntp-server/_/{ntpServerId}', function (ntpServerId) { return _this.systemRoute.getNtpServer(ntpServerId, _this.currentStacks.get('settings')); });
+        crossroads.addRoute('/settings/system-section/_/ntpservers/create', function () { return _this.systemRoute.createNtpServer(_this.currentStacks.get('settings')); });
     };
     RoutingService.prototype.loadServicesRoutes = function () {
         var _this = this;

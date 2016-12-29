@@ -28,6 +28,9 @@ var NtpServerRepository = (function (_super) {
     NtpServerRepository.prototype.saveNtpServer = function (server) {
         return this.ntpServerDao.save(server);
     };
+    NtpServerRepository.prototype.getNewNtpServer = function () {
+        return this.ntpServerDao.getNewInstance();
+    };
     NtpServerRepository.prototype.handleStateChange = function (name, state) {
         switch (name) {
             case 'NtpServer':

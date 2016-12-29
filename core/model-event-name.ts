@@ -14,6 +14,9 @@ export class ModelEventName {
     public static Vm = new ModelEventName('Vm');
     public static Share = new ModelEventName('Share');
     public static VmwareDataset = new ModelEventName('VmwareDataset');
+    public static Replication = new ModelEventName('Replication');
+    public static CryptoCertificate = new ModelEventName('CryptoCertificate');
+    public static Tunable = new ModelEventName('Tunable');
 
     public listChange: string;
     public contentChange: string;
