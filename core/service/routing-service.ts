@@ -14,6 +14,7 @@ import {SystemRoute} from "../route/system";
 import {ServicesRoute} from "../route/services";
 import {PeeringRoute} from "../route/peering";
 import {NetworkRoute} from "../route/network";
+import {DockerRoute} from "../route/docker";
 import {VmsRoute} from "../route/vms";
 import {AccountsRoute} from "../route/accounts";
 
@@ -35,7 +36,8 @@ export class RoutingService {
                         private peeringRoute: PeeringRoute,
                         private vmsRoute: VmsRoute,
                         private networkRoute: NetworkRoute,
-                        private accountsRoute: AccountsRoute) {
+                        private accountsRoute: AccountsRoute,
+                        private dockerRoute: DockerRoute) {
         this.currentStacks = new Map<string, any>();
 
         this.loadRoutes();
@@ -60,7 +62,8 @@ export class RoutingService {
                 PeeringRoute.getInstance(),
                 VmsRoute.getInstance(),
                 NetworkRoute.getInstance(),
-                AccountsRoute.getInstance()
+                AccountsRoute.getInstance(),
+                DockerRoute.getInstance()
             );
         }
         return RoutingService.instance;
@@ -125,6 +128,28 @@ export class RoutingService {
 
     private loadContainersRoutes() {
         crossroads.addRoute('/containers', () => this.loadSection('containers'));
+        crossroads.addRoute('/containers/docker-host',
+            () => this.dockerRoute.getHosts(this.currentStacks.get('containers')));
+        crossroads.addRoute('/containers/docker-host/_/{hostId}',
+            (hostId) => this.dockerRoute.getHost(hostId, this.currentStacks.get('containers')));
+        crossroads.addRoute('/containers/docker-image',
+            () => this.dockerRoute.getImages(this.currentStacks.get('containers')));
+        crossroads.addRoute('/containers/docker-image/_/{imageId}',
+            (imageId) => this.dockerRoute.getImage(imageId, this.currentStacks.get('containers')));
+        crossroads.addRoute('/containers/docker-collection',
+            () => this.dockerRoute.getCollections(this.currentStacks.get('containers')));
+        crossroads.addRoute('/containers/docker-collection/_/{collectionId}',
+            (collectionId) => this.dockerRoute.getCollection(collectionId, this.currentStacks.get('containers')));
+        crossroads.addRoute('/containers/docker-collection/create',
+            () => this.dockerRoute.createCollection(this.currentStacks.get('containers')));
+        crossroads.addRoute('/containers/docker-container',
+            () => this.dockerRoute.getContainers(this.currentStacks.get('containers')));
+        crossroads.addRoute('/containers/docker-container/_/{containerId}',
+            (containerId) => this.dockerRoute.getContainer(containerId, this.currentStacks.get('containers')));
+        crossroads.addRoute('/containers/create',
+            () => this.dockerRoute.createContainer(this.currentStacks.get('containers')));
+        crossroads.addRoute('/containers/section-settings',
+            () => this.dockerRoute.getSettings(this.currentStacks.get('containers')));
     }
 
     private loadVmsRoutes() {
