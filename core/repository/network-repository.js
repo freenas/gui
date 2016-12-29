@@ -3,17 +3,19 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
     NetworkConfigDao = require("core/dao/network-config-dao").NetworkConfigDao,
     NetworkRouteDao = require("core/dao/network-route-dao").NetworkRouteDao,
     NetworkHostDao = require("core/dao/network-host-dao").NetworkHostDao,
+    ModelDescriptorService = require("core/service/model-descriptor-service").ModelDescriptorService,
     IpmiDao = require("core/dao/ipmi-dao").IpmiDao;
 
 
 exports.NetworkRepository = AbstractRepository.specialize({
     init: {
-        value: function(networkRouteDao, networkHostDao, ipmiDao) {
+        value: function(networkRouteDao, networkHostDao, ipmiDao, modelDescriptorService) {
             this._networkInterfaceDao = new NetworkInterfaceDao();
             this._networkConfigDao = new NetworkConfigDao();
             this._networkRouteDao = networkRouteDao || NetworkRouteDao.instance;
             this._networkHostDao = networkHostDao || NetworkHostDao.instance;
             this._ipmiDao = ipmiDao || IpmiDao.instance;
+            this._modelDescriptorService = modelDescriptorService || ModelDescriptorService.getInstance();
         }
     },
 
@@ -32,6 +34,25 @@ exports.NetworkRepository = AbstractRepository.specialize({
     getNewNetworkInterface: {
         value: function() {
             return this._networkInterfaceDao.getNewInstance();
+        }
+    },
+
+    getNewInterfaceWithType: {
+        value: function(interfaceType) {
+            return Promise.all([
+                this._networkInterfaceDao.getNewInstance(),
+                this._modelDescriptorService.getDaoForType(interfaceType.properties.objectType).then(function(dao) {
+                    return dao.getNewInstance();
+                })
+            ]).spread(function (newInterface, properties) {
+                newInterface._isNewObject = true;
+                newInterface._tmpId = interfaceType.type;
+                newInterface.type = interfaceType.type.toUpperCase();
+                newInterface.aliases = [];
+                newInterface.name = "";
+                newInterface[interfaceType.type] = properties;
+                return newInterface;
+            });
         }
     },
 
@@ -130,6 +151,35 @@ exports.NetworkRepository = AbstractRepository.specialize({
     getMyIps: {
         value: function() {
             return this._networkConfigDao.getMyIps();
+        }
+    }
+}, {
+    INTERFACE_TYPES: {
+        value: {
+            VLAN: {
+                type: 'vlan',
+                label: 'VLAN',
+                properties: {
+                    objectType: 'NetworkInterfaceVlanProperties',
+                    type: "network-interface-vlan-properties"
+                }
+            },
+            LAGG: {
+                type: 'lagg',
+                label: 'LAGG',
+                properties: {
+                    objectType: 'NetworkInterfaceLaggProperties',
+                    type: 'network-interface-lagg-properties'
+                }
+            },
+            BRIDGE: {
+                type: 'bridge',
+                label: 'BRIDGE',
+                properties: {
+                    objectType: 'NetworkInterfaceBridgeProperties',
+                    type: 'network-interface-bridge-properties'
+                }
+            }
         }
     }
 });
