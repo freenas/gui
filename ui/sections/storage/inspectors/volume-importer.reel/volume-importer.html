@@ -2,7 +2,6 @@
 <html>
 <head>
     <title></title>
-    <link rel="stylesheet" type="text/css" href="volume-importer.css">
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -41,7 +40,7 @@
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
                 "element": {"#": "encrypted"},
-                "name": "Encrypted volume",
+                "name": "Import encrypted volume",
                 "path": "encrypted"
             }
         },
@@ -100,10 +99,17 @@
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
                 "element": {"#": "importMedia"},
-                "value": "Import media"
+                "value": "Media"
             },
             "bindings": {
                 "disabled": {"<-": "!@owner.importDisk || !@owner.importPath"}
+            }
+        },
+        "importSection": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+            "properties": {
+                "element": {"#": "importSection"},
+                "value": "Import Media"
             }
         }
     }
@@ -111,14 +117,23 @@
 </head>
 <body>
     <div data-montage-id="owner" class="VolumeImporter">
-        <div data-montage-id="detachedVolumes"></div>
-        <div data-montage-id="refresh" class="g-margin"></div>
+        <div class="VolumeImporter-detachedVolumes">
+            <div data-montage-id="detachedVolumes"></div>
+            <div class="bg-c--grey flex-row flex-justifyContent--center flush-top">
+                <div data-montage-id="refresh" class="g-margin-v"></div>
+            </div>
+        </div>
         <div data-montage-id="encrypted"></div>
-        <div data-montage-id="importableDisks"></div>
-        <div data-montage-id="mapMediaPath"></div>
-        <div data-montage-id="mediaFsType"></div>
-        <div data-montage-id="refreshMedia"></div>
-        <div data-montage-id="importMedia"></div>
+        <div class="g-padding">
+            <div data-montage-id="importSection" class="flush-top"></div>
+            <div data-montage-id="importableDisks"></div>
+            <div data-montage-id="mapMediaPath"></div>
+            <div data-montage-id="mediaFsType"></div>
+            <div class="flex-row flex-justifyContent--end">
+                <div data-montage-id="refreshMedia" class="g-margin-right--half"></div>
+                <div data-montage-id="importMedia"></div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
