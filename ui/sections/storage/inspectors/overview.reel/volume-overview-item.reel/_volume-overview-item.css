@@ -62,4 +62,13 @@
     & .TrafficLight-legend { display: none; }
 }
 
-.VolumeOverviewItem-details .Field { margin-bottom: inherit; }
+.VolumeOverviewItem-details {
+
+    & .Field {
+        margin-bottom: inherit;
+        justify-content: space-between;
+    }
+    & .Field-title      { width: auto;}
+    & .Field-control    { width: auto;}
+}
+
