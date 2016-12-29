@@ -22,7 +22,7 @@ var SystemSectionService = (function (_super) {
         this.ntpServerRepository = ntp_server_repository_1.NtpServerRepository.getInstance();
         this.vmRepository = vm_repository_1.VmRepository.instance;
         this.containerRepository = container_repository_1.ContainerRepository.instance;
-        this.networkRepository = network_repository_1.NetworkRepository.instance;
+        this.networkRepository = network_repository_1.NetworkRepository.getInstance();
         this.cryptoCertificateRepository = crypto_certificate_repository_1.CryptoCertificateRepository.getInstance();
         this.tunableRepository = tunable_repository_1.TunableRepository.getInstance();
     };

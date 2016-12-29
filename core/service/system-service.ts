@@ -18,7 +18,7 @@ export class SystemService {
                 SystemRepository.getInstance(),
                 MiddlewareClient.getInstance(),
                 BootPoolRepository.getInstance(),
-                NetworkRepository.instance
+                NetworkRepository.getInstance()
             );
         }
         return SystemService.instance;

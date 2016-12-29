@@ -12,7 +12,7 @@ var SystemService = (function () {
     }
     SystemService.getInstance = function () {
         if (!SystemService.instance) {
-            SystemService.instance = new SystemService(system_repository_1.SystemRepository.getInstance(), middleware_client_1.MiddlewareClient.getInstance(), boot_pool_repository_1.BootPoolRepository.getInstance(), network_repository_1.NetworkRepository.instance);
+            SystemService.instance = new SystemService(system_repository_1.SystemRepository.getInstance(), middleware_client_1.MiddlewareClient.getInstance(), boot_pool_repository_1.BootPoolRepository.getInstance(), network_repository_1.NetworkRepository.getInstance());
         }
         return SystemService.instance;
     };

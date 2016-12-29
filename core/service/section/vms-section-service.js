@@ -100,12 +100,12 @@ exports.VmsSectionService = AbstractSectionService.specialize({
     },
 
     init: {
-        value: function(vmRepository, volumeRepository, networkRepository, bytesService, consoleService) {
-            this._vmRepository = vmRepository || VmRepository.instance;
-            this._volumeRepository = volumeRepository || VolumeRepository.getInstance();
-            this._networkRepository = networkRepository || NetworkRepository.instance;
-            this._consoleService = consoleService || ConsoleService.instance;
-            this._bytesService = bytesService || BytesService.instance;
+        value: function() {
+            this._vmRepository = VmRepository.instance;
+            this._volumeRepository = VolumeRepository.getInstance();
+            this._networkRepository = NetworkRepository.getInstance();
+            this._consoleService = ConsoleService.instance;
+            this._bytesService = BytesService.instance;
             EventDispatcherService.getInstance().addEventListener('stateChange', this._handleStateChange.bind(this));
         }
     },

@@ -1,5 +1,4 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Model = require("core/model/model").Model,
     _ = require("lodash");
 
 exports.WebUi = AbstractInspector.specialize({
@@ -32,7 +31,7 @@ exports.WebUi = AbstractInspector.specialize({
                     self.config = uiData;
                     self._snapshotDataObjectsIfNecessary();
                 }),
-                this.application.dataService.fetchData(Model.CryptoCertificate).then(function (certificates) {
+                this._sectionService.listCertificates().then(function (certificates) {
                     self.certificates = certificates.filter(self._isCertificate);
                 }),
                 this.application.systemService.getMyIps().then(function(ipData){
