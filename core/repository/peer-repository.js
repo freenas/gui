@@ -35,6 +35,7 @@ var PeerRepository = (function (_super) {
             })
         ]).spread(function (newPeer, newCredentials) {
             newPeer._isNewObject = true;
+            newPeer._tmpId = peerType.type;
             newPeer.type = peerType.type;
             newPeer._action = peerType.type;
             newPeer._label = peerType.label;

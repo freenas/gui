@@ -13,8 +13,9 @@ var event_dispatcher_service_1 = require("./event-dispatcher-service");
 var calendar_1 = require("../route/calendar");
 var system_1 = require("../route/system");
 var services_1 = require("../route/services");
+var peering_1 = require("../route/peering");
 var RoutingService = (function () {
-    function RoutingService(modelDescriptorService, eventDispatcherService, middlewareClient, sectionRoute, volumeRoute, shareRoute, snapshotRoute, datasetRoute, calendarRoute, systemRoute, serviceRoute) {
+    function RoutingService(modelDescriptorService, eventDispatcherService, middlewareClient, sectionRoute, volumeRoute, shareRoute, snapshotRoute, datasetRoute, calendarRoute, systemRoute, serviceRoute, peeringRoute) {
         this.modelDescriptorService = modelDescriptorService;
         this.eventDispatcherService = eventDispatcherService;
         this.middlewareClient = middlewareClient;
@@ -26,6 +27,7 @@ var RoutingService = (function () {
         this.calendarRoute = calendarRoute;
         this.systemRoute = systemRoute;
         this.serviceRoute = serviceRoute;
+        this.peeringRoute = peeringRoute;
         this.currentStacks = new Map();
         this.loadRoutes();
         hasher.prependHash = '!';
@@ -33,7 +35,7 @@ var RoutingService = (function () {
     }
     RoutingService.getInstance = function () {
         if (!RoutingService.instance) {
-            RoutingService.instance = new RoutingService(model_descriptor_service_1.ModelDescriptorService.getInstance(), event_dispatcher_service_1.EventDispatcherService.getInstance(), middleware_client_1.MiddlewareClient.getInstance(), section_1.SectionRoute.getInstance(), volume_1.VolumeRoute.getInstance(), share_1.ShareRoute.getInstance(), snapshot_1.SnapshotRoute.getInstance(), dataset_1.DatasetRoute.getInstance(), calendar_1.CalendarRoute.getInstance(), system_1.SystemRoute.getInstance(), services_1.ServicesRoute.getInstance());
+            RoutingService.instance = new RoutingService(model_descriptor_service_1.ModelDescriptorService.getInstance(), event_dispatcher_service_1.EventDispatcherService.getInstance(), middleware_client_1.MiddlewareClient.getInstance(), section_1.SectionRoute.getInstance(), volume_1.VolumeRoute.getInstance(), share_1.ShareRoute.getInstance(), snapshot_1.SnapshotRoute.getInstance(), dataset_1.DatasetRoute.getInstance(), calendar_1.CalendarRoute.getInstance(), system_1.SystemRoute.getInstance(), services_1.ServicesRoute.getInstance(), peering_1.PeeringRoute.getInstance());
         }
         return RoutingService.instance;
     };
@@ -88,6 +90,9 @@ var RoutingService = (function () {
     RoutingService.prototype.loadPeeringRoutes = function () {
         var _this = this;
         crossroads.addRoute('/peering', function () { return _this.loadSection('peering'); });
+        crossroads.addRoute('/peering/peer/_/{peerId}', function (peerId) { return _this.peeringRoute.get(peerId, _this.currentStacks.get('peering')); });
+        crossroads.addRoute('/peering/create', function () { return _this.peeringRoute.selectNewPeerType(_this.currentStacks.get('peering')); });
+        crossroads.addRoute('/peering/create/{peerType}', function (peerType) { return _this.peeringRoute.create(peerType, _this.currentStacks.get('peering')); });
     };
     RoutingService.prototype.loadSettingsRoutes = function () {
         var _this = this;

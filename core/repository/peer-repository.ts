@@ -73,6 +73,7 @@ export class PeerRepository extends AbstractRepository {
             })
         ]).spread(function (newPeer: any, newCredentials: any) {
             newPeer._isNewObject = true;
+            newPeer._tmpId = peerType.type;
             newPeer.type = peerType.type;
             newPeer._action = peerType.type;
             newPeer._label = peerType.label;

@@ -3,44 +3,44 @@ import Promise = require("bluebird");
 import {ModelEventName} from "../model-event-name";
 import {EventDispatcherService} from "../service/event-dispatcher-service";
 import {ModelDescriptorService} from "../service/model-descriptor-service";
-import {ServiceRepository} from "../repository/service-repository";
+import {PeerRepository} from "../repository/peer-repository";
 
-export class ServicesRoute {
-    private static instance: ServicesRoute;
+export class PeeringRoute {
+    private static instance: PeeringRoute;
 
     private constructor(private modelDescriptorService: ModelDescriptorService,
                         private eventDispatcherService: EventDispatcherService,
-                        private serviceRepository: ServiceRepository) {
+                        private peerRepository: PeerRepository) {
 
     }
 
     public static getInstance() {
-        if (!ServicesRoute.instance) {
-            ServicesRoute.instance = new ServicesRoute(
+        if (!PeeringRoute.instance) {
+            PeeringRoute.instance = new PeeringRoute(
                 ModelDescriptorService.getInstance(),
                 EventDispatcherService.getInstance(),
-                ServiceRepository.getInstance()
+                PeerRepository.getInstance()
             );
         }
-        return ServicesRoute.instance;
+        return PeeringRoute.instance;
     }
 
-    public getCategory(categoryId: string, stack: Array<any>) {
+    public get(peerId: string, stack: Array<any>) {
         let self = this,
-            objectType = 'ServicesCategory',
+            objectType = 'Peer',
             columnIndex = 1,
             parentContext = stack[columnIndex-1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: parentContext,
-                path: parentContext.path + '/services-category/_/' + categoryId
+                path: parentContext.path + '/peer/_/' + peerId
             };
         return Promise.all([
-            this.serviceRepository.listServicesCategories(),
+            this.peerRepository.listPeers(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(categories, uiDescriptor) {
-            context.object = _.find(categories, {id: categoryId});
+        ]).spread(function(peers, uiDescriptor) {
+            context.object = _.find(peers, {id: peerId});
             context.userInterfaceDescriptor = uiDescriptor;
 
             while (stack.length > columnIndex) {
@@ -55,25 +55,25 @@ export class ServicesRoute {
         });
     }
 
-    public getService(serviceId: string, stack: Array<any>) {
+    public selectNewPeerType(stack: Array<any>) {
         let self = this,
-            objectType = 'Service',
-            columnIndex = 2,
+            objectType = 'Peer',
+            columnIndex = 1,
             parentContext = stack[columnIndex-1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: parentContext,
-                path: parentContext.path + '/services-category/_/' + serviceId
+                path: parentContext.path + '/create'
             };
         return Promise.all([
-            this.serviceRepository.listServices(),
+            Promise.all(_.map(_.values(PeerRepository.PEER_TYPES), (type) => this.peerRepository.getNewPeerWithType(type))),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(services, uiDescriptor) {
-            context.object = _.find(services, {id: serviceId});
+        ]).spread(function(peers, uiDescriptor) {
+            peers._objectType = objectType;
+            context.object = _.compact(peers);
             context.userInterfaceDescriptor = uiDescriptor;
-            return Promise.resolve(context.object.config);
-        }).then(function() {
+
             while (stack.length > columnIndex) {
                 let context = stack.pop();
                 if (context && context.changeListener) {
@@ -84,5 +84,37 @@ export class ServicesRoute {
             stack.push(context);
             return stack;
         });
+    }
+
+    public create(peerType: string, stack:Array<any>) {
+        let self = this,
+            objectType = 'Peer',
+            columnIndex = 2,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/' + peerType
+            };
+        return Promise.all([
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(uiDescriptor) {
+            let share = _.find(parentContext.object, {_tmpId: peerType});
+            context.userInterfaceDescriptor = uiDescriptor;
+            context.object = share;
+
+
+            while (stack.length > columnIndex-1) {
+                let context = stack.pop();
+                if (context && context.changeListener) {
+                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
+                }
+            }
+
+            stack.push(context);
+            return stack;
+        });
+
     }
 }

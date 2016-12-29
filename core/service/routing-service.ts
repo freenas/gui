@@ -12,6 +12,7 @@ import {EventDispatcherService} from "./event-dispatcher-service";
 import {CalendarRoute} from "../route/calendar";
 import {SystemRoute} from "../route/system";
 import {ServicesRoute} from "../route/services";
+import {PeeringRoute} from "../route/peering";
 
 export class RoutingService {
     private static instance: RoutingService;
@@ -27,7 +28,8 @@ export class RoutingService {
                         private datasetRoute: DatasetRoute,
                         private calendarRoute: CalendarRoute,
                         private systemRoute: SystemRoute,
-                        private serviceRoute: ServicesRoute) {
+                        private serviceRoute: ServicesRoute,
+                        private peeringRoute: PeeringRoute) {
         this.currentStacks = new Map<string, any>();
 
         this.loadRoutes();
@@ -48,7 +50,8 @@ export class RoutingService {
                 DatasetRoute.getInstance(),
                 CalendarRoute.getInstance(),
                 SystemRoute.getInstance(),
-                ServicesRoute.getInstance()
+                ServicesRoute.getInstance(),
+                PeeringRoute.getInstance()
             );
         }
         return RoutingService.instance;
@@ -110,6 +113,12 @@ export class RoutingService {
 
     private loadPeeringRoutes() {
         crossroads.addRoute('/peering', () => this.loadSection('peering'));
+        crossroads.addRoute('/peering/peer/_/{peerId}',
+            (peerId) => this.peeringRoute.get(peerId, this.currentStacks.get('peering')));
+        crossroads.addRoute('/peering/create',
+            () => this.peeringRoute.selectNewPeerType(this.currentStacks.get('peering')));
+        crossroads.addRoute('/peering/create/{peerType}',
+            (peerType) => this.peeringRoute.create(peerType, this.currentStacks.get('peering')));
     }
 
     private loadSettingsRoutes() {
