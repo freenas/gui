@@ -13,7 +13,7 @@ var NetworkRoute = (function () {
     }
     NetworkRoute.getInstance = function () {
         if (!NetworkRoute.instance) {
-            NetworkRoute.instance = new NetworkRoute(model_descriptor_service_1.ModelDescriptorService.getInstance(), event_dispatcher_service_1.EventDispatcherService.getInstance(), network_repository_1.NetworkRepository.instance);
+            NetworkRoute.instance = new NetworkRoute(model_descriptor_service_1.ModelDescriptorService.getInstance(), event_dispatcher_service_1.EventDispatcherService.getInstance(), network_repository_1.NetworkRepository.getInstance());
         }
         return NetworkRoute.instance;
     };

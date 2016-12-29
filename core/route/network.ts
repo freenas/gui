@@ -18,7 +18,7 @@ export class NetworkRoute {
             NetworkRoute.instance = new NetworkRoute(
                 ModelDescriptorService.getInstance(),
                 EventDispatcherService.getInstance()
-                NetworkRepository.instance
+                NetworkRepository.getInstance()
             );
         }
         return NetworkRoute.instance;
