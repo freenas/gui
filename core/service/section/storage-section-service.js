@@ -105,8 +105,8 @@ var StorageSectionService = (function (_super) {
     StorageSectionService.prototype.listAvailableDisks = function () {
         return this.diskRepository.listAvailableDisks();
     };
-    StorageSectionService.prototype.listDetachedVolumes = function () {
-        return this.volumeRepository.listDetachedVolumes();
+    StorageSectionService.prototype.findDetachedVolumes = function () {
+        return this.volumeRepository.findDetachedVolumes();
     };
     StorageSectionService.prototype.importDetachedVolume = function (volume) {
         return this.volumeRepository.importDetachedVolume(volume);

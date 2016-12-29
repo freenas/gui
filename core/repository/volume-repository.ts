@@ -7,18 +7,18 @@ import { EncryptedVolumeActionsDao } from '../dao/encrypted-volume-actions-dao';
 import {VolumeVdevRecommendationsDao} from "../dao/volume-vdev-recommendations-dao";
 import {DetachedVolumeDao} from "../dao/detached-volume-dao";
 
-import * as immutable from 'immutable';
 import * as Promise from "bluebird";
-import * as _ from "lodash";
 import {EncryptedVolumeImporterDao} from "../dao/encrypted-volume-importer-dao";
 import {ZfsTopologyDao} from "../dao/zfs-topology-dao";
 import {ModelEventName} from "../model-event-name";
+import {Map} from "immutable";
 
 export class VolumeRepository extends AbstractRepository {
     private static instance: VolumeRepository;
-    private volumes: immutable.Map<string, Map<string, any>>;
-    private volumeSnapshots: immutable.Map<string, Map<string, any>>;
-    private volumeDatasets: immutable.Map<string, Map<string, any>>;
+    private volumes: Map<string, Map<string, any>>;
+    private detachedVolumes: Map<string, Map<string, any>>;
+    private volumeSnapshots: Map<string, Map<string, any>>;
+    private volumeDatasets: Map<string, Map<string, any>>;
 
     public static readonly TOPOLOGY_KEYS = ["data", "cache", "log", "spare"];
 
@@ -36,7 +36,8 @@ export class VolumeRepository extends AbstractRepository {
         super([
             'Volume',
             'VolumeDataset',
-            'VolumeSnapshot'
+            'VolumeSnapshot',
+            'DetachedVolume'
         ]);
     }
 
@@ -111,6 +112,10 @@ export class VolumeRepository extends AbstractRepository {
     }
 
     public listDetachedVolumes() {
+        return this.detachedVolumes ? Promise.resolve(this.detachedVolumes.valueSeq().toJS()) : this.findDetachedVolumes();
+    }
+
+    public findDetachedVolumes() {
         return this.detachedVolumeDao.list();
     }
 
@@ -258,6 +263,9 @@ export class VolumeRepository extends AbstractRepository {
                 break;
             case 'VolumeDataset':
                 this.volumeDatasets = this.dispatchModelEvents(this.volumeDatasets, ModelEventName.VolumeDataset, state);
+                break;
+            case 'DetachedVolume':
+                this.detachedVolumes = this.dispatchModelEvents(this.detachedVolumes, ModelEventName.DetachedVolume, state);
                 break;
             default:
                 break;

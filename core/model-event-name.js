@@ -28,6 +28,7 @@ var ModelEventName = (function () {
     ModelEventName.NetworkInterface = new ModelEventName('NetworkInterface');
     ModelEventName.KerberosRealm = new ModelEventName('KerberosRealm');
     ModelEventName.KerberosKeytab = new ModelEventName('KerberosKeytab');
+    ModelEventName.DetachedVolume = new ModelEventName('DetachedVolume');
     return ModelEventName;
 }());
 exports.ModelEventName = ModelEventName;

@@ -20,6 +20,7 @@ export class ModelEventName {
     public static NetworkInterface = new ModelEventName('NetworkInterface');
     public static KerberosRealm = new ModelEventName('KerberosRealm');
     public static KerberosKeytab = new ModelEventName('KerberosKeytab');
+    public static DetachedVolume = new ModelEventName('DetachedVolume');
 
     public listChange: string;
     public contentChange: string;

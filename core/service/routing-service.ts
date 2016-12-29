@@ -273,7 +273,7 @@ export class RoutingService {
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/replication',
             (volumeId, datasetId) => this.datasetRoute.replication(datasetId, this.currentStacks.get("storage")), 1);
         crossroads.addRoute('/storage/volume/_/{volumeId}/topology',
-            (volumeId) => this.volumeRoute.topology(volumeId, this.currentStacks.get("storage")));
+            (volumeId) => this.volumeRoute.getVolumeTopology(this.currentStacks.get("storage")));
         crossroads.addRoute('/storage/volume/_/{volumeId}/topology/disk/_/{diskId}',
             (volumeId, diskId) => this.volumeRoute.topologyDisk(diskId, this.currentStacks.get("storage")));
         crossroads.addRoute('/storage/create',
@@ -282,6 +282,10 @@ export class RoutingService {
             (diskId) => this.volumeRoute.creatorDisk(diskId, this.currentStacks.get("storage")));
         crossroads.addRoute('/storage/volume-importer/_/-',
             () => this.volumeRoute.import(this.currentStacks.get("storage")));
+        crossroads.addRoute('/storage/volume-importer/_/-/detached-volume/_/{volumeId}',
+            (volumeId) => this.volumeRoute.getDetachedVolume(volumeId, this.currentStacks.get("storage")));
+        crossroads.addRoute('/storage/volume-importer/_/-/detached-volume/_/{volumeId}/topology',
+            (volumeId) => this.volumeRoute.getDetachedVolumeTopology(this.currentStacks.get("storage")));
         crossroads.addRoute('/storage/volume-importer/_/-/encrypted',
             () => this.volumeRoute.importEncrypted(this.currentStacks.get("storage")));
     }

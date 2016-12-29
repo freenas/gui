@@ -41,11 +41,10 @@
         "topology": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
-                "element": {"#": "topology"}
-            },
-            "bindings": {
-                "object": {"<-": "@owner.object.topology"},
-                "objectType": {"<-": "@owner.topologyType"}
+                "element": {"#": "topology"},
+                "name": "Topology",
+                "path": "topology",
+                "objectType": "ZfsTopology"
             }
         },
         "volumeIcon": {

@@ -12,6 +12,7 @@ var volume_importer_dao_1 = require('../dao/volume-importer-dao');
 var encrypted_volume_actions_dao_1 = require('../dao/encrypted-volume-actions-dao');
 var volume_vdev_recommendations_dao_1 = require("../dao/volume-vdev-recommendations-dao");
 var detached_volume_dao_1 = require("../dao/detached-volume-dao");
+var Promise = require("bluebird");
 var encrypted_volume_importer_dao_1 = require("../dao/encrypted-volume-importer-dao");
 var zfs_topology_dao_1 = require("../dao/zfs-topology-dao");
 var model_event_name_1 = require("../model-event-name");
@@ -21,7 +22,8 @@ var VolumeRepository = (function (_super) {
         _super.call(this, [
             'Volume',
             'VolumeDataset',
-            'VolumeSnapshot'
+            'VolumeSnapshot',
+            'DetachedVolume'
         ]);
         this.volumeDao = volumeDao;
         this.volumeSnapshotDao = volumeSnapshotDao;
@@ -80,6 +82,9 @@ var VolumeRepository = (function (_super) {
         return this.volumeDao.scrub(volume);
     };
     VolumeRepository.prototype.listDetachedVolumes = function () {
+        return this.detachedVolumes ? Promise.resolve(this.detachedVolumes.valueSeq().toJS()) : this.findDetachedVolumes();
+    };
+    VolumeRepository.prototype.findDetachedVolumes = function () {
         return this.detachedVolumeDao.list();
     };
     VolumeRepository.prototype.importDetachedVolume = function (volume) {
@@ -217,6 +222,9 @@ var VolumeRepository = (function (_super) {
                 break;
             case 'VolumeDataset':
                 this.volumeDatasets = this.dispatchModelEvents(this.volumeDatasets, model_event_name_1.ModelEventName.VolumeDataset, state);
+                break;
+            case 'DetachedVolume':
+                this.detachedVolumes = this.dispatchModelEvents(this.detachedVolumes, model_event_name_1.ModelEventName.DetachedVolume, state);
                 break;
             default:
                 break;

@@ -134,6 +134,57 @@ export class VolumeRoute extends AbstractRoute {
         });
     }
 
+    public getDetachedVolume(volumeId: string, stack: Array<any>) {
+        let self = this,
+            columnIndex = 2,
+            objectType = 'DetachedVolume',
+            parentContext = stack[columnIndex-1],
+            context = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/detached-volume/_/' + volumeId
+            };
+        return Promise.all([
+            this.volumeRepository.listDetachedVolumes(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(volumes, uiDescriptor) {
+            context.userInterfaceDescriptor = uiDescriptor;
+            context.object = _.find(volumes, {id: volumeId});
+            return self.updateStackWithContext(stack, context);
+        })
+    }
+
+    public getVolumeTopology(stack: Array<any>) {
+        return this.openTopologyAtColumnIndex(2, stack);
+    }
+
+    public getDetachedVolumeTopology(stack: Array<any>) {
+        return this.openTopologyAtColumnIndex(3, stack).then(function(stack) {
+            _.last(stack).object._isDetached = true;
+            return stack;
+        });
+    }
+
+    private openTopologyAtColumnIndex(columnIndex: number, stack: Array<any>) {
+        let self = this,
+            objectType = 'ZfsTopology',
+            parentContext = stack[columnIndex-1],
+            context = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/topology'
+            };
+        return Promise.all([
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(uiDescriptor) {
+            context.object = parentContext.object.topology;
+            context.userInterfaceDescriptor = uiDescriptor;
+            return self.updateStackWithContext(stack, context);
+        })
+    }
+
     public importEncrypted(stack: Array<any>) {
         return Promise.all([
             this.volumeRepository.getEncryptedVolumeImporterInstance(),

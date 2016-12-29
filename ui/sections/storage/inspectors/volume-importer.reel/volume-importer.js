@@ -35,7 +35,7 @@ exports.VolumeImporter = AbstractInspector.specialize({
     _listDetachedVolumes: {
         value: function() {
             var self = this;
-            return this._sectionService.listDetachedVolumes().then(function(detachedVolumes) {
+            return this._sectionService.findDetachedVolumes().then(function(detachedVolumes) {
                 self.detachedVolumes = detachedVolumes;
             });
         }

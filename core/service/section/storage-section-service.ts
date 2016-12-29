@@ -134,8 +134,8 @@ export class StorageSectionService extends AbstractSectionService {
         return this.diskRepository.listAvailableDisks();
     }
 
-    public listDetachedVolumes() {
-        return this.volumeRepository.listDetachedVolumes();
+    public findDetachedVolumes() {
+        return this.volumeRepository.findDetachedVolumes();
     }
 
     public importDetachedVolume(volume: any) {
