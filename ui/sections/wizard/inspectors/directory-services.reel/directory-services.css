@@ -1,4 +1,1 @@
-.DirectoryServices-wizard .FoldableSection,
-.DirectoryServices-wizard .InspectorFooter  {
-    display: none;
-}
+.DirectoryServices-wizard .FoldableSection,.DirectoryServices-wizard .InspectorFooter{display:none}

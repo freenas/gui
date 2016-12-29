@@ -1,4 +1,1 @@
-.TableIscsi .Table-cells > div:nth-child(2),
-.TableIscsi .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(2) {
-    max-width: 12em;
-}
+.TableIscsi .Table-cells>div:nth-child(2),.TableIscsi .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(2){max-width:12em}

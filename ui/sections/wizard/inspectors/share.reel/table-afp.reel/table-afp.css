@@ -1,4 +1,1 @@
-.TableAfp .Table-cells > div:nth-child(2),
-.TableAfp .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(2) {
-    max-width: 8em;
-}
+.TableAfp .Table-cells>div:nth-child(2),.TableAfp .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(2){max-width:8em}

@@ -1,4 +1,1 @@
-.Mail-wizard .FoldableSection,
-.Mail-wizard .InspectorFooter  {
-    display: none !important;
-}
+.Mail-wizard .FoldableSection,.Mail-wizard .InspectorFooter{display:none!important}

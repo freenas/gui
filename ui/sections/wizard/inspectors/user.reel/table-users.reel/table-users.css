@@ -1,4 +1,1 @@
-.TableUsers .Table-cells > div:nth-child(3),
-.TableUsers .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(3) {
-    max-width: 12em;
-}
+.TableUsers .Table-cells>div:nth-child(3),.TableUsers .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(3){max-width:12em}

@@ -1,4 +1,1 @@
-.TableFreeipa .Table-cells > div:nth-child(1),
-.TableFreeipa .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(1) {
-    max-width: 8em;
-}
+.TableFreeipa .Table-cells>div:nth-child(1),.TableFreeipa .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(1){max-width:8em}
