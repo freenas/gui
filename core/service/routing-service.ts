@@ -13,6 +13,7 @@ import {CalendarRoute} from "../route/calendar";
 import {SystemRoute} from "../route/system";
 import {ServicesRoute} from "../route/services";
 import {PeeringRoute} from "../route/peering";
+import {VmsRoute} from "../route/vms";
 
 export class RoutingService {
     private static instance: RoutingService;
@@ -29,7 +30,8 @@ export class RoutingService {
                         private calendarRoute: CalendarRoute,
                         private systemRoute: SystemRoute,
                         private serviceRoute: ServicesRoute,
-                        private peeringRoute: PeeringRoute) {
+                        private peeringRoute: PeeringRoute,
+                        private vmsRoute: VmsRoute) {
         this.currentStacks = new Map<string, any>();
 
         this.loadRoutes();
@@ -51,7 +53,8 @@ export class RoutingService {
                 CalendarRoute.getInstance(),
                 SystemRoute.getInstance(),
                 ServicesRoute.getInstance(),
-                PeeringRoute.getInstance()
+                PeeringRoute.getInstance(),
+                VmsRoute.getInstance()
             );
         }
         return RoutingService.instance;
@@ -109,6 +112,18 @@ export class RoutingService {
 
     private loadVmsRoutes() {
         crossroads.addRoute('/vms', () => this.loadSection('vms'));
+        crossroads.addRoute('/vms/vm/_/{vmId}',
+            (vmId) => this.vmsRoute.get(vmId, this.currentStacks.get('vms')));
+        crossroads.addRoute('/vms/vm/_/{vmId}/readme',
+            () => this.vmsRoute.getReadme(this.currentStacks.get('vms')));
+        crossroads.addRoute('/vms/vm/_/{vmId}/devices',
+            () => this.vmsRoute.getDevices(this.currentStacks.get('vms')));
+        crossroads.addRoute('/vms/vm/_/{vmId}/devices/vm-device/_/{deviceId}',
+            (vmId, deviceId) => this.vmsRoute.getDevice(deviceId, this.currentStacks.get('vms')));
+        crossroads.addRoute('/vms/vm/_/{vmId}/volumes',
+            () => this.vmsRoute.getVolumes(this.currentStacks.get('vms')));
+        crossroads.addRoute('/vms/vm/_/{vmId}/volumes/vm-volume/_/{volumeId}',
+            (vmId, volumeId) => this.vmsRoute.getVolume(volumeId, this.currentStacks.get('vms')));
     }
 
     private loadPeeringRoutes() {

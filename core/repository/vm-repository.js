@@ -6,6 +6,7 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
     VmVolumeDao = require("core/dao/vm-volume-dao").VmVolumeDao,
     VmReadmeDao = require("core/dao/vm-readme-dao").VmReadmeDao,
     VmConfigDao = require("core/dao/vm-config-dao").VmConfigDao,
+    uuid = require("node-uuid"),
     _ = require("lodash");
 
 exports.VmRepository = AbstractRepository.specialize({
@@ -35,6 +36,11 @@ exports.VmRepository = AbstractRepository.specialize({
             } else {
                 var self = this;
                 return this._vmPromise = this._vmDao.list().then(function(vms) {
+                    vms.forEach(function(vm) {
+                        vm.devices.forEach(function(device) {
+                            device.id = uuid.v4();
+                        });
+                    });
                     self.vmsPromises = null;
                     return self._vms = vms;
                 });

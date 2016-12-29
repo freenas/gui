@@ -255,10 +255,7 @@
                 "element": {"#": "readme"},
                 "objectType": "VmReadme",
                 "name": "Readme",
-                "property": "_readme"
-            },
-            "bindings": {
-                "context": {"<-": "@owner.context"}
+                "path": "readme"
             }
         },
         "devices": {
@@ -267,10 +264,7 @@
                 "element": {"#": "devices"},
                 "name": "Devices",
                 "objectType": "VmDevice",
-                "property": "_nonVolumeDevices"
-            },
-            "bindings": {
-                "context": {"<-": "@owner.context"}
+                "path": "devices"
             }
         },
         "volumeDevices": {
@@ -278,11 +272,8 @@
             "properties": {
                 "element": {"#": "volumeDevices"},
                 "name": "Volumes",
-                "objectType": "VmDevice",
-                "property": "_volumeDevices"
-            },
-            "bindings": {
-                "context": {"<-": "@owner.context"}
+                "objectType": "VmVolume",
+                "path": "volumes"
             }
         },
         "start": {

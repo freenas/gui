@@ -15,6 +15,7 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
     CONSTANTS = require("core/constants"),
     Dict = require("collections/dict").Dict,
     EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
+    uuid = require("node-uuid"),
     _ = require("lodash");
 
 exports.VmsSectionService = AbstractSectionService.specialize({
@@ -152,9 +153,6 @@ exports.VmsSectionService = AbstractSectionService.specialize({
             if (Array.isArray(addedDevices)) {
                 for (i = 0, length = addedDevices.length; i < length; i++) {
                     device = addedDevices[i];
-                    if (!device.id) {
-                        device.id = this._vmRepository.DEFAULT_DEVICE_ID;
-                    }
                     if (device.type === this._vmRepository.DEVICE_TYPE.VOLUME) {
                         if (vm._volumeDevices.indexOf(device) === -1) {
                             vm._volumeDevices.push(device);
@@ -476,9 +474,17 @@ exports.VmsSectionService = AbstractSectionService.specialize({
                     var entry = self._findObjectWithId(self.entries, stateEntry.get('id'));
                     if (entry) {
                         _.assign(entry, stateEntry.toJS());
+                        entry.devices.forEach(function(device) {
+                            if (!device.id) {
+                                device.id = uuid.v4();
+                            }
+                        });
                     } else {
                         entry = stateEntry.toJS();
                         entry._objectType = 'Peer';
+                        entry.devices.forEach(function(device) {
+                            device.id = uuid.v4();
+                        });
                         // DTM: Why doesn't sortedArray allow to just push in that specific case ?
                         self.entries.splice(_.sortedIndexBy(self.entries, entry, 'name'), 0, entry);
                     }
