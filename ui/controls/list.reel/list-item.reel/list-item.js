@@ -63,7 +63,7 @@ exports.ListItem = Button.specialize({
 
     _handleNavigation: {
         value: function(newPath) {
-            if (this._path === newPath) {
+            if (_.startsWith(newPath, this._path)) {
                 this.classList.add("selected");
                 this.element.classList.add("selected");
             } else {
