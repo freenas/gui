@@ -13,11 +13,15 @@ var SessionService = exports.SessionService = Montage.specialize({
             this.session = {};
             this.session.username = username;
 
-            return this._serviceRepository.listServices().then(function(services) {
+            return this._serviceRepository.listServices()
+/*
+                .then(function(services) {
                 return Promise.all(services.map(function(x) {
                     return Promise.resolve(x.config).then(function() { return x; });
                 }));
-            });
+            })
+*/
+                ;
         }
     },
 

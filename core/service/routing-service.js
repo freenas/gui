@@ -1,9 +1,9 @@
 "use strict";
-var _ = require("lodash");
+var hasher = require("hasher");
 var crossroads = require("crossroads");
+var _ = require("lodash");
 var model_descriptor_service_1 = require("./model-descriptor-service");
 var middleware_client_1 = require("./middleware-client");
-var hasher = require("hasher");
 var section_1 = require("../route/section");
 var volume_1 = require("../route/volume");
 var share_1 = require("../route/share");
@@ -12,8 +12,9 @@ var dataset_1 = require("../route/dataset");
 var event_dispatcher_service_1 = require("./event-dispatcher-service");
 var calendar_1 = require("../route/calendar");
 var system_1 = require("../route/system");
+var services_1 = require("../route/services");
 var RoutingService = (function () {
-    function RoutingService(modelDescriptorService, eventDispatcherService, middlewareClient, sectionRoute, volumeRoute, shareRoute, snapshotRoute, datasetRoute, calendarRoute, systemRoute) {
+    function RoutingService(modelDescriptorService, eventDispatcherService, middlewareClient, sectionRoute, volumeRoute, shareRoute, snapshotRoute, datasetRoute, calendarRoute, systemRoute, serviceRoute) {
         this.modelDescriptorService = modelDescriptorService;
         this.eventDispatcherService = eventDispatcherService;
         this.middlewareClient = middlewareClient;
@@ -24,6 +25,7 @@ var RoutingService = (function () {
         this.datasetRoute = datasetRoute;
         this.calendarRoute = calendarRoute;
         this.systemRoute = systemRoute;
+        this.serviceRoute = serviceRoute;
         this.currentStacks = new Map();
         this.loadRoutes();
         hasher.prependHash = '!';
@@ -31,7 +33,7 @@ var RoutingService = (function () {
     }
     RoutingService.getInstance = function () {
         if (!RoutingService.instance) {
-            RoutingService.instance = new RoutingService(model_descriptor_service_1.ModelDescriptorService.getInstance(), event_dispatcher_service_1.EventDispatcherService.getInstance(), middleware_client_1.MiddlewareClient.getInstance(), section_1.SectionRoute.getInstance(), volume_1.VolumeRoute.getInstance(), share_1.ShareRoute.getInstance(), snapshot_1.SnapshotRoute.getInstance(), dataset_1.DatasetRoute.getInstance(), calendar_1.CalendarRoute.getInstance(), system_1.SystemRoute.getInstance());
+            RoutingService.instance = new RoutingService(model_descriptor_service_1.ModelDescriptorService.getInstance(), event_dispatcher_service_1.EventDispatcherService.getInstance(), middleware_client_1.MiddlewareClient.getInstance(), section_1.SectionRoute.getInstance(), volume_1.VolumeRoute.getInstance(), share_1.ShareRoute.getInstance(), snapshot_1.SnapshotRoute.getInstance(), dataset_1.DatasetRoute.getInstance(), calendar_1.CalendarRoute.getInstance(), system_1.SystemRoute.getInstance(), services_1.ServicesRoute.getInstance());
         }
         return RoutingService.instance;
     };
@@ -105,6 +107,8 @@ var RoutingService = (function () {
     RoutingService.prototype.loadServicesRoutes = function () {
         var _this = this;
         crossroads.addRoute('/services', function () { return _this.loadSection('services'); });
+        crossroads.addRoute('/services/services-category/_/{categoryId}', function (categoryId) { return _this.serviceRoute.getCategory(categoryId, _this.currentStacks.get('services')); });
+        crossroads.addRoute('/services/services-category/_/{categoryId}/service/_/{serviceId}', function (categoryId, serviceId) { return _this.serviceRoute.getService(serviceId, _this.currentStacks.get('services')); });
     };
     RoutingService.prototype.loadAccountsRoutes = function () {
         var _this = this;

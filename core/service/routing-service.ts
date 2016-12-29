@@ -1,8 +1,8 @@
-import * as _ from "lodash";
+import hasher = require("hasher");
 import * as crossroads from "crossroads";
+import * as _ from "lodash";
 import {ModelDescriptorService} from "./model-descriptor-service";
 import {MiddlewareClient} from "./middleware-client";
-import hasher = require("hasher");
 import {SectionRoute} from "../route/section";
 import {VolumeRoute} from "../route/volume";
 import {ShareRoute} from "../route/share";
@@ -11,6 +11,7 @@ import {DatasetRoute} from "../route/dataset";
 import {EventDispatcherService} from "./event-dispatcher-service";
 import {CalendarRoute} from "../route/calendar";
 import {SystemRoute} from "../route/system";
+import {ServicesRoute} from "../route/services";
 
 export class RoutingService {
     private static instance: RoutingService;
@@ -25,7 +26,8 @@ export class RoutingService {
                         private snapshotRoute: SnapshotRoute,
                         private datasetRoute: DatasetRoute,
                         private calendarRoute: CalendarRoute,
-                        private systemRoute: SystemRoute) {
+                        private systemRoute: SystemRoute,
+                        private serviceRoute: ServicesRoute) {
         this.currentStacks = new Map<string, any>();
 
         this.loadRoutes();
@@ -45,7 +47,8 @@ export class RoutingService {
                 SnapshotRoute.getInstance(),
                 DatasetRoute.getInstance(),
                 CalendarRoute.getInstance(),
-                SystemRoute.getInstance()
+                SystemRoute.getInstance(),
+                ServicesRoute.getInstance()
             );
         }
         return RoutingService.instance;
@@ -84,8 +87,6 @@ export class RoutingService {
         this.loadVmsRoutes();
         this.loadContainersRoutes();
         this.loadWizardRoutes();
-
-
     }
 
     private loadCalendarRoutes() {
@@ -140,6 +141,10 @@ export class RoutingService {
 
     private loadServicesRoutes() {
         crossroads.addRoute('/services', () => this.loadSection('services'));
+        crossroads.addRoute('/services/services-category/_/{categoryId}',
+            (categoryId) => this.serviceRoute.getCategory(categoryId, this.currentStacks.get('services')));
+        crossroads.addRoute('/services/services-category/_/{categoryId}/service/_/{serviceId}',
+            (categoryId, serviceId) => this.serviceRoute.getService(serviceId, this.currentStacks.get('services')));
     }
 
     private loadAccountsRoutes() {
