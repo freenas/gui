@@ -17,6 +17,7 @@ export class ModelEventName {
     public static Replication = new ModelEventName('Replication');
     public static CryptoCertificate = new ModelEventName('CryptoCertificate');
     public static Tunable = new ModelEventName('Tunable');
+    public static NetworkInterface = new ModelEventName('NetworkInterface');
 
     public listChange: string;
     public contentChange: string;

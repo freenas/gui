@@ -8,7 +8,7 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
 exports.NetworkSectionService = AbstractSectionService.specialize({
     init: {
         value: function(networkRepository, systemRepository) {
-            this._networkRepository = networkRepository || NetworkRepository.instance;
+            this._networkRepository = networkRepository || NetworkRepository.getInstance();
             this._systemRepository = systemRepository || SystemRepository.instance;
         }
     },

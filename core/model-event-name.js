@@ -25,6 +25,7 @@ var ModelEventName = (function () {
     ModelEventName.Replication = new ModelEventName('Replication');
     ModelEventName.CryptoCertificate = new ModelEventName('CryptoCertificate');
     ModelEventName.Tunable = new ModelEventName('Tunable');
+    ModelEventName.NetworkInterface = new ModelEventName('NetworkInterface');
     return ModelEventName;
 }());
 exports.ModelEventName = ModelEventName;

@@ -5,11 +5,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var abstract_dao_ng_1 = require("./abstract-dao-ng");
-var NetworkHostDao = (function (_super) {
-    __extends(NetworkHostDao, _super);
-    function NetworkHostDao() {
-        _super.call(this, 'NetworkHost');
+var NetworkInterfaceVlanPropertiesDao = (function (_super) {
+    __extends(NetworkInterfaceVlanPropertiesDao, _super);
+    function NetworkInterfaceVlanPropertiesDao() {
+        _super.call(this, 'NetworkInterfaceVlanProperties');
     }
-    return NetworkHostDao;
+    return NetworkInterfaceVlanPropertiesDao;
 }(abstract_dao_ng_1.AbstractDao));
-exports.NetworkHostDao = NetworkHostDao;
+exports.NetworkInterfaceVlanPropertiesDao = NetworkInterfaceVlanPropertiesDao;

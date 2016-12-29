@@ -13,6 +13,7 @@ import {CalendarRoute} from "../route/calendar";
 import {SystemRoute} from "../route/system";
 import {ServicesRoute} from "../route/services";
 import {PeeringRoute} from "../route/peering";
+import {NetworkRoute} from "../route/network";
 import {VmsRoute} from "../route/vms";
 
 export class RoutingService {
@@ -31,7 +32,8 @@ export class RoutingService {
                         private systemRoute: SystemRoute,
                         private serviceRoute: ServicesRoute,
                         private peeringRoute: PeeringRoute,
-                        private vmsRoute: VmsRoute) {
+                        private vmsRoute: VmsRoute,
+                        private networkRoute: NetworkRoute) {
         this.currentStacks = new Map<string, any>();
 
         this.loadRoutes();
@@ -54,7 +56,8 @@ export class RoutingService {
                 SystemRoute.getInstance(),
                 ServicesRoute.getInstance(),
                 PeeringRoute.getInstance(),
-                VmsRoute.getInstance()
+                VmsRoute.getInstance(),
+                NetworkRoute.getInstance()
             );
         }
         return RoutingService.instance;
@@ -104,6 +107,12 @@ export class RoutingService {
 
     private loadNetworkRoutes() {
         crossroads.addRoute('/network', () => this.loadSection('network'));
+        crossroads.addRoute('/network/network-interface/_/{interfaceId}',
+            (interfaceId) => this.networkRoute.get(interfaceId, this.currentStacks.get('network')));
+        crossroads.addRoute('/network/create',
+            () => this.networkRoute.selectNewInterfaceType(this.currentStacks.get('network')));
+        crossroads.addRoute('/network/create/{interfaceType}',
+            (interfaceType) => this.networkRoute.create(interfaceType, this.currentStacks.get('network')));
     }
 
     private loadContainersRoutes() {
