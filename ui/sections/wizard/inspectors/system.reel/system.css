@@ -1,0 +1,4 @@
+.System-wizard .AdvancedSection,
+.System-wizard .InspectorFooter  {
+    display: none !important;
+}

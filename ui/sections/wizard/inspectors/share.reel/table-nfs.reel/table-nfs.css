@@ -1,0 +1,4 @@
+.TableNfs .Table-cells > div:nth-child(2),
+.TableNfs .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(2) {
+    max-width: 8em;
+}

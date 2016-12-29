@@ -1,0 +1,5 @@
+.Share-wizard .FoldableSection,
+.Share-wizard .InspectorFooter,
+.Share-wizard .FoldableSection {
+    display: none !important;
+}

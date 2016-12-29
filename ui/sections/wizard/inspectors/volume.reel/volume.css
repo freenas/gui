@@ -1,0 +1,6 @@
+.Volume-volumeCreator .Topology,
+.Volume-volumeCreator .InspectorFooter,
+.Volume-volumeCreator .FieldCheckbox,
+.Volume-volumeCreator .VolumeCreator-sidebar {
+    display: none !important;
+}
