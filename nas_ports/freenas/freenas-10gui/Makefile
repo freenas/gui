@@ -12,10 +12,10 @@ COMMENT=	FreeNAS UI
 
 EXTRACT_ONLY=
 
-FETCH_DEPENDS=	npm012>0:${PORTSDIR}/www/npm012 \
+FETCH_DEPENDS=	npm2>0:${PORTSDIR}/www/npm2 \
 		gmake:${PORTSDIR}/devel/gmake \
 		git>0:${PORTSDIR}/devel/git
-RUN_DEPENDS=	node012>0:${PORTSDIR}/www/node012
+RUN_DEPENDS=	npm2>0:${PORTSDIR}/www/npm2
 BUILD_DEPENDS=	rsync>0:${PORTSDIR}/net/rsync
 
 NO_BUILD=	yes
