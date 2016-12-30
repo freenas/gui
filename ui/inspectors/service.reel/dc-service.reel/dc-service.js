@@ -15,7 +15,7 @@ exports.DcService = AbstractInspector.specialize({
     _updateIp: {
         value: function() {
             var self = this;
-            this._sectionService.provideDcIp().then(function (ip) {
+            this.object.enable && this._sectionService.provideDcIp().then(function (ip) {
                return self.dcIp = ip ? ip[0]: "" ;
             });
         },
@@ -23,7 +23,7 @@ exports.DcService = AbstractInspector.specialize({
     _updateUrl: {
         value: function() {
             var self = this;
-            this._sectionService.provideDcUrl().then(function (url) {
+            this.object.enable && this._sectionService.provideDcUrl().then(function (url) {
                return self.dcUrl = url[0];
             });
         }
