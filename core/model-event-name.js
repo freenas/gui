@@ -29,6 +29,7 @@ var ModelEventName = (function () {
     ModelEventName.KerberosRealm = new ModelEventName('KerberosRealm');
     ModelEventName.KerberosKeytab = new ModelEventName('KerberosKeytab');
     ModelEventName.DetachedVolume = new ModelEventName('DetachedVolume');
+    ModelEventName.RsyncdModule = new ModelEventName('RsyncdModule');
     return ModelEventName;
 }());
 exports.ModelEventName = ModelEventName;

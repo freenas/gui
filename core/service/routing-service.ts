@@ -220,6 +220,12 @@ export class RoutingService {
             (categoryId) => this.serviceRoute.getCategory(categoryId, this.currentStacks.get('services')));
         crossroads.addRoute('/services/services-category/_/{categoryId}/service/_/{serviceId}',
             (categoryId, serviceId) => this.serviceRoute.getService(serviceId, this.currentStacks.get('services')));
+        crossroads.addRoute('/services/services-category/_/{categoryId}/service/_/{serviceId}/modules',
+            () => this.serviceRoute.listRsyncdModules(this.currentStacks.get('services')));
+        crossroads.addRoute('/services/services-category/_/{categoryId}/service/_/{serviceId}/modules/create',
+            () => this.serviceRoute.createRsyncdModule(this.currentStacks.get('services')));
+        crossroads.addRoute('/services/services-category/_/{categoryId}/service/_/{serviceId}/modules/rsyncd-module/_/{moduleId}',
+            (categoryId, serviceId, moduleId) => this.serviceRoute.getRsyncdModule(moduleId, this.currentStacks.get('services')));
     }
 
     private loadAccountsRoutes() {

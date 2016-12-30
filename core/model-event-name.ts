@@ -21,6 +21,7 @@ export class ModelEventName {
     public static KerberosRealm = new ModelEventName('KerberosRealm');
     public static KerberosKeytab = new ModelEventName('KerberosKeytab');
     public static DetachedVolume = new ModelEventName('DetachedVolume');
+    public static RsyncdModule = new ModelEventName('RsyncdModule');
 
     public listChange: string;
     public contentChange: string;

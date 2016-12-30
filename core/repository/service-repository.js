@@ -10,17 +10,23 @@ var services_category_dao_1 = require("../dao/services-category-dao");
 var service_dyndns_dao_1 = require("../dao/service-dyndns-dao");
 var Promise = require("bluebird");
 var _ = require("lodash");
+var rsyncd_module_dao_1 = require("../dao/rsyncd-module-dao");
+var model_event_name_1 = require("../model-event-name");
 var ServiceRepository = (function (_super) {
     __extends(ServiceRepository, _super);
-    function ServiceRepository(serviceDao, serviceDyndnsDao, servicesCategoryDao) {
-        _super.call(this, ['Service']);
+    function ServiceRepository(serviceDao, serviceDyndnsDao, servicesCategoryDao, rsyncdModuleDao) {
+        _super.call(this, [
+            'Service',
+            'RsyncdModule'
+        ]);
         this.serviceDao = serviceDao;
         this.serviceDyndnsDao = serviceDyndnsDao;
         this.servicesCategoryDao = servicesCategoryDao;
+        this.rsyncdModuleDao = rsyncdModuleDao;
     }
     ServiceRepository.getInstance = function () {
         if (!ServiceRepository.instance) {
-            ServiceRepository.instance = new ServiceRepository(new service_dao_1.ServiceDao(), new service_dyndns_dao_1.ServiceDyndnsDao, new services_category_dao_1.ServicesCategoryDao());
+            ServiceRepository.instance = new ServiceRepository(new service_dao_1.ServiceDao(), new service_dyndns_dao_1.ServiceDyndnsDao, new services_category_dao_1.ServicesCategoryDao(), new rsyncd_module_dao_1.RsyncdModuleDao());
         }
         return ServiceRepository.instance;
     };
@@ -29,6 +35,16 @@ var ServiceRepository = (function (_super) {
     };
     ServiceRepository.prototype.saveService = function (service) {
         return this.serviceDao.save(service);
+    };
+    ServiceRepository.prototype.listRsyncdModules = function () {
+        var promise = this.rsyncdModules ? Promise.resolve(this.rsyncdModules.toSet().toJS()) : this.rsyncdModuleDao.list();
+        return promise.then(function (rsyncdModules) {
+            rsyncdModules._objectType = 'RsyncdModule';
+            return rsyncdModules;
+        });
+    };
+    ServiceRepository.prototype.getNewRsyncdModule = function () {
+        return this.rsyncdModuleDao.getNewInstance();
     };
     ServiceRepository.prototype.listServicesCategories = function () {
         var self = this;
@@ -74,7 +90,13 @@ var ServiceRepository = (function (_super) {
     ServiceRepository.prototype.listDyndnsProviders = function () {
         return this.serviceDyndnsDao.getProviders();
     };
-    ServiceRepository.prototype.handleStateChange = function (name, data) { };
+    ServiceRepository.prototype.handleStateChange = function (name, state) {
+        switch (name) {
+            case 'RsyncdModule':
+                this.rsyncdModules = this.dispatchModelEvents(this.rsyncdModules, model_event_name_1.ModelEventName.RsyncdModule, state);
+                break;
+        }
+    };
     ServiceRepository.prototype.handleEvent = function (name, data) { };
     return ServiceRepository;
 }(abstract_repository_ng_1.AbstractRepository));

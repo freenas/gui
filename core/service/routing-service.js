@@ -151,6 +151,9 @@ var RoutingService = (function () {
         crossroads.addRoute('/services', function () { return _this.loadSection('services'); });
         crossroads.addRoute('/services/services-category/_/{categoryId}', function (categoryId) { return _this.serviceRoute.getCategory(categoryId, _this.currentStacks.get('services')); });
         crossroads.addRoute('/services/services-category/_/{categoryId}/service/_/{serviceId}', function (categoryId, serviceId) { return _this.serviceRoute.getService(serviceId, _this.currentStacks.get('services')); });
+        crossroads.addRoute('/services/services-category/_/{categoryId}/service/_/{serviceId}/modules', function () { return _this.serviceRoute.listRsyncdModules(_this.currentStacks.get('services')); });
+        crossroads.addRoute('/services/services-category/_/{categoryId}/service/_/{serviceId}/modules/create', function () { return _this.serviceRoute.createRsyncdModule(_this.currentStacks.get('services')); });
+        crossroads.addRoute('/services/services-category/_/{categoryId}/service/_/{serviceId}/modules/rsyncd-module/_/{moduleId}', function (categoryId, serviceId, moduleId) { return _this.serviceRoute.getRsyncdModule(moduleId, _this.currentStacks.get('services')); });
     };
     RoutingService.prototype.loadAccountsRoutes = function () {
         var _this = this;

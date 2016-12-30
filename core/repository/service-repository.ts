@@ -4,13 +4,22 @@ import {ServicesCategoryDao} from "../dao/services-category-dao";
 import {ServiceDyndnsDao} from "../dao/service-dyndns-dao";
 import * as Promise from "bluebird";
 import * as _ from "lodash";
+import {RsyncdModuleDao} from "../dao/rsyncd-module-dao";
+import {Map} from "immutable";
+import {ModelEventName} from "../model-event-name";
 
 export class ServiceRepository extends AbstractRepository {
     private static instance: ServiceRepository;
+    private rsyncdModules: Map<string, Map<string, any>>;
+
     private constructor(private serviceDao: ServiceDao,
                         private serviceDyndnsDao: ServiceDyndnsDao,
-                        private servicesCategoryDao: ServicesCategoryDao) {
-        super(['Service']);
+                        private servicesCategoryDao: ServicesCategoryDao,
+                        private rsyncdModuleDao: RsyncdModuleDao) {
+        super([
+            'Service',
+            'RsyncdModule'
+        ]);
         }
 
     public static getInstance() {
@@ -18,7 +27,8 @@ export class ServiceRepository extends AbstractRepository {
             ServiceRepository.instance = new ServiceRepository(
                 new ServiceDao(),
                 new ServiceDyndnsDao,
-                new ServicesCategoryDao()
+                new ServicesCategoryDao(),
+                new RsyncdModuleDao()
             );
         }
         return ServiceRepository.instance;
@@ -30,6 +40,18 @@ export class ServiceRepository extends AbstractRepository {
 
     public saveService(service: any) {
         return this.serviceDao.save(service);
+    }
+
+    public listRsyncdModules() {
+        let promise = this.rsyncdModules ? Promise.resolve(this.rsyncdModules.toSet().toJS()) : this.rsyncdModuleDao.list();
+        return promise.then((rsyncdModules) => {
+            rsyncdModules._objectType = 'RsyncdModule';
+            return rsyncdModules;
+        });
+    }
+
+    public getNewRsyncdModule() {
+        return this.rsyncdModuleDao.getNewInstance();
     }
 
     public listServicesCategories(): Promise<Array<any>> {
@@ -80,6 +102,12 @@ export class ServiceRepository extends AbstractRepository {
         return this.serviceDyndnsDao.getProviders();
     }
 
-    protected handleStateChange(name: string, data: any) {}
+    protected handleStateChange(name: string, state: any) {
+        switch (name) {
+            case 'RsyncdModule':
+                this.rsyncdModules = this.dispatchModelEvents(this.rsyncdModules, ModelEventName.RsyncdModule, state);
+                break;
+        }
+    }
     protected handleEvent(name: string, data: any) {}
 }

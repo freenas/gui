@@ -57,7 +57,7 @@ export class ServicesRoute extends AbstractRoute {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: parentContext,
-                path: parentContext.path + '/services-category/_/' + encodeURIComponent(serviceId)
+                path: parentContext.path + '/service/_/' + encodeURIComponent(serviceId)
             };
         return Promise.all([
             this.serviceRepository.listServices(),
@@ -67,6 +67,69 @@ export class ServicesRoute extends AbstractRoute {
             context.userInterfaceDescriptor = uiDescriptor;
             return Promise.resolve(context.object.config);
         }).then(function() {
+            return self.updateStackWithContext(stack, context);
+        });
+    }
+
+    public listRsyncdModules(stack: Array<any>) {
+        let self = this,
+            objectType = 'RsyncdModule',
+            columnIndex = 3,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/modules'
+            };
+        return Promise.all([
+            this.serviceRepository.listRsyncdModules(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(rsyncdModules, uiDescriptor) {
+            context.object = rsyncdModules;
+            context.userInterfaceDescriptor = uiDescriptor;
+            return self.updateStackWithContext(stack, context);
+        });
+    }
+
+    public createRsyncdModule(stack: Array<any>) {
+        let self = this,
+            objectType = 'RsyncdModule',
+            columnIndex = 4,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/create'
+            };
+        return Promise.all([
+            this.serviceRepository.getNewRsyncdModule(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(rsyncdModule, uiDescriptor) {
+            context.object = rsyncdModule;
+            context.userInterfaceDescriptor = uiDescriptor;
+            return self.updateStackWithContext(stack, context);
+        });
+    }
+
+    public getRsyncdModule(rsyncdModuleId: string, stack: Array<any>) {
+        let self = this,
+            objectType = 'RsyncdModule',
+            columnIndex = 4,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/modules/rsyncd-module/_/' + encodeURIComponent(rsyncdModuleId)
+            };
+        return Promise.all([
+            this.serviceRepository.listRsyncdModules(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(rsyncdModules, uiDescriptor) {
+            context.object = _.find(rsyncdModules, {id: rsyncdModuleId});
+            context.userInterfaceDescriptor = uiDescriptor;
             return self.updateStackWithContext(stack, context);
         });
     }
