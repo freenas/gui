@@ -1,15 +1,22 @@
 "use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var _ = require("lodash");
 var Promise = require("bluebird");
-var model_event_name_1 = require("../model-event-name");
 var event_dispatcher_service_1 = require("../service/event-dispatcher-service");
 var model_descriptor_service_1 = require("../service/model-descriptor-service");
 var container_repository_1 = require("../repository/container-repository");
-var DockerRoute = (function () {
+var abstract_route_1 = require("./abstract-route");
+var DockerRoute = (function (_super) {
+    __extends(DockerRoute, _super);
     function DockerRoute(modelDescriptorService, eventDispatcherService, dockerRepository) {
-        this.modelDescriptorService = modelDescriptorService;
-        this.eventDispatcherService = eventDispatcherService;
-        this.dockerRepository = dockerRepository;
+        var _this = _super.call(this, eventDispatcherService) || this;
+        _this.modelDescriptorService = modelDescriptorService;
+        _this.dockerRepository = dockerRepository;
+        return _this;
     }
     DockerRoute.getInstance = function () {
         if (!DockerRoute.instance) {
@@ -31,14 +38,7 @@ var DockerRoute = (function () {
         ]).spread(function (hosts, uiDescriptor) {
             context.object = hosts;
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_1 = stack.pop();
-                if (context_1 && context_1.changeListener) {
-                    _this.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_1.objectType].listChange, context_1.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return _this.updateStackWithContext(stack, context);
         });
     };
     DockerRoute.prototype.getHost = function (hostId, stack) {
@@ -55,14 +55,7 @@ var DockerRoute = (function () {
         ]).spread(function (hosts, uiDescriptor) {
             context.object = _.find(hosts, { id: hostId });
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_2 = stack.pop();
-                if (context_2 && context_2.changeListener) {
-                    _this.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_2.objectType].listChange, context_2.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return _this.updateStackWithContext(stack, context);
         });
     };
     DockerRoute.prototype.listImages = function (stack) {
@@ -79,14 +72,7 @@ var DockerRoute = (function () {
         ]).spread(function (images, uiDescriptor) {
             context.object = images;
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_3 = stack.pop();
-                if (context_3 && context_3.changeListener) {
-                    _this.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_3.objectType].listChange, context_3.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return _this.updateStackWithContext(stack, context);
         });
     };
     DockerRoute.prototype.getImage = function (imageId, stack) {
@@ -103,14 +89,7 @@ var DockerRoute = (function () {
         ]).spread(function (images, uiDescriptor) {
             context.object = _.find(images, { id: imageId });
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_4 = stack.pop();
-                if (context_4 && context_4.changeListener) {
-                    _this.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_4.objectType].listChange, context_4.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return _this.updateStackWithContext(stack, context);
         });
     };
     DockerRoute.prototype.pullImage = function (collectionId, stack) {
@@ -131,14 +110,7 @@ var DockerRoute = (function () {
             image._isNewObject = true;
             context.userInterfaceDescriptor = uiDescriptor;
             context.object = image;
-            while (stack.length > columnIndex) {
-                var context_5 = stack.pop();
-                if (context_5 && context_5.changeListener) {
-                    _this.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_5.objectType].listChange, context_5.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return _this.updateStackWithContext(stack, context);
         });
     };
     DockerRoute.prototype.listCollections = function (stack) {
@@ -155,14 +127,7 @@ var DockerRoute = (function () {
         ]).spread(function (images, uiDescriptor) {
             context.object = images;
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_6 = stack.pop();
-                if (context_6 && context_6.changeListener) {
-                    _this.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_6.objectType].listChange, context_6.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return _this.updateStackWithContext(stack, context);
         });
     };
     DockerRoute.prototype.getCollection = function (collectionId, stack) {
@@ -179,14 +144,7 @@ var DockerRoute = (function () {
         ]).spread(function (collections, uiDescriptor) {
             context.object = _.find(collections, { id: collectionId });
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_7 = stack.pop();
-                if (context_7 && context_7.changeListener) {
-                    _this.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_7.objectType].listChange, context_7.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return _this.updateStackWithContext(stack, context);
         });
     };
     DockerRoute.prototype.listContainers = function (stack) {
@@ -203,14 +161,7 @@ var DockerRoute = (function () {
         ]).spread(function (images, uiDescriptor) {
             context.object = images;
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_8 = stack.pop();
-                if (context_8 && context_8.changeListener) {
-                    _this.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_8.objectType].listChange, context_8.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return _this.updateStackWithContext(stack, context);
         });
     };
     DockerRoute.prototype.getContainer = function (containerId, stack) {
@@ -227,14 +178,7 @@ var DockerRoute = (function () {
         ]).spread(function (containers, uiDescriptor) {
             context.object = _.find(containers, { id: containerId });
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_9 = stack.pop();
-                if (context_9 && context_9.changeListener) {
-                    _this.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_9.objectType].listChange, context_9.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return _this.updateStackWithContext(stack, context);
         });
     };
     DockerRoute.prototype.getSettings = function (stack) {
@@ -254,14 +198,7 @@ var DockerRoute = (function () {
         ]).spread(function (collections, uiDescriptor) {
             context.object = collections;
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_10 = stack.pop();
-                if (context_10 && context_10.changeListener) {
-                    _this.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_10.objectType].listChange, context_10.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return _this.updateStackWithContext(stack, context);
         });
     };
     DockerRoute.prototype.createCollection = function (stack) {
@@ -278,14 +215,7 @@ var DockerRoute = (function () {
         ]).spread(function (collection, uiDescriptor) {
             context.userInterfaceDescriptor = uiDescriptor;
             context.object = collection;
-            while (stack.length > columnIndex) {
-                var context_11 = stack.pop();
-                if (context_11 && context_11.changeListener) {
-                    _this.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_11.objectType].listChange, context_11.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return _this.updateStackWithContext(stack, context);
         });
     };
     DockerRoute.prototype.createContainer = function (collectionId, stack) {
@@ -306,16 +236,9 @@ var DockerRoute = (function () {
             container._isNewObject = true;
             context.userInterfaceDescriptor = uiDescriptor;
             context.object = container;
-            while (stack.length > columnIndex) {
-                var context_12 = stack.pop();
-                if (context_12 && context_12.changeListener) {
-                    _this.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_12.objectType].listChange, context_12.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return _this.updateStackWithContext(stack, context);
         });
     };
     return DockerRoute;
-}());
+}(abstract_route_1.AbstractRoute));
 exports.DockerRoute = DockerRoute;
