@@ -160,6 +160,10 @@ export class NetworkRepository extends AbstractRepository {
         return this.networkConfigDao.getMyIps();
     }
 
+    public isIpmiLoaded() {
+        return this.ipmiDao.isIpmiLoaded();
+    }
+
     protected handleStateChange(name: string, state: any) {
         switch (name) {
             case 'NetworkInterface':

@@ -109,6 +109,9 @@ var NetworkRepository = (function (_super) {
     NetworkRepository.prototype.getMyIps = function () {
         return this.networkConfigDao.getMyIps();
     };
+    NetworkRepository.prototype.isIpmiLoaded = function () {
+        return this.ipmiDao.isIpmiLoaded();
+    };
     NetworkRepository.prototype.handleStateChange = function (name, state) {
         switch (name) {
             case 'NetworkInterface':

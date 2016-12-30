@@ -1,5 +1,4 @@
 import { AbstractDao } from './abstract-dao-ng';
-import * as Promise from "bluebird";
 
 export class ServiceUpsDao extends AbstractDao {
     public constructor() {

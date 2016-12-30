@@ -2,7 +2,6 @@ import {AbstractSectionService} from "./abstract-section-service-ng";
 import {NetworkRepository} from "../../repository/network-repository";
 import {SystemRepository} from "../../repository/system-repository";
 import {ModelEventName} from "../../model-event-name";
-import {Model} from "core/model/model";
 import {NetworkInterfaceAliasType} from "../../model/enumerations/network-interface-alias-type";
 import {NetworkInterfaceType} from "../../model/enumerations/network-interface-type";
 import Promise = require("bluebird");
@@ -223,8 +222,7 @@ export class NetworkSectionService extends AbstractSectionService {
     }
 
     private isIpmiLoaded() {
-        return (this.ipmiServicesPromise || (this.ipmiServicesPromise = Model.populateObjectPrototypeForType(Model.Ipmi).then(Ipmi => Ipmi.constructor.services)))
-            .then(ipmiServices => ipmiServices.isIpmiLoaded());
+        return this.networkRepository.isIpmiLoaded();
     }
 
 }

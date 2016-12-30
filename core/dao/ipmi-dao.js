@@ -10,6 +10,9 @@ var IpmiDao = (function (_super) {
     function IpmiDao() {
         _super.call(this, 'Ipmi');
     }
+    IpmiDao.prototype.isIpmiLoaded = function () {
+        return this.middlewareClient.callRpcMethod('ipmi.is_ipmi_loaded');
+    };
     return IpmiDao;
 }(abstract_dao_ng_1.AbstractDao));
 exports.IpmiDao = IpmiDao;
