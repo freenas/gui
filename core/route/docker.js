@@ -190,7 +190,8 @@ var DockerRoute = (function (_super) {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
-            path: parentContext.path + "/create"
+            path: parentContext.path + "/create",
+            isCreatePrevented: true
         };
         return Promise.all([
             this.dockerRepository.listDockerCollections(),
