@@ -94,10 +94,11 @@
     left: 0;
     right: 0;
     padding: 0;
-    bottom: 100%;
+    bottom: 0;
     list-style: none;
     margin: 0;
     background: #242628;
+    z-index: 1;
 
     &:active {
         display: block;
