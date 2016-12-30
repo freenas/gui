@@ -13,10 +13,9 @@ var abstract_route_1 = require("./abstract-route");
 var DockerRoute = (function (_super) {
     __extends(DockerRoute, _super);
     function DockerRoute(modelDescriptorService, eventDispatcherService, dockerRepository) {
-        var _this = _super.call(this, eventDispatcherService) || this;
-        _this.modelDescriptorService = modelDescriptorService;
-        _this.dockerRepository = dockerRepository;
-        return _this;
+        _super.call(this, eventDispatcherService);
+        this.modelDescriptorService = modelDescriptorService;
+        this.dockerRepository = dockerRepository;
     }
     DockerRoute.getInstance = function () {
         if (!DockerRoute.instance) {

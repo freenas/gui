@@ -58,6 +58,8 @@ exports.ListItem = Button.specialize({
         value: function() {
             this._path = '';
             this.eventDispatcherService.removeEventListener('hashChange', this.navigationListener);
+            this.classList.remove("selected");
+            this.element.classList.remove("selected");
         }
     },
 
