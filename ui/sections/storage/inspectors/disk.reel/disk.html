@@ -78,7 +78,8 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "description"},
-                "label": "Description"
+                "label": "Description",
+                "placeholder": "add disk description"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.description"}
@@ -154,7 +155,8 @@
                 "label": "Status"
             },
             "bindings": {
-                "value": {"<-": "!@owner.object._vdev && !@owner.object._allocation ? 'Unallocated' : !@owner.object._vdev && @owner.object._allocation.type == 'EXPORTED_VOLUME' ? 'Exported' : @owner.object._vdev.status == 'OFFLINE' ? 'Offline' : 'Online'"}
+                "value": {"<-": "!@owner.object._vdev && !@owner.object._allocation ? 'Unallocated' : !@owner.object._vdev && @owner.object._allocation.type == 'EXPORTED_VOLUME' ? 'Exported' : @owner.object._vdev.status == 'OFFLINE' ? 'Offline' : 'Online'"},
+                "classList.has('is-offline')": {"<-": "value == 'Offline'"}
             }
         },
         "temperature": {
