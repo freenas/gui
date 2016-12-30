@@ -17,7 +17,7 @@ exports.AlertNotification = Component.specialize(/** @lends AlertNotification# *
 
     handleDismissButtonAction: {
         value: function(event) {
-            this.object._dismissing = true;x
+            this.object._dismissing = true;
             EventDispatcherService.getInstance().dispatch('alertDismiss', this.object);
             event.stopPropagation();
         }
