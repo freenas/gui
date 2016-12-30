@@ -120,9 +120,21 @@ var RoutingService = (function () {
         crossroads.addRoute('/vms/vm/_/{vmId}', function (vmId) { return _this.vmsRoute.get(vmId, _this.currentStacks.get('vms')); });
         crossroads.addRoute('/vms/vm/_/{vmId}/readme', function () { return _this.vmsRoute.getReadme(_this.currentStacks.get('vms')); });
         crossroads.addRoute('/vms/vm/_/{vmId}/devices', function () { return _this.vmsRoute.getDevices(_this.currentStacks.get('vms')); });
+        crossroads.addRoute('/vms/vm/_/{vmId}/devices/create', function () { return _this.vmsRoute.selectNewDeviceType(_this.currentStacks.get('vms')); });
+        crossroads.addRoute('/vms/vm/_/{vmId}/devices/create/{type}', function (vmId, type) { return _this.vmsRoute.createDevice(type, _this.currentStacks.get('vms')); });
         crossroads.addRoute('/vms/vm/_/{vmId}/devices/vm-device/_/{deviceId}', function (vmId, deviceId) { return _this.vmsRoute.getDevice(deviceId, _this.currentStacks.get('vms')); });
         crossroads.addRoute('/vms/vm/_/{vmId}/volumes', function () { return _this.vmsRoute.getVolumes(_this.currentStacks.get('vms')); });
+        crossroads.addRoute('/vms/vm/_/{vmId}/volumes/create', function () { return _this.vmsRoute.createVolume(_this.currentStacks.get('vms')); });
         crossroads.addRoute('/vms/vm/_/{vmId}/volumes/vm-volume/_/{volumeId}', function (vmId, volumeId) { return _this.vmsRoute.getVolume(volumeId, _this.currentStacks.get('vms')); });
+        crossroads.addRoute('/vms/create', function () { return _this.vmsRoute.create(_this.currentStacks.get('vms')); });
+        crossroads.addRoute('/vms/create/readme', function () { return _this.vmsRoute.getReadme(_this.currentStacks.get('vms')); });
+        crossroads.addRoute('/vms/create/devices', function () { return _this.vmsRoute.getDevices(_this.currentStacks.get('vms')); });
+        crossroads.addRoute('/vms/create/devices/create', function () { return _this.vmsRoute.selectNewDeviceType(_this.currentStacks.get('vms')); });
+        crossroads.addRoute('/vms/create/devices/create/{type}', function (type) { return _this.vmsRoute.createDevice(type, _this.currentStacks.get('vms')); });
+        crossroads.addRoute('/vms/create/devices/vm-device/_/{deviceId}', function (deviceId) { return _this.vmsRoute.getDevice(deviceId, _this.currentStacks.get('vms')); });
+        crossroads.addRoute('/vms/create/volumes', function () { return _this.vmsRoute.getVolumes(_this.currentStacks.get('vms')); });
+        crossroads.addRoute('/vms/create/volumes/create', function () { return _this.vmsRoute.createVolume(_this.currentStacks.get('vms')); });
+        crossroads.addRoute('/vms/create/volumes/vm-volume/_/{volumeId}', function (volumeId) { return _this.vmsRoute.getVolume(volumeId, _this.currentStacks.get('vms')); });
     };
     RoutingService.prototype.loadPeeringRoutes = function () {
         var _this = this;

@@ -46,6 +46,28 @@ export class VmsRoute extends AbstractRoute {
         });
     }
 
+    public create(stack: Array<any>) {
+        let self = this,
+            objectType = 'Vm',
+            columnIndex = 1,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/create'
+            };
+        return Promise.all([
+            this.vmRepository.getNewVm(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(vm, uiDescriptor) {
+            context.object = vm;
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            return self.updateStackWithContext(stack, context);
+        });
+    }
+
     public getReadme(stack: Array<any>) {
         let self = this,
             objectType = 'VmReadme',
@@ -109,6 +131,50 @@ export class VmsRoute extends AbstractRoute {
         });
     }
 
+    public selectNewDeviceType(stack: Array<any>) {
+        let self = this,
+            objectType = 'VmDevice',
+            columnIndex = 3,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                isCreatePrevented: true,
+                path: parentContext.path + '/create'
+            };
+        return Promise.all([
+            Promise.all(_.map(_.values(this.vmRepository.DEVICE_TYPE), (type) => this.vmRepository.getNewVmDeviceForType(type))),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(vmdevices, uiDescriptor) {
+            context.object = _.compact(vmdevices);
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            return self.updateStackWithContext(stack, context);
+        });
+    }
+
+    public createDevice(deviceType: string, stack: Array<any>) {
+        let self = this,
+            objectType = 'VmDevice',
+            columnIndex = 3,
+            parentContext = stack[columnIndex],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/' + encodeURIComponent(deviceType)
+            };
+        return Promise.all([
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(uiDescriptor) {
+            context.object = _.find(parentContext.object, {_tmpId: deviceType});
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            return self.updateStackWithContext(stack, context);
+        });
+    }
+
     public getVolumes(stack: Array<any>) {
         let self = this,
             objectType = 'VmVolume',
@@ -145,6 +211,28 @@ export class VmsRoute extends AbstractRoute {
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(uiDescriptor) {
             context.object = _.find(parentContext.object, {id: volumeId};
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            return self.updateStackWithContext(stack, context);
+        });
+    }
+
+    public createVolume(stack: Array<any>) {
+        let self = this,
+            objectType = 'VmVolume',
+            columnIndex = 3,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/create'
+            };
+        return Promise.all([
+            this.vmRepository.getNewVmVolume(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(vmvolume, uiDescriptor) {
+            context.object = vmvolume;
             context.userInterfaceDescriptor = uiDescriptor;
 
             return self.updateStackWithContext(stack, context);

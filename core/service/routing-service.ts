@@ -169,12 +169,36 @@ export class RoutingService {
             () => this.vmsRoute.getReadme(this.currentStacks.get('vms')));
         crossroads.addRoute('/vms/vm/_/{vmId}/devices',
             () => this.vmsRoute.getDevices(this.currentStacks.get('vms')));
+        crossroads.addRoute('/vms/vm/_/{vmId}/devices/create',
+            () => this.vmsRoute.selectNewDeviceType(this.currentStacks.get('vms')));
+        crossroads.addRoute('/vms/vm/_/{vmId}/devices/create/{type}',
+            (vmId, type) => this.vmsRoute.createDevice(type, this.currentStacks.get('vms')));
         crossroads.addRoute('/vms/vm/_/{vmId}/devices/vm-device/_/{deviceId}',
             (vmId, deviceId) => this.vmsRoute.getDevice(deviceId, this.currentStacks.get('vms')));
         crossroads.addRoute('/vms/vm/_/{vmId}/volumes',
             () => this.vmsRoute.getVolumes(this.currentStacks.get('vms')));
+        crossroads.addRoute('/vms/vm/_/{vmId}/volumes/create',
+            () => this.vmsRoute.createVolume(this.currentStacks.get('vms')));
         crossroads.addRoute('/vms/vm/_/{vmId}/volumes/vm-volume/_/{volumeId}',
             (vmId, volumeId) => this.vmsRoute.getVolume(volumeId, this.currentStacks.get('vms')));
+        crossroads.addRoute('/vms/create',
+            () => this.vmsRoute.create(this.currentStacks.get('vms')));
+        crossroads.addRoute('/vms/create/readme',
+            () => this.vmsRoute.getReadme(this.currentStacks.get('vms')));
+        crossroads.addRoute('/vms/create/devices',
+            () => this.vmsRoute.getDevices(this.currentStacks.get('vms')));
+        crossroads.addRoute('/vms/create/devices/create',
+            () => this.vmsRoute.selectNewDeviceType(this.currentStacks.get('vms')));
+        crossroads.addRoute('/vms/create/devices/create/{type}',
+            (type) => this.vmsRoute.createDevice(type, this.currentStacks.get('vms')));
+        crossroads.addRoute('/vms/create/devices/vm-device/_/{deviceId}',
+            (deviceId) => this.vmsRoute.getDevice(deviceId, this.currentStacks.get('vms')));
+        crossroads.addRoute('/vms/create/volumes',
+            () => this.vmsRoute.getVolumes(this.currentStacks.get('vms')));
+        crossroads.addRoute('/vms/create/volumes/create',
+            () => this.vmsRoute.createVolume(this.currentStacks.get('vms')));
+        crossroads.addRoute('/vms/create/volumes/vm-volume/_/{volumeId}',
+            (volumeId) => this.vmsRoute.getVolume(volumeId, this.currentStacks.get('vms')));
     }
 
     private loadPeeringRoutes() {

@@ -38,6 +38,22 @@ var VmsRoute = (function (_super) {
             return self.updateStackWithContext(stack, context);
         });
     };
+    VmsRoute.prototype.create = function (stack) {
+        var self = this, objectType = 'Vm', columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
+            columnIndex: columnIndex,
+            objectType: objectType,
+            parentContext: parentContext,
+            path: parentContext.path + '/create'
+        };
+        return Promise.all([
+            this.vmRepository.getNewVm(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function (vm, uiDescriptor) {
+            context.object = vm;
+            context.userInterfaceDescriptor = uiDescriptor;
+            return self.updateStackWithContext(stack, context);
+        });
+    };
     VmsRoute.prototype.getReadme = function (stack) {
         var self = this, objectType = 'VmReadme', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
@@ -83,6 +99,39 @@ var VmsRoute = (function (_super) {
             return self.updateStackWithContext(stack, context);
         });
     };
+    VmsRoute.prototype.selectNewDeviceType = function (stack) {
+        var _this = this;
+        var self = this, objectType = 'VmDevice', columnIndex = 3, parentContext = stack[columnIndex - 1], context = {
+            columnIndex: columnIndex,
+            objectType: objectType,
+            parentContext: parentContext,
+            isCreatePrevented: true,
+            path: parentContext.path + '/create'
+        };
+        return Promise.all([
+            Promise.all(_.map(_.values(this.vmRepository.DEVICE_TYPE), function (type) { return _this.vmRepository.getNewVmDeviceForType(type); })),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function (vmdevices, uiDescriptor) {
+            context.object = _.compact(vmdevices);
+            context.userInterfaceDescriptor = uiDescriptor;
+            return self.updateStackWithContext(stack, context);
+        });
+    };
+    VmsRoute.prototype.createDevice = function (deviceType, stack) {
+        var self = this, objectType = 'VmDevice', columnIndex = 3, parentContext = stack[columnIndex], context = {
+            columnIndex: columnIndex,
+            objectType: objectType,
+            parentContext: parentContext,
+            path: parentContext.path + '/' + encodeURIComponent(deviceType)
+        };
+        return Promise.all([
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function (uiDescriptor) {
+            context.object = _.find(parentContext.object, { _tmpId: deviceType });
+            context.userInterfaceDescriptor = uiDescriptor;
+            return self.updateStackWithContext(stack, context);
+        });
+    };
     VmsRoute.prototype.getVolumes = function (stack) {
         var self = this, objectType = 'VmVolume', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
@@ -109,6 +158,22 @@ var VmsRoute = (function (_super) {
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function (uiDescriptor) {
             context.object = _.find(parentContext.object, { id: volumeId });
+            context.userInterfaceDescriptor = uiDescriptor;
+            return self.updateStackWithContext(stack, context);
+        });
+    };
+    VmsRoute.prototype.createVolume = function (stack) {
+        var self = this, objectType = 'VmVolume', columnIndex = 3, parentContext = stack[columnIndex - 1], context = {
+            columnIndex: columnIndex,
+            objectType: objectType,
+            parentContext: parentContext,
+            path: parentContext.path + '/create'
+        };
+        return Promise.all([
+            this.vmRepository.getNewVmVolume(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function (vmvolume, uiDescriptor) {
+            context.object = vmvolume;
             context.userInterfaceDescriptor = uiDescriptor;
             return self.updateStackWithContext(stack, context);
         });

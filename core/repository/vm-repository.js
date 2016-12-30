@@ -48,6 +48,23 @@ exports.VmRepository = AbstractRepository.specialize({
         }
     },
 
+    getNewVm: {
+        value: function() {
+            return this._vmDao.getNewInstance();
+        }
+    },
+
+    getNewVmVolume: {
+        value: function() {
+            var self = this;
+            return this._vmVolumeDao.getNewInstance().then(function(vmVolume) {
+                vmVolume.id = uuid.v4();
+                vmVolume.type = self.DEVICE_TYPE.VOLUME;
+                return vmVolume;
+            });
+        }
+    },
+
     listTemplates: {
         value: function() {
             if (this._templates) {
@@ -112,6 +129,17 @@ exports.VmRepository = AbstractRepository.specialize({
     getNewVmDevice: {
         value: function() {
             return this._vmDeviceDao.getNewInstance();
+        }
+    },
+
+    getNewVmDeviceForType: {
+        value: function(type) {
+            return type !== this.DEVICE_TYPE.VOLUME && this._vmDeviceDao.getNewInstance().then(function(device) {
+                device.id = uuid.v4();
+                device._tmpId = type;
+                device.type = type;
+                return device;
+            });
         }
     },
 
