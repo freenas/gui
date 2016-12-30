@@ -13,3 +13,6 @@
         }
     }
 }
+
+.Disk .is-exported .FieldText-text { color: var(--orange); }
+.Disk .has-failed .FieldText-text  { color: var(--red);    }

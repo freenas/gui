@@ -112,7 +112,8 @@
                 "label": "SMART status"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.status.smart_info.defined() && @owner.object.status.smart_info.smart_status.defined() ? @owner.object.status.smart_info.smart_status : 'Unknown'"}
+                "value": {"<-": "@owner.object.status.smart_info.defined() && @owner.object.status.smart_info.smart_status.defined() ? @owner.object.status.smart_info.smart_status : 'Unknown'"},
+                "classList.has('has-failed')": {"<-": "value == 'FAIL'"}
             }
         },
         "serial": {
@@ -142,7 +143,8 @@
                 "label": "Allocation"
             },
             "bindings": {
-                "value": {"<-": "@owner.object._allocation.defined() ? @owner.object._allocation.name : 'None'"}
+                "value": {"<-": "@owner.object._allocation.defined() ? @owner.object._allocation.name : 'None'"},
+                "classList.has('is-exported')": {"<-": "@owner.object._allocation.defined() && @owner.object._allocation.type == 'EXPORTED_VOLUME'"}
             }
         },
         "status": {
