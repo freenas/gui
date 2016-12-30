@@ -1,45 +1,21 @@
-var Montage = require("montage").Montage,
-    FreeNASService = require("core/service/freenas-service").FreeNASService,
-    Model = require("core/model/model").Model;
-
-var PowerManagementService = exports.PowerManagementService = Montage.specialize({
-    _instance: {
-        value: null
-    },
-
-    _dataService: {
-        value: null
-    },
-
-    _serviceUpsServices: {
-        get: function() {
-            return this._serviceUpsServicesPromise || (this._serviceUpsServicesPromise = Model.populateObjectPrototypeForType(Model.ServiceUps));
-        }
-    },
-
-    listDrivers: {
-        value: function () {
-            return this._serviceUpsServices.then(function (ServiceUps) {
-                return ServiceUps.constructor.services.drivers();
-            });
-        }
-    },
-
-    listUsbDevices: {
-        value: function () {
-            return this._serviceUpsServices.then(function (ServiceUps) {
-                return ServiceUps.constructor.services.getUsbDevices();
-            });
-        }
+"use strict";
+var service_repository_1 = require("../repository/service-repository");
+var PowerManagementService = (function () {
+    function PowerManagementService(serviceRepository) {
+        this.serviceRepository = serviceRepository;
     }
-}, {
-    instance: {
-        get: function() {
-            if(!this._instance) {
-                this._instance = new PowerManagementService();
-                this._instance._dataService = FreeNASService.instance;
-            }
-            return this._instance;
+    PowerManagementService.getInstance = function () {
+        if (!PowerManagementService.instance) {
+            PowerManagementService.instance = new PowerManagementService(service_repository_1.ServiceRepository.getInstance());
         }
-    }
-});
+        return PowerManagementService.instance;
+    };
+    PowerManagementService.prototype.listDrivers = function () {
+        return this.serviceRepository.listUpsDrivers();
+    };
+    PowerManagementService.prototype.listUsbDevices = function () {
+        return this.serviceRepository.listUpsUsbDevices();
+    };
+    return PowerManagementService;
+}());
+exports.PowerManagementService = PowerManagementService;

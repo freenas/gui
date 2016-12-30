@@ -2,6 +2,7 @@ import {AbstractRepository} from "./abstract-repository-ng";
 import {ServiceDao} from "../dao/service-dao";
 import {ServicesCategoryDao} from "../dao/services-category-dao";
 import {ServiceDyndnsDao} from "../dao/service-dyndns-dao";
+import {ServiceUpsDao} from "../dao/service-ups-dao";
 import * as Promise from "bluebird";
 import * as _ from "lodash";
 import {RsyncdModuleDao} from "../dao/rsyncd-module-dao";
@@ -15,12 +16,13 @@ export class ServiceRepository extends AbstractRepository {
     private constructor(private serviceDao: ServiceDao,
                         private serviceDyndnsDao: ServiceDyndnsDao,
                         private servicesCategoryDao: ServicesCategoryDao,
-                        private rsyncdModuleDao: RsyncdModuleDao) {
+                        private rsyncdModuleDao: RsyncdModuleDao,
+                        private serviceUpsDao: ServiceUpsDao) {
         super([
             'Service',
             'RsyncdModule'
         ]);
-        }
+    }
 
     public static getInstance() {
         if (!ServiceRepository.instance) {
@@ -28,7 +30,8 @@ export class ServiceRepository extends AbstractRepository {
                 new ServiceDao(),
                 new ServiceDyndnsDao,
                 new ServicesCategoryDao(),
-                new RsyncdModuleDao()
+                new RsyncdModuleDao(),
+                new ServiceUpsDao()
             );
         }
         return ServiceRepository.instance;
@@ -100,6 +103,14 @@ export class ServiceRepository extends AbstractRepository {
 
     public listDyndnsProviders(): Promise<Array<any>> {
         return this.serviceDyndnsDao.getProviders();
+    }
+
+    public listUpsDrivers(): Promise<Array<any>> {
+        return this.serviceUpsDao.getDrivers();
+    }
+
+    public listUpsUsbDevices(): Promise<Array<any>> {
+        return this.serviceUpsDao.getUsbDevices();
     }
 
     protected handleStateChange(name: string, state: any) {
