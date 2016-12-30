@@ -123,6 +123,10 @@ export class RoutingService {
         crossroads.addRoute('/network', () => this.loadSection('network'));
         crossroads.addRoute('/network/network-interface/_/{interfaceId}',
             (interfaceId) => this.networkRoute.get(interfaceId, this.currentStacks.get('network')));
+        crossroads.addRoute('/network/ipmi',
+            () => this.networkRoute.listIpmi(this.currentStacks.get('network')));
+        crossroads.addRoute('/network/ipmi/_/{ipmiId}',
+            (ipmiId) => this.networkRoute.getIpmi(ipmiId, this.currentStacks.get('network')));
         crossroads.addRoute('/network/create',
             () => this.networkRoute.selectNewInterfaceType(this.currentStacks.get('network')));
         crossroads.addRoute('/network/create/{interfaceType}',

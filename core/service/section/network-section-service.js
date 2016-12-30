@@ -7,7 +7,6 @@ var __extends = (this && this.__extends) || function (d, b) {
 var abstract_section_service_ng_1 = require("./abstract-section-service-ng");
 var network_repository_1 = require("../../repository/network-repository");
 var system_repository_1 = require("../../repository/system-repository");
-var model_1 = require("core/model/model");
 var network_interface_alias_type_1 = require("../../model/enumerations/network-interface-alias-type");
 var network_interface_type_1 = require("../../model/enumerations/network-interface-type");
 var Promise = require("bluebird");
@@ -197,8 +196,7 @@ var NetworkSectionService = (function (_super) {
         }
     };
     NetworkSectionService.prototype.isIpmiLoaded = function () {
-        return (this.ipmiServicesPromise || (this.ipmiServicesPromise = model_1.Model.populateObjectPrototypeForType(model_1.Model.Ipmi).then(function (Ipmi) { return Ipmi.constructor.services; })))
-            .then(function (ipmiServices) { return ipmiServices.isIpmiLoaded(); });
+        return this.networkRepository.isIpmiLoaded();
     };
     return NetworkSectionService;
 }(abstract_section_service_ng_1.AbstractSectionService));

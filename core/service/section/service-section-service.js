@@ -30,6 +30,12 @@ var ServiceSectionService = (function (_super) {
     ServiceSectionService.prototype.listNetworkInterfaces = function () {
         return this.networkRepository.listNetworkInterfaces();
     };
+    ServiceSectionService.prototype.provideDcIp = function () {
+        return this.serviceRepository.provideDcIp();
+    };
+    ServiceSectionService.prototype.provideDcUrl = function () {
+        return this.serviceRepository.provideDcUrl();
+    };
     ServiceSectionService.prototype.loadEntries = function () {
         return this.serviceRepository.listServicesCategories();
     };

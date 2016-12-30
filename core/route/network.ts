@@ -20,7 +20,7 @@ export class NetworkRoute extends AbstractRoute {
                 ModelDescriptorService.getInstance(),
                 EventDispatcherService.getInstance(),
                 NetworkRepository.getInstance()
-            )
+            );
         }
         return NetworkRoute.instance;
     }
@@ -82,15 +82,57 @@ export class NetworkRoute extends AbstractRoute {
                 parentContext: parentContext,
                 path: parentContext.path + '/' + interfaceType
             };
+        return this.modelDescriptorService.getUiDescriptorForType(objectType)
+            .then(function(uiDescriptor) {
+                context.userInterfaceDescriptor = uiDescriptor;
+                context.object = _.find(parentContext.object, {_tmpId: interfaceType});
+
+                return self.updateStackWithContext(stack, context);
+            });
+    }
+
+    public listIpmi(stack: Array<any>) {
+        let self = this,
+            objectType = 'Ipmi',
+            columnIndex = 1,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/ipmi'
+            };
         return Promise.all([
+            this.networkRepository.listIpmiChannels(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(uiDescriptor) {
-            let newInterface = _.find(parentContext.object, {_tmpId: interfaceType});
+        ]).spread(function(ipmi, uiDescriptor) {
+            ipmi._objectType = objectType;
+            context.object = ipmi;
             context.userInterfaceDescriptor = uiDescriptor;
-            context.object = newInterface;
 
             return self.updateStackWithContext(stack, context);
         });
     }
 
+    public getIpmi(ipmiId: string, stack: Array<any>) {
+       let self = this,
+            objectType = 'Ipmi',
+            columnIndex = 2,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/ipmi/_/' + encodeURIComponent(ipmiId)
+            };
+        return Promise.all([
+            this.networkRepository.listIpmiChannels(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(ipmi, uiDescriptor) {
+            context.object = _.find(ipmi, {id: +ipmiId});
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            return self.updateStackWithContext(stack, context);
+        });
+    }
 }

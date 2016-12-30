@@ -2,6 +2,8 @@ import {AbstractRepository} from "./abstract-repository-ng";
 import {ServiceDao} from "../dao/service-dao";
 import {ServicesCategoryDao} from "../dao/services-category-dao";
 import {ServiceDyndnsDao} from "../dao/service-dyndns-dao";
+import {ServiceUpsDao} from "../dao/service-ups-dao";
+import {ServiceDcDao} from "../dao/service-dc-dao";
 import * as Promise from "bluebird";
 import * as _ from "lodash";
 import {RsyncdModuleDao} from "../dao/rsyncd-module-dao";
@@ -15,12 +17,14 @@ export class ServiceRepository extends AbstractRepository {
     private constructor(private serviceDao: ServiceDao,
                         private serviceDyndnsDao: ServiceDyndnsDao,
                         private servicesCategoryDao: ServicesCategoryDao,
-                        private rsyncdModuleDao: RsyncdModuleDao) {
+                        private rsyncdModuleDao: RsyncdModuleDao,
+                        private serviceUpsDao: ServiceUpsDao,
+                        private serviceDcDao: ServiceDcDao) {
         super([
             'Service',
             'RsyncdModule'
         ]);
-        }
+    }
 
     public static getInstance() {
         if (!ServiceRepository.instance) {
@@ -28,7 +32,9 @@ export class ServiceRepository extends AbstractRepository {
                 new ServiceDao(),
                 new ServiceDyndnsDao,
                 new ServicesCategoryDao(),
-                new RsyncdModuleDao()
+                new RsyncdModuleDao(),
+                new ServiceUpsDao(),
+                new ServiceDcDao()
             );
         }
         return ServiceRepository.instance;
@@ -95,11 +101,26 @@ export class ServiceRepository extends AbstractRepository {
             category.types = selectedIds.map(function(x) { return 'service-' + x; });
             return category;
         });
-
     }
 
     public listDyndnsProviders(): Promise<Array<any>> {
         return this.serviceDyndnsDao.getProviders();
+    }
+
+    public listUpsDrivers(): Promise<Array<any>> {
+        return this.serviceUpsDao.getDrivers();
+    }
+
+    public listUpsUsbDevices(): Promise<Array<any>> {
+        return this.serviceUpsDao.getUsbDevices();
+    }
+
+    public provideDcIp() {
+        return this.serviceDcDao.provideDcIp();
+    }
+
+    public provideDcUrl() {
+        return this.serviceDcDao.provideDcUrl();
     }
 
     protected handleStateChange(name: string, state: any) {

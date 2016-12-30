@@ -31,6 +31,14 @@ export class ServiceSectionService extends AbstractSectionService{
         return this.networkRepository.listNetworkInterfaces();
     }
 
+    public provideDcIp() {
+        return this.serviceRepository.provideDcIp();
+    }
+
+    public provideDcUrl() {
+        return this.serviceRepository.provideDcUrl();
+    }
+
     protected loadEntries(): Promise<Array<any>> {
         return this.serviceRepository.listServicesCategories();
     }

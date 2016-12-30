@@ -65,7 +65,7 @@ exports.ApplicationDelegate = Montage.specialize({
             app.widgetService = WidgetService.instance;
             app.validationService = ValidationService.instance;
             app.bytesService = BytesService.instance;
-            app.powerManagementService = PowerManagementService.instance;
+            app.powerManagementService = PowerManagementService.getInstance();
             app.ntpServerService = NtpServerService.instance;
 
             app.sectionsDescriptors = SectionsDescriptors;
