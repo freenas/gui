@@ -65,13 +65,15 @@ exports.ListItem = Button.specialize({
 
     _handleNavigation: {
         value: function(newPath) {
-            var pathLength = this._path.length;
-            if (_.startsWith(newPath, this._path) && (newPath.length === pathLength || newPath[pathLength] === '/')) {
-                this.classList.add("selected");
-                this.element.classList.add("selected");
-            } else {
-                this.classList.remove("selected");
-                this.element.classList.remove("selected");
+            if (this._path) {
+                var pathLength = this._path.length;
+                if (_.startsWith(newPath, this._path) && (newPath.length === pathLength || newPath[pathLength] === '/')) {
+                    this.classList.add("selected");
+                    this.element.classList.add("selected");
+                } else {
+                    this.classList.remove("selected");
+                    this.element.classList.remove("selected");
+                }
             }
         }
     },

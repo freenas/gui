@@ -1,10 +1,6 @@
-var Component = require("montage/ui/component").Component;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
-/**
- * @class Share
- * @extends Component
- */
-exports.AbstractShareInspector = Component.specialize({
+exports.AbstractShareInspector = AbstractInspector.specialize({
 
     _object: {
         value: null

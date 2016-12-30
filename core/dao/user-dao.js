@@ -10,6 +10,9 @@ var UserDao = (function (_super) {
     function UserDao() {
         _super.call(this, 'User');
     }
+    UserDao.prototype.getNextUid = function () {
+        return this.middlewareClient.callRpcMethod('user.next_uid');
+    };
     return UserDao;
 }(abstract_dao_ng_1.AbstractDao));
 exports.UserDao = UserDao;

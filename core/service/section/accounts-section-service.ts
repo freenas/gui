@@ -32,6 +32,14 @@ export class AccountsSectionService extends AbstractSectionService {
         this.eventDispatcherService.addEventListener(ModelEventName.Directory.listChange, this.handleDirectoriesChange.bind(this));
     }
 
+    public saveUser(user: any) {
+        return this.accountRepository.saveUser(user);
+    }
+
+    public getNextUid() {
+        return this.accountRepository.getNextUid();
+    }
+
     public listGroups(): Promise<Array<Object>> {
         return this.accountRepository.listGroups();
     }
@@ -102,8 +110,8 @@ export class AccountsSectionService extends AbstractSectionService {
             []
         ];
         return this.entriesPromise = Promise.all([
-            self.accountRepository.listUsers(),
-            self.accountRepository.listGroups(),
+            self.accountRepository.loadUsers(),
+            self.accountRepository.loadGroups(),
             self.accountRepository.getNewDirectoryServices(),
         ]).spread(function (allUsers: Array<any>, allGroups: Array<any>, directoryServices: any) {
             let users = allUsers.filter((x) => !x.builtin),

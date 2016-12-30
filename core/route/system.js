@@ -73,6 +73,7 @@ var SystemRoute = (function (_super) {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
+            isCreatePrevented: true,
             path: parentContext.path + '/create'
         };
         return Promise.all([

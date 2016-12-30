@@ -96,7 +96,7 @@ exports.User = AbstractInspector.specialize({
                 this.object.home += '/' + this.object.username;
             }
 
-            return this.application.dataService.saveDataObject(this.object);
+            return this._sectionService.saveUser(this.object);
         }
     },
 
@@ -150,11 +150,9 @@ exports.User = AbstractInspector.specialize({
     _getNextAvailableUserId: {
         value: function() {
             var self = this;
-            return Model.populateObjectPrototypeForType(Model.User).then(function (User) {
-                return User.constructor.services.nextUid(true);
-            }).then(function(userId) {
-                self.nextUserId = self.object.uid = userId;
-            });
+            return this._sectionService.getNextUid().then(function(nextUid) {
+                self.nextUserId = self.object.uid = nextUid;
+            })
         }
     },
 

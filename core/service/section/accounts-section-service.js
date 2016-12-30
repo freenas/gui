@@ -28,6 +28,12 @@ var AccountsSectionService = (function (_super) {
         this.eventDispatcherService.addEventListener(model_event_name_1.ModelEventName.Group.listChange, this.handleGroupsChange.bind(this));
         this.eventDispatcherService.addEventListener(model_event_name_1.ModelEventName.Directory.listChange, this.handleDirectoriesChange.bind(this));
     };
+    AccountsSectionService.prototype.saveUser = function (user) {
+        return this.accountRepository.saveUser(user);
+    };
+    AccountsSectionService.prototype.getNextUid = function () {
+        return this.accountRepository.getNextUid();
+    };
     AccountsSectionService.prototype.listGroups = function () {
         return this.accountRepository.listGroups();
     };
@@ -83,8 +89,8 @@ var AccountsSectionService = (function (_super) {
             []
         ];
         return this.entriesPromise = Promise.all([
-            self.accountRepository.listUsers(),
-            self.accountRepository.listGroups(),
+            self.accountRepository.loadUsers(),
+            self.accountRepository.loadGroups(),
             self.accountRepository.getNewDirectoryServices(),
         ]).spread(function (allUsers, allGroups, directoryServices) {
             var users = allUsers.filter(function (x) { return !x.builtin; }), groups = allGroups.filter(function (x) { return !x.builtin; }), system = allUsers.filter(function (x) { return x.builtin; }).concat(allGroups.filter(function (x) { return x.builtin; }));

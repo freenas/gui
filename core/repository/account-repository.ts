@@ -47,8 +47,16 @@ export class AccountRepository extends AbstractRepository {
         return AccountRepository.instance;
     }
 
-    public listUsers(): Promise<Array<Object>> {
+    public loadUsers(): Promise<Array<any>> {
         return this.userDao.list();
+    }
+
+    public loadGroups(): Promise<Array<any>> {
+        return this.groupDao.list();
+    }
+
+    public listUsers(): Promise<Array<any>> {
+        return this.users ? Promise.resolve(this.users.toSet().toJS()) : this.userDao.list();
     }
 
     public findUserWithName(name: string): Promise<Object> {
@@ -61,6 +69,10 @@ export class AccountRepository extends AbstractRepository {
 
     public listGroups(): Promise<Array<Object>> {
         return this.groups ? Promise.resolve(this.groups.toSet().toJS()) : this.groupDao.list();
+    }
+
+    public getNextUid() {
+        return this.userDao.getNextUid();
     }
 
     public getNewUser() {
@@ -80,7 +92,7 @@ export class AccountRepository extends AbstractRepository {
     }
 
     public listDirectories() {
-        return this.directoryDao.list();
+        return this.directories ? Promise.resolve(this.directories.toSet().toJS()) : this.directoryDao.list();
     }
 
     public getNewDirectoryForType(type: string) {

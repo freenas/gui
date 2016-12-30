@@ -2,6 +2,7 @@ var Component = require("montage/ui/component").Component,
     Promise = require("montage/core/promise").Promise,
     ModelDescriptorService = require("core/service/model-descriptor-service").ModelDescriptorService,
     CascadingList = require("ui/controls/cascading-list.reel").CascadingList,
+    RoutingService = require("core/service/routing-service").RoutingService,
     _ = require("lodash");
 
 exports.Inspector = Component.specialize({
@@ -23,6 +24,7 @@ exports.Inspector = Component.specialize({
     templateDidLoad: {
         value: function() {
             this.super();
+            this._routingService = RoutingService.getInstance();
             this._modelDescriptorService = ModelDescriptorService.getInstance();
         }
     },
@@ -164,7 +166,8 @@ exports.Inspector = Component.specialize({
 
     clearObjectSelection: {
         value: function() {
-            return this.parentCascadingListItem.close();
+            var parentPath = this.parentCascadingListItem.data.parentContext.path;
+            return this._routingService.navigate(parentPath);
         }
     },
 

@@ -32,8 +32,14 @@ var AccountRepository = (function (_super) {
         }
         return AccountRepository.instance;
     };
-    AccountRepository.prototype.listUsers = function () {
+    AccountRepository.prototype.loadUsers = function () {
         return this.userDao.list();
+    };
+    AccountRepository.prototype.loadGroups = function () {
+        return this.groupDao.list();
+    };
+    AccountRepository.prototype.listUsers = function () {
+        return this.users ? Promise.resolve(this.users.toSet().toJS()) : this.userDao.list();
     };
     AccountRepository.prototype.findUserWithName = function (name) {
         return this.userDao.findSingleEntry({ username: name });
@@ -43,6 +49,9 @@ var AccountRepository = (function (_super) {
     };
     AccountRepository.prototype.listGroups = function () {
         return this.groups ? Promise.resolve(this.groups.toSet().toJS()) : this.groupDao.list();
+    };
+    AccountRepository.prototype.getNextUid = function () {
+        return this.userDao.getNextUid();
     };
     AccountRepository.prototype.getNewUser = function () {
         return this.userDao.getNewInstance();
@@ -57,7 +66,7 @@ var AccountRepository = (function (_super) {
         return this.directoryserviceConfigDao.get();
     };
     AccountRepository.prototype.listDirectories = function () {
-        return this.directoryDao.list();
+        return this.directories ? Promise.resolve(this.directories.toSet().toJS()) : this.directoryDao.list();
     };
     AccountRepository.prototype.getNewDirectoryForType = function (type) {
         return this.directoryDao.getNewInstance().then(function (directory) {

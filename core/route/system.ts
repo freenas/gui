@@ -96,6 +96,7 @@ export class SystemRoute extends AbstractRoute {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: parentContext,
+                isCreatePrevented: true,
                 path: parentContext.path + '/create'
             };
         return Promise.all([

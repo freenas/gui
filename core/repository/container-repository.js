@@ -168,7 +168,7 @@ exports.ContainerRepository = AbstractRepository.specialize({
                 for (var i = 1, length = data.length; i < length; i++) {
                     containerSections.push(data[i]);
                 }
-                containerSections._objectType = 'Docker'
+                containerSections._objectType = 'DockerContainerSection';
 
                 return containerSections;
             });

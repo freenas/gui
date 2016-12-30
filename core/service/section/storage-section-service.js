@@ -15,6 +15,8 @@ var model_event_name_1 = require("../../model-event-name");
 var replication_repository_1 = require("../../repository/replication-repository");
 var task_repository_1 = require("../../repository/task-repository");
 var peer_repository_1 = require("../../repository/peer-repository");
+var network_repository_1 = require("../../repository/network-repository");
+var service_repository_1 = require("../../repository/service-repository");
 var StorageSectionService = (function (_super) {
     __extends(StorageSectionService, _super);
     function StorageSectionService() {
@@ -34,6 +36,8 @@ var StorageSectionService = (function (_super) {
         this.replicationRepository = replication_repository_1.ReplicationRepository.getInstance();
         this.taskRepository = task_repository_1.TaskRepository.getInstance();
         this.peerRepository = peer_repository_1.PeerRepository.getInstance();
+        this.networkRepository = network_repository_1.NetworkRepository.getInstance();
+        this.serviceRepository = service_repository_1.ServiceRepository.getInstance();
         this.volumeRepository.getVdevRecommendations().then(function (vdevRecommendations) {
             self.topologyService = topology_service_1.TopologyService.instance.init(vdevRecommendations);
         });
@@ -192,6 +196,12 @@ var StorageSectionService = (function (_super) {
     };
     StorageSectionService.prototype.listVmwareDatastores = function (peer) {
         return this.vmwareRepository.listDatastores(peer);
+    };
+    StorageSectionService.prototype.listNetworkInterfaces = function () {
+        return this.networkRepository.listNetworkInterfaces();
+    };
+    StorageSectionService.prototype.listServices = function () {
+        return this.serviceRepository.listServices();
     };
     StorageSectionService.prototype.handleDisksChange = function (disks) {
     };

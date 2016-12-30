@@ -1,7 +1,7 @@
 var AbstractShareInspector = require("../abstract-share-inspector").AbstractShareInspector,
     ShareIscsiRpm = require("core/model/enumerations/share-iscsi-rpm").ShareIscsiRpm,
     ShareIscsiBlocksize = require("core/model/enumerations/share-iscsi-blocksize").ShareIscsiBlocksize,
-    Model = require("core/model/model").Model;
+    _ = require("lodash");
 
 /**
  * @class IscsiShare
@@ -31,7 +31,9 @@ exports.IscsiShare = AbstractShareInspector.specialize({
 
     templateDidLoad: {
         value: function () {
-            this.networkInterfacesAliases = this.application.networkInterfacesSevice.networkInterfacesAliases;
+            this._sectionService.listNetworkInterfaces().then(function(networkInterfaces) {
+                self.networkInterfacesAliases = networkInterfaces;
+            });
             this._targetName = { label: null, value: null };
             this.targetNames = [];
 
@@ -97,8 +99,8 @@ exports.IscsiShare = AbstractShareInspector.specialize({
 
     _findServiceIscsi: {
         value: function() {
-            return this.application.dataService.fetchData(Model.ServiceIscsi).then(function (serviceIscsiCollection) {
-                return serviceIscsiCollection[0];
+            return this._sectionService.listServices().then(function (services) {
+                return Promise.resolve(_.find(services, {name: 'iscsi'}).config);
             });
         }
     },

@@ -55,6 +55,7 @@ var ShareService = exports.ShareService = Montage.specialize({
                 var shareTypes = this.constructor.SHARE_TYPES,
                     propertiesModel;
 
+/*
                 //Don't use a switch because it is slower.
                 if (shareTypes.AFP === shareObject.type) {
                     propertiesModel = Model.ShareAfp;
@@ -69,13 +70,12 @@ var ShareService = exports.ShareService = Montage.specialize({
                 } else {
                     return Promise.reject("unknown share type");
                 }
+*/
 
-                populatedSharePromise = this._dataService.getNewInstanceForType(propertiesModel).then(function(properties) {
-                    shareObject.properties = properties;
-                    shareObject.properties["%type"] = 'share-' + shareObject.type;
-                    return self._dataService.getNewInstanceForType(Model.Permissions);
-
-                }).then(function(permissions) {
+                // populatedSharePromise = this._dataService.getNewInstanceForType(propertiesModel).then(function(properties) {
+                shareObject.properties = {};
+                shareObject.properties["%type"] = 'share-' + shareObject.type;
+                populatedSharePromise = self._dataService.getNewInstanceForType(Model.Permissions).then(function(permissions) {
                     shareObject.permissions = permissions;
 
                     if (shareTypes.SMB === shareObject.type) {

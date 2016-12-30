@@ -2,14 +2,17 @@ import {SystemRepository} from "../../repository/system-repository";
 import {ServiceRepository} from "../../repository/service-repository";
 import {AbstractSectionService} from "./abstract-section-service-ng";
 import * as Promise from "bluebird";
+import {NetworkRepository} from "../../repository/network-repository";
 
 export class ServiceSectionService extends AbstractSectionService{
     private systemRepository: SystemRepository;
     private serviceRepository: ServiceRepository;
+    private networkRepository: NetworkRepository;
 
     protected init() {
         this.systemRepository = SystemRepository.getInstance();
         this.serviceRepository = ServiceRepository.getInstance();
+        this.networkRepository = NetworkRepository.getInstance();
     }
 
     public getSystemGeneral() {
@@ -22,6 +25,10 @@ export class ServiceSectionService extends AbstractSectionService{
 
     public getDyndnsProviders() {
         return this.serviceRepository.listDyndnsProviders();
+    }
+
+    public listNetworkInterfaces() {
+        return this.networkRepository.listNetworkInterfaces();
     }
 
     protected loadEntries(): Promise<Array<any>> {

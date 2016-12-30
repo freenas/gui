@@ -5,11 +5,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var abstract_dao_ng_1 = require("./abstract-dao-ng");
-var VmVolumeDao = (function (_super) {
-    __extends(VmVolumeDao, _super);
-    function VmVolumeDao() {
-        _super.call(this, 'VmVolume');
+var RsyncdModuleDao = (function (_super) {
+    __extends(RsyncdModuleDao, _super);
+    function RsyncdModuleDao() {
+        _super.call(this, 'RsyncdModule');
     }
-    return VmVolumeDao;
+    return RsyncdModuleDao;
 }(abstract_dao_ng_1.AbstractDao));
-exports.VmVolumeDao = VmVolumeDao;
+exports.RsyncdModuleDao = RsyncdModuleDao;

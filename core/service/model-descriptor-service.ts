@@ -1,7 +1,7 @@
 import { MiddlewareClient } from './middleware-client';
 import { AbstractDao } from '../dao/abstract-dao-ng';
 import * as ChangeCase from 'change-case';
-import * as Promise from "bluebird";
+import Promise = require("bluebird");
 
 export class ModelDescriptorService {
     private static instance: ModelDescriptorService;
@@ -35,7 +35,7 @@ export class ModelDescriptorService {
         return result;
     }
 
-    public getUiDescriptorForType(type: string): Promise<Object> {
+    public getUiDescriptorForType(type: string): Promise<any> {
         let self = this;
         if (type) {
             return this.uiCache.has(type) ?
@@ -65,6 +65,8 @@ export class ModelDescriptorService {
                 let dao = new (daoModule[type + 'Dao'])();
                 self.daoCache.set(type, dao);
                 return dao;
+            }, function() {
+                debugger;
             });
     }
 

@@ -14,6 +14,8 @@ import {ReplicationRepository} from "../../repository/replication-repository";
 import {TaskRepository} from "../../repository/task-repository";
 import {Map} from "immutable";
 import {PeerRepository} from "../../repository/peer-repository";
+import {NetworkRepository} from "../../repository/network-repository";
+import {ServiceRepository} from "../../repository/service-repository";
 
 export class StorageSectionService extends AbstractSectionService {
     private shareRepository: ShareRepository;
@@ -23,6 +25,8 @@ export class StorageSectionService extends AbstractSectionService {
     private replicationRepository: ReplicationRepository;
     private taskRepository: TaskRepository;
     private peerRepository: PeerRepository;
+    private networkRepository: NetworkRepository;
+    private serviceRepository: ServiceRepository;
 
     private topologyService: TopologyService;
 
@@ -47,6 +51,8 @@ export class StorageSectionService extends AbstractSectionService {
         this.replicationRepository = ReplicationRepository.getInstance();
         this.taskRepository = TaskRepository.getInstance();
         this.peerRepository = PeerRepository.getInstance();
+        this.networkRepository = NetworkRepository.getInstance();
+        this.serviceRepository = ServiceRepository.getInstance();
 
         this.volumeRepository.getVdevRecommendations().then(function(vdevRecommendations) {
             self.topologyService = TopologyService.instance.init(vdevRecommendations);
@@ -244,6 +250,14 @@ export class StorageSectionService extends AbstractSectionService {
 
     public listVmwareDatastores(peer: any) {
         return this.vmwareRepository.listDatastores(peer);
+    }
+
+    public listNetworkInterfaces() {
+        return this.networkRepository.listNetworkInterfaces();
+    }
+
+    public listServices() {
+        return this.serviceRepository.listServices();
     }
 
     private handleDisksChange(disks: Map<string, Map<string, any>>) {

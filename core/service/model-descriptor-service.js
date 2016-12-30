@@ -52,6 +52,8 @@ var ModelDescriptorService = (function () {
                 var dao = new (daoModule[type + 'Dao'])();
                 self.daoCache.set(type, dao);
                 return dao;
+            }, function () {
+                debugger;
             });
     };
     ModelDescriptorService.prototype.getObjectType = function (object) {
