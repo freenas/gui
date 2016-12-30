@@ -65,12 +65,43 @@ var NetworkRoute = (function (_super) {
             parentContext: parentContext,
             path: parentContext.path + '/' + interfaceType
         };
-        return Promise.all([
-            this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function (uiDescriptor) {
-            var newInterface = _.find(parentContext.object, { _tmpId: interfaceType });
+        return this.modelDescriptorService.getUiDescriptorForType(objectType)
+            .then(function (uiDescriptor) {
             context.userInterfaceDescriptor = uiDescriptor;
-            context.object = newInterface;
+            context.object = _.find(parentContext.object, { _tmpId: interfaceType });
+            return self.updateStackWithContext(stack, context);
+        });
+    };
+    NetworkRoute.prototype.listIpmi = function (stack) {
+        var self = this, objectType = 'Ipmi', columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
+            columnIndex: columnIndex,
+            objectType: objectType,
+            parentContext: parentContext,
+            path: parentContext.path + '/ipmi'
+        };
+        return Promise.all([
+            this.networkRepository.listIpmiChannels(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function (ipmi, uiDescriptor) {
+            ipmi._objectType = objectType;
+            context.object = ipmi;
+            context.userInterfaceDescriptor = uiDescriptor;
+            return self.updateStackWithContext(stack, context);
+        });
+    };
+    NetworkRoute.prototype.getIpmi = function (ipmiId, stack) {
+        var self = this, objectType = 'Ipmi', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+            columnIndex: columnIndex,
+            objectType: objectType,
+            parentContext: parentContext,
+            path: parentContext.path + '/ipmi/_/' + encodeURIComponent(ipmiId)
+        };
+        return Promise.all([
+            this.networkRepository.listIpmiChannels(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function (ipmi, uiDescriptor) {
+            context.object = _.find(ipmi, { id: +ipmiId });
+            context.userInterfaceDescriptor = uiDescriptor;
             return self.updateStackWithContext(stack, context);
         });
     };

@@ -93,6 +93,8 @@ var RoutingService = (function () {
         var _this = this;
         crossroads.addRoute('/network', function () { return _this.loadSection('network'); });
         crossroads.addRoute('/network/network-interface/_/{interfaceId}', function (interfaceId) { return _this.networkRoute.get(interfaceId, _this.currentStacks.get('network')); });
+        crossroads.addRoute('/network/ipmi', function () { return _this.networkRoute.listIpmi(_this.currentStacks.get('network')); });
+        crossroads.addRoute('/network/ipmi/_/{ipmiId}', function (ipmiId) { return _this.networkRoute.getIpmi(ipmiId, _this.currentStacks.get('network')); });
         crossroads.addRoute('/network/create', function () { return _this.networkRoute.selectNewInterfaceType(_this.currentStacks.get('network')); });
         crossroads.addRoute('/network/create/{interfaceType}', function (interfaceType) { return _this.networkRoute.create(interfaceType, _this.currentStacks.get('network')); });
     };
