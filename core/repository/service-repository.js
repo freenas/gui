@@ -9,13 +9,14 @@ var service_dao_1 = require("../dao/service-dao");
 var services_category_dao_1 = require("../dao/services-category-dao");
 var service_dyndns_dao_1 = require("../dao/service-dyndns-dao");
 var service_ups_dao_1 = require("../dao/service-ups-dao");
+var service_dc_dao_1 = require("../dao/service-dc-dao");
 var Promise = require("bluebird");
 var _ = require("lodash");
 var rsyncd_module_dao_1 = require("../dao/rsyncd-module-dao");
 var model_event_name_1 = require("../model-event-name");
 var ServiceRepository = (function (_super) {
     __extends(ServiceRepository, _super);
-    function ServiceRepository(serviceDao, serviceDyndnsDao, servicesCategoryDao, rsyncdModuleDao, serviceUpsDao) {
+    function ServiceRepository(serviceDao, serviceDyndnsDao, servicesCategoryDao, rsyncdModuleDao, serviceUpsDao, serviceDcDao) {
         _super.call(this, [
             'Service',
             'RsyncdModule'
@@ -25,10 +26,11 @@ var ServiceRepository = (function (_super) {
         this.servicesCategoryDao = servicesCategoryDao;
         this.rsyncdModuleDao = rsyncdModuleDao;
         this.serviceUpsDao = serviceUpsDao;
+        this.serviceDcDao = serviceDcDao;
     }
     ServiceRepository.getInstance = function () {
         if (!ServiceRepository.instance) {
-            ServiceRepository.instance = new ServiceRepository(new service_dao_1.ServiceDao(), new service_dyndns_dao_1.ServiceDyndnsDao, new services_category_dao_1.ServicesCategoryDao(), new rsyncd_module_dao_1.RsyncdModuleDao(), new service_ups_dao_1.ServiceUpsDao());
+            ServiceRepository.instance = new ServiceRepository(new service_dao_1.ServiceDao(), new service_dyndns_dao_1.ServiceDyndnsDao, new services_category_dao_1.ServicesCategoryDao(), new rsyncd_module_dao_1.RsyncdModuleDao(), new service_ups_dao_1.ServiceUpsDao(), new service_dc_dao_1.ServiceDcDao());
         }
         return ServiceRepository.instance;
     };
@@ -97,6 +99,12 @@ var ServiceRepository = (function (_super) {
     };
     ServiceRepository.prototype.listUpsUsbDevices = function () {
         return this.serviceUpsDao.getUsbDevices();
+    };
+    ServiceRepository.prototype.provideDcIp = function () {
+        return this.serviceDcDao.provideDcIp();
+    };
+    ServiceRepository.prototype.provideDcUrl = function () {
+        return this.serviceDcDao.provideDcUrl();
     };
     ServiceRepository.prototype.handleStateChange = function (name, state) {
         switch (name) {

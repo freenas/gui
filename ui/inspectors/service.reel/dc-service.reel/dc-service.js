@@ -1,10 +1,10 @@
-var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
+
 /**
  * @class DcService
  * @extends Component
  */
-exports.DcService = Component.specialize({
+exports.DcService = AbstractInspector.specialize({
 
     dcIp: {
         value: null
@@ -14,21 +14,17 @@ exports.DcService = Component.specialize({
     },
     _updateIp: {
         value: function() {
-           var self = this;
-            Model.populateObjectPrototypeForType(Model.ServiceDc).then(function(ServiceDc){
-                ServiceDc.constructor.services.provideDcIp().then(function (ip) {
-                   return self.dcIp = ip ? ip[0]: "" ;
-                });
+            var self = this;
+            this._sectionService.provideDcIp().then(function (ip) {
+               return self.dcIp = ip ? ip[0]: "" ;
             });
         },
     },
     _updateUrl: {
         value: function() {
-           var self = this;
-            Model.populateObjectPrototypeForType(Model.ServiceDc).then(function(ServiceDc){
-                ServiceDc.constructor.services.provideDcUrl().then(function (url) {
-                   return self.dcUrl = url[0];
-                });
+            var self = this;
+            this._sectionService.provideDcUrl().then(function (url) {
+               return self.dcUrl = url[0];
             });
         }
     },
