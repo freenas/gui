@@ -1,18 +1,14 @@
 var AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate,
-    _ = require("lodash"),
     RoutingService = require("core/service/routing-service").RoutingService,
-    CascadingList = require("ui/controls/cascading-list.reel").CascadingList;
+    CascadingList = require("ui/controls/cascading-list.reel").CascadingList,
+    ModelDescriptorService = require("core/service/model-descriptor-service").ModelDescriptorService,
+    _ = require("lodash");
 
 exports.Viewer = AbstractComponentActionDelegate.specialize({
     templateDidLoad: {
         value: function() {
+            this._modelDescriptorService = ModelDescriptorService.getInstance();
             this._routingService = RoutingService.getInstance();
-        }
-    },
-
-    initWithDao: {
-        value: function (dao) {
-            this._dao = dao;
         }
     },
 
@@ -20,65 +16,16 @@ exports.Viewer = AbstractComponentActionDelegate.specialize({
         value: false
     },
 
-    _object: {
-        value: null
+    parentCascadingListItem: {
+        get: function () {
+            return this._parentCascadingListItem ||
+                (this._parentCascadingListItem = CascadingList.findCascadingListItemContextWithComponent(this));
+        }
     },
 
-    object: {
-        set: function (object) {
-            if (this._object !== object) {
-                this._object = object;
-
-                //fixme: workaround for a range controller with a sort path. There is a issue
-                // for objects within a collection that doesn't have the property used for sorting.
-                // ex: sortingKey = "name"; object1: { name: 'foo'}, object2: {username: 'bar'}
-                // -> https://bugs.freenas.org/issues/15124
-                if (this.sortingPath) {
-                    this.sortingPath = null;
-                }
-
-                if (object) {
-                    var self = this,
-                        promise;
-
-                    if (Array.isArray(object) && !object.length && this._dao) {
-                        promise = this._dao.list().then(function (data) {
-                            if (data !== object) {
-                                self._object = data;
-                                self.dispatchOwnPropertyChange("object", data);
-                            }
-
-                            return data;
-                        });
-                    }
-
-                    if (Promise.is(promise)) {
-                        promise.then(function (object) {
-                            return self._setViewerMetaDataWithObject(object);
-                        });
-                    } else {
-                        promise = this._setViewerMetaDataWithObject(object);
-                    }
-
-                    promise.then(function() {
-                        var isSortable = true;
-                        for (var i = 0; i < self._object.length; i++) {
-                            if (!_.has(self._object[i], self.sortingKey)) {
-                                isSortable = false;
-                                break;
-                            }
-                        }
-                        if (isSortable) {
-                            self.sortingPath = self.sortingKey;
-                        }
-                    }).catch(function (error) {
-                        console.warn(error);
-                    });
-                }
-            }
-        },
-        get: function () {
-            return this._object;
+    _currentContext: {
+        get: function() {
+            return this.parentCascadingListItem.data;
         }
     },
 
@@ -86,67 +33,33 @@ exports.Viewer = AbstractComponentActionDelegate.specialize({
         value: false
     },
 
+    enterDocument: {
+        value: function(isFirstTime) {
+            this.super(isFirstTime);
+            if (this.object) {
+                this._setViewerMetaDataWithObject(this.object);
+            }
+        }
+    },
+
     handleCreateButtonAction: {
         value: function () {
-            this._routingService.navigate(this.parentCascadingListItem.data.path + '/create');
-/*
-            var self = this;
-            if (this.hasCreateEditor) {
-                return this.application.modelDescriptorService.getDaoForObject(this.object).then(function(dao) {
-                    return dao.getNewInstance().then(function (newInstance) {
-                        self.parentCascadingListItem.selectedObject = newInstance;
-                    });
-                }, function() {
-                    // DTM
-                    var type = Array.isArray(self.object) && self.object._meta_data ?
-                        self.object._meta_data.collectionModelType : self.object.constructor.Type;
-
-                    self.selectedObject = null;
-
-                    if (type) {
-                        return self.application.dataService.getNewInstanceForType(type).then(function (newInstance) {
-                            self.parentCascadingListItem.selectedObject = newInstance;
-                        });
-                    }
-                });
-            }
-*/
+            this._routingService.navigate(this._currentContext.path + '/create');
         }
     },
 
     _setViewerMetaDataWithObject: {
         value: function (object) {
             var self = this;
-            var uiDescriptorForObject = this.application.modelDescriptorService.getUiDescriptorForObject(object);
-            return uiDescriptorForObject.then(function (uiDescriptor) {
+            return this._modelDescriptorService.getUiDescriptorForObject(object).then(function (uiDescriptor) {
                 self.userInterfaceDescriptor = uiDescriptor;
+                self.hasCreateEditor = false;
+                self.createLabel = null;
                 if (uiDescriptor) {
-                    self.hasCreateEditor = !!uiDescriptor.creatorComponentModule;
-
-                    if (!self.sortingPath) {
-                        if (uiDescriptor.sortExpression) {
-                            self.sortingPath = uiDescriptor.sortExpression;
-                        } else if (uiDescriptor.nameExpression) {
-                            self.sortingPath = uiDescriptor.nameExpression;
-                        }
-                    }
-
-                    self.createLabel = uiDescriptor.createLabel ? uiDescriptor.createLabel : null;
-                } else {
-                    self.hasCreateEditor = false;
+                    self.hasCreateEditor = !self._currentContext.isCreatePrevented && !!uiDescriptor.creatorComponentModule;
+                    self.createLabel = uiDescriptor.createLabel;
                 }
             });
-        }
-    },
-
-    _parentCascadingListItem: {
-        value: null
-    },
-
-    parentCascadingListItem: {
-        get: function () {
-            return this._parentCascadingListItem ||
-                (this._parentCascadingListItem = CascadingList.findCascadingListItemContextWithComponent(this));
         }
     }
 

@@ -99,7 +99,7 @@ export class ShareRoute extends AbstractRoute {
                 columnIndex: 3,
                 objectType: 'Share',
                 parentContext: stack[2],
-                path: stack[2].path + '/share/_/' + shareId
+                path: stack[2].path + '/share/_/' + encodeURIComponent(shareId)
             });
             return stack;
         });
@@ -111,6 +111,7 @@ export class ShareRoute extends AbstractRoute {
                 columnIndex: 3,
                 objectType: 'Share',
                 parentContext: stack[2],
+                isCreatePrevented: true,
                 path: stack[2].path + '/create'
             };
         return Promise.all([

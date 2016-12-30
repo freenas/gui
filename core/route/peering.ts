@@ -9,10 +9,13 @@ import {AbstractRoute} from "./abstract-route";
 export class PeeringRoute extends AbstractRoute {
     private static instance: PeeringRoute;
 
+    private objectType: string;
+
     private constructor(private modelDescriptorService: ModelDescriptorService,
                         eventDispatcherService: EventDispatcherService,
                         private peerRepository: PeerRepository) {
         super(eventDispatcherService);
+        this.objectType = 'Peer';
     }
 
     public static getInstance() {
@@ -28,14 +31,14 @@ export class PeeringRoute extends AbstractRoute {
 
     public get(peerId: string, stack: Array<any>) {
         let self = this,
-            objectType = 'Peer',
+            objectType = this.objectType,
             columnIndex = 1,
             parentContext = stack[columnIndex-1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: parentContext,
-                path: parentContext.path + '/peer/_/' + peerId
+                path: parentContext.path + '/peer/_/' + encodeURIComponent(peerId)
             };
         return Promise.all([
             this.peerRepository.listPeers(),
@@ -58,13 +61,14 @@ export class PeeringRoute extends AbstractRoute {
 
     public selectNewPeerType(stack: Array<any>) {
         let self = this,
-            objectType = 'Peer',
+            objectType = this.objectType,
             columnIndex = 1,
             parentContext = stack[columnIndex-1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: parentContext,
+                isCreatePrevented: true,
                 path: parentContext.path + '/create'
             };
         return Promise.all([
@@ -74,24 +78,15 @@ export class PeeringRoute extends AbstractRoute {
             peers._objectType = objectType;
             context.object = _.compact(peers);
             context.userInterfaceDescriptor = uiDescriptor;
-
-            while (stack.length > columnIndex) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     }
 
     public create(peerType: string, stack:Array<any>) {
         let self = this,
-            objectType = 'Peer',
-            columnIndex = 2,
-            parentContext = stack[columnIndex-1],
+            objectType = this.objectType,
+            columnIndex = 1,
+            parentContext = stack[columnIndex],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -104,18 +99,8 @@ export class PeeringRoute extends AbstractRoute {
             let share = _.find(parentContext.object, {_tmpId: peerType});
             context.userInterfaceDescriptor = uiDescriptor;
             context.object = share;
-
-
-            while (stack.length > columnIndex-1) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
-        });
+            return self.updateStackWithContext(stack, context);
+\        });
 
     }
 }

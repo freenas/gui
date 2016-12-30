@@ -60,10 +60,10 @@ var RoutingService = (function () {
             !_.isNil(object._tmpId) ?
                 object._tmpId :
                 null;
-        return (Array.isArray(object) || _.isNull(id)) ? url : url + '/_/' + id;
+        return (Array.isArray(object) || _.isNull(id)) ? url : url + '/_/' + encodeURIComponent(id);
     };
     RoutingService.prototype.handleHashChange = function (newHash, oldHash) {
-        crossroads.parse(newHash);
+        crossroads.parse(decodeURIComponent(newHash));
         this.eventDispatcherService.dispatch('hashChange', newHash);
     };
     RoutingService.prototype.loadRoutes = function () {

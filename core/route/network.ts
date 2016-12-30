@@ -1,11 +1,9 @@
 import _ = require("lodash");
 import Promise = require("bluebird");
-import {ModelEventName} from "../model-event-name";
 import {EventDispatcherService} from "../service/event-dispatcher-service";
 import {ModelDescriptorService} from "../service/model-descriptor-service";
 import {NetworkRepository} from "../repository/network-repository";
 import {AbstractRoute} from "./abstract-route";
-import stack = Plottable.Utils.Stacking.stack;
 
 export class NetworkRoute extends AbstractRoute {
     private static instance: NetworkRoute;
@@ -20,9 +18,9 @@ export class NetworkRoute extends AbstractRoute {
         if (!NetworkRoute.instance) {
             NetworkRoute.instance = new NetworkRoute(
                 ModelDescriptorService.getInstance(),
-                EventDispatcherService.getInstance()
+                EventDispatcherService.getInstance(),
                 NetworkRepository.getInstance()
-            );
+            )
         }
         return NetworkRoute.instance;
     }
@@ -36,7 +34,7 @@ export class NetworkRoute extends AbstractRoute {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: parentContext,
-                path: parentContext.path + '/network-interface/_/' + interfaceId
+                path: parentContext.path + '/network-interface/_/' + encodeURIComponent(interfaceId)
             };
         return Promise.all([
             this.networkRepository.listNetworkInterfaces(),
@@ -58,6 +56,7 @@ export class NetworkRoute extends AbstractRoute {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: parentContext,
+                isCreatePrevented: true,
                 path: parentContext.path + '/create'
             };
         return Promise.all([

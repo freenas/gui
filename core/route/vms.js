@@ -27,7 +27,7 @@ var VmsRoute = (function (_super) {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
-            path: parentContext.path + '/vm/_/' + vmId
+            path: parentContext.path + '/vm/_/' + encodeURIComponent(vmId)
         };
         return Promise.all([
             this.vmRepository.listVms(),
@@ -73,7 +73,7 @@ var VmsRoute = (function (_super) {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
-            path: parentContext.path + '/vm-device/_/' + deviceId
+            path: parentContext.path + '/vm-device/_/' + encodeURIComponent(deviceId)
         };
         return Promise.all([
             this.modelDescriptorService.getUiDescriptorForType(objectType)
@@ -103,7 +103,7 @@ var VmsRoute = (function (_super) {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
-            path: parentContext.path + '/vm-volume/_/' + volumeId
+            path: parentContext.path + '/vm-volume/_/' + encodeURIComponent(volumeId)
         };
         return Promise.all([
             this.modelDescriptorService.getUiDescriptorForType(objectType)

@@ -71,7 +71,7 @@ export class AccountsRoute extends AbstractRoute {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: parentContext,
-                path: parentContext.path + '/_/' + userId
+                path: parentContext.path + '/_/' + encodeURIComponent(userId)
             };
         return Promise.all([
             this.accountRepository.listUsers(),
@@ -143,7 +143,7 @@ export class AccountsRoute extends AbstractRoute {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: parentContext,
-                path: parentContext.path + '/_/' + groupId
+                path: parentContext.path + '/_/' + encodeURIComponent(groupId)
             };
         return Promise.all([
             this.accountRepository.listGroups(),
@@ -246,7 +246,7 @@ export class AccountsRoute extends AbstractRoute {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: parentContext,
-                path: parentContext.path + '/_/' + directoryId
+                path: parentContext.path + '/_/' + encodeURIComponent(directoryId)
             };
         return Promise.all([
             this.accountRepository.listDirectories(),
@@ -300,7 +300,7 @@ export class AccountsRoute extends AbstractRoute {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: parentContext,
-                path: parentContext.path + '/_/' + kerberosRealmId
+                path: parentContext.path + '/_/' + encodeURIComponent(kerberosRealmId)
             };
         return Promise.all([
             this.kerberosRepository.listKerberosRealms(),
@@ -366,7 +366,7 @@ export class AccountsRoute extends AbstractRoute {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: parentContext,
-                path: parentContext.path + '/_/' + kerberosKeytabId
+                path: parentContext.path + '/_/' + encodeURIComponent(kerberosKeytabId)
             };
         return Promise.all([
             this.kerberosRepository.listKerberosKeytabs(),

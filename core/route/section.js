@@ -59,7 +59,7 @@ var SectionRoute = (function (_super) {
                         userInterfaceDescriptor: uiDescriptor,
                         columnIndex: 0,
                         objectType: 'Section',
-                        path: '/' + sectionDescriptor.id
+                        path: '/' + encodeURIComponent(sectionDescriptor.id)
                     }
                 ];
                 self.eventDispatcherService.dispatch('sectionChange', service);

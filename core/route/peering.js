@@ -17,6 +17,7 @@ var PeeringRoute = (function (_super) {
         _super.call(this, eventDispatcherService);
         this.modelDescriptorService = modelDescriptorService;
         this.peerRepository = peerRepository;
+        this.objectType = 'Peer';
     }
     PeeringRoute.getInstance = function () {
         if (!PeeringRoute.instance) {
@@ -25,11 +26,11 @@ var PeeringRoute = (function (_super) {
         return PeeringRoute.instance;
     };
     PeeringRoute.prototype.get = function (peerId, stack) {
-        var self = this, objectType = 'Peer', columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = this.objectType, columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
-            path: parentContext.path + '/peer/_/' + peerId
+            path: parentContext.path + '/peer/_/' + encodeURIComponent(peerId)
         };
         return Promise.all([
             this.peerRepository.listPeers(),
@@ -49,10 +50,11 @@ var PeeringRoute = (function (_super) {
     };
     PeeringRoute.prototype.selectNewPeerType = function (stack) {
         var _this = this;
-        var self = this, objectType = 'Peer', columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = this.objectType, columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
+            isCreatePrevented: true,
             path: parentContext.path + '/create'
         };
         return Promise.all([
@@ -62,18 +64,11 @@ var PeeringRoute = (function (_super) {
             peers._objectType = objectType;
             context.object = _.compact(peers);
             context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
-                var context_2 = stack.pop();
-                if (context_2 && context_2.changeListener) {
-                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_2.objectType].listChange, context_2.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     };
     PeeringRoute.prototype.create = function (peerType, stack) {
-        var self = this, objectType = 'Peer', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = this.objectType, columnIndex = 1, parentContext = stack[columnIndex], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -85,14 +80,7 @@ var PeeringRoute = (function (_super) {
             var share = _.find(parentContext.object, { _tmpId: peerType });
             context.userInterfaceDescriptor = uiDescriptor;
             context.object = share;
-            while (stack.length > columnIndex - 1) {
-                var context_3 = stack.pop();
-                if (context_3 && context_3.changeListener) {
-                    self.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_3.objectType].listChange, context_3.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
+            return self.updateStackWithContext(stack, context);
         });
     };
     return PeeringRoute;

@@ -63,7 +63,8 @@ exports.ListItem = Button.specialize({
 
     _handleNavigation: {
         value: function(newPath) {
-            if (_.startsWith(newPath, this._path)) {
+            var pathLength = this._path.length;
+            if (_.startsWith(newPath, this._path) && (newPath.length === pathLength || newPath[pathLength] === '/')) {
                 this.classList.add("selected");
                 this.element.classList.add("selected");
             } else {
@@ -75,17 +76,19 @@ exports.ListItem = Button.specialize({
 
     _handlePathChange: {
         value: function() {
-            var parentPath = this.parentCascadingListItem.data.path,
-                parentLast = _.last(_.split(parentPath, '/')),
-                itemPath =  this.path || this.property || _.kebabCase(this.objectType) ||
-                            (this.object ? this.routingService.getURLFromObject(this.object) : '');
-            if (parentLast === 'create') {
-                this._path = parentPath + '/' + this.object._tmpId;
-            } else {
-                if (parentLast === _.head(_.split(itemPath, '/'))) {
-                    itemPath = _.join(_.drop(_.split(itemPath, '/')), '/');
+            if (this.parentCascadingListItem) {
+                var parentPath = this.parentCascadingListItem.data.path,
+                    parentLast = _.last(_.split(parentPath, '/')),
+                    itemPath =  this.path || this.property || _.kebabCase(this.objectType) ||
+                        (this.object ? this.routingService.getURLFromObject(this.object) : '');
+                if (parentLast === 'create' && this.object) {
+                    this._path = parentPath + '/' + this.object._tmpId;
+                } else {
+                    if (parentLast === _.head(_.split(itemPath, '/'))) {
+                        itemPath = _.join(_.drop(_.split(itemPath, '/')), '/');
+                    }
+                    this._path =  parentPath + '/' + itemPath;
                 }
-                this._path =  parentPath + '/' + itemPath;
             }
         }
     },

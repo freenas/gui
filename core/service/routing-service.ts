@@ -83,11 +83,11 @@ export class RoutingService {
                     !_.isNil(object._tmpId) ?
                         object._tmpId :
                         null;
-        return (Array.isArray(object) || _.isNull(id)) ? url : url + '/_/' + id;
+        return (Array.isArray(object) || _.isNull(id)) ? url : url + '/_/' + encodeURIComponent(id);
     }
 
     private handleHashChange(newHash, oldHash) {
-        crossroads.parse(newHash);
+        crossroads.parse(decodeURIComponent(newHash));
         this.eventDispatcherService.dispatch('hashChange', newHash);
     }
 

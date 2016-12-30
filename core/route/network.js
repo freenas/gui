@@ -28,7 +28,7 @@ var NetworkRoute = (function (_super) {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
-            path: parentContext.path + '/network-interface/_/' + interfaceId
+            path: parentContext.path + '/network-interface/_/' + encodeURIComponent(interfaceId)
         };
         return Promise.all([
             this.networkRepository.listNetworkInterfaces(),
@@ -45,6 +45,7 @@ var NetworkRoute = (function (_super) {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
+            isCreatePrevented: true,
             path: parentContext.path + '/create'
         };
         return Promise.all([

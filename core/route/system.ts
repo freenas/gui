@@ -74,7 +74,7 @@ export class SystemRoute extends AbstractRoute {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: parentContext,
-                path: parentContext.path + '/crypto-certificate/_/' + certificateId
+                path: parentContext.path + '/crypto-certificate/_/' + encodeURIComponent(certificateId)
             };
         return Promise.all([
             this.cryptoCertificateRepository.listCryptoCertificates(),
@@ -141,7 +141,7 @@ export class SystemRoute extends AbstractRoute {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: parentContext,
-                path: parentContext.path + '/alert-filter/_/' + filterId
+                path: parentContext.path + '/alert-filter/_/' + encodeURIComponent(filterId)
             };
         return Promise.all([
             this.alertFilterRepository.listAlertFilters(),
@@ -229,7 +229,7 @@ export class SystemRoute extends AbstractRoute {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: parentContext,
-                path: parentContext.path + '/tunable/_/' + tunableId
+                path: parentContext.path + '/tunable/_/' + encodeURIComponent(tunableId)
             };
         return Promise.all([
             this.tunableRepository.listTunables(),
@@ -273,7 +273,7 @@ export class SystemRoute extends AbstractRoute {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: parentContext,
-                path: parentContext.path + '/ntp-server/_/' + ntpServerId
+                path: parentContext.path + '/ntp-server/_/' + encodeURIComponent(ntpServerId)
             };
         return Promise.all([
             this.ntpServerRepository.listNtpServers(),

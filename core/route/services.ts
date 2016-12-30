@@ -35,7 +35,7 @@ export class ServicesRoute extends AbstractRoute {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: parentContext,
-                path: parentContext.path + '/services-category/_/' + categoryId
+                path: parentContext.path + '/services-category/_/' + encodeURIComponent(categoryId)
             };
         return Promise.all([
             this.serviceRepository.listServicesCategories(),
@@ -57,7 +57,7 @@ export class ServicesRoute extends AbstractRoute {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: parentContext,
-                path: parentContext.path + '/services-category/_/' + serviceId
+                path: parentContext.path + '/services-category/_/' + encodeURIComponent(serviceId)
             };
         return Promise.all([
             this.serviceRepository.listServices(),

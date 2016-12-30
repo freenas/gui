@@ -42,7 +42,7 @@ export class VolumeRoute extends AbstractRoute {
                     columnIndex: 1,
                     objectType: 'Volume',
                     parentContext: stack[0],
-                    path: stack[0].path + '/volume/_/' + volumeId
+                    path: stack[0].path + '/volume/_/' + encodeURIComponent(volumeId)
                 });
             return stack;
         })
@@ -143,7 +143,7 @@ export class VolumeRoute extends AbstractRoute {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: parentContext,
-                path: parentContext.path + '/detached-volume/_/' + volumeId
+                path: parentContext.path + '/detached-volume/_/' + encodeURIComponent(volumeId)
             };
         return Promise.all([
             this.volumeRepository.listDetachedVolumes(),

@@ -65,7 +65,7 @@ export class SectionRoute extends AbstractRoute {
                         userInterfaceDescriptor: uiDescriptor,
                         columnIndex: 0,
                         objectType: 'Section',
-                        path: '/' + sectionDescriptor.id
+                        path: '/' + encodeURIComponent(sectionDescriptor.id)
                     }
                 ];
 

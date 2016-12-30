@@ -167,7 +167,7 @@ export class SnapshotRoute extends AbstractRoute {
                 columnIndex: columnIndex,
                 objectType: this.objectType,
                 parentContext: parentContext,
-                path: parentContext.path + '/_/' + snapshotId
+                path: parentContext.path + '/_/' + encodeURIComponent(snapshotId)
             };
         return Promise.all([
             this.volumeRepository.listVolumes(),

@@ -96,7 +96,7 @@ var DatasetRoute = (function (_super) {
             columnIndex: columnIndex,
             objectType: this.objectType,
             parentContext: parentContext,
-            path: parentContext.path + '/_/' + datasetId
+            path: parentContext.path + '/_/' + encodeURIComponent(datasetId)
         };
         return Promise.all([
             this.volumeRepository.listVolumes(),
@@ -203,7 +203,7 @@ var DatasetRoute = (function (_super) {
             columnIndex: columnIndex,
             objectType: this.objectType,
             parentContext: parentContext,
-            path: parentContext.path + '/_/' + vmwareDatasetId
+            path: parentContext.path + '/_/' + encodeURIComponent(vmwareDatasetId)
         };
         return Promise.all([
             this.vmwareRepository.listDatasets(),

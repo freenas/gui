@@ -78,7 +78,7 @@ var CalendarRoute = (function (_super) {
             columnIndex: columnIndex,
             objectType: 'CalendarTask',
             parentContext: parentContext,
-            path: parentContext.path + '/calendar-task/_/' + calendarTaskId
+            path: parentContext.path + '/calendar-task/_/' + encodeURIComponent(calendarTaskId)
         };
         return Promise.all([
             this.calendarRepository.listTasks(),
