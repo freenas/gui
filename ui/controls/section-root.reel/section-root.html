@@ -52,10 +52,11 @@
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
                 "element": {"#": "settings"},
-                "name": "Settings"
+                "name": "Settings",
+                "path": "settings",
+                "objectType": "SectionSettings"
             },
             "bindings": {
-                "object": {"<-": "@owner.object.settings"},
                 "classList.has('hide')": {"<-": "!@owner.object.settings.settings"}
             }
         },

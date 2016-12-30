@@ -67,6 +67,8 @@ var RoutingService = (function () {
         this.eventDispatcherService.dispatch('hashChange', newHash);
     };
     RoutingService.prototype.loadRoutes = function () {
+        var _this = this;
+        crossroads.addRoute('/{sectionId}/settings', function (sectionId) { return _this.sectionRoute.getSettings(sectionId, _this.currentStacks.get(sectionId)); });
         this.loadDashboardRoutes();
         this.loadStorageRoutes();
         this.loadAccountsRoutes();

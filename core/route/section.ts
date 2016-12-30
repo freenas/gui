@@ -81,4 +81,25 @@ export class SectionRoute extends AbstractRoute {
     public getOld(sectionId: string) {
         this.eventDispatcherService.dispatch('oldSectionChange', sectionId);
     }
+
+    public getSettings(sectionId: string, stack: Array<any>) {
+        let self = this,
+            objectType = 'SectionSettings',
+            columnIndex = 1,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/section-settings/_/' + encodeURIComponent(sectionId)
+            };
+        return Promise.all([
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread((uiDescriptor) => {
+            context.object = parentContext.object.settings;
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            return self.updateStackWithContext(stack, context);
+        });
+    }
 }

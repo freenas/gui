@@ -73,6 +73,21 @@ var SectionRoute = (function (_super) {
     SectionRoute.prototype.getOld = function (sectionId) {
         this.eventDispatcherService.dispatch('oldSectionChange', sectionId);
     };
+    SectionRoute.prototype.getSettings = function (sectionId, stack) {
+        var self = this, objectType = 'SectionSettings', columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
+            columnIndex: columnIndex,
+            objectType: objectType,
+            parentContext: parentContext,
+            path: parentContext.path + '/section-settings/_/' + encodeURIComponent(sectionId)
+        };
+        return Promise.all([
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function (uiDescriptor) {
+            context.object = parentContext.object.settings;
+            context.userInterfaceDescriptor = uiDescriptor;
+            return self.updateStackWithContext(stack, context);
+        });
+    };
     return SectionRoute;
 }(abstract_route_1.AbstractRoute));
 exports.SectionRoute = SectionRoute;

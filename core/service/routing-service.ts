@@ -92,6 +92,9 @@ export class RoutingService {
     }
 
     private loadRoutes() {
+        crossroads.addRoute('/{sectionId}/settings',
+            (sectionId) => this.sectionRoute.getSettings(sectionId, this.currentStacks.get(sectionId)));
+
         this.loadDashboardRoutes();
         this.loadStorageRoutes();
         this.loadAccountsRoutes();
