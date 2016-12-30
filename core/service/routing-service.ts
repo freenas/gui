@@ -129,25 +129,31 @@ export class RoutingService {
     private loadContainersRoutes() {
         crossroads.addRoute('/containers', () => this.loadSection('containers'));
         crossroads.addRoute('/containers/docker-host',
-            () => this.dockerRoute.getHosts(this.currentStacks.get('containers')));
+            () => this.dockerRoute.listHosts(this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/docker-host/_/{hostId}',
             (hostId) => this.dockerRoute.getHost(hostId, this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/docker-image',
-            () => this.dockerRoute.getImages(this.currentStacks.get('containers')));
+            () => this.dockerRoute.listImages(this.currentStacks.get('containers')));
+        crossroads.addRoute('/containers/docker-image/create',
+            () => this.dockerRoute.listCollectionsForCreate(this.currentStacks.get('containers')));
+        crossroads.addRoute('/containers/docker-image/create/{collectionId}',
+            (collectionId) => this.dockerRoute.pullImage(collectionId, this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/docker-image/_/{imageId}',
             (imageId) => this.dockerRoute.getImage(imageId, this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/docker-collection',
-            () => this.dockerRoute.getCollections(this.currentStacks.get('containers')));
+            () => this.dockerRoute.listCollections(this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/docker-collection/_/{collectionId}',
             (collectionId) => this.dockerRoute.getCollection(collectionId, this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/docker-collection/create',
             () => this.dockerRoute.createCollection(this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/docker-container',
-            () => this.dockerRoute.getContainers(this.currentStacks.get('containers')));
+            () => this.dockerRoute.listContainers(this.currentStacks.get('containers')));
+        crossroads.addRoute('/containers/docker-container/create',
+            () => this.dockerRoute.listCollectionsForCreate(this.currentStacks.get('containers')));
+        crossroads.addRoute('/containers/docker-container/create/{collectionId}',
+            (collectionId) => this.dockerRoute.createContainer(collectionId, this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/docker-container/_/{containerId}',
             (containerId) => this.dockerRoute.getContainer(containerId, this.currentStacks.get('containers')));
-        crossroads.addRoute('/containers/create',
-            () => this.dockerRoute.createContainer(this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/section-settings',
             () => this.dockerRoute.getSettings(this.currentStacks.get('containers')));
     }

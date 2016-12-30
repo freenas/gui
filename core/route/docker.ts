@@ -25,7 +25,7 @@ export class DockerRoute {
         return DockerRoute.instance;
     }
 
-    public getHosts(stack: Array<any>) {
+    public listHosts(stack: Array<any>) {
         let objectType = 'DockerHost',
             columnIndex = 1,
             parentContext = stack[columnIndex-1],
@@ -56,7 +56,7 @@ export class DockerRoute {
 
     public getHost(hostId, stack: Array<any>) {
         let objectType = 'DockerHost',
-            columnIndex = 1,
+            columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {
                 columnIndex: columnIndex,
@@ -83,7 +83,7 @@ export class DockerRoute {
         });
     }
 
-    public getImages(stack: Array<any>) {
+    public listImages(stack: Array<any>) {
         let objectType = 'DockerImage',
             columnIndex = 1,
             parentContext = stack[columnIndex-1],
@@ -114,7 +114,7 @@ export class DockerRoute {
 
     public getImage(imageId, stack: Array<any>) {
         let objectType = 'DockerImage',
-            columnIndex = 1,
+            columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {
                 columnIndex: columnIndex,
@@ -141,7 +141,42 @@ export class DockerRoute {
         });
     }
 
-    public getCollections(stack: Array<any>) {
+    public pullImage (collectionId, stack: Array<any>) {
+        let objectType = 'DockerImagePull',
+            columnIndex = 2,
+            parentContext = stack[columnIndex],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path
+            };
+        return Promise.all([
+            this.dockerRepository.getNewDockerImage(),
+            this.dockerRepository.listDockerCollections(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread((image, collections, uiDescriptor) => {
+            let collection = _.find(collections, {id: collectionId});
+            image.dockerCollection = collection;
+            image._isNewObject = true;
+
+            context.userInterfaceDescriptor = uiDescriptor;
+            context.object = image;
+
+
+            while (stack.length > columnIndex) {
+                let context = stack.pop();
+                if (context && context.changeListener) {
+                    this.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
+                }
+            }
+
+            stack.push(context);
+            return stack;
+        });
+    }
+
+    public listCollections(stack: Array<any>) {
         let objectType = 'DockerCollection',
             columnIndex = 1,
             parentContext = stack[columnIndex-1],
@@ -172,7 +207,7 @@ export class DockerRoute {
 
     public getCollection(collectionId, stack: Array<any>) {
         let objectType = 'DockerCollection',
-            columnIndex = 1,
+            columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {
                 columnIndex: columnIndex,
@@ -199,7 +234,7 @@ export class DockerRoute {
         });
     }
 
-    public getContainers(stack: Array<any>) {
+    public listContainers(stack: Array<any>) {
         let objectType = 'DockerContainer',
             columnIndex = 1,
             parentContext = stack[columnIndex-1],
@@ -207,7 +242,7 @@ export class DockerRoute {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: parentContext,
-                path: parentContext.path + '/docker-container/'
+                path: parentContext.path + '/docker-container'
             };
         return Promise.all([
             this.dockerRepository.listDockerContainers(),
@@ -230,7 +265,7 @@ export class DockerRoute {
 
     public getContainer(containerId, stack: Array<any>) {
         let objectType = 'DockerContainer',
-            columnIndex = 1,
+            columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {
                 columnIndex: columnIndex,
@@ -261,6 +296,36 @@ export class DockerRoute {
         //todo
     }
 
+    public listCollectionsForCreate(stack:Array<any>) {
+        let objectType = 'DockerCollection',
+            columnIndex = 2,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + "/create"
+            };
+
+        return Promise.all([
+            this.dockerRepository.listDockerCollections(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread((collections, uiDescriptor) => {
+            context.object = collections;
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            while (stack.length > columnIndex) {
+                let context = stack.pop();
+                if (context && context.changeListener) {
+                    this.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
+                }
+            }
+
+            stack.push(context);
+            return stack;
+        });
+    }
+
     public createCollection(stack:Array<any>) {
         let objectType = 'DockerCollection',
             columnIndex = 2,
@@ -269,7 +334,7 @@ export class DockerRoute {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: parentContext,
-                path: parentContext.path
+                path: parentContext.path + "/create"
             };
         return Promise.all([
             this.dockerRepository.getNewDockerCollection(),
@@ -279,7 +344,7 @@ export class DockerRoute {
             context.object = collection;
 
 
-            while (stack.length > columnIndex-1) {
+            while (stack.length > columnIndex) {
                 let context = stack.pop();
                 if (context && context.changeListener) {
                     this.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
@@ -292,10 +357,10 @@ export class DockerRoute {
 
     }
 
-    public createContainer(stack:Array<any>) {
-        let objectType = 'DockerContainer',
+    public createContainer(collectionId, stack:Array<any>) {
+        let objectType = 'DockerContainerCreator',
             columnIndex = 2,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -304,13 +369,18 @@ export class DockerRoute {
             };
         return Promise.all([
             this.dockerRepository.getNewDockerContainer(),
+            this.dockerRepository.listDockerCollections(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread((container, uiDescriptor) => {
+        ]).spread((container, collections, uiDescriptor) => {
+            let collection = _.find(collections, {id: collectionId});
+            container.dockerCollection = collection;
+            container._isNewObject = true;
+
             context.userInterfaceDescriptor = uiDescriptor;
             context.object = container;
 
 
-            while (stack.length > columnIndex-1) {
+            while (stack.length > columnIndex) {
                 let context = stack.pop();
                 if (context && context.changeListener) {
                     this.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
@@ -320,6 +390,5 @@ export class DockerRoute {
             stack.push(context);
             return stack;
         });
-
     }
 }

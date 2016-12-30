@@ -82,7 +82,7 @@ exports.ListItem = Button.specialize({
                     itemPath =  this.path || this.property || _.kebabCase(this.objectType) ||
                         (this.object ? this.routingService.getURLFromObject(this.object) : '');
                 if (parentLast === 'create' && this.object) {
-                    this._path = parentPath + '/' + this.object._tmpId;
+                    this._path = parentPath + '/' + (this.object._tmpId || this.object.id);
                 } else {
                     if (parentLast === _.head(_.split(itemPath, '/'))) {
                         itemPath = _.join(_.drop(_.split(itemPath, '/')), '/');

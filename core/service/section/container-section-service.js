@@ -60,21 +60,7 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
 
     getDockerImagesWithCollection: {
         value: function (collection) {
-            var self = this,
-                promise;
-
-            return new Promise(function (resolve, reject) {
-                if (!self._dockerCollectionService) {
-                    promise = Model.populateObjectPrototypeForType(Model.DockerCollection).then(function (DockerImage) {
-                        self._dockerCollectionService = DockerImage.constructor.services;
-                        return self._dockerCollectionService.getEntries(collection.id);
-                    });
-                } else {
-                    promise = self._dockerCollectionService.getEntries(collection.id);
-                }
-
-                resolve(promise);
-            });
+            return this._containerRepository.getDockerImagesWithCollection(collection);
         }
     },
 

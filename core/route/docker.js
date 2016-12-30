@@ -17,7 +17,7 @@ var DockerRoute = (function () {
         }
         return DockerRoute.instance;
     };
-    DockerRoute.prototype.getHosts = function (stack) {
+    DockerRoute.prototype.listHosts = function (stack) {
         var _this = this;
         var objectType = 'DockerHost', columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
@@ -43,7 +43,7 @@ var DockerRoute = (function () {
     };
     DockerRoute.prototype.getHost = function (hostId, stack) {
         var _this = this;
-        var objectType = 'DockerHost', columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
+        var objectType = 'DockerHost', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -65,7 +65,7 @@ var DockerRoute = (function () {
             return stack;
         });
     };
-    DockerRoute.prototype.getImages = function (stack) {
+    DockerRoute.prototype.listImages = function (stack) {
         var _this = this;
         var objectType = 'DockerImage', columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
@@ -91,7 +91,7 @@ var DockerRoute = (function () {
     };
     DockerRoute.prototype.getImage = function (imageId, stack) {
         var _this = this;
-        var objectType = 'DockerImage', columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
+        var objectType = 'DockerImage', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -113,7 +113,35 @@ var DockerRoute = (function () {
             return stack;
         });
     };
-    DockerRoute.prototype.getCollections = function (stack) {
+    DockerRoute.prototype.pullImage = function (collectionId, stack) {
+        var _this = this;
+        var objectType = 'DockerImagePull', columnIndex = 2, parentContext = stack[columnIndex], context = {
+            columnIndex: columnIndex,
+            objectType: objectType,
+            parentContext: parentContext,
+            path: parentContext.path
+        };
+        return Promise.all([
+            this.dockerRepository.getNewDockerImage(),
+            this.dockerRepository.listDockerCollections(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function (image, collections, uiDescriptor) {
+            var collection = _.find(collections, { id: collectionId });
+            image.dockerCollection = collection;
+            image._isNewObject = true;
+            context.userInterfaceDescriptor = uiDescriptor;
+            context.object = image;
+            while (stack.length > columnIndex) {
+                var context_5 = stack.pop();
+                if (context_5 && context_5.changeListener) {
+                    _this.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_5.objectType].listChange, context_5.changeListener);
+                }
+            }
+            stack.push(context);
+            return stack;
+        });
+    };
+    DockerRoute.prototype.listCollections = function (stack) {
         var _this = this;
         var objectType = 'DockerCollection', columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
@@ -128,9 +156,9 @@ var DockerRoute = (function () {
             context.object = images;
             context.userInterfaceDescriptor = uiDescriptor;
             while (stack.length > columnIndex) {
-                var context_5 = stack.pop();
-                if (context_5 && context_5.changeListener) {
-                    _this.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_5.objectType].listChange, context_5.changeListener);
+                var context_6 = stack.pop();
+                if (context_6 && context_6.changeListener) {
+                    _this.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_6.objectType].listChange, context_6.changeListener);
                 }
             }
             stack.push(context);
@@ -139,7 +167,7 @@ var DockerRoute = (function () {
     };
     DockerRoute.prototype.getCollection = function (collectionId, stack) {
         var _this = this;
-        var objectType = 'DockerCollection', columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
+        var objectType = 'DockerCollection', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -152,30 +180,6 @@ var DockerRoute = (function () {
             context.object = _.find(collections, { id: collectionId });
             context.userInterfaceDescriptor = uiDescriptor;
             while (stack.length > columnIndex) {
-                var context_6 = stack.pop();
-                if (context_6 && context_6.changeListener) {
-                    _this.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_6.objectType].listChange, context_6.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
-        });
-    };
-    DockerRoute.prototype.getContainers = function (stack) {
-        var _this = this;
-        var objectType = 'DockerContainer', columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
-            columnIndex: columnIndex,
-            objectType: objectType,
-            parentContext: parentContext,
-            path: parentContext.path + '/docker-container/'
-        };
-        return Promise.all([
-            this.dockerRepository.listDockerContainers(),
-            this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function (images, uiDescriptor) {
-            context.object = images;
-            context.userInterfaceDescriptor = uiDescriptor;
-            while (stack.length > columnIndex) {
                 var context_7 = stack.pop();
                 if (context_7 && context_7.changeListener) {
                     _this.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_7.objectType].listChange, context_7.changeListener);
@@ -185,9 +189,33 @@ var DockerRoute = (function () {
             return stack;
         });
     };
-    DockerRoute.prototype.getContainer = function (containerId, stack) {
+    DockerRoute.prototype.listContainers = function (stack) {
         var _this = this;
         var objectType = 'DockerContainer', columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
+            columnIndex: columnIndex,
+            objectType: objectType,
+            parentContext: parentContext,
+            path: parentContext.path + '/docker-container'
+        };
+        return Promise.all([
+            this.dockerRepository.listDockerContainers(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function (images, uiDescriptor) {
+            context.object = images;
+            context.userInterfaceDescriptor = uiDescriptor;
+            while (stack.length > columnIndex) {
+                var context_8 = stack.pop();
+                if (context_8 && context_8.changeListener) {
+                    _this.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_8.objectType].listChange, context_8.changeListener);
+                }
+            }
+            stack.push(context);
+            return stack;
+        });
+    };
+    DockerRoute.prototype.getContainer = function (containerId, stack) {
+        var _this = this;
+        var objectType = 'DockerContainer', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -200,33 +228,6 @@ var DockerRoute = (function () {
             context.object = _.find(containers, { id: containerId });
             context.userInterfaceDescriptor = uiDescriptor;
             while (stack.length > columnIndex) {
-                var context_8 = stack.pop();
-                if (context_8 && context_8.changeListener) {
-                    _this.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_8.objectType].listChange, context_8.changeListener);
-                }
-            }
-            stack.push(context);
-            return stack;
-        });
-    };
-    DockerRoute.prototype.getSettings = function (stack) {
-        //todo
-    };
-    DockerRoute.prototype.createCollection = function (stack) {
-        var _this = this;
-        var objectType = 'DockerCollection', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
-            columnIndex: columnIndex,
-            objectType: objectType,
-            parentContext: parentContext,
-            path: parentContext.path
-        };
-        return Promise.all([
-            this.dockerRepository.getNewDockerCollection(),
-            this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function (collection, uiDescriptor) {
-            context.userInterfaceDescriptor = uiDescriptor;
-            context.object = collection;
-            while (stack.length > columnIndex - 1) {
                 var context_9 = stack.pop();
                 if (context_9 && context_9.changeListener) {
                     _this.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_9.objectType].listChange, context_9.changeListener);
@@ -236,9 +237,60 @@ var DockerRoute = (function () {
             return stack;
         });
     };
-    DockerRoute.prototype.createContainer = function (stack) {
+    DockerRoute.prototype.getSettings = function (stack) {
+        //todo
+    };
+    DockerRoute.prototype.listCollectionsForCreate = function (stack) {
         var _this = this;
-        var objectType = 'DockerContainer', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var objectType = 'DockerCollection', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+            columnIndex: columnIndex,
+            objectType: objectType,
+            parentContext: parentContext,
+            path: parentContext.path + "/create"
+        };
+        return Promise.all([
+            this.dockerRepository.listDockerCollections(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function (collections, uiDescriptor) {
+            context.object = collections;
+            context.userInterfaceDescriptor = uiDescriptor;
+            while (stack.length > columnIndex) {
+                var context_10 = stack.pop();
+                if (context_10 && context_10.changeListener) {
+                    _this.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_10.objectType].listChange, context_10.changeListener);
+                }
+            }
+            stack.push(context);
+            return stack;
+        });
+    };
+    DockerRoute.prototype.createCollection = function (stack) {
+        var _this = this;
+        var objectType = 'DockerCollection', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+            columnIndex: columnIndex,
+            objectType: objectType,
+            parentContext: parentContext,
+            path: parentContext.path + "/create"
+        };
+        return Promise.all([
+            this.dockerRepository.getNewDockerCollection(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function (collection, uiDescriptor) {
+            context.userInterfaceDescriptor = uiDescriptor;
+            context.object = collection;
+            while (stack.length > columnIndex) {
+                var context_11 = stack.pop();
+                if (context_11 && context_11.changeListener) {
+                    _this.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_11.objectType].listChange, context_11.changeListener);
+                }
+            }
+            stack.push(context);
+            return stack;
+        });
+    };
+    DockerRoute.prototype.createContainer = function (collectionId, stack) {
+        var _this = this;
+        var objectType = 'DockerContainerCreator', columnIndex = 2, parentContext = stack[columnIndex], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -246,14 +298,18 @@ var DockerRoute = (function () {
         };
         return Promise.all([
             this.dockerRepository.getNewDockerContainer(),
+            this.dockerRepository.listDockerCollections(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function (container, uiDescriptor) {
+        ]).spread(function (container, collections, uiDescriptor) {
+            var collection = _.find(collections, { id: collectionId });
+            container.dockerCollection = collection;
+            container._isNewObject = true;
             context.userInterfaceDescriptor = uiDescriptor;
             context.object = container;
-            while (stack.length > columnIndex - 1) {
-                var context_10 = stack.pop();
-                if (context_10 && context_10.changeListener) {
-                    _this.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_10.objectType].listChange, context_10.changeListener);
+            while (stack.length > columnIndex) {
+                var context_12 = stack.pop();
+                if (context_12 && context_12.changeListener) {
+                    _this.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName[context_12.objectType].listChange, context_12.changeListener);
                 }
             }
             stack.push(context);

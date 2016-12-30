@@ -97,16 +97,19 @@ var RoutingService = (function () {
     RoutingService.prototype.loadContainersRoutes = function () {
         var _this = this;
         crossroads.addRoute('/containers', function () { return _this.loadSection('containers'); });
-        crossroads.addRoute('/containers/docker-host', function () { return _this.dockerRoute.getHosts(_this.currentStacks.get('containers')); });
+        crossroads.addRoute('/containers/docker-host', function () { return _this.dockerRoute.listHosts(_this.currentStacks.get('containers')); });
         crossroads.addRoute('/containers/docker-host/_/{hostId}', function (hostId) { return _this.dockerRoute.getHost(hostId, _this.currentStacks.get('containers')); });
-        crossroads.addRoute('/containers/docker-image', function () { return _this.dockerRoute.getImages(_this.currentStacks.get('containers')); });
+        crossroads.addRoute('/containers/docker-image', function () { return _this.dockerRoute.listImages(_this.currentStacks.get('containers')); });
+        crossroads.addRoute('/containers/docker-image/create', function () { return _this.dockerRoute.listCollectionsForCreate(_this.currentStacks.get('containers')); });
+        crossroads.addRoute('/containers/docker-image/create/{collectionId}', function (collectionId) { return _this.dockerRoute.pullImage(collectionId, _this.currentStacks.get('containers')); });
         crossroads.addRoute('/containers/docker-image/_/{imageId}', function (imageId) { return _this.dockerRoute.getImage(imageId, _this.currentStacks.get('containers')); });
-        crossroads.addRoute('/containers/docker-collection', function () { return _this.dockerRoute.getCollections(_this.currentStacks.get('containers')); });
+        crossroads.addRoute('/containers/docker-collection', function () { return _this.dockerRoute.listCollections(_this.currentStacks.get('containers')); });
         crossroads.addRoute('/containers/docker-collection/_/{collectionId}', function (collectionId) { return _this.dockerRoute.getCollection(collectionId, _this.currentStacks.get('containers')); });
         crossroads.addRoute('/containers/docker-collection/create', function () { return _this.dockerRoute.createCollection(_this.currentStacks.get('containers')); });
-        crossroads.addRoute('/containers/docker-container', function () { return _this.dockerRoute.getContainers(_this.currentStacks.get('containers')); });
+        crossroads.addRoute('/containers/docker-container', function () { return _this.dockerRoute.listContainers(_this.currentStacks.get('containers')); });
+        crossroads.addRoute('/containers/docker-container/create', function () { return _this.dockerRoute.listCollectionsForCreate(_this.currentStacks.get('containers')); });
+        crossroads.addRoute('/containers/docker-container/create/{collectionId}', function (collectionId) { return _this.dockerRoute.createContainer(collectionId, _this.currentStacks.get('containers')); });
         crossroads.addRoute('/containers/docker-container/_/{containerId}', function (containerId) { return _this.dockerRoute.getContainer(containerId, _this.currentStacks.get('containers')); });
-        crossroads.addRoute('/containers/create', function () { return _this.dockerRoute.createContainer(_this.currentStacks.get('containers')); });
         crossroads.addRoute('/containers/section-settings', function () { return _this.dockerRoute.getSettings(_this.currentStacks.get('containers')); });
     };
     RoutingService.prototype.loadVmsRoutes = function () {
