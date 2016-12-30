@@ -15,7 +15,7 @@ exports.ContainerRepository = AbstractRepository.specialize({
 
     init: {
         value: function () {
-            this._dockerContainerSectionDao = DockerContainerSectionDao.instance;
+            this._dockerContainerSectionDao = new DockerContainerSectionDao();
             this._dockerContainerDao = new DockerContainerDao();
             this._dockerImageDao = new DockerImageDao();
             this._dockerHostDao = new DockerHostDao();
@@ -162,6 +162,7 @@ exports.ContainerRepository = AbstractRepository.specialize({
                 for (var i = 1, length = data.length; i < length; i++) {
                     containerSections.push(data[i]);
                 }
+                containerSections._objectType = 'Docker'
 
                 return containerSections;
             });
