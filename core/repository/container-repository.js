@@ -53,6 +53,12 @@ exports.ContainerRepository = AbstractRepository.specialize({
         }
     },
 
+    getDockerImagesWithCollection: {
+        value: function (collection) {
+            return this._dockerCollectionDao.getImages(collection);
+        }
+    },
+
     getNewInstanceFromObjectType: {
         value: function(objectType) {
             if (objectType === 'DockerImage') {

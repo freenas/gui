@@ -8,8 +8,11 @@ var abstract_dao_ng_1 = require("./abstract-dao-ng");
 var DockerCollectionDao = (function (_super) {
     __extends(DockerCollectionDao, _super);
     function DockerCollectionDao() {
-        _super.call(this, 'DockerCollection');
+        return _super.call(this, 'DockerCollection') || this;
     }
+    DockerCollectionDao.prototype.getImages = function (collection) {
+        return this.middlewareClient.callRpcMethod("docker.collection.get_entries", [collection.id]);
+    };
     return DockerCollectionDao;
 }(abstract_dao_ng_1.AbstractDao));
 exports.DockerCollectionDao = DockerCollectionDao;
