@@ -21,10 +21,10 @@ exports.ContainerRepository = AbstractRepository.specialize({
             this._dockerHostDao = new DockerHostDao();
             this._dockerConfigDao = new DockerConfigDao();
             this._dockerCollectionDao = new DockerCollectionDao();
-            this._dockerContainerCreatorDao = DockerContainerCreatorDao.instance;
-            this._dockerImagePullDao = DockerImagePullDao.instance;
-            this._dockerContainerLogsRepository = DockerContainerLogsDao.instance;
-            this._dockerContainerBridgeDao = DockerContainerBridgeDao.instance;
+            this._dockerContainerCreatorDao = new DockerContainerCreatorDao();
+            this._dockerImagePullDao = new DockerImagePullDao();
+            this._dockerContainerLogsRepository = new DockerContainerLogsDao();
+            this._dockerContainerBridgeDao = new DockerContainerBridgeDao();
             this._modelDescriptorService = ModelDescriptorService.getInstance();
         }
     },

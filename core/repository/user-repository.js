@@ -7,8 +7,8 @@ exports.UserRepository = AbstractRepository.specialize({
 
     init: {
         value: function(userDao, directoryserviceConfigDao, eventDispatcherService) {
-            this._userDao = userDao || UserDao.instance;
-            this._directoryserviceConfigDao = directoryserviceConfigDao || DirectoryserviceConfigDao.instance;
+            this._userDao = userDao || new UserDao();
+            this._directoryserviceConfigDao = directoryserviceConfigDao || new DirectoryserviceConfigDao();
             this._eventDispatcherService = eventDispatcherService || EventDispatcherService.getInstance();
         }
     },
@@ -51,5 +51,5 @@ exports.UserRepository = AbstractRepository.specialize({
             return this._userDao.getNewInstance();
         }
     }
-    
+
 });

@@ -34,20 +34,20 @@ exports.StorageRepository = AbstractRepository.specialize({
 
     init: {
         value: function(volumeDao, shareDao, volumeDatasetDao, volumeSnapshotDao, diskDao, volumeImporterDao, encryptedVolumeImporterDao, detachedVolumeDao, importableDiskDao, vmwareDatasetDao, vmwareDatastoreDao, encryptedVolumeActionsDao, backendBridge, replicationOptionsDao) {
-            this._volumeDao = volumeDao || VolumeDao.instance;
-            this._shareDao = shareDao || ShareDao.instance;
-            this._volumeDatasetDao = volumeDatasetDao || VolumeDatasetDao.instance;
-            this._volumeSnapshotDao = volumeSnapshotDao || VolumeSnapshotDao.instance;
-            this._diskDao = diskDao || DiskDao.instance;
-            this._volumeImporterDao = volumeImporterDao || VolumeImporterDao.instance;
-            this._encryptedVolumeImporterDao = encryptedVolumeImporterDao || EncryptedVolumeImporterDao.instance;
-            this._detachedVolumeDao = detachedVolumeDao || DetachedVolumeDao.instance;
-            this._importableDiskDao = importableDiskDao || ImportableDiskDao.instance;
-            this._vmwareDatasetDao = vmwareDatasetDao || VmwareDatasetDao.instance;
-            this._vmwareDatastoreDao = vmwareDatastoreDao || VmwareDatastoreDao.instance;
-            this._encryptedVolumeActionsDao = encryptedVolumeActionsDao || EncryptedVolumeActionsDao.instance;
+            this._volumeDao = volumeDao || new VolumeDao();
+            this._shareDao = shareDao || new ShareDao();
+            this._volumeDatasetDao = volumeDatasetDao || new VolumeDatasetDao();
+            this._volumeSnapshotDao = volumeSnapshotDao || new VolumeSnapshotDao();
+            this._diskDao = diskDao || new DiskDao();
+            this._volumeImporterDao = volumeImporterDao || new VolumeImporterDao();
+            this._encryptedVolumeImporterDao = encryptedVolumeImporterDao || new EncryptedVolumeImporterDao();
+            this._detachedVolumeDao = detachedVolumeDao || new DetachedVolumeDao();
+            this._importableDiskDao = importableDiskDao || new ImportableDiskDao();
+            this._vmwareDatasetDao = vmwareDatasetDao || new VmwareDatasetDao();
+            this._vmwareDatastoreDao = vmwareDatastoreDao || new VmwareDatastoreDao();
+            this._encryptedVolumeActionsDao = encryptedVolumeActionsDao || new EncryptedVolumeActionsDao();
             this._backendBridge = backendBridge || BackEndBridgeModule.defaultBackendBridge;
-            this._replicationOptionsDao = replicationOptionsDao || ReplicationOptionsDao.instance;
+            this._replicationOptionsDao = replicationOptionsDao || new ReplicationOptionsDao();
 
             this._availableDisks = [];
             this._detachedVolumes = [];

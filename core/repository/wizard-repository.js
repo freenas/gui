@@ -11,12 +11,12 @@ exports.WizardRepository = AbstractRepository.specialize({
 
     init: {
         value: function(systemGeneralDao, volumeDao, directoryServicesDao, mailDao, shareDao, userDao) {
-            this._systemGeneralDao = systemGeneralDao || SystemGeneralDao.instance;
-            this._volumeDao = volumeDao || VolumeDao.instance;
-            this._directoryServicesDao = directoryServicesDao || DirectoryServicesDao.instance;
-            this._mailDao = mailDao || MailDao.instance;
-            this._shareDao = shareDao || ShareDao.instance;
-            this._userDao = userDao || UserDao.instance;
+            this._systemGeneralDao = systemGeneralDao || new SystemGeneralDao();
+            this._volumeDao = volumeDao || new VolumeDao();
+            this._directoryServicesDao = directoryServicesDao || new DirectoryServicesDao();
+            this._mailDao = mailDao || new MailDao();
+            this._shareDao = shareDao || new ShareDao();
+            this._userDao = userDao || new UserDao();
         }
     },
 

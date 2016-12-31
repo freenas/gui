@@ -1,16 +1,18 @@
 var AbstractRepository = require("core/repository/abstract-repository").AbstractRepository,
-    MiddlewareTaskDao = require("core/dao/middleware-task-dao").MiddlewareTaskDao;
+    MiddlewareClient = require("core/service/middleware-client").MiddlewareClient,
+    TaskDao = require("core/dao/task-dao").TaskDao;
 
 exports.MiddlewareTaskRepository = AbstractRepository.specialize({
     init: {
         value: function(middlewareTaskDao) {
-            this._middlewareTaskDao = middlewareTaskDao || MiddlewareTaskDao.instance;
+            this._middlewareClient = MiddlewareClient.getInstance();
+            this._taskDao = middlewareTaskDao || new TaskDao();
         }
     },
 
     getNewMiddlewareTaskWithNameAndArgs: {
         value: function(name, args) {
-            return this._middlewareTaskDao.getNewInstance().then(function(task) {
+            return this._taskDao.getNewInstance().then(function(task) {
                 task.name = name;
                 task.args = args;
                 return task;
@@ -20,7 +22,7 @@ exports.MiddlewareTaskRepository = AbstractRepository.specialize({
 
     runMiddlewareTask: {
         value: function(task) {
-            return task.constructor.services.submit(task.name, task.args);
+            return this._middlewareClient.submitTask(task.name, task.args);
         }
     }
 });
