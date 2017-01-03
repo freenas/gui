@@ -132,6 +132,14 @@
       "valueType": "array"
     }
   },
+  "blueprint_shareafp_smb_compatible": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "smb_compatible",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_shareafp_time_machine": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -185,6 +193,7 @@
         {"@": "blueprint_shareafp_ro_users"},
         {"@": "blueprint_shareafp_rw_groups"},
         {"@": "blueprint_shareafp_rw_users"},
+        {"@": "blueprint_shareafp_smb_compatible"},
         {"@": "blueprint_shareafp_time_machine"},
         {"@": "blueprint_shareafp_users_allow"},
         {"@": "blueprint_shareafp_users_deny"},

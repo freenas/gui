@@ -235,6 +235,19 @@ exports.NetworkInterfaceStatus = Montage.specialize({
             return this._ports;
         }
     },
+    _supported_media: {
+        value: null
+    },
+    supported_media: {
+        set: function (value) {
+            if (this._supported_media !== value) {
+                this._supported_media = value;
+            }
+        },
+        get: function () {
+            return this._supported_media;
+        }
+    },
     _tag: {
         value: null
     },
@@ -327,6 +340,10 @@ exports.NetworkInterfaceStatus = Montage.specialize({
         }, {
             mandatory: false,
             name: "ports",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "supported_media",
             valueType: "array"
         }, {
             mandatory: false,

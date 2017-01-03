@@ -209,6 +209,19 @@ exports.ShareAfp = Montage.specialize({
             return this._rw_users;
         }
     },
+    _smb_compatible: {
+        value: null
+    },
+    smb_compatible: {
+        set: function (value) {
+            if (this._smb_compatible !== value) {
+                this._smb_compatible = value;
+            }
+        },
+        get: function () {
+            return this._smb_compatible;
+        }
+    },
     _time_machine: {
         value: null
     },
@@ -329,6 +342,10 @@ exports.ShareAfp = Montage.specialize({
             mandatory: false,
             name: "rw_users",
             valueType: "array"
+        }, {
+            mandatory: false,
+            name: "smb_compatible",
+            valueType: "boolean"
         }, {
             mandatory: false,
             name: "time_machine",

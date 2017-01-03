@@ -1,6 +1,19 @@
 var Montage = require("montage").Montage;
 
 exports.ServiceUps = Montage.specialize({
+    _allow_remote_connections: {
+        value: null
+    },
+    allow_remote_connections: {
+        set: function (value) {
+            if (this._allow_remote_connections !== value) {
+                this._allow_remote_connections = value;
+            }
+        },
+        get: function () {
+            return this._allow_remote_connections;
+        }
+    },
     _auxiliary: {
         value: null
     },
@@ -66,45 +79,6 @@ exports.ServiceUps = Montage.specialize({
             return this._driver_port;
         }
     },
-    _email_notify: {
-        value: null
-    },
-    email_notify: {
-        set: function (value) {
-            if (this._email_notify !== value) {
-                this._email_notify = value;
-            }
-        },
-        get: function () {
-            return this._email_notify;
-        }
-    },
-    _email_recipients: {
-        value: null
-    },
-    email_recipients: {
-        set: function (value) {
-            if (this._email_recipients !== value) {
-                this._email_recipients = value;
-            }
-        },
-        get: function () {
-            return this._email_recipients;
-        }
-    },
-    _email_subject: {
-        value: null
-    },
-    email_subject: {
-        set: function (value) {
-            if (this._email_subject !== value) {
-                this._email_subject = value;
-            }
-        },
-        get: function () {
-            return this._email_subject;
-        }
-    },
     _enable: {
         value: null
     },
@@ -157,19 +131,6 @@ exports.ServiceUps = Montage.specialize({
             return this._monitor_password;
         }
     },
-    _allow_remote_connections: {
-        value: null
-    },
-    allow_remote_connections: {
-        set: function (value) {
-            if (this._allow_remote_connections !== value) {
-                this._allow_remote_connections = value;
-            }
-        },
-        get: function () {
-            return this._allow_remote_connections;
-        }
-    },
     _monitor_user: {
         value: null
     },
@@ -194,6 +155,19 @@ exports.ServiceUps = Montage.specialize({
         },
         get: function () {
             return this._powerdown;
+        }
+    },
+    _propagate_alerts: {
+        value: null
+    },
+    propagate_alerts: {
+        set: function (value) {
+            if (this._propagate_alerts !== value) {
+                this._propagate_alerts = value;
+            }
+        },
+        get: function () {
+            return this._propagate_alerts;
         }
     },
     _remote_host: {
@@ -265,6 +239,10 @@ exports.ServiceUps = Montage.specialize({
     propertyBlueprints: {
         value: [{
             mandatory: false,
+            name: "allow_remote_connections",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
             name: "auxiliary",
             valueType: "String"
         }, {
@@ -285,19 +263,6 @@ exports.ServiceUps = Montage.specialize({
             valueType: "String"
         }, {
             mandatory: false,
-            name: "email_notify",
-            valueType: "boolean"
-        }, {
-            mandatory: false,
-            name: "email_recipients",
-            valueObjectPrototypeName: "Email",
-            valueType: "array"
-        }, {
-            mandatory: false,
-            name: "email_subject",
-            valueType: "String"
-        }, {
-            mandatory: false,
             name: "enable",
             valueType: "boolean"
         }, {
@@ -315,15 +280,15 @@ exports.ServiceUps = Montage.specialize({
             valueType: "String"
         }, {
             mandatory: false,
-            name: "allow_remote_connections",
-            valueType: "boolean"
-        }, {
-            mandatory: false,
             name: "monitor_user",
             valueType: "String"
         }, {
             mandatory: false,
             name: "powerdown",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "propagate_alerts",
             valueType: "boolean"
         }, {
             mandatory: false,

@@ -105,6 +105,19 @@ exports.DockerContainer = Montage.specialize({
             return this._hostname;
         }
     },
+    _hub_url: {
+        value: null
+    },
+    hub_url: {
+        set: function (value) {
+            if (this._hub_url !== value) {
+                this._hub_url = value;
+            }
+        },
+        get: function () {
+            return this._hub_url;
+        }
+    },
     _id: {
         value: null
     },
@@ -196,6 +209,19 @@ exports.DockerContainer = Montage.specialize({
             return this._ports;
         }
     },
+    _reachable: {
+        value: null
+    },
+    reachable: {
+        set: function (value) {
+            if (this._reachable !== value) {
+                this._reachable = value;
+            }
+        },
+        get: function () {
+            return this._reachable;
+        }
+    },
     _running: {
         value: null
     },
@@ -220,19 +246,6 @@ exports.DockerContainer = Montage.specialize({
         },
         get: function () {
             return this._settings;
-        }
-    },
-    _status: {
-        value: null
-    },
-    status: {
-        set: function (value) {
-            if (this._status !== value) {
-                this._status = value;
-            }
-        },
-        get: function () {
-            return this._status;
         }
     },
     _version: {
@@ -311,6 +324,10 @@ exports.DockerContainer = Montage.specialize({
             valueType: "String"
         }, {
             mandatory: false,
+            name: "hub_url",
+            valueType: "String"
+        }, {
+            mandatory: false,
             name: "id",
             valueType: "String"
         }, {
@@ -339,16 +356,16 @@ exports.DockerContainer = Montage.specialize({
             valueType: "array"
         }, {
             mandatory: false,
+            name: "reachable",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
             name: "running",
             valueType: "boolean"
         }, {
             mandatory: false,
             name: "settings",
             valueType: "array"
-        }, {
-            mandatory: false,
-            name: "status",
-            valueType: "String"
         }, {
             mandatory: false,
             name: "version",

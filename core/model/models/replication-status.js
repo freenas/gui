@@ -1,6 +1,19 @@
 var Montage = require("montage").Montage;
 
 exports.ReplicationStatus = Montage.specialize({
+    _ended_at: {
+        value: null
+    },
+    ended_at: {
+        set: function (value) {
+            if (this._ended_at !== value) {
+                this._ended_at = value;
+            }
+        },
+        get: function () {
+            return this._ended_at;
+        }
+    },
     _message: {
         value: null
     },
@@ -40,6 +53,19 @@ exports.ReplicationStatus = Montage.specialize({
             return this._speed;
         }
     },
+    _started_at: {
+        value: null
+    },
+    started_at: {
+        set: function (value) {
+            if (this._started_at !== value) {
+                this._started_at = value;
+            }
+        },
+        get: function () {
+            return this._started_at;
+        }
+    },
     _status: {
         value: null
     },
@@ -57,6 +83,10 @@ exports.ReplicationStatus = Montage.specialize({
     propertyBlueprints: {
         value: [{
             mandatory: false,
+            name: "ended_at",
+            valueType: "datetime"
+        }, {
+            mandatory: false,
             name: "message",
             valueType: "String"
         }, {
@@ -67,6 +97,10 @@ exports.ReplicationStatus = Montage.specialize({
             mandatory: false,
             name: "speed",
             valueType: "number"
+        }, {
+            mandatory: false,
+            name: "started_at",
+            valueType: "datetime"
         }, {
             mandatory: false,
             name: "status",

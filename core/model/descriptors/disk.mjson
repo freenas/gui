@@ -80,22 +80,6 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_disk_online": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "online",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "blueprint_disk_smart_options": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "smart_options",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_disk_standby_mode": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -128,8 +112,6 @@
         {"@": "blueprint_disk_rname"},
         {"@": "blueprint_disk_serial"},
         {"@": "blueprint_disk_smart"},
-        {"@": "blueprint_disk_online"},
-        {"@": "blueprint_disk_smart_options"},
         {"@": "blueprint_disk_standby_mode"},
         {"@": "blueprint_disk_status"}
       ]

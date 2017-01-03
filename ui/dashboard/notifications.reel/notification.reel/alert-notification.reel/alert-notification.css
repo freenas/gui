@@ -1,1 +1,1 @@
-.AlertNotification:before{position:absolute;content:'';top:0;width:3px;left:0;bottom:0}.AlertNotification.has-info:before{background-color:#bb8e00}.AlertNotification.has-warning:before{background-color:#d95b1b}.AlertNotification.has-critical:before{background-color:#e0003a}
+.AlertNotification:before{position:absolute;content:"";top:0;width:3px;left:0;bottom:0}.AlertNotification.has-info:before{background-color:#bb8e00}.AlertNotification.has-warning:before{background-color:#d95b1b}.AlertNotification.has-critical:before{background-color:#e0003a}

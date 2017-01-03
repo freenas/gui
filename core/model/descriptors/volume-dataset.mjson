@@ -23,6 +23,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_volumedataset_metadata": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "metadata",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
   "blueprint_volumedataset_mounted": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -123,6 +131,7 @@
         {"@": "blueprint_volumedataset_id"},
         {"@": "blueprint_volumedataset_last_replicated_at"},
         {"@": "blueprint_volumedataset_last_replicated_by"},
+        {"@": "blueprint_volumedataset_metadata"},
         {"@": "blueprint_volumedataset_mounted"},
         {"@": "blueprint_volumedataset_mountpoint"},
         {"@": "blueprint_volumedataset_name"},

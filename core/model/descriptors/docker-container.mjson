@@ -64,6 +64,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_dockercontainer_hub_url": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "hub_url",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_dockercontainer_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -120,6 +128,14 @@
       "valueType": "array"
     }
   },
+  "blueprint_dockercontainer_reachable": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "reachable",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_dockercontainer_running": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -134,14 +150,6 @@
       "name": "settings",
       "blueprint": {"@": "root"},
       "valueType": "array"
-    }
-  },
-  "blueprint_dockercontainer_status": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "status",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
     }
   },
   "blueprint_dockercontainer_version": {
@@ -182,6 +190,7 @@
         {"@": "blueprint_dockercontainer_expose_ports"},
         {"@": "blueprint_dockercontainer_host"},
         {"@": "blueprint_dockercontainer_hostname"},
+        {"@": "blueprint_dockercontainer_hub_url"},
         {"@": "blueprint_dockercontainer_id"},
         {"@": "blueprint_dockercontainer_image"},
         {"@": "blueprint_dockercontainer_interactive"},
@@ -189,9 +198,9 @@
         {"@": "blueprint_dockercontainer_names"},
         {"@": "blueprint_dockercontainer_parent_directory"},
         {"@": "blueprint_dockercontainer_ports"},
+        {"@": "blueprint_dockercontainer_reachable"},
         {"@": "blueprint_dockercontainer_running"},
         {"@": "blueprint_dockercontainer_settings"},
-        {"@": "blueprint_dockercontainer_status"},
         {"@": "blueprint_dockercontainer_version"},
         {"@": "blueprint_dockercontainer_volumes"},
         {"@": "blueprint_dockercontainer_web_ui_url"}

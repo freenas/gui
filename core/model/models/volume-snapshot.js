@@ -66,6 +66,19 @@ exports.VolumeSnapshot = Montage.specialize({
             return this._lifetime;
         }
     },
+    _metadata: {
+        value: null
+    },
+    metadata: {
+        set: function (value) {
+            if (this._metadata !== value) {
+                this._metadata = value;
+            }
+        },
+        get: function () {
+            return this._metadata;
+        }
+    },
     _name: {
         value: null
     },
@@ -140,6 +153,10 @@ exports.VolumeSnapshot = Montage.specialize({
             mandatory: false,
             name: "lifetime",
             valueType: "number"
+        }, {
+            mandatory: false,
+            name: "metadata",
+            valueType: "object"
         }, {
             mandatory: false,
             name: "name",

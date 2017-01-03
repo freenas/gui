@@ -39,6 +39,14 @@
       "valueType": "number"
     }
   },
+  "blueprint_volumesnapshot_metadata": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "metadata",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
   "blueprint_volumesnapshot_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -82,6 +90,7 @@
         {"@": "blueprint_volumesnapshot_holds"},
         {"@": "blueprint_volumesnapshot_id"},
         {"@": "blueprint_volumesnapshot_lifetime"},
+        {"@": "blueprint_volumesnapshot_metadata"},
         {"@": "blueprint_volumesnapshot_name"},
         {"@": "blueprint_volumesnapshot_properties"},
         {"@": "blueprint_volumesnapshot_replicable"},
