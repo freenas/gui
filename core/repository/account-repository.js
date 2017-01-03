@@ -96,7 +96,6 @@ var AccountRepository = (function (_super) {
     };
     AccountRepository.DIRECTORY_TYPES_LABELS = {
         winbind: "Active Directory",
-        freeipa: "FreeIPA",
         ldap: "LDAP",
         nis: "NIS"
     };
