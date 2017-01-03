@@ -40,7 +40,6 @@ exports.DirectoryServices = AbstractInspector.specialize({
     handleDirectoriesChange: {
         value: function () {
             var directoryTypesKeyValuesKeys = _.keys(this._sectionService.DIRECTORY_TYPES_LABELS),
-                directoryTypesValueKeys = this.constructor.DIRECTORY_TYPES_VALUE_KEYS,
                 directoryTypesLabels = this._sectionService.DIRECTORY_TYPES_LABELS,
                 directoryServicesMap = new Map(),
                 directories = this._directories,
@@ -54,8 +53,8 @@ exports.DirectoryServices = AbstractInspector.specialize({
             for (i = 0, length = directories.length; i < length; i++) {
                 directory = directories[i];
 
-                if ((directoryTypesValueKey = directoryTypesValueKeys[directory.type]) && directory.name) {
-                    directoryServicesMap.set(directoryTypesValueKey, directory);
+                if ((directoryTypesValueKey = directoryTypesLabels[directory.type]) && directory.name) {
+                    directoryServicesMap.set(directory.type, directory);
                     directory.label = directoryTypesLabels[directory.type];
                 }
             }

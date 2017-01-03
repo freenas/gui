@@ -253,7 +253,7 @@ export class AccountsRoute extends AbstractRoute {
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(directories, uiDescriptor) {
             context.userInterfaceDescriptor = uiDescriptor;
-            let directory = _.find(directories, {_tmpId: directoryId}),
+            let directory = _.find(directories, {id: directoryId}),
                 promise;
             if (directory) {
                 promise = Promise.resolve(directory);

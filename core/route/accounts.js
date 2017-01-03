@@ -204,7 +204,7 @@ var AccountsRoute = (function (_super) {
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function (directories, uiDescriptor) {
             context.userInterfaceDescriptor = uiDescriptor;
-            var directory = _.find(directories, { _tmpId: directoryId }), promise;
+            var directory = _.find(directories, { id: directoryId }), promise;
             if (directory) {
                 promise = Promise.resolve(directory);
             }
