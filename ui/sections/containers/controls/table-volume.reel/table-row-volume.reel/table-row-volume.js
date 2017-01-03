@@ -7,10 +7,4 @@ var Component = require("montage/ui/component").Component;
  * @class TableRowVolume
  * @extends Component
  */
-exports.TableRowVolume = Component.specialize(/** @lends TableRowVolume# */ {
-    constructor: {
-        value: function TableRowVolume() {
-            this.super();
-        }
-    }
-});
+exports.TableRowVolume = Component.specialize();
