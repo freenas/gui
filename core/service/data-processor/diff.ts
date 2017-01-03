@@ -1,8 +1,6 @@
 import { DataProcessor } from './data-processor';
-import * as immutable from 'immutable';
-
 import { DatastoreService } from '../datastore-service';
-import {Map} from "immutable";
+import {Map, List} from "immutable";
 
 class DiffProcessor implements DataProcessor {
     private datastoreService: DatastoreService;
@@ -26,8 +24,7 @@ class DiffProcessor implements DataProcessor {
     private getDifferences(object: Object, reference: Map<string, any>): Object {
         let differences = Map<string, any>();
         reference.forEach(function(value, key) {
-            if (object.hasOwnProperty(key) &&
-                (value instanceof immutable.Map || value instanceof immutable.List || value !== object[key])) {
+            if (object.hasOwnProperty(key) && (value instanceof Map || value instanceof List || value !== object[key])) {
                 differences = differences.set(key, object[key]);
             }
         });

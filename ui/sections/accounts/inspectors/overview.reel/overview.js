@@ -24,7 +24,6 @@ exports.Overview = AbstractInspector.specialize({
 
     _handleOverviewChange: {
         value: function(overview) {
-            console.log('overviewChange');
             this.object = overview;
         }
     }

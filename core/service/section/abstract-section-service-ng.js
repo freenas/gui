@@ -1,5 +1,5 @@
 "use strict";
-var section_repository_1 = require('../../section-repository');
+var section_repository_1 = require('../../repository/section-repository');
 var event_dispatcher_service_1 = require('../event-dispatcher-service');
 var Promise = require("bluebird");
 var AbstractSectionService = (function () {

@@ -1,4 +1,4 @@
-import {SectionRepository} from '../../section-repository';
+import {SectionRepository} from '../../repository/section-repository';
 import {Section} from '../../model/models/section';
 import {EventDispatcherService} from '../event-dispatcher-service';
 import * as Promise from "bluebird";

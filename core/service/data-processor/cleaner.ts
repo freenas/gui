@@ -27,7 +27,7 @@ class CleaningProcessor implements DataProcessor {
 
     private cleanupValue(value) {
         let cleanedValue;
-        if (!value || typeof value !== 'object') {
+        if (!value || typeof value !== 'object' || _.isEmpty(value)) {
             cleanedValue = value;
         } else if (Array.isArray(value)) {
             cleanedValue = [];

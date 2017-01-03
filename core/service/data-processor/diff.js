@@ -1,5 +1,4 @@
 "use strict";
-var immutable = require('immutable');
 var datastore_service_1 = require('../datastore-service');
 var immutable_1 = require("immutable");
 var DiffProcessor = (function () {
@@ -20,8 +19,7 @@ var DiffProcessor = (function () {
     DiffProcessor.prototype.getDifferences = function (object, reference) {
         var differences = immutable_1.Map();
         reference.forEach(function (value, key) {
-            if (object.hasOwnProperty(key) &&
-                (value instanceof immutable.Map || value instanceof immutable.List || value !== object[key])) {
+            if (object.hasOwnProperty(key) && (value instanceof immutable_1.Map || value instanceof immutable_1.List || value !== object[key])) {
                 differences = differences.set(key, object[key]);
             }
         });

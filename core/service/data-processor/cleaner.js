@@ -23,7 +23,7 @@ var CleaningProcessor = (function () {
     };
     CleaningProcessor.prototype.cleanupValue = function (value) {
         var cleanedValue;
-        if (!value || typeof value !== 'object') {
+        if (!value || typeof value !== 'object' || _.isEmpty(value)) {
             cleanedValue = value;
         }
         else if (Array.isArray(value)) {

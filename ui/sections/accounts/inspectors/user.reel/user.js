@@ -92,8 +92,12 @@ exports.User = AbstractInspector.specialize({
     save: {
         value: function() {
             this.object.groups = this.additionalGroups.map(function(x) { return x.id; });
-            if (this.object._isNew && this.object.home) {
-                this.object.home += '/' + this.object.username;
+            if (this.object.home) {
+                if (this.object._isNew) {
+                    this.object.home += '/' + this.object.username;
+                }
+            } else {
+                delete this.object.home;
             }
 
             return this._sectionService.saveUser(this.object);
