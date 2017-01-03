@@ -13,6 +13,12 @@ var UserDao = (function (_super) {
     UserDao.prototype.getNextUid = function () {
         return this.middlewareClient.callRpcMethod('user.next_uid');
     };
+    UserDao.prototype.delete = function (object, args) {
+        return abstract_dao_1.AbstractDao.prototype.delete.call(this, object, [{
+                delete_home_directory: !!args[0],
+                delete_own_group: !!args[1]
+            }]);
+    };
     return UserDao;
 }(abstract_dao_1.AbstractDao));
 exports.UserDao = UserDao;
