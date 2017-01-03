@@ -152,8 +152,8 @@ export class NetworkRepository extends AbstractRepository {
         return this.networkConfigDao.revert(this._networkSettings.config);
     }
 
-    public saveNetworkSettings() {
-        return this.networkConfigDao.save(this._networkSettings.config);
+    public saveNetworkSettings(settings: any) {
+        return this.networkConfigDao.save(settings);
     }
 
     public getMyIps() {

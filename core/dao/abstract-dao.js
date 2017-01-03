@@ -94,7 +94,8 @@ var AbstractDao = (function () {
         args = args || [];
         var update = diff_1.processor.process(cleaner_1.processor.process(object, this.propertyDescriptors), this.objectType, object.id);
         if (update || (args && args.length > 0)) {
-            return this.middlewareClient.submitTask(this.updateMethod, _.concat([object.id, update], args));
+            var payload = _.concat(object.id ? [object.id, update] : [update], args);
+            return this.middlewareClient.submitTask(this.updateMethod, payload);
         }
     };
     AbstractDao.prototype.create = function (object, args) {

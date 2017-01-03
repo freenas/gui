@@ -51,11 +51,9 @@ var NetworkSectionService = (function (_super) {
             return overview;
         });
     };
-    NetworkSectionService.prototype.saveSettings = function () {
-        return Promise.all([
-            this.networkRepository.saveNetworkSettings(),
-            this.systemRepository.saveGeneral()
-        ]);
+    NetworkSectionService.prototype.saveSettings = function (settings) {
+        var _this = this;
+        return this.networkRepository.saveNetworkSettings(settings.config).then(function (task) { return task.taskPromise; }).then(function () { return _this.systemRepository.saveGeneral(settings.system); });
     };
     NetworkSectionService.prototype.getNewInterfaceWithType = function (interfaceType) {
         return this.networkRepository.getNewInterfaceWithType(interfaceType);

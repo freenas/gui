@@ -103,8 +103,8 @@ var NetworkRepository = (function (_super) {
     NetworkRepository.prototype.revertNetworkSettings = function () {
         return this.networkConfigDao.revert(this._networkSettings.config);
     };
-    NetworkRepository.prototype.saveNetworkSettings = function () {
-        return this.networkConfigDao.save(this._networkSettings.config);
+    NetworkRepository.prototype.saveNetworkSettings = function (settings) {
+        return this.networkConfigDao.save(settings);
     };
     NetworkRepository.prototype.getMyIps = function () {
         return this.networkConfigDao.getMyIps();

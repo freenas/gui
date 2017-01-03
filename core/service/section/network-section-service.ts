@@ -1,7 +1,6 @@
 import {AbstractSectionService} from "./abstract-section-service-ng";
 import {NetworkRepository} from "../../repository/network-repository";
 import {SystemRepository} from "../../repository/system-repository";
-import {ModelEventName} from "../../model-event-name";
 import {NetworkInterfaceAliasType} from "../../model/enumerations/network-interface-alias-type";
 import {NetworkInterfaceType} from "../../model/enumerations/network-interface-type";
 import Promise = require("bluebird");
@@ -55,11 +54,12 @@ export class NetworkSectionService extends AbstractSectionService {
         });
     }
 
-    public saveSettings() {
-        return Promise.all([
-            this.networkRepository.saveNetworkSettings(),
-            this.systemRepository.saveGeneral()
-        ]);
+    public saveSettings(settings: any) {
+        return this.networkRepository.saveNetworkSettings(settings.config).then(
+            (task) => task.taskPromise
+        ).then(
+            () => this.systemRepository.saveGeneral(settings.system)
+        );
     }
 
     public getNewInterfaceWithType(interfaceType: any) {

@@ -32,7 +32,7 @@ exports.Settings = AbstractInspector.specialize({
             }
         }
     },
-    
+
     revert: {
         value: function() {
             var self = this;
@@ -50,7 +50,7 @@ exports.Settings = AbstractInspector.specialize({
                 dhcpChanged = this._checkIfDHCPSettingsChanged();
 
             return this._performActionOnControllers('save').then(function(){
-                return self._sectionService.saveSettings();
+                return self._sectionService.saveSettings(self.object.settings);
             }).then(function() {
                 if (dhcpChanged) {
                     self._snapshotDHCPSettingsIfNecessary();

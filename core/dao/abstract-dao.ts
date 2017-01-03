@@ -132,7 +132,8 @@ export class AbstractDao {
             object.id
         );
         if (update || (args && args.length > 0)) {
-            return this.middlewareClient.submitTask(this.updateMethod, _.concat([object.id, update], args));
+            let payload = _.concat(object.id ? [object.id, update] : [update], args);
+            return this.middlewareClient.submitTask(this.updateMethod, payload);
         }
     }
 
