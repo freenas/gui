@@ -6,11 +6,10 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"},
-                "hostPathInput": {"@": "hostPath"}
+                "element": {"#": "owner"}
             },
             "bindings": {
-                "object.host_path_input": {"<-": "@owner.hostPathInput.pathInput.value"}
+                "object.host_path": {"<-": "!!@hostPath.displayedPath ? @hostPath.displayedPath : @owner.object.host_path"}
             }
         },
 
@@ -34,7 +33,7 @@
                 "isNotTypable": false
             },
             "bindings": {
-                "selectedPath": {"<->": "@owner.object.host_path"}
+                "selectedPath": {"<-": "@owner.object.host_path"}
             }
         },
 
