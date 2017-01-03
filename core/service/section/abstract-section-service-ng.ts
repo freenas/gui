@@ -1,4 +1,4 @@
-import {SectionRepository} from '../../repository/section-repository';
+import {SectionRepository} from '../../section-repository';
 import {Section} from '../../model/models/section';
 import {EventDispatcherService} from '../event-dispatcher-service';
 import * as Promise from "bluebird";
@@ -53,9 +53,9 @@ export abstract class AbstractSectionService {
             self.loadExtraEntries(),
             self.loadSettings(),
             self.loadOverview()
-        ]).spread(function(section, sectionSettings, entries, extraEntries, settings, overview) {
-            sectionSettings.section = section;
-            sectionSettings.settings = settings;
+        ]).spread(function(section, sectionSettings, entries: Array<any>, extraEntries, settings, overview) {
+            (sectionSettings as any).section = section;
+            (sectionSettings as any).settings = settings;
             self.section = section;
             self.section.settings = sectionSettings;
             self.entries = self.section.entries = entries;

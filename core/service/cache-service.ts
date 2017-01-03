@@ -1,13 +1,15 @@
 import { EventDispatcherService } from './event-dispatcher-service';
 import { Model } from 'core/model/model';
-import * as _ from "lodash";
+import _ = require("lodash");
+import Promise = require("bluebird");
+import immutable = require("immutable");
 
 export class CacheService {
     private static instance: CacheService;
     private storage: Map<any, Array<any>>;
     private types: Map<string, Object>;
     private dataObjectPrototypes: Map<Object, Object>;
-    private currentState: Map<string, Map<string, Map<string, any>>>;
+    private currentState: immutable.Map<string, immutable.Map<string, immutable.Map<string, any>>>;
     private eventDispatcherService: EventDispatcherService;
 
     private constructor() {
@@ -42,7 +44,7 @@ export class CacheService {
     public initializeCacheKey(this: CacheService, key: string): Array<Object> {
         if (!this.storage.has(key)) {
             let cacheArray = [];
-            cacheArray._meta_data = {
+            (cacheArray as any)._meta_data = {
                 collectionModelType: this.types.get(key)
             };
             this.storage.set(key, cacheArray);
@@ -57,6 +59,22 @@ export class CacheService {
 
     public getCacheEntry(this: CacheService, key: any): Array<any> {
         return this.storage.get(key);
+    }
+
+    private handleStateChange(state: immutable.Map<string, immutable.Map<string, immutable.Map<string, any>>>) {
+        let self = this;
+        if (this.currentState) {
+            state.forEach(function(value, key) {
+                if (!self.currentState.has(key) || self.currentState !== value) {
+                    self.updateDataStoreForKey(key, value);
+                }
+            });
+        } else {
+            state.forEach(function(value, key) {
+                self.updateDataStoreForKey(key, value);
+            });
+        }
+        this.currentState = state;
     }
 
     public getDataObject(key: string) {
@@ -76,22 +94,6 @@ export class CacheService {
         return object;
     }
 
-    private handleStateChange(state: Map<string, Map<string, Map<string, any>>>) {
-        let self = this;
-        if (this.currentState) {
-            state.forEach(function(value, key) {
-                if (!self.currentState.has(key) || self.currentState !== value) {
-                    self.updateDataStoreForKey(key, value);
-                }
-            });
-        } else {
-            state.forEach(function(value, key) {
-                self.updateDataStoreForKey(key, value);
-            });
-        }
-        this.currentState = state;
-    }
-
     private ensureModelIsPopulated(type: any) {
         return (!type || type.objectPrototype || !type.typeName) ?
             Promise.is(type.objectPrototype) ?
@@ -100,7 +102,7 @@ export class CacheService {
             Model.populateObjectPrototypeForType(type);
     }
 
-    private updateDataStoreForKey(this: CacheService, key: any, state: Map<string, Map<string, any>>) {
+    private updateDataStoreForKey(this: CacheService, key: any, state: immutable.Map<string, immutable.Map<string, any>>) {
         let self = this,
             cache = self.initializeCacheKey(key),
             cachedKeys = [], object;

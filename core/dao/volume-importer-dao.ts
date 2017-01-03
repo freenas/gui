@@ -1,4 +1,4 @@
-import { AbstractDao } from './abstract-dao-ng';
+import { AbstractDao } from './abstract-dao';
 
 export class VolumeImporterDao extends AbstractDao {
     private entries: Array<any>;

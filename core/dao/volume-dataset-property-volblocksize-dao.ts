@@ -1,4 +1,4 @@
-import {AbstractDao} from "./abstract-dao-ng";
+import {AbstractDao} from "./abstract-dao";
 
 export class VolumeDatasetPropertyVolblocksizeDao extends AbstractDao {
     public constructor() {

@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_dao_ng_1 = require('./abstract-dao-ng');
+var abstract_dao_1 = require('./abstract-dao');
 var DetachedVolumeDao = (function (_super) {
     __extends(DetachedVolumeDao, _super);
     function DetachedVolumeDao() {
@@ -14,7 +14,7 @@ var DetachedVolumeDao = (function (_super) {
         });
     }
     DetachedVolumeDao.prototype.list = function () {
-        return abstract_dao_ng_1.AbstractDao.prototype.list.call(this).then(function (detachedVolumes) {
+        return abstract_dao_1.AbstractDao.prototype.list.call(this).then(function (detachedVolumes) {
             for (var _i = 0, detachedVolumes_1 = detachedVolumes; _i < detachedVolumes_1.length; _i++) {
                 var detachedVolume = detachedVolumes_1[_i];
                 detachedVolume._isDetached = true;
@@ -29,5 +29,5 @@ var DetachedVolumeDao = (function (_super) {
         return this.middlewareClient.submitTask('volume.delete_exported', [volume.name]);
     };
     return DetachedVolumeDao;
-}(abstract_dao_ng_1.AbstractDao));
+}(abstract_dao_1.AbstractDao));
 exports.DetachedVolumeDao = DetachedVolumeDao;

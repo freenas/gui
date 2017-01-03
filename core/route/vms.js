@@ -6,9 +6,10 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var model_descriptor_service_1 = require("../service/model-descriptor-service");
 var event_dispatcher_service_1 = require("../service/event-dispatcher-service");
-var vm_repository_1 = require('core/repository/vm-repository');
-var _ = require("lodash");
+var vm_repository_1 = require('../repository/vm-repository');
 var abstract_route_1 = require("./abstract-route");
+var _ = require("lodash");
+var Promise = require("bluebird");
 var VmsRoute = (function (_super) {
     __extends(VmsRoute, _super);
     function VmsRoute(modelDescriptorService, eventDispatcherService, vmRepository) {

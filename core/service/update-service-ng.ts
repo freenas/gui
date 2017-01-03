@@ -38,11 +38,11 @@ export class UpdateService {
         return this.updateRepository.checkAndDownload()
     }
 
-    public updateNow() {
-        return this.updateRepository.updateNow()
+    public updateNow(reboot: boolean) {
+        return this.updateRepository.updateNow(reboot)
     }
 
-    public apply() {
-        return this.updateRepository.apply()
+    public apply(reboot: boolean) {
+        return this.updateRepository.apply(reboot)
     }
 }

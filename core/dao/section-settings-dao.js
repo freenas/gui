@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_dao_ng_1 = require("./abstract-dao-ng");
+var abstract_dao_1 = require("./abstract-dao");
 var Promise = require("bluebird");
 var SectionSettingsDao = (function (_super) {
     __extends(SectionSettingsDao, _super);
@@ -15,12 +15,12 @@ var SectionSettingsDao = (function (_super) {
         return Promise.resolve(SectionSettingsDao.entries);
     };
     SectionSettingsDao.prototype.getNewInstance = function () {
-        return abstract_dao_ng_1.AbstractDao.prototype.getNewInstance.call(this).then(function (instance) {
+        return abstract_dao_1.AbstractDao.prototype.getNewInstance.call(this).then(function (instance) {
             SectionSettingsDao.entries.push(instance);
             return instance;
         });
     };
     SectionSettingsDao.entries = [];
     return SectionSettingsDao;
-}(abstract_dao_ng_1.AbstractDao));
+}(abstract_dao_1.AbstractDao));
 exports.SectionSettingsDao = SectionSettingsDao;

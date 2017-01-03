@@ -24,12 +24,15 @@ export class PeeringSectionService extends AbstractSectionService {
     }
 
     protected loadExtraEntries() {
+        return undefined;
     }
 
     protected loadSettings() {
+        return undefined;
     }
 
     protected loadOverview() {
+        return undefined;
     }
 
     private handlePeersChange(state: Map<string, Map<string, any>>) {

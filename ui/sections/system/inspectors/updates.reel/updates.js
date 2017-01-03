@@ -41,7 +41,7 @@ exports.Updates = AbstractInspector.specialize({
 
     handleInstallUpdateAction: {
         value: function() {
-            this._updateService.applyUpdates(true);
+            this._updateService.apply(true);
         }
     },
 

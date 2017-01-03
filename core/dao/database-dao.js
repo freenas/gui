@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_dao_ng_1 = require("./abstract-dao-ng");
+var abstract_dao_1 = require("./abstract-dao");
 var DatabaseDao = (function (_super) {
     __extends(DatabaseDao, _super);
     function DatabaseDao() {
@@ -20,5 +20,5 @@ var DatabaseDao = (function (_super) {
         return this.middlewareClient.submitTaskWithUpload('database.restore', [null], file);
     };
     return DatabaseDao;
-}(abstract_dao_ng_1.AbstractDao));
+}(abstract_dao_1.AbstractDao));
 exports.DatabaseDao = DatabaseDao;

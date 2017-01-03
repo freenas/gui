@@ -1,6 +1,5 @@
 import _ = require("lodash");
 import Promise = require("bluebird");
-import {ModelEventName} from "../model-event-name";
 import {EventDispatcherService} from "../service/event-dispatcher-service";
 import {ModelDescriptorService} from "../service/model-descriptor-service";
 import {ContainerRepository} from "../repository/container-repository";

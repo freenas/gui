@@ -1,4 +1,4 @@
-import { AbstractDao } from './abstract-dao-ng';
+import { AbstractDao } from './abstract-dao';
 import * as systemSections from '../data/system-sections.json';
 import * as Promise from "bluebird";
 

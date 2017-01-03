@@ -1,4 +1,4 @@
-import {AbstractDao} from "./abstract-dao-ng";
+import {AbstractDao} from "./abstract-dao";
 
 export class IpmiDao extends AbstractDao {
     public constructor() {

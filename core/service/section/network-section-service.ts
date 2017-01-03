@@ -39,7 +39,7 @@ export class NetworkSectionService extends AbstractSectionService {
         return Promise.all([
             this.networkRepository.getNetworkSettings(),
             this.systemRepository.getGeneral()
-        ]).spread((settings, general) => {
+        ]).spread((settings: any, general) => {
             settings.system = general;
             return settings;
         });
@@ -49,7 +49,7 @@ export class NetworkSectionService extends AbstractSectionService {
         return Promise.all([
             this.networkRepository.getNetworkOverview(),
             this.systemRepository.getGeneral()
-        ]).spread((overview, general) => {
+        ]).spread((overview: any, general) => {
             overview.system = general;
             return overview;
         });

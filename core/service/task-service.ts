@@ -1,4 +1,6 @@
-import {TaskRepository} from "core/repository/task-repository";
+import {TaskRepository} from "../repository/task-repository";
+import Promise = require("bluebird");
+
 export class TaskService {
     private static instance: TaskService;
 
@@ -7,7 +9,7 @@ export class TaskService {
 
     public static getInstance() {
         if (!TaskService.instance) {
-            TaskService.instance = new TaskService(TaskRepository.instance);
+            TaskService.instance = new TaskService(TaskRepository.getInstance());
         }
         return TaskService.instance;
     }

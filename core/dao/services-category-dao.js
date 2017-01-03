@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_dao_ng_1 = require("./abstract-dao-ng");
+var abstract_dao_1 = require("./abstract-dao");
 var service_repository_1 = require("../repository/service-repository");
 var ServicesCategoryDao = (function (_super) {
     __extends(ServicesCategoryDao, _super);
@@ -15,5 +15,5 @@ var ServicesCategoryDao = (function (_super) {
         return service_repository_1.ServiceRepository.getInstance().listServicesCategories();
     };
     return ServicesCategoryDao;
-}(abstract_dao_ng_1.AbstractDao));
+}(abstract_dao_1.AbstractDao));
 exports.ServicesCategoryDao = ServicesCategoryDao;

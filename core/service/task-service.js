@@ -1,12 +1,12 @@
 "use strict";
-var task_repository_1 = require("core/repository/task-repository");
+var task_repository_1 = require("../repository/task-repository");
 var TaskService = (function () {
     function TaskService(taskRepository) {
         this.taskRepository = taskRepository;
     }
     TaskService.getInstance = function () {
         if (!TaskService.instance) {
-            TaskService.instance = new TaskService(task_repository_1.TaskRepository.instance);
+            TaskService.instance = new TaskService(task_repository_1.TaskRepository.getInstance());
         }
         return TaskService.instance;
     };

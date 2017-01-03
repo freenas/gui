@@ -100,7 +100,7 @@ export class PeeringRoute extends AbstractRoute {
             context.userInterfaceDescriptor = uiDescriptor;
             context.object = share;
             return self.updateStackWithContext(stack, context);
-\        });
+        });
 
     }
 }

@@ -1,4 +1,4 @@
-import { AbstractDao } from './abstract-dao-ng';
+import { AbstractDao } from './abstract-dao';
 import Promise = require("bluebird");
 import _ = require("lodash");
 

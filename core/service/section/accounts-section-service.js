@@ -115,12 +115,15 @@ var AccountsSectionService = (function (_super) {
         });
     };
     AccountsSectionService.prototype.loadExtraEntries = function () {
+        return undefined;
     };
     AccountsSectionService.prototype.loadOverview = function () {
         this.overview = this.overview || {};
         return this.overview;
     };
-    AccountsSectionService.prototype.loadSettings = function () { };
+    AccountsSectionService.prototype.loadSettings = function () {
+        return undefined;
+    };
     AccountsSectionService.prototype.handleUsersChange = function (state) {
         this.updateCategory(this.entries[0], 'User', state.valueSeq().filter(function (x) { return !x.get('builtin'); }));
         this.updateCategory(this.entries[2], 'User', state.valueSeq().filter(function (x) { return x.get('builtin'); }));

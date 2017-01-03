@@ -1,4 +1,4 @@
-import {AbstractDao} from "./abstract-dao-ng";
+import {AbstractDao} from "./abstract-dao";
 import * as Promise from "bluebird";
 import {ServiceRepository} from "../repository/service-repository";
 

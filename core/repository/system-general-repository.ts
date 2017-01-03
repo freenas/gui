@@ -1,4 +1,4 @@
-import { SystemGeneralDao } from 'core/dao/system-general-dao';
+import { SystemGeneralDao } from '../dao/system-general-dao';
 
 export class SystemGeneralRepository {
     private static instance: SystemGeneralRepository;

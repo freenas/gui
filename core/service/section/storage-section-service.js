@@ -5,10 +5,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var abstract_section_service_ng_1 = require('./abstract-section-service-ng');
-var share_repository_1 = require('core/repository/share-repository');
-var disk_repository_1 = require('core/repository/disk-repository');
-var volume_repository_1 = require('core/repository/volume-repository');
-var topology_service_1 = require('core/service/topology-service');
+var share_repository_1 = require('../../repository/share-repository');
+var disk_repository_1 = require('../../repository/disk-repository');
+var volume_repository_1 = require('../../repository/volume-repository');
+var topology_service_1 = require('../topology-service');
 var model_1 = require('core/model/model');
 var vmware_repository_1 = require("../../repository/vmware-repository");
 var model_event_name_1 = require("../../model-event-name");
@@ -17,6 +17,7 @@ var task_repository_1 = require("../../repository/task-repository");
 var peer_repository_1 = require("../../repository/peer-repository");
 var network_repository_1 = require("../../repository/network-repository");
 var service_repository_1 = require("../../repository/service-repository");
+var Promise = require("bluebird");
 var StorageSectionService = (function (_super) {
     __extends(StorageSectionService, _super);
     function StorageSectionService() {
@@ -68,7 +69,9 @@ var StorageSectionService = (function (_super) {
             return self.storageOverview;
         });
     };
-    StorageSectionService.prototype.loadSettings = function () { };
+    StorageSectionService.prototype.loadSettings = function () {
+        return undefined;
+    };
     StorageSectionService.prototype.setRootDatasetForVolume = function (volume) {
         return this.volumeRepository.listDatasets().then(function (datasets) {
             for (var _i = 0, datasets_1 = datasets; _i < datasets_1.length; _i++) {

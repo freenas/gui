@@ -1,6 +1,7 @@
 import {CalendarRepository} from "../../repository/calendar-repository";
 import {TaskRepository} from "../../repository/task-repository";
 import {AbstractSectionService} from "./abstract-section-service-ng";
+import Promise = require("bluebird");
 
 export class CalendarSectionService extends AbstractSectionService {
     private calendarRepository: CalendarRepository;

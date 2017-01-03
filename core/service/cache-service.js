@@ -2,6 +2,7 @@
 var event_dispatcher_service_1 = require('./event-dispatcher-service');
 var model_1 = require('core/model/model');
 var _ = require("lodash");
+var Promise = require("bluebird");
 var CacheService = (function () {
     function CacheService() {
         var self = this;
@@ -46,21 +47,6 @@ var CacheService = (function () {
     CacheService.prototype.getCacheEntry = function (key) {
         return this.storage.get(key);
     };
-    CacheService.prototype.getDataObject = function (key) {
-        var type = this.types.get(key), prototype = this.getPrototypeForType(type), object;
-        if (prototype) {
-            object = Object.create(prototype);
-            if (object) {
-                object = object.constructor.call(object) || object;
-            }
-        }
-        else {
-            object = {
-                _objectType: key
-            };
-        }
-        return object;
-    };
     CacheService.prototype.handleStateChange = function (state) {
         var self = this;
         if (this.currentState) {
@@ -76,6 +62,21 @@ var CacheService = (function () {
             });
         }
         this.currentState = state;
+    };
+    CacheService.prototype.getDataObject = function (key) {
+        var type = this.types.get(key), prototype = this.getPrototypeForType(type), object;
+        if (prototype) {
+            object = Object.create(prototype);
+            if (object) {
+                object = object.constructor.call(object) || object;
+            }
+        }
+        else {
+            object = {
+                _objectType: key
+            };
+        }
+        return object;
     };
     CacheService.prototype.ensureModelIsPopulated = function (type) {
         return (!type || type.objectPrototype || !type.typeName) ?

@@ -1,14 +1,12 @@
 import {MiddlewareClient} from './middleware-client';
 import {DatastoreService} from './datastore-service';
 import {CacheService} from './cache-service';
-import {processor as cleaningProcessor} from 'core/service/data-processor/cleaner';
-import {processor as diffProcessor} from 'core/service/data-processor/diff';
-import {processor as nullProcessor} from 'core/service/data-processor/null';
 
 import {Model} from 'core/model/model';
 
-import * as ChangeCase from 'change-case';
 import {ModelDescriptorService} from "./model-descriptor-service";
+
+import Promise = require("bluebird");
 
 // DTM
 export class FakeMontageDataService {
@@ -44,7 +42,7 @@ export class FakeMontageDataService {
     }
 
     public fetchData(type: Object, criteria?: Object, isSingle?: boolean) {
-        return this.modelDescriptorService.getDaoForType(type.typeName).then(function(dao) {
+        return this.modelDescriptorService.getDaoForType((type as any).typeName).then(function(dao) {
             return criteria ?
                         isSingle ?
                             dao.findSingleEntry(criteria) :
@@ -95,21 +93,6 @@ export class FakeMontageDataService {
             instance._isNew = true;
             return instance;
         });
-*/
-    }
-
-    public getEmptyCollectionForType(this: FakeMontageDataService, type: Object): Array<Object> {
-        return this.modelDescriptorService.getDaoForType(type.typeName).then(function (dao) {
-            return dao.getEmptyList();
-        });
-/*
-        return this.cacheService.registerTypeForKey(type, type.typeName).then(function () {
-            let emptyArray = [];
-            emptyArray._meta_data = {
-                collectionModelType: type
-            };
-            return emptyArray;
-        })
 */
     }
 

@@ -1,7 +1,7 @@
 import {SystemRepository} from '../repository/system-repository';
 import {MiddlewareClient} from './middleware-client';
 import {BootPoolRepository} from "../repository/boot-pool-repository";
-import {NetworkRepository} from 'core/repository/network-repository';
+import {NetworkRepository} from '../repository/network-repository';
 
 export class SystemService {
     private static instance: SystemService;

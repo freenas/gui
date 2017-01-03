@@ -28,11 +28,11 @@ var UpdateService = (function () {
     UpdateService.prototype.checkAndDownload = function () {
         return this.updateRepository.checkAndDownload();
     };
-    UpdateService.prototype.updateNow = function () {
-        return this.updateRepository.updateNow();
+    UpdateService.prototype.updateNow = function (reboot) {
+        return this.updateRepository.updateNow(reboot);
     };
-    UpdateService.prototype.apply = function () {
-        return this.updateRepository.apply();
+    UpdateService.prototype.apply = function (reboot) {
+        return this.updateRepository.apply(reboot);
     };
     return UpdateService;
 }());

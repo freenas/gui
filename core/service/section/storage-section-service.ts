@@ -1,12 +1,11 @@
 import { AbstractSectionService } from './abstract-section-service-ng';
-import { ShareRepository} from 'core/repository/share-repository';
-import { DiskRepository} from 'core/repository/disk-repository';
-import { VolumeRepository } from 'core/repository/volume-repository';
+import { ShareRepository} from '../../repository/share-repository';
+import { DiskRepository} from '../../repository/disk-repository';
+import { VolumeRepository } from '../../repository/volume-repository';
 
-import { StorageRepository } from 'core/repository/storage-repository';
-import { TopologyService } from 'core/service/topology-service';
-import { PeeringService } from 'core/service/peering-service';
-import { FilesystemService } from 'core/service/filesystem-service';
+import { TopologyService } from '../topology-service';
+import { PeeringService } from '../peering-service';
+import { FilesystemService } from '../filesystem-service';
 import { Model } from 'core/model/model';
 import {VmwareRepository} from "../../repository/vmware-repository";
 import {ModelEventName} from "../../model-event-name";
@@ -16,6 +15,7 @@ import {Map} from "immutable";
 import {PeerRepository} from "../../repository/peer-repository";
 import {NetworkRepository} from "../../repository/network-repository";
 import {ServiceRepository} from "../../repository/service-repository";
+import Promise = require("bluebird");
 
 export class StorageSectionService extends AbstractSectionService {
     private shareRepository: ShareRepository;
@@ -89,10 +89,12 @@ export class StorageSectionService extends AbstractSectionService {
         });
     }
 
-    protected loadSettings() {}
+    protected loadSettings() {
+        return undefined;
+    }
 
     public setRootDatasetForVolume(this: StorageSectionService, volume: any) {
-        return this.volumeRepository.listDatasets().then(function(datasets) {
+        return this.volumeRepository.listDatasets().then(function(datasets: Array<any>) {
             for (let dataset of datasets) {
                 if (dataset.id === volume.id) {
                     return volume._rootDataset = dataset;
@@ -122,7 +124,7 @@ export class StorageSectionService extends AbstractSectionService {
     }
 
     public getEncryptedVolumeActionsForVolume(volume: Object): Promise<Object> {
-        return this.volumeRepository.getEncryptedVolumeActionsInstance().then(function (encryptedVolumeActions) {
+        return this.volumeRepository.getEncryptedVolumeActionsInstance().then(function (encryptedVolumeActions: any) {
             encryptedVolumeActions.volume = volume;
             return encryptedVolumeActions;
         });
@@ -300,7 +302,7 @@ export class StorageSectionService extends AbstractSectionService {
                 availablePaths = paths;
                 return self.diskRepository.listDisks();
             }).then(function (disks) {
-                return self.volumeRepository.getDisksAllocations(disks.map((x) => x.path));
+                return self.volumeRepository.getDisksAllocations(disks.map((x: any) => x.path));
             }).then(function (disksAllocations) {
                 return self.diskRepository.updateDiskUsage(availablePaths, disksAllocations);
             }).then(function() {

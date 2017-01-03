@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_dao_ng_1 = require('./abstract-dao-ng');
+var abstract_dao_1 = require('./abstract-dao');
 var VolumeDatasetDao = (function (_super) {
     __extends(VolumeDatasetDao, _super);
     function VolumeDatasetDao() {
@@ -13,5 +13,5 @@ var VolumeDatasetDao = (function (_super) {
         });
     }
     return VolumeDatasetDao;
-}(abstract_dao_ng_1.AbstractDao));
+}(abstract_dao_1.AbstractDao));
 exports.VolumeDatasetDao = VolumeDatasetDao;

@@ -2,7 +2,7 @@
 var system_repository_1 = require('../repository/system-repository');
 var middleware_client_1 = require('./middleware-client');
 var boot_pool_repository_1 = require("../repository/boot-pool-repository");
-var network_repository_1 = require('core/repository/network-repository');
+var network_repository_1 = require('../repository/network-repository');
 var SystemService = (function () {
     function SystemService(systemRepository, middlewareClient, bootPoolRepository, networkRepository) {
         this.systemRepository = systemRepository;

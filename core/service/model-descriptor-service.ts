@@ -1,5 +1,5 @@
 import { MiddlewareClient } from './middleware-client';
-import { AbstractDao } from '../dao/abstract-dao-ng';
+import { AbstractDao } from '../dao/abstract-dao';
 import * as ChangeCase from 'change-case';
 import Promise = require("bluebird");
 
@@ -40,11 +40,11 @@ export class ModelDescriptorService {
         if (type) {
             return this.uiCache.has(type) ?
                 Promise.resolve(this.uiCache.get(type)) :
-                SystemJS.import(this.UI_DESCRIPTOR_PREFIX + ChangeCase.paramCase(type) + this.UI_DESCRIPTOR_SUFFIX)
+                Promise.resolve(SystemJS.import(this.UI_DESCRIPTOR_PREFIX + ChangeCase.paramCase(type) + this.UI_DESCRIPTOR_SUFFIX)
                     .then(function (uiDescriptor) {
                         self.uiCache.set(type, uiDescriptor.root.properties);
                         return uiDescriptor.root.properties;
-                    });
+                    }));
         }
     }
 
@@ -75,7 +75,7 @@ export class ModelDescriptorService {
         if (!type) { // DTM
             let model = object.Type ||
                 object.constructor.Type ||
-                Array.isArray(object) && object._meta_data && object._meta_data.collectionModelType;
+                Array.isArray(object) && (object as any)._meta_data && (object as any)._meta_data.collectionModelType;
             if (model) {
                 type = model.typeName;
             }
@@ -87,7 +87,7 @@ export class ModelDescriptorService {
         return this.loadRemoteSchema().then(function(schema) {
             let result;
             if (schema.has(type)) {
-                let propertyDescriptor = schema.get(type).properties[property];
+                let propertyDescriptor = (schema.get(type) as any).properties[property];
                 if (propertyDescriptor) {
                     if (propertyDescriptor.type) {
                         result = propertyDescriptor.type;

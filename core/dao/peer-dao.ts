@@ -1,4 +1,4 @@
-import {AbstractDao} from "./abstract-dao-ng";
+import {AbstractDao} from "./abstract-dao";
 
 export class PeerDao extends AbstractDao {
     public constructor() {

@@ -76,20 +76,6 @@ var FakeMontageDataService = (function () {
                 });
         */
     };
-    FakeMontageDataService.prototype.getEmptyCollectionForType = function (type) {
-        return this.modelDescriptorService.getDaoForType(type.typeName).then(function (dao) {
-            return dao.getEmptyList();
-        });
-        /*
-                return this.cacheService.registerTypeForKey(type, type.typeName).then(function () {
-                    let emptyArray = [];
-                    emptyArray._meta_data = {
-                        collectionModelType: type
-                    };
-                    return emptyArray;
-                })
-        */
-    };
     FakeMontageDataService.prototype.getURL = function () {
         var scheme = location.protocol === 'https:' ? 'wss' : 'ws', host = this.getHost();
         return scheme + "://" + host + "/dispatcher/socket";

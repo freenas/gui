@@ -1,6 +1,8 @@
 import { AbstractRepository } from './abstract-repository-ng';
-import { DiskDao } from 'core/dao/disk-dao';
+import { DiskDao } from '../dao/disk-dao';
 import {ModelEventName} from "../model-event-name";
+import immutable = require("immutable");
+import Promise = require("bluebird");
 
 export class DiskRepository extends AbstractRepository {
     private static instance: DiskRepository;
@@ -10,7 +12,7 @@ export class DiskRepository extends AbstractRepository {
     private exportedDisks: Map<string, string>;
     private usableDisks: Array<string>;
     private diskAllocations: Map<string, any>;
-    private pathToId:Map<string, string>;
+    private pathToId: Map<string, string>;
 
     private constructor(private diskDao: DiskDao) {
         super(['Disk']);

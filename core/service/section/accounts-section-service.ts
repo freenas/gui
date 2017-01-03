@@ -140,6 +140,7 @@ export class AccountsSectionService extends AbstractSectionService {
     }
 
     protected loadExtraEntries() {
+        return undefined;
     }
 
     protected loadOverview() {
@@ -147,7 +148,9 @@ export class AccountsSectionService extends AbstractSectionService {
         return this.overview;
     }
 
-    protected loadSettings() {}
+    protected loadSettings() {
+        return undefined;
+    }
 
     private handleUsersChange(state: Map<string, Map<string, any>>) {
         this.updateCategory((this.entries[0] as Array<any>), 'User', (state.valueSeq().filter((x) => !x.get('builtin')) as Iterable.Indexed<Map<string, any>>));

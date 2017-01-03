@@ -1,4 +1,4 @@
-import {AbstractDao} from "./abstract-dao-ng";
+import {AbstractDao} from "./abstract-dao";
 import Promise = require("bluebird");
 
 export class CryptoCertificateDao extends AbstractDao {

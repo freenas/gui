@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_dao_ng_1 = require("./abstract-dao-ng");
+var abstract_dao_1 = require("./abstract-dao");
 var SupportTicketDao = (function (_super) {
     __extends(SupportTicketDao, _super);
     function SupportTicketDao() {
@@ -13,5 +13,5 @@ var SupportTicketDao = (function (_super) {
         });
     }
     return SupportTicketDao;
-}(abstract_dao_ng_1.AbstractDao));
+}(abstract_dao_1.AbstractDao));
 exports.SupportTicketDao = SupportTicketDao;

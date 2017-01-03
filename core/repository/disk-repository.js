@@ -5,7 +5,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var abstract_repository_ng_1 = require('./abstract-repository-ng');
-var disk_dao_1 = require('core/dao/disk-dao');
+var disk_dao_1 = require('../dao/disk-dao');
 var model_event_name_1 = require("../model-event-name");
 var DiskRepository = (function (_super) {
     __extends(DiskRepository, _super);

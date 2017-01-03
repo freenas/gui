@@ -25,10 +25,13 @@ var PeeringSectionService = (function (_super) {
         return this.peerRepository.listPeers();
     };
     PeeringSectionService.prototype.loadExtraEntries = function () {
+        return undefined;
     };
     PeeringSectionService.prototype.loadSettings = function () {
+        return undefined;
     };
     PeeringSectionService.prototype.loadOverview = function () {
+        return undefined;
     };
     PeeringSectionService.prototype.handlePeersChange = function (state) {
         var self = this;

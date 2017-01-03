@@ -1,4 +1,4 @@
-import { AbstractDao } from './abstract-dao-ng';
+import { AbstractDao } from './abstract-dao';
 
 export class ServiceDcDao extends AbstractDao {
     public constructor() {

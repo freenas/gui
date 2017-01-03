@@ -4,12 +4,12 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_dao_ng_1 = require("./abstract-dao-ng");
+var abstract_dao_1 = require("./abstract-dao");
 var DockerImagePullDao = (function (_super) {
     __extends(DockerImagePullDao, _super);
     function DockerImagePullDao() {
         _super.call(this, 'DockerImagePull');
     }
     return DockerImagePullDao;
-}(abstract_dao_ng_1.AbstractDao));
+}(abstract_dao_1.AbstractDao));
 exports.DockerImagePullDao = DockerImagePullDao;
