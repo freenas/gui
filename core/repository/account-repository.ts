@@ -17,7 +17,6 @@ export class AccountRepository extends AbstractRepository {
 
     public static readonly DIRECTORY_TYPES_LABELS = {
         winbind: "Active Directory",
-        freeipa: "FreeIPA",
         ldap: "LDAP",
         nis: "NIS"
     };
