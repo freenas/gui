@@ -32,6 +32,7 @@
                 "element": {"#": "currentNode"}
             },
             "bindings": {
+                "isExpanded": {"<-": "@owner.isExpanded"},
                 "controller": {"<-": "@owner.controller"},
                 "selectedPath": {"<->": "@owner.selectedPath"},
                 "selectedNode": {"<->": "@owner.selectedNode"}
