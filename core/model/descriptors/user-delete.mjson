@@ -1,0 +1,28 @@
+{
+  "blueprint_userdelete_delete_home_directory": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "delete_home_directory",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_userdelete_delete_own_group": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "delete_own_group",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "UserDelete",
+      "propertyBlueprints": [
+        {"@": "blueprint_userdelete_delete_home_directory"},
+        {"@": "blueprint_userdelete_delete_own_group"}
+      ]
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "blueprint_vmhwcapabilites_svm_features": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "svm_features",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_vmhwcapabilites_unrestricted_guest": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "unrestricted_guest",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_vmhwcapabilites_vtx_enabled": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "vtx_enabled",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "VmHwCapabilites",
+      "propertyBlueprints": [
+        {"@": "blueprint_vmhwcapabilites_svm_features"},
+        {"@": "blueprint_vmhwcapabilites_unrestricted_guest"},
+        {"@": "blueprint_vmhwcapabilites_vtx_enabled"}
+      ]
+    }
+  }
+}

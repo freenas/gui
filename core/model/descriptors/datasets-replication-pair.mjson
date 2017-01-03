@@ -1,0 +1,28 @@
+{
+  "blueprint_datasetsreplicationpair_master": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "master",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_datasetsreplicationpair_slave": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "slave",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "DatasetsReplicationPair",
+      "propertyBlueprints": [
+        {"@": "blueprint_datasetsreplicationpair_master"},
+        {"@": "blueprint_datasetsreplicationpair_slave"}
+      ]
+    }
+  }
+}

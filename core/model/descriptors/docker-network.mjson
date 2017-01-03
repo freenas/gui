@@ -1,0 +1,64 @@
+{
+  "blueprint_dockernetwork_driver": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "driver",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_dockernetwork_gateway": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "gateway",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_dockernetwork_host": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "host",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_dockernetwork_id": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_dockernetwork_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_dockernetwork_subnet": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "subnet",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "DockerNetwork",
+      "propertyBlueprints": [
+        {"@": "blueprint_dockernetwork_driver"},
+        {"@": "blueprint_dockernetwork_gateway"},
+        {"@": "blueprint_dockernetwork_host"},
+        {"@": "blueprint_dockernetwork_id"},
+        {"@": "blueprint_dockernetwork_name"},
+        {"@": "blueprint_dockernetwork_subnet"}
+      ]
+    }
+  }
+}

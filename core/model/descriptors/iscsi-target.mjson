@@ -1,0 +1,92 @@
+{
+  "blueprint_iscsitarget_address": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "address",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_iscsitarget_enabled": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "enabled",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_iscsitarget_id": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_iscsitarget_mutual_secret": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "mutual_secret",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_iscsitarget_mutual_user": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "mutual_user",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_iscsitarget_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_iscsitarget_secret": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "secret",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_iscsitarget_status": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "status",
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "IscsiTargetStatus"
+    }
+  },
+  "blueprint_iscsitarget_user": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "user",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "IscsiTarget",
+      "propertyBlueprints": [
+        {"@": "blueprint_iscsitarget_address"},
+        {"@": "blueprint_iscsitarget_enabled"},
+        {"@": "blueprint_iscsitarget_id"},
+        {"@": "blueprint_iscsitarget_mutual_secret"},
+        {"@": "blueprint_iscsitarget_mutual_user"},
+        {"@": "blueprint_iscsitarget_name"},
+        {"@": "blueprint_iscsitarget_secret"},
+        {"@": "blueprint_iscsitarget_status"},
+        {"@": "blueprint_iscsitarget_user"}
+      ]
+    }
+  }
+}

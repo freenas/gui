@@ -1,0 +1,28 @@
+{
+  "blueprint_iscsitargetstatus_connected": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "connected",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_iscsitargetstatus_status": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "status",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "IscsiTargetStatus",
+      "propertyBlueprints": [
+        {"@": "blueprint_iscsitargetstatus_connected"},
+        {"@": "blueprint_iscsitargetstatus_status"}
+      ]
+    }
+  }
+}
