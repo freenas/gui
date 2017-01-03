@@ -1,5 +1,5 @@
 .Alerts {
-    & .Widget { height: 16em;}
+    & .Widget { height: 19rem;}
 }
 
 .Notifications-icon { color: #2F3233 !important; }
