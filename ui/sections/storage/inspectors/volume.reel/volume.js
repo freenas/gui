@@ -140,5 +140,11 @@ exports.Volume = AbstractInspector.specialize({
         value: function () {
             this._sectionService.scrubVolume(this.object);
         }
+    },
+
+    handleUpgradeAction: {
+        value: function () {
+            this._sectionService.upgradeVolume(this.object);
+        }
     }
 });

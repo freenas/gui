@@ -142,6 +142,16 @@
                 "element": {"#": "export"},
                 "value": "Detach"
             }
+        },
+        "upgrade": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "upgrade"},
+                "value": "Upgrade"
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "!!@owner.upgraded"}
+            }
         }
     }
     </script>
@@ -165,7 +175,7 @@
             <div data-arg="footer-additional-button" class="ActionButtons">
                 <div data-montage-id="export"></div>
                 <div data-montage-id="scrub"></div>
-
+                <div data-montage-id="upgrade"></div>
             </div>
         </div>
     </div>

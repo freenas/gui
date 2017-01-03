@@ -52,6 +52,10 @@ export class VolumeDao extends AbstractDao {
         return this.middlewareClient.submitTask('volume.scrub', [volume.id]);
     }
 
+    public upgrade(volume: any) {
+        return this.middlewareClient.submitTask('volume.upgrade', [volume.id]);
+    }
+
     public findMedia() {
         return this.middlewareClient.callRpcMethod('volume.find_media');
     }

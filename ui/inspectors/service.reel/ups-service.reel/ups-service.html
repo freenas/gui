@@ -99,7 +99,8 @@
                 "label": "Description"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.description"}
+                "value": {"<->": "@owner.object.description"},
+                "classList.has('hide')": {"<-": "@owner.object.mode=='SLAVE'"}
             }
         },
         "shutdown_mode": {
@@ -173,42 +174,21 @@
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
                 "element": {"#": "allow_remote_connections"},
-                "label": "Remote Monitor"
+                "label": "Allow Remote Connections"
             },
             "bindings": {
                 "checked": {"<->": "@owner.object.allow_remote_connections"},
                 "classList.has('hide')": {"<-": "@owner.object.mode=='SLAVE'"}
             }
         },
-        "email_notify": {
+        "propagate_alerts": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
-                "element": {"#": "email_notify"},
-                "label": "Send Email Status Updates"
+                "element": {"#": "propagate_alerts"},
+                "label": "Send Alerts"
             },
             "bindings": {
-                "checked": {"<->": "@owner.object.email_notify"}
-            }
-        },
-        "email_recipients": {
-            "prototype": "blue-shark/ui/field-multiple-select.reel",
-            "properties": {
-                "element": {"#": "email_recipients"},
-                "label": "Email Recipients",
-                "labelPath": "this"
-            },
-            "bindings": {
-                "values": {"<->": "@owner.object.email_recipients"}
-            }
-        },
-        "email_subject": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
-            "properties": {
-                "element": {"#": "email_subject"},
-                "label": "Email Subject"
-            },
-            "bindings": {
-                "value": {"<->": "@owner.object.email_subject"}
+                "checked": {"<->": "@owner.object.propagate_alerts"}
             }
         },
         "powerdown": {
@@ -239,9 +219,7 @@
         <div data-montage-id="monitor_password"></div>
         <div data-montage-id="remote_host"></div>
         <div data-montage-id="remote_port"></div>
-        <div data-montage-id="email_notify"></div>
-        <div data-montage-id="email_recipients"></div>
-        <div data-montage-id="email_subject"></div>
+        <div data-montage-id="propagate_alerts"></div>
         <div data-montage-id="powerdown"></div>
     </div>
 </body>

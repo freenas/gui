@@ -161,10 +161,10 @@ var MiddlewareClient = (function () {
         reader.readAsArrayBuffer(blob);
     };
     MiddlewareClient.prototype.subscribeToEvents = function (name) {
-        return this.setEventSubscription(name, 'subscribe');
+        return this.setEventSubscription(typeof name === 'string' ? [name] : name, 'subscribe');
     };
     MiddlewareClient.prototype.unsubscribeFromEvents = function (name) {
-        return this.setEventSubscription(name, 'unsubscribe');
+        return this.setEventSubscription(typeof name === 'string' ? [name] : name, 'unsubscribe');
     };
     MiddlewareClient.prototype.getExplicitHostParam = function () {
         return this.getHostParam() || '';
@@ -174,7 +174,7 @@ var MiddlewareClient = (function () {
             namespace: 'events',
             name: status,
             id: uuid.v4(),
-            args: [name]
+            args: name
         };
         return this.connectionPromise.then(function () {
             return self.socket.send(JSON.stringify(payload));

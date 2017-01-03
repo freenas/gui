@@ -46,6 +46,9 @@ var VolumeDao = (function (_super) {
     VolumeDao.prototype.scrub = function (volume) {
         return this.middlewareClient.submitTask('volume.scrub', [volume.id]);
     };
+    VolumeDao.prototype.upgrade = function (volume) {
+        return this.middlewareClient.submitTask('volume.upgrade', [volume.id]);
+    };
     VolumeDao.prototype.findMedia = function () {
         return this.middlewareClient.callRpcMethod('volume.find_media');
     };

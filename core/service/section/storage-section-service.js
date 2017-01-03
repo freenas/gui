@@ -167,6 +167,9 @@ var StorageSectionService = (function (_super) {
     StorageSectionService.prototype.scrubVolume = function (volume) {
         return this.volumeRepository.scrubVolume(volume);
     };
+    StorageSectionService.prototype.upgradeVolume = function (volume) {
+        return this.volumeRepository.upgradeVolume(volume);
+    };
     StorageSectionService.prototype.lockVolume = function (volume) {
         return this.volumeRepository.lockVolume(volume);
     };

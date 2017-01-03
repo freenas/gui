@@ -81,6 +81,9 @@ var VolumeRepository = (function (_super) {
     VolumeRepository.prototype.scrubVolume = function (volume) {
         return this.volumeDao.scrub(volume);
     };
+    VolumeRepository.prototype.upgradeVolume = function (volume) {
+        return this.volumeDao.upgrade(volume);
+    };
     VolumeRepository.prototype.listDetachedVolumes = function () {
         return this.detachedVolumes ? Promise.resolve(this.detachedVolumes.valueSeq().toJS()) : this.findDetachedVolumes();
     };

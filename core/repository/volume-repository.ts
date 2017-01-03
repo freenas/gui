@@ -111,6 +111,10 @@ export class VolumeRepository extends AbstractRepository {
         return this.volumeDao.scrub(volume);
     }
 
+    public upgradeVolume(volume: any) {
+        return this.volumeDao.upgrade(volume);
+    }
+
     public listDetachedVolumes() {
         return this.detachedVolumes ? Promise.resolve(this.detachedVolumes.valueSeq().toJS()) : this.findDetachedVolumes();
     }

@@ -191,25 +191,25 @@ export class MiddlewareClient {
         reader.readAsArrayBuffer(blob);
     }
 
-    public subscribeToEvents(name: string) {
-        return this.setEventSubscription(name, 'subscribe')
+    public subscribeToEvents(name: string | Array<string>) {
+        return this.setEventSubscription(typeof name === 'string' ? [name] : name, 'subscribe');
     }
 
-    public unsubscribeFromEvents(name: string) {
-        return this.setEventSubscription(name, 'unsubscribe')
+    public unsubscribeFromEvents(name: string | Array<string>) {
+        return this.setEventSubscription(typeof name === 'string' ? [name] : name, 'unsubscribe');
     }
 
     public getExplicitHostParam(): string {
         return this.getHostParam() || '';
     }
 
-    private setEventSubscription(name: string, status: string) {
+    private setEventSubscription(name: Array<string>, status: string) {
         let self = this,
             payload = {
                 namespace: 'events',
                 name: status,
                 id: uuid.v4(),
-                args: [name]
+                args: name
             };
         return this.connectionPromise.then(function() {
             return self.socket.send(JSON.stringify(payload));

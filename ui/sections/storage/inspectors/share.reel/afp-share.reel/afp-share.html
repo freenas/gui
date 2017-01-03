@@ -198,6 +198,16 @@
             "bindings": {
                 "object": {"<-": "@owner.object"}
             }
+        },
+        "smbCompatible": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "smbCompatible"},
+                "label": "SMB Compatible"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.properties.smb_compatible"}
+            }
         }
     }
     </script>
@@ -211,6 +221,7 @@
             <div data-montage-id="zeroDevNumbers"></div>
             <div data-montage-id="noStat"></div>
             <div data-montage-id="afp3Privileges"></div>
+            <div data-montage-id="smbCompatible"></div>
             <div data-montage-id="fileMask"></div>
             <div data-montage-id="directoryMask"></div>
             <div data-montage-id="defaultUmask"></div>
