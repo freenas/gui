@@ -1,1 +1,1 @@
-.Disk{min-width:22em}.Disk .Inspector-optionalButtons button{display:block;margin-right:16px}.Disk .Inspector-optionalButtons button.hide{display:none}
+.Disk{min-width:22em}.Disk .Inspector-optionalButtons button{display:block;margin-right:16px}.Disk .Inspector-optionalButtons button.hide{display:none}.Disk .has-failed .FieldText-text,.Disk .is-exported .FieldText-text,.Disk .is-offline .FieldText-text{font-weight:500}.Disk .is-exported .FieldText-text{color:#d95b1b}.Disk .has-failed .FieldText-text,.Disk .is-offline .FieldText-text{color:#e0003a}
