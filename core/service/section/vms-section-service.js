@@ -332,19 +332,19 @@ exports.VmsSectionService = AbstractSectionService.specialize({
 
     startVm: {
         value: function(vm) {
-            vm.services.start(vm.id);
+            return this._vmRepository.startVm(vm);
         }
     },
 
     stopVm: {
         value: function(vm, force) {
-            vm.services.stop(vm.id, !!force);
+            return this._vmRepository.stopVm(vm, !!force);
         }
     },
 
     rebootVm: {
         value: function(vm) {
-            vm.services.reboot(vm.id);
+            return this._vmRepository.rebootVm(vm);
         }
     },
 

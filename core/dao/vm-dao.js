@@ -16,6 +16,15 @@ var VmDao = (function (_super) {
     VmDao.prototype.getHardwareCapabilities = function () {
         return this.middlewareClient.callRpcMethod("vm.get_hw_vm_capabilities");
     };
+    VmDao.prototype.start = function (vm) {
+        return this.middlewareClient.submitTask('vm.start', [vm.id]);
+    };
+    VmDao.prototype.stop = function (vm) {
+        return this.middlewareClient.submitTask('vm.stop', [vm.id]);
+    };
+    VmDao.prototype.reboot = function (vm) {
+        return this.middlewareClient.submitTask('vm.reboot', [vm.id]);
+    };
     return VmDao;
 }(abstract_dao_1.AbstractDao));
 exports.VmDao = VmDao;

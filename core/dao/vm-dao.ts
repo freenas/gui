@@ -13,5 +13,17 @@ export class VmDao extends AbstractDao {
     public getHardwareCapabilities() {
         return this.middlewareClient.callRpcMethod("vm.get_hw_vm_capabilities");
     }
+
+    public start(vm: any) {
+        return this.middlewareClient.submitTask('vm.start', [vm.id]);
+    }
+
+    public stop(vm: any) {
+        return this.middlewareClient.submitTask('vm.stop', [vm.id]);
+    }
+
+    public reboot(vm: any) {
+        return this.middlewareClient.submitTask('vm.reboot', [vm.id]);
+    }
 }
 

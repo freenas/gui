@@ -151,6 +151,24 @@ exports.VmRepository = AbstractRepository.specialize({
         }
     },
 
+    startVm: {
+        value: function(vm) {
+            return this._vmDao.start(vm);
+        }
+    },
+
+    stopVm: {
+        value: function(vm) {
+            return this._vmDao.stop(vm);
+        }
+    },
+
+    rebootVm: {
+        value: function(vm) {
+            return this._vmDao.reboot(vm);
+        }
+    },
+
     saveVm: {
         value: function(vm) {
             var vmPlain = _.toPlainObject(vm);
