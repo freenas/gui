@@ -12,6 +12,7 @@ var model_event_name_1 = require("../model-event-name");
 var _ = require("lodash");
 var Promise = require("bluebird");
 var abstract_route_1 = require("./abstract-route");
+var model_1 = require("../model");
 var SnapshotRoute = (function (_super) {
     __extends(SnapshotRoute, _super);
     function SnapshotRoute(volumeRepository, eventDispatcherService, modelDescriptorService, dataObjectChangeService) {
@@ -19,7 +20,7 @@ var SnapshotRoute = (function (_super) {
         _this.volumeRepository = volumeRepository;
         _this.modelDescriptorService = modelDescriptorService;
         _this.dataObjectChangeService = dataObjectChangeService;
-        _this.objectType = Model.VolumeSnapshot;
+        _this.objectType = model_1.Model.VolumeSnapshot;
         return _this;
     }
     SnapshotRoute.getInstance = function () {
