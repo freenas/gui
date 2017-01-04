@@ -19,9 +19,10 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
         value: function () {
             var self = this;
 
-            window.nativeAddEventListener("beforeunload", function () {
-                self.save();
-            });
+            // Do we still need this? - hans
+            // window.nativeAddEventListener("beforeunload", function () {
+            //     self.save();
+            // });
         }
     },
 

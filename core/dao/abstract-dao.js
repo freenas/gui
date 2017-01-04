@@ -92,7 +92,7 @@ var AbstractDao = (function () {
     };
     AbstractDao.prototype.update = function (object, args) {
         args = args || [];
-        var update = diff_1.processor.process(cleaner_1.processor.process(object, this.propertyDescriptors), this.objectType, object.id);
+        var update = diff_1.processor.process(cleaner_1.processor.process(object, this.propertyDescriptors), this.objectType, object.id, this.propertyDescriptors);
         if (update || (args && args.length > 0)) {
             var payload = _.concat(object.id ? [object.id, update] : [update], args);
             return this.middlewareClient.submitTask(this.updateMethod, payload);

@@ -129,7 +129,8 @@ export class AbstractDao {
                 this.propertyDescriptors
             ),
             this.objectType,
-            object.id
+            object.id,
+            this.propertyDescriptors
         );
         if (update || (args && args.length > 0)) {
             let payload = _.concat(object.id ? [object.id, update] : [update], args);
