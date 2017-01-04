@@ -9,6 +9,7 @@ var volume_dao_1 = require("../dao/volume-dao");
 var volume_snapshot_dao_1 = require("../dao/volume-snapshot-dao");
 var volume_dataset_dao_1 = require("../dao/volume-dataset-dao");
 var volume_importer_dao_1 = require("../dao/volume-importer-dao");
+var volume_media_importer_dao_1 = require("../dao/volume-media-importer-dao");
 var encrypted_volume_actions_dao_1 = require("../dao/encrypted-volume-actions-dao");
 var volume_vdev_recommendations_dao_1 = require("../dao/volume-vdev-recommendations-dao");
 var detached_volume_dao_1 = require("../dao/detached-volume-dao");
@@ -22,7 +23,7 @@ var Promise = require("bluebird");
 var _ = require("lodash");
 var VolumeRepository = (function (_super) {
     __extends(VolumeRepository, _super);
-    function VolumeRepository(volumeDao, volumeSnapshotDao, volumeDatasetDao, volumeImporterDao, encryptedVolumeActionsDao, volumeVdevRecommendationsDao, detachedVolumeDao, encryptedVolumeImporterDao, zfsTopologyDao, zfsVdevDao, datastoreService) {
+    function VolumeRepository(volumeDao, volumeSnapshotDao, volumeDatasetDao, volumeImporterDao, volumeMediaImporterDao, encryptedVolumeActionsDao, volumeVdevRecommendationsDao, detachedVolumeDao, encryptedVolumeImporterDao, zfsTopologyDao, zfsVdevDao, datastoreService) {
         var _this = _super.call(this, [
             model_1.Model.Volume,
             model_1.Model.VolumeDataset,
@@ -33,6 +34,7 @@ var VolumeRepository = (function (_super) {
         _this.volumeSnapshotDao = volumeSnapshotDao;
         _this.volumeDatasetDao = volumeDatasetDao;
         _this.volumeImporterDao = volumeImporterDao;
+        _this.volumeMediaImporterDao = volumeMediaImporterDao;
         _this.encryptedVolumeActionsDao = encryptedVolumeActionsDao;
         _this.volumeVdevRecommendationsDao = volumeVdevRecommendationsDao;
         _this.detachedVolumeDao = detachedVolumeDao;
@@ -44,7 +46,7 @@ var VolumeRepository = (function (_super) {
     }
     VolumeRepository.getInstance = function () {
         if (!VolumeRepository.instance) {
-            VolumeRepository.instance = new VolumeRepository(new volume_dao_1.VolumeDao(), new volume_snapshot_dao_1.VolumeSnapshotDao(), new volume_dataset_dao_1.VolumeDatasetDao(), new volume_importer_dao_1.VolumeImporterDao(), new encrypted_volume_actions_dao_1.EncryptedVolumeActionsDao(), new volume_vdev_recommendations_dao_1.VolumeVdevRecommendationsDao(), new detached_volume_dao_1.DetachedVolumeDao(), new encrypted_volume_importer_dao_1.EncryptedVolumeImporterDao(), new zfs_topology_dao_1.ZfsTopologyDao(), new zfs_vdev_dao_1.ZfsVdevDao(), datastore_service_1.DatastoreService.getInstance());
+            VolumeRepository.instance = new VolumeRepository(new volume_dao_1.VolumeDao(), new volume_snapshot_dao_1.VolumeSnapshotDao(), new volume_dataset_dao_1.VolumeDatasetDao(), new volume_importer_dao_1.VolumeImporterDao(), new volume_media_importer_dao_1.VolumeMediaImporterDao(), new encrypted_volume_actions_dao_1.EncryptedVolumeActionsDao(), new volume_vdev_recommendations_dao_1.VolumeVdevRecommendationsDao(), new detached_volume_dao_1.DetachedVolumeDao(), new encrypted_volume_importer_dao_1.EncryptedVolumeImporterDao(), new zfs_topology_dao_1.ZfsTopologyDao(), new zfs_vdev_dao_1.ZfsVdevDao(), datastore_service_1.DatastoreService.getInstance());
         }
         return VolumeRepository.instance;
     };
@@ -59,6 +61,9 @@ var VolumeRepository = (function (_super) {
     };
     VolumeRepository.prototype.getVolumeImporter = function () {
         return this.volumeImporterDao.get();
+    };
+    VolumeRepository.prototype.getVolumeMediaImporter = function () {
+        return this.volumeMediaImporterDao.get();
     };
     VolumeRepository.prototype.getNewVolumeSnapshot = function () {
         return this.volumeSnapshotDao.getNewInstance();

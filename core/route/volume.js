@@ -132,6 +132,25 @@ var VolumeRoute = (function (_super) {
             return stack;
         });
     };
+    VolumeRoute.prototype.mediaImport = function (stack) {
+        return Promise.all([
+            this.volumeRepository.getVolumeMediaImporter(),
+            this.modelDescriptorService.getUiDescriptorForType('VolumeMediaImporter')
+        ]).spread(function (volumeMediaImporter, uiDescriptor) {
+            while (stack.length > 1) {
+                stack.pop();
+            }
+            stack.push({
+                object: volumeMediaImporter,
+                userInterfaceDescriptor: uiDescriptor,
+                columnIndex: 1,
+                objectType: 'VolumeMediaImporter',
+                parentContext: stack[0],
+                path: stack[0].path + '/volume-media-importer/_/-'
+            });
+            return stack;
+        });
+    };
     VolumeRoute.prototype.getDetachedVolume = function (volumeId, stack) {
         var self = this, columnIndex = 2, objectType = model_1.Model.DetachedVolume, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,

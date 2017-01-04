@@ -47,7 +47,8 @@ var StorageSectionService = (function (_super) {
     };
     StorageSectionService.prototype.loadExtraEntries = function () {
         return Promise.all([
-            this.volumeRepository.getVolumeImporter()
+            this.volumeRepository.getVolumeImporter(),
+            this.volumeRepository.getVolumeMediaImporter()
         ]);
     };
     StorageSectionService.prototype.loadOverview = function () {

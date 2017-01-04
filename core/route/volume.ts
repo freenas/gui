@@ -143,6 +143,26 @@ export class VolumeRoute extends AbstractRoute {
         });
     }
 
+    public mediaImport(stack: Array<any>) {
+        return Promise.all([
+            this.volumeRepository.getVolumeMediaImporter(),
+            this.modelDescriptorService.getUiDescriptorForType('VolumeMediaImporter')
+        ]).spread(function(volumeMediaImporter, uiDescriptor) {
+            while (stack.length > 1) {
+                stack.pop();
+            }
+            stack.push({
+                object: volumeMediaImporter,
+                userInterfaceDescriptor: uiDescriptor,
+                columnIndex: 1,
+                objectType: 'VolumeMediaImporter',
+                parentContext: stack[0],
+                path: stack[0].path + '/volume-media-importer/_/-'
+            });
+            return stack;
+        });
+    }
+
     public getDetachedVolume(volumeId: string, stack: Array<any>) {
         let self = this,
             columnIndex = 2,

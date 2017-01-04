@@ -95,7 +95,10 @@
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
                 "element": {"#": "importVolume"},
-                "label": "Import"
+                "value": "Import"
+            },
+            "bindings": {
+                "disabled": {"<-": "!@name.value || !@password.value || !@key.value"}
             }
         }
     }
@@ -111,7 +114,7 @@
                     <div data-montage-id="password"></div>
                     <div data-montage-id="key"></div>
                 </div>
-                <div data-montage-id="importVolume"></div>
+                <div data-montage-id="importVolume" class="g-margin"></div>
                 <div data-montage-id="disks" class="EncryptedVolumeImporter-disks"></div>
             </div>
         </div>

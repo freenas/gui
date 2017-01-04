@@ -3,6 +3,7 @@ import { VolumeDao } from '../dao/volume-dao';
 import { VolumeSnapshotDao } from '../dao/volume-snapshot-dao';
 import { VolumeDatasetDao } from '../dao/volume-dataset-dao';
 import { VolumeImporterDao } from '../dao/volume-importer-dao';
+import { VolumeMediaImporterDao } from '../dao/volume-media-importer-dao';
 import { EncryptedVolumeActionsDao } from '../dao/encrypted-volume-actions-dao';
 import {VolumeVdevRecommendationsDao} from '../dao/volume-vdev-recommendations-dao';
 import {DetachedVolumeDao} from '../dao/detached-volume-dao';
@@ -31,6 +32,7 @@ export class VolumeRepository extends AbstractRepository {
         private volumeSnapshotDao: VolumeSnapshotDao,
         private volumeDatasetDao: VolumeDatasetDao,
         private volumeImporterDao: VolumeImporterDao,
+        private volumeMediaImporterDao: VolumeMediaImporterDao,
         private encryptedVolumeActionsDao: EncryptedVolumeActionsDao,
         private volumeVdevRecommendationsDao: VolumeVdevRecommendationsDao,
         private detachedVolumeDao: DetachedVolumeDao,
@@ -54,6 +56,7 @@ export class VolumeRepository extends AbstractRepository {
                 new VolumeSnapshotDao(),
                 new VolumeDatasetDao(),
                 new VolumeImporterDao(),
+                new VolumeMediaImporterDao(),
                 new EncryptedVolumeActionsDao(),
                 new VolumeVdevRecommendationsDao(),
                 new DetachedVolumeDao(),
@@ -80,6 +83,10 @@ export class VolumeRepository extends AbstractRepository {
 
     public getVolumeImporter(): Promise<Object> {
         return this.volumeImporterDao.get();
+    }
+
+    public getVolumeMediaImporter(): Promise<Object> {
+        return this.volumeMediaImporterDao.get();
     }
 
     public getNewVolumeSnapshot() {
