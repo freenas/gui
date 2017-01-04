@@ -5,20 +5,21 @@ var DiffProcessor = (function () {
     function DiffProcessor(datastoreService) {
         this.datastoreService = datastoreService || datastore_service_1.DatastoreService.getInstance();
     }
-    DiffProcessor.prototype.process = function (object, type, id) {
+    DiffProcessor.prototype.process = function (object, type, id, propertyDescriptors) {
         var changes, state = this.datastoreService.getState();
         if (state.get(type).has(id)) {
             var reference = state.get(type).get(id);
-            changes = this.getDifferences(object, reference);
+            changes = this.getDifferences(object, reference, propertyDescriptors);
         }
         else {
             changes = object;
         }
         return changes;
     };
-    DiffProcessor.prototype.getDifferences = function (object, reference) {
+    DiffProcessor.prototype.getDifferences = function (object, reference, propertyDescriptors) {
         var differences = immutable_1.Map();
-        reference.forEach(function (value, key) {
+        (propertyDescriptors || reference).forEach(function (value, key) {
+            value = reference.get(key);
             if (object.hasOwnProperty(key) && (value instanceof immutable_1.Map || value instanceof immutable_1.List || value !== object[key])) {
                 differences = differences.set(key, object[key]);
             }

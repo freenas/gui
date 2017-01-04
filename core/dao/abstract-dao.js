@@ -80,7 +80,7 @@ var AbstractDao = (function () {
             this.loadPropertyDescriptors(),
             this.loadTaskDescriptor(this.updateMethod)
         ]).spread(function (propertyDescriptors, methodDescriptor) {
-            var update = methodCleaner_1.processor.process(diff_1.processor.process(cleaner_1.processor.process(object, propertyDescriptors), _this.objectType, object.id), methodDescriptor);
+            var update = methodCleaner_1.processor.process(diff_1.processor.process(cleaner_1.processor.process(object, propertyDescriptors), _this.objectType, object.id, propertyDescriptors), methodDescriptor);
             if (update || (args && args.length > 0)) {
                 var payload = _.concat(object.id ? [object.id, update] : [update], args);
                 return _this.middlewareClient.submitTask(_this.updateMethod, payload);

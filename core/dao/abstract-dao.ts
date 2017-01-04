@@ -113,7 +113,8 @@ export class AbstractDao {
                             propertyDescriptors
                         ),
                     this.objectType,
-                    object.id
+                    object.id,
+                    propertyDescriptors
                 ),
                 methodDescriptor
             );
