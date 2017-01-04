@@ -92,6 +92,7 @@ export class ModelEventName {
     public static VolumeSnapshot = new ModelEventName('VolumeSnapshot');
     public static VolumeVdevRecommendations = new ModelEventName('VolumeVdevRecommendations');
     public static ZfsTopology = new ModelEventName('ZfsTopology');
+    public static ZfsVdev = new ModelEventName('ZfsVdev');
 
     public listChange: string;
     public contentChange: string;

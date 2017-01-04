@@ -102,4 +102,5 @@ ModelEventName.VolumeImporter = new ModelEventName('VolumeImporter');
 ModelEventName.VolumeSnapshot = new ModelEventName('VolumeSnapshot');
 ModelEventName.VolumeVdevRecommendations = new ModelEventName('VolumeVdevRecommendations');
 ModelEventName.ZfsTopology = new ModelEventName('ZfsTopology');
+ModelEventName.ZfsVdev = new ModelEventName('ZfsVdev');
 exports.ModelEventName = ModelEventName;

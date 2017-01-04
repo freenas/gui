@@ -91,7 +91,8 @@ const Model = {
     VolumeImporter: 'VolumeImporter' as 'VolumeImporter',
     VolumeSnapshot: 'VolumeSnapshot' as 'VolumeSnapshot',
     VolumeVdevRecommendations: 'VolumeVdevRecommendations' as 'VolumeVdevRecommendations',
-    ZfsTopology: 'ZfsTopology' as 'ZfsTopology'
+    ZfsTopology: 'ZfsTopology' as 'ZfsTopology',
+    ZfsVdev: 'ZfsVdev' as 'ZfsVdev'
 };
 type Model = (typeof Model)[keyof typeof Model];
 export { Model };
