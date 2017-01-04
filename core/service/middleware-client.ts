@@ -1,15 +1,15 @@
 import * as uuid from 'node-uuid';
 import { EventDispatcherService } from './event-dispatcher-service';
-import {ModelEventName} from "../model-event-name";
-import * as Promise from "bluebird";
-import _ = require("lodash");
+import {ModelEventName} from '../model-event-name';
+import * as Promise from 'bluebird';
+import _ = require('lodash');
 
 export class MiddlewareClient {
     private REQUEST_TIMEOUT = 90000;
 
-    private static CONNECTING = "CONNECTING";
-    private static OPEN = "OPEN";
-    private static CLOSED = "CLOSED";
+    private static CONNECTING = 'CONNECTING';
+    private static OPEN = 'OPEN';
+    private static CLOSED = 'CLOSED';
 
     private static instance: MiddlewareClient;
     private socket;
@@ -57,8 +57,12 @@ export class MiddlewareClient {
             };
             return self.send(payload);
         }).then(function() {
-            self.url = self.getHost();
+            self.url = MiddlewareClient.getHost();
             self.user = login;
+            self.eventDispatcherService.dispatch('SessionOpened', {
+                url: self.url,
+                user: self.user
+            });
             return self.state = MiddlewareClient.OPEN;
         }, function(error: MiddlewareError) {
             if (error) {
@@ -92,20 +96,20 @@ export class MiddlewareClient {
 
     public submitTask(name: string, args?: Array<any>): Promise<any> {
         let self = this;
-        return this.callRpcMethod("task.submit", [
+        return this.callRpcMethod('task.submit', [
                 name,
                 args || []
             ]).then(function(taskId) {
                 return {
                     taskId: taskId,
                     taskPromise: self.getTaskPromise(taskId)
-                }
+                };
         });
     }
 
     public submitTaskWithDownload(name: string, args?: Array<any>): Promise<any> {
         let self = this;
-        return this.callRpcMethod("task.submit_with_download", [
+        return this.callRpcMethod('task.submit_with_download', [
             name,
             args || []
         ]).then(function(response) {
@@ -113,8 +117,8 @@ export class MiddlewareClient {
             return {
                 taskId: taskId,
                 taskPromise: self.getTaskPromise(taskId),
-                link: self.getRootURL('http') + response[1][0]
-            }
+                link: MiddlewareClient.getRootURL('http') + response[1][0]
+            };
         });
     }
 
@@ -138,20 +142,20 @@ export class MiddlewareClient {
         return this.callRpcMethod('task.submit_with_upload', _.concat([name], args)).then(function(response) {
             let token = Array.isArray(response) ? response[1][0] : response;
             self.sendFileWithToken(file, token);
-        })
+        });
     }
 
     public uploadFile(file: File, destination: string, mode = '755') {
         let self = this;
-        return this.callRpcMethod('filesystem.upload', ["/root/" + file.name, file.size, mode]).then(function(response) {
+        return this.callRpcMethod('filesystem.upload', ['/root/' + file.name, file.size, mode]).then(function(response) {
             let token = Array.isArray(response) ? response[1][0] : response;
             self.sendFileWithToken(file, token);
-        })
+        });
     }
 
     private sendFileWithToken(file: File, token: string) {
         let self = this,
-            connection = new WebSocket(self.getRootURL('ws') + '/dispatcher/file'),
+            connection = new WebSocket(MiddlewareClient.getRootURL('ws') + '/dispatcher/file'),
             BUFSIZE = 1024;
 
         connection.onopen = function () {
@@ -182,7 +186,7 @@ export class MiddlewareClient {
                 connection.send((target as any).result);
 
                 if (stop === file.size) {
-                    connection.send("");
+                    connection.send('');
                 }
             }
         };
@@ -200,7 +204,7 @@ export class MiddlewareClient {
     }
 
     public getExplicitHostParam(): string {
-        return this.getHostParam() || '';
+        return MiddlewareClient.getHostParam() || '';
     }
 
     private setEventSubscription(name: Array<string>, status: string) {
@@ -248,7 +252,7 @@ export class MiddlewareClient {
     private closeConnection() {
         console.log('Closing connection to ' + this.socket.url);
         this.socket.close(1000);
-        this.state = MiddlewareClient.CLOSED
+        this.state = MiddlewareClient.CLOSED;
     }
 
     private openConnection(url: string): Promise<any> {
@@ -317,14 +321,14 @@ export class MiddlewareClient {
             if (message.namespace === 'rpc') {
                 if (message.name === 'response') {
                     this.handleRpcResponse(message);
-                } else if (message.name == 'error') {
+                } else if (message.name === 'error') {
                     this.handleRpcError(message);
                 }
             } else if (message.namespace === 'events' && message.name === 'event') {
                 this.handleEvent(message);
             }
         } catch (error) {
-            console.warn('[' + url + '] Unable to handle message: -' + event.data +'-');
+            console.warn('[' + url + '] Unable to handle message: -' + event.data + '-');
         }
     }
 
@@ -352,15 +356,15 @@ export class MiddlewareClient {
         }
     }
 
-    private getRootURL(protocol: string): string {
+    private static getRootURL(protocol: string): string {
         let scheme = protocol + (location.protocol === 'https:' ? 's' : ''),
-            host = this.getHost();
+            host = MiddlewareClient.getHost();
         return `${scheme}://${host}`;
     }
 
-    private getHost(): string {
+    private static getHost(): string {
         let result = location.host,
-            hostParam = this.getHostParam();
+            hostParam = MiddlewareClient.getHostParam();
         if (hostParam) {
             let host = hostParam.split('=')[1];
             if (host && host.length > 0) {
@@ -370,11 +374,8 @@ export class MiddlewareClient {
         return result;
     }
 
-    private getHostParam() {
-        let hostParam = location.href.split(';').filter(
-            (x) => x.split('=')[0] === 'host'
-        )[0];
-        return hostParam;
+    private static getHostParam() {
+        return location.href.split(';').filter((x) => x.split('=')[0] === 'host')[0];
     }
 }
 

@@ -44,8 +44,12 @@ var MiddlewareClient = (function () {
             };
             return self.send(payload);
         }).then(function () {
-            self.url = self.getHost();
+            self.url = MiddlewareClient.getHost();
             self.user = login;
+            self.eventDispatcherService.dispatch('SessionOpened', {
+                url: self.url,
+                user: self.user
+            });
             return self.state = MiddlewareClient.OPEN;
         }, function (error) {
             if (error) {
@@ -76,7 +80,7 @@ var MiddlewareClient = (function () {
     };
     MiddlewareClient.prototype.submitTask = function (name, args) {
         var self = this;
-        return this.callRpcMethod("task.submit", [
+        return this.callRpcMethod('task.submit', [
             name,
             args || []
         ]).then(function (taskId) {
@@ -88,7 +92,7 @@ var MiddlewareClient = (function () {
     };
     MiddlewareClient.prototype.submitTaskWithDownload = function (name, args) {
         var self = this;
-        return this.callRpcMethod("task.submit_with_download", [
+        return this.callRpcMethod('task.submit_with_download', [
             name,
             args || []
         ]).then(function (response) {
@@ -96,7 +100,7 @@ var MiddlewareClient = (function () {
             return {
                 taskId: taskId,
                 taskPromise: self.getTaskPromise(taskId),
-                link: self.getRootURL('http') + response[1][0]
+                link: MiddlewareClient.getRootURL('http') + response[1][0]
             };
         });
     };
@@ -125,13 +129,13 @@ var MiddlewareClient = (function () {
     MiddlewareClient.prototype.uploadFile = function (file, destination, mode) {
         if (mode === void 0) { mode = '755'; }
         var self = this;
-        return this.callRpcMethod('filesystem.upload', ["/root/" + file.name, file.size, mode]).then(function (response) {
+        return this.callRpcMethod('filesystem.upload', ['/root/' + file.name, file.size, mode]).then(function (response) {
             var token = Array.isArray(response) ? response[1][0] : response;
             self.sendFileWithToken(file, token);
         });
     };
     MiddlewareClient.prototype.sendFileWithToken = function (file, token) {
-        var self = this, connection = new WebSocket(self.getRootURL('ws') + '/dispatcher/file'), BUFSIZE = 1024;
+        var self = this, connection = new WebSocket(MiddlewareClient.getRootURL('ws') + '/dispatcher/file'), BUFSIZE = 1024;
         connection.onopen = function () {
             var filePos = 0;
             connection.send(JSON.stringify({ token: token }));
@@ -153,7 +157,7 @@ var MiddlewareClient = (function () {
             if (target.readyState === 2) {
                 connection.send(target.result);
                 if (stop === file.size) {
-                    connection.send("");
+                    connection.send('');
                 }
             }
         };
@@ -167,7 +171,7 @@ var MiddlewareClient = (function () {
         return this.setEventSubscription(typeof name === 'string' ? [name] : name, 'unsubscribe');
     };
     MiddlewareClient.prototype.getExplicitHostParam = function () {
-        return this.getHostParam() || '';
+        return MiddlewareClient.getHostParam() || '';
     };
     MiddlewareClient.prototype.setEventSubscription = function (name, status) {
         var self = this, payload = {
@@ -274,7 +278,7 @@ var MiddlewareClient = (function () {
                 if (message.name === 'response') {
                     this.handleRpcResponse(message);
                 }
-                else if (message.name == 'error') {
+                else if (message.name === 'error') {
                     this.handleRpcError(message);
                 }
             }
@@ -308,12 +312,12 @@ var MiddlewareClient = (function () {
             this.eventDispatcherService.dispatch('statsChange', message.args);
         }
     };
-    MiddlewareClient.prototype.getRootURL = function (protocol) {
-        var scheme = protocol + (location.protocol === 'https:' ? 's' : ''), host = this.getHost();
+    MiddlewareClient.getRootURL = function (protocol) {
+        var scheme = protocol + (location.protocol === 'https:' ? 's' : ''), host = MiddlewareClient.getHost();
         return scheme + "://" + host;
     };
-    MiddlewareClient.prototype.getHost = function () {
-        var result = location.host, hostParam = this.getHostParam();
+    MiddlewareClient.getHost = function () {
+        var result = location.host, hostParam = MiddlewareClient.getHostParam();
         if (hostParam) {
             var host = hostParam.split('=')[1];
             if (host && host.length > 0) {
@@ -322,15 +326,14 @@ var MiddlewareClient = (function () {
         }
         return result;
     };
-    MiddlewareClient.prototype.getHostParam = function () {
-        var hostParam = location.href.split(';').filter(function (x) { return x.split('=')[0] === 'host'; })[0];
-        return hostParam;
+    MiddlewareClient.getHostParam = function () {
+        return location.href.split(';').filter(function (x) { return x.split('=')[0] === 'host'; })[0];
     };
     return MiddlewareClient;
 }());
-MiddlewareClient.CONNECTING = "CONNECTING";
-MiddlewareClient.OPEN = "OPEN";
-MiddlewareClient.CLOSED = "CLOSED";
+MiddlewareClient.CONNECTING = 'CONNECTING';
+MiddlewareClient.OPEN = 'OPEN';
+MiddlewareClient.CLOSED = 'CLOSED';
 exports.MiddlewareClient = MiddlewareClient;
 var MiddlewareError = (function (_super) {
     __extends(MiddlewareError, _super);
