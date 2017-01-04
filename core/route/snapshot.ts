@@ -6,6 +6,7 @@ import {ModelEventName} from "../model-event-name";
 import _ = require("lodash");
 import Promise = require("bluebird");
 import {AbstractRoute} from "./abstract-route";
+import {Model} from "../model";
 
 export class SnapshotRoute extends AbstractRoute {
     private static instance: SnapshotRoute;
