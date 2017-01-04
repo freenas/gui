@@ -4,6 +4,7 @@ import {VmRepository} from '../repository/vm-repository';
 import {AbstractRoute} from "./abstract-route";
 import _ = require("lodash");
 import Promise = require("bluebird");
+import {Model} from "../model";
 
 export class VmsRoute extends AbstractRoute {
     private static instance: VmsRoute;
