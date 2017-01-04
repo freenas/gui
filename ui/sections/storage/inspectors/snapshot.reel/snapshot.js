@@ -129,7 +129,7 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
                 expirationDate = defaultExpirationDate;
             }
 
-            this._expirationType = expirationDate ? 'on' : 'never';
+            this._expirationType = expirationDate ? 'after' : 'never';
             this._expirationDate = expirationDate || defaultExpirationDate;
             this._lifetime = Math.ceil((this._expirationDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24)) * (60 * 60 * 24);
         }
