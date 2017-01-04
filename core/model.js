@@ -92,6 +92,7 @@ var Model = {
     VolumeImporter: 'VolumeImporter',
     VolumeSnapshot: 'VolumeSnapshot',
     VolumeVdevRecommendations: 'VolumeVdevRecommendations',
-    ZfsTopology: 'ZfsTopology'
+    ZfsTopology: 'ZfsTopology',
+    ZfsVdev: 'ZfsVdev'
 };
 exports.Model = Model;
