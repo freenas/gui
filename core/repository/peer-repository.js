@@ -8,13 +8,13 @@ var abstract_repository_ng_1 = require("./abstract-repository-ng");
 var model_event_name_1 = require("../model-event-name");
 var peer_dao_1 = require("../dao/peer-dao");
 var Promise = require("bluebird");
+var model_1 = require("../model");
 var PeerRepository = (function (_super) {
     __extends(PeerRepository, _super);
     function PeerRepository(peerDao) {
-        _super.call(this, [
-            'Peer'
-        ]);
-        this.peerDao = peerDao;
+        var _this = _super.call(this, [model_1.Model.Peer]) || this;
+        _this.peerDao = peerDao;
+        return _this;
     }
     PeerRepository.getInstance = function () {
         if (!PeerRepository.instance) {
@@ -55,40 +55,40 @@ var PeerRepository = (function (_super) {
     };
     PeerRepository.prototype.handleEvent = function (name, data) {
     };
-    PeerRepository.PEER_TYPES = {
-        FREENAS: {
-            type: 'freenas',
-            label: 'Freenas',
-            credentials: {
-                objectType: 'FreenasCredentials',
-                type: "freenas-credentials"
-            }
-        },
-        SSH: {
-            type: 'ssh',
-            label: 'ssh',
-            credentials: {
-                objectType: 'SshCredentials',
-                type: "ssh-credentials"
-            }
-        },
-        VMWARE: {
-            type: 'vmware',
-            label: 'VMware',
-            credentials: {
-                objectType: 'VmwareCredentials',
-                type: "vmware-credentials"
-            }
-        },
-        AMAZON_S3: {
-            type: 'amazon-s3',
-            label: 'Amazon S3',
-            credentials: {
-                objectType: 'AmazonS3Credentials',
-                type: "amazon-s3-credentials"
-            }
-        }
-    };
     return PeerRepository;
 }(abstract_repository_ng_1.AbstractRepository));
+PeerRepository.PEER_TYPES = {
+    FREENAS: {
+        type: 'freenas',
+        label: 'Freenas',
+        credentials: {
+            objectType: 'FreenasCredentials',
+            type: "freenas-credentials"
+        }
+    },
+    SSH: {
+        type: 'ssh',
+        label: 'ssh',
+        credentials: {
+            objectType: 'SshCredentials',
+            type: "ssh-credentials"
+        }
+    },
+    VMWARE: {
+        type: 'vmware',
+        label: 'VMware',
+        credentials: {
+            objectType: 'VmwareCredentials',
+            type: "vmware-credentials"
+        }
+    },
+    AMAZON_S3: {
+        type: 'amazon-s3',
+        label: 'Amazon S3',
+        credentials: {
+            objectType: 'AmazonS3Credentials',
+            type: "amazon-s3-credentials"
+        }
+    }
+};
 exports.PeerRepository = PeerRepository;

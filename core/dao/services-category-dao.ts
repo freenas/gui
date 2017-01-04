@@ -1,10 +1,10 @@
-import {AbstractDao} from "./abstract-dao";
+import {AbstractDao} from "./abstract-dao";import {Model} from '../model';
 import * as Promise from "bluebird";
 import {ServiceRepository} from "../repository/service-repository";
 
 export class ServicesCategoryDao extends AbstractDao {
     public constructor() {
-        super('ServicesCategory');
+        super(Model.ServicesCategory);
     }
 
     public list(): Promise<Array<any>> {

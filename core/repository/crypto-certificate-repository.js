@@ -9,19 +9,22 @@ var crypto_certificate_dao_1 = require("../dao/crypto-certificate-dao");
 var model_event_name_1 = require("../model-event-name");
 var crypto_certificate_type_1 = require("core/model/enumerations/crypto-certificate-type");
 var immutable_1 = require("immutable");
+var Promise = require("bluebird");
 var _ = require("lodash");
+var model_1 = require("../model");
 var CryptoCertificateRepository = (function (_super) {
     __extends(CryptoCertificateRepository, _super);
     function CryptoCertificateRepository(cryptoCertificateDao) {
-        _super.call(this, ['CryptoCertificate']);
-        this.cryptoCertificateDao = cryptoCertificateDao;
-        this.TYPE_TO_LABEL = new immutable_1.Map()
+        var _this = _super.call(this, [model_1.Model.CryptoCertificate]) || this;
+        _this.cryptoCertificateDao = cryptoCertificateDao;
+        _this.TYPE_TO_LABEL = immutable_1.Map()
             .set(crypto_certificate_type_1.CryptoCertificateType.CERT_INTERNAL, "Create Internal Certificate")
             .set(crypto_certificate_type_1.CryptoCertificateType.CERT_CSR, "Create Signing Request")
             .set(crypto_certificate_type_1.CryptoCertificateType.CERT_EXISTING, "Import Certificate")
             .set(crypto_certificate_type_1.CryptoCertificateType.CA_INTERNAL, "Create Internal CA")
             .set(crypto_certificate_type_1.CryptoCertificateType.CA_INTERMEDIATE, "Create Intermediate CA")
             .set(crypto_certificate_type_1.CryptoCertificateType.CA_EXISTING, "Import CA");
+        return _this;
     }
     CryptoCertificateRepository.getInstance = function () {
         if (!CryptoCertificateRepository.instance) {
@@ -30,7 +33,7 @@ var CryptoCertificateRepository = (function (_super) {
         return CryptoCertificateRepository.instance;
     };
     CryptoCertificateRepository.prototype.listCryptoCertificates = function () {
-        return this.cryptoCertificateDao.list();
+        return this.cryptoCertificates ? Promise.resolve(this.cryptoCertificates.valueSeq().toJS()) : this.cryptoCertificateDao.list();
     };
     CryptoCertificateRepository.prototype.listCountryCodes = function () {
         return this.cryptoCertificateDao.listCountryCodes();
@@ -53,13 +56,7 @@ var CryptoCertificateRepository = (function (_super) {
         return this.cryptoCertificateDao.save(object, object._isNew ? [null, isServiceEnabled] : [isServiceEnabled]);
     };
     CryptoCertificateRepository.prototype.handleStateChange = function (name, state) {
-        switch (name) {
-            case 'CryptoCertificate':
-                this.cryptoCertificates = this.dispatchModelEvents(this.cryptoCertificates, model_event_name_1.ModelEventName.CryptoCertificate, state);
-                break;
-            default:
-                break;
-        }
+        this.cryptoCertificates = this.dispatchModelEvents(this.cryptoCertificates, model_event_name_1.ModelEventName.CryptoCertificate, state);
     };
     CryptoCertificateRepository.prototype.handleEvent = function (name, data) { };
     return CryptoCertificateRepository;

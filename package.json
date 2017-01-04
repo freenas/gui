@@ -49,7 +49,7 @@
     "prompt": "~0.3.0",
     "rimraf": "~2.5.2",
     "stylelint": "^7.6.0",
-    "typescript": "^2.0.10",
+    "typescript": "^2.1.0",
     "ws": "~1.1.1"
   },
   "exclude": [

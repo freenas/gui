@@ -1,12 +1,13 @@
 import { AbstractRepository } from './abstract-repository-ng';
 import { DiskDao } from '../dao/disk-dao';
-import {ModelEventName} from "../model-event-name";
 import immutable = require("immutable");
 import Promise = require("bluebird");
+import {Model} from "../model";
+import {ModelEventName} from "../model-event-name";
 
 export class DiskRepository extends AbstractRepository {
     private static instance: DiskRepository;
-    private disks: immutable.Map<string, Map<string, any>>;
+    private disks: immutable.Map<string, immutable.Map<string, any>>;
     private reservedDisks: Set<string>;
     private freeDisks: Array<string>;
     private exportedDisks: Map<string, string>;
@@ -15,7 +16,7 @@ export class DiskRepository extends AbstractRepository {
     private pathToId: Map<string, string>;
 
     private constructor(private diskDao: DiskDao) {
-        super(['Disk']);
+        super([Model.Disk]);
         this.reservedDisks = new Set<string>();
         this.freeDisks = [];
         this.exportedDisks = new Map<string, string>();
@@ -34,7 +35,7 @@ export class DiskRepository extends AbstractRepository {
     }
 
     public listDisks(): Promise<Array<Object>> {
-        return this.diskDao.list();
+        return this.disks ? Promise.resolve(this.disks.valueSeq().toJS()) : this.diskDao.list();
     }
 
     public listAvailableDisks() {
@@ -96,23 +97,19 @@ export class DiskRepository extends AbstractRepository {
     }
 
     protected handleStateChange(name: string, state: any) {
-        switch (name) {
-            case 'Disk':
-                let self = this;
-                this.pathToId.clear();
-                state.forEach(function(disk, id) {
-                    self.pathToId.set(disk.get('path'), id);
-                });
-                this.disks = this.dispatchModelEvents(this.disks, ModelEventName.Disk, state);
-                break;
-            default:
-                break;
-        }
+        let self = this;
+        this.pathToId.clear();
+        state.forEach(function(disk, id) {
+            self.pathToId.set(disk.get('path'), id);
+        });
+        this.disks = this.dispatchModelEvents(this.disks, ModelEventName.Disk, state);
     }
 
     private getDiskId(disk: any) {
         return disk._disk ? disk._disk.id :
             disk.id ? disk.id : disk;
     }
+
+    protected handleEvent(name: string, data: any) {}
 }
 

@@ -1,9 +1,10 @@
 import { AbstractDao } from './abstract-dao';
+import {Model} from "../model";
 
 export class NtpServerDao extends AbstractDao {
 
     public constructor() {
-        super('NtpServer', {
+        super(Model.NtpServer, {
             queryMethod: 'ntp_server.query',
             updateMethod: 'ntp_server.update',
             createMethod: 'ntp_server.create'

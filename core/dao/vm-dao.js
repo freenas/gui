@@ -4,11 +4,12 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_dao_1 = require('./abstract-dao');
+var abstract_dao_1 = require("./abstract-dao");
+var model_1 = require("../model");
 var VmDao = (function (_super) {
     __extends(VmDao, _super);
     function VmDao() {
-        _super.call(this, 'Vm');
+        return _super.call(this, model_1.Model.Vm) || this;
     }
     VmDao.prototype.requestSerialConsole = function (vmId) {
         return this.middlewareClient.callRpcMethod('vm.request_serial_console', [vmId]);

@@ -5,10 +5,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var abstract_dao_1 = require("./abstract-dao");
+var model_1 = require("../model");
 var AmazonS3CredentialsDao = (function (_super) {
     __extends(AmazonS3CredentialsDao, _super);
     function AmazonS3CredentialsDao() {
-        _super.call(this, 'AmazonS3Credentials');
+        return _super.call(this, model_1.Model.AmazonS3Credentials) || this;
     }
     return AmazonS3CredentialsDao;
 }(abstract_dao_1.AbstractDao));

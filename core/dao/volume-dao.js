@@ -4,11 +4,12 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_dao_1 = require('./abstract-dao');
+var abstract_dao_1 = require("./abstract-dao");
+var model_1 = require("../model");
 var VolumeDao = (function (_super) {
     __extends(VolumeDao, _super);
     function VolumeDao() {
-        _super.call(this, 'Volume');
+        return _super.call(this, model_1.Model.Volume) || this;
     }
     VolumeDao.prototype.getDisksAllocation = function (diskIds) {
         return this.middlewareClient.callRpcMethod('volume.get_disks_allocation', [diskIds]);

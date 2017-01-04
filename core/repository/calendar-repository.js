@@ -10,16 +10,18 @@ var calendar_task_dao_1 = require("../dao/calendar-task-dao");
 var _ = require("lodash");
 var Promise = require("bluebird");
 var model_event_name_1 = require("../model-event-name");
+var model_1 = require("../model");
 var CalendarRepository = (function (_super) {
     __extends(CalendarRepository, _super);
     function CalendarRepository(calendarDao, calendarTaskDao) {
-        _super.call(this, [
-            'Calendar',
-            'CalendarTask'
-        ]);
-        this.calendarDao = calendarDao;
-        this.calendarTaskDao = calendarTaskDao;
-        this.tasksPerDay = {};
+        var _this = _super.call(this, [
+            model_1.Model.Calendar,
+            model_1.Model.CalendarTask
+        ]) || this;
+        _this.calendarDao = calendarDao;
+        _this.calendarTaskDao = calendarTaskDao;
+        _this.tasksPerDay = {};
+        return _this;
     }
     CalendarRepository.getInstance = function () {
         if (!CalendarRepository.instance) {
@@ -39,18 +41,16 @@ var CalendarRepository = (function (_super) {
         });
     };
     CalendarRepository.prototype.listTasks = function () {
-        return this.calendarTasks ?
-            Promise.resolve(this.calendarTasks.toList().toJS()) :
-            this.calendarTaskDao.list();
+        return this.calendarTasks ? Promise.resolve(this.calendarTasks.valueSeq().toJS()) : this.calendarTaskDao.list();
     };
     CalendarRepository.prototype.addConcurrentTasksToSchedule = function (schedule) {
         var task, nextTask, timeInMinutes, nextTimeInMinutes, j, tasksLength;
-        for (var i = 0, length = schedule.length; i < length; i++) {
+        for (var i = 0, length_1 = schedule.length; i < length_1; i++) {
             task = schedule[i];
             task._concurrentTasks = task._concurrentTasks || [task];
             if (typeof task.hour === 'number' && typeof task.minute === 'number') {
                 timeInMinutes = task.hour * 60 + task.minute;
-                for (j = i + 1; j < length; j++) {
+                for (j = i + 1; j < length_1; j++) {
                     nextTask = schedule[j];
                     if (nextTask) {
                         nextTask._concurrentTasks = nextTask._concurrentTasks || [nextTask];
@@ -65,7 +65,7 @@ var CalendarRepository = (function (_super) {
                 }
             }
         }
-        for (var i = 0, length = schedule.length; i < length; i++) {
+        for (var i = 0, length_2 = schedule.length; i < length_2; i++) {
             task = schedule[i];
             tasksLength = task._concurrentTasks.length;
             task.concurrentEvents = tasksLength;
@@ -277,22 +277,25 @@ var CalendarRepository = (function (_super) {
         string = '' + string;
         var values = new Set();
         if (typeof string === 'string') {
-            var entries = string.split(','), entry, matchingOptions;
-            for (var i = 0, length = entries.length; i < length; i++) {
-                entry = entries[i];
-                if (entry.indexOf('/') === -1) {
-                    entry = parseInt(entry);
-                    matchingOptions = options.filter(function (x) { return x.index === entry; });
+            var entries = string.split(','), entry_1, matchingOptions = void 0;
+            var _loop_1 = function (i, length_3) {
+                entry_1 = entries[i];
+                if (entry_1.indexOf('/') === -1) {
+                    entry_1 = parseInt(entry_1);
+                    matchingOptions = options.filter(function (x) { return x.index === entry_1; });
                     if (matchingOptions.length === 1) {
                         values.add(matchingOptions[0].value);
                     }
                 }
                 else {
-                    var frequency = parseInt(entry.split('/')[1]);
-                    options.filter(function (opt, idx) { return idx % frequency === 0; }).map(function (x) {
+                    var frequency_1 = parseInt(entry_1.split('/')[1]);
+                    options.filter(function (opt, idx) { return idx % frequency_1 === 0; }).map(function (x) {
                         values.add(x.value);
                     });
                 }
+            };
+            for (var i = 0, length_3 = entries.length; i < length_3; i++) {
+                _loop_1(i, length_3);
             }
         }
         else if (typeof string === 'number') {
@@ -303,7 +306,7 @@ var CalendarRepository = (function (_super) {
     CalendarRepository.prototype.buildScheduleFromTasksAndDay = function (tasks, day) {
         var task, key = day.year + '-' + day.month + '-' + day.date, tasksSchedule = this.tasksPerDay[key] ? this.tasksPerDay[key].tasks : [];
         tasksSchedule.clear();
-        for (var i = 0, length = tasks.length; i < length; i++) {
+        for (var i = 0, length_4 = tasks.length; i < length_4; i++) {
             task = tasks[i];
             if (this.isDayMatchingSchedule(day, task.schedule)) {
                 Array.prototype.push.apply(tasksSchedule, this.getTaskOccurrencesPerDay(task));
@@ -448,7 +451,7 @@ var CalendarRepository = (function (_super) {
             schedule = _.toString(schedule);
         }
         var parts = schedule.split(','), part;
-        for (var i = 0, length = parts.length; i < length; i++) {
+        for (var i = 0, length_5 = parts.length; i < length_5; i++) {
             part = parts[i];
             if (part == '*' || part == value) {
                 return true;
@@ -472,7 +475,7 @@ var CalendarRepository = (function (_super) {
     };
     CalendarRepository.prototype.handleStateChange = function (name, state) {
         switch (name) {
-            case 'CalendarTask':
+            case model_1.Model.CalendarTask:
                 this.calendarTasks = this.dispatchModelEvents(this.calendarTasks, model_event_name_1.ModelEventName.CalendarTask, state);
                 this.refreshTasksSchedule();
                 break;
@@ -481,196 +484,196 @@ var CalendarRepository = (function (_super) {
         }
     };
     CalendarRepository.prototype.handleEvent = function (name, data) { };
-    CalendarRepository.SCHEDULE_OPTIONS = {
-        MONTHLY: {
-            value: 'MONTHLY',
-            label: 'every month',
-            stringTemplate: "Monthly on {days} at {time}."
-        },
-        WEEKLY: {
-            value: 'WEEKLY',
-            label: 'every week',
-            stringTemplate: "Weekly on {days} at {time}."
-        },
-        DAILY: {
-            value: 'DAILY',
-            label: 'every day',
-            stringTemplate: "Daily at {time}."
-        },
-        CUSTOM: {
-            value: 'CUSTOM',
-            label: 'custom',
-            stringTemplate: "Custom schedule, see dedicated panel."
-        }
-    };
-    CalendarRepository.DAYS = CalendarRepository.getIntegerSeries(1, 31);
-    CalendarRepository.HOURS = CalendarRepository.getIntegerSeries(0, 23);
-    CalendarRepository.MINUTES = CalendarRepository.getIntegerSeries(0, 59);
-    CalendarRepository.MONTHS = [
-        {
-            value: {
-                label: "January",
-                index: 0
-            },
-            label: "Jan",
+    return CalendarRepository;
+}(abstract_repository_ng_1.AbstractRepository));
+CalendarRepository.SCHEDULE_OPTIONS = {
+    MONTHLY: {
+        value: 'MONTHLY',
+        label: 'every month',
+        stringTemplate: "Monthly on {days} at {time}."
+    },
+    WEEKLY: {
+        value: 'WEEKLY',
+        label: 'every week',
+        stringTemplate: "Weekly on {days} at {time}."
+    },
+    DAILY: {
+        value: 'DAILY',
+        label: 'every day',
+        stringTemplate: "Daily at {time}."
+    },
+    CUSTOM: {
+        value: 'CUSTOM',
+        label: 'custom',
+        stringTemplate: "Custom schedule, see dedicated panel."
+    }
+};
+CalendarRepository.DAYS = CalendarRepository.getIntegerSeries(1, 31);
+CalendarRepository.HOURS = CalendarRepository.getIntegerSeries(0, 23);
+CalendarRepository.MINUTES = CalendarRepository.getIntegerSeries(0, 59);
+CalendarRepository.MONTHS = [
+    {
+        value: {
+            label: "January",
             index: 0
         },
-        {
-            value: {
-                label: "February",
-                index: 1
-            },
-            label: "Feb",
+        label: "Jan",
+        index: 0
+    },
+    {
+        value: {
+            label: "February",
             index: 1
         },
-        {
-            value: {
-                label: "March",
-                index: 2
-            },
-            label: "Mar",
+        label: "Feb",
+        index: 1
+    },
+    {
+        value: {
+            label: "March",
             index: 2
         },
-        {
-            value: {
-                label: "April",
-                index: 3
-            },
-            label: "Apr",
+        label: "Mar",
+        index: 2
+    },
+    {
+        value: {
+            label: "April",
             index: 3
         },
-        {
-            value: {
-                label: "May",
-                index: 4
-            },
+        label: "Apr",
+        index: 3
+    },
+    {
+        value: {
             label: "May",
             index: 4
         },
-        {
-            value: {
-                label: "June",
-                index: 5
-            },
-            label: "Jun",
+        label: "May",
+        index: 4
+    },
+    {
+        value: {
+            label: "June",
             index: 5
         },
-        {
-            value: {
-                label: "July",
-                index: 6
-            },
-            label: "Jul",
+        label: "Jun",
+        index: 5
+    },
+    {
+        value: {
+            label: "July",
             index: 6
         },
-        {
-            value: {
-                label: "August",
-                index: 7
-            },
-            label: "Aug",
+        label: "Jul",
+        index: 6
+    },
+    {
+        value: {
+            label: "August",
             index: 7
         },
-        {
-            value: {
-                label: "September",
-                index: 8
-            },
-            label: "Sep",
+        label: "Aug",
+        index: 7
+    },
+    {
+        value: {
+            label: "September",
             index: 8
         },
-        {
-            value: {
-                label: "October",
-                index: 9
-            },
-            label: "Oct",
+        label: "Sep",
+        index: 8
+    },
+    {
+        value: {
+            label: "October",
             index: 9
         },
-        {
-            value: {
-                label: "November",
-                index: 10
-            },
-            label: "Nov",
+        label: "Oct",
+        index: 9
+    },
+    {
+        value: {
+            label: "November",
             index: 10
         },
-        {
-            value: {
-                label: "December",
-                index: 11
-            },
-            label: "Dec",
+        label: "Nov",
+        index: 10
+    },
+    {
+        value: {
+            label: "December",
             index: 11
-        }
-    ];
-    CalendarRepository.DAYS_OF_WEEK = [
-        {
-            value: {
-                label: "Sunday",
-                index: 0
-            },
-            label: "S",
+        },
+        label: "Dec",
+        index: 11
+    }
+];
+CalendarRepository.DAYS_OF_WEEK = [
+    {
+        value: {
+            label: "Sunday",
             index: 0
         },
-        {
-            value: {
-                label: "Monday",
-                index: 1
-            },
-            label: "M",
+        label: "S",
+        index: 0
+    },
+    {
+        value: {
+            label: "Monday",
             index: 1
         },
-        {
-            value: {
-                label: "Tuesday",
-                index: 2
-            },
-            label: "T",
+        label: "M",
+        index: 1
+    },
+    {
+        value: {
+            label: "Tuesday",
             index: 2
         },
-        {
-            value: {
-                label: "Wednesday",
-                index: 3
-            },
-            label: "W",
+        label: "T",
+        index: 2
+    },
+    {
+        value: {
+            label: "Wednesday",
             index: 3
         },
-        {
-            value: {
-                label: "Thursday",
-                index: 4
-            },
-            label: "Th",
+        label: "W",
+        index: 3
+    },
+    {
+        value: {
+            label: "Thursday",
             index: 4
         },
-        {
-            value: {
-                label: "Friday",
-                index: 5
-            },
-            label: "F",
+        label: "Th",
+        index: 4
+    },
+    {
+        value: {
+            label: "Friday",
             index: 5
         },
-        {
-            value: {
-                label: "Saturday",
-                index: 6
-            },
-            label: "S",
+        label: "F",
+        index: 5
+    },
+    {
+        value: {
+            label: "Saturday",
             index: 6
-        }
-    ];
-    CalendarRepository.CALENDAR_TASK_CATEGORIES = [
-        { name: "Scrub", value: "volume.scrub", checked: true },
-        { name: "Replication", value: "replication.replicate_dataset", checked: true },
-        { name: "Smart", value: "disk.parallel_test", checked: true },
-        { name: "Update", value: "update.checkfetch", checked: true },
-        { name: "Command", value: "calendar_task.command", checked: true },
-        { name: "Snapshot", value: "volume.snapshot_dataset", checked: true },
-        { name: "Rsync", value: "rsync.copy", checked: true }
-    ];
-    return CalendarRepository;
-}(abstract_repository_ng_1.AbstractRepository));
+        },
+        label: "S",
+        index: 6
+    }
+];
+CalendarRepository.CALENDAR_TASK_CATEGORIES = [
+    { name: "Scrub", value: "volume.scrub", checked: true },
+    { name: "Replication", value: "replication.replicate_dataset", checked: true },
+    { name: "Smart", value: "disk.parallel_test", checked: true },
+    { name: "Update", value: "update.checkfetch", checked: true },
+    { name: "Command", value: "calendar_task.command", checked: true },
+    { name: "Snapshot", value: "volume.snapshot_dataset", checked: true },
+    { name: "Rsync", value: "rsync.copy", checked: true }
+];
 exports.CalendarRepository = CalendarRepository;

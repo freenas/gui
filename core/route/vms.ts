@@ -27,7 +27,7 @@ export class VmsRoute extends AbstractRoute {
 
     public get(vmId: string, stack: Array<any>) {
         let self = this,
-            objectType = 'Vm',
+            objectType = Model.Vm,
             columnIndex = 1,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -49,7 +49,7 @@ export class VmsRoute extends AbstractRoute {
 
     public create(stack: Array<any>) {
         let self = this,
-            objectType = 'Vm',
+            objectType = Model.Vm,
             columnIndex = 1,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -71,7 +71,7 @@ export class VmsRoute extends AbstractRoute {
 
     public getReadme(stack: Array<any>) {
         let self = this,
-            objectType = 'VmReadme',
+            objectType = Model.VmReadme,
             columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -92,7 +92,7 @@ export class VmsRoute extends AbstractRoute {
 
     public getDevices(stack: Array<any>) {
         let self = this,
-            objectType = 'VmDevice',
+            objectType = Model.VmDevice,
             columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -113,7 +113,7 @@ export class VmsRoute extends AbstractRoute {
 
     public getDevice(deviceId: string, stack: Array<any>) {
         let self = this,
-            objectType = 'VmDevice',
+            objectType = Model.VmDevice,
             columnIndex = 3,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -134,7 +134,7 @@ export class VmsRoute extends AbstractRoute {
 
     public selectNewDeviceType(stack: Array<any>) {
         let self = this,
-            objectType = 'VmDevice',
+            objectType = Model.VmDevice,
             columnIndex = 3,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -157,7 +157,7 @@ export class VmsRoute extends AbstractRoute {
 
     public createDevice(deviceType: string, stack: Array<any>) {
         let self = this,
-            objectType = 'VmDevice',
+            objectType = Model.VmDevice,
             columnIndex = 3,
             parentContext = stack[columnIndex],
             context: any = {
@@ -178,7 +178,7 @@ export class VmsRoute extends AbstractRoute {
 
     public getVolumes(stack: Array<any>) {
         let self = this,
-            objectType = 'VmVolume',
+            objectType = Model.VmVolume,
             columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -199,7 +199,7 @@ export class VmsRoute extends AbstractRoute {
 
     public getVolume(volumeId: string, stack: Array<any>) {
         let self = this,
-            objectType = 'VmVolume',
+            objectType = Model.VmVolume,
             columnIndex = 3,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -220,7 +220,7 @@ export class VmsRoute extends AbstractRoute {
 
     public createVolume(stack: Array<any>) {
         let self = this,
-            objectType = 'VmVolume',
+            objectType = Model.VmVolume,
             columnIndex = 3,
             parentContext = stack[columnIndex-1],
             context: any = {

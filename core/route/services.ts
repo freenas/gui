@@ -5,6 +5,7 @@ import {EventDispatcherService} from "../service/event-dispatcher-service";
 import {ModelDescriptorService} from "../service/model-descriptor-service";
 import {ServiceRepository} from "../repository/service-repository";
 import {AbstractRoute} from "./abstract-route";
+import {Model} from "../model";
 
 export class ServicesRoute extends AbstractRoute {
     private static instance: ServicesRoute;
@@ -28,7 +29,7 @@ export class ServicesRoute extends AbstractRoute {
 
     public getCategory(categoryId: string, stack: Array<any>) {
         let self = this,
-            objectType = 'ServicesCategory',
+            objectType = Model.ServicesCategory,
             columnIndex = 1,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -50,7 +51,7 @@ export class ServicesRoute extends AbstractRoute {
 
     public getService(serviceId: string, stack: Array<any>) {
         let self = this,
-            objectType = 'Service',
+            objectType = Model.Service,
             columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -73,7 +74,7 @@ export class ServicesRoute extends AbstractRoute {
 
     public listRsyncdModules(stack: Array<any>) {
         let self = this,
-            objectType = 'RsyncdModule',
+            objectType = Model.RsyncdModule,
             columnIndex = 3,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -94,7 +95,7 @@ export class ServicesRoute extends AbstractRoute {
 
     public createRsyncdModule(stack: Array<any>) {
         let self = this,
-            objectType = 'RsyncdModule',
+            objectType = Model.RsyncdModule,
             columnIndex = 4,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -115,7 +116,7 @@ export class ServicesRoute extends AbstractRoute {
 
     public getRsyncdModule(rsyncdModuleId: string, stack: Array<any>) {
         let self = this,
-            objectType = 'RsyncdModule',
+            objectType = Model.RsyncdModule,
             columnIndex = 4,
             parentContext = stack[columnIndex-1],
             context: any = {

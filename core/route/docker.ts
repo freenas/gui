@@ -4,6 +4,7 @@ import {EventDispatcherService} from "../service/event-dispatcher-service";
 import {ModelDescriptorService} from "../service/model-descriptor-service";
 import {ContainerRepository} from "../repository/container-repository";
 import {AbstractRoute} from "./abstract-route";
+import {Model} from "../model";
 
 export class DockerRoute extends AbstractRoute {
     private static instance: DockerRoute;
@@ -26,7 +27,7 @@ export class DockerRoute extends AbstractRoute {
     }
 
     public listHosts(stack: Array<any>) {
-        let objectType = 'DockerHost',
+        let objectType = Model.DockerHost,
             columnIndex = 1,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -47,7 +48,7 @@ export class DockerRoute extends AbstractRoute {
     }
 
     public getHost(hostId, stack: Array<any>) {
-        let objectType = 'DockerHost',
+        let objectType = Model.DockerHost,
             columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -68,7 +69,7 @@ export class DockerRoute extends AbstractRoute {
     }
 
     public listImages(stack: Array<any>) {
-        let objectType = 'DockerImage',
+        let objectType = Model.DockerImage,
             columnIndex = 1,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -89,7 +90,7 @@ export class DockerRoute extends AbstractRoute {
     }
 
     public getImage(imageId, stack: Array<any>) {
-        let objectType = 'DockerImage',
+        let objectType = Model.DockerImage,
             columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -110,7 +111,7 @@ export class DockerRoute extends AbstractRoute {
     }
 
     public pullImage (collectionId, stack: Array<any>) {
-        let objectType = 'DockerImagePull',
+        let objectType = Model.DockerImagePull,
             columnIndex = 2,
             parentContext = stack[columnIndex],
             context: any = {
@@ -136,7 +137,7 @@ export class DockerRoute extends AbstractRoute {
     }
 
     public listCollections(stack: Array<any>) {
-        let objectType = 'DockerCollection',
+        let objectType = Model.DockerCollection,
             columnIndex = 1,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -157,7 +158,7 @@ export class DockerRoute extends AbstractRoute {
     }
 
     public getCollection(collectionId, stack: Array<any>) {
-        let objectType = 'DockerCollection',
+        let objectType = Model.DockerCollection,
             columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -178,7 +179,7 @@ export class DockerRoute extends AbstractRoute {
     }
 
     public listContainers(stack: Array<any>) {
-        let objectType = 'DockerContainer',
+        let objectType = Model.DockerContainer,
             columnIndex = 1,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -199,7 +200,7 @@ export class DockerRoute extends AbstractRoute {
     }
 
     public getContainer(containerId, stack: Array<any>) {
-        let objectType = 'DockerContainer',
+        let objectType = Model.DockerContainer,
             columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -225,7 +226,7 @@ export class DockerRoute extends AbstractRoute {
     }
 
     public listCollectionsForCreate(stack:Array<any>) {
-        let objectType = 'DockerCollection',
+        let objectType = Model.DockerCollection,
             columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -248,7 +249,7 @@ export class DockerRoute extends AbstractRoute {
     }
 
     public createCollection(stack:Array<any>) {
-        let objectType = 'DockerCollection',
+        let objectType = Model.DockerCollection,
             columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -270,7 +271,7 @@ export class DockerRoute extends AbstractRoute {
     }
 
     public createContainer(collectionId, stack:Array<any>) {
-        let objectType = 'DockerContainerCreator',
+        let objectType = Model.DockerContainerCreator,
             columnIndex = 2,
             parentContext = stack[columnIndex],
             context: any = {

@@ -11,6 +11,7 @@ import {MailRepository} from "../repository/mail-repository";
 import {TunableRepository} from "../repository/tunable-repository";
 import {NtpServerRepository} from "../repository/ntp-server-repository";
 import {AbstractRoute} from "./abstract-route";
+import {Model} from "../model";
 
 export class SystemRoute extends AbstractRoute {
     private static instance: SystemRoute;
@@ -25,7 +26,7 @@ export class SystemRoute extends AbstractRoute {
                         private tunableRepository: TunableRepository,
                         private ntpServerRepository: NtpServerRepository) {
         super(eventDispatcherService);
-        this.objectType = 'SystemSection';
+        this.objectType = Model.SystemSection;
     }
 
     public static getInstance() {
@@ -67,7 +68,7 @@ export class SystemRoute extends AbstractRoute {
 
     public getCertificate(certificateId: string, stack: Array<any>) {
         let self = this,
-            objectType = 'CryptoCertificate',
+            objectType = Model.CryptoCertificate,
             columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -89,7 +90,7 @@ export class SystemRoute extends AbstractRoute {
 
     public selectNewCertificateType(stack: Array<any>) {
         let self = this,
-            objectType = 'CryptoCertificate',
+            objectType = Model.CryptoCertificate,
             columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -113,7 +114,7 @@ export class SystemRoute extends AbstractRoute {
 
     public createCertificate(certificateType: string, stack: Array<any>) {
         let self = this,
-            objectType = 'CryptoCertificate',
+            objectType = Model.CryptoCertificate,
             columnIndex = 2,
             parentContext = stack[columnIndex],
             context: any = {
@@ -135,7 +136,7 @@ export class SystemRoute extends AbstractRoute {
 
     public getAlertFilter(filterId: string, stack: Array<any>) {
         let self = this,
-            objectType = 'AlertFilter',
+            objectType = Model.AlertFilter,
             columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -157,7 +158,7 @@ export class SystemRoute extends AbstractRoute {
 
     public createAlertFilter(stack: Array<any>) {
         let self = this,
-            objectType = 'AlertFilter',
+            objectType = Model.AlertFilter,
             columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -179,7 +180,7 @@ export class SystemRoute extends AbstractRoute {
 
     public getAlertSettings(stack: Array<any>) {
         let self = this,
-            objectType = 'Mail',
+            objectType = Model.Mail,
             columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -201,7 +202,7 @@ export class SystemRoute extends AbstractRoute {
 
     public createTunable(stack: Array<any>) {
         let self = this,
-            objectType = 'Tunable',
+            objectType = Model.Tunable,
             columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -223,7 +224,7 @@ export class SystemRoute extends AbstractRoute {
 
     public getTunable(tunableId: string, stack: Array<any>) {
         let self = this,
-            objectType = 'Tunable',
+            objectType = Model.Tunable,
             columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -245,7 +246,7 @@ export class SystemRoute extends AbstractRoute {
 
     public createNtpServer(stack: Array<any>) {
         let self = this,
-            objectType = 'NtpServer',
+            objectType = Model.NtpServer,
             columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -267,7 +268,7 @@ export class SystemRoute extends AbstractRoute {
 
     public getNtpServer(ntpServerId: string, stack: Array<any>) {
         let self = this,
-            objectType = 'NtpServer',
+            objectType = Model.NtpServer,
             columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {

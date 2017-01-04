@@ -2,7 +2,7 @@ import {MiddlewareClient} from './middleware-client';
 import {DatastoreService} from './datastore-service';
 import {CacheService} from './cache-service';
 
-import {Model} from 'core/model/model';
+import {Model} from '../model/model';
 
 import {ModelDescriptorService} from "./model-descriptor-service";
 
@@ -83,7 +83,7 @@ export class FakeMontageDataService {
     }
 
     public getNewInstanceForType(type: Object): Promise<Object> {
-        return this.modelDescriptorService.getDaoForType(type.typeName).then(function(dao) {
+        return this.modelDescriptorService.getDaoForType((type as any).typeName).then(function(dao) {
             return dao.getNewInstance();
         });
 /*

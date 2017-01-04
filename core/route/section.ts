@@ -4,6 +4,7 @@ import {ModelDescriptorService} from "../service/model-descriptor-service";
 
 import sectionsDescriptors  = require("core/model/sections-descriptors.json");
 import {AbstractRoute} from "./abstract-route";
+import {Model} from "../model";
 
 export class SectionRoute extends AbstractRoute {
     private static instance: SectionRoute;
@@ -27,6 +28,7 @@ export class SectionRoute extends AbstractRoute {
 
     public get(sectionId: string): Promise<Array<any>> {
         let self = this,
+            objectType = Model.Section,
             sectionDescriptor = sectionsDescriptors[sectionId],
             servicePromise;
         if (this.sectionsServices.has(sectionDescriptor.id)) {
@@ -56,7 +58,7 @@ export class SectionRoute extends AbstractRoute {
             return servicePromise.then(function(service) {
                 return [
                     service,
-                    self.modelDescriptorService.getUiDescriptorForType('Section')
+                    self.modelDescriptorService.getUiDescriptorForType(objectType)
                 ];
             }).spread(function(service, uiDescriptor) {
                 let stack = [
@@ -64,7 +66,7 @@ export class SectionRoute extends AbstractRoute {
                         object: service.section,
                         userInterfaceDescriptor: uiDescriptor,
                         columnIndex: 0,
-                        objectType: 'Section',
+                        objectType: objectType,
                         path: '/' + encodeURIComponent(sectionDescriptor.id)
                     }
                 ];
@@ -84,7 +86,7 @@ export class SectionRoute extends AbstractRoute {
 
     public getSettings(sectionId: string, stack: Array<any>) {
         let self = this,
-            objectType = 'SectionSettings',
+            objectType = Model.SectionSettings,
             columnIndex = 1,
             parentContext = stack[columnIndex-1],
             context: any = {

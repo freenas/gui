@@ -6,16 +6,17 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var model_descriptor_service_1 = require("../service/model-descriptor-service");
 var event_dispatcher_service_1 = require("../service/event-dispatcher-service");
-var vm_repository_1 = require('../repository/vm-repository');
+var vm_repository_1 = require("../repository/vm-repository");
 var abstract_route_1 = require("./abstract-route");
 var _ = require("lodash");
 var Promise = require("bluebird");
 var VmsRoute = (function (_super) {
     __extends(VmsRoute, _super);
     function VmsRoute(modelDescriptorService, eventDispatcherService, vmRepository) {
-        _super.call(this, eventDispatcherService);
-        this.modelDescriptorService = modelDescriptorService;
-        this.vmRepository = vmRepository;
+        var _this = _super.call(this, eventDispatcherService) || this;
+        _this.modelDescriptorService = modelDescriptorService;
+        _this.vmRepository = vmRepository;
+        return _this;
     }
     VmsRoute.getInstance = function () {
         if (!VmsRoute.instance) {
@@ -24,7 +25,7 @@ var VmsRoute = (function (_super) {
         return VmsRoute.instance;
     };
     VmsRoute.prototype.get = function (vmId, stack) {
-        var self = this, objectType = 'Vm', columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = Model.Vm, columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -40,7 +41,7 @@ var VmsRoute = (function (_super) {
         });
     };
     VmsRoute.prototype.create = function (stack) {
-        var self = this, objectType = 'Vm', columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = Model.Vm, columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -56,7 +57,7 @@ var VmsRoute = (function (_super) {
         });
     };
     VmsRoute.prototype.getReadme = function (stack) {
-        var self = this, objectType = 'VmReadme', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = Model.VmReadme, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -71,7 +72,7 @@ var VmsRoute = (function (_super) {
         });
     };
     VmsRoute.prototype.getDevices = function (stack) {
-        var self = this, objectType = 'VmDevice', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = Model.VmDevice, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -86,7 +87,7 @@ var VmsRoute = (function (_super) {
         });
     };
     VmsRoute.prototype.getDevice = function (deviceId, stack) {
-        var self = this, objectType = 'VmDevice', columnIndex = 3, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = Model.VmDevice, columnIndex = 3, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -102,7 +103,7 @@ var VmsRoute = (function (_super) {
     };
     VmsRoute.prototype.selectNewDeviceType = function (stack) {
         var _this = this;
-        var self = this, objectType = 'VmDevice', columnIndex = 3, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = Model.VmDevice, columnIndex = 3, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -119,7 +120,7 @@ var VmsRoute = (function (_super) {
         });
     };
     VmsRoute.prototype.createDevice = function (deviceType, stack) {
-        var self = this, objectType = 'VmDevice', columnIndex = 3, parentContext = stack[columnIndex], context = {
+        var self = this, objectType = Model.VmDevice, columnIndex = 3, parentContext = stack[columnIndex], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -134,7 +135,7 @@ var VmsRoute = (function (_super) {
         });
     };
     VmsRoute.prototype.getVolumes = function (stack) {
-        var self = this, objectType = 'VmVolume', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = Model.VmVolume, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -149,7 +150,7 @@ var VmsRoute = (function (_super) {
         });
     };
     VmsRoute.prototype.getVolume = function (volumeId, stack) {
-        var self = this, objectType = 'VmVolume', columnIndex = 3, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = Model.VmVolume, columnIndex = 3, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -164,7 +165,7 @@ var VmsRoute = (function (_super) {
         });
     };
     VmsRoute.prototype.createVolume = function (stack) {
-        var self = this, objectType = 'VmVolume', columnIndex = 3, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = Model.VmVolume, columnIndex = 3, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,

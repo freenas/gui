@@ -4,11 +4,13 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_dao_1 = require('./abstract-dao');
+var abstract_dao_1 = require("./abstract-dao");
+var model_1 = require("../model");
+var Promise = require("bluebird");
 var VolumeImporterDao = (function (_super) {
     __extends(VolumeImporterDao, _super);
     function VolumeImporterDao() {
-        _super.call(this, 'VolumeImporter');
+        return _super.call(this, model_1.Model.VolumeImporter) || this;
     }
     VolumeImporterDao.prototype.list = function () {
         var self = this;
@@ -18,7 +20,7 @@ var VolumeImporterDao = (function (_super) {
                 volumeImporter._isNew = false;
                 volumeImporter.id = '-';
                 self.entries = [volumeImporter];
-                self.entries._objectType = 'VolumeImporter';
+                self.entries._objectType = model_1.Model.VolumeImporter;
                 return self.entries;
             });
     };

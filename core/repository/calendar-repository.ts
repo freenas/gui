@@ -5,6 +5,7 @@ import * as _ from "lodash";
 import * as Promise from "bluebird";
 import {ModelEventName} from "../model-event-name";
 import {Map} from "immutable";
+import {Model} from "../model";
 
 export class CalendarRepository extends AbstractRepository {
     private static instance: CalendarRepository;
@@ -208,8 +209,8 @@ export class CalendarRepository extends AbstractRepository {
                        private calendarTaskDao: CalendarTaskDao
     ) {
         super([
-            'Calendar',
-            'CalendarTask'
+            Model.Calendar,
+            Model.CalendarTask
         ]);
         this.tasksPerDay = {};
     }
@@ -238,16 +239,14 @@ export class CalendarRepository extends AbstractRepository {
     }
 
     public listTasks() {
-        return this.calendarTasks ?
-            Promise.resolve(this.calendarTasks.toList().toJS()) :
-            this.calendarTaskDao.list();
+        return this.calendarTasks ? Promise.resolve(this.calendarTasks.valueSeq().toJS()) : this.calendarTaskDao.list();
     }
 
     public addConcurrentTasksToSchedule(schedule: any) {
-        var task, nextTask,
+        let task, nextTask,
             timeInMinutes, nextTimeInMinutes,
             j, tasksLength;
-        for (var i = 0, length = schedule.length; i < length; i++) {
+        for (let i = 0, length = schedule.length; i < length; i++) {
             task = schedule[i];
             task._concurrentTasks = task._concurrentTasks || [task];
             if (typeof task.hour === 'number' && typeof task.minute === 'number') {
@@ -267,7 +266,7 @@ export class CalendarRepository extends AbstractRepository {
                 }
             }
         }
-        for (var i = 0, length = schedule.length; i < length; i++) {
+        for (let i = 0, length = schedule.length; i < length; i++) {
             task = schedule[i];
             tasksLength = task._concurrentTasks.length;
             task.concurrentEvents = tasksLength;
@@ -292,11 +291,11 @@ export class CalendarRepository extends AbstractRepository {
 
     public getScheduleStringForTask(task: any) {
         if (task._simpleSchedule && task._simpleSchedule.type) {
-            var type = task._simpleSchedule.type;
+            let type = task._simpleSchedule.type;
             if (type === CalendarRepository.SCHEDULE_OPTIONS.CUSTOM.value) {
                 return CalendarRepository.SCHEDULE_OPTIONS.CUSTOM.stringTemplate;
             } else if (task._simpleSchedule.time) {
-                var time = task._simpleSchedule.time.toLocaleTimeString(),
+                let time = task._simpleSchedule.time.toLocaleTimeString(),
                     days = type === CalendarRepository.SCHEDULE_OPTIONS.WEEKLY.value ?
                         task._simpleSchedule.daysOfWeek.map(function(x) { return x.label; }) :
                         type === CalendarRepository.SCHEDULE_OPTIONS.MONTHLY.value ?
@@ -312,7 +311,7 @@ export class CalendarRepository extends AbstractRepository {
     }
 
     public updateScheduleOnTask(task: any) {
-        var schedule;
+        let schedule;
         if (task._simpleSchedule && task._simpleSchedule.type !== CalendarRepository.SCHEDULE_OPTIONS.CUSTOM.value) {
             schedule = task._simpleSchedule;
             task.schedule = {
@@ -380,21 +379,21 @@ export class CalendarRepository extends AbstractRepository {
         } else if (view === 'day') {
             task._simpleSchedule.type = CalendarRepository.SCHEDULE_OPTIONS.DAILY.value;
         }
-        var now = new Date();
+        let now = new Date();
         task._simpleSchedule.daysOfMonth = this.getValues(now.getDate(), CalendarRepository.DAYS);
         task._simpleSchedule.daysOfWeek = this.getValues(now.getDay(), CalendarRepository.DAYS_OF_WEEK);
         task._customSchedule.daysOfMonth = this.getValues(now.getDate(), CalendarRepository.DAYS);
         task._customSchedule.month = this.getValues(now.getMonth(), CalendarRepository.MONTHS);
         task._customSchedule.hour = this.getValues(now.getHours(), CalendarRepository.HOURS);
         task._customSchedule.minute = this.getValues(now.getMinutes(), CalendarRepository.MINUTES);
-        var time = new Date();
+        let time = new Date();
         time.setSeconds(0);
         task._simpleSchedule.time = time;
     }
 
     private extractNewSchedule(task: any, view: any) {
         if (view === 'month') {
-            var time = new Date();
+            let time = new Date();
             task._simpleSchedule.type = CalendarRepository.SCHEDULE_OPTIONS.MONTHLY.value;
             time.setSeconds(0);
             task._simpleSchedule.time = time;
@@ -479,7 +478,7 @@ export class CalendarRepository extends AbstractRepository {
     }
 
     private getScheduleTime(schedule: any) {
-        var scheduleTime = new Date(0);
+        let scheduleTime = new Date(0);
         scheduleTime.setHours(schedule.hour);
         scheduleTime.setMinutes(schedule.minute);
         return scheduleTime;
@@ -487,11 +486,11 @@ export class CalendarRepository extends AbstractRepository {
 
     private getValues(string: any, options) {
         string = ''+string;
-        var values = new Set();
+        let values = new Set();
         if (typeof string === 'string') {
-            var entries = string.split(','),
+            let entries = string.split(','),
                 entry, matchingOptions;
-            for (var i = 0, length = entries.length; i < length; i++) {
+            for (let i = 0, length = entries.length; i < length; i++) {
                 entry = entries[i];
                 if (entry.indexOf('/') === -1) {
                     entry = parseInt(entry);
@@ -500,7 +499,7 @@ export class CalendarRepository extends AbstractRepository {
                         values.add(matchingOptions[0].value);
                     }
                 } else {
-                    var frequency = parseInt(entry.split('/')[1]);
+                    let frequency = parseInt(entry.split('/')[1]);
                     options.filter(function(opt, idx) { return idx % frequency === 0; }).map(function(x) {
                         values.add(x.value);
                     });
@@ -513,11 +512,11 @@ export class CalendarRepository extends AbstractRepository {
     }
 
     private buildScheduleFromTasksAndDay(tasks: Array<any>, day: any) {
-        var task,
+        let task,
             key = day.year+'-'+day.month+'-'+day.date,
             tasksSchedule = this.tasksPerDay[key] ? this.tasksPerDay[key].tasks : [];
         tasksSchedule.clear();
-        for (var i = 0, length = tasks.length; i < length; i++) {
+        for (let i = 0, length = tasks.length; i < length; i++) {
             task = tasks[i];
             if (this.isDayMatchingSchedule(day, task.schedule)) {
                 Array.prototype.push.apply(tasksSchedule, this.getTaskOccurrencesPerDay(task));
@@ -580,7 +579,7 @@ export class CalendarRepository extends AbstractRepository {
         if (task.schedule.hour == '*') {
             this.iterateMinutes('*', task, occurrences);
         } else {
-            for (var hour = 0; hour < 24; hour++) {
+            for (let hour = 0; hour < 24; hour++) {
                 if (this.isHourMatchingSchedule(hour, task.schedule)) {
                     this.iterateMinutes(hour, task, occurrences);
                 }
@@ -593,7 +592,7 @@ export class CalendarRepository extends AbstractRepository {
         if (task.schedule.minute == '*') {
             this.iterateSeconds(hour, '*', task, occurrences);
         } else {
-            for (var minute = 0; minute < 60; minute++) {
+            for (let minute = 0; minute < 60; minute++) {
                 if (this.isMinuteMatchingSchedule(minute, task.schedule)) {
                     this.iterateSeconds(hour, minute, task, occurrences);
                 }
@@ -610,7 +609,7 @@ export class CalendarRepository extends AbstractRepository {
                 task: task
             });
         } else {
-            for (var second = 0; second < 60; second++) {
+            for (let second = 0; second < 60; second++) {
                 if (this.isSecondMatchingSchedule(second, task.schedule)) {
                     occurrences.push({
                         hour: hour,
@@ -650,14 +649,14 @@ export class CalendarRepository extends AbstractRepository {
         if (typeof schedule !== "string") {
             schedule = _.toString(schedule);
         }
-        var parts = schedule.split(','),
+        let parts = schedule.split(','),
             part;
-        for (var i = 0, length = parts.length; i < length; i++) {
+        for (let i = 0, length = parts.length; i < length; i++) {
             part = parts[i];
             if (part == '*' || part == value) {
                 return true;
             } else if (part.indexOf('/') != -1) {
-                var period = +part.split('/')[1];
+                let period = +part.split('/')[1];
                 if (value % period === 0) {
                     return true;
                 }
@@ -672,13 +671,13 @@ export class CalendarRepository extends AbstractRepository {
     private refreshTasksSchedule() {
         let self = this;
         _.values(this.tasksPerDay).forEach(function(tasks) {
-            self.getTasksScheduleOnDay(tasks.day);
+            self.getTasksScheduleOnDay((tasks as any).day);
         });
     }
 
     protected handleStateChange(name: string, state: any) {
         switch (name) {
-            case 'CalendarTask':
+            case Model.CalendarTask:
                 this.calendarTasks = this.dispatchModelEvents(this.calendarTasks, ModelEventName.CalendarTask, state);
                 this.refreshTasksSchedule();
                 break;

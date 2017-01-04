@@ -7,11 +7,12 @@ import { EncryptedVolumeActionsDao } from '../dao/encrypted-volume-actions-dao';
 import {VolumeVdevRecommendationsDao} from "../dao/volume-vdev-recommendations-dao";
 import {DetachedVolumeDao} from "../dao/detached-volume-dao";
 
-import * as Promise from "bluebird";
 import {EncryptedVolumeImporterDao} from "../dao/encrypted-volume-importer-dao";
 import {ZfsTopologyDao} from "../dao/zfs-topology-dao";
 import {ModelEventName} from "../model-event-name";
 import {Map} from "immutable";
+import {Model} from "../model";
+import * as Promise from "bluebird";
 
 export class VolumeRepository extends AbstractRepository {
     private static instance: VolumeRepository;
@@ -34,10 +35,10 @@ export class VolumeRepository extends AbstractRepository {
         private zfsTopologyDao: ZfsTopologyDao
     ) {
         super([
-            'Volume',
-            'VolumeDataset',
-            'VolumeSnapshot',
-            'DetachedVolume'
+            Model.Volume,
+            Model.VolumeDataset,
+            Model.VolumeSnapshot,
+            Model.DetachedVolume
         ]);
     }
 
@@ -235,7 +236,7 @@ export class VolumeRepository extends AbstractRepository {
 
     protected handleStateChange(name: string, state: any) {
         switch (name) {
-            case 'Volume':
+            case Model.Volume:
                 let self = this,
                     volumeId;
                 let hasTopologyChanged = false;
@@ -262,13 +263,13 @@ export class VolumeRepository extends AbstractRepository {
                 }
                 this.volumes = this.dispatchModelEvents(this.volumes, ModelEventName.Volume, state);
                 break;
-            case 'VolumeSnapshot':
+            case Model.VolumeSnapshot:
                 this.volumeSnapshots = this.dispatchModelEvents(this.volumeSnapshots, ModelEventName.VolumeSnapshot, state);
                 break;
-            case 'VolumeDataset':
+            case Model.VolumeDataset:
                 this.volumeDatasets = this.dispatchModelEvents(this.volumeDatasets, ModelEventName.VolumeDataset, state);
                 break;
-            case 'DetachedVolume':
+            case Model.DetachedVolume:
                 this.detachedVolumes = this.dispatchModelEvents(this.detachedVolumes, ModelEventName.DetachedVolume, state);
                 break;
             default:

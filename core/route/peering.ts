@@ -5,6 +5,7 @@ import {EventDispatcherService} from "../service/event-dispatcher-service";
 import {ModelDescriptorService} from "../service/model-descriptor-service";
 import {PeerRepository} from "../repository/peer-repository";
 import {AbstractRoute} from "./abstract-route";
+import {Model} from "../model";
 
 export class PeeringRoute extends AbstractRoute {
     private static instance: PeeringRoute;
@@ -15,7 +16,7 @@ export class PeeringRoute extends AbstractRoute {
                         eventDispatcherService: EventDispatcherService,
                         private peerRepository: PeerRepository) {
         super(eventDispatcherService);
-        this.objectType = 'Peer';
+        this.objectType = Model.Peer;
     }
 
     public static getInstance() {

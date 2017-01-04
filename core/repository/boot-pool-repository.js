@@ -7,14 +7,16 @@ var __extends = (this && this.__extends) || function (d, b) {
 var abstract_repository_ng_1 = require("./abstract-repository-ng");
 var boot_pool_dao_1 = require("../dao/boot-pool-dao");
 var boot_environment_dao_1 = require("../dao/boot-environment-dao");
+var Promise = require("bluebird");
+var model_1 = require("../model");
+var model_event_name_1 = require("../model-event-name");
 var BootPoolRepository = (function (_super) {
     __extends(BootPoolRepository, _super);
     function BootPoolRepository(bootPoolDao, bootEnvironmentDao) {
-        _super.call(this, [
-            'BootEnvironment'
-        ]);
-        this.bootPoolDao = bootPoolDao;
-        this.bootEnvironmentDao = bootEnvironmentDao;
+        var _this = _super.call(this, [model_1.Model.BootEnvironment]) || this;
+        _this.bootPoolDao = bootPoolDao;
+        _this.bootEnvironmentDao = bootEnvironmentDao;
+        return _this;
     }
     BootPoolRepository.getInstance = function () {
         if (!BootPoolRepository.instance) {
@@ -26,7 +28,7 @@ var BootPoolRepository = (function (_super) {
         return this.bootPoolDao.getConfig();
     };
     BootPoolRepository.prototype.listBootEnvironments = function () {
-        return this.bootEnvironmentDao.list();
+        return this.bootEnvironments ? Promise.resolve(this.bootEnvironments.valueSeq().toJS()) : this.bootEnvironmentDao.list();
     };
     BootPoolRepository.prototype.deleteBootEnvironment = function (bootEnvironment) {
         return this.bootEnvironmentDao.delete(bootEnvironment);
@@ -44,31 +46,9 @@ var BootPoolRepository = (function (_super) {
         return this.bootEnvironmentDao.clone(bootEnvironment, cloneName);
     };
     BootPoolRepository.prototype.handleStateChange = function (name, state) {
-        var self = this;
-        switch (name) {
-            case 'BootEnvironment':
-                this.eventDispatcherService.dispatch('bootEnvironmentsChange', state);
-                state.forEach(function (bootEnvironment, id) {
-                    if (!self.bootEnvironments || !self.bootEnvironments.has(id)) {
-                        self.eventDispatcherService.dispatch('bootEnvironmentAdd.' + id, bootEnvironment);
-                    }
-                    else if (self.bootEnvironments.get(id) !== bootEnvironment) {
-                        self.eventDispatcherService.dispatch('bootEnvironmentChange.' + id, bootEnvironment);
-                    }
-                });
-                if (this.bootEnvironments) {
-                    this.bootEnvironments.forEach(function (bootEnvironment, id) {
-                        if (!state.has(id) || state.get(id) !== bootEnvironment) {
-                            self.eventDispatcherService.dispatch('bootEnvironmentRemove.' + id, bootEnvironment);
-                        }
-                    });
-                }
-                this.bootEnvironments = state;
-                break;
-            default:
-                break;
-        }
+        this.bootEnvironments = this.dispatchModelEvents(this.bootEnvironments, model_event_name_1.ModelEventName.BootEnvironment, state);
     };
+    BootPoolRepository.prototype.handleEvent = function (name, data) { };
     return BootPoolRepository;
 }(abstract_repository_ng_1.AbstractRepository));
 exports.BootPoolRepository = BootPoolRepository;

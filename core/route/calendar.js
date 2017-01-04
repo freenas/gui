@@ -12,12 +12,14 @@ var calendar_repository_1 = require("../repository/calendar-repository");
 var _ = require("lodash");
 var model_event_name_1 = require("../model-event-name");
 var abstract_route_1 = require("./abstract-route");
+var model_1 = require("../model");
 var CalendarRoute = (function (_super) {
     __extends(CalendarRoute, _super);
     function CalendarRoute(modelDescriptorService, eventDispatcherService, calendarRepository) {
-        _super.call(this, eventDispatcherService);
-        this.modelDescriptorService = modelDescriptorService;
-        this.calendarRepository = calendarRepository;
+        var _this = _super.call(this, eventDispatcherService) || this;
+        _this.modelDescriptorService = modelDescriptorService;
+        _this.calendarRepository = calendarRepository;
+        return _this;
     }
     CalendarRoute.getInstance = function () {
         if (!CalendarRoute.instance) {
@@ -26,7 +28,7 @@ var CalendarRoute = (function (_super) {
         return CalendarRoute.instance;
     };
     CalendarRoute.prototype.get = function () {
-        var self = this, sectionDescriptor = sectionsDescriptors.calendar, servicePromise;
+        var self = this, objectType = model_1.Model.Calendar, sectionDescriptor = sectionsDescriptors.calendar, servicePromise;
         if (this.calendarService) {
             servicePromise = Promise.resolve(this.calendarService);
         }
@@ -53,7 +55,7 @@ var CalendarRoute = (function (_super) {
             return servicePromise.then(function (service) {
                 return [
                     service,
-                    self.modelDescriptorService.getUiDescriptorForType('Calendar')
+                    self.modelDescriptorService.getUiDescriptorForType(objectType)
                 ];
             }).spread(function (service, uiDescriptor) {
                 var stack = [
@@ -61,7 +63,7 @@ var CalendarRoute = (function (_super) {
                         object: service.entries[0],
                         userInterfaceDescriptor: uiDescriptor,
                         columnIndex: 0,
-                        objectType: 'Calendar',
+                        objectType: objectType,
                         path: '/' + sectionDescriptor.id
                     }
                 ];
@@ -74,15 +76,15 @@ var CalendarRoute = (function (_super) {
         }
     };
     CalendarRoute.prototype.getTask = function (calendarTaskId, stack) {
-        var self = this, columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.CalendarTask, columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
-            objectType: 'CalendarTask',
+            objectType: objectType,
             parentContext: parentContext,
             path: parentContext.path + '/calendar-task/_/' + encodeURIComponent(calendarTaskId)
         };
         return Promise.all([
             this.calendarRepository.listTasks(),
-            this.modelDescriptorService.getUiDescriptorForType('CalendarTask')
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function (calendarTasks, uiDescriptor) {
             context.object = _.find(calendarTasks, { id: calendarTaskId });
             context.userInterfaceDescriptor = uiDescriptor;

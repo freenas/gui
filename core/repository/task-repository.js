@@ -7,13 +7,14 @@ var __extends = (this && this.__extends) || function (d, b) {
 var abstract_repository_ng_1 = require("./abstract-repository-ng");
 var model_event_name_1 = require("../model-event-name");
 var task_dao_1 = require("../dao/task-dao");
+var Promise = require("bluebird");
+var model_1 = require("../model");
 var TaskRepository = (function (_super) {
     __extends(TaskRepository, _super);
     function TaskRepository(taskDao) {
-        _super.call(this, [
-            'Task'
-        ]);
-        this.taskDao = taskDao;
+        var _this = _super.call(this, [model_1.Model.Task]) || this;
+        _this.taskDao = taskDao;
+        return _this;
     }
     TaskRepository.getInstance = function () {
         if (!TaskRepository.instance) {
@@ -22,7 +23,10 @@ var TaskRepository = (function (_super) {
         return TaskRepository.instance;
     };
     TaskRepository.prototype.listTasks = function () {
-        return this.taskDao.list();
+        return this.tasks ? Promise.resolve(this.tasks.valueSeq().toJS()) : this.taskDao.list();
+    };
+    TaskRepository.prototype.findTasks = function (criteria) {
+        return this.taskDao.find(criteria);
     };
     TaskRepository.prototype.registerToTasks = function () {
         return this.taskDao.register();
@@ -31,13 +35,7 @@ var TaskRepository = (function (_super) {
         return this.taskDao.submit(name, args);
     };
     TaskRepository.prototype.handleStateChange = function (name, state) {
-        switch (name) {
-            case 'Task':
-                this.tasks = this.dispatchModelEvents(this.tasks, model_event_name_1.ModelEventName.Task, state);
-                break;
-            default:
-                break;
-        }
+        this.tasks = this.dispatchModelEvents(this.tasks, model_event_name_1.ModelEventName.Task, state);
     };
     TaskRepository.prototype.handleEvent = function (name, data) {
     };

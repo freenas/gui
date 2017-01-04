@@ -4,14 +4,15 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_dao_1 = require('./abstract-dao');
+var abstract_dao_1 = require("./abstract-dao");
+var model_1 = require("../model");
 var DetachedVolumeDao = (function (_super) {
     __extends(DetachedVolumeDao, _super);
     function DetachedVolumeDao() {
-        _super.call(this, 'DetachedVolume', {
+        return _super.call(this, model_1.Model.DetachedVolume, {
             queryMethod: 'volume.find',
             preventQueryCaching: true
-        });
+        }) || this;
     }
     DetachedVolumeDao.prototype.list = function () {
         return abstract_dao_1.AbstractDao.prototype.list.call(this).then(function (detachedVolumes) {

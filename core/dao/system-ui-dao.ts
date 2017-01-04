@@ -1,11 +1,11 @@
-import {AbstractDao} from "./abstract-dao";
+import {AbstractDao} from "./abstract-dao";import {Model} from '../model';
 import { processor as cleaningProcessor } from '../service/data-processor/cleaner';
 import { processor as diffProcessor } from '../service/data-processor/diff';
 import { processor as nullProcessor } from '../service/data-processor/null';
 
 export class SystemUiDao extends AbstractDao {
     public constructor() {
-        super('SystemUi', {
+        super(Model.SystemUi, {
             queryMethod: 'system.ui.get_config'
         });
     }

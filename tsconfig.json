@@ -5,9 +5,7 @@
             "es6",
             "dom"
         ],
-        "types": [
-            "./typings/**"
-        ],
+        "types": [],
         "module": "commonjs",
         "moduleResolution": "node",
         "experimentalDecorators": true,

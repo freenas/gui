@@ -4,11 +4,12 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_dao_1 = require('./abstract-dao');
+var abstract_dao_1 = require("./abstract-dao");
+var model_1 = require("../model");
 var TaskDao = (function (_super) {
     __extends(TaskDao, _super);
     function TaskDao() {
-        _super.call(this, 'Task');
+        return _super.call(this, model_1.Model.Task) || this;
     }
     TaskDao.prototype.submit = function (name, args) {
         if (args === void 0) { args = []; }

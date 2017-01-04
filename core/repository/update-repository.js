@@ -6,11 +6,13 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var abstract_repository_ng_1 = require("./abstract-repository-ng");
 var update_dao_1 = require("../dao/update-dao");
+var model_1 = require("../model");
 var UpdateRepository = (function (_super) {
     __extends(UpdateRepository, _super);
     function UpdateRepository(updateDao) {
-        _super.call(this, ['Update']);
-        this.updateDao = updateDao;
+        var _this = _super.call(this, [model_1.Model.Update]) || this;
+        _this.updateDao = updateDao;
+        return _this;
     }
     UpdateRepository.getInstance = function () {
         if (!UpdateRepository.instance) {

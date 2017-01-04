@@ -15,8 +15,9 @@ var system_repository_1 = require("../../repository/system-repository");
 var AccountsSectionService = (function (_super) {
     __extends(AccountsSectionService, _super);
     function AccountsSectionService() {
-        _super.apply(this, arguments);
-        this.DIRECTORY_TYPES_LABELS = account_repository_1.AccountRepository.DIRECTORY_TYPES_LABELS;
+        var _this = _super.apply(this, arguments) || this;
+        _this.DIRECTORY_TYPES_LABELS = account_repository_1.AccountRepository.DIRECTORY_TYPES_LABELS;
+        return _this;
     }
     AccountsSectionService.prototype.init = function () {
         this.accountRepository = account_repository_1.AccountRepository.getInstance();

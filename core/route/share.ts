@@ -1,12 +1,13 @@
 import {ShareRepository} from "../repository/share-repository";
 import {ModelDescriptorService} from "../service/model-descriptor-service";
 import {EventDispatcherService} from "../service/event-dispatcher-service";
-import Promise = require("bluebird");
-import _ = require("lodash");
 import {VolumeRepository} from "../repository/volume-repository";
 import {ModelEventName} from "../model-event-name";
 import {DataObjectChangeService} from "../service/data-object-change-service";
 import {AbstractRoute} from "./abstract-route";
+import Promise = require("bluebird");
+import _ = require("lodash");
+import {Model} from "../model";
 
 export class ShareRoute extends AbstractRoute {
     private static instance: ShareRoute;
@@ -34,11 +35,12 @@ export class ShareRoute extends AbstractRoute {
 
 
     public list(volumeId: string, stack: Array<any>) {
-        let self = this;
+        let self = this,
+            objectType = Model.Share;
         return Promise.all([
             this.volumeRepository.listVolumes(),
             this.shareRepository.listShares(),
-            this.modelDescriptorService.getUiDescriptorForType('Share')
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(volumes, shares, uiDescriptor) {
             while (stack.length > 2) {
                 let oldContext = stack.pop();
@@ -52,13 +54,13 @@ export class ShareRoute extends AbstractRoute {
                         _.startsWith(share.target_path + '/', '/mnt/' + volumeId + '/');
             };
             let filteredShares = _.filter(shares, shareFilter);
-            filteredShares._objectType = 'Share';
+            filteredShares._objectType = objectType;
 
             let context = {
                 object: filteredShares,
                 userInterfaceDescriptor: uiDescriptor,
                 columnIndex: 2,
-                objectType: 'Share',
+                objectType: objectType,
                 parentContext: stack[1],
                 path: stack[1].path + '/share',
                 changeListener: self.eventDispatcherService.addEventListener(ModelEventName.Share.listChange, function(state) {
@@ -77,11 +79,12 @@ export class ShareRoute extends AbstractRoute {
     }
 
     public get(volumeId: string, shareId: string, stack: Array<any>) {
-        let self = this;
+        let self = this,
+            objectType = Model.Share;
         return Promise.all([
             this.volumeRepository.listVolumes(),
             this.shareRepository.listShares(),
-            this.modelDescriptorService.getUiDescriptorForType('Share')
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(volumes, shares, uiDescriptor) {
             while (stack.length > 3) {
                 let context = stack.pop();
@@ -97,7 +100,7 @@ export class ShareRoute extends AbstractRoute {
                 object: share,
                 userInterfaceDescriptor: uiDescriptor,
                 columnIndex: 3,
-                objectType: 'Share',
+                objectType: objectType,
                 parentContext: stack[2],
                 path: stack[2].path + '/share/_/' + encodeURIComponent(shareId)
             });
@@ -107,16 +110,17 @@ export class ShareRoute extends AbstractRoute {
 
     public selectNewType(volumeId: string, stack: Array<any>) {
         let self = this,
+            objectType = Model.Share,
             context: any = {
                 columnIndex: 3,
-                objectType: 'Share',
+                objectType: objectType,
                 parentContext: stack[2],
                 isCreatePrevented: true,
                 path: stack[2].path + '/create'
             };
         return Promise.all([
             this.volumeRepository.listVolumes(),
-            this.modelDescriptorService.getUiDescriptorForType('Share')
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(volumes, uiDescriptor) {
             let volume = _.find(volumes, {id: volumeId});
             context.userInterfaceDescriptor = uiDescriptor;
@@ -127,7 +131,7 @@ export class ShareRoute extends AbstractRoute {
                 self.shareRepository.getNewShare(volume, 'iscsi'),
                 self.shareRepository.getNewShare(volume, 'webdav')
             ]).then(function(shares) {
-                shares._objectType = 'Share';
+                shares._objectType = objectType;
                 context.object = shares;
 
                 return self.updateStackWithContext(stack, context);
@@ -137,17 +141,18 @@ export class ShareRoute extends AbstractRoute {
 
     public create(volumeId: string, type: string, stack: Array<any>) {
         let self = this,
+            objectType = Model.Share,
             columnIndex = 3,
             parentContext = stack[columnIndex],
             context: any = {
                 columnIndex: columnIndex,
-                objectType: 'Share',
+                objectType: objectType,
                 parentContext: parentContext,
                 path: parentContext.path + '/' + type
             };
         return Promise.all([
             this.volumeRepository.listVolumes(),
-            this.modelDescriptorService.getUiDescriptorForType('Share')
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(volumes, uiDescriptor) {
             let share = _.find(parentContext.object, {type: type});
             share._volume = _.find(volumes, {id: volumeId});

@@ -15,11 +15,12 @@ var abstract_route_1 = require("./abstract-route");
 var SnapshotRoute = (function (_super) {
     __extends(SnapshotRoute, _super);
     function SnapshotRoute(volumeRepository, eventDispatcherService, modelDescriptorService, dataObjectChangeService) {
-        _super.call(this, eventDispatcherService);
-        this.volumeRepository = volumeRepository;
-        this.modelDescriptorService = modelDescriptorService;
-        this.dataObjectChangeService = dataObjectChangeService;
-        this.objectType = 'VolumeSnapshot';
+        var _this = _super.call(this, eventDispatcherService) || this;
+        _this.volumeRepository = volumeRepository;
+        _this.modelDescriptorService = modelDescriptorService;
+        _this.dataObjectChangeService = dataObjectChangeService;
+        _this.objectType = Model.VolumeSnapshot;
+        return _this;
     }
     SnapshotRoute.getInstance = function () {
         if (!SnapshotRoute.instance) {

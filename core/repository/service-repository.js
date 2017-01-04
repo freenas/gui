@@ -14,19 +14,21 @@ var Promise = require("bluebird");
 var _ = require("lodash");
 var rsyncd_module_dao_1 = require("../dao/rsyncd-module-dao");
 var model_event_name_1 = require("../model-event-name");
+var model_1 = require("../model");
 var ServiceRepository = (function (_super) {
     __extends(ServiceRepository, _super);
     function ServiceRepository(serviceDao, serviceDyndnsDao, servicesCategoryDao, rsyncdModuleDao, serviceUpsDao, serviceDcDao) {
-        _super.call(this, [
-            'Service',
-            'RsyncdModule'
-        ]);
-        this.serviceDao = serviceDao;
-        this.serviceDyndnsDao = serviceDyndnsDao;
-        this.servicesCategoryDao = servicesCategoryDao;
-        this.rsyncdModuleDao = rsyncdModuleDao;
-        this.serviceUpsDao = serviceUpsDao;
-        this.serviceDcDao = serviceDcDao;
+        var _this = _super.call(this, [
+            model_1.Model.Service,
+            model_1.Model.RsyncdModule
+        ]) || this;
+        _this.serviceDao = serviceDao;
+        _this.serviceDyndnsDao = serviceDyndnsDao;
+        _this.servicesCategoryDao = servicesCategoryDao;
+        _this.rsyncdModuleDao = rsyncdModuleDao;
+        _this.serviceUpsDao = serviceUpsDao;
+        _this.serviceDcDao = serviceDcDao;
+        return _this;
     }
     ServiceRepository.getInstance = function () {
         if (!ServiceRepository.instance) {
@@ -108,8 +110,11 @@ var ServiceRepository = (function (_super) {
     };
     ServiceRepository.prototype.handleStateChange = function (name, state) {
         switch (name) {
-            case 'RsyncdModule':
+            case model_1.Model.RsyncdModule:
                 this.rsyncdModules = this.dispatchModelEvents(this.rsyncdModules, model_event_name_1.ModelEventName.RsyncdModule, state);
+                break;
+            case model_1.Model.Service:
+                this.services = this.dispatchModelEvents(this.services, model_event_name_1.ModelEventName.Service, state);
                 break;
         }
     };

@@ -2,12 +2,14 @@ import { AbstractRepository } from './abstract-repository-ng';
 import { ShareDao } from '../dao/share-dao';
 import {ModelEventName} from "../model-event-name";
 import {Map} from "immutable";
+import Promise = require("bluebird");
+import {Model} from "../model";
 
 export class ShareRepository extends AbstractRepository {
     private static instance: ShareRepository;
     private shares: Map<string, Map<string, any>>;
     private constructor(private shareDao: ShareDao) {
-        super(['Share']);
+        super([Model.Share]);
     }
 
     public static getInstance() {
@@ -19,7 +21,7 @@ export class ShareRepository extends AbstractRepository {
     }
 
     public listShares(): Promise<Array<Object>> {
-        return this.shareDao.list();
+        return this.shares ? Promise.resolve(this.shares.valueSeq().toJS()) : this.shareDao.list();
     }
 
     public getNewShare(volume, shareType) {
@@ -40,13 +42,7 @@ export class ShareRepository extends AbstractRepository {
     }
 
     protected handleStateChange(name: string, state: any) {
-        switch (name) {
-            case 'Share':
-                this.shares = this.dispatchModelEvents(this.shares, ModelEventName.Share, state);
-                break;
-            default:
-                break;
-        }
+        this.shares = this.dispatchModelEvents(this.shares, ModelEventName.Share, state);
     }
 
     protected handleEvent(name: string, data: any) {}

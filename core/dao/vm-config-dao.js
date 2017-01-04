@@ -5,12 +5,13 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var abstract_dao_1 = require("./abstract-dao");
+var model_1 = require("../model");
 var VmConfigDao = (function (_super) {
     __extends(VmConfigDao, _super);
     function VmConfigDao() {
-        _super.call(this, 'VmConfig', {
+        return _super.call(this, model_1.Model.VmConfig, {
             queryMethod: 'vm.config.get_config'
-        });
+        }) || this;
     }
     return VmConfigDao;
 }(abstract_dao_1.AbstractDao));

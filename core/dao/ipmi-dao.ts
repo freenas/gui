@@ -1,8 +1,8 @@
-import {AbstractDao} from "./abstract-dao";
+import {AbstractDao} from "./abstract-dao";import {Model} from '../model';
 
 export class IpmiDao extends AbstractDao {
     public constructor() {
-        super('Ipmi');
+        super(Model.Ipmi);
     }
 
     public isIpmiLoaded() {

@@ -10,14 +10,15 @@ var abstract_section_service_ng_1 = require("./abstract-section-service-ng");
 var CalendarSectionService = (function (_super) {
     __extends(CalendarSectionService, _super);
     function CalendarSectionService() {
-        _super.apply(this, arguments);
-        this.SCHEDULE_OPTIONS = calendar_repository_1.CalendarRepository.SCHEDULE_OPTIONS;
-        this.DAYS = calendar_repository_1.CalendarRepository.DAYS;
-        this.HOURS = calendar_repository_1.CalendarRepository.HOURS;
-        this.MINUTES = calendar_repository_1.CalendarRepository.MINUTES;
-        this.MONTHS = calendar_repository_1.CalendarRepository.MONTHS;
-        this.DAYS_OF_WEEK = calendar_repository_1.CalendarRepository.DAYS_OF_WEEK;
-        this.CALENDAR_TASK_CATEGORIES = calendar_repository_1.CalendarRepository.CALENDAR_TASK_CATEGORIES;
+        var _this = _super.apply(this, arguments) || this;
+        _this.SCHEDULE_OPTIONS = calendar_repository_1.CalendarRepository.SCHEDULE_OPTIONS;
+        _this.DAYS = calendar_repository_1.CalendarRepository.DAYS;
+        _this.HOURS = calendar_repository_1.CalendarRepository.HOURS;
+        _this.MINUTES = calendar_repository_1.CalendarRepository.MINUTES;
+        _this.MONTHS = calendar_repository_1.CalendarRepository.MONTHS;
+        _this.DAYS_OF_WEEK = calendar_repository_1.CalendarRepository.DAYS_OF_WEEK;
+        _this.CALENDAR_TASK_CATEGORIES = calendar_repository_1.CalendarRepository.CALENDAR_TASK_CATEGORIES;
+        return _this;
     }
     CalendarSectionService.prototype.init = function () {
         this.calendarRepository = calendar_repository_1.CalendarRepository.getInstance();

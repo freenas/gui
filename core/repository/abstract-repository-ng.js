@@ -1,5 +1,5 @@
 "use strict";
-var event_dispatcher_service_1 = require('../service/event-dispatcher-service');
+var event_dispatcher_service_1 = require("../service/event-dispatcher-service");
 var model_descriptor_service_1 = require("../service/model-descriptor-service");
 var AbstractRepository = (function () {
     function AbstractRepository(subscribedStateChanges, subscribedEvents) {
@@ -8,7 +8,7 @@ var AbstractRepository = (function () {
         this.eventDispatcherService = event_dispatcher_service_1.EventDispatcherService.getInstance();
         this.modelDescriptorService = model_descriptor_service_1.ModelDescriptorService.getInstance();
         var self = this;
-        var _loop_1 = function(subscribedStateChange) {
+        var _loop_1 = function (subscribedStateChange) {
             this_1.eventDispatcherService.addEventListener('stateChange', function (data) {
                 self.dispatchStateChange(subscribedStateChange, data);
             });
@@ -18,7 +18,7 @@ var AbstractRepository = (function () {
             var subscribedStateChange = subscribedStateChanges_1[_i];
             _loop_1(subscribedStateChange);
         }
-        var _loop_2 = function(subscribedEvent) {
+        var _loop_2 = function (subscribedEvent) {
             this_2.eventDispatcherService.addEventListener(subscribedEvent, function (data) {
                 self.handleEvent(subscribedEvent, data);
             });

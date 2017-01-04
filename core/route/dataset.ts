@@ -8,6 +8,7 @@ import Promise = require("bluebird");
 import {ReplicationRepository} from "../repository/replication-repository";
 import {VmwareRepository} from "../repository/vmware-repository";
 import {AbstractRoute} from "./abstract-route";
+import {Model} from "../model";
 
 export class DatasetRoute extends AbstractRoute {
     private static instance: DatasetRoute;
@@ -20,7 +21,7 @@ export class DatasetRoute extends AbstractRoute {
                         private modelDescriptorService: ModelDescriptorService,
                         private dataObjectChangeService: DataObjectChangeService) {
         super(eventDispatcherService);
-        this.objectType = 'VolumeDataset';
+        this.objectType = Model.VolumeDataset;
     }
 
 
@@ -174,6 +175,7 @@ export class DatasetRoute extends AbstractRoute {
 
     public listVmware(datasetId: string, stack: Array<any>) {
         let self = this,
+            objectType = Model.VmwareDataset,
             columnIndex = 4,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -184,10 +186,10 @@ export class DatasetRoute extends AbstractRoute {
             };
         return Promise.all([
             this.vmwareRepository.listDatasets(),
-            this.modelDescriptorService.getUiDescriptorForType('VmwareDataset')
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(vmwareDatasets, uiDescriptor) {
             let filteredVmwareDatasets = _.filter(vmwareDatasets, {dataset: datasetId});
-            filteredVmwareDatasets._objectType = 'VmwareDataset';
+            filteredVmwareDatasets._objectType = objectType;
             context.object = filteredVmwareDatasets;
             context.userInterfaceDescriptor = uiDescriptor;
             context.changeListener = self.eventDispatcherService.addEventListener(ModelEventName.VmwareDataset.listChange, function(state) {

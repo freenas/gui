@@ -1,4 +1,5 @@
 import { AbstractDao } from './abstract-dao';
+import Promise = require("bluebird");
 
 export class SystemDeviceDao extends AbstractDao {
 

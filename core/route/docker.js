@@ -10,12 +10,14 @@ var event_dispatcher_service_1 = require("../service/event-dispatcher-service");
 var model_descriptor_service_1 = require("../service/model-descriptor-service");
 var container_repository_1 = require("../repository/container-repository");
 var abstract_route_1 = require("./abstract-route");
+var model_1 = require("../model");
 var DockerRoute = (function (_super) {
     __extends(DockerRoute, _super);
     function DockerRoute(modelDescriptorService, eventDispatcherService, dockerRepository) {
-        _super.call(this, eventDispatcherService);
-        this.modelDescriptorService = modelDescriptorService;
-        this.dockerRepository = dockerRepository;
+        var _this = _super.call(this, eventDispatcherService) || this;
+        _this.modelDescriptorService = modelDescriptorService;
+        _this.dockerRepository = dockerRepository;
+        return _this;
     }
     DockerRoute.getInstance = function () {
         if (!DockerRoute.instance) {
@@ -25,7 +27,7 @@ var DockerRoute = (function (_super) {
     };
     DockerRoute.prototype.listHosts = function (stack) {
         var _this = this;
-        var objectType = 'DockerHost', columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
+        var objectType = model_1.Model.DockerHost, columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -42,7 +44,7 @@ var DockerRoute = (function (_super) {
     };
     DockerRoute.prototype.getHost = function (hostId, stack) {
         var _this = this;
-        var objectType = 'DockerHost', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var objectType = model_1.Model.DockerHost, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -59,7 +61,7 @@ var DockerRoute = (function (_super) {
     };
     DockerRoute.prototype.listImages = function (stack) {
         var _this = this;
-        var objectType = 'DockerImage', columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
+        var objectType = model_1.Model.DockerImage, columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -76,7 +78,7 @@ var DockerRoute = (function (_super) {
     };
     DockerRoute.prototype.getImage = function (imageId, stack) {
         var _this = this;
-        var objectType = 'DockerImage', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var objectType = model_1.Model.DockerImage, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -93,7 +95,7 @@ var DockerRoute = (function (_super) {
     };
     DockerRoute.prototype.pullImage = function (collectionId, stack) {
         var _this = this;
-        var objectType = 'DockerImagePull', columnIndex = 2, parentContext = stack[columnIndex], context = {
+        var objectType = model_1.Model.DockerImagePull, columnIndex = 2, parentContext = stack[columnIndex], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -114,7 +116,7 @@ var DockerRoute = (function (_super) {
     };
     DockerRoute.prototype.listCollections = function (stack) {
         var _this = this;
-        var objectType = 'DockerCollection', columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
+        var objectType = model_1.Model.DockerCollection, columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -131,7 +133,7 @@ var DockerRoute = (function (_super) {
     };
     DockerRoute.prototype.getCollection = function (collectionId, stack) {
         var _this = this;
-        var objectType = 'DockerCollection', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var objectType = model_1.Model.DockerCollection, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -148,7 +150,7 @@ var DockerRoute = (function (_super) {
     };
     DockerRoute.prototype.listContainers = function (stack) {
         var _this = this;
-        var objectType = 'DockerContainer', columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
+        var objectType = model_1.Model.DockerContainer, columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -165,7 +167,7 @@ var DockerRoute = (function (_super) {
     };
     DockerRoute.prototype.getContainer = function (containerId, stack) {
         var _this = this;
-        var objectType = 'DockerContainer', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var objectType = model_1.Model.DockerContainer, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -185,7 +187,7 @@ var DockerRoute = (function (_super) {
     };
     DockerRoute.prototype.listCollectionsForCreate = function (stack) {
         var _this = this;
-        var objectType = 'DockerCollection', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var objectType = model_1.Model.DockerCollection, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -203,7 +205,7 @@ var DockerRoute = (function (_super) {
     };
     DockerRoute.prototype.createCollection = function (stack) {
         var _this = this;
-        var objectType = 'DockerCollection', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var objectType = model_1.Model.DockerCollection, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -220,7 +222,7 @@ var DockerRoute = (function (_super) {
     };
     DockerRoute.prototype.createContainer = function (collectionId, stack) {
         var _this = this;
-        var objectType = 'DockerContainerCreator', columnIndex = 2, parentContext = stack[columnIndex], context = {
+        var objectType = model_1.Model.DockerContainerCreator, columnIndex = 2, parentContext = stack[columnIndex], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,

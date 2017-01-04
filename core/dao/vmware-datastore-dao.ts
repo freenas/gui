@@ -1,11 +1,12 @@
 import { AbstractDao } from './abstract-dao';
 import Promise = require("bluebird");
 import _ = require("lodash");
+import {Model} from "../model";
 
 export class VmwareDatastoreDao extends AbstractDao {
 
     public constructor() {
-        super('VmwareDatastore');
+        super(Model.VmwareDatastore);
     }
 
     public list(peer: any): Promise<Array<any>> {

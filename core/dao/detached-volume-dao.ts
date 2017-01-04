@@ -1,10 +1,11 @@
 import { AbstractDao } from './abstract-dao';
 import * as Promise from "bluebird";
+import {Model} from "../model";
 
 export class DetachedVolumeDao extends AbstractDao {
 
     public constructor() {
-        super('DetachedVolume', {
+        super(Model.DetachedVolume, {
             queryMethod: 'volume.find',
             preventQueryCaching: true
         });

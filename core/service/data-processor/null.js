@@ -1,5 +1,5 @@
 "use strict";
-var immutable = require('immutable');
+var immutable = require("immutable");
 var _ = require("lodash");
 var NullProcessor = (function () {
     function NullProcessor() {

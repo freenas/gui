@@ -5,10 +5,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var abstract_dao_1 = require("./abstract-dao");
+var model_1 = require("../model");
 var VmVolumeDao = (function (_super) {
     __extends(VmVolumeDao, _super);
     function VmVolumeDao() {
-        _super.call(this, 'VmVolume');
+        return _super.call(this, model_1.Model.VmVolume) || this;
     }
     return VmVolumeDao;
 }(abstract_dao_1.AbstractDao));

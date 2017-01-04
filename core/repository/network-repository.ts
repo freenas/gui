@@ -7,11 +7,13 @@ import {NetworkHostDao} from "../dao/network-host-dao";
 import {IpmiDao} from "../dao/ipmi-dao";
 import {Map} from "immutable";
 import * as Promise from "bluebird";
+import {Model} from "../model";
 
 export class NetworkRepository extends AbstractRepository {
     private static instance: NetworkRepository;
 
     private interfaces: Map<string, Map<string, any>>;
+    private ipmis: Map<string, Map<string, any>>;
 
     public static readonly INTERFACE_TYPES = {
         VLAN: {
@@ -46,7 +48,8 @@ export class NetworkRepository extends AbstractRepository {
                        private networkConfigDao: NetworkConfigDao,
                        private ipmiDao: IpmiDao) {
         super([
-            'NetworkInterface'
+            Model.NetworkInterface,
+            Model.Ipmi
         ]);
     }
 
@@ -125,11 +128,10 @@ export class NetworkRepository extends AbstractRepository {
     }
 
     public listIpmiChannels() {
-        return this._IpmiChannelPromise || (this._IpmiChannelPromise = this.ipmiDao.list());
+        return this.ipmis ? Promise.resolve(this.ipmis.valueSeq().toJS()) : this.ipmiDao.list();
     }
 
     public getNetworkOverview() {
-        let self = this;
         return Promise.all([
             this.networkInterfaceDao.list(),
             this.networkConfigDao.get()
@@ -166,8 +168,11 @@ export class NetworkRepository extends AbstractRepository {
 
     protected handleStateChange(name: string, state: any) {
         switch (name) {
-            case 'NetworkInterface':
+            case Model.NetworkInterface:
                 this.interfaces = this.dispatchModelEvents(this.interfaces, ModelEventName.NetworkInterface, state);
+                break;
+            case Model.Ipmi:
+                this.ipmis = this.dispatchModelEvents(this.ipmis, ModelEventName.Ipmi, state);
                 break;
             default:
                 break;

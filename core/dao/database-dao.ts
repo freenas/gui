@@ -1,7 +1,7 @@
-import {AbstractDao} from "./abstract-dao";
+import {AbstractDao} from "./abstract-dao";import {Model} from '../model';
 export class DatabaseDao extends AbstractDao {
     public constructor() {
-        super('Database')
+        super(Model.Database)
     }
 
     public dump(filename: string) {

@@ -4,13 +4,14 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_dao_1 = require('./abstract-dao');
-var systemSections = require('../data/system-sections.json');
+var abstract_dao_1 = require("./abstract-dao");
+var systemSections = require("../data/system-sections.json");
 var Promise = require("bluebird");
+var model_1 = require("../model");
 var SystemSectionDao = (function (_super) {
     __extends(SystemSectionDao, _super);
     function SystemSectionDao() {
-        _super.call(this, 'SystemSection');
+        return _super.call(this, model_1.Model.SystemSection) || this;
     }
     SystemSectionDao.prototype.list = function () {
         var self = this;

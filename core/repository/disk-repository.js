@@ -4,20 +4,23 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_repository_ng_1 = require('./abstract-repository-ng');
-var disk_dao_1 = require('../dao/disk-dao');
+var abstract_repository_ng_1 = require("./abstract-repository-ng");
+var disk_dao_1 = require("../dao/disk-dao");
+var Promise = require("bluebird");
+var model_1 = require("../model");
 var model_event_name_1 = require("../model-event-name");
 var DiskRepository = (function (_super) {
     __extends(DiskRepository, _super);
     function DiskRepository(diskDao) {
-        _super.call(this, ['Disk']);
-        this.diskDao = diskDao;
-        this.reservedDisks = new Set();
-        this.freeDisks = [];
-        this.exportedDisks = new Map();
-        this.usableDisks = [];
-        this.diskAllocations = new Map();
-        this.pathToId = new Map();
+        var _this = _super.call(this, [model_1.Model.Disk]) || this;
+        _this.diskDao = diskDao;
+        _this.reservedDisks = new Set();
+        _this.freeDisks = [];
+        _this.exportedDisks = new Map();
+        _this.usableDisks = [];
+        _this.diskAllocations = new Map();
+        _this.pathToId = new Map();
+        return _this;
     }
     DiskRepository.getInstance = function () {
         if (!DiskRepository.instance) {
@@ -26,7 +29,7 @@ var DiskRepository = (function (_super) {
         return DiskRepository.instance;
     };
     DiskRepository.prototype.listDisks = function () {
-        return this.diskDao.list();
+        return this.disks ? Promise.resolve(this.disks.valueSeq().toJS()) : this.diskDao.list();
     };
     DiskRepository.prototype.listAvailableDisks = function () {
         var _this = this;
@@ -81,23 +84,18 @@ var DiskRepository = (function (_super) {
         this.eventDispatcherService.dispatch('availableDisksChange', this.listAvailableDisks());
     };
     DiskRepository.prototype.handleStateChange = function (name, state) {
-        switch (name) {
-            case 'Disk':
-                var self_1 = this;
-                this.pathToId.clear();
-                state.forEach(function (disk, id) {
-                    self_1.pathToId.set(disk.get('path'), id);
-                });
-                this.disks = this.dispatchModelEvents(this.disks, model_event_name_1.ModelEventName.Disk, state);
-                break;
-            default:
-                break;
-        }
+        var self = this;
+        this.pathToId.clear();
+        state.forEach(function (disk, id) {
+            self.pathToId.set(disk.get('path'), id);
+        });
+        this.disks = this.dispatchModelEvents(this.disks, model_event_name_1.ModelEventName.Disk, state);
     };
     DiskRepository.prototype.getDiskId = function (disk) {
         return disk._disk ? disk._disk.id :
             disk.id ? disk.id : disk;
     };
+    DiskRepository.prototype.handleEvent = function (name, data) { };
     return DiskRepository;
 }(abstract_repository_ng_1.AbstractRepository));
 exports.DiskRepository = DiskRepository;

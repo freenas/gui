@@ -5,10 +5,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var abstract_dao_1 = require("./abstract-dao");
+var model_1 = require("../model");
 var ZfsTopologyDao = (function (_super) {
     __extends(ZfsTopologyDao, _super);
     function ZfsTopologyDao() {
-        _super.call(this, 'ZfsTopology');
+        return _super.call(this, model_1.Model.ZfsTopology) || this;
     }
     return ZfsTopologyDao;
 }(abstract_dao_1.AbstractDao));

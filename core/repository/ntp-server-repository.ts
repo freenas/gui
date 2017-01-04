@@ -1,14 +1,16 @@
 import { AbstractRepository } from './abstract-repository-ng';
-import { NtpServerDao } from 'core/dao/ntp-server-dao';
+import { NtpServerDao } from '../dao/ntp-server-dao';
 import {Map} from "immutable";
 import {ModelEventName} from "../model-event-name";
+import {Model} from "../model";
+import * as Promise from "bluebird";
 
 export class NtpServerRepository extends AbstractRepository {
     private static instance: NtpServerRepository;
     private ntpServers: Map<string, Map<string, any>>;
 
     private constructor(private ntpServerDao: NtpServerDao) {
-        super(['NtpServer']);
+        super([Model.NtpServer]);
     }
 
     public static getInstance() {

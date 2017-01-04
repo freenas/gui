@@ -7,6 +7,7 @@ import * as Promise from "bluebird";
 import {DirectoryDao} from "../dao/directory-dao";
 import {Map} from "immutable";
 import {ModelEventName} from "../model-event-name";
+import {Model} from "../model";
 
 export class AccountRepository extends AbstractRepository {
     private static instance: AccountRepository;
@@ -28,9 +29,9 @@ export class AccountRepository extends AbstractRepository {
                         private directoryserviceConfigDao: DirectoryserviceConfigDao,
                         private directoryDao: DirectoryDao) {
         super([
-            'User',
-            'Group',
-            'Directory'
+            Model.User,
+            Model.Group,
+            Model.Directory
         ]);
     }
 
@@ -108,13 +109,13 @@ export class AccountRepository extends AbstractRepository {
 
     protected handleStateChange(name: string, state: any) {
         switch (name) {
-            case 'User':
+            case Model.User:
                 this.users = this.dispatchModelEvents(this.users, ModelEventName.User, state);
                 break;
-            case 'Group':
+            case Model.Group:
                 this.groups = this.dispatchModelEvents(this.groups, ModelEventName.Group, state);
                 break;
-            case 'Directory':
+            case Model.Directory:
                 this.directories = this.dispatchModelEvents(this.directories, ModelEventName.Directory, state);
                 break;
             default:

@@ -5,10 +5,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var abstract_dao_1 = require("./abstract-dao");
+var model_1 = require("../model");
 var VolumeDatasetPropertiesDao = (function (_super) {
     __extends(VolumeDatasetPropertiesDao, _super);
     function VolumeDatasetPropertiesDao() {
-        _super.call(this, 'VolumeDatasetProperties');
+        return _super.call(this, model_1.Model.VolumeDatasetProperties) || this;
     }
     return VolumeDatasetPropertiesDao;
 }(abstract_dao_1.AbstractDao));

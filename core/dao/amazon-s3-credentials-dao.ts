@@ -1,6 +1,6 @@
-import {AbstractDao} from "./abstract-dao";
+import {AbstractDao} from "./abstract-dao";import {Model} from '../model';
 export class AmazonS3CredentialsDao extends AbstractDao {
     public constructor() {
-        super('AmazonS3Credentials');
+        super(Model.AmazonS3Credentials);
     }
 }

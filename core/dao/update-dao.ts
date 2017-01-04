@@ -1,9 +1,10 @@
 import { AbstractDao } from './abstract-dao';
+import {Model} from "../model";
 
 export class UpdateDao extends AbstractDao {
 
     public constructor() {
-        super('Update', {
+        super(Model.Update, {
             queryMethod: 'update.get_config'
         });
     }

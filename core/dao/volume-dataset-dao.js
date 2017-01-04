@@ -4,13 +4,14 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_dao_1 = require('./abstract-dao');
+var abstract_dao_1 = require("./abstract-dao");
+var model_1 = require("../model");
 var VolumeDatasetDao = (function (_super) {
     __extends(VolumeDatasetDao, _super);
     function VolumeDatasetDao() {
-        _super.call(this, 'VolumeDataset', {
+        return _super.call(this, model_1.Model.VolumeDataset, {
             eventName: 'entity-subscriber.volume.dataset.changed'
-        });
+        }) || this;
     }
     return VolumeDatasetDao;
 }(abstract_dao_1.AbstractDao));

@@ -27,7 +27,7 @@ export class NetworkRoute extends AbstractRoute {
 
     public get(interfaceId: string, stack: Array<any>) {
         let self = this,
-            objectType = 'NetworkInterface',
+            objectType = Model.NetworkInterface,
             columnIndex = 1,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -49,7 +49,7 @@ export class NetworkRoute extends AbstractRoute {
 
     public selectNewInterfaceType(stack: Array<any>) {
         let self = this,
-            objectType = 'NetworkInterface',
+            objectType = Model.NetworkInterface,
             columnIndex = 1,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -73,7 +73,7 @@ export class NetworkRoute extends AbstractRoute {
 
     public create(interfaceType: string, stack: Array<any>) {
         let self = this,
-            objectType = 'NetworkInterface',
+            objectType = Model.NetworkInterface,
             columnIndex = 1,
             parentContext = stack[columnIndex],
             context: any = {
@@ -93,7 +93,7 @@ export class NetworkRoute extends AbstractRoute {
 
     public listIpmi(stack: Array<any>) {
         let self = this,
-            objectType = 'Ipmi',
+            objectType = Model.Ipmi,
             columnIndex = 1,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -116,7 +116,7 @@ export class NetworkRoute extends AbstractRoute {
 
     public getIpmi(ipmiId: string, stack: Array<any>) {
        let self = this,
-            objectType = 'Ipmi',
+            objectType = Model.Ipmi,
             columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {

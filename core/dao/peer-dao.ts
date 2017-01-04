@@ -1,7 +1,7 @@
-import {AbstractDao} from "./abstract-dao";
+import {AbstractDao} from "./abstract-dao";import {Model} from '../model';
 
 export class PeerDao extends AbstractDao {
     public constructor() {
-        super('Peer');
+        super(Model.Peer);
     }
 }

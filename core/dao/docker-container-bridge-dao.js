@@ -5,10 +5,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var abstract_dao_1 = require("./abstract-dao");
+var model_1 = require("../model");
 var DockerContainerBridgeDao = (function (_super) {
     __extends(DockerContainerBridgeDao, _super);
     function DockerContainerBridgeDao() {
-        _super.call(this, 'DockerContainerBridge');
+        return _super.call(this, model_1.Model.DockerContainerBridge) || this;
     }
     return DockerContainerBridgeDao;
 }(abstract_dao_1.AbstractDao));

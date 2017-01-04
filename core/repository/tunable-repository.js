@@ -7,11 +7,13 @@ var __extends = (this && this.__extends) || function (d, b) {
 var abstract_repository_ng_1 = require("./abstract-repository-ng");
 var tunable_dao_1 = require("../dao/tunable-dao");
 var model_event_name_1 = require("../model-event-name");
+var model_1 = require("../model");
 var TunableRepository = (function (_super) {
     __extends(TunableRepository, _super);
     function TunableRepository(tunableDao) {
-        _super.call(this, ['Tunable']);
-        this.tunableDao = tunableDao;
+        var _this = _super.call(this, [model_1.Model.Tunable]) || this;
+        _this.tunableDao = tunableDao;
+        return _this;
     }
     TunableRepository.getInstance = function () {
         if (!TunableRepository.instance) {
@@ -20,7 +22,7 @@ var TunableRepository = (function (_super) {
         return TunableRepository.instance;
     };
     TunableRepository.prototype.listTunables = function () {
-        return this.tunableDao.list();
+        return this.tunables ? Promise.resolve(this.tunables.valueSeq().toJS()) : this.tunableDao.list();
     };
     TunableRepository.prototype.getNewTunable = function () {
         return this.tunableDao.getNewInstance();

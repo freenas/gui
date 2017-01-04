@@ -15,7 +15,7 @@ var tunable_repository_1 = require("../../repository/tunable-repository");
 var SystemSectionService = (function (_super) {
     __extends(SystemSectionService, _super);
     function SystemSectionService() {
-        _super.apply(this, arguments);
+        return _super.apply(this, arguments) || this;
     }
     SystemSectionService.prototype.init = function () {
         this.systemRepository = system_repository_1.SystemRepository.getInstance();

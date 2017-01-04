@@ -4,13 +4,14 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_dao_1 = require('./abstract-dao');
+var abstract_dao_1 = require("./abstract-dao");
+var model_1 = require("../model");
 var VmTemplateDao = (function (_super) {
     __extends(VmTemplateDao, _super);
     function VmTemplateDao() {
-        _super.call(this, 'Vm', {
+        return _super.call(this, model_1.Model.Vm, {
             queryMethod: 'vm.template.query'
-        });
+        }) || this;
     }
     return VmTemplateDao;
 }(abstract_dao_1.AbstractDao));

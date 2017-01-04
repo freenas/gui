@@ -4,11 +4,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_dao_1 = require('./abstract-dao');
+var abstract_dao_1 = require("./abstract-dao");
 var SystemDeviceDao = (function (_super) {
     __extends(SystemDeviceDao, _super);
     function SystemDeviceDao() {
-        _super.call(this, {});
+        return _super.call(this, {}) || this;
     }
     SystemDeviceDao.prototype.getDevices = function (deviceClass) {
         return this.middlewareClient.callRpcMethod('system.device.get_devices', [deviceClass]);

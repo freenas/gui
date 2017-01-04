@@ -1,5 +1,5 @@
 import { EventDispatcherService } from './event-dispatcher-service';
-import { Model } from 'core/model/model';
+import { Model } from '../model/model';
 import _ = require("lodash");
 import Promise = require("bluebird");
 import immutable = require("immutable");

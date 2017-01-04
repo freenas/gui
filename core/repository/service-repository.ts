@@ -9,10 +9,12 @@ import * as _ from "lodash";
 import {RsyncdModuleDao} from "../dao/rsyncd-module-dao";
 import {Map} from "immutable";
 import {ModelEventName} from "../model-event-name";
+import {Model} from "../model";
 
 export class ServiceRepository extends AbstractRepository {
     private static instance: ServiceRepository;
     private rsyncdModules: Map<string, Map<string, any>>;
+    private services: Map<string, Map<string, any>>;
 
     private constructor(private serviceDao: ServiceDao,
                         private serviceDyndnsDao: ServiceDyndnsDao,
@@ -21,8 +23,8 @@ export class ServiceRepository extends AbstractRepository {
                         private serviceUpsDao: ServiceUpsDao,
                         private serviceDcDao: ServiceDcDao) {
         super([
-            'Service',
-            'RsyncdModule'
+            Model.Service,
+            Model.RsyncdModule
         ]);
     }
 
@@ -87,7 +89,7 @@ export class ServiceRepository extends AbstractRepository {
                 ])
             ]);
         }).then(function(categories) {
-            categories._objectType = 'ServicesCategory';
+            (categories as any)._objectType = 'ServicesCategory';
             return categories;
         });
     }
@@ -125,8 +127,11 @@ export class ServiceRepository extends AbstractRepository {
 
     protected handleStateChange(name: string, state: any) {
         switch (name) {
-            case 'RsyncdModule':
+            case Model.RsyncdModule:
                 this.rsyncdModules = this.dispatchModelEvents(this.rsyncdModules, ModelEventName.RsyncdModule, state);
+                break;
+            case Model.Service:
+                this.services = this.dispatchModelEvents(this.services, ModelEventName.Service, state);
                 break;
         }
     }

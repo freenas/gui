@@ -5,11 +5,12 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var abstract_dao_1 = require("./abstract-dao");
+var model_1 = require("../model");
 var Promise = require("bluebird");
 var SectionSettingsDao = (function (_super) {
     __extends(SectionSettingsDao, _super);
     function SectionSettingsDao() {
-        _super.call(this, 'SectionSettings');
+        return _super.call(this, model_1.Model.SectionSettings) || this;
     }
     SectionSettingsDao.prototype.list = function () {
         return Promise.resolve(SectionSettingsDao.entries);
@@ -20,7 +21,7 @@ var SectionSettingsDao = (function (_super) {
             return instance;
         });
     };
-    SectionSettingsDao.entries = [];
     return SectionSettingsDao;
 }(abstract_dao_1.AbstractDao));
+SectionSettingsDao.entries = [];
 exports.SectionSettingsDao = SectionSettingsDao;

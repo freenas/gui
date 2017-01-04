@@ -4,16 +4,18 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_repository_ng_1 = require('./abstract-repository-ng');
+var abstract_repository_ng_1 = require("./abstract-repository-ng");
 var model_event_name_1 = require("../model-event-name");
 var replication_options_dao_1 = require("../dao/replication-options-dao");
 var replication_dao_1 = require("../dao/replication-dao");
+var model_1 = require("../model");
 var ReplicationRepository = (function (_super) {
     __extends(ReplicationRepository, _super);
     function ReplicationRepository(replicationDao, replicationOptionsDao) {
-        _super.call(this, ['Replication']);
-        this.replicationDao = replicationDao;
-        this.replicationOptionsDao = replicationOptionsDao;
+        var _this = _super.call(this, [model_1.Model.Replication]) || this;
+        _this.replicationDao = replicationDao;
+        _this.replicationOptionsDao = replicationOptionsDao;
+        return _this;
     }
     ReplicationRepository.getInstance = function () {
         if (!ReplicationRepository.instance) {
@@ -42,6 +44,8 @@ var ReplicationRepository = (function (_super) {
     ReplicationRepository.prototype.getReplicationId = function (replication) {
         return replication._replication ? replication._replication.id :
             replication.id ? replication.id : replication;
+    };
+    ReplicationRepository.prototype.handleEvent = function (name, data) {
     };
     return ReplicationRepository;
 }(abstract_repository_ng_1.AbstractRepository));

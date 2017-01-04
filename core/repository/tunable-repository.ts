@@ -2,13 +2,14 @@ import {AbstractRepository} from "./abstract-repository-ng";
 import {TunableDao} from "../dao/tunable-dao";
 import {Map} from "immutable";
 import {ModelEventName} from "../model-event-name";
+import {Model} from "../model";
 
 export class TunableRepository extends AbstractRepository {
     private static instance: TunableRepository;
     private tunables: Map<string, Map<string, any>>;
 
     private constructor(private tunableDao: TunableDao) {
-        super(['Tunable']);
+        super([Model.Tunable]);
     }
 
     public static getInstance() {
@@ -21,7 +22,7 @@ export class TunableRepository extends AbstractRepository {
     }
 
     public listTunables() {
-        return this.tunableDao.list();
+        return this.tunables ? Promise.resolve(this.tunables.valueSeq().toJS()) : this.tunableDao.list();
     }
 
     public getNewTunable() {

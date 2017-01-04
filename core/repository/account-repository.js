@@ -12,19 +12,21 @@ var abstract_repository_ng_1 = require("./abstract-repository-ng");
 var Promise = require("bluebird");
 var directory_dao_1 = require("../dao/directory-dao");
 var model_event_name_1 = require("../model-event-name");
+var model_1 = require("../model");
 var AccountRepository = (function (_super) {
     __extends(AccountRepository, _super);
     function AccountRepository(userDao, groupDao, directoryServiceDao, directoryserviceConfigDao, directoryDao) {
-        _super.call(this, [
-            'User',
-            'Group',
-            'Directory'
-        ]);
-        this.userDao = userDao;
-        this.groupDao = groupDao;
-        this.directoryServiceDao = directoryServiceDao;
-        this.directoryserviceConfigDao = directoryserviceConfigDao;
-        this.directoryDao = directoryDao;
+        var _this = _super.call(this, [
+            model_1.Model.User,
+            model_1.Model.Group,
+            model_1.Model.Directory
+        ]) || this;
+        _this.userDao = userDao;
+        _this.groupDao = groupDao;
+        _this.directoryServiceDao = directoryServiceDao;
+        _this.directoryserviceConfigDao = directoryserviceConfigDao;
+        _this.directoryDao = directoryDao;
+        return _this;
     }
     AccountRepository.getInstance = function () {
         if (!AccountRepository.instance) {
@@ -79,13 +81,13 @@ var AccountRepository = (function (_super) {
     };
     AccountRepository.prototype.handleStateChange = function (name, state) {
         switch (name) {
-            case 'User':
+            case model_1.Model.User:
                 this.users = this.dispatchModelEvents(this.users, model_event_name_1.ModelEventName.User, state);
                 break;
-            case 'Group':
+            case model_1.Model.Group:
                 this.groups = this.dispatchModelEvents(this.groups, model_event_name_1.ModelEventName.Group, state);
                 break;
-            case 'Directory':
+            case model_1.Model.Directory:
                 this.directories = this.dispatchModelEvents(this.directories, model_event_name_1.ModelEventName.Directory, state);
                 break;
             default:
@@ -94,12 +96,12 @@ var AccountRepository = (function (_super) {
     };
     AccountRepository.prototype.handleEvent = function (name, data) {
     };
-    AccountRepository.DIRECTORY_TYPES_LABELS = {
-        winbind: "Active Directory",
-        freeipa: "FreeIPA",
-        ldap: "LDAP",
-        nis: "NIS"
-    };
     return AccountRepository;
 }(abstract_repository_ng_1.AbstractRepository));
+AccountRepository.DIRECTORY_TYPES_LABELS = {
+    winbind: "Active Directory",
+    freeipa: "FreeIPA",
+    ldap: "LDAP",
+    nis: "NIS"
+};
 exports.AccountRepository = AccountRepository;

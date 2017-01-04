@@ -1,6 +1,6 @@
 "use strict";
-var middleware_client_1 = require('./middleware-client');
-var ChangeCase = require('change-case');
+var middleware_client_1 = require("./middleware-client");
+var ChangeCase = require("change-case");
 var Promise = require("bluebird");
 var ModelDescriptorService = (function () {
     function ModelDescriptorService(middlewareClient) {

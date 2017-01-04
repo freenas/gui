@@ -10,12 +10,14 @@ var event_dispatcher_service_1 = require("../service/event-dispatcher-service");
 var model_descriptor_service_1 = require("../service/model-descriptor-service");
 var service_repository_1 = require("../repository/service-repository");
 var abstract_route_1 = require("./abstract-route");
+var model_1 = require("../model");
 var ServicesRoute = (function (_super) {
     __extends(ServicesRoute, _super);
     function ServicesRoute(modelDescriptorService, eventDispatcherService, serviceRepository) {
-        _super.call(this, eventDispatcherService);
-        this.modelDescriptorService = modelDescriptorService;
-        this.serviceRepository = serviceRepository;
+        var _this = _super.call(this, eventDispatcherService) || this;
+        _this.modelDescriptorService = modelDescriptorService;
+        _this.serviceRepository = serviceRepository;
+        return _this;
     }
     ServicesRoute.getInstance = function () {
         if (!ServicesRoute.instance) {
@@ -24,7 +26,7 @@ var ServicesRoute = (function (_super) {
         return ServicesRoute.instance;
     };
     ServicesRoute.prototype.getCategory = function (categoryId, stack) {
-        var self = this, objectType = 'ServicesCategory', columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.ServicesCategory, columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -40,7 +42,7 @@ var ServicesRoute = (function (_super) {
         });
     };
     ServicesRoute.prototype.getService = function (serviceId, stack) {
-        var self = this, objectType = 'Service', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.Service, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -58,7 +60,7 @@ var ServicesRoute = (function (_super) {
         });
     };
     ServicesRoute.prototype.listRsyncdModules = function (stack) {
-        var self = this, objectType = 'RsyncdModule', columnIndex = 3, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.RsyncdModule, columnIndex = 3, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -74,7 +76,7 @@ var ServicesRoute = (function (_super) {
         });
     };
     ServicesRoute.prototype.createRsyncdModule = function (stack) {
-        var self = this, objectType = 'RsyncdModule', columnIndex = 4, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.RsyncdModule, columnIndex = 4, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -90,7 +92,7 @@ var ServicesRoute = (function (_super) {
         });
     };
     ServicesRoute.prototype.getRsyncdModule = function (rsyncdModuleId, stack) {
-        var self = this, objectType = 'RsyncdModule', columnIndex = 4, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.RsyncdModule, columnIndex = 4, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,

@@ -4,14 +4,17 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_repository_ng_1 = require('./abstract-repository-ng');
-var share_dao_1 = require('../dao/share-dao');
+var abstract_repository_ng_1 = require("./abstract-repository-ng");
+var share_dao_1 = require("../dao/share-dao");
 var model_event_name_1 = require("../model-event-name");
+var Promise = require("bluebird");
+var model_1 = require("../model");
 var ShareRepository = (function (_super) {
     __extends(ShareRepository, _super);
     function ShareRepository(shareDao) {
-        _super.call(this, ['Share']);
-        this.shareDao = shareDao;
+        var _this = _super.call(this, [model_1.Model.Share]) || this;
+        _this.shareDao = shareDao;
+        return _this;
     }
     ShareRepository.getInstance = function () {
         if (!ShareRepository.instance) {
@@ -20,7 +23,7 @@ var ShareRepository = (function (_super) {
         return ShareRepository.instance;
     };
     ShareRepository.prototype.listShares = function () {
-        return this.shareDao.list();
+        return this.shares ? Promise.resolve(this.shares.valueSeq().toJS()) : this.shareDao.list();
     };
     ShareRepository.prototype.getNewShare = function (volume, shareType) {
         return this.shareDao.getNewInstance().then(function (share) {
@@ -37,13 +40,7 @@ var ShareRepository = (function (_super) {
         return this.shareDao.save(object, object._isNew ? [null, isServiceEnabled] : [isServiceEnabled]);
     };
     ShareRepository.prototype.handleStateChange = function (name, state) {
-        switch (name) {
-            case 'Share':
-                this.shares = this.dispatchModelEvents(this.shares, model_event_name_1.ModelEventName.Share, state);
-                break;
-            default:
-                break;
-        }
+        this.shares = this.dispatchModelEvents(this.shares, model_event_name_1.ModelEventName.Share, state);
     };
     ShareRepository.prototype.handleEvent = function (name, data) { };
     return ShareRepository;

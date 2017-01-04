@@ -1,10 +1,10 @@
 "use strict";
-var redux_1 = require('redux');
-var main_1 = require('../reducers/main');
-var ChangeCase = require('change-case');
+var redux_1 = require("redux");
+var main_1 = require("../reducers/main");
+var ChangeCase = require("change-case");
 var Promise = require("bluebird");
-var middleware_client_1 = require('./middleware-client');
-var event_dispatcher_service_1 = require('./event-dispatcher-service');
+var middleware_client_1 = require("./middleware-client");
+var event_dispatcher_service_1 = require("./event-dispatcher-service");
 var DatastoreService = (function () {
     function DatastoreService() {
         var self = this, composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || redux_1.compose;

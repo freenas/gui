@@ -13,14 +13,16 @@ var account_repository_1 = require("../repository/account-repository");
 var data_object_change_service_1 = require("../service/data-object-change-service");
 var abstract_route_1 = require("./abstract-route");
 var kerberos_repository_1 = require("../repository/kerberos-repository");
+var model_1 = require("../model");
 var AccountsRoute = (function (_super) {
     __extends(AccountsRoute, _super);
     function AccountsRoute(modelDescriptorService, eventDispatcherService, dataObjectChangeService, accountRepository, kerberosRepository) {
-        _super.call(this, eventDispatcherService);
-        this.modelDescriptorService = modelDescriptorService;
-        this.dataObjectChangeService = dataObjectChangeService;
-        this.accountRepository = accountRepository;
-        this.kerberosRepository = kerberosRepository;
+        var _this = _super.call(this, eventDispatcherService) || this;
+        _this.modelDescriptorService = modelDescriptorService;
+        _this.dataObjectChangeService = dataObjectChangeService;
+        _this.accountRepository = accountRepository;
+        _this.kerberosRepository = kerberosRepository;
+        return _this;
     }
     AccountsRoute.getInstance = function () {
         if (!AccountsRoute.instance) {
@@ -29,7 +31,7 @@ var AccountsRoute = (function (_super) {
         return AccountsRoute.instance;
     };
     AccountsRoute.prototype.listUsers = function (stack) {
-        var self = this, objectType = 'User', columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.User, columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -54,7 +56,7 @@ var AccountsRoute = (function (_super) {
         });
     };
     AccountsRoute.prototype.getUser = function (userId, stack) {
-        var self = this, objectType = 'User', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.User, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -70,7 +72,7 @@ var AccountsRoute = (function (_super) {
         });
     };
     AccountsRoute.prototype.createUser = function (stack) {
-        var self = this, objectType = 'User', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.User, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -86,7 +88,7 @@ var AccountsRoute = (function (_super) {
         });
     };
     AccountsRoute.prototype.listGroups = function (stack) {
-        var self = this, objectType = 'Group', columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.Group, columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -111,7 +113,7 @@ var AccountsRoute = (function (_super) {
         });
     };
     AccountsRoute.prototype.getGroup = function (groupId, stack) {
-        var self = this, objectType = 'Group', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.Group, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -127,7 +129,7 @@ var AccountsRoute = (function (_super) {
         });
     };
     AccountsRoute.prototype.createGroup = function (stack) {
-        var self = this, objectType = 'Group', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.Group, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -143,7 +145,7 @@ var AccountsRoute = (function (_super) {
         });
     };
     AccountsRoute.prototype.listAccountSystems = function (stack) {
-        var self = this, objectType = 'AccountSystem', columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.AccountSystem, columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -177,7 +179,7 @@ var AccountsRoute = (function (_super) {
         });
     };
     AccountsRoute.prototype.getDirectoryServices = function (stack) {
-        var self = this, objectType = 'DirectoryServices', columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.DirectoryServices, columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -193,7 +195,7 @@ var AccountsRoute = (function (_super) {
         });
     };
     AccountsRoute.prototype.getDirectory = function (directoryId, stack) {
-        var self = this, objectType = 'Directory', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.Directory, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -218,7 +220,7 @@ var AccountsRoute = (function (_super) {
         });
     };
     AccountsRoute.prototype.listKerberosRealms = function (stack) {
-        var self = this, objectType = 'KerberosRealm', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.KerberosRealm, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -237,7 +239,7 @@ var AccountsRoute = (function (_super) {
         });
     };
     AccountsRoute.prototype.getKerberosRealm = function (kerberosRealmId, stack) {
-        var self = this, objectType = 'KerberosRealm', columnIndex = 3, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.KerberosRealm, columnIndex = 3, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -253,7 +255,7 @@ var AccountsRoute = (function (_super) {
         });
     };
     AccountsRoute.prototype.createKerberosRealm = function (stack) {
-        var self = this, objectType = 'KerberosRealm', columnIndex = 3, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.KerberosRealm, columnIndex = 3, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -269,7 +271,7 @@ var AccountsRoute = (function (_super) {
         });
     };
     AccountsRoute.prototype.listKerberosKeytabs = function (stack) {
-        var self = this, objectType = 'KerberosKeytab', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.KerberosKeytab, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -288,7 +290,7 @@ var AccountsRoute = (function (_super) {
         });
     };
     AccountsRoute.prototype.getKerberosKeytab = function (kerberosKeytabId, stack) {
-        var self = this, objectType = 'KerberosKeytab', columnIndex = 3, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.KerberosKeytab, columnIndex = 3, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -304,7 +306,7 @@ var AccountsRoute = (function (_super) {
         });
     };
     AccountsRoute.prototype.createKerberosKeytab = function (stack) {
-        var self = this, objectType = 'KerberosKeytab', columnIndex = 3, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.KerberosKeytab, columnIndex = 3, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -325,7 +327,7 @@ var AccountsRoute = (function (_super) {
             this.accountRepository.listGroups()
         ]).spread(function (users, groups) {
             var accountSystems = _.concat(_.filter(users, { builtin: true }), _.filter(groups, { builtin: true }));
-            accountSystems._objectType = 'AccountSystem';
+            accountSystems._objectType = model_1.Model.AccountSystem;
             return accountSystems;
         });
     };

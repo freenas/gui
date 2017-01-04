@@ -16,18 +16,20 @@ var mail_repository_1 = require("../repository/mail-repository");
 var tunable_repository_1 = require("../repository/tunable-repository");
 var ntp_server_repository_1 = require("../repository/ntp-server-repository");
 var abstract_route_1 = require("./abstract-route");
+var model_1 = require("../model");
 var SystemRoute = (function (_super) {
     __extends(SystemRoute, _super);
     function SystemRoute(modelDescriptorService, eventDispatcherService, systemRepository, cryptoCertificateRepository, alertFilterRepository, mailRepository, tunableRepository, ntpServerRepository) {
-        _super.call(this, eventDispatcherService);
-        this.modelDescriptorService = modelDescriptorService;
-        this.systemRepository = systemRepository;
-        this.cryptoCertificateRepository = cryptoCertificateRepository;
-        this.alertFilterRepository = alertFilterRepository;
-        this.mailRepository = mailRepository;
-        this.tunableRepository = tunableRepository;
-        this.ntpServerRepository = ntpServerRepository;
-        this.objectType = 'SystemSection';
+        var _this = _super.call(this, eventDispatcherService) || this;
+        _this.modelDescriptorService = modelDescriptorService;
+        _this.systemRepository = systemRepository;
+        _this.cryptoCertificateRepository = cryptoCertificateRepository;
+        _this.alertFilterRepository = alertFilterRepository;
+        _this.mailRepository = mailRepository;
+        _this.tunableRepository = tunableRepository;
+        _this.ntpServerRepository = ntpServerRepository;
+        _this.objectType = model_1.Model.SystemSection;
+        return _this;
     }
     SystemRoute.getInstance = function () {
         if (!SystemRoute.instance) {
@@ -52,7 +54,7 @@ var SystemRoute = (function (_super) {
         });
     };
     SystemRoute.prototype.getCertificate = function (certificateId, stack) {
-        var self = this, objectType = 'CryptoCertificate', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.CryptoCertificate, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -69,7 +71,7 @@ var SystemRoute = (function (_super) {
     };
     SystemRoute.prototype.selectNewCertificateType = function (stack) {
         var _this = this;
-        var self = this, objectType = 'CryptoCertificate', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.CryptoCertificate, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -87,7 +89,7 @@ var SystemRoute = (function (_super) {
         });
     };
     SystemRoute.prototype.createCertificate = function (certificateType, stack) {
-        var self = this, objectType = 'CryptoCertificate', columnIndex = 2, parentContext = stack[columnIndex], context = {
+        var self = this, objectType = model_1.Model.CryptoCertificate, columnIndex = 2, parentContext = stack[columnIndex], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -103,7 +105,7 @@ var SystemRoute = (function (_super) {
         });
     };
     SystemRoute.prototype.getAlertFilter = function (filterId, stack) {
-        var self = this, objectType = 'AlertFilter', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.AlertFilter, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -119,7 +121,7 @@ var SystemRoute = (function (_super) {
         });
     };
     SystemRoute.prototype.createAlertFilter = function (stack) {
-        var self = this, objectType = 'AlertFilter', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.AlertFilter, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -135,7 +137,7 @@ var SystemRoute = (function (_super) {
         });
     };
     SystemRoute.prototype.getAlertSettings = function (stack) {
-        var self = this, objectType = 'Mail', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.Mail, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -151,7 +153,7 @@ var SystemRoute = (function (_super) {
         });
     };
     SystemRoute.prototype.createTunable = function (stack) {
-        var self = this, objectType = 'Tunable', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.Tunable, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -167,7 +169,7 @@ var SystemRoute = (function (_super) {
         });
     };
     SystemRoute.prototype.getTunable = function (tunableId, stack) {
-        var self = this, objectType = 'Tunable', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.Tunable, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -183,7 +185,7 @@ var SystemRoute = (function (_super) {
         });
     };
     SystemRoute.prototype.createNtpServer = function (stack) {
-        var self = this, objectType = 'NtpServer', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.NtpServer, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -199,7 +201,7 @@ var SystemRoute = (function (_super) {
         });
     };
     SystemRoute.prototype.getNtpServer = function (ntpServerId, stack) {
-        var self = this, objectType = 'NtpServer', columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.NtpServer, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,

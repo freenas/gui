@@ -4,11 +4,12 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_dao_1 = require('./abstract-dao');
+var abstract_dao_1 = require("./abstract-dao");
+var model_1 = require("../model");
 var UserDao = (function (_super) {
     __extends(UserDao, _super);
     function UserDao() {
-        _super.call(this, 'User');
+        return _super.call(this, model_1.Model.User) || this;
     }
     UserDao.prototype.getNextUid = function () {
         return this.middlewareClient.callRpcMethod('user.next_uid');

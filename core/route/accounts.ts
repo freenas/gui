@@ -7,6 +7,7 @@ import {AccountRepository} from "../repository/account-repository";
 import {DataObjectChangeService} from "../service/data-object-change-service";
 import {AbstractRoute} from "./abstract-route";
 import {KerberosRepository} from "../repository/kerberos-repository";
+import {Model} from "../model";
 
 export class AccountsRoute extends AbstractRoute {
     private static instance: AccountsRoute;
@@ -34,7 +35,7 @@ export class AccountsRoute extends AbstractRoute {
 
     public listUsers(stack: Array<any>) {
         let self = this,
-            objectType = 'User',
+            objectType = Model.User,
             columnIndex = 1,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -64,7 +65,7 @@ export class AccountsRoute extends AbstractRoute {
 
     public getUser(userId: string, stack: Array<any>) {
         let self = this,
-            objectType = 'User',
+            objectType = Model.User,
             columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -85,7 +86,7 @@ export class AccountsRoute extends AbstractRoute {
 
     public createUser(stack: Array<any>) {
         let self = this,
-            objectType = 'User',
+            objectType = Model.User,
             columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -106,7 +107,7 @@ export class AccountsRoute extends AbstractRoute {
 
     public listGroups(stack: Array<any>) {
         let self = this,
-            objectType = 'Group',
+            objectType = Model.Group,
             columnIndex = 1,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -136,7 +137,7 @@ export class AccountsRoute extends AbstractRoute {
 
     public getGroup(groupId: string, stack: Array<any>) {
         let self = this,
-            objectType = 'Group',
+            objectType = Model.Group,
             columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -157,7 +158,7 @@ export class AccountsRoute extends AbstractRoute {
 
     public createGroup(stack: Array<any>) {
         let self = this,
-            objectType = 'Group',
+            objectType = Model.Group,
             columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -178,7 +179,7 @@ export class AccountsRoute extends AbstractRoute {
 
     public listAccountSystems(stack: Array<any>) {
         let self = this,
-            objectType = 'AccountSystem',
+            objectType = Model.AccountSystem,
             columnIndex = 1,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -217,7 +218,7 @@ export class AccountsRoute extends AbstractRoute {
 
     public getDirectoryServices(stack: Array<any>) {
         let self = this,
-            objectType = 'DirectoryServices',
+            objectType = Model.DirectoryServices,
             columnIndex = 1,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -239,7 +240,7 @@ export class AccountsRoute extends AbstractRoute {
 
     public getDirectory(directoryId: string, stack: Array<any>) {
         let self = this,
-            objectType = 'Directory',
+            objectType = Model.Directory,
             columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -269,7 +270,7 @@ export class AccountsRoute extends AbstractRoute {
 
     public listKerberosRealms(stack: Array<any>) {
         let self = this,
-            objectType = 'KerberosRealm',
+            objectType = Model.KerberosRealm,
             columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -293,7 +294,7 @@ export class AccountsRoute extends AbstractRoute {
 
     public getKerberosRealm(kerberosRealmId: string, stack: Array<any>) {
         let self = this,
-            objectType = 'KerberosRealm',
+            objectType = Model.KerberosRealm,
             columnIndex = 3,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -314,7 +315,7 @@ export class AccountsRoute extends AbstractRoute {
 
     public createKerberosRealm(stack: Array<any>) {
         let self = this,
-            objectType = 'KerberosRealm',
+            objectType = Model.KerberosRealm,
             columnIndex = 3,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -335,7 +336,7 @@ export class AccountsRoute extends AbstractRoute {
 
     public listKerberosKeytabs(stack: Array<any>) {
         let self = this,
-            objectType = 'KerberosKeytab',
+            objectType = Model.KerberosKeytab,
             columnIndex = 2,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -359,7 +360,7 @@ export class AccountsRoute extends AbstractRoute {
 
     public getKerberosKeytab(kerberosKeytabId: string, stack: Array<any>) {
         let self = this,
-            objectType = 'KerberosKeytab',
+            objectType = Model.KerberosKeytab,
             columnIndex = 3,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -380,7 +381,7 @@ export class AccountsRoute extends AbstractRoute {
 
     public createKerberosKeytab(stack: Array<any>) {
         let self = this,
-            objectType = 'KerberosKeytab',
+            objectType = Model.KerberosKeytab,
             columnIndex = 3,
             parentContext = stack[columnIndex-1],
             context: any = {
@@ -408,7 +409,7 @@ export class AccountsRoute extends AbstractRoute {
                 _.filter(users, {builtin: true}),
                 _.filter(groups, {builtin: true})
             );
-            accountSystems._objectType = 'AccountSystem';
+            accountSystems._objectType = Model.AccountSystem;
             return accountSystems;
         })
     }

@@ -1,8 +1,9 @@
 import { AbstractDao } from './abstract-dao';
+import {Model} from "../model";
 
 export class ServiceUpsDao extends AbstractDao {
     public constructor() {
-        super('ServiceUps', {queryMethod: 'service.ups.get_config'});
+        super(Model.ServiceUps, {queryMethod: 'service.ups.get_config'});
     }
 
     public getDrivers() {

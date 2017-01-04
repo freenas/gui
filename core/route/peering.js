@@ -11,13 +11,15 @@ var event_dispatcher_service_1 = require("../service/event-dispatcher-service");
 var model_descriptor_service_1 = require("../service/model-descriptor-service");
 var peer_repository_1 = require("../repository/peer-repository");
 var abstract_route_1 = require("./abstract-route");
+var model_1 = require("../model");
 var PeeringRoute = (function (_super) {
     __extends(PeeringRoute, _super);
     function PeeringRoute(modelDescriptorService, eventDispatcherService, peerRepository) {
-        _super.call(this, eventDispatcherService);
-        this.modelDescriptorService = modelDescriptorService;
-        this.peerRepository = peerRepository;
-        this.objectType = 'Peer';
+        var _this = _super.call(this, eventDispatcherService) || this;
+        _this.modelDescriptorService = modelDescriptorService;
+        _this.peerRepository = peerRepository;
+        _this.objectType = model_1.Model.Peer;
+        return _this;
     }
     PeeringRoute.getInstance = function () {
         if (!PeeringRoute.instance) {

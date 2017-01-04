@@ -4,14 +4,17 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_repository_ng_1 = require('./abstract-repository-ng');
-var ntp_server_dao_1 = require('core/dao/ntp-server-dao');
+var abstract_repository_ng_1 = require("./abstract-repository-ng");
+var ntp_server_dao_1 = require("../dao/ntp-server-dao");
 var model_event_name_1 = require("../model-event-name");
+var model_1 = require("../model");
+var Promise = require("bluebird");
 var NtpServerRepository = (function (_super) {
     __extends(NtpServerRepository, _super);
     function NtpServerRepository(ntpServerDao) {
-        _super.call(this, ['NtpServer']);
-        this.ntpServerDao = ntpServerDao;
+        var _this = _super.call(this, [model_1.Model.NtpServer]) || this;
+        _this.ntpServerDao = ntpServerDao;
+        return _this;
     }
     NtpServerRepository.getInstance = function () {
         if (!NtpServerRepository.instance) {

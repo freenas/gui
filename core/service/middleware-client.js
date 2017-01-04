@@ -4,8 +4,8 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var uuid = require('node-uuid');
-var event_dispatcher_service_1 = require('./event-dispatcher-service');
+var uuid = require("node-uuid");
+var event_dispatcher_service_1 = require("./event-dispatcher-service");
 var model_event_name_1 = require("../model-event-name");
 var Promise = require("bluebird");
 var _ = require("lodash");
@@ -326,19 +326,20 @@ var MiddlewareClient = (function () {
         var hostParam = location.href.split(';').filter(function (x) { return x.split('=')[0] === 'host'; })[0];
         return hostParam;
     };
-    MiddlewareClient.CONNECTING = "CONNECTING";
-    MiddlewareClient.OPEN = "OPEN";
-    MiddlewareClient.CLOSED = "CLOSED";
     return MiddlewareClient;
 }());
+MiddlewareClient.CONNECTING = "CONNECTING";
+MiddlewareClient.OPEN = "OPEN";
+MiddlewareClient.CLOSED = "CLOSED";
 exports.MiddlewareClient = MiddlewareClient;
 var MiddlewareError = (function (_super) {
     __extends(MiddlewareError, _super);
     function MiddlewareError(middlewareMessage) {
-        _super.call(this);
-        this.name = 'MiddlewareError';
-        this.message = middlewareMessage.args.message;
-        this.middlewareMessage = middlewareMessage;
+        var _this = _super.call(this) || this;
+        _this.name = 'MiddlewareError';
+        _this.message = middlewareMessage.args.message;
+        _this.middlewareMessage = middlewareMessage;
+        return _this;
     }
     return MiddlewareError;
 }(Error));

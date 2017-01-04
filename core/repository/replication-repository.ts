@@ -3,14 +3,15 @@ import {ModelEventName} from "../model-event-name";
 import {Map, Set} from "immutable";
 import {ReplicationOptionsDao} from "../dao/replication-options-dao";
 import {ReplicationDao} from "../dao/replication-dao";
+import {Model} from "../model";
+import * as Promise from "bluebird";
 
 export class ReplicationRepository extends AbstractRepository {
     private static instance: ReplicationRepository;
     private replications: Map<string, Map<string, any>>;
-
     private constructor(private replicationDao: ReplicationDao,
                         private replicationOptionsDao: ReplicationOptionsDao) {
-        super(['Replication']);
+        super([Model.Replication]);
     }
 
     public static getInstance() {
@@ -48,6 +49,9 @@ export class ReplicationRepository extends AbstractRepository {
     private getReplicationId(replication: any) {
         return replication._replication ? replication._replication.id :
             replication.id ? replication.id : replication;
+    }
+
+    protected handleEvent(name: string, data: any) {
     }
 }
 

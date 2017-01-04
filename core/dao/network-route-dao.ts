@@ -1,7 +1,7 @@
-import {AbstractDao} from "./abstract-dao";
+import {AbstractDao} from "./abstract-dao";import {Model} from '../model';
 
 export class NetworkRouteDao extends AbstractDao {
     public constructor() {
-        super('NetworkRoute');
+        super(Model.NetworkRoute);
     }
 }

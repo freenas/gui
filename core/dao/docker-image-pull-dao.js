@@ -5,10 +5,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var abstract_dao_1 = require("./abstract-dao");
+var model_1 = require("../model");
 var DockerImagePullDao = (function (_super) {
     __extends(DockerImagePullDao, _super);
     function DockerImagePullDao() {
-        _super.call(this, 'DockerImagePull');
+        return _super.call(this, model_1.Model.DockerImagePull) || this;
     }
     return DockerImagePullDao;
 }(abstract_dao_1.AbstractDao));

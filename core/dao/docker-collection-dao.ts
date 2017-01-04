@@ -1,8 +1,8 @@
-import {AbstractDao} from "./abstract-dao";
+import {AbstractDao} from "./abstract-dao";import {Model} from '../model';
 
 export class DockerCollectionDao extends AbstractDao {
     public constructor() {
-        super('DockerCollection');
+        super(Model.DockerCollection);
     }
 
     public getImages (collection) {

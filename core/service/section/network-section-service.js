@@ -13,8 +13,9 @@ var Promise = require("bluebird");
 var NetworkSectionService = (function (_super) {
     __extends(NetworkSectionService, _super);
     function NetworkSectionService() {
-        _super.apply(this, arguments);
-        this.INTERFACE_TYPES = network_repository_1.NetworkRepository.INTERFACE_TYPES;
+        var _this = _super.apply(this, arguments) || this;
+        _this.INTERFACE_TYPES = network_repository_1.NetworkRepository.INTERFACE_TYPES;
+        return _this;
     }
     NetworkSectionService.prototype.init = function () {
         this.networkRepository = network_repository_1.NetworkRepository.getInstance();

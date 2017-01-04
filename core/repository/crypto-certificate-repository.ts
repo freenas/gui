@@ -5,6 +5,7 @@ import {CryptoCertificateType} from "core/model/enumerations/crypto-certificate-
 import {Map} from "immutable";
 import Promise = require("bluebird");
 import _ = require("lodash");
+import {Model} from "../model";
 
 export class CryptoCertificateRepository extends AbstractRepository {
     private static instance: CryptoCertificateRepository;
@@ -13,8 +14,8 @@ export class CryptoCertificateRepository extends AbstractRepository {
 
 
     private constructor(private cryptoCertificateDao: CryptoCertificateDao) {
-        super(['CryptoCertificate']);
-        this.TYPE_TO_LABEL = new Map<string, string>()
+        super([Model.CryptoCertificate]);
+        this.TYPE_TO_LABEL = Map<string, string>()
             .set(CryptoCertificateType.CERT_INTERNAL, "Create Internal Certificate")
             .set(CryptoCertificateType.CERT_CSR, "Create Signing Request")
             .set(CryptoCertificateType.CERT_EXISTING, "Import Certificate")
@@ -32,7 +33,7 @@ export class CryptoCertificateRepository extends AbstractRepository {
     }
 
     public listCryptoCertificates(): Promise<Array<Object>> {
-        return this.cryptoCertificateDao.list();
+        return this.cryptoCertificates ? Promise.resolve(this.cryptoCertificates.valueSeq().toJS()) : this.cryptoCertificateDao.list();
     }
 
     public listCountryCodes() {
@@ -61,13 +62,7 @@ export class CryptoCertificateRepository extends AbstractRepository {
     }
 
     protected handleStateChange(name: string, state: any) {
-        switch (name) {
-            case 'CryptoCertificate':
-                this.cryptoCertificates = this.dispatchModelEvents(this.cryptoCertificates, ModelEventName.CryptoCertificate, state);
-                break;
-            default:
-                break;
-        }
+        this.cryptoCertificates = this.dispatchModelEvents(this.cryptoCertificates, ModelEventName.CryptoCertificate, state);
     }
 
     protected handleEvent(name: string, data: any) {}

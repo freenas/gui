@@ -9,12 +9,14 @@ var event_dispatcher_service_1 = require("../service/event-dispatcher-service");
 var model_descriptor_service_1 = require("../service/model-descriptor-service");
 var sectionsDescriptors = require("core/model/sections-descriptors.json");
 var abstract_route_1 = require("./abstract-route");
+var model_1 = require("../model");
 var SectionRoute = (function (_super) {
     __extends(SectionRoute, _super);
     function SectionRoute(modelDescriptorService, eventDispatcherService) {
-        _super.call(this, eventDispatcherService);
-        this.modelDescriptorService = modelDescriptorService;
-        this.sectionsServices = new Map();
+        var _this = _super.call(this, eventDispatcherService) || this;
+        _this.modelDescriptorService = modelDescriptorService;
+        _this.sectionsServices = new Map();
+        return _this;
     }
     SectionRoute.getInstance = function () {
         if (!SectionRoute.instance) {
@@ -23,7 +25,7 @@ var SectionRoute = (function (_super) {
         return SectionRoute.instance;
     };
     SectionRoute.prototype.get = function (sectionId) {
-        var self = this, sectionDescriptor = sectionsDescriptors[sectionId], servicePromise;
+        var self = this, objectType = model_1.Model.Section, sectionDescriptor = sectionsDescriptors[sectionId], servicePromise;
         if (this.sectionsServices.has(sectionDescriptor.id)) {
             servicePromise = Promise.resolve(this.sectionsServices.get(sectionDescriptor.id));
         }
@@ -50,7 +52,7 @@ var SectionRoute = (function (_super) {
             return servicePromise.then(function (service) {
                 return [
                     service,
-                    self.modelDescriptorService.getUiDescriptorForType('Section')
+                    self.modelDescriptorService.getUiDescriptorForType(objectType)
                 ];
             }).spread(function (service, uiDescriptor) {
                 var stack = [
@@ -58,7 +60,7 @@ var SectionRoute = (function (_super) {
                         object: service.section,
                         userInterfaceDescriptor: uiDescriptor,
                         columnIndex: 0,
-                        objectType: 'Section',
+                        objectType: objectType,
                         path: '/' + encodeURIComponent(sectionDescriptor.id)
                     }
                 ];
@@ -74,7 +76,7 @@ var SectionRoute = (function (_super) {
         this.eventDispatcherService.dispatch('oldSectionChange', sectionId);
     };
     SectionRoute.prototype.getSettings = function (sectionId, stack) {
-        var self = this, objectType = 'SectionSettings', columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.SectionSettings, columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,

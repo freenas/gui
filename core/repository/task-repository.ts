@@ -3,6 +3,7 @@ import {ModelEventName} from "../model-event-name";
 import {Map} from "immutable";
 import {TaskDao} from "../dao/task-dao";
 import * as Promise from "bluebird";
+import {Model} from "../model";
 
 export class TaskRepository extends AbstractRepository {
     private static instance: TaskRepository;
@@ -10,9 +11,7 @@ export class TaskRepository extends AbstractRepository {
     private tasks: Map<string, Map<string, any>>;
 
     private constructor(private taskDao: TaskDao) {
-        super([
-            'Task'
-        ]);
+        super([Model.Task]);
     }
 
     public static getInstance() {
@@ -25,7 +24,11 @@ export class TaskRepository extends AbstractRepository {
     }
 
     public listTasks(): Promise<Array<Object>> {
-        return this.taskDao.list();
+        return this.tasks ? Promise.resolve(this.tasks.valueSeq().toJS()) : this.taskDao.list();
+    }
+
+    public findTasks(criteria: any): Promise<Array<any>> {
+        return this.taskDao.find(criteria);
     }
 
     public registerToTasks() {
@@ -37,13 +40,7 @@ export class TaskRepository extends AbstractRepository {
     }
 
     protected handleStateChange(name: string, state: any) {
-        switch (name) {
-            case 'Task':
-                this.tasks = this.dispatchModelEvents(this.tasks, ModelEventName.Task, state);
-                break;
-            default:
-                break;
-        }
+        this.tasks = this.dispatchModelEvents(this.tasks, ModelEventName.Task, state);
     }
 
     protected handleEvent(name: string, data: any) {

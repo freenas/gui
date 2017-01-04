@@ -14,16 +14,18 @@ var Promise = require("bluebird");
 var replication_repository_1 = require("../repository/replication-repository");
 var vmware_repository_1 = require("../repository/vmware-repository");
 var abstract_route_1 = require("./abstract-route");
+var model_1 = require("../model");
 var DatasetRoute = (function (_super) {
     __extends(DatasetRoute, _super);
     function DatasetRoute(volumeRepository, replicationRepository, vmwareRepository, eventDispatcherService, modelDescriptorService, dataObjectChangeService) {
-        _super.call(this, eventDispatcherService);
-        this.volumeRepository = volumeRepository;
-        this.replicationRepository = replicationRepository;
-        this.vmwareRepository = vmwareRepository;
-        this.modelDescriptorService = modelDescriptorService;
-        this.dataObjectChangeService = dataObjectChangeService;
-        this.objectType = 'VolumeDataset';
+        var _this = _super.call(this, eventDispatcherService) || this;
+        _this.volumeRepository = volumeRepository;
+        _this.replicationRepository = replicationRepository;
+        _this.vmwareRepository = vmwareRepository;
+        _this.modelDescriptorService = modelDescriptorService;
+        _this.dataObjectChangeService = dataObjectChangeService;
+        _this.objectType = model_1.Model.VolumeDataset;
+        return _this;
     }
     DatasetRoute.getInstance = function () {
         if (!DatasetRoute.instance) {
@@ -142,7 +144,7 @@ var DatasetRoute = (function (_super) {
         });
     };
     DatasetRoute.prototype.listVmware = function (datasetId, stack) {
-        var self = this, columnIndex = 4, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.VmwareDataset, columnIndex = 4, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: this.objectType,
             parentContext: parentContext,
@@ -150,10 +152,10 @@ var DatasetRoute = (function (_super) {
         };
         return Promise.all([
             this.vmwareRepository.listDatasets(),
-            this.modelDescriptorService.getUiDescriptorForType('VmwareDataset')
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function (vmwareDatasets, uiDescriptor) {
             var filteredVmwareDatasets = _.filter(vmwareDatasets, { dataset: datasetId });
-            filteredVmwareDatasets._objectType = 'VmwareDataset';
+            filteredVmwareDatasets._objectType = objectType;
             context.object = filteredVmwareDatasets;
             context.userInterfaceDescriptor = uiDescriptor;
             context.changeListener = self.eventDispatcherService.addEventListener(model_event_name_1.ModelEventName.VmwareDataset.listChange, function (state) {

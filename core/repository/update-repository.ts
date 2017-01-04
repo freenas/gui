@@ -1,9 +1,10 @@
 import {AbstractRepository} from "./abstract-repository-ng";
 import {UpdateDao} from "../dao/update-dao";
+import {Model} from "../model";
 export class UpdateRepository extends AbstractRepository {
     private static instance: UpdateRepository;
     private constructor(private updateDao: UpdateDao) {
-        super(['Update'])
+        super([Model.Update])
     }
 
     public static getInstance() {

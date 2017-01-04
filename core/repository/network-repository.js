@@ -12,17 +12,20 @@ var network_route_dao_1 = require("../dao/network-route-dao");
 var network_host_dao_1 = require("../dao/network-host-dao");
 var ipmi_dao_1 = require("../dao/ipmi-dao");
 var Promise = require("bluebird");
+var model_1 = require("../model");
 var NetworkRepository = (function (_super) {
     __extends(NetworkRepository, _super);
     function NetworkRepository(networkInterfaceDao, networkRouteDao, networkHostDao, networkConfigDao, ipmiDao) {
-        _super.call(this, [
-            'NetworkInterface'
-        ]);
-        this.networkInterfaceDao = networkInterfaceDao;
-        this.networkRouteDao = networkRouteDao;
-        this.networkHostDao = networkHostDao;
-        this.networkConfigDao = networkConfigDao;
-        this.ipmiDao = ipmiDao;
+        var _this = _super.call(this, [
+            model_1.Model.NetworkInterface,
+            model_1.Model.Ipmi
+        ]) || this;
+        _this.networkInterfaceDao = networkInterfaceDao;
+        _this.networkRouteDao = networkRouteDao;
+        _this.networkHostDao = networkHostDao;
+        _this.networkConfigDao = networkConfigDao;
+        _this.ipmiDao = ipmiDao;
+        return _this;
     }
     NetworkRepository.getInstance = function () {
         if (!NetworkRepository.instance) {
@@ -80,10 +83,9 @@ var NetworkRepository = (function (_super) {
         return this.networkHostDao.delete(host);
     };
     NetworkRepository.prototype.listIpmiChannels = function () {
-        return this._IpmiChannelPromise || (this._IpmiChannelPromise = this.ipmiDao.list());
+        return this.ipmis ? Promise.resolve(this.ipmis.valueSeq().toJS()) : this.ipmiDao.list();
     };
     NetworkRepository.prototype.getNetworkOverview = function () {
-        var self = this;
         return Promise.all([
             this.networkInterfaceDao.list(),
             this.networkConfigDao.get()
@@ -114,8 +116,11 @@ var NetworkRepository = (function (_super) {
     };
     NetworkRepository.prototype.handleStateChange = function (name, state) {
         switch (name) {
-            case 'NetworkInterface':
+            case model_1.Model.NetworkInterface:
                 this.interfaces = this.dispatchModelEvents(this.interfaces, model_event_name_1.ModelEventName.NetworkInterface, state);
+                break;
+            case model_1.Model.Ipmi:
+                this.ipmis = this.dispatchModelEvents(this.ipmis, model_event_name_1.ModelEventName.Ipmi, state);
                 break;
             default:
                 break;
@@ -123,32 +128,32 @@ var NetworkRepository = (function (_super) {
     };
     NetworkRepository.prototype.handleEvent = function (name, data) {
     };
-    NetworkRepository.INTERFACE_TYPES = {
-        VLAN: {
-            type: 'vlan',
-            label: 'VLAN',
-            properties: {
-                objectType: 'NetworkInterfaceVlanProperties',
-                type: "network-interface-vlan-properties"
-            }
-        },
-        LAGG: {
-            type: 'lagg',
-            label: 'LAGG',
-            properties: {
-                objectType: 'NetworkInterfaceLaggProperties',
-                type: 'network-interface-lagg-properties'
-            }
-        },
-        BRIDGE: {
-            type: 'bridge',
-            label: 'BRIDGE',
-            properties: {
-                objectType: 'NetworkInterfaceBridgeProperties',
-                type: 'network-interface-bridge-properties'
-            }
-        }
-    };
     return NetworkRepository;
 }(abstract_repository_ng_1.AbstractRepository));
+NetworkRepository.INTERFACE_TYPES = {
+    VLAN: {
+        type: 'vlan',
+        label: 'VLAN',
+        properties: {
+            objectType: 'NetworkInterfaceVlanProperties',
+            type: "network-interface-vlan-properties"
+        }
+    },
+    LAGG: {
+        type: 'lagg',
+        label: 'LAGG',
+        properties: {
+            objectType: 'NetworkInterfaceLaggProperties',
+            type: 'network-interface-lagg-properties'
+        }
+    },
+    BRIDGE: {
+        type: 'bridge',
+        label: 'BRIDGE',
+        properties: {
+            objectType: 'NetworkInterfaceBridgeProperties',
+            type: 'network-interface-bridge-properties'
+        }
+    }
+};
 exports.NetworkRepository = NetworkRepository;

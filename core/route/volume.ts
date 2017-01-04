@@ -5,6 +5,7 @@ import Promise = require("bluebird");
 import {DiskRepository} from "../repository/disk-repository";
 import {AbstractRoute} from "./abstract-route";
 import {EventDispatcherService} from "../service/event-dispatcher-service";
+import {Model} from "../model";
 
 export class VolumeRoute extends AbstractRoute {
     private static instance: VolumeRoute;
@@ -29,9 +30,10 @@ export class VolumeRoute extends AbstractRoute {
     }
 
     public get(volumeId: string, stack: Array<any>) {
+        let objectType = Model.Volume;
         return Promise.all([
             this.volumeRepository.listVolumes(),
-            this.modelDescriptorService.getUiDescriptorForType('Volume')
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(volumes, uiDescriptor) {
             while (stack.length > 1) {
                 stack.pop();
@@ -40,7 +42,7 @@ export class VolumeRoute extends AbstractRoute {
                     object: _.find(volumes, {id: volumeId}),
                     userInterfaceDescriptor: uiDescriptor,
                     columnIndex: 1,
-                    objectType: 'Volume',
+                    objectType: objectType,
                     parentContext: stack[0],
                     path: stack[0].path + '/volume/_/' + encodeURIComponent(volumeId)
                 });
@@ -49,9 +51,10 @@ export class VolumeRoute extends AbstractRoute {
     }
 
     public topology(volumeId: string, stack:Array<any>) {
+        let objectType = Model.ZfsTopology;
         return Promise.all([
             this.volumeRepository.listVolumes(),
-            this.modelDescriptorService.getUiDescriptorForType('ZfsTopology')
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(volumes, uiDescriptor) {
             while (stack.length > 2) {
                 stack.pop();
@@ -60,7 +63,7 @@ export class VolumeRoute extends AbstractRoute {
                 object: _.find(volumes, {id: volumeId}).topology,
                 userInterfaceDescriptor: uiDescriptor,
                 columnIndex: 2,
-                objectType: 'ZfsTopology',
+                objectType: objectType,
                 parentContext: stack[1],
                 path: stack[1].path + '/topology'
             });
@@ -77,16 +80,17 @@ export class VolumeRoute extends AbstractRoute {
     }
 
     private openDiskAtColumnIndex(diskId: string, columnIndex: number, stack: Array<any>) {
-        let self = this;
+        let self = this,
+            objectType = Model.Disk;
         return Promise.all([
             this.diskRepository.listDisks(),
-            this.modelDescriptorService.getUiDescriptorForType('Disk')
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function (disks, uiDescriptor) {
             let context = {
                 object: _.find(disks, {id: diskId}),
                 userInterfaceDescriptor: uiDescriptor,
                 columnIndex: columnIndex,
-                objectType: 'Disk',
+                objectType: objectType,
                 parentContext: stack[columnIndex - 1],
                 path: stack[columnIndex - 1].path + '/disk'
             };
@@ -95,9 +99,10 @@ export class VolumeRoute extends AbstractRoute {
     }
 
     public create(stack: Array<any>) {
+        let objectType = Model.Volume;
         return Promise.all([
             this.volumeRepository.getNewVolume(),
-            this.modelDescriptorService.getUiDescriptorForType('Volume')
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(volume, uiDescriptor) {
             while (stack.length > 1) {
                 stack.pop();
@@ -106,7 +111,7 @@ export class VolumeRoute extends AbstractRoute {
                 object: volume,
                 userInterfaceDescriptor: uiDescriptor,
                 columnIndex: 1,
-                objectType: 'Volume',
+                objectType: objectType,
                 parentContext: stack[0],
                 path: stack[0].path + '/create'
             });
@@ -115,9 +120,10 @@ export class VolumeRoute extends AbstractRoute {
     }
 
     public import(stack: Array<any>) {
+        let objectType = Model.VolumeImporter
         return Promise.all([
             this.volumeRepository.getVolumeImporter(),
-            this.modelDescriptorService.getUiDescriptorForType('VolumeImporter')
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(volumeImporter, uiDescriptor) {
             while (stack.length > 1) {
                 stack.pop();
@@ -126,7 +132,7 @@ export class VolumeRoute extends AbstractRoute {
                 object: volumeImporter,
                 userInterfaceDescriptor: uiDescriptor,
                 columnIndex: 1,
-                objectType: 'VolumeImporter',
+                objectType: objectType,
                 parentContext: stack[0],
                 path: stack[0].path + '/volume-importer/_/-'
             });
@@ -137,7 +143,7 @@ export class VolumeRoute extends AbstractRoute {
     public getDetachedVolume(volumeId: string, stack: Array<any>) {
         let self = this,
             columnIndex = 2,
-            objectType = 'DetachedVolume',
+            objectType = Model.DetachedVolume,
             parentContext = stack[columnIndex-1],
             context = {
                 columnIndex: columnIndex,
@@ -168,7 +174,7 @@ export class VolumeRoute extends AbstractRoute {
 
     private openTopologyAtColumnIndex(columnIndex: number, stack: Array<any>) {
         let self = this,
-            objectType = 'ZfsTopology',
+            objectType = Model.ZfsTopology,
             parentContext = stack[columnIndex-1],
             context = {
                 columnIndex: columnIndex,
@@ -186,9 +192,10 @@ export class VolumeRoute extends AbstractRoute {
     }
 
     public importEncrypted(stack: Array<any>) {
+        let objectType = Model.EncryptedVolumeImporter;
         return Promise.all([
             this.volumeRepository.getEncryptedVolumeImporterInstance(),
-            this.modelDescriptorService.getUiDescriptorForType('EncryptedVolumeImporter')
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(encryptedVolumeImporter, uiDescriptor) {
             while (stack.length > 2) {
                 stack.pop();
@@ -197,7 +204,7 @@ export class VolumeRoute extends AbstractRoute {
                 object: encryptedVolumeImporter,
                 userInterfaceDescriptor: uiDescriptor,
                 columnIndex: 2,
-                objectType: 'EncryptedVolumeImporter',
+                objectType: objectType,
                 parentContext: stack[1],
                 path: stack[1].path + '/encrypted'
             });

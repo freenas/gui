@@ -4,11 +4,12 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var abstract_dao_1 = require('./abstract-dao');
+var abstract_dao_1 = require("./abstract-dao");
+var model_1 = require("../model");
 var DockerContainerDao = (function (_super) {
     __extends(DockerContainerDao, _super);
     function DockerContainerDao() {
-        _super.call(this, 'DockerContainer');
+        return _super.call(this, model_1.Model.DockerContainer) || this;
     }
     DockerContainerDao.prototype.requestInteractiveConsole = function (containerId) {
         return this.middlewareClient.callRpcMethod('docker.container.request_interactive_console', [containerId]);

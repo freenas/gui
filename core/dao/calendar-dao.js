@@ -5,10 +5,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var abstract_dao_1 = require("./abstract-dao");
+var model_1 = require("../model");
 var CalendarDao = (function (_super) {
     __extends(CalendarDao, _super);
     function CalendarDao() {
-        _super.call(this, 'Calendar');
+        return _super.call(this, model_1.Model.Calendar) || this;
     }
     return CalendarDao;
 }(abstract_dao_1.AbstractDao));

@@ -3,18 +3,22 @@ import { AbstractRepository } from './abstract-repository-ng';
 import * as immutable from 'immutable';
 import {VmwareDatasetDao} from "../dao/vmware-dataset-dao";
 import {VmwareDatastoreDao} from "../dao/vmware-datastore-dao";
+import {Model} from "../model";
+import {Map} from "immutable";
+import {ModelEventName} from "../model-event-name";
 
 export class VmwareRepository extends AbstractRepository {
     private static instance: VmwareRepository;
-    private datasets: immutable.Map<string, Map<string, any>>;
+    private datasets: Map<string, Map<string, any>>;
+    private datastores: Map<string, Map<string, any>>;
 
     private constructor(
         private vmwareDatasetDao: VmwareDatasetDao,
         private vmwareDatastoreDao: VmwareDatastoreDao
     ) {
         super([
-            'VmwareDataset',
-            'VmwareSnapshot'
+            Model.VmwareDataset,
+            Model.VmwareDatastore
         ]);
     }
 
@@ -29,7 +33,7 @@ export class VmwareRepository extends AbstractRepository {
     }
 
     public listDatasets() {
-        return this.vmwareDatasetDao.list();
+        return this.datasets ? Promise.resolve(this.datasets.valueSeq().toJS()) : this.vmwareDatasetDao.list();
     }
 
     public getNewVmwareDataset() {
@@ -37,29 +41,16 @@ export class VmwareRepository extends AbstractRepository {
     }
 
     public listDatastores(peer: any) {
-        return this.vmwareDatastoreDao.list(peer);
+        return this.datastores ? Promise.resolve(this.datastores.valueSeq().toJS()) : this.vmwareDatastoreDao.list(peer);
     }
 
     protected handleStateChange(name: string, state: any) {
-        let self = this;
         switch (name) {
-            case 'VmwareDataset':
-                this.eventDispatcherService.dispatch('vmwareDatasetsChange', state);
-                state.forEach(function(vmwareDataset, id){
-                    if (!self.datasets || !self.datasets.has(id)) {
-                        self.eventDispatcherService.dispatch('vmwareDatasetAdd.' + id, vmwareDataset);
-                    } else if (self.datasets.get(id) !== vmwareDataset) {
-                        self.eventDispatcherService.dispatch('vmwareDatasetChange.' + id, vmwareDataset);
-                    }
-                });
-                if (this.datasets) {
-                    this.datasets.forEach(function(vmwareDataset, id){
-                        if (!state.has(id) || state.get(id) !== vmwareDataset) {
-                            self.eventDispatcherService.dispatch('vmwareDatasetRemove.' + id, vmwareDataset);
-                        }
-                    });
-                }
-                this.datasets = state;
+            case Model.VmwareDataset:
+                this.datasets = this.dispatchModelEvents(this.datasets, ModelEventName.VmwareDataset, state);
+                break;
+            case Model.VmwareDatastore:
+                this.datastores = this.dispatchModelEvents(this.datastores, ModelEventName.VmwareDatastore, state);
                 break;
             default:
                 break;

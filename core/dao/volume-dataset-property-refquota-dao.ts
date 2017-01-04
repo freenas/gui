@@ -1,7 +1,7 @@
-import {AbstractDao} from "./abstract-dao";
+import {AbstractDao} from "./abstract-dao";import {Model} from '../model';
 
 export class VolumeDatasetPropertyRefquotaDao extends AbstractDao {
     public constructor() {
-        super('VolumeDatasetPropertyRefquota');
+        super(Model.VolumeDatasetPropertyRefquota);
     }
 }

@@ -102,7 +102,7 @@ export class AbstractDao {
         return this.middlewareClient.submitTask(this.deleteMethod, _.concat([object.id], args));
     }
 
-    public getNewInstance() {
+    public getNewInstance(): Promise<any> {
         let self = this;
         return this.cacheService.registerTypeForKey(this.objectType, this.model).then(function() {
             return new Object({

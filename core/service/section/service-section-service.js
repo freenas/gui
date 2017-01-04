@@ -11,7 +11,7 @@ var network_repository_1 = require("../../repository/network-repository");
 var ServiceSectionService = (function (_super) {
     __extends(ServiceSectionService, _super);
     function ServiceSectionService() {
-        _super.apply(this, arguments);
+        return _super.apply(this, arguments) || this;
     }
     ServiceSectionService.prototype.init = function () {
         this.systemRepository = system_repository_1.SystemRepository.getInstance();

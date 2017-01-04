@@ -1,10 +1,11 @@
 import { AbstractDao } from './abstract-dao';
 import * as Promise from "bluebird";
+import {Model} from "../model";
 
 export class AlertDao extends AbstractDao {
 
     public constructor() {
-        super('Alert');
+        super(Model.Alert);
     }
 
     public dismiss(alert: any): Promise<any> {

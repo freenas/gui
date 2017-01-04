@@ -1,10 +1,11 @@
 import { AbstractDao } from './abstract-dao';
 import * as Promise from "bluebird";
+import {Model} from "../model";
 
 export class VolumeDao extends AbstractDao {
 
     public constructor() {
-        super('Volume');
+        super(Model.Volume);
     }
 
     public getDisksAllocation(diskIds: Array<string>): Promise<Array<Object>> {

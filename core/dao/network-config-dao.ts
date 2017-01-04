@@ -1,7 +1,7 @@
-import {AbstractDao} from "./abstract-dao";
+import {AbstractDao} from "./abstract-dao";import {Model} from '../model';
 export class NetworkConfigDao extends AbstractDao {
     public constructor() {
-        super('NetworkConfig', {
+        super(Model.NetworkConfig, {
             queryMethod: 'network.config.get_config'
         });
     }

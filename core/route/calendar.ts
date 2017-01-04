@@ -7,6 +7,7 @@ import {CalendarRepository} from "../repository/calendar-repository";
 import _ = require("lodash");
 import {ModelEventName} from "../model-event-name";
 import {AbstractRoute} from "./abstract-route";
+import {Model} from "../model";
 
 export class CalendarRoute extends AbstractRoute {
     private static instance: CalendarRoute;
@@ -31,6 +32,7 @@ export class CalendarRoute extends AbstractRoute {
 
     public get() {
         let self = this,
+            objectType = Model.Calendar,
             sectionDescriptor = sectionsDescriptors.calendar,
             servicePromise;
         if (this.calendarService) {
@@ -60,7 +62,7 @@ export class CalendarRoute extends AbstractRoute {
             return servicePromise.then(function(service) {
                 return [
                     service,
-                    self.modelDescriptorService.getUiDescriptorForType('Calendar')
+                    self.modelDescriptorService.getUiDescriptorForType(objectType)
                 ];
             }).spread(function(service, uiDescriptor) {
                 let stack = [
@@ -68,7 +70,7 @@ export class CalendarRoute extends AbstractRoute {
                         object: service.entries[0],
                         userInterfaceDescriptor: uiDescriptor,
                         columnIndex: 0,
-                        objectType: 'Calendar',
+                        objectType: objectType,
                         path: '/' + sectionDescriptor.id
                     }
                 ];
@@ -85,17 +87,18 @@ export class CalendarRoute extends AbstractRoute {
 
     public getTask(calendarTaskId: string, stack: Array<any>) {
         let self = this,
+            objectType = Model.CalendarTask,
             columnIndex = 1,
             parentContext = stack[columnIndex-1],
             context: any = {
                 columnIndex: columnIndex,
-                objectType: 'CalendarTask',
+                objectType: objectType,
                 parentContext: parentContext,
                 path: parentContext.path + '/calendar-task/_/' + encodeURIComponent(calendarTaskId)
             };
         return Promise.all([
             this.calendarRepository.listTasks(),
-            this.modelDescriptorService.getUiDescriptorForType('CalendarTask')
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(calendarTasks, uiDescriptor) {
             context.object = _.find(calendarTasks, {id: calendarTaskId});
             context.userInterfaceDescriptor = uiDescriptor;

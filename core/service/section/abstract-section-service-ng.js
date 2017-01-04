@@ -1,6 +1,6 @@
 "use strict";
-var section_repository_1 = require('../../repository/section-repository');
-var event_dispatcher_service_1 = require('../event-dispatcher-service');
+var section_repository_1 = require("../../repository/section-repository");
+var event_dispatcher_service_1 = require("../event-dispatcher-service");
 var Promise = require("bluebird");
 var AbstractSectionService = (function () {
     function AbstractSectionService() {
@@ -42,7 +42,7 @@ var AbstractSectionService = (function () {
             return self;
         });
     };
-    AbstractSectionService.sectionRepository = section_repository_1.SectionRepository.instance;
     return AbstractSectionService;
 }());
+AbstractSectionService.sectionRepository = section_repository_1.SectionRepository.instance;
 exports.AbstractSectionService = AbstractSectionService;

@@ -1,10 +1,12 @@
 import { AbstractDao } from './abstract-dao';
+import {Model} from "../model";
+import Promise = require("bluebird");
 
 export class VolumeImporterDao extends AbstractDao {
     private entries: Array<any>;
 
     public constructor() {
-        super('VolumeImporter');
+        super(Model.VolumeImporter);
     }
 
     public list(): Promise<Array<any>> {
@@ -15,7 +17,7 @@ export class VolumeImporterDao extends AbstractDao {
                 volumeImporter._isNew = false;
                 volumeImporter.id = '-';
                 self.entries = [volumeImporter];
-                self.entries._objectType = 'VolumeImporter';
+                (self.entries as any)._objectType = Model.VolumeImporter;
                 return self.entries;
             });
     }

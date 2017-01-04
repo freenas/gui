@@ -1,5 +1,5 @@
 "use strict";
-var system_general_dao_1 = require('../dao/system-general-dao');
+var system_general_dao_1 = require("../dao/system-general-dao");
 var SystemGeneralRepository = (function () {
     function SystemGeneralRepository() {
         this.dao = new system_general_dao_1.SystemGeneralDao();

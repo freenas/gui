@@ -2,11 +2,13 @@ import { AbstractDao } from './abstract-dao';
 import { processor as cleaningProcessor } from '../service/data-processor/cleaner';
 import { processor as diffProcessor } from '../service/data-processor/diff';
 import { processor as nullProcessor } from '../service/data-processor/null';
+import {Model} from "../model";
+import Promise = require("bluebird");
 
 export class SystemGeneralDao extends AbstractDao {
 
     public constructor() {
-        super('SystemGeneral', {
+        super(Model.SystemGeneral, {
             queryMethod: 'system.general.get_config',
             createMethod: 'system.general.update'
         });

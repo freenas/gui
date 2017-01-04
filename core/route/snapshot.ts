@@ -16,7 +16,7 @@ export class SnapshotRoute extends AbstractRoute {
                         private modelDescriptorService: ModelDescriptorService,
                         private dataObjectChangeService: DataObjectChangeService) {
         super(eventDispatcherService);
-        this.objectType = 'VolumeSnapshot';
+        this.objectType = Model.VolumeSnapshot;
     }
 
 
