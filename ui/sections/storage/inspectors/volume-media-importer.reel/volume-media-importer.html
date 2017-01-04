@@ -54,7 +54,7 @@
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
                 "element": {"#": "importMedia"},
-                "value": "Media"
+                "value": "Import"
             },
             "bindings": {
                 "disabled": {"<-": "!@owner.importDisk || !@owner.importPath"}
@@ -64,7 +64,7 @@
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "importableDisks"},
-                "label": "Import media"
+                "label": "Media"
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.importDisk"},
@@ -77,11 +77,13 @@
 <body>
     <div data-montage-id="owner" class="VolumeMediaImporter g-margin">
         <div data-montage-id="importableDisks"></div>
+        <div class="flex-row flex-justifyContent--end g-margin-bottom--double g-margin-top--subtract-half">
+            <div data-montage-id="refreshMedia"></div>
+        </div>
         <div data-montage-id="mapMediaPath"></div>
         <div data-montage-id="mediaFsType"></div>
         <div class="flex-row flex-justifyContent--end">
-            <div data-montage-id="refreshMedia" class="g-margin-right--half"></div>
-            <div data-montage-id="importMedia"></div>
+            <div data-montage-id="importMedia" class="Button--primary"></div>
         </div>
     </div>
 </body>
