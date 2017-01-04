@@ -3,7 +3,6 @@
     position: relative;
     margin: 0 -1em;
     margin-bottom: 1em;
-    /* outline: 1px solid red; */
 
     &:focus {
         outline: none;
@@ -42,7 +41,7 @@ title
         left:    2px;
         right:   2px;
         bottom:  2px;
-        box-shadow: 0 0 2px 2px #2089D3;
+        @apply --input-focus;
     }
 
     & svg {
