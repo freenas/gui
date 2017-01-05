@@ -12,14 +12,14 @@
         },
         "dateConverter": {
             "prototype": "montage/core/converter/date-converter",
-            "properties": {
-                "pattern": "M/d/yy"
+            "bindings": {
+                "pattern": {"<-": "@owner.datePattern"}
             }
         },
         "timeConverter": {
             "prototype": "montage/core/converter/date-converter",
-            "properties": {
-                "pattern": "T"
+            "bindings": {
+                "pattern": {"<-": "@owner.timePattern"}
             }
         },
         "hostStatus": {
