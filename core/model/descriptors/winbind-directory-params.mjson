@@ -1,0 +1,103 @@
+{
+  "propertyblueprint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "%type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "winbind-directory-params"
+      ]
+    }
+  },
+  "blueprint_winbinddirectoryparams_allow_dns_updates": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "allow_dns_updates",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_winbinddirectoryparams_dc_address": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "dc_address",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_winbinddirectoryparams_gcs_address": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "gcs_address",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_winbinddirectoryparams_krb_principal": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "krb_principal",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_winbinddirectoryparams_password": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "password",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_winbinddirectoryparams_realm": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "realm",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_winbinddirectoryparams_sasl_wrapping": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "sasl_wrapping",
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "WinbindDirectoryParamsSaslWrapping"
+    }
+  },
+  "blueprint_winbinddirectoryparams_site_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "site_name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_winbinddirectoryparams_username": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "username",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "WinbindDirectoryParams",
+      "propertyBlueprints": [
+        {"@": "propertyblueprint"},
+        {"@": "blueprint_winbinddirectoryparams_allow_dns_updates"},
+        {"@": "blueprint_winbinddirectoryparams_dc_address"},
+        {"@": "blueprint_winbinddirectoryparams_gcs_address"},
+        {"@": "blueprint_winbinddirectoryparams_krb_principal"},
+        {"@": "blueprint_winbinddirectoryparams_password"},
+        {"@": "blueprint_winbinddirectoryparams_realm"},
+        {"@": "blueprint_winbinddirectoryparams_sasl_wrapping"},
+        {"@": "blueprint_winbinddirectoryparams_site_name"},
+        {"@": "blueprint_winbinddirectoryparams_username"}
+      ]
+    }
+  }
+}

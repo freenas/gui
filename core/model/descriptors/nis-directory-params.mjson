@@ -1,0 +1,39 @@
+{
+  "propertyblueprint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "%type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "nis-directory-params"
+      ]
+    }
+  },
+  "blueprint_nisdirectoryparams_domain": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "domain",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_nisdirectoryparams_server": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "server",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "NisDirectoryParams",
+      "propertyBlueprints": [
+        {"@": "propertyblueprint"},
+        {"@": "blueprint_nisdirectoryparams_domain"},
+        {"@": "blueprint_nisdirectoryparams_server"}
+      ]
+    }
+  }
+}

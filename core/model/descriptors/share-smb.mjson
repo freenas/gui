@@ -32,9 +32,9 @@
       "blueprint": {"@": "root"},
       "valueType": "String",
       "enumValues": [
-        "auto",
-        "yes",
-        "no"
+        "AUTO",
+        "YES",
+        "NO"
       ]
     }
   },
