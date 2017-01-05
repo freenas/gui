@@ -4,6 +4,7 @@ import {Map} from "immutable";
 import {TaskDao} from "../dao/task-dao";
 import * as Promise from "bluebird";
 import {Model} from "../model";
+import * as _ from 'lodash';
 
 export class TaskRepository extends AbstractRepository {
     private static instance: TaskRepository;
@@ -29,6 +30,10 @@ export class TaskRepository extends AbstractRepository {
 
     public findTasks(criteria: any): Promise<Array<any>> {
         return this.taskDao.find(criteria);
+    }
+
+    public getTask(taskId: number): any {
+        return this.listTasks().then((tasks) => _.find(tasks, {id: taskId}));
     }
 
     public registerToTasks() {

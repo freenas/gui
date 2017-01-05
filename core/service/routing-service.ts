@@ -1,6 +1,3 @@
-import hasher = require('hasher');
-import * as crossroads from 'crossroads';
-import * as _ from 'lodash';
 import {ModelDescriptorService} from './model-descriptor-service';
 import {MiddlewareClient} from './middleware-client';
 import {SectionRoute} from '../route/section';
@@ -17,10 +14,15 @@ import {NetworkRoute} from '../route/network';
 import {DockerRoute} from '../route/docker';
 import {VmsRoute} from '../route/vms';
 import {AccountsRoute} from '../route/accounts';
+import * as hasher from 'hasher';
+import * as crossroads from 'crossroads';
+import * as _ from 'lodash';
 
 export class RoutingService {
     private static instance: RoutingService;
     private currentStacks: Map<string, Array<any>>;
+    private taskStacks: Map<number|string, Array<any>>;
+    private currentSectionId: string;
 
     private constructor(private modelDescriptorService: ModelDescriptorService,
                         private eventDispatcherService: EventDispatcherService,
@@ -38,9 +40,13 @@ export class RoutingService {
                         private networkRoute: NetworkRoute,
                         private accountsRoute: AccountsRoute,
                         private dockerRoute: DockerRoute) {
-        this.currentStacks = new Map<string, any>();
+        this.currentStacks = new Map<string, Array<any>>();
+        this.taskStacks = new Map<number|string, Array<any>>();
 
+        this.eventDispatcherService.addEventListener('taskSubmitted', this.handleTaskSubmitted.bind(this));
+        this.eventDispatcherService.addEventListener('taskCreated', this.handleTaskCreated.bind(this));
         this.loadRoutes();
+        crossroads.shouldTypecast = true;
         hasher.prependHash = '!';
         hasher.changed.add(this.handleHashChange.bind(this));
     }
@@ -89,12 +95,44 @@ export class RoutingService {
         return (Array.isArray(object) || _.isNull(id)) ? url : url + '/_/' + encodeURIComponent(id);
     }
 
+    public handleTaskSubmitted(temporaryTaskId: string) {
+        this.saveState(temporaryTaskId);
+    }
+
+    public handleTaskCreated(taskIds: any) {
+        if (this.taskStacks.has(taskIds.old)) {
+            this.taskStacks.set(taskIds.new, this.taskStacks.get(taskIds.old));
+            this.taskStacks.delete(taskIds.old);
+        }
+    }
+
+    private changeHash(newHash: string) {
+        hasher.changed.active = false;
+        this.navigate(newHash);
+        hasher.changed.active = true;
+    }
+
     private handleHashChange(newHash) {
         crossroads.parse(decodeURIComponent(newHash));
         this.eventDispatcherService.dispatch('hashChange', newHash);
     }
 
+    private saveState(temporaryTaskId: string) {
+        let stateSnapshot = [];
+        _.forEach(this.currentStacks.get(this.currentSectionId), (value, index) => {
+            let context = _.clone(value);
+            if (index > 0) {
+                context.parentcontext = stateSnapshot[index - 1];
+            }
+            stateSnapshot.push(context);
+        });
+console.log('saveState', stateSnapshot);
+        this.taskStacks.set(temporaryTaskId, stateSnapshot);
+    }
+
     private loadRoutes() {
+        crossroads.addRoute('/_/retry/{taskId}',
+            (taskId) => this.restoreTask(taskId));
         crossroads.addRoute('/{sectionId}/settings',
             (sectionId) => this.sectionRoute.getSettings(sectionId, this.currentStacks.get(sectionId)));
 
@@ -363,15 +401,29 @@ export class RoutingService {
     }
 
     private loadSection(sectionId: string) {
+        this.currentSectionId = sectionId;
         if (this.currentStacks.has(sectionId)) {
             let stack = this.currentStacks.get(sectionId);
             this.eventDispatcherService.dispatch('sectionChange', stack[0].service);
-            this.navigate(_.last(stack).path);
             this.eventDispatcherService.dispatch('pathChange', stack);
+            this.changeHash(_.last(stack).path);
         } else {
             this.sectionRoute.get(sectionId).then((stack) => {
                 this.currentStacks.set(sectionId, stack);
+                this.eventDispatcherService.dispatch('sectionChange', stack[0].service);
+                this.eventDispatcherService.dispatch('pathChange', stack);
             });
+        }
+    }
+
+    private restoreTask(taskId: number) {
+        if (this.taskStacks.has(taskId)) {
+            let stack = this.taskStacks.get(taskId),
+                section = stack[0].object,
+                sectionId = section.id;
+            this.currentStacks.set(sectionId, stack);
+            this.eventDispatcherService.dispatch('sectionRestored', sectionId);
+            this.navigate('/' + sectionId);
         }
     }
 }

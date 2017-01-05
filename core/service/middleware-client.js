@@ -4,9 +4,9 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var uuid = require("node-uuid");
 var event_dispatcher_service_1 = require("./event-dispatcher-service");
 var model_event_name_1 = require("../model-event-name");
+var uuid = require("node-uuid");
 var Promise = require("bluebird");
 var _ = require("lodash");
 var MiddlewareClient = (function () {
@@ -79,11 +79,17 @@ var MiddlewareClient = (function () {
         });
     };
     MiddlewareClient.prototype.submitTask = function (name, args) {
-        var self = this;
+        console.log('submitTask', name);
+        var self = this, temporaryTaskId = uuid.v4();
+        this.eventDispatcherService.dispatch('taskSubmitted', temporaryTaskId);
         return this.callRpcMethod('task.submit', [
             name,
             args || []
         ]).then(function (taskId) {
+            self.eventDispatcherService.dispatch('taskCreated', {
+                old: temporaryTaskId,
+                new: taskId
+            });
             return {
                 taskId: taskId,
                 taskPromise: self.getTaskPromise(taskId)
@@ -91,16 +97,20 @@ var MiddlewareClient = (function () {
         });
     };
     MiddlewareClient.prototype.submitTaskWithDownload = function (name, args) {
-        var self = this;
+        var self = this, temporaryTaskId = uuid.v4();
+        this.eventDispatcherService.dispatch('taskSubmitted', temporaryTaskId);
         return this.callRpcMethod('task.submit_with_download', [
             name,
             args || []
-        ]).then(function (response) {
-            var taskId = response[0];
+        ]).spread(function (taskId, links) {
+            self.eventDispatcherService.dispatch('taskCreated', {
+                old: temporaryTaskId,
+                new: taskId
+            });
             return {
                 taskId: taskId,
                 taskPromise: self.getTaskPromise(taskId),
-                link: MiddlewareClient.getRootURL('http') + response[1][0]
+                link: MiddlewareClient.getRootURL('http') + links[0]
             };
         });
     };
@@ -120,10 +130,14 @@ var MiddlewareClient = (function () {
         });
     };
     MiddlewareClient.prototype.submitTaskWithUpload = function (name, args, file) {
-        var self = this;
-        return this.callRpcMethod('task.submit_with_upload', _.concat([name], args)).then(function (response) {
-            var token = Array.isArray(response) ? response[1][0] : response;
-            self.sendFileWithToken(file, token);
+        var self = this, temporaryTaskId = uuid.v4();
+        this.eventDispatcherService.dispatch('taskSubmitted', temporaryTaskId);
+        return this.callRpcMethod('task.submit_with_upload', _.concat([name], args)).spread(function (taskId, tokens) {
+            self.eventDispatcherService.dispatch('taskCreated', {
+                old: temporaryTaskId,
+                new: taskId
+            });
+            self.sendFileWithToken(file, tokens[0]);
         });
     };
     MiddlewareClient.prototype.uploadFile = function (file, destination, mode) {

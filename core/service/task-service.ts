@@ -1,5 +1,5 @@
-import {TaskRepository} from "../repository/task-repository";
-import Promise = require("bluebird");
+import {TaskRepository} from '../repository/task-repository';
+import * as Promise from 'bluebird';
 
 export class TaskService {
     private static instance: TaskService;
@@ -20,5 +20,9 @@ export class TaskService {
 
     public findTasks(filter: Object): Promise<Array <Object>> {
         return this.taskRepository.findTasks(filter);
+    }
+
+    public getTask(taskId: number): any {
+        return this.taskRepository.getTask(taskId);
     }
 }

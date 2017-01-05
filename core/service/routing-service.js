@@ -1,7 +1,4 @@
 "use strict";
-var hasher = require("hasher");
-var crossroads = require("crossroads");
-var _ = require("lodash");
 var model_descriptor_service_1 = require("./model-descriptor-service");
 var middleware_client_1 = require("./middleware-client");
 var section_1 = require("../route/section");
@@ -18,6 +15,9 @@ var network_1 = require("../route/network");
 var docker_1 = require("../route/docker");
 var vms_1 = require("../route/vms");
 var accounts_1 = require("../route/accounts");
+var hasher = require("hasher");
+var crossroads = require("crossroads");
+var _ = require("lodash");
 var RoutingService = (function () {
     function RoutingService(modelDescriptorService, eventDispatcherService, middlewareClient, sectionRoute, volumeRoute, shareRoute, snapshotRoute, datasetRoute, calendarRoute, systemRoute, serviceRoute, peeringRoute, vmsRoute, networkRoute, accountsRoute, dockerRoute) {
         this.modelDescriptorService = modelDescriptorService;
@@ -37,7 +37,11 @@ var RoutingService = (function () {
         this.accountsRoute = accountsRoute;
         this.dockerRoute = dockerRoute;
         this.currentStacks = new Map();
+        this.taskStacks = new Map();
+        this.eventDispatcherService.addEventListener('taskSubmitted', this.handleTaskSubmitted.bind(this));
+        this.eventDispatcherService.addEventListener('taskCreated', this.handleTaskCreated.bind(this));
         this.loadRoutes();
+        crossroads.shouldTypecast = true;
         hasher.prependHash = '!';
         hasher.changed.add(this.handleHashChange.bind(this));
     }
@@ -64,12 +68,39 @@ var RoutingService = (function () {
                 null;
         return (Array.isArray(object) || _.isNull(id)) ? url : url + '/_/' + encodeURIComponent(id);
     };
+    RoutingService.prototype.handleTaskSubmitted = function (temporaryTaskId) {
+        this.saveState(temporaryTaskId);
+    };
+    RoutingService.prototype.handleTaskCreated = function (taskIds) {
+        if (this.taskStacks.has(taskIds.old)) {
+            this.taskStacks.set(taskIds.new, this.taskStacks.get(taskIds.old));
+            this.taskStacks.delete(taskIds.old);
+        }
+    };
+    RoutingService.prototype.changeHash = function (newHash) {
+        hasher.changed.active = false;
+        this.navigate(newHash);
+        hasher.changed.active = true;
+    };
     RoutingService.prototype.handleHashChange = function (newHash) {
         crossroads.parse(decodeURIComponent(newHash));
         this.eventDispatcherService.dispatch('hashChange', newHash);
     };
+    RoutingService.prototype.saveState = function (temporaryTaskId) {
+        var stateSnapshot = [];
+        _.forEach(this.currentStacks.get(this.currentSectionId), function (value, index) {
+            var context = _.clone(value);
+            if (index > 0) {
+                context.parentcontext = stateSnapshot[index - 1];
+            }
+            stateSnapshot.push(context);
+        });
+        console.log('saveState', stateSnapshot);
+        this.taskStacks.set(temporaryTaskId, stateSnapshot);
+    };
     RoutingService.prototype.loadRoutes = function () {
         var _this = this;
+        crossroads.addRoute('/_/retry/{taskId}', function (taskId) { return _this.restoreTask(taskId); });
         crossroads.addRoute('/{sectionId}/settings', function (sectionId) { return _this.sectionRoute.getSettings(sectionId, _this.currentStacks.get(sectionId)); });
         this.loadDashboardRoutes();
         this.loadStorageRoutes();
@@ -234,16 +265,27 @@ var RoutingService = (function () {
     };
     RoutingService.prototype.loadSection = function (sectionId) {
         var _this = this;
+        this.currentSectionId = sectionId;
         if (this.currentStacks.has(sectionId)) {
             var stack = this.currentStacks.get(sectionId);
             this.eventDispatcherService.dispatch('sectionChange', stack[0].service);
-            this.navigate(_.last(stack).path);
             this.eventDispatcherService.dispatch('pathChange', stack);
+            this.changeHash(_.last(stack).path);
         }
         else {
             this.sectionRoute.get(sectionId).then(function (stack) {
                 _this.currentStacks.set(sectionId, stack);
+                _this.eventDispatcherService.dispatch('sectionChange', stack[0].service);
+                _this.eventDispatcherService.dispatch('pathChange', stack);
             });
+        }
+    };
+    RoutingService.prototype.restoreTask = function (taskId) {
+        if (this.taskStacks.has(taskId)) {
+            var stack = this.taskStacks.get(taskId), section = stack[0].object, sectionId = section.id;
+            this.currentStacks.set(sectionId, stack);
+            this.eventDispatcherService.dispatch('sectionRestored', sectionId);
+            this.navigate('/' + sectionId);
         }
     };
     return RoutingService;

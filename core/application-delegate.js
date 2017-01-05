@@ -28,7 +28,7 @@ var ModelDescriptorService = require("core/service/model-descriptor-service").Mo
     VirtualMachineService = require("core/service/virtual-machine-service").VirtualMachineService,
     PowerManagementService = require("core/service/power-management-service").PowerManagementService,
     NtpServerService = require("core/service/ntp-server-service.js").NtpServerService,
-    SectionsDescriptors = require("core/model/sections-descriptors.json"),
+    SectionsDescriptors = require("data/sections-descriptors.json"),
     Montage = require("montage").Montage;
 
 var FakeMontageDataService = require("core/service/fake-montage-data-service").FakeMontageDataService;
