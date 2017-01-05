@@ -91,14 +91,11 @@ var TopologyService = (function () {
     ;
     TopologyService.prototype.buildDataVdevsWithDisks = function (type, size, dataDisks) {
         var vdevs = [], disks = dataDisks.slice(0, size), sliceStart = size, i, length, vdev;
-        vdevs.push(this.buildVdevWithDisks(type, disks));
-        disks = dataDisks.slice(sliceStart, sliceStart + size);
-        sliceStart += size;
-        while (disks.length >= size) {
+        do {
             vdevs.push(this.buildVdevWithDisks(type, disks));
             disks = dataDisks.slice(sliceStart, sliceStart + size);
             sliceStart += size;
-        }
+        } while (disks.length >= size);
         if (disks.length) {
             //fixme: @pierre probably dead code
             this.clearDisks(disks);
