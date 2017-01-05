@@ -58,6 +58,7 @@ var SectionRoute = (function (_super) {
                 var stack = [
                     {
                         object: service.section,
+                        service: service,
                         userInterfaceDescriptor: uiDescriptor,
                         columnIndex: 0,
                         objectType: objectType,

@@ -363,8 +363,15 @@ export class RoutingService {
     }
 
     private loadSection(sectionId: string) {
-        return this.sectionRoute.get(sectionId).then((stack) => {
-            this.currentStacks.set(sectionId, stack);
-        });
+        if (this.currentStacks.has(sectionId)) {
+            let stack = this.currentStacks.get(sectionId);
+            this.eventDispatcherService.dispatch('sectionChange', stack[0].service);
+            this.navigate(_.last(stack).path);
+            this.eventDispatcherService.dispatch('pathChange', stack);
+        } else {
+            this.sectionRoute.get(sectionId).then((stack) => {
+                this.currentStacks.set(sectionId, stack);
+            });
+        }
     }
 }

@@ -234,9 +234,17 @@ var RoutingService = (function () {
     };
     RoutingService.prototype.loadSection = function (sectionId) {
         var _this = this;
-        return this.sectionRoute.get(sectionId).then(function (stack) {
-            _this.currentStacks.set(sectionId, stack);
-        });
+        if (this.currentStacks.has(sectionId)) {
+            var stack = this.currentStacks.get(sectionId);
+            this.eventDispatcherService.dispatch('sectionChange', stack[0].service);
+            this.navigate(_.last(stack).path);
+            this.eventDispatcherService.dispatch('pathChange', stack);
+        }
+        else {
+            this.sectionRoute.get(sectionId).then(function (stack) {
+                _this.currentStacks.set(sectionId, stack);
+            });
+        }
     };
     return RoutingService;
 }());
