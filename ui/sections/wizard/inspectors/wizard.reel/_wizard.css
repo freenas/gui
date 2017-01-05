@@ -52,13 +52,14 @@
     max-width: 50em;
 }
 
-.Wizard-controls div:last-child {
+.Wizard-controls > div {
     flex: 1;
 
     & button + button { margin-left: .5em; }
 }
 
 .Wizard-controls-previous {
+    padding-left: .5em !important;
     & svg {
         height: 1em;
         transform: rotate(180deg);
@@ -66,13 +67,19 @@
     }
 }
 
-.Wizard-controls-next {
+.Wizard-controls-next  {
     display: flex;
-    align-items: center;
-    padding-left:  1.5em !important;
-    padding-right: 1em !important;
+    justify-content: center;
+    padding-right: .5em !important;
+
+    & .Button-content {
+        display: flex;
+        align-items: center;
+    }
+
 
     & svg {
+        width: 1em;
         height: 1em;
         order: 1;
         margin-right: 0 !important;
