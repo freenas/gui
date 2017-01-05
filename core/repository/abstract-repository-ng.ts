@@ -26,8 +26,8 @@ export abstract class AbstractRepository {
     private dispatchStateChange(name: string, state: any) {
         if (state.has(name)) {
             if (!this.previousState || this.previousState.get(name) !== state.get(name)) {
+                this.previousState = state;
                 this.handleStateChange(name, state.get(name));
-                this.previousState = state
             }
         }
     }
