@@ -4,15 +4,18 @@ import { VolumeSnapshotDao } from '../dao/volume-snapshot-dao';
 import { VolumeDatasetDao } from '../dao/volume-dataset-dao';
 import { VolumeImporterDao } from '../dao/volume-importer-dao';
 import { EncryptedVolumeActionsDao } from '../dao/encrypted-volume-actions-dao';
-import {VolumeVdevRecommendationsDao} from "../dao/volume-vdev-recommendations-dao";
-import {DetachedVolumeDao} from "../dao/detached-volume-dao";
+import {VolumeVdevRecommendationsDao} from '../dao/volume-vdev-recommendations-dao';
+import {DetachedVolumeDao} from '../dao/detached-volume-dao';
+import {EncryptedVolumeImporterDao} from '../dao/encrypted-volume-importer-dao';
+import {ZfsTopologyDao} from '../dao/zfs-topology-dao';
+import {ModelEventName} from '../model-event-name';
+import {Map} from 'immutable';
+import {Model} from '../model';
+import {ZfsVdevDao} from '../dao/zfs-vdev-dao';
+import {DatastoreService} from '../service/datastore-service';
 
-import {EncryptedVolumeImporterDao} from "../dao/encrypted-volume-importer-dao";
-import {ZfsTopologyDao} from "../dao/zfs-topology-dao";
-import {ModelEventName} from "../model-event-name";
-import {Map} from "immutable";
-import {Model} from "../model";
-import * as Promise from "bluebird";
+import * as Promise from 'bluebird';
+import _ = require('lodash');
 
 export class VolumeRepository extends AbstractRepository {
     private static instance: VolumeRepository;
@@ -21,7 +24,7 @@ export class VolumeRepository extends AbstractRepository {
     private volumeSnapshots: Map<string, Map<string, any>>;
     private volumeDatasets: Map<string, Map<string, any>>;
 
-    public static readonly TOPOLOGY_KEYS = ["data", "cache", "log", "spare"];
+    public static readonly TOPOLOGY_KEYS = ['data', 'cache', 'log', 'spare'];
 
     private constructor(
         private volumeDao: VolumeDao,
@@ -32,7 +35,9 @@ export class VolumeRepository extends AbstractRepository {
         private volumeVdevRecommendationsDao: VolumeVdevRecommendationsDao,
         private detachedVolumeDao: DetachedVolumeDao,
         private encryptedVolumeImporterDao: EncryptedVolumeImporterDao,
-        private zfsTopologyDao: ZfsTopologyDao
+        private zfsTopologyDao: ZfsTopologyDao,
+        private zfsVdevDao: ZfsVdevDao,
+        private datastoreService: DatastoreService
     ) {
         super([
             Model.Volume,
@@ -53,22 +58,24 @@ export class VolumeRepository extends AbstractRepository {
                 new VolumeVdevRecommendationsDao(),
                 new DetachedVolumeDao(),
                 new EncryptedVolumeImporterDao(),
-                new ZfsTopologyDao()
+                new ZfsTopologyDao(),
+                new ZfsVdevDao(),
+                DatastoreService.getInstance()
             );
         }
         return VolumeRepository.instance;
     }
 
     public listVolumes(): Promise<Array<Object>> {
-        return this.volumeDao.list();
+        return this.volumes ? Promise.resolve(this.volumes.valueSeq().toJS()) : this.volumeDao.list();
     }
 
     public listDatasets(): Promise<Array<Object>> {
-        return this.volumeDatasetDao.list();
+        return this.volumeDatasets ? Promise.resolve(this.volumeDatasets.valueSeq().toJS()) : this.volumeDatasetDao.list();
     }
 
     public listSnapshots(): Promise<Array<Object>> {
-        return this.volumeSnapshotDao.list();
+        return this.volumeSnapshots ? Promise.resolve(this.volumeSnapshots.valueSeq().toJS()) : this.volumeSnapshotDao.list();
     }
 
     public getVolumeImporter(): Promise<Object> {
@@ -91,8 +98,12 @@ export class VolumeRepository extends AbstractRepository {
         return this.encryptedVolumeActionsDao.getNewInstance();
     }
 
-    public getDisksAllocations(diskIds: Array<string>): Promise<Array<Object>> {
-        return this.volumeDao.getDisksAllocation(diskIds);
+    public initializeDisksAllocations(diskIds: Array<string>) {
+        this.volumeDao.getDisksAllocation(diskIds).then(
+            (allocations) => _.forIn(allocations,
+                (allocation, path) => this.setDiskAllocation(path, allocation)
+            )
+        );
     }
 
     public getAvailableDisks(): Promise<Array<string>> {
@@ -133,7 +144,7 @@ export class VolumeRepository extends AbstractRepository {
     }
 
     public exportVolume(volume: any) {
-        return this.volumeDao.export(volume);
+        return this.volumeDao.export(volume).then(() => this.findDetachedVolumes());
     }
 
     public lockVolume(volume: any) {
@@ -181,7 +192,9 @@ export class VolumeRepository extends AbstractRepository {
     }
 
     public importDisk(disk: string, path: string, fsType: string) {
-        return this.volumeDao.importDisk(disk, path, fsType);
+        return this.volumeDao.importDisk(disk, path, fsType)
+            .then((task) => task.taskPromise)
+            .then(() => this.findDetachedVolumes());
     }
 
     public updateVolumeTopology(volume: any, topology: any) {
@@ -192,6 +205,10 @@ export class VolumeRepository extends AbstractRepository {
             volume.providers_presence = 'NONE';
         }
         return this.volumeDao.save(volume);
+    }
+
+    public getNewZfsVdev() {
+        return this.zfsVdevDao.getNewInstance();
     }
 
     private cleanupTopology(topology: any) {
@@ -234,6 +251,43 @@ export class VolumeRepository extends AbstractRepository {
         return clean;
     }
 
+    private updateVolumesDiskUsage(volumes: Map<string, Map<string, any>>, usageType: string) {
+        let diskUsage: any = {};
+        if (volumes) {
+            volumes.forEach(
+                (volume) => _.forEach(VolumeRepository.TOPOLOGY_KEYS,
+                    (topologyKey) => volume.get('topology').get(topologyKey).forEach(
+                        (vdev) => vdev.get('children').map((child) => child.get('path')).forEach(
+                            (path) => diskUsage[path] = volume.has('name') ? volume.get('name') : volume.get('id')
+                        )
+                    )
+                )
+            );
+            this.datastoreService.save(Model.DiskUsage, usageType, diskUsage);
+        }
+    }
+
+    private setDiskAllocation(path, allocation: any) {
+        let usageType;
+        switch (allocation.type) {
+            case 'VOLUME':
+                usageType = 'attached';
+                break;
+            case 'EXPORTED_VOLUME':
+                usageType = 'detached';
+                break;
+            case 'BOOT':
+                usageType = 'boot';
+                break;
+        }
+        let diskUsage = this.datastoreService.getState().has(Model.DiskUsage) &&
+                        this.datastoreService.getState().get(Model.DiskUsage).has(usageType) ?
+                            this.datastoreService.getState().get(Model.DiskUsage).get(usageType) :
+                            {};
+        diskUsage[path] = allocation.name || 'boot';
+        this.datastoreService.save(Model.DiskUsage, usageType, diskUsage);
+    }
+
     protected handleStateChange(name: string, state: any) {
         switch (name) {
             case Model.Volume:
@@ -259,7 +313,7 @@ export class VolumeRepository extends AbstractRepository {
                     hasTopologyChanged = true;
                 }
                 if (hasTopologyChanged) {
-                    this.eventDispatcherService.dispatch('topologyChange');
+                    this.updateVolumesDiskUsage(state, 'attached');
                 }
                 this.volumes = this.dispatchModelEvents(this.volumes, ModelEventName.Volume, state);
                 break;
@@ -271,6 +325,7 @@ export class VolumeRepository extends AbstractRepository {
                 break;
             case Model.DetachedVolume:
                 this.detachedVolumes = this.dispatchModelEvents(this.detachedVolumes, ModelEventName.DetachedVolume, state);
+                this.updateVolumesDiskUsage(this.detachedVolumes, 'detached');
                 break;
             default:
                 break;

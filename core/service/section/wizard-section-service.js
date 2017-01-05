@@ -1,14 +1,14 @@
-var AbstractSectionService = require("core/service/section/abstract-section-service").AbstractSectionService,
-    NotificationCenterModule = require("core/backend/notification-center"),
-    Application = require("montage/core/application").application,
-    ModelDescriptorService = require("core/service/model-descriptor-service").ModelDescriptorService,
-    TopologyService = require("core/service/topology-service").TopologyService,
-    DiskRepository = require("core/repository/disk-repository").DiskRepository,
-    VolumeRepository = require("core/repository/volume-repository").VolumeRepository,
-    SystemRepository = require("core/repository/system-repository").SystemRepository,
-    AccountRepository = require("core/repository/account-repository").AccountRepository,
-    MailRepository = require("core/repository/mail-repository").MailRepository,
-    WizardRepository = require("core/repository/wizard-repository").WizardRepository;
+var AbstractSectionService = require('core/service/section/abstract-section-service').AbstractSectionService,
+    NotificationCenterModule = require('core/backend/notification-center'),
+    Application = require('montage/core/application').application,
+    ModelDescriptorService = require('core/service/model-descriptor-service').ModelDescriptorService,
+    TopologyService = require('core/service/topology-service').TopologyService,
+    DiskRepository = require('core/repository/disk-repository').DiskRepository,
+    VolumeRepository = require('core/repository/volume-repository').VolumeRepository,
+    SystemRepository = require('core/repository/system-repository').SystemRepository,
+    AccountRepository = require('core/repository/account-repository').AccountRepository,
+    MailRepository = require('core/repository/mail-repository').MailRepository,
+    WizardRepository = require('core/repository/wizard-repository').WizardRepository;
 
 exports.WizardSectionService = AbstractSectionService.specialize({
 
@@ -22,20 +22,9 @@ exports.WizardSectionService = AbstractSectionService.specialize({
             this._mailRepository = MailRepository.getInstance();
             this._topologyService = TopologyService.instance;
             this._modelDescriptorService = ModelDescriptorService.getInstance();
-            Application.addEventListener("taskDone", this);
+            Application.addEventListener('taskDone', this);
 
-            var self = this,
-                availablePaths;
-            return this._volumeRepository.listVolumes().then(function() {
-                return self._volumeRepository.getAvailableDisks();
-            }).then(function(paths) {
-                availablePaths = paths;
-                return self._diskRepository.listDisks();
-            }).then(function(disks) {
-                return self._volumeRepository.getDisksAllocations(disks.map(function(x) { return x.id; }));
-            }).then(function(disksAllocations) {
-                return self._diskRepository.updateDiskUsage(availablePaths, disksAllocations);
-            });
+            return this._volumeRepository.listVolumes();
         }
     },
 
@@ -201,11 +190,11 @@ exports.WizardSectionService = AbstractSectionService.specialize({
             var notification = event.detail;
 
             if (this._wizardsMap.has(notification.jobId)) {
-                if (notification.state === "FINISHED") {
+                if (notification.state === 'FINISHED') {
                     var steps = this._wizardsMap.get(notification.jobId),
-                        shareStep = this._findWizardStepWithStepsAndId(steps, "share"),
-                        volumeStep = this._findWizardStepWithStepsAndId(steps, "volume"),
-                        userStep = this._findWizardStepWithStepsAndId(steps, "user"),
+                        shareStep = this._findWizardStepWithStepsAndId(steps, 'share'),
+                        volumeStep = this._findWizardStepWithStepsAndId(steps, 'volume'),
+                        userStep = this._findWizardStepWithStepsAndId(steps, 'user'),
                         dataService = Application.dataService,
                         volume = volumeStep.object,
                         promises = [];
@@ -256,7 +245,7 @@ exports.WizardSectionService = AbstractSectionService.specialize({
                     stepObject = step.object;
 
                 if (!step.isSkipped) {
-                    if (stepId === "volume") {
+                    if (stepId === 'volume') {
                         stepObject.topology = {
                             data: stepObject.topology.data,
                             cache: stepObject.topology.cache,
@@ -264,7 +253,7 @@ exports.WizardSectionService = AbstractSectionService.specialize({
                             spare: stepObject.topology.spare
                         };
                         indexVolume = promises.push(self._volumeRepository.createVolume(stepObject)) - 1;
-                    } else if (stepId === "directoryServices") {
+                    } else if (stepId === 'directoryServices') {
                         var directoryServices = stepObject.__directoryServices;
 
                         directoryServices.forEach(function (directoryService) {
@@ -272,7 +261,7 @@ exports.WizardSectionService = AbstractSectionService.specialize({
                                 promises.push(step.dao.save(directoryService));
                             }
                         });
-                    } else if (stepId !== "share" && stepId !== "user") {
+                    } else if (stepId !== 'share' && stepId !== 'user') {
                         promises.push(step.dao.save(stepObject));
                     }
                 }

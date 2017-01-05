@@ -32,8 +32,8 @@ var AbstractRepository = (function () {
     AbstractRepository.prototype.dispatchStateChange = function (name, state) {
         if (state.has(name)) {
             if (!this.previousState || this.previousState.get(name) !== state.get(name)) {
-                this.handleStateChange(name, state.get(name));
                 this.previousState = state;
+                this.handleStateChange(name, state.get(name));
             }
         }
     };

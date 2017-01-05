@@ -48,12 +48,15 @@ exports.VolumeCreator = AbstractInspector.specialize({
                 this.addPathChangeListener("topologySelectedDisk", this, "_handleSelectedDiskChange");
                 this.addPathChangeListener("availableSelectedDisk", this, "_handleSelectedDiskChange");
             }
+            var self = this;
             this._parentCascadingListItem = CascadingList.findCascadingListItemContextWithComponent(this);
             if (this._parentCascadingListItem) {
                 this._parentCascadingListItem.classList.add("CascadingListItem-VolumeCreator");
             }
-            this.availableDisks = this._sectionService.listAvailableDisks();
-            this.availableDisksEventListener = this._eventDispatcherService.addEventListener('availableDisksChange', this._handleAvailableDisksChange.bind(this));
+            this._sectionService.listAvailableDisks().then(function(availableDisks) {
+                self.availableDisks = availableDisks;
+            });
+            this.availableDisksEventListener = this._eventDispatcherService.addEventListener('AvailableDisksChanged', this._handleAvailableDisksChange.bind(this));
         }
     },
 
@@ -69,7 +72,7 @@ exports.VolumeCreator = AbstractInspector.specialize({
 
     _handleAvailableDisksChange: {
         value: function(availableDisks) {
-            this.availableDisks = availableDisks;
+            this.availableDisks = availableDisks.valueSeq().toJS();
         }
     },
 

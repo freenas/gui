@@ -1,11 +1,11 @@
-import {VolumeRepository} from "../repository/volume-repository";
-import {ModelDescriptorService} from "../service/model-descriptor-service";
-import _ = require("lodash");
-import Promise = require("bluebird");
-import {DiskRepository} from "../repository/disk-repository";
-import {AbstractRoute} from "./abstract-route";
-import {EventDispatcherService} from "../service/event-dispatcher-service";
-import {Model} from "../model";
+import {VolumeRepository} from '../repository/volume-repository';
+import {ModelDescriptorService} from '../service/model-descriptor-service';
+import _ = require('lodash');
+import Promise = require('bluebird');
+import {DiskRepository} from '../repository/disk-repository';
+import {AbstractRoute} from './abstract-route';
+import {EventDispatcherService} from '../service/event-dispatcher-service';
+import {Model} from '../model';
 
 export class VolumeRoute extends AbstractRoute {
     private static instance: VolumeRoute;
@@ -47,10 +47,10 @@ export class VolumeRoute extends AbstractRoute {
                     path: stack[0].path + '/volume/_/' + encodeURIComponent(volumeId)
                 });
             return stack;
-        })
+        });
     }
 
-    public topology(volumeId: string, stack:Array<any>) {
+    public topology(volumeId: string, stack: Array<any>) {
         let objectType = Model.ZfsTopology;
         return Promise.all([
             this.volumeRepository.listVolumes(),
@@ -59,8 +59,11 @@ export class VolumeRoute extends AbstractRoute {
             while (stack.length > 2) {
                 stack.pop();
             }
+            let volume = _.find(volumes, {id: volumeId}),
+                topology = volume.topology;
+            topology._volume = volume;
             stack.push({
-                object: _.find(volumes, {id: volumeId}).topology,
+                object: topology,
                 userInterfaceDescriptor: uiDescriptor,
                 columnIndex: 2,
                 objectType: objectType,
@@ -71,11 +74,11 @@ export class VolumeRoute extends AbstractRoute {
         });
     }
 
-    public topologyDisk(diskId: string, stack:Array<any>) {
+    public topologyDisk(diskId: string, stack: Array<any>) {
         this.openDiskAtColumnIndex(diskId, 3, stack);
     }
 
-    public creatorDisk(diskId: string, stack:Array<any>) {
+    public creatorDisk(diskId: string, stack: Array<any>) {
         this.openDiskAtColumnIndex(diskId, 2, stack);
     }
 
@@ -120,7 +123,7 @@ export class VolumeRoute extends AbstractRoute {
     }
 
     public import(stack: Array<any>) {
-        let objectType = Model.VolumeImporter
+        let objectType = Model.VolumeImporter;
         return Promise.all([
             this.volumeRepository.getVolumeImporter(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
@@ -158,7 +161,7 @@ export class VolumeRoute extends AbstractRoute {
             context.userInterfaceDescriptor = uiDescriptor;
             context.object = _.find(volumes, {id: volumeId});
             return self.updateStackWithContext(stack, context);
-        })
+        });
     }
 
     public getVolumeTopology(stack: Array<any>) {
@@ -175,7 +178,7 @@ export class VolumeRoute extends AbstractRoute {
     private openTopologyAtColumnIndex(columnIndex: number, stack: Array<any>) {
         let self = this,
             objectType = Model.ZfsTopology,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -185,10 +188,12 @@ export class VolumeRoute extends AbstractRoute {
         return Promise.all([
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(uiDescriptor) {
-            context.object = parentContext.object.topology;
+            let topology = parentContext.object.topology;
+            topology._volume = parentContext.object;
+            context.object = topology;
             context.userInterfaceDescriptor = uiDescriptor;
             return self.updateStackWithContext(stack, context);
-        })
+        });
     }
 
     public importEncrypted(stack: Array<any>) {

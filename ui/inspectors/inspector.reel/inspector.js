@@ -110,8 +110,6 @@ exports.Inspector = Component.specialize({
                 if (Promise.is(promise)) {
                     promise.catch(this._logError);
                 }
-            } else if (this.object) {
-                promise = this.revert();
             } else if (this.controller) {
                 console.warn('NOT IMPLEMENTED: revert() on ', this.controller.templateModuleId);
             } else {
@@ -187,7 +185,8 @@ exports.Inspector = Component.specialize({
     revert: {
         value: function() {
             var self = this;
-            return this.application.dataService.restoreSnapshotVersion(this.object).then(function(object) {
+            return this._getObjectDao(this.object).then(function(dao) {
+                return dao.revert
                 if (self.object._isNew) {
                     self.object = object;
                 }

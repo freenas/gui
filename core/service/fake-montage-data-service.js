@@ -1,7 +1,6 @@
 "use strict";
 var middleware_client_1 = require("./middleware-client");
 var datastore_service_1 = require("./datastore-service");
-var cache_service_1 = require("./cache-service");
 var model_descriptor_service_1 = require("./model-descriptor-service");
 // DTM
 var FakeMontageDataService = (function () {
@@ -9,7 +8,6 @@ var FakeMontageDataService = (function () {
         this.middlewareClient = middleware_client_1.MiddlewareClient.getInstance();
         this.datastoreService = datastore_service_1.DatastoreService.getInstance();
         this.modelDescriptorService = model_descriptor_service_1.ModelDescriptorService.getInstance();
-        this.cacheService = cache_service_1.CacheService.getInstance();
         this.validPropertyRegex = /[a-z0-9_]*/;
         this.typePropertiesDescriptors = new Map();
     }

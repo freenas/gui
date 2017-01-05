@@ -56,8 +56,10 @@ var VolumeRoute = (function (_super) {
             while (stack.length > 2) {
                 stack.pop();
             }
+            var volume = _.find(volumes, { id: volumeId }), topology = volume.topology;
+            topology._volume = volume;
             stack.push({
-                object: _.find(volumes, { id: volumeId }).topology,
+                object: topology,
                 userInterfaceDescriptor: uiDescriptor,
                 columnIndex: 2,
                 objectType: objectType,
@@ -165,7 +167,9 @@ var VolumeRoute = (function (_super) {
         return Promise.all([
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function (uiDescriptor) {
-            context.object = parentContext.object.topology;
+            var topology = parentContext.object.topology;
+            topology._volume = parentContext.object;
+            context.object = topology;
             context.userInterfaceDescriptor = uiDescriptor;
             return self.updateStackWithContext(stack, context);
         });
