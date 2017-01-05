@@ -137,14 +137,21 @@ export class TopologyService {
                 if (disks.length <= (size / 2)) {
                     this.addDisksToVdev(disks, vdevs[0]);
                 } else {
-                    vdevs = this.buildDataVdevsWithDisks(type, Math.floor(dataDisks.length / 2), dataDisks);
+                    vdevs = this.buildDataVdevsWithDisks(
+                            type,
+                            Math.floor(dataDisks.length / 2),
+                            dataDisks
+                        );
                 }
             } else {
                 let bonusDiskCountPerVdev = Math.floor(disks.length / vdevs.length);
 
                 for (i = 0, length = vdevs.length; i < length; i++) {
                     vdev = vdevs[i];
-                    this.addDisksToVdev(disks.slice(i*bonusDiskCountPerVdev, i*bonusDiskCountPerVdev + bonusDiskCountPerVdev), vdev);
+                    this.addDisksToVdev(disks.slice(
+                                i*bonusDiskCountPerVdev,
+                                i*bonusDiskCountPerVdev + bonusDiskCountPerVdev
+                            ), vdev);
                 }
             }
         }
@@ -222,7 +229,7 @@ export class TopologyService {
                 {type: CONSTRAINTS_KEYS.SPEED, tieBreaker: 1, weight: Math.round(speed * 10) / 10}
             ],
             orderedPriorities = priorities.sort(function (a, b) {
-                var delta = b.weight - a.weight;
+                let delta = b.weight - a.weight;
                 if (delta == 0) {
                     delta = b.tieBreaker - a.tieBreaker;
                 }
