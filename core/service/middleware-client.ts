@@ -96,7 +96,6 @@ export class MiddlewareClient {
     }
 
     public submitTask(name: string, args?: Array<any>): Promise<any> {
-console.log('submitTask', name);
         let self = this,
             temporaryTaskId = uuid.v4();
         this.eventDispatcherService.dispatch('taskSubmitted', temporaryTaskId);

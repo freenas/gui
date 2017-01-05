@@ -79,7 +79,6 @@ var MiddlewareClient = (function () {
         });
     };
     MiddlewareClient.prototype.submitTask = function (name, args) {
-        console.log('submitTask', name);
         var self = this, temporaryTaskId = uuid.v4();
         this.eventDispatcherService.dispatch('taskSubmitted', temporaryTaskId);
         return this.callRpcMethod('task.submit', [
