@@ -64,6 +64,7 @@ export class SectionRoute extends AbstractRoute {
                 let stack = [
                     {
                         object: service.section,
+                        service: service,
                         userInterfaceDescriptor: uiDescriptor,
                         columnIndex: 0,
                         objectType: objectType,
