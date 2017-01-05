@@ -1,11 +1,11 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { dispatchAction, ACTIONS } from '../reducers/main';
-import * as ChangeCase from 'change-case';
 import * as Promise from 'bluebird';
 
 import { MiddlewareClient } from './middleware-client';
 import { EventDispatcherService } from './event-dispatcher-service';
 import {Map} from 'immutable';
+import _ = require('lodash');
 
 export class DatastoreService {
     private static instance: DatastoreService;
@@ -83,7 +83,7 @@ export class DatastoreService {
     }
 
     private handleMiddlewareModelChange(args: any) {
-        let type = ChangeCase.pascalCase(args.service),
+        let type = _.upperFirst(_.camelCase(args.service)),
             ids = args.ids,
             entities = args.entities,
             operation = args.operation;

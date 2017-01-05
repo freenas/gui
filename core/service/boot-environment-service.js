@@ -1,6 +1,5 @@
 var Montage = require("montage").Montage,
-    BootPoolRepository = require("core/repository/boot-pool-repository").BootPoolRepository,
-    Model = require("core/model/model").Model;
+    BootPoolRepository = require("core/repository/boot-pool-repository").BootPoolRepository;
 
 var BootEnvironmentService = exports.BootEnvironmentService = Montage.specialize({
     _instance: {
@@ -8,10 +7,6 @@ var BootEnvironmentService = exports.BootEnvironmentService = Montage.specialize
     },
 
     _dataService: {
-        value: null
-    },
-
-    _methods: {
         value: null
     },
 
@@ -29,10 +24,6 @@ var BootEnvironmentService = exports.BootEnvironmentService = Montage.specialize
 
     constructor: {
         value: function() {
-            var self = this;
-            Model.populateObjectPrototypeForType(Model.BootEnvironment).then(function() {
-                self._methods = Model.BootEnvironment.objectPrototype.services;
-            });
             this.addRangeAtPathChangeListener("_bootEnvironments", this, "_handleBootEnvironmentsChange");
         }
     },

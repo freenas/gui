@@ -1,14 +1,7 @@
-/**
- * @module ui/interface-overview-item.reel
- */
 var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+    ModelDescriptorService = require("core/service/model-descriptor-service").ModelDescriptorService;
 
-/**
- * @class InterfaceOverviewItem
- * @extends Component
- */
-exports.InterfaceOverviewItem = Component.specialize(/** @lends InterfaceOverviewItem# */ {
+exports.InterfaceOverviewItem = Component.specialize({
     isExpanded: {
         value: false
     },
@@ -17,11 +10,17 @@ exports.InterfaceOverviewItem = Component.specialize(/** @lends InterfaceOvervie
         value: null
     },
 
+    templateDidLoad: {
+        value: function() {
+            this._modelDescriptorService = ModelDescriptorService.getInstance();
+        }
+    },
+
     enterDocument: {
         value: function () {
             var self = this;
 
-            this.application.delegate.userInterfaceDescriptorForObject(Model.NetworkInterface).then(function (userInterfaceDescriptor) {
+            this._modelDescriptorService.getUiDescriptorForObject(this.object).then(function (userInterfaceDescriptor) {
                 self.userInterfaceDescriptor = userInterfaceDescriptor;
             });
         }

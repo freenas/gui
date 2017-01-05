@@ -1,6 +1,5 @@
-    var Montage = require("montage").Montage,
-    Model = require("core/model/model").Model,
-    Promise = require("montage/core/promise").Promise;
+var Montage = require("montage").Montage,
+    VolumeRepository = require("core/repository/volume-repository").VolumeRepository;
 
 exports.DatasetTreeController = Montage.specialize({
     _service: {
@@ -9,15 +8,10 @@ exports.DatasetTreeController = Montage.specialize({
 
     service: {
         get: function() {
+            if (!this._service) {
+                this._service = VolumeRepository.getInstance();
+            }
             return this._service;
-        },
-        set: function(service) {
-            if (this._service !== service) {
-                this._service = service;
-            }
-            if (this._root && this._service) {
-                this.open(this._root);
-            }
         }
     },
 
@@ -69,7 +63,7 @@ exports.DatasetTreeController = Montage.specialize({
             if (this._root !== root) {
                 this._root = root;
 
-                if (root && this._service) {
+                if (root && this.service) {
                     this.open(root);
                 }
             }
@@ -81,7 +75,7 @@ exports.DatasetTreeController = Montage.specialize({
             var self = this;
             path = path || this.root;
             if (!this._datasetsPromise) {
-                this._datasetsPromise = this._service.fetchData(Model.VolumeDataset);
+                this._datasetsPromise = this.service.listDatasets();
             }
 
             var treePromise = this._datasetsPromise.then(function (rawDatasets) {

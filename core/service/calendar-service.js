@@ -115,7 +115,7 @@ var CalendarService = exports.CalendarService = Montage.specialize({
             } else {
                 var self = this;
                 if (!this._dataPromise) {
-                    this._dataPromise = this._dataService.fetchData(Model.CalendarTask).then(function(tasks) {
+                    this._dataPromise = this._calendarRepository.listTasks().then(function(tasks) {
                         return self._tasks = tasks;
                     });
                 }
@@ -488,6 +488,7 @@ var CalendarService = exports.CalendarService = Montage.specialize({
         get: function() {
             if (!this._instance) {
                 this._instance = new CalendarService();
+                this._instance._calendarRepository = CalendarRepository.getInstance();
             }
             return this._instance;
         }

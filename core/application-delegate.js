@@ -24,7 +24,6 @@ var ModelDescriptorService = require("core/service/model-descriptor-service").Mo
     ShareService = require("core/service/share-service").ShareService,
     AccountsService = require("core/service/accounts-service").AccountsService,
     BytesService = require("core/service/bytes-service").BytesService,
-    Model = require("core/model/model").Model,
     ValidationService = require("core/service/validation-service").ValidationService,
     VirtualMachineService = require("core/service/virtual-machine-service").VirtualMachineService,
     PowerManagementService = require("core/service/power-management-service").PowerManagementService,
@@ -69,27 +68,6 @@ exports.ApplicationDelegate = Montage.specialize({
             app.ntpServerService = NtpServerService.instance;
 
             app.sectionsDescriptors = SectionsDescriptors;
-
-            Object.defineProperties(app, {
-
-                _alertService: {
-                    value: null
-                },
-
-                alertServicePromise: {
-                    get: function () {
-                        var self = this;
-
-                        if (this._alertService) {
-                            return Promise.resolve(this._alertService);
-                        }
-
-                        return Model.populateObjectPrototypeForType(Model.Alert).then(function (Alert) {
-                            return (self._alertService = Alert.constructor);
-                        });
-                    }
-                }
-            });
 
             app.isDrawerOpen = false;
         }

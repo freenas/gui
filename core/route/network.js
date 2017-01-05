@@ -10,6 +10,7 @@ var event_dispatcher_service_1 = require("../service/event-dispatcher-service");
 var model_descriptor_service_1 = require("../service/model-descriptor-service");
 var network_repository_1 = require("../repository/network-repository");
 var abstract_route_1 = require("./abstract-route");
+var model_1 = require("../model");
 var NetworkRoute = (function (_super) {
     __extends(NetworkRoute, _super);
     function NetworkRoute(modelDescriptorService, eventDispatcherService, networkRepository) {
@@ -25,7 +26,7 @@ var NetworkRoute = (function (_super) {
         return NetworkRoute.instance;
     };
     NetworkRoute.prototype.get = function (interfaceId, stack) {
-        var self = this, objectType = Model.NetworkInterface, columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.NetworkInterface, columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -42,7 +43,7 @@ var NetworkRoute = (function (_super) {
     };
     NetworkRoute.prototype.selectNewInterfaceType = function (stack) {
         var _this = this;
-        var self = this, objectType = Model.NetworkInterface, columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.NetworkInterface, columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -60,7 +61,7 @@ var NetworkRoute = (function (_super) {
         });
     };
     NetworkRoute.prototype.create = function (interfaceType, stack) {
-        var self = this, objectType = Model.NetworkInterface, columnIndex = 1, parentContext = stack[columnIndex], context = {
+        var self = this, objectType = model_1.Model.NetworkInterface, columnIndex = 1, parentContext = stack[columnIndex], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -74,7 +75,7 @@ var NetworkRoute = (function (_super) {
         });
     };
     NetworkRoute.prototype.listIpmi = function (stack) {
-        var self = this, objectType = Model.Ipmi, columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.Ipmi, columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,
@@ -91,7 +92,7 @@ var NetworkRoute = (function (_super) {
         });
     };
     NetworkRoute.prototype.getIpmi = function (ipmiId, stack) {
-        var self = this, objectType = Model.Ipmi, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+        var self = this, objectType = model_1.Model.Ipmi, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
             columnIndex: columnIndex,
             objectType: objectType,
             parentContext: parentContext,

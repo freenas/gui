@@ -1,10 +1,10 @@
 "use strict";
 var redux_1 = require("redux");
 var main_1 = require("../reducers/main");
-var ChangeCase = require("change-case");
 var Promise = require("bluebird");
 var middleware_client_1 = require("./middleware-client");
 var event_dispatcher_service_1 = require("./event-dispatcher-service");
+var _ = require("lodash");
 var DatastoreService = (function () {
     function DatastoreService() {
         var self = this, composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || redux_1.compose;
@@ -68,7 +68,7 @@ var DatastoreService = (function () {
         return this.store.getState();
     };
     DatastoreService.prototype.handleMiddlewareModelChange = function (args) {
-        var type = ChangeCase.pascalCase(args.service), ids = args.ids, entities = args.entities, operation = args.operation;
+        var type = _.upperFirst(_.camelCase(args.service)), ids = args.ids, entities = args.entities, operation = args.operation;
         if (operation === 'create' || operation === 'update') {
             var id = void 0, entity = void 0;
             for (var i = 0; i < ids.length; i++) {

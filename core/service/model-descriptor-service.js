@@ -1,14 +1,14 @@
 "use strict";
 var middleware_client_1 = require("./middleware-client");
-var ChangeCase = require("change-case");
 var Promise = require("bluebird");
+var _ = require("lodash");
 var ModelDescriptorService = (function () {
     function ModelDescriptorService(middlewareClient) {
         this.middlewareClient = middlewareClient;
         this.UI_DESCRIPTOR_PREFIX = 'core/model/user-interface-descriptors/';
         this.UI_DESCRIPTOR_SUFFIX = '-user-interface-descriptor.mjson';
         this.DAO_PREFIX = 'core/dao/';
-        this.DAO_SUFFIX = '-dao.js';
+        this.DAO_SUFFIX = '-dao';
         this.uiCache = new Map();
         this.daoCache = new Map();
     }
@@ -26,15 +26,17 @@ var ModelDescriptorService = (function () {
         return result;
     };
     ModelDescriptorService.prototype.getUiDescriptorForType = function (type) {
+        if (typeof type !== 'string')
+            debugger;
         var self = this;
         if (type) {
-            return this.uiCache.has(type) ?
-                Promise.resolve(this.uiCache.get(type)) :
-                Promise.resolve(SystemJS.import(this.UI_DESCRIPTOR_PREFIX + ChangeCase.paramCase(type) + this.UI_DESCRIPTOR_SUFFIX)
-                    .then(function (uiDescriptor) {
+            var uiDescriptorPath = this.UI_DESCRIPTOR_PREFIX + _.kebabCase(type) + this.UI_DESCRIPTOR_SUFFIX;
+            return Promise.resolve(this.uiCache.has(type) ?
+                this.uiCache.get(type) :
+                SystemJS.import(uiDescriptorPath).then(function (uiDescriptor) {
                     self.uiCache.set(type, uiDescriptor.root.properties);
                     return uiDescriptor.root.properties;
-                }));
+                }, function () { debugger; }));
         }
     };
     ModelDescriptorService.prototype.getDaoForObject = function (object) {
@@ -45,30 +47,16 @@ var ModelDescriptorService = (function () {
         return result;
     };
     ModelDescriptorService.prototype.getDaoForType = function (type) {
-        var self = this;
-        return this.daoCache.has(type) ?
-            Promise.resolve(this.daoCache.get(type)) :
-            require.async(this.DAO_PREFIX + ChangeCase.paramCase(type) + this.DAO_SUFFIX).then(function (daoModule) {
-                var dao = new (daoModule[type + 'Dao'])();
-                self.daoCache.set(type, dao);
-                return dao;
-            }, function () {
-                debugger;
-            });
+        var daoPath = this.DAO_PREFIX + _.kebabCase(type) + this.DAO_SUFFIX;
+        if (!this.daoCache.has(type)) {
+            this.daoCache.set(type, Promise.resolve(require.async(daoPath).then(function (daoModule) { return new (daoModule[type + 'Dao'])(); }, function () { debugger; })));
+        }
+        return this.daoCache.get(type);
     };
     ModelDescriptorService.prototype.getObjectType = function (object) {
-        var type = (Array.isArray(object._objectType) && object._objectType[0]) || object._objectType || (Array.isArray(object) && object.length > 0 && object[0]._objectType);
-        /*
-                if (!type) { // DTM
-                    let model = object.Type ||
-                        object.constructor.Type ||
-                        Array.isArray(object) && (object as any)._meta_data && (object as any)._meta_data.collectionModelType;
-                    if (model) {
-                        type = model.typeName;
-                    }
-                }
-        */
-        return type;
+        return (Array.isArray(object._objectType) && object._objectType[0]) ||
+            object._objectType ||
+            (Array.isArray(object) && object.length > 0 && object[0]._objectType);
     };
     ModelDescriptorService.prototype.getPropertyType = function (type, property) {
         return this.loadRemoteSchema().then(function (schema) {
@@ -80,7 +68,7 @@ var ModelDescriptorService = (function () {
                         result = propertyDescriptor.type;
                     }
                     else if (propertyDescriptor['$ref']) {
-                        result = ChangeCase.pascalCase(propertyDescriptor['$ref']);
+                        result = _.upperFirst(_.camelCase(propertyDescriptor['$ref']));
                     }
                 }
             }
@@ -94,7 +82,7 @@ var ModelDescriptorService = (function () {
             this.middlewareClient.callRpcMethod('discovery.get_schema').then(function (schema) {
                 self.schema = new Map();
                 for (var schemaType in schema.definitions) {
-                    var objectType = ChangeCase.pascalCase(schemaType);
+                    var objectType = _.upperFirst(_.camelCase(schemaType));
                     self.schema.set(objectType, schema.definitions[schemaType]);
                 }
                 return self.schema;

@@ -1,5 +1,4 @@
 var Montage = require("montage").Montage,
-    Model = require("core/model/model").Model,
     AccountRepository = require("core/repository/account-repository").AccountRepository,
     application = require("montage/core/application").application,
     FreeNASService = require("core/service/freenas-service").FreeNASService,
@@ -104,21 +103,18 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
     _getDefaultApplicationContext: {
         value: function () {
             if (this._widgetService) {
-                var self = this;
-
                 return this._widgetService.getAvailableWidgets().then(function (widgets) {
-                    return self._dataService.getNewInstanceForType(Model.ApplicationContext).then(function (applicationContext) {
-                        applicationContext.dashboardContext = {};
-                        applicationContext.sideBoardContext = {};
-                        applicationContext.userSettings = {};
-                        applicationContext.dashboardContext.widgets = [widgets.get("ui/widgets/system-info.reel")];
-                        applicationContext.sideBoardContext.widgets = [
-                            widgets.get("ui/widgets/alerts.reel"),
-                            widgets.get("ui/widgets/tasks.reel")
-                        ];
+                    var applicationContext = {};
+                    applicationContext.dashboardContext = {};
+                    applicationContext.sideBoardContext = {};
+                    applicationContext.userSettings = {};
+                    applicationContext.dashboardContext.widgets = [widgets.get("ui/widgets/system-info.reel")];
+                    applicationContext.sideBoardContext.widgets = [
+                        widgets.get("ui/widgets/alerts.reel"),
+                        widgets.get("ui/widgets/tasks.reel")
+                    ];
 
-                        return applicationContext;
-                    });
+                    return applicationContext;
                 });
             }
         }
@@ -126,7 +122,7 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
 
     _repairApplicationRawContextIfNeeded: {
         value: function (applicationRawContext) {
-            if (applicationRawContext) {                
+            if (applicationRawContext) {
                 if (!applicationRawContext.dashboardContext || typeof applicationRawContext.dashboardContext !== "object") {
                     applicationRawContext.dashboardContext = {};
                 }
