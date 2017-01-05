@@ -9,6 +9,7 @@ var model_event_name_1 = require("../model-event-name");
 var task_dao_1 = require("../dao/task-dao");
 var Promise = require("bluebird");
 var model_1 = require("../model");
+var _ = require("lodash");
 var TaskRepository = (function (_super) {
     __extends(TaskRepository, _super);
     function TaskRepository(taskDao) {
@@ -27,6 +28,9 @@ var TaskRepository = (function (_super) {
     };
     TaskRepository.prototype.findTasks = function (criteria) {
         return this.taskDao.find(criteria);
+    };
+    TaskRepository.prototype.getTask = function (taskId) {
+        return this.listTasks().then(function (tasks) { return _.find(tasks, { id: taskId }); });
     };
     TaskRepository.prototype.registerToTasks = function () {
         return this.taskDao.register();

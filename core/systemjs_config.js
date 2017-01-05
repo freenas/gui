@@ -17,10 +17,14 @@ SystemJS.config({
         redux:          './node_modules/redux/dist/redux.min.js',
         bluebird:       './node_modules/montage/node_modules/bluebird/js/browser/bluebird.min.js',
         core:           './core',
-        dao:            './core/dao'
+        dao:            './core/dao',
+        data:           './data'
     },
     meta: {
         '*.mjson': {
+            loader: 'json'
+        },
+        '*.json': {
             loader: 'json'
         }
     }

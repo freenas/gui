@@ -7,6 +7,10 @@ var ComponentModule = require("montage/ui/component"),
     SectionRepository = require("core/repository/section-repository").SectionRepository;
 
 exports.Main = Component.specialize({
+    _section: {
+        value: null
+    },
+
     templateDidLoad: {
         value: function() {
             this.sectionRepository = SectionRepository.instance;
@@ -20,6 +24,7 @@ exports.Main = Component.specialize({
             this._eventDispatcherService.addEventListener('sectionChange', this._handleSectionChange.bind(this));
             this._eventDispatcherService.addEventListener('oldSectionChange', this._handleOldSectionChange.bind(this));
             this._eventDispatcherService.addEventListener('pathChange', this._handlePathChange.bind(this));
+            this._eventDispatcherService.addEventListener('sectionRestored', this._handleSectionRestored.bind(this));
             this.addPathChangeListener("application.section", this, "_handleApplicationSectionChange");
         }
     },
@@ -41,6 +46,7 @@ exports.Main = Component.specialize({
             this.sectionService = this.application.sectionService = null;
             this.sectionId = sectionId;
             this.sectionGeneration = 'old';
+            this.stack = null;
         }
     },
 
@@ -58,15 +64,17 @@ exports.Main = Component.specialize({
         }
     },
 
+    _handleSectionRestored: {
+        value: function(sectionId) {
+            this.application.section = this._section = this.application.sectionsDescriptors[sectionId];
+        }
+    },
+
     _handleApplicationSectionChange: {
         value: function() {
-            if (this.application.section) {
-                var self = this,
-                    sectionDescriptor = this.application.section;
-                this.sectionRepository.getNewSection().then(function(section) {
-                    section.id = sectionDescriptor.id;
-                    self.routingService.navigate('/' + section.id);
-                });
+            if (this.application.section && this.application.section !== this._section) {
+                this._section = this.application.section;
+                this.routingService.navigate('/' + this.application.section.id);
             }
         }
     }

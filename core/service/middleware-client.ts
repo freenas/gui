@@ -1,8 +1,9 @@
-import * as uuid from 'node-uuid';
-import { EventDispatcherService } from './event-dispatcher-service';
+import {EventDispatcherService} from './event-dispatcher-service';
 import {ModelEventName} from '../model-event-name';
+
+import * as uuid from 'node-uuid';
 import * as Promise from 'bluebird';
-import _ = require('lodash');
+import * as _ from 'lodash';
 
 export class MiddlewareClient {
     private REQUEST_TIMEOUT = 90000;
@@ -95,11 +96,18 @@ export class MiddlewareClient {
     }
 
     public submitTask(name: string, args?: Array<any>): Promise<any> {
-        let self = this;
+console.log('submitTask', name);
+        let self = this,
+            temporaryTaskId = uuid.v4();
+        this.eventDispatcherService.dispatch('taskSubmitted', temporaryTaskId);
         return this.callRpcMethod('task.submit', [
                 name,
                 args || []
             ]).then(function(taskId) {
+                self.eventDispatcherService.dispatch('taskCreated', {
+                    old: temporaryTaskId,
+                    new: taskId
+                });
                 return {
                     taskId: taskId,
                     taskPromise: self.getTaskPromise(taskId)
@@ -108,16 +116,21 @@ export class MiddlewareClient {
     }
 
     public submitTaskWithDownload(name: string, args?: Array<any>): Promise<any> {
-        let self = this;
+        let self = this,
+            temporaryTaskId = uuid.v4();
+        this.eventDispatcherService.dispatch('taskSubmitted', temporaryTaskId);
         return this.callRpcMethod('task.submit_with_download', [
             name,
             args || []
-        ]).then(function(response) {
-            let taskId = response[0];
+        ]).spread(function(taskId, links) {
+            self.eventDispatcherService.dispatch('taskCreated', {
+                old: temporaryTaskId,
+                new: taskId
+            });
             return {
                 taskId: taskId,
                 taskPromise: self.getTaskPromise(taskId),
-                link: MiddlewareClient.getRootURL('http') + response[1][0]
+                link: MiddlewareClient.getRootURL('http') + links[0]
             };
         });
     }
@@ -138,10 +151,15 @@ export class MiddlewareClient {
     }
 
     public submitTaskWithUpload(name: string, args: Array<any>, file: File) {
-        let self = this;
-        return this.callRpcMethod('task.submit_with_upload', _.concat([name], args)).then(function(response) {
-            let token = Array.isArray(response) ? response[1][0] : response;
-            self.sendFileWithToken(file, token);
+        let self = this,
+            temporaryTaskId = uuid.v4();
+        this.eventDispatcherService.dispatch('taskSubmitted', temporaryTaskId);
+        return this.callRpcMethod('task.submit_with_upload', _.concat([name], args)).spread(function(taskId, tokens) {
+            self.eventDispatcherService.dispatch('taskCreated', {
+                old: temporaryTaskId,
+                new: taskId
+            });
+            self.sendFileWithToken(file, tokens[0]);
         });
     }
 

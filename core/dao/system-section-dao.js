@@ -5,7 +5,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var abstract_dao_1 = require("./abstract-dao");
-var systemSections = require("../data/system-sections.json");
+var systemSections = require("../../data/system-sections.json");
 var Promise = require("bluebird");
 var model_1 = require("../model");
 var SystemSectionDao = (function (_super) {

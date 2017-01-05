@@ -1,12 +1,14 @@
 var AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate,
     Notification = require("ui/dashboard/notifications.reel/notification.reel").Notification,
+    RoutingService = require("core/service/routing-service").RoutingService,
     notificationCenter = require("core/backend/notification-center").defaultNotificationCenter;
 
-/**
- * @class Notifications
- * @extends Component
- */
 exports.Notifications = AbstractComponentActionDelegate.specialize({
+    templateDidLoad: {
+        value: function() {
+            this._routingService = RoutingService.getInstance();
+        }
+    },
 
     notificationCenter: {
         get: function () {
@@ -19,12 +21,7 @@ exports.Notifications = AbstractComponentActionDelegate.specialize({
             var iteration = this.items._findIterationContainingElement(event.target.element);
 
             if (iteration) {
-                var taskSection = this.application.selectionService.restoreTaskSelection(iteration.object.jobId, iteration.object.taskReport);
-                if (this.application.section !== taskSection) {
-                    this.application.section = taskSection;
-                } else {
-                    this.application.selectionService.needsRefresh = true;
-                }
+                this._routingService.navigate('/_/retry/' + iteration.object.id);
             }
         }
     },

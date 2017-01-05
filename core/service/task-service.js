@@ -16,6 +16,9 @@ var TaskService = (function () {
     TaskService.prototype.findTasks = function (filter) {
         return this.taskRepository.findTasks(filter);
     };
+    TaskService.prototype.getTask = function (taskId) {
+        return this.taskRepository.getTask(taskId);
+    };
     return TaskService;
 }());
 exports.TaskService = TaskService;

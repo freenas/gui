@@ -1,9 +1,18 @@
 var Component = require("montage/ui/component").Component,
     EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
     ModelEventName = require("core/model-event-name").ModelEventName,
+    TaskService = require("core/service/task-service").TaskService,
     _ = require("lodash");
 
 exports.TaskNotification = Component.specialize({
+    constructor: {
+        value: function() {
+            this.eventDispatcherService = EventDispatcherService.getInstance();
+            this.taskService = TaskService.getInstance();
+        }
+    },
+
+/*
     eventDispatcherService: {
         get: function() {
             if (!this._eventDispatcherService) {
@@ -12,6 +21,7 @@ exports.TaskNotification = Component.specialize({
             return this._eventDispatcherService;
         }
     },
+*/
 
     _object: {
         value: null
@@ -22,8 +32,12 @@ exports.TaskNotification = Component.specialize({
             return this._object;
         },
         set: function(object) {
+            var self = this;
             this._object = object;
             this.availableDisksEventListener = this.eventDispatcherService.addEventListener(ModelEventName.Task.change(this.object.id), this._handleChange.bind(this));
+            this.taskService.getTask(this.object.id).then(function(task) {
+                _.assign(self.object, task);
+            });
         }
     },
 
@@ -54,5 +68,9 @@ exports.TaskNotification = Component.specialize({
                 this._unregisterUpdates();
             }
         }
+    }
+}, {
+    DRAW_GATE_FIELD: {
+        value: 'objectRefreshed'
     }
 });

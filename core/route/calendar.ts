@@ -2,7 +2,7 @@ import Promise = require("bluebird");
 import {EventDispatcherService} from "../service/event-dispatcher-service";
 import {ModelDescriptorService} from "../service/model-descriptor-service";
 
-import sectionsDescriptors  = require("core/model/sections-descriptors.json");
+import sectionsDescriptors  = require("../../data/sections-descriptors.json");
 import {CalendarRepository} from "../repository/calendar-repository";
 import _ = require("lodash");
 import {ModelEventName} from "../model-event-name";

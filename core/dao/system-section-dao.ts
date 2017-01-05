@@ -1,5 +1,5 @@
 import { AbstractDao } from './abstract-dao';
-import * as systemSections from '../data/system-sections.json';
+import * as systemSections from '../../data/system-sections.json';
 import * as Promise from "bluebird";
 import {Model} from "../model";
 
