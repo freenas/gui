@@ -126,7 +126,6 @@ export class RoutingService {
             }
             stateSnapshot.push(context);
         });
-console.log('saveState', stateSnapshot);
         this.taskStacks.set(temporaryTaskId, stateSnapshot);
     }
 
@@ -401,8 +400,9 @@ console.log('saveState', stateSnapshot);
     }
 
     private loadSection(sectionId: string) {
+        let previousSectionId = this.currentSectionId;
         this.currentSectionId = sectionId;
-        if (this.currentStacks.has(sectionId)) {
+        if (this.currentStacks.has(sectionId) && previousSectionId !== sectionId) {
             let stack = this.currentStacks.get(sectionId);
             this.eventDispatcherService.dispatch('sectionChange', stack[0].service);
             this.eventDispatcherService.dispatch('pathChange', stack);

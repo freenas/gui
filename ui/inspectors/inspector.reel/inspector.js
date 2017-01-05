@@ -160,7 +160,6 @@ exports.Inspector = Component.specialize({
 
     clearObjectSelection: {
         value: function() {
-console.log('clearSelection');
             var parentPath = this.parentCascadingListItem.data.parentContext.path;
             return this._routingService.navigate(parentPath);
         }

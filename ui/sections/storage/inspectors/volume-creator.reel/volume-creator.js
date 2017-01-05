@@ -140,9 +140,11 @@ exports.VolumeCreator = AbstractInspector.specialize({
         value: function() {
             var self = this;
             this.object.__isLocked = true;
-            return this._sectionService.createVolume(this.object).then(function() {
+            var creationPromise = this._sectionService.createVolume(this.object).then(function() {
                 self.object.__isLocked = false;
             });
+            this.inspector.clearObjectSelection();
+            return creationPromise;
         }
     }
 

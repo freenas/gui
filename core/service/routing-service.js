@@ -95,7 +95,6 @@ var RoutingService = (function () {
             }
             stateSnapshot.push(context);
         });
-        console.log('saveState', stateSnapshot);
         this.taskStacks.set(temporaryTaskId, stateSnapshot);
     };
     RoutingService.prototype.loadRoutes = function () {
@@ -265,8 +264,9 @@ var RoutingService = (function () {
     };
     RoutingService.prototype.loadSection = function (sectionId) {
         var _this = this;
+        var previousSectionId = this.currentSectionId;
         this.currentSectionId = sectionId;
-        if (this.currentStacks.has(sectionId)) {
+        if (this.currentStacks.has(sectionId) && previousSectionId !== sectionId) {
             var stack = this.currentStacks.get(sectionId);
             this.eventDispatcherService.dispatch('sectionChange', stack[0].service);
             this.eventDispatcherService.dispatch('pathChange', stack);
