@@ -228,7 +228,7 @@ var VolumeRepository = (function (_super) {
         }
         var diskUsage = this.datastoreService.getState().has(model_1.Model.DiskUsage) &&
             this.datastoreService.getState().get(model_1.Model.DiskUsage).has(usageType) ?
-            this.datastoreService.getState().get(model_1.Model.DiskUsage).get(usageType) :
+            this.datastoreService.getState().get(model_1.Model.DiskUsage).get(usageType).toJS() :
             {};
         diskUsage[path] = allocation.name || 'boot';
         this.datastoreService.save(model_1.Model.DiskUsage, usageType, diskUsage);

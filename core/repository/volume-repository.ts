@@ -282,7 +282,7 @@ export class VolumeRepository extends AbstractRepository {
         }
         let diskUsage = this.datastoreService.getState().has(Model.DiskUsage) &&
                         this.datastoreService.getState().get(Model.DiskUsage).has(usageType) ?
-                            this.datastoreService.getState().get(Model.DiskUsage).get(usageType) :
+                            this.datastoreService.getState().get(Model.DiskUsage).get(usageType).toJS() :
                             {};
         diskUsage[path] = allocation.name || 'boot';
         this.datastoreService.save(Model.DiskUsage, usageType, diskUsage);
