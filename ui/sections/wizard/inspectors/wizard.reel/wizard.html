@@ -98,6 +98,13 @@
             "bindings": {
                 "value": {"<-": "@owner.steps.length"}
             }
+        },
+        "contentScrollview": {
+            "prototype": "blue-shark/ui/scrollview.reel",
+            "properties": {
+                "element": {"#": "contentScrollview"},
+                "overflow": "scrollY"
+            }
         }
     }
     </script>
@@ -114,8 +121,10 @@
                 </div>
             </div>
         </div>
-        <div class="Wizard-content g-padding">
-            <div data-montage-id="stepPlaceholder" class="stepPlaceholder g-margin-bottom"></div>
+        <div class="Wizard-content">
+            <div data-montage-id="contentScrollview">
+                <div data-montage-id="stepPlaceholder" class="stepPlaceholder g-padding"></div>
+            </div>
         </div>
         <div class="Wizard-footer g-padding">
             <div class="Wizard-controls flex-row flex-justifyContent--spaceBetween">

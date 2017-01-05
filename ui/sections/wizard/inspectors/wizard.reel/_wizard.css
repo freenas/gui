@@ -32,11 +32,17 @@
 .Wizard-header-title { font-size: 1.25em; }
 
 .Wizard-content {
+    display: flex;
+    flex-direction: column;
     background: #2f3233;
 
     & .stepPlaceholder {
         margin: 0 auto;
         max-width: 50em;
+    }
+
+    & .Scrollview-transform {
+        display: block;
     }
 }
 
