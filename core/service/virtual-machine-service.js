@@ -66,59 +66,23 @@ var VirtualMachineService = exports.VirtualMachineService = Montage.specialize({
 
     setDeviceDefaults: {
         value: function(device) {
+            device.properties = device.properties || {};
             switch (device.type) {
                 case VmDeviceType.CDROM:
-                    if (!device.properties) {
-                        device.properties = {};
-                    }
                     break;
                 case VmDeviceType.DISK:
-                    if (!device.properties) {
-                        device.properties = {
-                            mode: "AHCI"
-                        };
-                    } else {
-                        if (!device.properties.mode)  {
-                            device.properties.mode = "AHCI";
-                        }
-                    }
+                    device.properties.mode = device.properties.mode || "AHCI";
+                    device.properties.target_type = device.properties.target_type || "FILE";
                     break;
                 case VmDeviceType.GRAPHICS:
-                    if (!device.properties) {
-                        device.properties = {
-                            resolution: "1024x768"
-                        };
-                    } else {
-                        if (!device.properties.resolution)  {
-                            device.properties.resolution = "1024x768";
-                        }
-                    }
+                    device.properties.resolution = device.properties.resolution || "1024x768";
                     break;
                 case VmDeviceType.NIC:
-                    if (!device.properties) {
-                        device.properties = {
-                            mode: "NAT",
-                            device: "VIRTIO"
-                        };
-                    } else {
-                        if (!device.properties.device)  {
-                            device.properties.device = "VIRTIO";
-                        }
-                        if (!device.properties.mode) {
-                            device.properties.mode = "NAT";
-                        }
-                    }
+                    device.properties.device = device.properties.device || "VIRTIO";
+                    device.properties.mode = device.properties.mode || "NAT";
                     break;
                 case VmDeviceType.USB:
-                    if (!device.properties) {
-                        device.properties = {
-                            device: "tablet"
-                        };
-                    } else {
-                        if (!device.properties.device)  {
-                            device.properties.device = "tablet";
-                        }
-                    }
+                    device.properties.device = device.properties.device || "tablet";
                     break;
             }
         }

@@ -2,6 +2,7 @@ import {ModelDescriptorService} from "../service/model-descriptor-service";
 import {EventDispatcherService} from "../service/event-dispatcher-service";
 import {VmRepository} from '../repository/vm-repository';
 import {AbstractRoute} from "./abstract-route";
+import {Model} from "../model";
 import _ = require("lodash");
 import Promise = require("bluebird");
 
@@ -104,7 +105,7 @@ export class VmsRoute extends AbstractRoute {
         return Promise.all([
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(uiDescriptor) {
-            context.object = _.forEach(parentContext.object._nonVolumeDevices, (device) => device._objectType = objectType);
+            context.object = parentContext.object._nonVolumeDevices;
             context.userInterfaceDescriptor = uiDescriptor;
 
             return self.updateStackWithContext(stack, context);
