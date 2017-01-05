@@ -81,7 +81,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize({
 
     isNewVDev: {
         get: function () {
-            return !this.object.isExistingVDev;
+            return this.object._isNew;
         }
     },
 

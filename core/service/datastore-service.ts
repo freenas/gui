@@ -1,10 +1,11 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { dispatchAction, ACTIONS } from '../reducers/main';
-import * as ChangeCase from 'change-case';
-import * as Promise from "bluebird";
+import * as Promise from 'bluebird';
 
 import { MiddlewareClient } from './middleware-client';
 import { EventDispatcherService } from './event-dispatcher-service';
+import {Map} from 'immutable';
+import _ = require('lodash');
 
 export class DatastoreService {
     private static instance: DatastoreService;
@@ -29,7 +30,7 @@ export class DatastoreService {
         return DatastoreService.instance;
     }
 
-    public query(this:DatastoreService, type: string, methodName: string, middlewareCriteria: Array<any>) {
+    public query(type: string, methodName: string, middlewareCriteria: Array<any>) {
         let queryPromise = this.middlewareClient.callRpcMethod(methodName, middlewareCriteria).then(function(results) {
             return Array.isArray(results) ? results : [results];
         });
@@ -43,7 +44,7 @@ export class DatastoreService {
         return queryPromise;
     }
 
-    public save(this: DatastoreService, type: string, id: string, object: Object) {
+    public save(type: string, id: string, object: Object) {
         this.store.dispatch({
             type: ACTIONS.SAVE_OBJECT,
             meta: {
@@ -54,7 +55,7 @@ export class DatastoreService {
         });
     }
 
-    public delete(this: DatastoreService, type: any, id: string) {
+    public delete(type: any, id: string) {
         let state = this.store.getState();
         if (state && state.get(type) && state.get(type).has(id)) {
             this.store.dispatch({
@@ -67,7 +68,7 @@ export class DatastoreService {
         }
     }
 
-    public import(this:DatastoreService, type, objects: Array<Object>) {
+    public import(type, objects: Array<Object>) {
         this.store.dispatch({
             type: ACTIONS.IMPORT_OBJECTS,
             meta: {
@@ -82,7 +83,7 @@ export class DatastoreService {
     }
 
     private handleMiddlewareModelChange(args: any) {
-        let type = ChangeCase.pascalCase(args.service),
+        let type = _.upperFirst(_.camelCase(args.service)),
             ids = args.ids,
             entities = args.entities,
             operation = args.operation;

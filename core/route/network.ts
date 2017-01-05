@@ -1,9 +1,10 @@
-import _ = require("lodash");
-import Promise = require("bluebird");
-import {EventDispatcherService} from "../service/event-dispatcher-service";
-import {ModelDescriptorService} from "../service/model-descriptor-service";
-import {NetworkRepository} from "../repository/network-repository";
-import {AbstractRoute} from "./abstract-route";
+import * as _ from 'lodash';
+import * as Promise from 'bluebird';
+import {EventDispatcherService} from '../service/event-dispatcher-service';
+import {ModelDescriptorService} from '../service/model-descriptor-service';
+import {NetworkRepository} from '../repository/network-repository';
+import {AbstractRoute} from './abstract-route';
+import {Model} from '../model';
 
 export class NetworkRoute extends AbstractRoute {
     private static instance: NetworkRoute;
@@ -29,7 +30,7 @@ export class NetworkRoute extends AbstractRoute {
         let self = this,
             objectType = Model.NetworkInterface,
             columnIndex = 1,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -51,7 +52,7 @@ export class NetworkRoute extends AbstractRoute {
         let self = this,
             objectType = Model.NetworkInterface,
             columnIndex = 1,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -62,7 +63,7 @@ export class NetworkRoute extends AbstractRoute {
         return Promise.all([
             Promise.map(_.values(NetworkRepository.INTERFACE_TYPES), type => this.networkRepository.getNewInterfaceWithType(type)),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(interfaces, uiDescriptor) {
+        ]).spread(function(interfaces: any, uiDescriptor) {
             interfaces._objectType = objectType;
             context.object = _.compact(interfaces);
             context.userInterfaceDescriptor = uiDescriptor;
@@ -95,7 +96,7 @@ export class NetworkRoute extends AbstractRoute {
         let self = this,
             objectType = Model.Ipmi,
             columnIndex = 1,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -105,7 +106,7 @@ export class NetworkRoute extends AbstractRoute {
         return Promise.all([
             this.networkRepository.listIpmiChannels(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(ipmi, uiDescriptor) {
+        ]).spread(function(ipmi: any, uiDescriptor) {
             ipmi._objectType = objectType;
             context.object = ipmi;
             context.userInterfaceDescriptor = uiDescriptor;
@@ -118,7 +119,7 @@ export class NetworkRoute extends AbstractRoute {
        let self = this,
             objectType = Model.Ipmi,
             columnIndex = 2,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,

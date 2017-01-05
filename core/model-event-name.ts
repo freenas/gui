@@ -16,6 +16,7 @@ export class ModelEventName {
     public static DirectoryserviceConfig = new ModelEventName('DirectoryserviceConfig');
     public static DirectoryServices = new ModelEventName('DirectoryServices');
     public static Disk = new ModelEventName('Disk');
+    public static DiskUsage = new ModelEventName('DiskUsage');
     public static DockerCollection = new ModelEventName('DockerCollection');
     public static DockerConfig = new ModelEventName('DockerConfig');
     public static DockerContainer = new ModelEventName('DockerContainer');

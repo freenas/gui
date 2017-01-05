@@ -1,22 +1,22 @@
-import hasher = require("hasher");
-import * as crossroads from "crossroads";
-import * as _ from "lodash";
-import {ModelDescriptorService} from "./model-descriptor-service";
-import {MiddlewareClient} from "./middleware-client";
-import {SectionRoute} from "../route/section";
-import {VolumeRoute} from "../route/volume";
-import {ShareRoute} from "../route/share";
-import {SnapshotRoute} from "../route/snapshot";
-import {DatasetRoute} from "../route/dataset";
-import {EventDispatcherService} from "./event-dispatcher-service";
-import {CalendarRoute} from "../route/calendar";
-import {SystemRoute} from "../route/system";
-import {ServicesRoute} from "../route/services";
-import {PeeringRoute} from "../route/peering";
-import {NetworkRoute} from "../route/network";
-import {DockerRoute} from "../route/docker";
-import {VmsRoute} from "../route/vms";
-import {AccountsRoute} from "../route/accounts";
+import hasher = require('hasher');
+import * as crossroads from 'crossroads';
+import * as _ from 'lodash';
+import {ModelDescriptorService} from './model-descriptor-service';
+import {MiddlewareClient} from './middleware-client';
+import {SectionRoute} from '../route/section';
+import {VolumeRoute} from '../route/volume';
+import {ShareRoute} from '../route/share';
+import {SnapshotRoute} from '../route/snapshot';
+import {DatasetRoute} from '../route/dataset';
+import {EventDispatcherService} from './event-dispatcher-service';
+import {CalendarRoute} from '../route/calendar';
+import {SystemRoute} from '../route/system';
+import {ServicesRoute} from '../route/services';
+import {PeeringRoute} from '../route/peering';
+import {NetworkRoute} from '../route/network';
+import {DockerRoute} from '../route/docker';
+import {VmsRoute} from '../route/vms';
+import {AccountsRoute} from '../route/accounts';
 
 export class RoutingService {
     private static instance: RoutingService;
@@ -72,7 +72,7 @@ export class RoutingService {
     public navigate(path: string) {
         hasher.appendHash = ';' + this.middlewareClient.getExplicitHostParam();
         if (path[0] === '/') {
-            hasher.setHash(path)
+            hasher.setHash(path);
         } else {
             hasher.setHash(hasher.getHash() + '/' + path);
         }
@@ -89,7 +89,7 @@ export class RoutingService {
         return (Array.isArray(object) || _.isNull(id)) ? url : url + '/_/' + encodeURIComponent(id);
     }
 
-    private handleHashChange(newHash, oldHash) {
+    private handleHashChange(newHash) {
         crossroads.parse(decodeURIComponent(newHash));
         this.eventDispatcherService.dispatch('hashChange', newHash);
     }
@@ -295,76 +295,83 @@ export class RoutingService {
     }
 
     private loadDashboardRoutes() {
-        crossroads.addRoute('/dashboard', () => this.sectionRoute.getOld('dashboard'))
+        crossroads.addRoute('/dashboard', () => this.sectionRoute.getOld('dashboard'));
     }
 
     private loadConsoleRoutes() {
-        crossroads.addRoute('/console', () => this.sectionRoute.getOld('console'))
+        crossroads.addRoute('/console', () => this.sectionRoute.getOld('console'));
     }
 
     private loadWizardRoutes() {
-        crossroads.addRoute('/wizard', () => this.sectionRoute.getOld('wizard'))
+        crossroads.addRoute('/wizard', () => this.sectionRoute.getOld('wizard'));
     }
 
     private loadStorageRoutes() {
         crossroads.addRoute('/storage', () => this.loadSection('storage'));
         crossroads.addRoute('/storage/volume/_/{volumeId}',
-            (volumeId) => this.volumeRoute.get(volumeId, this.currentStacks.get("storage")));
+            (volumeId) => this.volumeRoute.get(volumeId, this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/volume/_/{volumeId}/share',
-            (volumeId) => this.shareRoute.list(volumeId, this.currentStacks.get("storage")));
+            (volumeId) => this.shareRoute.list(volumeId, this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/volume/_/{volumeId}/share/create',
-            (volumeId) => this.shareRoute.selectNewType(volumeId, this.currentStacks.get("storage")));
+            (volumeId) => this.shareRoute.selectNewType(volumeId, this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/volume/_/{volumeId}/share/create/{type}',
-            (volumeId, type) => this.shareRoute.create(volumeId, type, this.currentStacks.get("storage")));
+            (volumeId, type) => this.shareRoute.create(volumeId, type, this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/volume/_/{volumeId}/share/_/{shareId}',
-            (volumeId, shareId) => this.shareRoute.get(volumeId, shareId, this.currentStacks.get("storage")));
+            (volumeId, shareId) => this.shareRoute.get(volumeId, shareId, this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-snapshot',
-            (volumeId) => this.snapshotRoute.list(volumeId, this.currentStacks.get("storage")));
+            (volumeId) => this.snapshotRoute.list(volumeId, this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-snapshot/create',
-            (volumeId) => this.snapshotRoute.create(volumeId, this.currentStacks.get("storage")));
+            (volumeId) => this.snapshotRoute.create(volumeId, this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-snapshot/_/{snapshotId*}',
-            (volumeId, snapshotId) => this.snapshotRoute.get(volumeId, snapshotId, this.currentStacks.get("storage")));
+            (volumeId, snapshotId) => this.snapshotRoute.get(volumeId, snapshotId, this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset',
-            (volumeId) => this.datasetRoute.list(volumeId, this.currentStacks.get("storage")));
+            (volumeId) => this.datasetRoute.list(volumeId, this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/create',
-            (volumeId) => this.datasetRoute.create(volumeId, this.currentStacks.get("storage")));
+            (volumeId) => this.datasetRoute.create(volumeId, this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}',
-            (volumeId, datasetId) => this.datasetRoute.get(volumeId, datasetId, this.currentStacks.get("storage")));
+            (volumeId, datasetId) => this.datasetRoute.get(volumeId, datasetId, this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/volume-snapshot',
-            (volumeId, datasetId) => this.snapshotRoute.listForDataset(volumeId, datasetId, this.currentStacks.get("storage")), 1);
+            (volumeId, datasetId) => this.snapshotRoute.listForDataset(volumeId, datasetId, this.currentStacks.get('storage')), 1);
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/volume-snapshot/create',
-            (volumeId, datasetId) => this.snapshotRoute.createForDataset(volumeId, datasetId, this.currentStacks.get("storage")), 1);
+            (volumeId, datasetId) => this.snapshotRoute.createForDataset(volumeId, datasetId, this.currentStacks.get('storage')), 1);
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/volume-snapshot/_/{snapshotId*}',
-            (volumeId, datasetId, snapshotId) => this.snapshotRoute.getForDataset(volumeId, snapshotId, this.currentStacks.get("storage")), 1);
+            (volumeId, datasetId, snapshotId) => this.snapshotRoute.getForDataset(volumeId, snapshotId, this.currentStacks.get('storage')), 1);
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/vmware-dataset',
-            (volumeId, datasetId) => this.datasetRoute.listVmware(datasetId, this.currentStacks.get("storage")), 1);
+            (volumeId, datasetId) => this.datasetRoute.listVmware(datasetId, this.currentStacks.get('storage')), 1);
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/vmware-dataset/create',
-            (volumeId, datasetId) => this.datasetRoute.createVmware(datasetId, this.currentStacks.get("storage")), 1);
+            (volumeId, datasetId) => this.datasetRoute.createVmware(datasetId, this.currentStacks.get('storage')), 1);
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/vmware-dataset/_/{vmwareDatasetId*}',
-            (volumeId, datasetId, vmwareDatasetId) => this.datasetRoute.getVmware(vmwareDatasetId, this.currentStacks.get("storage")), 1);
+            (volumeId, datasetId, vmwareDatasetId) => this.datasetRoute.getVmware(vmwareDatasetId, this.currentStacks.get('storage')), 1);
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/replication',
-            (volumeId, datasetId) => this.datasetRoute.replication(datasetId, this.currentStacks.get("storage")), 1);
+            (volumeId, datasetId) => this.datasetRoute.replication(datasetId, this.currentStacks.get('storage')), 1);
         crossroads.addRoute('/storage/volume/_/{volumeId}/topology',
-            (volumeId) => this.volumeRoute.getVolumeTopology(this.currentStacks.get("storage")));
+            (volumeId) => this.volumeRoute.getVolumeTopology(this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/volume/_/{volumeId}/topology/disk/_/{diskId}',
-            (volumeId, diskId) => this.volumeRoute.topologyDisk(diskId, this.currentStacks.get("storage")));
+            (volumeId, diskId) => this.volumeRoute.topologyDisk(diskId, this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/create',
-            () => this.volumeRoute.create(this.currentStacks.get("storage")));
+            () => this.volumeRoute.create(this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/create/disk/_/{diskId}',
-            (diskId) => this.volumeRoute.creatorDisk(diskId, this.currentStacks.get("storage")));
+            (diskId) => this.volumeRoute.creatorDisk(diskId, this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/volume-importer/_/-',
-            () => this.volumeRoute.import(this.currentStacks.get("storage")));
+            () => this.volumeRoute.import(this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/volume-importer/_/-/detached-volume/_/{volumeId}',
-            (volumeId) => this.volumeRoute.getDetachedVolume(volumeId, this.currentStacks.get("storage")));
+            (volumeId) => this.volumeRoute.getDetachedVolume(volumeId, this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/volume-importer/_/-/detached-volume/_/{volumeId}/topology',
-            (volumeId) => this.volumeRoute.getDetachedVolumeTopology(this.currentStacks.get("storage")));
+            (volumeId) => this.volumeRoute.getDetachedVolumeTopology(this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/volume-importer/_/-/encrypted',
-            () => this.volumeRoute.importEncrypted(this.currentStacks.get("storage")));
+            () => this.volumeRoute.importEncrypted(this.currentStacks.get('storage')));
     }
 
     private loadSection(sectionId: string) {
-        return this.sectionRoute.get(sectionId).then((stack) => {
-            this.currentStacks.set(sectionId, stack);
-        });
+        if (this.currentStacks.has(sectionId)) {
+            let stack = this.currentStacks.get(sectionId);
+            this.eventDispatcherService.dispatch('sectionChange', stack[0].service);
+            this.navigate(_.last(stack).path);
+            this.eventDispatcherService.dispatch('pathChange', stack);
+        } else {
+            this.sectionRoute.get(sectionId).then((stack) => {
+                this.currentStacks.set(sectionId, stack);
+            });
+        }
     }
 }

@@ -26,6 +26,7 @@ ModelEventName.Directory = new ModelEventName('Directory');
 ModelEventName.DirectoryserviceConfig = new ModelEventName('DirectoryserviceConfig');
 ModelEventName.DirectoryServices = new ModelEventName('DirectoryServices');
 ModelEventName.Disk = new ModelEventName('Disk');
+ModelEventName.DiskUsage = new ModelEventName('DiskUsage');
 ModelEventName.DockerCollection = new ModelEventName('DockerCollection');
 ModelEventName.DockerConfig = new ModelEventName('DockerConfig');
 ModelEventName.DockerContainer = new ModelEventName('DockerContainer');

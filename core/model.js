@@ -2,6 +2,7 @@
 var Model = {
     AccountCategory: 'AccountCategory',
     AccountSystem: 'AccountSystem',
+    DiskUsage: 'DiskUsage',
     Alert: 'Alert',
     AlertFilter: 'AlertFilter',
     AlertSettings: 'AlertSettings',

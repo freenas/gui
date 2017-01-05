@@ -1,34 +1,31 @@
 import { AbstractRepository } from './abstract-repository-ng';
 import { DiskDao } from '../dao/disk-dao';
-import immutable = require("immutable");
-import Promise = require("bluebird");
-import {Model} from "../model";
-import {ModelEventName} from "../model-event-name";
+import immutable = require('immutable');
+import Promise = require('bluebird');
+import {Model} from '../model';
+import {ModelEventName} from '../model-event-name';
+import {DatastoreService} from '../service/datastore-service';
+import {Map} from 'immutable';
 
 export class DiskRepository extends AbstractRepository {
     private static instance: DiskRepository;
-    private disks: immutable.Map<string, immutable.Map<string, any>>;
-    private reservedDisks: Set<string>;
-    private freeDisks: Array<string>;
-    private exportedDisks: Map<string, string>;
-    private usableDisks: Array<string>;
-    private diskAllocations: Map<string, any>;
-    private pathToId: Map<string, string>;
+    private disks: Map<string, Map<string, any>>;
+    private availableDisks: Map<string, Map<string, any>>;
+    private diskUsage: Map<string, Map<string, any>>;
 
-    private constructor(private diskDao: DiskDao) {
-        super([Model.Disk]);
-        this.reservedDisks = new Set<string>();
-        this.freeDisks = [];
-        this.exportedDisks = new Map<string, string>();
-        this.usableDisks = [];
-        this.diskAllocations = new Map<string, any>();
-        this.pathToId = new Map<string, string>();
+    private constructor(private diskDao: DiskDao,
+                        private datastoreService: DatastoreService) {
+        super([
+            Model.Disk,
+            Model.DiskUsage
+        ]);
     }
 
     public static getInstance() {
         if (!DiskRepository.instance) {
             DiskRepository.instance = new DiskRepository(
-                new DiskDao()
+                new DiskDao(),
+                DatastoreService.getInstance()
             );
         }
         return DiskRepository.instance;
@@ -38,76 +35,77 @@ export class DiskRepository extends AbstractRepository {
         return this.disks ? Promise.resolve(this.disks.valueSeq().toJS()) : this.diskDao.list();
     }
 
-    public listAvailableDisks() {
-        return this.disks.valueSeq()
-            .filter((x) => this.usableDisks.indexOf(x.get('id')) !== -1)
-            .filter((x) => !this.reservedDisks.has(x.get('id')))
-            .map((x) => x.toJS())
-            .toArray();
-    }
-
     public clearReservedDisks() {
-        if (this.reservedDisks.size > 0) {
-            this.reservedDisks = new Set<string>();
-            this.eventDispatcherService.dispatch('availableDisksChange', this.listAvailableDisks());
-        }
+        this.datastoreService.save(Model.DiskUsage, 'reserved', {});
     }
 
-    public markDiskAsReserved(disk: any) {
-        let diskId = this.getDiskId(disk);
-        this.reservedDisks.add(diskId);
-        this.eventDispatcherService.dispatch('availableDisksChange', this.listAvailableDisks());
-    }
-
-    public markDiskAsNonReserved(disk: any) {
-        let diskId = this.getDiskId(disk);
-        this.reservedDisks.delete(diskId);
-        this.eventDispatcherService.dispatch('availableDisksChange', this.listAvailableDisks());
+    public listAvailableDisks() {
+        return this.availableDisks.valueSeq().toJS();
     }
 
     public getDiskAllocation(disk: any) {
-        if (this.diskAllocations.has(disk.path)) {
-            return this.diskAllocations.get(disk.path);
+        let allocation;
+        if (this.diskUsage.has('attached') && this.diskUsage.get('attached').has(disk.path)) {
+            allocation = {
+                name: this.diskUsage.get('attached').get(disk.path),
+                type: 'VOLUME'
+            };
+        } else if (this.diskUsage.has('detached') && this.diskUsage.get('detached').has(disk.path)) {
+            allocation = {
+                name: this.diskUsage.get('detached').get(disk.path),
+                type: 'EXPORTED_VOLUME'
+            };
+        } else if (this.diskUsage.has('boot') && this.diskUsage.get('boot').has(disk.path)) {
+            allocation = {
+                type: 'BOOT'
+            };
         }
+        return allocation;
     }
 
-    public updateDiskUsage(availableDisks: Array<string>, disksAllocations: Object) {
-        let self = this,
-            allocatedDisks = Object.keys(disksAllocations),
-            exportedDisksPaths = allocatedDisks.filter((x) => disksAllocations[x].type === 'EXPORTED_VOLUME');
-        this.freeDisks = this.disks.valueSeq()
-            .filter((x) => availableDisks.indexOf(x.get('path')) != -1)
-            .filter((x) => allocatedDisks.indexOf(x.get('path')) === -1)
-            .map((x) => x.get('id'))
-            .toArray();
-        this.usableDisks = this.freeDisks.slice();
-        this.exportedDisks = new Map<string, string>();
-        for (let diskPath of exportedDisksPaths) {
-            this.exportedDisks.set(diskPath, disksAllocations[diskPath].name);
-            this.usableDisks.push(this.pathToId.get(diskPath));
-        }
-        this.diskAllocations.clear();
-        this.disks.forEach(function(disk) {
-            let diskPath = disk.get('path');
-            if (allocatedDisks.indexOf(diskPath) !== -1) {
-                self.diskAllocations.set(diskPath, disksAllocations[diskPath]);
-            }
-        });
-        this.eventDispatcherService.dispatch('availableDisksChange', this.listAvailableDisks());
+    public markDiskAsReserved(diskPath: any) {
+        let diskUsage = this.datastoreService.getState().get(Model.DiskUsage) &&
+                        this.datastoreService.getState().get(Model.DiskUsage).has('reserved') ?
+                            this.datastoreService.getState().get(Model.DiskUsage).get('reserved').toJS() :
+                            {};
+        diskUsage[diskPath] = 'temp';
+        this.datastoreService.save(Model.DiskUsage, 'reserved', diskUsage);
+    }
+
+    public markDiskAsNonReserved(diskPath: any) {
+        let diskUsage = this.datastoreService.getState().get(Model.DiskUsage) &&
+                        this.datastoreService.getState().get(Model.DiskUsage).has('reserved') ?
+                            this.datastoreService.getState().get(Model.DiskUsage).get('reserved').toJS() :
+                            {};
+        delete diskUsage[diskPath];
+        this.datastoreService.save(Model.DiskUsage, 'reserved', diskUsage);
+    }
+
+    private getAvailableDisks(disks: Map<string, Map<string, any>>, diskUsage: Map<string, Map<string, string>>): Map<string, Map<string, any>> {
+        return Map<string, Map<string, any>>(
+            disks.filter((disk) =>  !this.isDiskUsed(disk, diskUsage.get('attached')) &&
+                                    !this.isDiskUsed(disk, diskUsage.get('boot')) &&
+                                    !this.isDiskUsed(disk, diskUsage.get('reserved')))
+        );
+    }
+
+    private isDiskUsed(disk: any, diskUsage: Map<string, string>) {
+        return diskUsage && diskUsage.has(disk.get('path'));
     }
 
     protected handleStateChange(name: string, state: any) {
-        let self = this;
-        this.pathToId.clear();
-        state.forEach(function(disk, id) {
-            self.pathToId.set(disk.get('path'), id);
-        });
-        this.disks = this.dispatchModelEvents(this.disks, ModelEventName.Disk, state);
-    }
-
-    private getDiskId(disk: any) {
-        return disk._disk ? disk._disk.id :
-            disk.id ? disk.id : disk;
+        switch (name) {
+            case Model.Disk:
+                this.disks = this.dispatchModelEvents(this.disks, ModelEventName.Disk, state);
+                break;
+            case Model.DiskUsage:
+                this.availableDisks = this.getAvailableDisks(this.disks, state);
+                this.diskUsage = state;
+                this.eventDispatcherService.dispatch('AvailableDisksChanged', this.availableDisks);
+                break;
+            default:
+                break;
+        }
     }
 
     protected handleEvent(name: string, data: any) {}

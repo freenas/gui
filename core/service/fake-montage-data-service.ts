@@ -1,12 +1,8 @@
 import {MiddlewareClient} from './middleware-client';
 import {DatastoreService} from './datastore-service';
-import {CacheService} from './cache-service';
-
 import {Model} from '../model/model';
-
-import {ModelDescriptorService} from "./model-descriptor-service";
-
-import Promise = require("bluebird");
+import {ModelDescriptorService} from './model-descriptor-service';
+import Promise = require('bluebird');
 
 // DTM
 export class FakeMontageDataService {
@@ -14,7 +10,6 @@ export class FakeMontageDataService {
     private middlewareClient: MiddlewareClient;
     private datastoreService: DatastoreService;
     private modelDescriptorService: ModelDescriptorService;
-    private cacheService: CacheService;
     private validPropertyRegex: RegExp;
     private typePropertiesDescriptors: Map<string, Map<string, Object>>;
 
@@ -22,7 +17,6 @@ export class FakeMontageDataService {
         this.middlewareClient = MiddlewareClient.getInstance();
         this.datastoreService = DatastoreService.getInstance();
         this.modelDescriptorService = ModelDescriptorService.getInstance();
-        this.cacheService = CacheService.getInstance();
         this.validPropertyRegex = /[a-z0-9_]*/;
         this.typePropertiesDescriptors = new Map<string, Map<string, Object>>();
     }
@@ -48,7 +42,7 @@ export class FakeMontageDataService {
                             dao.findSingleEntry(criteria) :
                             dao.find(criteria) :
                         dao.list();
-        })
+        });
 /*
         let key = type.typeName,
             entries;

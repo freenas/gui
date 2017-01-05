@@ -6,16 +6,17 @@ import { VolumeRepository } from '../../repository/volume-repository';
 import { TopologyService } from '../topology-service';
 import { PeeringService } from '../peering-service';
 import { FilesystemService } from '../filesystem-service';
-import { Model } from 'core/model/model';
-import {VmwareRepository} from "../../repository/vmware-repository";
-import {ModelEventName} from "../../model-event-name";
-import {ReplicationRepository} from "../../repository/replication-repository";
-import {TaskRepository} from "../../repository/task-repository";
-import {Map} from "immutable";
-import {PeerRepository} from "../../repository/peer-repository";
-import {NetworkRepository} from "../../repository/network-repository";
-import {ServiceRepository} from "../../repository/service-repository";
-import Promise = require("bluebird");
+import { Model } from '../../model';
+import {VmwareRepository} from '../../repository/vmware-repository';
+import {ModelEventName} from '../../model-event-name';
+import {ReplicationRepository} from '../../repository/replication-repository';
+import {TaskRepository} from '../../repository/task-repository';
+import {Map} from 'immutable';
+import {PeerRepository} from '../../repository/peer-repository';
+import {NetworkRepository} from '../../repository/network-repository';
+import {ServiceRepository} from '../../repository/service-repository';
+import Promise = require('bluebird');
+import _ = require('lodash');
 
 export class StorageSectionService extends AbstractSectionService {
     private shareRepository: ShareRepository;
@@ -30,16 +31,9 @@ export class StorageSectionService extends AbstractSectionService {
 
     private topologyService: TopologyService;
 
-    private refreshPromise: Promise<any>;
+    private initialDiskAllocationPromise: Promise<any>;
 
     private storageOverview: any;
-
-    public readonly SHARE_TYPE = Model.Share;
-    public readonly VOLUME_DATASET_TYPE = Model.VolumeDataset;
-    public readonly VOLUME_SNAPSHOT_TYPE = Model.VolumeSnapshot;
-    public readonly TOPOLOGY_TYPE = Model.ZfsTopology;
-    public readonly TOPOLOGY_KEYS = VolumeRepository.TOPOLOGY_KEYS;
-
 
     protected init() {
         let self = this;
@@ -60,16 +54,11 @@ export class StorageSectionService extends AbstractSectionService {
 
         this.eventDispatcherService.addEventListener(ModelEventName.Disk.listChange, this.handleDisksChange.bind(this));
         this.eventDispatcherService.addEventListener(ModelEventName.Volume.listChange, this.handleVolumesChange.bind(this));
-        this.eventDispatcherService.addEventListener('topologyChange', this.refreshDiskUsage.bind(this));
     }
 
     protected loadEntries() {
-        let self = this;
         this.entries = ([] as Array<any>);
-        return this.volumeRepository.listVolumes().then(function(volumes) {
-            self.refreshDiskUsage();
-            return volumes;
-        });
+        return this.volumeRepository.listVolumes();
     }
 
     protected loadExtraEntries() {
@@ -100,7 +89,7 @@ export class StorageSectionService extends AbstractSectionService {
                     return volume._rootDataset = dataset;
                 }
             }
-        })
+        });
     }
 
     public listShares() {
@@ -131,7 +120,15 @@ export class StorageSectionService extends AbstractSectionService {
     }
 
     public listDisks() {
-        return this.diskRepository.listDisks();
+        if (!this.initialDiskAllocationPromise || this.initialDiskAllocationPromise.isRejected()) {
+            this.initialDiskAllocationPromise = this.diskRepository.listDisks().then(
+                (disks) => {
+                    this.volumeRepository.initializeDisksAllocations((_.map(disks, 'path') as Array<string>));
+                    return disks;
+                }
+            );
+        }
+        return this.initialDiskAllocationPromise;
     }
 
     public clearReservedDisks() {
@@ -139,7 +136,7 @@ export class StorageSectionService extends AbstractSectionService {
     }
 
     public listAvailableDisks() {
-        return this.diskRepository.listAvailableDisks();
+        return this.listDisks().then(() => this.diskRepository.listAvailableDisks());
     }
 
     public findDetachedVolumes() {
@@ -170,6 +167,15 @@ export class StorageSectionService extends AbstractSectionService {
         return this.volumeRepository.clearTopology(topology);
     }
 
+    public getTopologyProxy(topology: any) {
+        let pairs = _.map(VolumeRepository.TOPOLOGY_KEYS, (key) => [key, []]);
+        let topologyProxy = _.fromPairs(pairs);
+        _.forEach(VolumeRepository.TOPOLOGY_KEYS,
+            (key) => topologyProxy[key] = this.cloneVdevs(topology[key])
+        );
+        return topologyProxy;
+    }
+
     public generateTopology(topology, disks, redundancy, speed, storage) {
         let self = this;
         this.clearReservedDisks();
@@ -179,25 +185,41 @@ export class StorageSectionService extends AbstractSectionService {
             vdev = topology.data[i];
             if (Array.isArray(vdev.children)) {
                 for (j = 0, disksLength = vdev.children.length; j < disksLength; j++) {
-                    self.markDiskAsReserved(vdev.children[j]);
+                    self.markDiskAsReserved(vdev.children[j].path);
                 }
             } else {
-                self.markDiskAsReserved(vdev);
+                self.markDiskAsReserved(vdev.path);
             }
         }
         return priorities;
+    }
+
+    public getNewZfsVdev() {
+        return this.volumeRepository.getNewZfsVdev();
+    }
+
+    public getVdevFromDisk(disk: any) {
+        return this.isVdev(disk) ? disk : this.topologyService.diskToVdev(disk);
+    }
+
+    public isVdev(disk: any): boolean {
+        return disk._objectType === Model.ZfsVdev;
+    }
+
+    public isVolumeDataset(object: any): boolean {
+        return object._objectType === Model.VolumeDataset;
     }
 
     public updateVolumeTopology(volume: any, topology: any) {
         return this.volumeRepository.updateVolumeTopology(volume, topology);
     }
 
-    public markDiskAsReserved(diskId: string) {
-        this.diskRepository.markDiskAsReserved(diskId);
+    public markDiskAsReserved(diskPath: string) {
+        this.diskRepository.markDiskAsReserved(diskPath);
     }
 
-    public markDiskAsNonReserved(diskId: string) {
-        this.diskRepository.markDiskAsNonReserved(diskId);
+    public markDiskAsNonReserved(diskPath: string) {
+        this.diskRepository.markDiskAsNonReserved(diskPath);
     }
 
     public getDiskAllocation(disk: any) {
@@ -266,6 +288,22 @@ export class StorageSectionService extends AbstractSectionService {
         return this.serviceRepository.listServices();
     }
 
+    private cloneVdevs(vdevs: Array<any>): Array<any> {
+        return _.map(vdevs, (vdev) => {
+            let clone = _.cloneDeep(vdev);
+            switch (clone.type) {
+                case 'disk':
+                    clone.children = _.castArray(
+                        _.cloneWith(vdev, (value, key) => key === 'children' ? [] : undefined)
+                    );
+                    break;
+                default:
+                    break;
+            }
+            return clone;
+        });
+    }
+
     private handleDisksChange(disks: Map<string, Map<string, any>>) {
     }
 
@@ -292,22 +330,4 @@ export class StorageSectionService extends AbstractSectionService {
         }
         this.storageOverview.volumes = this.entries;
     }
-
-    private refreshDiskUsage() {
-        let self = this,
-            availablePaths;
-        return this.refreshPromise ?
-            this.refreshPromise :
-            this.volumeRepository.getAvailableDisks().then(function (paths) {
-                availablePaths = paths;
-                return self.diskRepository.listDisks();
-            }).then(function (disks) {
-                return self.volumeRepository.getDisksAllocations(disks.map((x: any) => x.path));
-            }).then(function (disksAllocations) {
-                return self.diskRepository.updateDiskUsage(availablePaths, disksAllocations);
-            }).then(function() {
-                self.refreshPromise = null;
-            });
-    }
-
 }

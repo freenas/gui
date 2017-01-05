@@ -2,7 +2,7 @@
   "name": "freenas-10-gui",
   "version": "0.3.0",
   "dependencies": {
-    "blue-shark": "freenas/blue-shark#d2a7e7946c73c42fc49e35605619ba7a924c8231",
+    "blue-shark": "freenas/blue-shark#fb1417ae2ea6250ff3c4193a57d222bcaa119497",
     "change-case": "^3.0.0",
     "collections": "montagejs/collections#90210529c7b01ed373b65d4a60409f5edd36a93a",
     "crossroads": "^0.12.2",
@@ -49,6 +49,7 @@
     "prompt": "~0.3.0",
     "rimraf": "~2.5.2",
     "stylelint": "^7.6.0",
+    "tslint": "^4.2.0",
     "typescript": "^2.1.0",
     "ws": "~1.1.1"
   },
