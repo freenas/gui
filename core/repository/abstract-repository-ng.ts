@@ -1,11 +1,10 @@
 import {EventDispatcherService} from '../service/event-dispatcher-service';
-import {ModelEventName} from "../model-event-name";
-import * as immutable from 'immutable';
-import {Map} from "immutable";
-import {ModelDescriptorService} from "../service/model-descriptor-service";
+import {ModelEventName} from '../model-event-name';
+import {Map} from 'immutable';
+import {ModelDescriptorService} from '../service/model-descriptor-service';
 
 export abstract class AbstractRepository {
-    protected previousState: immutable.Map<string, immutable.Map<string, Map<string, any>>>;
+    protected previousState: Map<string, Map<string, Map<string, any>>>;
     protected readonly eventDispatcherService = EventDispatcherService.getInstance();
     protected readonly modelDescriptorService =  ModelDescriptorService.getInstance();
 
@@ -13,12 +12,12 @@ export abstract class AbstractRepository {
         let self = this;
         for (let subscribedStateChange of subscribedStateChanges) {
             this.eventDispatcherService.addEventListener('stateChange', function(data) {
-                self.dispatchStateChange(subscribedStateChange, data)
+                self.dispatchStateChange(subscribedStateChange, data);
             });
         }
         for (let subscribedEvent of subscribedEvents) {
             this.eventDispatcherService.addEventListener(subscribedEvent, function(data) {
-                self.handleEvent(subscribedEvent, data)
+                self.handleEvent(subscribedEvent, data);
             });
         }
     }
@@ -26,8 +25,8 @@ export abstract class AbstractRepository {
     private dispatchStateChange(name: string, state: any) {
         if (state.has(name)) {
             if (!this.previousState || this.previousState.get(name) !== state.get(name)) {
+                this.previousState = state;
                 this.handleStateChange(name, state.get(name));
-                this.previousState = state
             }
         }
     }

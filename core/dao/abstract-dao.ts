@@ -1,15 +1,11 @@
 import { MiddlewareClient } from '../service/middleware-client';
 import { DatastoreService } from '../service/datastore-service';
-import { Model } from '../model/model';
 import { processor as cleaningProcessor } from '../service/data-processor/cleaner';
 import { processor as diffProcessor } from '../service/data-processor/diff';
 import { processor as nullProcessor } from '../service/data-processor/null';
 import { dotCase, paramCase } from 'change-case';
 import * as _ from 'lodash';
-import * as Promise from "bluebird";
-
-// DTM
-import { CacheService } from '../service/cache-service';
+import * as Promise from 'bluebird';
 
 export class AbstractDao {
     protected middlewareClient: MiddlewareClient;
@@ -17,7 +13,6 @@ export class AbstractDao {
 
     private listPromise: Promise<Array<any>>;
 
-    protected model: any;
     private middlewareName: string;
     private objectType: string;
     private queryMethod: string;
@@ -29,14 +24,8 @@ export class AbstractDao {
     private isRegistered = false;
     protected propertyDescriptors: Map<string, any>;
 
-    // DTM
-    private cacheService: CacheService;
-    private registerPromise: Promise<void>;
-
     public constructor(objectType: any, config?: any) {
         config = config || {};
-        let self = this;
-        this.model = Model[objectType] || {};
         this.objectType = config.typeName || objectType;
         this.middlewareName = config.middlewareName || paramCase(objectType);
         this.queryMethod = config.queryMethod || dotCase(objectType) + '.query';
@@ -47,17 +36,6 @@ export class AbstractDao {
         this.preventQueryCaching = config.preventQueryCaching;
         this.middlewareClient = MiddlewareClient.getInstance();
         this.datastoreService = DatastoreService.getInstance();
-
-        // DTM
-        this.cacheService = CacheService.getInstance();
-        this.registerPromise = this.cacheService.registerTypeForKey(this.model, objectType).then(function() {
-            self.propertyDescriptors = new Map<string, any>();
-            if (self.model.constructor.propertyBlueprints) {
-                for (let descriptor of self.model.constructor.propertyBlueprints) {
-                    self.propertyDescriptors.set(descriptor.name, descriptor);
-                }
-            }
-        });
     }
 
     public list(): Promise<Array<any>> {
@@ -104,21 +82,17 @@ export class AbstractDao {
 
     public getNewInstance(): Promise<any> {
         let self = this;
-        return this.cacheService.registerTypeForKey(this.objectType, this.model).then(function() {
-            return new Object({
-                _isNew: true,
-                _objectType: self.objectType
-            });
-        });
+        return Promise.resolve(new Object({
+            _isNew: true,
+            _objectType: self.objectType
+        }));
     }
 
-    public getEmptyList() {
+    public getEmptyList(): Promise<Array<any>> {
         let self = this;
-        return this.cacheService.registerTypeForKey(this.objectType, this.model).then(function() {
-            let emptyList = [];
-            (emptyList as any)._objectType = self.objectType;
-            return emptyList;
-        })
+        let emptyList: any = [];
+        emptyList._objectType = self.objectType;
+        return Promise.resolve(emptyList);
     }
 
     private update(object: any, args?: Array<any>): Promise<any> {
@@ -154,23 +128,18 @@ export class AbstractDao {
     private query(criteria?: any, isSingle?: boolean): Promise<any> {
         let self = this,
             middlewareCriteria = criteria ? this.getMiddlewareCriteria(criteria, isSingle) : [];
-        let modelInitializationPromise = this.model.typeName ? Model.populateObjectPrototypeForType(this.model) : Promise.resolve();
-        return modelInitializationPromise.then(function() {
-            return self.datastoreService.query(self.objectType, self.queryMethod, middlewareCriteria);
-        }).then(function(entries) {
-            entries = Array.isArray(entries) ? entries : [entries];
-            self.register();
-            let results = entries.map(function(x) {
-                x._objectType = self.objectType;
-                x.Type = x.constructor.Type = self.model;
-                return x;
-            });
-            results._meta_data = {
-                collectionModelType: self.model
-            };
-            results._objectType = self.objectType;
-            return results;
-        });
+        return this.datastoreService.query(self.objectType, self.queryMethod, middlewareCriteria).then(
+            (entries) => {
+                entries = Array.isArray(entries) ? entries : [entries];
+                self.register();
+                let results: any = entries.map(function(x) {
+                    x._objectType = self.objectType;
+                    return x;
+                });
+                results._objectType = self.objectType;
+                return results;
+            }
+        );
     }
 
     private getMiddlewareCriteria(criteria: Object, params?: Object): Array<any> {
@@ -182,7 +151,7 @@ export class AbstractDao {
             value = criteria[key];
             if (typeof value === 'object') {
                 let subCriteria = this.getMiddlewareCriteria(value);
-                Array.prototype.push.apply(middlewareCriteria, subCriteria.map(function(x) { return [key + '.' + x[0], x[1], x[2]] }));
+                Array.prototype.push.apply(middlewareCriteria, subCriteria.map(function(x) { return [key + '.' + x[0], x[1], x[2]]; }));
             } else {
                 middlewareCriteria.push([key, '=', value]);
             }

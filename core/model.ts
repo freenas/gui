@@ -1,6 +1,7 @@
 const Model = {
     AccountCategory: 'AccountCategory' as 'AccountCategory',
     AccountSystem: 'AccountSystem' as 'AccountSystem',
+    DiskUsage: 'DiskUsage' as 'DiskUsage',
     Alert: 'Alert' as 'Alert',
     AlertFilter: 'AlertFilter' as 'AlertFilter',
     AlertSettings: 'AlertSettings' as 'AlertSettings',

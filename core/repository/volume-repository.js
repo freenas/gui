@@ -16,10 +16,13 @@ var encrypted_volume_importer_dao_1 = require("../dao/encrypted-volume-importer-
 var zfs_topology_dao_1 = require("../dao/zfs-topology-dao");
 var model_event_name_1 = require("../model-event-name");
 var model_1 = require("../model");
+var zfs_vdev_dao_1 = require("../dao/zfs-vdev-dao");
+var datastore_service_1 = require("../service/datastore-service");
 var Promise = require("bluebird");
+var _ = require("lodash");
 var VolumeRepository = (function (_super) {
     __extends(VolumeRepository, _super);
-    function VolumeRepository(volumeDao, volumeSnapshotDao, volumeDatasetDao, volumeImporterDao, encryptedVolumeActionsDao, volumeVdevRecommendationsDao, detachedVolumeDao, encryptedVolumeImporterDao, zfsTopologyDao) {
+    function VolumeRepository(volumeDao, volumeSnapshotDao, volumeDatasetDao, volumeImporterDao, encryptedVolumeActionsDao, volumeVdevRecommendationsDao, detachedVolumeDao, encryptedVolumeImporterDao, zfsTopologyDao, zfsVdevDao, datastoreService) {
         var _this = _super.call(this, [
             model_1.Model.Volume,
             model_1.Model.VolumeDataset,
@@ -35,22 +38,24 @@ var VolumeRepository = (function (_super) {
         _this.detachedVolumeDao = detachedVolumeDao;
         _this.encryptedVolumeImporterDao = encryptedVolumeImporterDao;
         _this.zfsTopologyDao = zfsTopologyDao;
+        _this.zfsVdevDao = zfsVdevDao;
+        _this.datastoreService = datastoreService;
         return _this;
     }
     VolumeRepository.getInstance = function () {
         if (!VolumeRepository.instance) {
-            VolumeRepository.instance = new VolumeRepository(new volume_dao_1.VolumeDao(), new volume_snapshot_dao_1.VolumeSnapshotDao(), new volume_dataset_dao_1.VolumeDatasetDao(), new volume_importer_dao_1.VolumeImporterDao(), new encrypted_volume_actions_dao_1.EncryptedVolumeActionsDao(), new volume_vdev_recommendations_dao_1.VolumeVdevRecommendationsDao(), new detached_volume_dao_1.DetachedVolumeDao(), new encrypted_volume_importer_dao_1.EncryptedVolumeImporterDao(), new zfs_topology_dao_1.ZfsTopologyDao());
+            VolumeRepository.instance = new VolumeRepository(new volume_dao_1.VolumeDao(), new volume_snapshot_dao_1.VolumeSnapshotDao(), new volume_dataset_dao_1.VolumeDatasetDao(), new volume_importer_dao_1.VolumeImporterDao(), new encrypted_volume_actions_dao_1.EncryptedVolumeActionsDao(), new volume_vdev_recommendations_dao_1.VolumeVdevRecommendationsDao(), new detached_volume_dao_1.DetachedVolumeDao(), new encrypted_volume_importer_dao_1.EncryptedVolumeImporterDao(), new zfs_topology_dao_1.ZfsTopologyDao(), new zfs_vdev_dao_1.ZfsVdevDao(), datastore_service_1.DatastoreService.getInstance());
         }
         return VolumeRepository.instance;
     };
     VolumeRepository.prototype.listVolumes = function () {
-        return this.volumeDao.list();
+        return this.volumes ? Promise.resolve(this.volumes.valueSeq().toJS()) : this.volumeDao.list();
     };
     VolumeRepository.prototype.listDatasets = function () {
-        return this.volumeDatasetDao.list();
+        return this.volumeDatasets ? Promise.resolve(this.volumeDatasets.valueSeq().toJS()) : this.volumeDatasetDao.list();
     };
     VolumeRepository.prototype.listSnapshots = function () {
-        return this.volumeSnapshotDao.list();
+        return this.volumeSnapshots ? Promise.resolve(this.volumeSnapshots.valueSeq().toJS()) : this.volumeSnapshotDao.list();
     };
     VolumeRepository.prototype.getVolumeImporter = function () {
         return this.volumeImporterDao.get();
@@ -67,8 +72,9 @@ var VolumeRepository = (function (_super) {
     VolumeRepository.prototype.getEncryptedVolumeActionsInstance = function () {
         return this.encryptedVolumeActionsDao.getNewInstance();
     };
-    VolumeRepository.prototype.getDisksAllocations = function (diskIds) {
-        return this.volumeDao.getDisksAllocation(diskIds);
+    VolumeRepository.prototype.initializeDisksAllocations = function (diskIds) {
+        var _this = this;
+        this.volumeDao.getDisksAllocation(diskIds).then(function (allocations) { return _.forIn(allocations, function (allocation, path) { return _this.setDiskAllocation(path, allocation); }); });
     };
     VolumeRepository.prototype.getAvailableDisks = function () {
         return this.volumeDao.getAvailableDisks();
@@ -99,7 +105,8 @@ var VolumeRepository = (function (_super) {
         return this.detachedVolumeDao.delete(volume);
     };
     VolumeRepository.prototype.exportVolume = function (volume) {
-        return this.volumeDao.export(volume);
+        var _this = this;
+        return this.volumeDao.export(volume).then(function () { return _this.findDetachedVolumes(); });
     };
     VolumeRepository.prototype.lockVolume = function (volume) {
         return this.volumeDao.lock(volume);
@@ -139,7 +146,10 @@ var VolumeRepository = (function (_super) {
         return this.volumeDao.findMedia();
     };
     VolumeRepository.prototype.importDisk = function (disk, path, fsType) {
-        return this.volumeDao.importDisk(disk, path, fsType);
+        var _this = this;
+        return this.volumeDao.importDisk(disk, path, fsType)
+            .then(function (task) { return task.taskPromise; })
+            .then(function () { return _this.findDetachedVolumes(); });
     };
     VolumeRepository.prototype.updateVolumeTopology = function (volume, topology) {
         volume.topology = this.cleanupTopology(topology);
@@ -148,6 +158,9 @@ var VolumeRepository = (function (_super) {
             volume.providers_presence = 'NONE';
         }
         return this.volumeDao.save(volume);
+    };
+    VolumeRepository.prototype.getNewZfsVdev = function () {
+        return this.zfsVdevDao.getNewInstance();
     };
     VolumeRepository.prototype.cleanupTopology = function (topology) {
         var clean = {};
@@ -193,6 +206,33 @@ var VolumeRepository = (function (_super) {
         }
         return clean;
     };
+    VolumeRepository.prototype.updateVolumesDiskUsage = function (volumes, usageType) {
+        var diskUsage = {};
+        if (volumes) {
+            volumes.forEach(function (volume) { return _.forEach(VolumeRepository.TOPOLOGY_KEYS, function (topologyKey) { return volume.get('topology').get(topologyKey).forEach(function (vdev) { return vdev.get('children').map(function (child) { return child.get('path'); }).forEach(function (path) { return diskUsage[path] = volume.has('name') ? volume.get('name') : volume.get('id'); }); }); }); });
+            this.datastoreService.save(model_1.Model.DiskUsage, usageType, diskUsage);
+        }
+    };
+    VolumeRepository.prototype.setDiskAllocation = function (path, allocation) {
+        var usageType;
+        switch (allocation.type) {
+            case 'VOLUME':
+                usageType = 'attached';
+                break;
+            case 'EXPORTED_VOLUME':
+                usageType = 'detached';
+                break;
+            case 'BOOT':
+                usageType = 'boot';
+                break;
+        }
+        var diskUsage = this.datastoreService.getState().has(model_1.Model.DiskUsage) &&
+            this.datastoreService.getState().get(model_1.Model.DiskUsage).has(usageType) ?
+            this.datastoreService.getState().get(model_1.Model.DiskUsage).get(usageType) :
+            {};
+        diskUsage[path] = allocation.name || 'boot';
+        this.datastoreService.save(model_1.Model.DiskUsage, usageType, diskUsage);
+    };
     VolumeRepository.prototype.handleStateChange = function (name, state) {
         switch (name) {
             case model_1.Model.Volume:
@@ -218,7 +258,7 @@ var VolumeRepository = (function (_super) {
                     hasTopologyChanged_1 = true;
                 }
                 if (hasTopologyChanged_1) {
-                    this.eventDispatcherService.dispatch('topologyChange');
+                    this.updateVolumesDiskUsage(state, 'attached');
                 }
                 this.volumes = this.dispatchModelEvents(this.volumes, model_event_name_1.ModelEventName.Volume, state);
                 break;
@@ -230,6 +270,7 @@ var VolumeRepository = (function (_super) {
                 break;
             case model_1.Model.DetachedVolume:
                 this.detachedVolumes = this.dispatchModelEvents(this.detachedVolumes, model_event_name_1.ModelEventName.DetachedVolume, state);
+                this.updateVolumesDiskUsage(this.detachedVolumes, 'detached');
                 break;
             default:
                 break;
@@ -238,5 +279,5 @@ var VolumeRepository = (function (_super) {
     VolumeRepository.prototype.handleEvent = function () { };
     return VolumeRepository;
 }(abstract_repository_ng_1.AbstractRepository));
-VolumeRepository.TOPOLOGY_KEYS = ["data", "cache", "log", "spare"];
+VolumeRepository.TOPOLOGY_KEYS = ['data', 'cache', 'log', 'spare'];
 exports.VolumeRepository = VolumeRepository;

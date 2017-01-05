@@ -126,7 +126,8 @@
                 "topology": {"@": "topology"}
             },
             "bindings": {
-                "disks": {"<-": "@owner.availableDisks"}
+                "disks": {"<-": "@owner.availableDisks"},
+                "locked": {"<-": "!!@topologizer.lockDisks"}
             }
         }
     }

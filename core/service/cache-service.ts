@@ -13,12 +13,11 @@ export class CacheService {
     private eventDispatcherService: EventDispatcherService;
 
     private constructor() {
-        let self = this;
         this.storage = new Map<any, Array<any>>();
         this.types = new Map<string, Object>();
         this.dataObjectPrototypes = new Map<Object, Object>();
         this.eventDispatcherService = EventDispatcherService.getInstance();
-        this.eventDispatcherService.addEventListener('stateChange', (state) => self.handleStateChange(state));
+        // this.eventDispatcherService.addEventListener('stateChange', (state) => this.handleStateChange(state));
     }
 
     public static getInstance() {

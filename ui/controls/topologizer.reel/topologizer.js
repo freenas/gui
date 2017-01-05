@@ -189,18 +189,18 @@ exports.Topologizer = Component.specialize({
             var startPosition = this._translateComposer.pointerStartEventPosition,
                 triangleElementBoundingRect = this.triangleElement.getBoundingClientRect();
 
-            this._targePosition = {
+            this._targetPosition = {
                 x: startPosition.pageX - triangleElementBoundingRect.left,
                 y: startPosition.pageY - triangleElementBoundingRect.top
             };
 
-            this._translateComposer.translateX = this._targePosition.x;
-            this._translateComposer.translateY = this._targePosition.y;
+            this._translateComposer.translateX = this._targetPosition.x;
+            this._translateComposer.translateY = this._targetPosition.y;
 
             this._translateComposer.addEventListener("translate", this, false);
             this._translateComposer.addEventListener("translateEnd", this, false);
 
-            this.controller.clearReservedDisks(true);
+            this.controller.clearReservedDisks();
             this.profile = "";
             this.needsDraw = true;
 
@@ -209,8 +209,8 @@ exports.Topologizer = Component.specialize({
 
     handleTranslate: {
         value: function (event) {
-            this._targePosition.x = event.translateX;
-            this._targePosition.y = event.translateY;
+            this._targetPosition.x = event.translateX;
+            this._targetPosition.y = event.translateY;
 
             this._isMoving = true;
             this.needsDraw = true;
@@ -239,7 +239,7 @@ exports.Topologizer = Component.specialize({
 
     draw: {
         value: function () {
-            if (this._targePosition) {
+            if (this._targetPosition) {
                 if (this._isMoving || this.profileHasChanged) {
                     //fixme: @joshua hacky
                     if (!this.handleElement.style.left) {
@@ -248,17 +248,17 @@ exports.Topologizer = Component.specialize({
                     }
 
                     this.profileHasChanged = false;
-                    this.handlePosition = this._targePosition;
+                    this.handlePosition = this._targetPosition;
                     this._positionHandle();
                 }
                 if (!this._isMoving) {
                     var previousBarycentricValues = this._previousBarycentricValues,
                         barycentricValues = this.barycentricValues;
 
+                    this.lockDisks = false;
                     if (!previousBarycentricValues ||
                         !this._areBarycentricValuesEqual(previousBarycentricValues, barycentricValues)) {
                             var self = this;
-                            this.lockDisks = true;
                             self.priorities = this.controller.generateTopology(
                                 this.topology,
                                 this.disks,
@@ -269,6 +269,8 @@ exports.Topologizer = Component.specialize({
                         }
 
                     this._previousBarycentricValues = barycentricValues;
+                } else {
+                    this.lockDisks = true;
                 }
 
             }
@@ -304,25 +306,25 @@ exports.Topologizer = Component.specialize({
         value: function() {
             switch (this._profile) {
                 case 'MEDIA':
-                    this._targePosition = {
+                    this._targetPosition = {
                         x: 110,
                         y: 95
                     };
                     break;
                 case 'VIRTUALIZATION':
-                    this._targePosition = {
+                    this._targetPosition = {
                         x: 55,
                         y: 0
                     };
                     break;
                 case 'BACKUP':
-                    this._targePosition = {
+                    this._targetPosition = {
                         x: 0,
                         y: 95
                     };
                     break;
                 case 'OPTIMAL':
-                    this._targePosition = {
+                    this._targetPosition = {
                         x: 55,
                         y: 62.5
                     };

@@ -58,14 +58,16 @@ var ModelDescriptorService = (function () {
     };
     ModelDescriptorService.prototype.getObjectType = function (object) {
         var type = (Array.isArray(object._objectType) && object._objectType[0]) || object._objectType || (Array.isArray(object) && object.length > 0 && object[0]._objectType);
-        if (!type) {
-            var model = object.Type ||
-                object.constructor.Type ||
-                Array.isArray(object) && object._meta_data && object._meta_data.collectionModelType;
-            if (model) {
-                type = model.typeName;
-            }
-        }
+        /*
+                if (!type) { // DTM
+                    let model = object.Type ||
+                        object.constructor.Type ||
+                        Array.isArray(object) && (object as any)._meta_data && (object as any)._meta_data.collectionModelType;
+                    if (model) {
+                        type = model.typeName;
+                    }
+                }
+        */
         return type;
     };
     ModelDescriptorService.prototype.getPropertyType = function (type, property) {

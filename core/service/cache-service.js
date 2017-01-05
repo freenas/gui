@@ -5,12 +5,11 @@ var _ = require("lodash");
 var Promise = require("bluebird");
 var CacheService = (function () {
     function CacheService() {
-        var self = this;
         this.storage = new Map();
         this.types = new Map();
         this.dataObjectPrototypes = new Map();
         this.eventDispatcherService = event_dispatcher_service_1.EventDispatcherService.getInstance();
-        this.eventDispatcherService.addEventListener('stateChange', function (state) { return self.handleStateChange(state); });
+        // this.eventDispatcherService.addEventListener('stateChange', (state) => this.handleStateChange(state));
     }
     CacheService.getInstance = function () {
         if (!CacheService.instance) {

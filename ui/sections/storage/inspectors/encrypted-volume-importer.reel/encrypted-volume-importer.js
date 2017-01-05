@@ -1,17 +1,15 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
 exports.EncryptedVolumeImporter = AbstractInspector.specialize({
-    _inspectorTemplateDidLoad: {
-        value: function() {
-            this.availableDisks = this._sectionService.listAvailableDisks();
-        }
-    },
-
     enterDocument: {
         value: function(isFirstTime) {
             if (isFirstTime) {
                 this.addRangeAtPathChangeListener("object.disks", this, "_handleDisksChange");
             }
+            var self = this;
+            this._sectionService.listAvailableDisks().then(function(availableDisks) {
+                self.availableDisks = availableDisks;
+            });
             this._sectionService.clearReservedDisks();
         }
     },
@@ -32,7 +30,7 @@ exports.EncryptedVolumeImporter = AbstractInspector.specialize({
     },
 
     handleComponentDropInDiskCategory: {
-        value: function(component, diskCategory) {
+        value: function(component) {
             var disk = component.object,
                 diskIndex = this.object.disks.indexOf(disk);
             if (diskIndex !== -1) {
@@ -51,10 +49,10 @@ exports.EncryptedVolumeImporter = AbstractInspector.specialize({
         value: function(addedDisks, removedDisks) {
             var i, length;
             for (i = 0, length = addedDisks.length; i < length; i++) {
-                this._sectionService.markDiskAsReserved(addedDisks[i]);
+                this._sectionService.markDiskAsReserved(addedDisks[i].path);
             }
             for (i = 0, length = removedDisks.length; i < length; i++) {
-                this._sectionService.markDiskAsNonReserved(removedDisks[i]);
+                this._sectionService.markDiskAsNonReserved(removedDisks[i].path);
             }
         }
     }

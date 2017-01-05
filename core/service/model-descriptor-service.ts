@@ -72,6 +72,7 @@ export class ModelDescriptorService {
 
     public getObjectType(object: any): string {
         let type = (Array.isArray(object._objectType) && object._objectType[0]) || object._objectType || (Array.isArray(object) && object.length > 0 && object[0]._objectType);
+/*
         if (!type) { // DTM
             let model = object.Type ||
                 object.constructor.Type ||
@@ -80,6 +81,7 @@ export class ModelDescriptorService {
                 type = model.typeName;
             }
         }
+*/
         return type;
     }
 
