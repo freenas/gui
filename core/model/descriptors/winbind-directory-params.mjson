@@ -63,7 +63,7 @@
       "name": "sasl_wrapping",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "LdapDirectoryParamsSaslWrapping"
+      "valueObjectPrototypeName": "WinbindDirectoryParamsSaslWrapping"
     }
   },
   "blueprint_winbinddirectoryparams_site_name": {

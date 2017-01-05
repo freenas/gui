@@ -7,6 +7,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_dockercontainerbridge_dhcp": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "dhcp",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_dockercontainerbridge_enable": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -21,6 +29,7 @@
       "name": "DockerContainerBridge",
       "propertyBlueprints": [
         {"@": "blueprint_dockercontainerbridge_address"},
+        {"@": "blueprint_dockercontainerbridge_dhcp"},
         {"@": "blueprint_dockercontainerbridge_enable"}
       ]
     }

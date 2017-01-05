@@ -131,32 +131,6 @@ exports.Disk = Montage.specialize({
             return this._smart;
         }
     },
-    _online: {
-        value: null
-    },
-    online: {
-        set: function (value) {
-            if (this._online !== value) {
-                this._online = value;
-            }
-        },
-        get: function () {
-            return this._online;
-        }
-    },
-    _smart_options: {
-        value: null
-    },
-    smart_options: {
-        set: function (value) {
-            if (this._smart_options !== value) {
-                this._smart_options = value;
-            }
-        },
-        get: function () {
-            return this._smart_options;
-        }
-    },
     _standby_mode: {
         value: null
     },
@@ -225,14 +199,6 @@ exports.Disk = Montage.specialize({
         }, {
             mandatory: false,
             name: "smart",
-            valueType: "boolean"
-        }, {
-            mandatory: false,
-            name: "smart_options",
-            valueType: "String"
-        }, {
-            mandatory: false,
-            name: "online",
             valueType: "boolean"
         }, {
             mandatory: false,

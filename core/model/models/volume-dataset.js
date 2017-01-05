@@ -40,6 +40,19 @@ exports.VolumeDataset = Montage.specialize({
             return this._last_replicated_by;
         }
     },
+    _metadata: {
+        value: null
+    },
+    metadata: {
+        set: function (value) {
+            if (this._metadata !== value) {
+                this._metadata = value;
+            }
+        },
+        get: function () {
+            return this._metadata;
+        }
+    },
     _mounted: {
         value: null
     },
@@ -197,6 +210,10 @@ exports.VolumeDataset = Montage.specialize({
             mandatory: false,
             name: "last_replicated_by",
             valueType: "String"
+        }, {
+            mandatory: false,
+            name: "metadata",
+            valueType: "object"
         }, {
             mandatory: false,
             name: "mounted",

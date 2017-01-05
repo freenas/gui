@@ -1,4 +1,12 @@
 {
+  "blueprint_replicationstatus_ended_at": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "ended_at",
+      "blueprint": {"@": "root"},
+      "valueType": "datetime"
+    }
+  },
   "blueprint_replicationstatus_message": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -23,6 +31,14 @@
       "valueType": "number"
     }
   },
+  "blueprint_replicationstatus_started_at": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "started_at",
+      "blueprint": {"@": "root"},
+      "valueType": "datetime"
+    }
+  },
   "blueprint_replicationstatus_status": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -36,9 +52,11 @@
     "properties": {
       "name": "ReplicationStatus",
       "propertyBlueprints": [
+        {"@": "blueprint_replicationstatus_ended_at"},
         {"@": "blueprint_replicationstatus_message"},
         {"@": "blueprint_replicationstatus_size"},
         {"@": "blueprint_replicationstatus_speed"},
+        {"@": "blueprint_replicationstatus_started_at"},
         {"@": "blueprint_replicationstatus_status"}
       ]
     }

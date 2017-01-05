@@ -14,6 +14,19 @@ exports.DockerContainerBridge = Montage.specialize({
             return this._address;
         }
     },
+    _dhcp: {
+        value: null
+    },
+    dhcp: {
+        set: function (value) {
+            if (this._dhcp !== value) {
+                this._dhcp = value;
+            }
+        },
+        get: function () {
+            return this._dhcp;
+        }
+    },
     _enable: {
         value: null
     },
@@ -33,6 +46,10 @@ exports.DockerContainerBridge = Montage.specialize({
             mandatory: false,
             name: "address",
             valueType: "String"
+        }, {
+            mandatory: false,
+            name: "dhcp",
+            valueType: "boolean"
         }, {
             mandatory: false,
             name: "enable",

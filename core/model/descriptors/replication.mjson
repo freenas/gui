@@ -15,12 +15,22 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_replication_current_state": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "current_state",
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "ReplicationRuntimeState"
+    }
+  },
   "blueprint_replication_datasets": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "datasets",
       "blueprint": {"@": "root"},
-      "valueType": "array"
+      "valueType": "array",
+      "valueObjectPrototypeName": "DatasetsReplicationPair"
     }
   },
   "blueprint_replication_followdelete": {
@@ -100,7 +110,7 @@
     "properties": {
       "name": "status",
       "blueprint": {"@": "root"},
-      "valueType": "object",
+      "valueType": "array",
       "valueObjectPrototypeName": "ReplicationStatus"
     }
   },
@@ -128,6 +138,7 @@
       "propertyBlueprints": [
         {"@": "blueprint_replication_auto_recover"},
         {"@": "blueprint_replication_bidirectional"},
+        {"@": "blueprint_replication_current_state"},
         {"@": "blueprint_replication_datasets"},
         {"@": "blueprint_replication_followdelete"},
         {"@": "blueprint_replication_id"},

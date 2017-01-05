@@ -149,6 +149,14 @@
       "valueType": "array"
     }
   },
+  "blueprint_networkinterfacestatus_supported_media": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "supported_media",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
   "blueprint_networkinterfacestatus_tag": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -180,6 +188,7 @@
         {"@": "blueprint_networkinterfacestatus_nd6_flags"},
         {"@": "blueprint_networkinterfacestatus_parent"},
         {"@": "blueprint_networkinterfacestatus_ports"},
+        {"@": "blueprint_networkinterfacestatus_supported_media"},
         {"@": "blueprint_networkinterfacestatus_tag"}
       ]
     }

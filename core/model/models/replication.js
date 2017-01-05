@@ -27,6 +27,19 @@ exports.Replication = Montage.specialize({
             return this._bidirectional;
         }
     },
+    _current_state: {
+        value: null
+    },
+    current_state: {
+        set: function (value) {
+            if (this._current_state !== value) {
+                this._current_state = value;
+            }
+        },
+        get: function () {
+            return this._current_state;
+        }
+    },
     _datasets: {
         value: null
     },
@@ -208,7 +221,13 @@ exports.Replication = Montage.specialize({
             valueType: "boolean"
         }, {
             mandatory: false,
+            name: "current_state",
+            valueObjectPrototypeName: "ReplicationRuntimeState",
+            valueType: "object"
+        }, {
+            mandatory: false,
             name: "datasets",
+            valueObjectPrototypeName: "DatasetsReplicationPair",
             valueType: "array"
         }, {
             mandatory: false,
@@ -250,7 +269,7 @@ exports.Replication = Montage.specialize({
             mandatory: false,
             name: "status",
             valueObjectPrototypeName: "ReplicationStatus",
-            valueType: "object"
+            valueType: "array"
         }, {
             mandatory: false,
             name: "transport_options",

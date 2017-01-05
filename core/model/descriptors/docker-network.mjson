@@ -1,40 +1,48 @@
 {
-  "blueprint_ipfsinfo_Addresses": {
+  "blueprint_dockernetwork_driver": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "Addresses",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
-  "blueprint_ipfsinfo_AgentVersion": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "AgentVersion",
+      "name": "driver",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_ipfsinfo_ID": {
+  "blueprint_dockernetwork_gateway": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "ID",
+      "name": "gateway",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_ipfsinfo_ProtocolVersion": {
+  "blueprint_dockernetwork_host": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "ProtocolVersion",
+      "name": "host",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_ipfsinfo_PublicKey": {
+  "blueprint_dockernetwork_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "PublicKey",
+      "name": "id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_dockernetwork_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_dockernetwork_subnet": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "subnet",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -42,13 +50,14 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "IpfsInfo",
+      "name": "DockerNetwork",
       "propertyBlueprints": [
-        {"@": "blueprint_ipfsinfo_Addresses"},
-        {"@": "blueprint_ipfsinfo_AgentVersion"},
-        {"@": "blueprint_ipfsinfo_ID"},
-        {"@": "blueprint_ipfsinfo_ProtocolVersion"},
-        {"@": "blueprint_ipfsinfo_PublicKey"}
+        {"@": "blueprint_dockernetwork_driver"},
+        {"@": "blueprint_dockernetwork_gateway"},
+        {"@": "blueprint_dockernetwork_host"},
+        {"@": "blueprint_dockernetwork_id"},
+        {"@": "blueprint_dockernetwork_name"},
+        {"@": "blueprint_dockernetwork_subnet"}
       ]
     }
   }

@@ -27,6 +27,19 @@ exports.Service = Montage.specialize({
             return this._config;
         }
     },
+    _error: {
+        value: null
+    },
+    error: {
+        set: function (value) {
+            if (this._error !== value) {
+                this._error = value;
+            }
+        },
+        get: function () {
+            return this._error;
+        }
+    },
     _id: {
         value: null
     },
@@ -79,12 +92,16 @@ exports.Service = Montage.specialize({
             valueType: "object"
         }, {
             mandatory: false,
+            name: "error",
+            valueType: "String"
+        }, {
+            mandatory: false,
             name: "id",
             valueType: "String"
         }, {
             mandatory: false,
             name: "pid",
-            valueType: "number"
+            valueType: "array"
         }, {
             mandatory: false,
             name: "state",

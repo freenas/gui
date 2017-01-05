@@ -163,7 +163,7 @@ exports.WinbindDirectoryParams = Montage.specialize({
         }, {
             mandatory: false,
             name: "sasl_wrapping",
-            valueObjectPrototypeName: "LdapDirectoryParamsSaslWrapping",
+            valueObjectPrototypeName: "WinbindDirectoryParamsSaslWrapping",
             valueType: "object"
         }, {
             mandatory: false,

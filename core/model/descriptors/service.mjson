@@ -16,6 +16,14 @@
       "valueObjectPrototypeName": "ServiceConfig"
     }
   },
+  "blueprint_service_error": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "error",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_service_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -29,7 +37,7 @@
     "properties": {
       "name": "pid",
       "blueprint": {"@": "root"},
-      "valueType": "number"
+      "valueType": "array"
     }
   },
   "blueprint_service_state": {
@@ -48,6 +56,7 @@
       "propertyBlueprints": [
         {"@": "blueprint_service_builtin"},
         {"@": "blueprint_service_config"},
+        {"@": "blueprint_service_error"},
         {"@": "blueprint_service_id"},
         {"@": "blueprint_service_pid"},
         {"@": "blueprint_service_state"}

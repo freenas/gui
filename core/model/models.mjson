@@ -109,6 +109,10 @@
             "type": "CryptoCertificate"
         },
         {
+            "modelId": "core/model/models/datasets-replication-pair.js",
+            "type": "DatasetsReplicationPair"
+        },
+        {
             "modelId": "core/model/models/detached-volume.js",
             "type": "DetachedVolume"
         },
@@ -221,6 +225,10 @@
             "type": "DockerImage"
         },
         {
+            "modelId": "core/model/models/docker-network.js",
+            "type": "DockerNetwork"
+        },
+        {
             "modelId": "core/model/models/docker-volume.js",
             "type": "DockerVolume"
         },
@@ -283,10 +291,6 @@
         {
             "modelId": "core/model/models/importable-disk.js",
             "type": "ImportableDisk"
-        },
-        {
-            "modelId": "core/model/models/ipfs-info.js",
-            "type": "IpfsInfo"
         },
         {
             "modelId": "core/model/models/ipmi.js",
@@ -453,6 +457,10 @@
             "type": "ReplicationOptions"
         },
         {
+            "modelId": "core/model/models/replication-runtime-state.js",
+            "type": "ReplicationRuntimeState"
+        },
+        {
             "modelId": "core/model/models/replication-status.js",
             "type": "ReplicationStatus"
         },
@@ -543,10 +551,6 @@
         {
             "modelId": "core/model/models/service-simulator.js",
             "type": "ServiceSimulator"
-        },
-        {
-            "modelId": "core/model/models/service-smartd.js",
-            "type": "ServiceSmartd"
         },
         {
             "modelId": "core/model/models/service-smb.js",
@@ -781,6 +785,10 @@
             "type": "UserAttributesAnonymous"
         },
         {
+            "modelId": "core/model/models/user-delete.js",
+            "type": "UserDelete"
+        },
+        {
             "modelId": "core/model/models/user-origin-anonymous.js",
             "type": "UserOriginAnonymous"
         },
@@ -799,6 +807,22 @@
         {
             "modelId": "core/model/models/vm-config.js",
             "type": "VmConfig"
+        },
+        {
+            "modelId": "core/model/models/vm-datastore-capabilities.js",
+            "type": "VmDatastoreCapabilities"
+        },
+        {
+            "modelId": "core/model/models/vm-datastore-properties-local.js",
+            "type": "VmDatastorePropertiesLocal"
+        },
+        {
+            "modelId": "core/model/models/vm-datastore-properties-nfs.js",
+            "type": "VmDatastorePropertiesNfs"
+        },
+        {
+            "modelId": "core/model/models/vm-datastore.js",
+            "type": "VmDatastore"
         },
         {
             "modelId": "core/model/models/vm-device-cdrom.js",
@@ -887,6 +911,10 @@
         {
             "modelId": "core/model/models/volume-attributes-anonymous.js",
             "type": "VolumeAttributesAnonymous"
+        },
+        {
+            "modelId": "core/model/models/volume-dataset-metadata-anonymous.js",
+            "type": "VolumeDatasetMetadataAnonymous"
         },
         {
             "modelId": "core/model/models/volume-dataset-properties.js",
@@ -1075,6 +1103,10 @@
         {
             "modelId": "core/model/models/volume-snapshot-holds-anonymous.js",
             "type": "VolumeSnapshotHoldsAnonymous"
+        },
+        {
+            "modelId": "core/model/models/volume-snapshot-metadata-anonymous.js",
+            "type": "VolumeSnapshotMetadataAnonymous"
         },
         {
             "modelId": "core/model/models/volume-snapshot-properties.js",

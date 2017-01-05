@@ -74,8 +74,7 @@ exports.AccountCategory = Montage.specialize({
             inspectorComponentModule: {
                 id: 'ui/inspectors/account-category.reel'
             },
-            nameExpression: "'Accounts'",
-            helpMessage: "'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio soluta asperiores ipsum. Possimus, excepturi atque omnis corporis, laudantium ea perspiciatis quam nobis asperiores fugit ipsa nulla! Aliquam molestiae hic distinctio? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio soluta asperiores ipsum. Possimus, excepturi atque omnis corporis, laudantium ea perspiciatis quam nobis asperiores fugit ipsa nulla! Aliquam molestiae hic distinctio?'"
+            nameExpression: "'Accounts'"
         }
     }
 });

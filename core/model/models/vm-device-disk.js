@@ -52,6 +52,32 @@ exports.VmDeviceDisk = Montage.specialize({
         get: function () {
             return this._source;
         }
+    },
+    _target_path: {
+        value: null
+    },
+    target_path: {
+        set: function (value) {
+            if (this._target_path !== value) {
+                this._target_path = value;
+            }
+        },
+        get: function () {
+            return this._target_path;
+        }
+    },
+    _target_type: {
+        value: null
+    },
+    target_type: {
+        set: function (value) {
+            if (this._target_type !== value) {
+                this._target_type = value;
+            }
+        },
+        get: function () {
+            return this._target_type;
+        }
     }
 }, {
     propertyBlueprints: {
@@ -71,6 +97,15 @@ exports.VmDeviceDisk = Montage.specialize({
             mandatory: true,
             name: "source",
             valueType: "String"
+        }, {
+            mandatory: true,
+            name: "target_path",
+            valueType: "String"
+        }, {
+            mandatory: true,
+            name: "target_type",
+            valueObjectPrototypeName: "VmDeviceDiskTargetType",
+            valueType: "object"
         }]
     }
 });
