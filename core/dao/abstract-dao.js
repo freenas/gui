@@ -4,7 +4,6 @@ var datastore_service_1 = require("../service/datastore-service");
 var cleaner_1 = require("../service/data-processor/cleaner");
 var diff_1 = require("../service/data-processor/diff");
 var null_1 = require("../service/data-processor/null");
-var change_case_1 = require("change-case");
 var _ = require("lodash");
 var Promise = require("bluebird");
 var AbstractDao = (function () {
@@ -12,11 +11,11 @@ var AbstractDao = (function () {
         this.isRegistered = false;
         config = config || {};
         this.objectType = config.typeName || objectType;
-        this.middlewareName = config.middlewareName || change_case_1.paramCase(objectType);
-        this.queryMethod = config.queryMethod || change_case_1.dotCase(objectType) + '.query';
-        this.updateMethod = config.updateMethod || change_case_1.dotCase(objectType) + '.update';
-        this.createMethod = config.createMethod || change_case_1.dotCase(objectType) + '.create';
-        this.deleteMethod = config.deleteMethod || change_case_1.dotCase(objectType) + '.delete';
+        this.middlewareName = config.middlewareName || _.kebabCase(objectType);
+        this.queryMethod = config.queryMethod || AbstractDao.dotCase(objectType) + '.query';
+        this.updateMethod = config.updateMethod || AbstractDao.dotCase(objectType) + '.update';
+        this.createMethod = config.createMethod || AbstractDao.dotCase(objectType) + '.create';
+        this.deleteMethod = config.deleteMethod || AbstractDao.dotCase(objectType) + '.delete';
         this.eventName = config.eventName || 'entity-subscriber.' + this.middlewareName + '.changed';
         this.preventQueryCaching = config.preventQueryCaching;
         this.middlewareClient = middleware_client_1.MiddlewareClient.getInstance();
@@ -112,6 +111,9 @@ var AbstractDao = (function () {
             }
         }
         return params ? [middlewareCriteria, params] : [middlewareCriteria];
+    };
+    AbstractDao.dotCase = function (aString) {
+        return _.replace(_.snakeCase(aString), '_', '.');
     };
     return AbstractDao;
 }());

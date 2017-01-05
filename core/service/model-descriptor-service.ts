@@ -1,22 +1,23 @@
 import { MiddlewareClient } from './middleware-client';
 import { AbstractDao } from '../dao/abstract-dao';
-import * as ChangeCase from 'change-case';
-import Promise = require("bluebird");
+import * as Promise from 'bluebird';
+import * as _ from 'lodash';
 
 export class ModelDescriptorService {
     private static instance: ModelDescriptorService;
     private uiCache: Map<string, Object>;
-    private daoCache: Map<string, AbstractDao>;
+    private daoCache: Map<string, Promise<AbstractDao>>;
     private schema: Map<string, any>;
+
 
     private readonly UI_DESCRIPTOR_PREFIX = 'core/model/user-interface-descriptors/';
     private readonly UI_DESCRIPTOR_SUFFIX = '-user-interface-descriptor.mjson';
     private readonly DAO_PREFIX = 'core/dao/';
-    private readonly DAO_SUFFIX = '-dao.js';
+    private readonly DAO_SUFFIX = '-dao';
 
     public constructor(private middlewareClient: MiddlewareClient) {
         this.uiCache = new Map<string, Object>();
-        this.daoCache = new Map<string, AbstractDao>();
+        this.daoCache = new Map<string, Promise<AbstractDao>>();
     }
 
     public static getInstance(): ModelDescriptorService {
@@ -36,15 +37,18 @@ export class ModelDescriptorService {
     }
 
     public getUiDescriptorForType(type: string): Promise<any> {
+if (typeof type !== 'string') debugger;
         let self = this;
         if (type) {
-            return this.uiCache.has(type) ?
-                Promise.resolve(this.uiCache.get(type)) :
-                Promise.resolve(SystemJS.import(this.UI_DESCRIPTOR_PREFIX + ChangeCase.paramCase(type) + this.UI_DESCRIPTOR_SUFFIX)
-                    .then(function (uiDescriptor) {
+            let uiDescriptorPath = this.UI_DESCRIPTOR_PREFIX + _.kebabCase(type) + this.UI_DESCRIPTOR_SUFFIX;
+            return Promise.resolve(
+                this.uiCache.has(type) ?
+                    this.uiCache.get(type) :
+                    SystemJS.import(uiDescriptorPath).then((uiDescriptor) => {
                         self.uiCache.set(type, uiDescriptor.root.properties);
                         return uiDescriptor.root.properties;
-                    }));
+                    }, () => { debugger; })
+            );
         }
     }
 
@@ -58,31 +62,21 @@ export class ModelDescriptorService {
     }
 
     public getDaoForType(type: string): Promise<AbstractDao> {
-        let self = this;
-        return this.daoCache.has(type) ?
-            Promise.resolve(this.daoCache.get(type)) :
-            require.async(this.DAO_PREFIX + ChangeCase.paramCase(type) + this.DAO_SUFFIX).then(function(daoModule) {
-                let dao = new (daoModule[type + 'Dao'])();
-                self.daoCache.set(type, dao);
-                return dao;
-            }, function() {
-                debugger;
-            });
+        let daoPath = this.DAO_PREFIX + _.kebabCase(type) + this.DAO_SUFFIX;
+        if (!this.daoCache.has(type)) {
+            this.daoCache.set(type,
+                Promise.resolve(
+                    require.async(daoPath).then((daoModule) => new (daoModule[type + 'Dao'])(), () => { debugger; })
+                )
+            );
+        }
+        return this.daoCache.get(type);
     }
 
     public getObjectType(object: any): string {
-        let type = (Array.isArray(object._objectType) && object._objectType[0]) || object._objectType || (Array.isArray(object) && object.length > 0 && object[0]._objectType);
-/*
-        if (!type) { // DTM
-            let model = object.Type ||
-                object.constructor.Type ||
-                Array.isArray(object) && (object as any)._meta_data && (object as any)._meta_data.collectionModelType;
-            if (model) {
-                type = model.typeName;
-            }
-        }
-*/
-        return type;
+        return  (Array.isArray(object._objectType) && object._objectType[0]) ||
+                object._objectType ||
+                (Array.isArray(object) && object.length > 0 && object[0]._objectType);
     }
 
     public getPropertyType(type: string, property: string): Promise<string> {
@@ -94,7 +88,7 @@ export class ModelDescriptorService {
                     if (propertyDescriptor.type) {
                         result = propertyDescriptor.type;
                     } else if (propertyDescriptor['$ref']) {
-                        result = ChangeCase.pascalCase(propertyDescriptor['$ref']);
+                        result = _.upperFirst(_.camelCase(propertyDescriptor['$ref']));
                     }
                 }
             }
@@ -109,7 +103,7 @@ export class ModelDescriptorService {
             this.middlewareClient.callRpcMethod('discovery.get_schema').then(function(schema: any) {
                 self.schema = new Map<string, any>();
                 for (let schemaType in schema.definitions) {
-                    let objectType = ChangeCase.pascalCase(schemaType);
+                    let objectType = _.upperFirst(_.camelCase(schemaType));
                     self.schema.set(objectType, schema.definitions[schemaType]);
                 }
                 return self.schema;

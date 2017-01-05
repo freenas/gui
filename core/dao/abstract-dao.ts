@@ -3,7 +3,6 @@ import { DatastoreService } from '../service/datastore-service';
 import { processor as cleaningProcessor } from '../service/data-processor/cleaner';
 import { processor as diffProcessor } from '../service/data-processor/diff';
 import { processor as nullProcessor } from '../service/data-processor/null';
-import { dotCase, paramCase } from 'change-case';
 import * as _ from 'lodash';
 import * as Promise from 'bluebird';
 
@@ -27,11 +26,11 @@ export class AbstractDao {
     public constructor(objectType: any, config?: any) {
         config = config || {};
         this.objectType = config.typeName || objectType;
-        this.middlewareName = config.middlewareName || paramCase(objectType);
-        this.queryMethod = config.queryMethod || dotCase(objectType) + '.query';
-        this.updateMethod = config.updateMethod || dotCase(objectType) + '.update';
-        this.createMethod = config.createMethod || dotCase(objectType) + '.create';
-        this.deleteMethod = config.deleteMethod || dotCase(objectType) + '.delete';
+        this.middlewareName = config.middlewareName || _.kebabCase(objectType);
+        this.queryMethod = config.queryMethod || AbstractDao.dotCase(objectType) + '.query';
+        this.updateMethod = config.updateMethod || AbstractDao.dotCase(objectType) + '.update';
+        this.createMethod = config.createMethod || AbstractDao.dotCase(objectType) + '.create';
+        this.deleteMethod = config.deleteMethod || AbstractDao.dotCase(objectType) + '.delete';
         this.eventName = config.eventName || 'entity-subscriber.' + this.middlewareName + '.changed';
         this.preventQueryCaching = config.preventQueryCaching;
         this.middlewareClient = MiddlewareClient.getInstance();
@@ -158,4 +157,7 @@ export class AbstractDao {
         return params ? [middlewareCriteria, params] : [middlewareCriteria];
     }
 
+    private static dotCase(aString: string) {
+        return _.replace(_.snakeCase(aString), '_', '.');
+    }
 }
