@@ -10,7 +10,7 @@ export class ModelDescriptorService {
     private uiCache: Map<string, Object>;
     private daoCache: Map<string, Promise<AbstractDao>>;
     private schema: Map<string, any>;
-
+    private taskSchemaCache: Map<string, Map<string, any>>;
 
     private readonly UI_DESCRIPTOR_PREFIX = 'core/model/user-interface-descriptors/';
     private readonly UI_DESCRIPTOR_SUFFIX = '-user-interface-descriptor.mjson';
@@ -85,7 +85,7 @@ if (typeof type !== 'string') debugger;
         return this.loadRemoteSchema().then(function(schema) {
             let result;
             if (schema.has(type)) {
-                let propertyDescriptor = (schema.get(type) as any).properties[property];
+                let propertyDescriptor = schema.get(type).properties[property];
                 if (propertyDescriptor) {
                     if (propertyDescriptor.type) {
                         result = propertyDescriptor.type;
@@ -98,7 +98,41 @@ if (typeof type !== 'string') debugger;
         });
     }
 
-    private loadRemoteSchema(): Promise<Map<string, Object>> {
+    public getTaskDescriptor(taskPath: string): Promise<Map<string, any>> {
+        return this.loadTasksDescriptors().then((descriptors) => descriptors.has(taskPath) ? descriptors.get(taskPath) : null);
+    }
+
+    public getPropertyDescriptorsForType(type: string): Promise<any> {
+        return this.loadRemoteSchema().then((schema) => schema.has(type) ? schema.get(type).properties : null);
+    }
+
+    private loadTasksDescriptors(): Promise<Map<string, any>> {
+        return this.taskSchemaCache ?
+            Promise.resolve(this.taskSchemaCache) :
+            this.middlewareClient.callRpcMethod('discovery.get_tasks').then((tasks) => {
+                this.taskSchemaCache = new Map<string, any>();
+                _.forEach(tasks, (task, taskName) => {
+                    this.taskSchemaCache.set(taskName, new Map<string, any>()
+                        .set('description', task.description)
+                        .set('abortable',   task.abortable)
+                        .set('mandatory',   this.getMandatoryProperties(task.schema))
+                        .set('forbidden',   this.getForbiddenProperties(task.schema)));
+                });
+                return this.taskSchemaCache;
+            });
+    }
+
+    private getMandatoryProperties(schema: Array<any>): Array<string> {
+        let object = _.get(_.find(schema, (arg) => _.has(arg, 'allOf')), 'allOf', []);
+        return _.get(_.find(object, (restriction) => _.has(restriction, 'required')), 'required', []);
+    }
+
+    private getForbiddenProperties(schema: Array<any>): Array<string> {
+        let object = _.get(_.find(schema, (arg) => _.has(arg, 'allOf')), 'allOf', []);
+        return _.get(_.find(object, (restriction) => _.has(restriction, 'not.required')), 'not.required', []);
+    }
+
+    private loadRemoteSchema(): Promise<Map<string, any>> {
         let self = this;
         return this.schema ?
             Promise.resolve(this.schema) :

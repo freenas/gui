@@ -75,6 +75,36 @@ var ModelDescriptorService = (function () {
             return result;
         });
     };
+    ModelDescriptorService.prototype.getTaskDescriptor = function (taskPath) {
+        return this.loadTasksDescriptors().then(function (descriptors) { return descriptors.has(taskPath) ? descriptors.get(taskPath) : null; });
+    };
+    ModelDescriptorService.prototype.getPropertyDescriptorsForType = function (type) {
+        return this.loadRemoteSchema().then(function (schema) { return schema.has(type) ? schema.get(type).properties : null; });
+    };
+    ModelDescriptorService.prototype.loadTasksDescriptors = function () {
+        var _this = this;
+        return this.taskSchemaCache ?
+            Promise.resolve(this.taskSchemaCache) :
+            this.middlewareClient.callRpcMethod('discovery.get_tasks').then(function (tasks) {
+                _this.taskSchemaCache = new Map();
+                _.forEach(tasks, function (task, taskName) {
+                    _this.taskSchemaCache.set(taskName, new Map()
+                        .set('description', task.description)
+                        .set('abortable', task.abortable)
+                        .set('mandatory', _this.getMandatoryProperties(task.schema))
+                        .set('forbidden', _this.getForbiddenProperties(task.schema)));
+                });
+                return _this.taskSchemaCache;
+            });
+    };
+    ModelDescriptorService.prototype.getMandatoryProperties = function (schema) {
+        var object = _.get(_.find(schema, function (arg) { return _.has(arg, 'allOf'); }), 'allOf', []);
+        return _.get(_.find(object, function (restriction) { return _.has(restriction, 'required'); }), 'required', []);
+    };
+    ModelDescriptorService.prototype.getForbiddenProperties = function (schema) {
+        var object = _.get(_.find(schema, function (arg) { return _.has(arg, 'allOf'); }), 'allOf', []);
+        return _.get(_.find(object, function (restriction) { return _.has(restriction, 'not.required'); }), 'not.required', []);
+    };
     ModelDescriptorService.prototype.loadRemoteSchema = function () {
         var self = this;
         return this.schema ?

@@ -1,18 +1,18 @@
 import { DataProcessor } from './data-processor';
-import * as _ from "lodash";
-import {Map} from "immutable";
+import * as _ from 'lodash';
+import {Map} from 'immutable';
 
 class CleaningProcessor implements DataProcessor {
     private static validPropertyRegex: RegExp = /^[a-z0-9%$][a-zA-Z0-9_]*$/;
 
-    public process(object: Object, propertyDescriptors?: Map<string, Object>): Object {
+    public process(object: Object, propertyDescriptors?: any): Object {
         let processed = Map<string, any>(),
             keys = _.keysIn(object),
             value, propertyDescriptor;
         for (let property of keys) {
-            if (!propertyDescriptors || propertyDescriptors.has(property)) {
+            if (!propertyDescriptors || _.has(propertyDescriptors, property)) {
                 value = object[property];
-                propertyDescriptor = propertyDescriptors && propertyDescriptors.get(property);
+                propertyDescriptor = propertyDescriptors && _.get(propertyDescriptors, property);
                 if (CleaningProcessor.isValidProperty(property, value, propertyDescriptor)) {
                     processed = processed.set(property, this.cleanupValue(value));
                 }

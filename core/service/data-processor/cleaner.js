@@ -8,9 +8,9 @@ var CleaningProcessor = (function () {
         var processed = immutable_1.Map(), keys = _.keysIn(object), value, propertyDescriptor;
         for (var _i = 0, keys_1 = keys; _i < keys_1.length; _i++) {
             var property = keys_1[_i];
-            if (!propertyDescriptors || propertyDescriptors.has(property)) {
+            if (!propertyDescriptors || _.has(propertyDescriptors, property)) {
                 value = object[property];
-                propertyDescriptor = propertyDescriptors && propertyDescriptors.get(property);
+                propertyDescriptor = propertyDescriptors && _.get(propertyDescriptors, property);
                 if (CleaningProcessor.isValidProperty(property, value, propertyDescriptor)) {
                     processed = processed.set(property, this.cleanupValue(value));
                 }
