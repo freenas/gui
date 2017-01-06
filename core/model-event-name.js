@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 var ModelEventName = (function () {
     function ModelEventName(modelName) {
         this.listChange = modelName + 'ListChange';

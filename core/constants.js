@@ -1,3 +1,3 @@
 module.exports = {
-    DEFAULT_SELECT_STRING: "---"
-}
+    DEFAULT_SELECT_STRING: '---'
+};
