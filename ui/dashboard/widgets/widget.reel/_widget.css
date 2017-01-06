@@ -130,8 +130,8 @@
     & .Widget-header { width: 100%; }
 
     & .Widget-footer {
-        /* spaces buttons out */
-        & * {
+
+        & .Button {
             margin-left: .5em;
         }
     }
