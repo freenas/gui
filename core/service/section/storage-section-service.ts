@@ -1,22 +1,22 @@
-import { AbstractSectionService } from './abstract-section-service-ng';
-import { ShareRepository} from '../../repository/share-repository';
-import { DiskRepository} from '../../repository/disk-repository';
-import { VolumeRepository } from '../../repository/volume-repository';
+import {AbstractSectionService} from './abstract-section-service-ng';
+import {ShareRepository} from '../../repository/share-repository';
+import {DiskRepository} from '../../repository/disk-repository';
+import {VolumeRepository} from '../../repository/volume-repository';
 
-import { TopologyService } from '../topology-service';
-import { PeeringService } from '../peering-service';
-import { FilesystemService } from '../filesystem-service';
-import { Model } from '../../model';
+import {TopologyService} from '../topology-service';
+import {PeeringService} from '../peering-service';
+import {FilesystemService} from '../filesystem-service';
+import {Model} from '../../model';
 import {VmwareRepository} from '../../repository/vmware-repository';
 import {ModelEventName} from '../../model-event-name';
 import {ReplicationRepository} from '../../repository/replication-repository';
 import {TaskRepository} from '../../repository/task-repository';
-import {Map} from 'immutable';
 import {PeerRepository} from '../../repository/peer-repository';
 import {NetworkRepository} from '../../repository/network-repository';
 import {ServiceRepository} from '../../repository/service-repository';
-import Promise = require('bluebird');
-import _ = require('lodash');
+import {Map} from 'immutable';
+import * as Promise from 'bluebird';
+import * as _ from 'lodash';
 
 export class StorageSectionService extends AbstractSectionService {
     private shareRepository: ShareRepository;
@@ -168,7 +168,7 @@ export class StorageSectionService extends AbstractSectionService {
     }
 
     public getTopologyProxy(topology: any) {
-        let pairs = _.map(VolumeRepository.TOPOLOGY_KEYS, (key) => [key, []]);
+        let pairs: Array<string|any> = _.map(VolumeRepository.TOPOLOGY_KEYS, (key) => [key, []]);
         let topologyProxy = _.fromPairs(pairs);
         _.forEach(VolumeRepository.TOPOLOGY_KEYS,
             (key) => topologyProxy[key] = this.cloneVdevs(topology[key])

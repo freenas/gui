@@ -5,7 +5,8 @@ var Montage = require("montage").Montage,
     StorageService = require("core/service/storage-service").StorageService,
     ShareRepository = require("core/repository/share-repository").ShareRepository,
     Promise = require("montage/core/promise").Promise,
-    Model = require("core/model/model").Model;
+    Model = require("core/model/model").Model,
+    _ = require("lodash");
 
 var ShareService = exports.ShareService = Montage.specialize({
 
@@ -52,31 +53,12 @@ var ShareService = exports.ShareService = Montage.specialize({
             var self = this,
                 populatedSharePromise;
             if (!shareObject.properties) {
-                var shareTypes = this.constructor.SHARE_TYPES,
-                    propertiesModel;
+                var shareTypes = this.constructor.SHARE_TYPES;
 
-/*
-                //Don't use a switch because it is slower.
-                if (shareTypes.AFP === shareObject.type) {
-                    propertiesModel = Model.ShareAfp;
-                } else if (shareTypes.NFS === shareObject.type) {
-                    propertiesModel = Model.ShareNfs;
-                } else if (shareTypes.SMB === shareObject.type) {
-                    propertiesModel = Model.ShareSmb;
-                } else if (shareTypes.ISCSI === shareObject.type) {
-                    propertiesModel = Model.ShareIscsi;
-                } else if (shareTypes.WEBDAV === shareObject.type) {
-                    propertiesModel = Model.ShareWebdav;
-                } else {
-                    return Promise.reject("unknown share type");
-                }
-*/
-
-                // populatedSharePromise = this._dataService.getNewInstanceForType(propertiesModel).then(function(properties) {
                 shareObject.properties = {};
                 shareObject.properties["%type"] = 'share-' + shareObject.type;
-                populatedSharePromise = self._dataService.getNewInstanceForType(Model.Permissions).then(function(permissions) {
-                    shareObject.permissions = permissions;
+                populatedSharePromise = this.shareRepository.getNewPermissions().then(function(permissions) {
+                    shareObject.permissions = _.cloneDeep(permissions);
 
                     if (shareTypes.SMB === shareObject.type) {
                         shareObject.properties.vfs_objects = [];
@@ -96,6 +78,10 @@ var ShareService = exports.ShareService = Montage.specialize({
                             id: null,
                             lun: 0
                         });
+                    } else if (shareTypes.AFP === shareObject.type) {
+                        shareObject.properties.default_file_perms = _.cloneDeep(permissions);
+                        shareObject.properties.default_directory_perms = _.cloneDeep(permissions);
+                        shareObject.properties.default_umask = _.cloneDeep(permissions);
                     }
 
                     return shareObject;
@@ -115,7 +101,7 @@ var ShareService = exports.ShareService = Montage.specialize({
         value: function(share) {
             if (!share.permissions || !share.permissions.user || !share.permissions.group) {
                 var permissionsPromise = share.permissions ?
-                    Promise.resolve(share.permissions) : this._dataService.getNewInstanceForType(Model.Permissions);
+                    Promise.resolve(share.permissions) : this.shareRepository.getNewPermissions();
 
                 return permissionsPromise.then(function (permissions) {
                     if (!permissions.user) {
@@ -135,21 +121,60 @@ var ShareService = exports.ShareService = Montage.specialize({
 
     save: {
         value: function (shareObject, isServiceEnabled) {
+            var saveSharePromise;
+            delete shareObject.permissions.user;
+            delete shareObject.permissions.group;
+            delete shareObject.permissions.others;
             //FIXME: workaround for the SELECT component. Future dead code.
             if (shareObject.type === this.constructor.SHARE_TYPES.NFS) {
-                var properties = shareObject.properties;
-
-                properties.maproot_user = properties.maproot_user != ' - ' ? properties.maproot_user : null;
-                properties.maproot_group = properties.maproot_group != ' - ' ? properties.maproot_group : null;
-                properties.mapall_user = properties.mapall_user != ' - ' ? properties.mapall_user : null;
-                properties.mapall_group = properties.mapall_group != ' - ' ? properties.mapall_group : null;
+                saveSharePromise = this._saveNfsShareObject(shareObject, isServiceEnabled);
+            } else if (shareObject.type === this.constructor.SHARE_TYPES.ISCSI) {
+                saveSharePromise = this._saveIscsiShareObject(shareObject, isServiceEnabled);
+            } else if (shareObject.type === this.constructor.SHARE_TYPES.AFP) {
+                saveSharePromise = this._saveAfpShareObject(shareObject, isServiceEnabled);
+            } else {
+                saveSharePromise = this.shareRepository.saveShare(shareObject, isServiceEnabled);
             }
+            return saveSharePromise;
+        }
+    },
 
-            if (shareObject.type === this.constructor.SHARE_TYPES.ISCSI) {
-                return this._saveIscsiShareObject(shareObject, isServiceEnabled);
-            }
+    _saveNfsShareObject: {
+        value: function(shareObject, isServiceEnabled) {
+            var properties = shareObject.properties;
+            properties.maproot_user = properties.maproot_user != ' - ' ? properties.maproot_user : null;
+            properties.maproot_group = properties.maproot_group != ' - ' ? properties.maproot_group : null;
+            properties.mapall_user = properties.mapall_user != ' - ' ? properties.mapall_user : null;
+            properties.mapall_group = properties.mapall_group != ' - ' ? properties.mapall_group : null;
 
             return this.shareRepository.saveShare(shareObject, isServiceEnabled);
+        }
+    },
+
+    _saveAfpShareObject: {
+        value: function(shareObject, isServiceEnabled) {
+            if (shareObject._isNew) {
+                shareObject.properties.default_file_perms = this._isPermissionsDefined(shareObject.properties.default_file_perms) ?
+                    shareObject.properties.default_file_perms : null;
+                shareObject.properties.default_directory_perms = this._isPermissionsDefined(shareObject.properties.default_directory_perms) ?
+                    shareObject.properties.default_directory_perms : null;
+                shareObject.properties.default_umask = this._isPermissionsDefined(shareObject.properties.default_umask) ?
+                    shareObject.properties.default_umask : null;
+            }
+            return this.shareRepository.saveShare(shareObject, isServiceEnabled);
+        }
+    },
+
+    _isPermissionsDefined: {
+        value: function(permissions) {
+            return _.some(
+                _.map(
+                    _.at(permissions, ['user', 'group', 'others']),
+                    function(scope) {
+                        return _.some(_.at(scope, ['read', 'write', 'execute']));
+                    }
+                )
+            );
         }
     },
 
