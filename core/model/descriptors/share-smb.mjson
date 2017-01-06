@@ -69,8 +69,8 @@
       "blueprint": {"@": "root"},
       "valueType": "String",
       "enumValues": [
-        "stream",
-        "netatalk"
+        "STREAM",
+        "NETATALK"
       ]
     }
   },
