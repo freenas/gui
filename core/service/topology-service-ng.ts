@@ -1,4 +1,5 @@
 import { VolumeRepository } from '../repository/volume-repository';
+import * as immutable from 'immutable';
 
 const CONSTRAINTS_KEYS = {
     STORAGE: "storage",
@@ -8,7 +9,6 @@ const CONSTRAINTS_KEYS = {
 
 export class TopologyProfile {
     constructor(
-        readonly name: string,
         readonly redundancy: number,
         readonly speed: number,
         readonly storage: number
@@ -19,31 +19,32 @@ export class TopologyService {
 
     private static instance: TopologyService;
 
-    private static profiles: Array<TopologyProfile>;
+    private static profiles: immutable.Map<string, TopologyProfile>;
 
-    private static vdevRecommendations: Array<TopologyProfile>;
+    private static vdevRecommendations: any;
 
     private volumeRepository: VolumeRepository;
 
-    private constructor() {}
+    private constructor() {
+        this.volumeRepository = VolumeRepository.getInstance();
+    }
 
     public static getInstance() {
         if (!TopologyService.instance) {
             TopologyService.instance = new TopologyService();
-            this.generateProfiles();
+            TopologyService.generateProfiles();
         }
         return TopologyService.instance;
     }
 
-    protected init() {
-        this.volumeRepository = VolumeRepository.getInstance();
+    public init () {
+        if (!TopologyService.vdevRecommendations) {
+            return this.volumeRepository.getVdevRecommendations().then((vdevRecommendations) => {
+                return (TopologyService.vdevRecommendations = vdevRecommendations);
+            });
+        }
 
-        return this;
-    }
-
-    protected initWithVdevRecommendations(vdevRecommendations) {
-        TopologyService.vdevRecommendations = vdevRecommendations;
-        return this.init();
+        return Promise.resolve(TopologyService.vdevRecommendations);
     }
 
     public generateTopology(disks: Array<Object>, topologyProfile: TopologyProfile) {
@@ -92,7 +93,7 @@ export class TopologyService {
         return Promise.reject("Can't generate topology without any disks");
     }
 
-    public getProfiles(): Array<TopologyProfile> {
+    public getProfiles(): immutable.Map<string, TopologyProfile>{
         return TopologyService.profiles;
     }
 
@@ -108,12 +109,12 @@ export class TopologyService {
 
     private static generateProfiles() {
         if (!this.profiles) {
-            this.profiles = [
-                new TopologyProfile("media", 0, 0, 10),
-                new TopologyProfile("virtualization", 0, 10, 0),
-                new TopologyProfile("backup", 10, 0, 0),
-                new TopologyProfile("optimal", 3, 3, 3)
-            ];
+            this.profiles = immutable.fromJS({
+                "media": new TopologyProfile(0, 0, 10),
+                "virtualization": new TopologyProfile(0, 10, 0),
+                "backup": new TopologyProfile(10, 0, 0),
+                "optimal": new TopologyProfile(3, 3, 3)
+            });
         }
     };
 
