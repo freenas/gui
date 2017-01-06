@@ -83,7 +83,8 @@ export class DiskRepository extends AbstractRepository {
 
     private getAvailableDisks(disks: Map<string, Map<string, any>>, diskUsage: Map<string, Map<string, string>>): Map<string, Map<string, any>> {
         return Map<string, Map<string, any>>(
-            disks.filter((disk) =>  !this.isDiskUsed(disk, diskUsage.get('attached')) &&
+            disks.filter((disk) =>  disk.get('online') &&
+                                    !this.isDiskUsed(disk, diskUsage.get('attached')) &&
                                     !this.isDiskUsed(disk, diskUsage.get('boot')) &&
                                     !this.isDiskUsed(disk, diskUsage.get('reserved')))
         );
