@@ -42,6 +42,7 @@ var AccountsRoute = (function (_super) {
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function (users, uiDescriptor) {
             var filteredUsers = _.filter(users, { builtin: false });
+            filteredUsers._objectType = objectType;
             context.object = filteredUsers;
             context.userInterfaceDescriptor = uiDescriptor;
             context.changeListener = self.eventDispatcherService.addEventListener(model_event_name_1.ModelEventName[objectType].listChange, function (state) {
@@ -99,6 +100,7 @@ var AccountsRoute = (function (_super) {
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function (groups, uiDescriptor) {
             var filteredGroups = _.filter(groups, { builtin: false });
+            filteredGroups._objectType = objectType;
             context.object = filteredGroups;
             context.userInterfaceDescriptor = uiDescriptor;
             context.changeListener = self.eventDispatcherService.addEventListener(model_event_name_1.ModelEventName[objectType].listChange, function (state) {

@@ -49,6 +49,7 @@ export class AccountsRoute extends AbstractRoute {
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(users, uiDescriptor) {
             let filteredUsers = _.filter(users, {builtin: false});
+            filteredUsers._objectType = objectType;
             context.object = filteredUsers;
             context.userInterfaceDescriptor = uiDescriptor;
             context.changeListener = self.eventDispatcherService.addEventListener(ModelEventName[objectType].listChange, function(state) {
@@ -121,6 +122,7 @@ export class AccountsRoute extends AbstractRoute {
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(groups, uiDescriptor) {
             let filteredGroups = _.filter(groups, {builtin: false});
+            filteredGroups._objectType = objectType;
             context.object = filteredGroups;
             context.userInterfaceDescriptor = uiDescriptor;
             context.changeListener = self.eventDispatcherService.addEventListener(ModelEventName[objectType].listChange, function(state) {
