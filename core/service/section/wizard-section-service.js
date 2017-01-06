@@ -2,13 +2,14 @@ var AbstractSectionService = require('core/service/section/abstract-section-serv
     NotificationCenterModule = require('core/backend/notification-center'),
     Application = require('montage/core/application').application,
     ModelDescriptorService = require('core/service/model-descriptor-service').ModelDescriptorService,
-    TopologyService = require('core/service/topology-service').TopologyService,
+    TopologyService = require('core/service/topology-service-ng').TopologyService,
     DiskRepository = require('core/repository/disk-repository').DiskRepository,
     VolumeRepository = require('core/repository/volume-repository').VolumeRepository,
     SystemRepository = require('core/repository/system-repository').SystemRepository,
     AccountRepository = require('core/repository/account-repository').AccountRepository,
     MailRepository = require('core/repository/mail-repository').MailRepository,
-    WizardRepository = require('core/repository/wizard-repository').WizardRepository;
+    WizardRepository = require('core/repository/wizard-repository').WizardRepository,
+    _ = require("lodash");
 
 exports.WizardSectionService = AbstractSectionService.specialize({
 
@@ -20,11 +21,14 @@ exports.WizardSectionService = AbstractSectionService.specialize({
             this._diskRepository = DiskRepository.getInstance();
             this._volumeRepository = VolumeRepository.getInstance();
             this._mailRepository = MailRepository.getInstance();
-            this._topologyService = TopologyService.instance;
+            this._topologyService = TopologyService.getInstance();
             this._modelDescriptorService = ModelDescriptorService.getInstance();
             Application.addEventListener('taskDone', this);
 
-            return this._volumeRepository.listVolumes();
+            return Promise.all([
+                this._volumeRepository.listVolumes(),
+                this._topologyService.init()
+            ]);
         }
     },
 
@@ -94,26 +98,6 @@ exports.WizardSectionService = AbstractSectionService.specialize({
         }
     },
 
-    generateTopology: {
-        value: function(topology, disks, redundancy, speed, storage) {
-            var self = this;
-            this.clearReservedDisks();
-            var vdev, j, disksLength,
-                priorities = this._topologyService.generateTopology(topology, this._diskRepository.listAvailableDisks(), redundancy, speed, storage);
-            for (var i = 0, vdevsLength = topology.data.length; i < vdevsLength; i++) {
-                vdev = topology.data[i];
-                if (Array.isArray(vdev.children)) {
-                    for (j = 0, disksLength = vdev.children.length; j < disksLength; j++) {
-                        self._diskRepository.markDiskAsReserved(vdev.children[j]);
-                    }
-                } else {
-                    self._diskRepository.markDiskAsReserved(vdev);
-                }
-            }
-            return priorities;
-        }
-    },
-
     listUsers: {
         value: function() {
             return this._accountRepository.listUsers();
@@ -144,6 +128,7 @@ exports.WizardSectionService = AbstractSectionService.specialize({
                 var wizardStep = new WizardStep(stepDescriptor.id);
                 wizardStep.objectType = stepDescriptor.objectType;
                 wizardStep.parent = stepDescriptor.parent || null;
+                wizardStep.service = self;
 
                 promises.push(Promise.all([
                     self._modelDescriptorService.getDaoForType(stepDescriptor.objectType).then(function(dao) {
@@ -155,20 +140,6 @@ exports.WizardSectionService = AbstractSectionService.specialize({
                     wizardStep.object = instance;
                     wizardStep.uiDescriptor = uiDescriptor;
                 }));
-
-                if (stepDescriptor.service) {
-                    promises.push(require.async(stepDescriptor.service).then(function (exports) {
-                        var service = exports[Object.keys(exports)[0]].instance;
-
-                        if (Promise.is(service)) {
-                            return service;
-                        }
-
-                        return service;
-                    }).then(function (service) {
-                        wizardStep.service = service;
-                    }));
-                }
 
                 wizardSteps.push(wizardStep);
             });
@@ -291,8 +262,44 @@ exports.WizardSectionService = AbstractSectionService.specialize({
 
             return response;
         }
-    }
+    },
 
+    getProfiles: {
+        value: function () {
+            return this._topologyService.getProfiles();
+        }
+    },
+
+    generateTopology: {
+        value: function (disks, topologyProfile) {
+            return this._topologyService.generateTopology(disks, topologyProfile);
+        }
+    },
+
+    //FIXME: duplicated code between different section-service.
+    listDisks: {
+        value: function () {
+            if (!this.initialDiskAllocationPromise || this.initialDiskAllocationPromise.isRejected()) {
+                var self = this;
+
+                this.initialDiskAllocationPromise = this._diskRepository.listDisks().then(function (disks) {
+                    self._volumeRepository.initializeDisksAllocations((_.map(disks, 'path')));
+                    return disks;
+                });
+            }
+            return this.initialDiskAllocationPromise;
+        }
+    },
+
+    //FIXME: duplicated code between different section-service.
+    listAvailableDisks: {
+        value: function () {
+            var self = this;
+            return this.listDisks().then(function () {
+                return self._diskRepository.listAvailableDisks()
+            });
+        }
+    }
 },
 //TODO: remove when wizard will have been migrated to the new architecture.
 {
