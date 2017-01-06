@@ -1,13 +1,13 @@
 "use strict";
 var volume_repository_1 = require("../repository/volume-repository");
+var immutable = require("immutable");
 var CONSTRAINTS_KEYS = {
     STORAGE: "storage",
     REDUNDANCY: "redundancy",
     SPEED: "speed"
 };
 var TopologyProfile = (function () {
-    function TopologyProfile(name, redundancy, speed, storage) {
-        this.name = name;
+    function TopologyProfile(redundancy, speed, storage) {
         this.redundancy = redundancy;
         this.speed = speed;
         this.storage = storage;
@@ -17,21 +17,22 @@ var TopologyProfile = (function () {
 exports.TopologyProfile = TopologyProfile;
 var TopologyService = (function () {
     function TopologyService() {
+        this.volumeRepository = volume_repository_1.VolumeRepository.getInstance();
     }
     TopologyService.getInstance = function () {
         if (!TopologyService.instance) {
             TopologyService.instance = new TopologyService();
-            this.generateProfiles();
+            TopologyService.generateProfiles();
         }
         return TopologyService.instance;
     };
     TopologyService.prototype.init = function () {
-        this.volumeRepository = volume_repository_1.VolumeRepository.getInstance();
-        return this;
-    };
-    TopologyService.prototype.initWithVdevRecommendations = function (vdevRecommendations) {
-        TopologyService.vdevRecommendations = vdevRecommendations;
-        return this.init();
+        if (!TopologyService.vdevRecommendations) {
+            return this.volumeRepository.getVdevRecommendations().then(function (vdevRecommendations) {
+                return (TopologyService.vdevRecommendations = vdevRecommendations);
+            });
+        }
+        return Promise.resolve(TopologyService.vdevRecommendations);
     };
     TopologyService.prototype.generateTopology = function (disks, topologyProfile) {
         var _this = this;
@@ -80,12 +81,12 @@ var TopologyService = (function () {
     };
     TopologyService.generateProfiles = function () {
         if (!this.profiles) {
-            this.profiles = [
-                new TopologyProfile("media", 0, 0, 10),
-                new TopologyProfile("virtualization", 0, 10, 0),
-                new TopologyProfile("backup", 10, 0, 0),
-                new TopologyProfile("optimal", 3, 3, 3)
-            ];
+            this.profiles = immutable.fromJS({
+                "media": new TopologyProfile(0, 0, 10),
+                "virtualization": new TopologyProfile(0, 10, 0),
+                "backup": new TopologyProfile(10, 0, 0),
+                "optimal": new TopologyProfile(3, 3, 3)
+            });
         }
     };
     ;
