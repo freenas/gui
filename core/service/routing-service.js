@@ -118,6 +118,7 @@ var RoutingService = (function () {
         var _this = this;
         crossroads.addRoute('/calendar', function () { return _this.calendarRoute.get().then(function (stack) { return _this.currentStacks.set('calendar', stack); }); });
         crossroads.addRoute('/calendar/calendar-task/_/{calendarTaskId}', function (calendarTaskId) { return _this.calendarRoute.getTask(calendarTaskId, _this.currentStacks.get('calendar')); });
+        crossroads.addRoute('/calendar/calendar-task/create/{taskType}', function (taskType) { return _this.calendarRoute.createTask(taskType, _this.currentStacks.get('calendar')); });
     };
     RoutingService.prototype.loadNetworkRoutes = function () {
         var _this = this;

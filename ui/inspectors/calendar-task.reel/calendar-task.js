@@ -77,8 +77,9 @@ exports.CalendarTask = AbstractInspector.specialize({
             });
             this.object.args.length = argsLength;
             delete this.object.status;
-            this._closeInspector();
-            return this.inspector.save();
+            var savePromise = this.inspector.save();
+            this.inspector.clearObjectSelection();
+            return savePromise;
         }
     },
 
@@ -111,12 +112,6 @@ exports.CalendarTask = AbstractInspector.specialize({
     _handleSimpleScheduleChange: {
         value: function() {
             this.scheduleString = this._sectionService.getScheduleStringForTask(this.object);
-        }
-    },
-
-    _closeInspector: {
-        value: function() {
-            this.context.cascadingListItem.cascadingList.constructor.findPreviousCascadingListItemContextWithComponent(this).selectedObject = null
         }
     }
 
