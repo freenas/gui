@@ -14,6 +14,19 @@ exports.Update = Montage.specialize({
             return this._check_auto;
         }
     },
+    _internal: {
+        value: null
+    },
+    internal: {
+        set: function (value) {
+            if (this._internal !== value) {
+                this._internal = value;
+            }
+        },
+        get: function () {
+            return this._internal;
+        }
+    },
     _train: {
         value: null
     },
@@ -45,6 +58,10 @@ exports.Update = Montage.specialize({
         value: [{
             mandatory: false,
             name: "check_auto",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "internal",
             valueType: "boolean"
         }, {
             mandatory: false,

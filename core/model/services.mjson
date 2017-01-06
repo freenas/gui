@@ -378,6 +378,11 @@
                 "name": "call",
                 "namespace": "rpc"
             },
+            "labelsToPresets": {
+                "method": "containerd.docker.labels_to_presets",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "pull": {
                 "method": "containerd.docker.pull",
                 "name": "call",
@@ -918,11 +923,6 @@
         "class": {
             "getCollectionImages": {
                 "method": "docker.image.get_collection_images",
-                "name": "call",
-                "namespace": "rpc"
-            },
-            "labelsToPresets": {
-                "method": "docker.image.labels_to_presets",
                 "name": "call",
                 "namespace": "rpc"
             },
