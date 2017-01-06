@@ -76,7 +76,8 @@ var DiskRepository = (function (_super) {
     };
     DiskRepository.prototype.getAvailableDisks = function (disks, diskUsage) {
         var _this = this;
-        return immutable_1.Map(disks.filter(function (disk) { return !_this.isDiskUsed(disk, diskUsage.get('attached')) &&
+        return immutable_1.Map(disks.filter(function (disk) { return disk.get('online') &&
+            !_this.isDiskUsed(disk, diskUsage.get('attached')) &&
             !_this.isDiskUsed(disk, diskUsage.get('boot')) &&
             !_this.isDiskUsed(disk, diskUsage.get('reserved')); }));
     };
