@@ -1,18 +1,21 @@
 import { VolumeRepository } from '../repository/volume-repository';
+import { DiskRepository } from '../repository/disk-repository';
 import * as immutable from 'immutable';
 
 const CONSTRAINTS_KEYS = {
     STORAGE: "storage",
     REDUNDANCY: "redundancy",
     SPEED: "speed"
-}
+};
+
+const RECORD_SIZE = 128;
 
 export class TopologyProfile {
     constructor(
         readonly redundancy: number,
         readonly speed: number,
         readonly storage: number
-    ) {}
+    ) { }
 }
 
 export class TopologyService {
@@ -25,8 +28,11 @@ export class TopologyService {
 
     private volumeRepository: VolumeRepository;
 
+    private diskRepository: DiskRepository;
+
     private constructor() {
         this.volumeRepository = VolumeRepository.getInstance();
+        this.diskRepository = DiskRepository.getInstance();
     }
 
     public static getInstance() {
@@ -37,7 +43,7 @@ export class TopologyService {
         return TopologyService.instance;
     }
 
-    public init () {
+    public init() {
         if (!TopologyService.vdevRecommendations) {
             return this.volumeRepository.getVdevRecommendations().then((vdevRecommendations) => {
                 return (TopologyService.vdevRecommendations = vdevRecommendations);
@@ -93,7 +99,7 @@ export class TopologyService {
         return Promise.reject("Can't generate topology without any disks");
     }
 
-    public getProfiles(): immutable.Map<string, TopologyProfile>{
+    public getProfiles(): immutable.Map<string, TopologyProfile> {
         return TopologyService.profiles;
     }
 
@@ -107,6 +113,97 @@ export class TopologyService {
         };
     }
 
+    public vdevToDisk(vdev) {
+        return vdev._disk;
+    }
+
+    public populateDiskWithinVDev(vDev) {
+        return this.diskRepository.listDisks().then((disks) => {
+            let children = vDev.children,
+                tmpVDev;
+
+            for (let i = 0, l = children.length; i < l; i++) {
+                tmpVDev = children[i];
+
+                if (!tmpVDev._disk) {
+                    tmpVDev._disk = this.findDiskWithPath(disks, tmpVDev.path);
+                }
+            }
+        });
+    }
+
+    public getParitySizeOnTotal(disksCount, vdevType, totalSize) {
+        var paritySize = 0;
+        switch (vdevType) {
+            case 'disk':
+                break;
+            case 'mirror':
+                // A mirror's parity amount is the number of disks minus one times the size of the disks.
+                paritySize = (disksCount - 1) * (totalSize / disksCount);
+                break;
+            case 'raidz1':
+                paritySize = this.getRaidzParityRatioOnTotal(disksCount, 1) * totalSize;
+                break;
+            case 'raidz2':
+                paritySize = this.getRaidzParityRatioOnTotal(disksCount, 2) * totalSize;
+                break;
+            case 'raidz3':
+                paritySize = this.getRaidzParityRatioOnTotal(disksCount, 3) * totalSize;
+                break;
+        }
+        return paritySize;
+    }
+
+    public getParitySizeOnAllocated(disksCount, vdevType, allocatedSize) {
+        let paritySize = 0;
+        switch (vdevType) {
+            case 'disk':
+                break;
+            case 'mirror':
+                // A mirror's parity amount is the number of disks minus one times the size of the disks.
+                paritySize = (disksCount - 1) * (allocatedSize / disksCount);
+                break;
+            case 'raidz1':
+                paritySize = this.getRaidzParityRatioOnAllocated(disksCount, 1) * allocatedSize;
+                break;
+            case 'raidz2':
+                paritySize = this.getRaidzParityRatioOnAllocated(disksCount, 2) * allocatedSize;
+                break;
+            case 'raidz3':
+                paritySize = this.getRaidzParityRatioOnAllocated(disksCount, 3) * allocatedSize;
+                break;
+        }
+        return paritySize;
+    }
+
+    private getRaidzParityRatioOnTotal(disksCount, raidzLevel) {
+        let precision = Math.pow(10, raidzLevel + 1),
+            number = Math.ceil((RECORD_SIZE + raidzLevel * Math.floor((RECORD_SIZE + disksCount - raidzLevel - 1) / (disksCount - raidzLevel))) * precision) / this.RECORD_SIZE;
+        return (number - precision) / (number);
+    }
+
+
+    private getRaidzParityRatioOnAllocated(disksCount, raidzLevel) {
+        let precision = Math.pow(10, raidzLevel + 1);
+        return (Math.ceil((RECORD_SIZE + raidzLevel * Math.floor((RECORD_SIZE + disksCount - raidzLevel - 1) / (disksCount - raidzLevel))) * precision) / this.RECORD_SIZE - precision) / precision;
+    }
+
+    private findDiskWithPath(disks, path) {
+        let response,
+            disk;
+
+        for (let i = 0, length = disks.length; i < length; i++) {
+            disk = disks[i];
+
+            if (disk.path === path) {
+                response = disk;
+                break;
+            }
+        }
+
+        return disk;
+    }
+
     private static generateProfiles() {
         if (!this.profiles) {
             this.profiles = immutable.fromJS({
@@ -118,7 +215,41 @@ export class TopologyService {
         }
     };
 
-    private buildDataVdevsWithDisks (type, size, dataDisks) {
+    private getDiksGroups(disks) {
+        let disksGroups = [],
+            groupsUniquer = {},
+            i, length, disk, key;
+
+        for (i = 0, length = disks.length; i < length; i++) {
+            disk = disks[i];
+            key = disk.status.is_ssd + '_' + disk.mediasize + '_' + disk.max_rotation;
+
+            if (!groupsUniquer[key]) {
+                groupsUniquer[key] = [];
+                disksGroups.push(groupsUniquer[key]);
+            }
+
+            // Make non ssd weighter than ssd
+            disk.isSpinning = 1 / (1 + disk.status.is_ssd);
+            groupsUniquer[key].push(disk);
+        }
+
+        return disksGroups.sort((a, b) => {
+            let delta = b.length - a.length,
+                meaningfulSpecifications = ['isSpinning', 'size'],
+                diskA = a[0], diskB = b[0],
+                specification;
+
+            while (delta === 0 && meaningfulSpecifications.length > 0 && diskA) {
+                specification = meaningfulSpecifications.shift();
+                delta = +diskB[specification] - +diskA[specification];
+            }
+
+            return delta;
+        });
+    }
+
+    private buildDataVdevsWithDisks(type, size, dataDisks) {
         let vdevs = [],
             disks = dataDisks.slice(0, size),
             sliceStart = size,
@@ -139,10 +270,10 @@ export class TopologyService {
                     this.addDisksToVdev(disks, vdevs[0]);
                 } else {
                     vdevs = this.buildDataVdevsWithDisks(
-                            type,
-                            Math.floor(dataDisks.length / 2),
-                            dataDisks
-                        );
+                        type,
+                        Math.floor(dataDisks.length / 2),
+                        dataDisks
+                    );
                 }
             } else {
                 let bonusDiskCountPerVdev = Math.floor(disks.length / vdevs.length);
@@ -150,9 +281,9 @@ export class TopologyService {
                 for (i = 0, length = vdevs.length; i < length; i++) {
                     vdev = vdevs[i];
                     this.addDisksToVdev(disks.slice(
-                                i*bonusDiskCountPerVdev,
-                                i*bonusDiskCountPerVdev + bonusDiskCountPerVdev
-                            ), vdev);
+                        i * bonusDiskCountPerVdev,
+                        i * bonusDiskCountPerVdev + bonusDiskCountPerVdev
+                    ), vdev);
                 }
             }
         }
@@ -206,9 +337,9 @@ export class TopologyService {
                     result = true;
                     break;
                 } else {
-                    aDisks = a[i].children.map(function(x) { return x._disk.path }).sort();
-                    bDisks = b[i].children.map(function(x) { return x._disk.path }).sort();
-                    for (j=0, disksLength = aDisks.length; j < disksLength; j++) {
+                    aDisks = a[i].children.map(function (x) { return x._disk.path }).sort();
+                    bDisks = b[i].children.map(function (x) { return x._disk.path }).sort();
+                    for (j = 0, disksLength = aDisks.length; j < disksLength; j++) {
                         if (aDisks[j] != bDisks[j]) {
                             result = true;
                             break;
@@ -225,11 +356,11 @@ export class TopologyService {
 
     private getVdevRecommendation(redundancy, speed, storage) {
         let priorities = [
-                {type: CONSTRAINTS_KEYS.STORAGE, tieBreaker: 2, weight: Math.round(storage * 10) / 10},
-                {type: CONSTRAINTS_KEYS.REDUNDANCY, tieBreaker: 0, weight: Math.round(redundancy * 10) / 10},
-                {type: CONSTRAINTS_KEYS.SPEED, tieBreaker: 1, weight: Math.round(speed * 10) / 10}
-            ],
-            orderedPriorities = priorities.sort(function (a, b) {
+            { type: CONSTRAINTS_KEYS.STORAGE, tieBreaker: 2, weight: Math.round(storage * 10) / 10 },
+            { type: CONSTRAINTS_KEYS.REDUNDANCY, tieBreaker: 0, weight: Math.round(redundancy * 10) / 10 },
+            { type: CONSTRAINTS_KEYS.SPEED, tieBreaker: 1, weight: Math.round(speed * 10) / 10 }
+        ],
+            orderedPriorities = priorities.sort((a, b) => {
                 let delta = b.weight - a.weight;
                 if (delta == 0) {
                     delta = b.tieBreaker - a.tieBreaker;
@@ -260,11 +391,11 @@ export class TopologyService {
             }
 
             // Make non ssd weighter than ssd
-            disk.isSpinning = 1/(1+disk.status.is_ssd);
+            disk.isSpinning = 1 / (1 + disk.status.is_ssd);
             groupsUniquer[key].push(disk);
         }
 
-        return disksGroups.sort(function(a, b) {
+        return disksGroups.sort((a, b) => {
             let delta = b.length - a.length,
                 meaningfulSpecifications = ['isSpinning', 'size'],
                 diskA = a[0], diskB = b[0],
