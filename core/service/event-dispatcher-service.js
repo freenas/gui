@@ -16,7 +16,7 @@ var EventDispatcherService = (function () {
     };
     EventDispatcherService.prototype.removeEventListener = function (eventName, handler) {
         if (this.listeners.has(eventName)) {
-            this.listeners.get(eventName).delete(handler);
+            this.listeners.get(eventName)["delete"](handler);
         }
     };
     EventDispatcherService.prototype.dispatch = function (eventName, detail) {

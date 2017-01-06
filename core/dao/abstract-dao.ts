@@ -1,16 +1,21 @@
 import { MiddlewareClient } from '../service/middleware-client';
 import { DatastoreService } from '../service/datastore-service';
+import { processor as taskProcessor } from '../service/data-processor/methodCleaner';
 import { processor as cleaningProcessor } from '../service/data-processor/cleaner';
 import { processor as diffProcessor } from '../service/data-processor/diff';
 import { processor as nullProcessor } from '../service/data-processor/null';
 import * as _ from 'lodash';
 import * as Promise from 'bluebird';
+import {ModelDescriptorService} from '../service/model-descriptor-service';
 
 export class AbstractDao {
     protected middlewareClient: MiddlewareClient;
     protected datastoreService: DatastoreService;
+    protected modelDescriptorService: ModelDescriptorService;
 
     private listPromise: Promise<Array<any>>;
+    private propertyDescriptorsPromise: Promise<any>;
+    private taskDescriptorsPromise: Map<string, Promise<any>>;
 
     private middlewareName: string;
     private objectType: string;
@@ -21,7 +26,6 @@ export class AbstractDao {
     private eventName: string;
     private preventQueryCaching: boolean;
     private isRegistered = false;
-    protected propertyDescriptors: Map<string, any>;
 
     public constructor(objectType: any, config?: any) {
         config = config || {};
@@ -35,6 +39,8 @@ export class AbstractDao {
         this.preventQueryCaching = config.preventQueryCaching;
         this.middlewareClient = MiddlewareClient.getInstance();
         this.datastoreService = DatastoreService.getInstance();
+        this.modelDescriptorService = ModelDescriptorService.getInstance();
+        this.taskDescriptorsPromise = new Map<string, Promise<any>>();
     }
 
     public list(): Promise<Array<any>> {
@@ -96,32 +102,48 @@ export class AbstractDao {
 
     private update(object: any, args?: Array<any>): Promise<any> {
         args = args || [];
-        let update = diffProcessor.process(
-            cleaningProcessor.process(
-                object,
-                this.propertyDescriptors
-            ),
-            this.objectType,
-            object.id,
-            this.propertyDescriptors
-        );
-        if (update || (args && args.length > 0)) {
-            let payload = _.concat(object.id ? [object.id, update] : [update], args);
-            return this.middlewareClient.submitTask(this.updateMethod, payload);
-        }
+        return Promise.all([
+            this.loadPropertyDescriptors(),
+            this.loadTaskDescriptor(this.updateMethod)
+        ]).spread((propertyDescriptors, methodDescriptor) => {
+            let update = taskProcessor.process(
+                    diffProcessor.process(
+                        cleaningProcessor.process(
+                            object,
+                            propertyDescriptors
+                        ),
+                    this.objectType,
+                    object.id,
+                    propertyDescriptors
+                ),
+                methodDescriptor
+            );
+            if (update || (args && args.length > 0)) {
+                let payload = _.concat(object.id ? [object.id, update] : [update], args);
+                return this.middlewareClient.submitTask(this.updateMethod, payload);
+            }
+        });
     }
 
     private create(object: any, args?: Array<any>): Promise<any> {
         args = args || [];
-        let newObject = nullProcessor.process(
-            cleaningProcessor.process(
-                object,
-                this.propertyDescriptors
-            )
-        );
-        if (newObject) {
-            return this.middlewareClient.submitTask(this.createMethod, _.concat([newObject], args));
-        }
+        return Promise.all([
+            this.loadPropertyDescriptors(),
+            this.loadTaskDescriptor(this.createMethod)
+        ]).spread((propertyDescriptors, methodDescriptor) => {
+            let newObject = taskProcessor.process(
+                nullProcessor.process(
+                    cleaningProcessor.process(
+                        object,
+                        propertyDescriptors
+                    )
+                ),
+                methodDescriptor
+            );
+            if (newObject) {
+                return this.middlewareClient.submitTask(this.createMethod, _.concat([newObject], args));
+            }
+        });
     }
 
     private query(criteria?: any, isSingle?: boolean): Promise<any> {
@@ -131,7 +153,7 @@ export class AbstractDao {
             (entries) => {
                 entries = Array.isArray(entries) ? entries : [entries];
                 self.register();
-                let results: any = entries.map(function(x) {
+                let results: any = entries.map((x: any) => {
                     x._objectType = self.objectType;
                     return x;
                 });
@@ -160,5 +182,20 @@ export class AbstractDao {
 
     private static dotCase(aString: string) {
         return _.replace(_.snakeCase(aString), '_', '.');
+    }
+
+    private loadTaskDescriptor(method: string): Promise<Map<string, any>> {
+        if (!this.taskDescriptorsPromise.has(method)) {
+            this.taskDescriptorsPromise.set(method, this.modelDescriptorService.getTaskDescriptor(method));
+        }
+        return this.taskDescriptorsPromise.get(method);
+
+    }
+
+    private loadPropertyDescriptors(): Promise<any> {
+        if (!this.propertyDescriptorsPromise) {
+            this.propertyDescriptorsPromise = this.modelDescriptorService.getPropertyDescriptorsForType(this.objectType);
+        }
+        return this.propertyDescriptorsPromise;
     }
 }

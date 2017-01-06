@@ -1,11 +1,13 @@
 "use strict";
 var middleware_client_1 = require("../service/middleware-client");
 var datastore_service_1 = require("../service/datastore-service");
+var methodCleaner_1 = require("../service/data-processor/methodCleaner");
 var cleaner_1 = require("../service/data-processor/cleaner");
 var diff_1 = require("../service/data-processor/diff");
 var null_1 = require("../service/data-processor/null");
 var _ = require("lodash");
 var Promise = require("bluebird");
+var model_descriptor_service_1 = require("../service/model-descriptor-service");
 var AbstractDao = (function () {
     function AbstractDao(objectType, config) {
         this.isRegistered = false;
@@ -20,6 +22,8 @@ var AbstractDao = (function () {
         this.preventQueryCaching = config.preventQueryCaching;
         this.middlewareClient = middleware_client_1.MiddlewareClient.getInstance();
         this.datastoreService = datastore_service_1.DatastoreService.getInstance();
+        this.modelDescriptorService = model_descriptor_service_1.ModelDescriptorService.getInstance();
+        this.taskDescriptorsPromise = new Map();
     }
     AbstractDao.prototype.list = function () {
         return (this.listPromise && !this.preventQueryCaching) ?
@@ -52,7 +56,7 @@ var AbstractDao = (function () {
     AbstractDao.prototype.save = function (object, args) {
         return object._isNew ? this.create(object, args) : this.update(object, args);
     };
-    AbstractDao.prototype.delete = function (object, args) {
+    AbstractDao.prototype["delete"] = function (object, args) {
         args = args || [];
         return this.middlewareClient.submitTask(this.deleteMethod, _.concat([object.id], args));
     };
@@ -70,19 +74,31 @@ var AbstractDao = (function () {
         return Promise.resolve(emptyList);
     };
     AbstractDao.prototype.update = function (object, args) {
+        var _this = this;
         args = args || [];
-        var update = diff_1.processor.process(cleaner_1.processor.process(object, this.propertyDescriptors), this.objectType, object.id, this.propertyDescriptors);
-        if (update || (args && args.length > 0)) {
-            var payload = _.concat(object.id ? [object.id, update] : [update], args);
-            return this.middlewareClient.submitTask(this.updateMethod, payload);
-        }
+        return Promise.all([
+            this.loadPropertyDescriptors(),
+            this.loadTaskDescriptor(this.updateMethod)
+        ]).spread(function (propertyDescriptors, methodDescriptor) {
+            var update = methodCleaner_1.processor.process(diff_1.processor.process(cleaner_1.processor.process(object, propertyDescriptors), _this.objectType, object.id, propertyDescriptors), methodDescriptor);
+            if (update || (args && args.length > 0)) {
+                var payload = _.concat(object.id ? [object.id, update] : [update], args);
+                return _this.middlewareClient.submitTask(_this.updateMethod, payload);
+            }
+        });
     };
     AbstractDao.prototype.create = function (object, args) {
+        var _this = this;
         args = args || [];
-        var newObject = null_1.processor.process(cleaner_1.processor.process(object, this.propertyDescriptors));
-        if (newObject) {
-            return this.middlewareClient.submitTask(this.createMethod, _.concat([newObject], args));
-        }
+        return Promise.all([
+            this.loadPropertyDescriptors(),
+            this.loadTaskDescriptor(this.createMethod)
+        ]).spread(function (propertyDescriptors, methodDescriptor) {
+            var newObject = methodCleaner_1.processor.process(null_1.processor.process(cleaner_1.processor.process(object, propertyDescriptors)), methodDescriptor);
+            if (newObject) {
+                return _this.middlewareClient.submitTask(_this.createMethod, _.concat([newObject], args));
+            }
+        });
     };
     AbstractDao.prototype.query = function (criteria, isSingle) {
         var self = this, middlewareCriteria = criteria ? this.getMiddlewareCriteria(criteria, isSingle) : [];
@@ -114,6 +130,18 @@ var AbstractDao = (function () {
     };
     AbstractDao.dotCase = function (aString) {
         return _.replace(_.snakeCase(aString), '_', '.');
+    };
+    AbstractDao.prototype.loadTaskDescriptor = function (method) {
+        if (!this.taskDescriptorsPromise.has(method)) {
+            this.taskDescriptorsPromise.set(method, this.modelDescriptorService.getTaskDescriptor(method));
+        }
+        return this.taskDescriptorsPromise.get(method);
+    };
+    AbstractDao.prototype.loadPropertyDescriptors = function () {
+        if (!this.propertyDescriptorsPromise) {
+            this.propertyDescriptorsPromise = this.modelDescriptorService.getPropertyDescriptorsForType(this.objectType);
+        }
+        return this.propertyDescriptorsPromise;
     };
     return AbstractDao;
 }());

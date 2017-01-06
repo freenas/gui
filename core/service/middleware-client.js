@@ -87,7 +87,7 @@ var MiddlewareClient = (function () {
         ]).then(function (taskId) {
             self.eventDispatcherService.dispatch('taskCreated', {
                 old: temporaryTaskId,
-                new: taskId
+                "new": taskId
             });
             return {
                 taskId: taskId,
@@ -104,7 +104,7 @@ var MiddlewareClient = (function () {
         ]).spread(function (taskId, links) {
             self.eventDispatcherService.dispatch('taskCreated', {
                 old: temporaryTaskId,
-                new: taskId
+                "new": taskId
             });
             return {
                 taskId: taskId,
@@ -134,7 +134,7 @@ var MiddlewareClient = (function () {
         return this.callRpcMethod('task.submit_with_upload', _.concat([name], args)).spread(function (taskId, tokens) {
             self.eventDispatcherService.dispatch('taskCreated', {
                 old: temporaryTaskId,
-                new: taskId
+                "new": taskId
             });
             self.sendFileWithToken(file, tokens[0]);
         });
@@ -211,12 +211,12 @@ var MiddlewareClient = (function () {
                 reject: reject,
                 promise: promise
             });
-            return promise.timeout(self.REQUEST_TIMEOUT).catch(function (error) {
+            return promise.timeout(self.REQUEST_TIMEOUT)["catch"](function (error) {
                 if (error) {
                     if (error.name === 'TimeoutError') {
                         console.log('[' + self.url + '] Request timeout: ' + JSON.stringify(payload));
                         self.handlers.get(payload.id).reject();
-                        self.handlers.delete(payload.id);
+                        self.handlers["delete"](payload.id);
                     }
                 }
                 console.log(error);
@@ -306,14 +306,14 @@ var MiddlewareClient = (function () {
     MiddlewareClient.prototype.handleRpcResponse = function (message) {
         if (this.handlers.has(message.id)) {
             var deferred = this.handlers.get(message.id);
-            this.handlers.delete(message.id);
+            this.handlers["delete"](message.id);
             deferred.resolve(message.args);
         }
     };
     MiddlewareClient.prototype.handleRpcError = function (message) {
         if (this.handlers.has(message.id)) {
             var deferred = this.handlers.get(message.id);
-            this.handlers.delete(message.id);
+            this.handlers["delete"](message.id);
             deferred.reject(new MiddlewareError(message));
         }
     };

@@ -43,7 +43,7 @@ var DatastoreService = (function () {
             payload: object
         });
     };
-    DatastoreService.prototype.delete = function (type, id) {
+    DatastoreService.prototype["delete"] = function (type, id) {
         var state = this.store.getState();
         if (state && state.get(type) && state.get(type).has(id)) {
             this.store.dispatch({
@@ -55,7 +55,7 @@ var DatastoreService = (function () {
             });
         }
     };
-    DatastoreService.prototype.import = function (type, objects) {
+    DatastoreService.prototype["import"] = function (type, objects) {
         this.store.dispatch({
             type: main_1.ACTIONS.IMPORT_OBJECTS,
             meta: {
@@ -80,7 +80,7 @@ var DatastoreService = (function () {
         else if (operation === 'delete') {
             for (var _i = 0, ids_1 = ids; _i < ids_1.length; _i++) {
                 var id = ids_1[_i];
-                this.delete(type, id);
+                this["delete"](type, id);
             }
         }
     };
