@@ -6,25 +6,21 @@
         },
         {
             "id": "volume",
-            "objectType": "Volume",
-            "service": "core/service/section/storage-section-service"
+            "objectType": "Volume"
         },
         {
             "id": "directoryServices",
-            "objectType": "DirectoryServices",
-            "service": "core/service/section/account-section-service"
+            "objectType": "DirectoryServices"
         },
         {
             "id": "user",
             "objectType": "User",
-            "parent": "volume",
-            "service": "core/service/section/account-section-service"
+            "parent": "volume"
         },
         {
             "id": "share",
             "objectType": "Share",
-            "parent": "volume",
-            "service": "core/service/section/storage-section-service"
+            "parent": "volume"
         },
         {
             "id": "mail",
