@@ -98,6 +98,21 @@ var CalendarRoute = (function (_super) {
             return stack;
         });
     };
+    CalendarRoute.prototype.createTask = function (taskType, stack) {
+        var self = this, objectType = model_1.Model.CalendarTask, columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
+            columnIndex: columnIndex,
+            objectType: objectType,
+            parentContext: parentContext,
+            path: parentContext.path + '/calendar-task/create/' + encodeURIComponent(taskType)
+        };
+        return Promise.all([
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function (uiDescriptor) {
+            context.object = parentContext.object._newTask;
+            context.userInterfaceDescriptor = uiDescriptor;
+            return self.updateStackWithContext(stack, context);
+        });
+    };
     return CalendarRoute;
 }(abstract_route_1.AbstractRoute));
 exports.CalendarRoute = CalendarRoute;

@@ -52,15 +52,6 @@ exports.CalendarWidget = Component.specialize({
                 this.currentWidget.gotoNext();
             }
         }
-    },
-
-    handleCreateTaskAction: {
-        value: function(event) {
-            var self = this;
-            this.application.calendarService.getNewTask().then(function(task) {
-                self.selectedTask = task;
-            });
-        }
     }
 
 });

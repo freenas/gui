@@ -89,7 +89,7 @@ export class CalendarRoute extends AbstractRoute {
         let self = this,
             objectType = Model.CalendarTask,
             columnIndex = 1,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -99,7 +99,7 @@ export class CalendarRoute extends AbstractRoute {
         return Promise.all([
             this.calendarRepository.listTasks(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(calendarTasks, uiDescriptor) {
+        ]).spread(function(calendarTasks: Array<any>, uiDescriptor) {
             context.object = _.find(calendarTasks, {id: calendarTaskId});
             context.userInterfaceDescriptor = uiDescriptor;
 
@@ -112,6 +112,27 @@ export class CalendarRoute extends AbstractRoute {
 
             stack.push(context);
             return stack;
+        });
+    }
+
+    public createTask(taskType: any, stack: Array<any>) {
+        let self = this,
+            objectType = Model.CalendarTask,
+            columnIndex = 1,
+            parentContext = stack[columnIndex - 1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/calendar-task/create/' + encodeURIComponent(taskType)
+            };
+        return Promise.all([
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(uiDescriptor) {
+            context.object = parentContext.object._newTask;
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            return self.updateStackWithContext(stack, context);
         });
     }
 }

@@ -1,11 +1,8 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    RoutingService = require("core/service/routing-service").RoutingService;
+    RoutingService = require("core/service/routing-service").RoutingService,
+    _ = require("lodash");
 
 exports.Calendar = AbstractInspector.specialize({
-    events: {
-        value: null
-    },
-
     _inspectorTemplateDidLoad: {
         value: function() {
             this._routingService = RoutingService.getInstance();
@@ -17,7 +14,13 @@ exports.Calendar = AbstractInspector.specialize({
     _handleSelectionChange: {
         value: function(value) {
             if (value) {
-                this._routingService.navigate('/calendar/calendar-task/_/' + value.id);
+                if (value. _isNew) {
+                    this.object._newTask = _.cloneDeep(value);
+                    this._routingService.navigate('/calendar/calendar-task/create/' + value.task);
+                } else {
+                    this.object._newTask = null;
+                    this._routingService.navigate('/calendar/calendar-task/_/' + value.id);
+                }
             }
         }
     }

@@ -17,26 +17,5 @@ exports.CascadingList = Component.specialize({}, {
 
             return null;
         }
-    },
-
-    findPreviousCascadingListItemContextWithComponent: {
-        value: function (component) {
-            var cascadingListItem = this.findCascadingListItemContextWithComponent(component),
-                previousCascadingListItem = null;
-
-            if (cascadingListItem && cascadingListItem.data.columnIndex > 0) {
-                previousCascadingListItem = cascadingListItem.cascadingList.cascadingListItemAtIndex(cascadingListItem.data.columnIndex -1);
-            }
-
-            return previousCascadingListItem;
-        }
-    },
-
-    findPreviousContextWithComponent: {
-        value: function (component) {
-            var previousCascadingListItem = this.findPreviousCascadingListItemContextWithComponent(component);
-
-            return previousCascadingListItem ? previousCascadingListItem.data : null;
-        }
     }
 });
