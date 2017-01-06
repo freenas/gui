@@ -55,6 +55,7 @@
         ],
         "no-eval": true,
         "no-internal-module": true,
+        "no-magic-numbers": true,
         "no-trailing-whitespace": true,
         "no-unsafe-finally": true,
         "no-var-keyword": true,
