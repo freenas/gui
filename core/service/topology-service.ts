@@ -1,51 +1,72 @@
-"use strict";
-var volume_repository_1 = require("../repository/volume-repository");
-var disk_repository_1 = require("../repository/disk-repository");
-var immutable = require("immutable");
-var CONSTRAINTS_KEYS = {
+import { VolumeRepository } from '../repository/volume-repository';
+import { DiskRepository } from '../repository/disk-repository';
+import * as immutable from 'immutable';
+
+const CONSTRAINTS_KEYS = {
     STORAGE: "storage",
     REDUNDANCY: "redundancy",
     SPEED: "speed"
 };
-var RECORD_SIZE = 128;
-var TopologyProfile = (function () {
-    function TopologyProfile(redundancy, speed, storage) {
-        this.redundancy = redundancy;
-        this.speed = speed;
-        this.storage = storage;
+
+const RECORD_SIZE = 128;
+
+export class TopologyProfile {
+    constructor(
+        readonly redundancy: number,
+        readonly speed: number,
+        readonly storage: number
+    ) { }
+}
+
+export class TopologyService {
+
+    private static instance: TopologyService;
+
+    private static profiles: immutable.Map<string, TopologyProfile>;
+
+    private static vdevRecommendations: any;
+
+    private volumeRepository: VolumeRepository;
+
+    private diskRepository: DiskRepository;
+
+    private constructor() {
+        this.volumeRepository = VolumeRepository.getInstance();
+        this.diskRepository = DiskRepository.getInstance();
     }
-    return TopologyProfile;
-}());
-exports.TopologyProfile = TopologyProfile;
-var TopologyService = (function () {
-    function TopologyService() {
-        this.volumeRepository = volume_repository_1.VolumeRepository.getInstance();
-        this.diskRepository = disk_repository_1.DiskRepository.getInstance();
-    }
-    TopologyService.getInstance = function () {
+
+    public static getInstance() {
         if (!TopologyService.instance) {
             TopologyService.instance = new TopologyService();
             TopologyService.generateProfiles();
         }
         return TopologyService.instance;
-    };
-    TopologyService.prototype.init = function () {
+    }
+
+    public init() {
         if (!TopologyService.vdevRecommendations) {
-            return this.volumeRepository.getVdevRecommendations().then(function (vdevRecommendations) {
+            return this.volumeRepository.getVdevRecommendations().then((vdevRecommendations) => {
                 return (TopologyService.vdevRecommendations = vdevRecommendations);
             });
         }
+
         return Promise.resolve(TopologyService.vdevRecommendations);
-    };
-    TopologyService.prototype.generateTopology = function (disks, topologyProfile) {
-        var _this = this;
+    }
+
+    public generateTopology(disks: Array<Object>, topologyProfile: TopologyProfile) {
         if (disks && disks.length) {
-            return this.volumeRepository.getTopologyInstance().then(function (topology) {
-                var disksGroups = _this.getDisksGroups(disks), dataDisks = disksGroups.shift(), vdevRecommendation;
+            return this.volumeRepository.getTopologyInstance().then((topology) => {
+                let disksGroups = this.getDisksGroups(disks),
+                    dataDisks = disksGroups.shift(),
+                    vdevRecommendation;
+
                 if (dataDisks.length > 3) {
-                    vdevRecommendation = _this.getVdevRecommendation(topologyProfile.redundancy, topologyProfile.speed, topologyProfile.storage);
-                }
-                else if (dataDisks.length > 2) {
+                    vdevRecommendation = this.getVdevRecommendation(
+                        topologyProfile.redundancy,
+                        topologyProfile.speed,
+                        topologyProfile.storage
+                    );
+                } else if (dataDisks.length > 2) {
                     vdevRecommendation = {
                         recommendation: {
                             type: 'raidz1',
@@ -53,8 +74,7 @@ var TopologyService = (function () {
                         },
                         priorities: []
                     };
-                }
-                else {
+                } else {
                     vdevRecommendation = {
                         recommendation: {
                             type: 'mirror',
@@ -63,17 +83,27 @@ var TopologyService = (function () {
                         priorities: []
                     };
                 }
-                _this.clearDisks(disks);
-                topology.data = _this.buildDataVdevsWithDisks(vdevRecommendation.recommendation.type, vdevRecommendation.recommendation.drives, dataDisks);
+
+                this.clearDisks(disks);
+
+                topology.data = this.buildDataVdevsWithDisks(
+                    vdevRecommendation.recommendation.type,
+                    vdevRecommendation.recommendation.drives,
+                    dataDisks
+                );
+
                 return topology;
             });
         }
+
         return Promise.reject("Can't generate topology without any disks");
-    };
-    TopologyService.prototype.getProfiles = function () {
+    }
+
+    public getProfiles(): immutable.Map<string, TopologyProfile> {
         return TopologyService.profiles;
-    };
-    TopologyService.prototype.diskToVdev = function (disk) {
+    }
+
+    public diskToVdev(disk) {
         return {
             _isNew: true,
             _objectType: 'ZfsVdev',
@@ -81,23 +111,28 @@ var TopologyService = (function () {
             _disk: disk,
             type: 'disk'
         };
-    };
-    TopologyService.prototype.vdevToDisk = function (vdev) {
+    }
+
+    public vdevToDisk(vdev) {
         return vdev._disk;
-    };
-    TopologyService.prototype.populateDiskWithinVDev = function (vDev) {
-        var _this = this;
-        return this.diskRepository.listDisks().then(function (disks) {
-            var children = vDev.children, tmpVDev;
-            for (var i = 0, l = children.length; i < l; i++) {
+    }
+
+    public populateDiskWithinVDev(vDev) {
+        return this.diskRepository.listDisks().then((disks) => {
+            let children = vDev.children,
+                tmpVDev;
+
+            for (let i = 0, l = children.length; i < l; i++) {
                 tmpVDev = children[i];
+
                 if (!tmpVDev._disk) {
-                    tmpVDev._disk = _this.findDiskWithPath(disks, tmpVDev.path);
+                    tmpVDev._disk = this.findDiskWithPath(disks, tmpVDev.path);
                 }
             }
         });
-    };
-    TopologyService.prototype.getParitySizeOnTotal = function (disksCount, vdevType, totalSize) {
+    }
+
+    public getParitySizeOnTotal(disksCount, vdevType, totalSize) {
         var paritySize = 0;
         switch (vdevType) {
             case 'disk':
@@ -117,9 +152,10 @@ var TopologyService = (function () {
                 break;
         }
         return paritySize;
-    };
-    TopologyService.prototype.getParitySizeOnAllocated = function (disksCount, vdevType, allocatedSize) {
-        var paritySize = 0;
+    }
+
+    public getParitySizeOnAllocated(disksCount, vdevType, allocatedSize) {
+        let paritySize = 0;
         switch (vdevType) {
             case 'disk':
                 break;
@@ -138,27 +174,37 @@ var TopologyService = (function () {
                 break;
         }
         return paritySize;
-    };
-    TopologyService.prototype.getRaidzParityRatioOnTotal = function (disksCount, raidzLevel) {
-        var precision = Math.pow(10, raidzLevel + 1), number = Math.ceil((RECORD_SIZE + raidzLevel * Math.floor((RECORD_SIZE + disksCount - raidzLevel - 1) / (disksCount - raidzLevel))) * precision) / this.RECORD_SIZE;
+    }
+
+    private getRaidzParityRatioOnTotal(disksCount, raidzLevel) {
+        let precision = Math.pow(10, raidzLevel + 1),
+            number = Math.ceil((RECORD_SIZE + raidzLevel * Math.floor((RECORD_SIZE + disksCount - raidzLevel - 1) / (disksCount - raidzLevel))) * precision) / this.RECORD_SIZE;
         return (number - precision) / (number);
-    };
-    TopologyService.prototype.getRaidzParityRatioOnAllocated = function (disksCount, raidzLevel) {
-        var precision = Math.pow(10, raidzLevel + 1);
+    }
+
+
+    private getRaidzParityRatioOnAllocated(disksCount, raidzLevel) {
+        let precision = Math.pow(10, raidzLevel + 1);
         return (Math.ceil((RECORD_SIZE + raidzLevel * Math.floor((RECORD_SIZE + disksCount - raidzLevel - 1) / (disksCount - raidzLevel))) * precision) / this.RECORD_SIZE - precision) / precision;
-    };
-    TopologyService.prototype.findDiskWithPath = function (disks, path) {
-        var response, disk;
-        for (var i = 0, length_1 = disks.length; i < length_1; i++) {
+    }
+
+    private findDiskWithPath(disks, path) {
+        let response,
+            disk;
+
+        for (let i = 0, length = disks.length; i < length; i++) {
             disk = disks[i];
+
             if (disk.path === path) {
                 response = disk;
                 break;
             }
         }
+
         return disk;
-    };
-    TopologyService.generateProfiles = function () {
+    }
+
+    private static generateProfiles() {
         if (!this.profiles) {
             this.profiles = immutable.fromJS({
                 "media": new TopologyProfile(0, 0, 10),
@@ -168,55 +214,80 @@ var TopologyService = (function () {
             });
         }
     };
-    ;
-    TopologyService.prototype.getDiksGroups = function (disks) {
-        var disksGroups = [], groupsUniquer = {}, i, length, disk, key;
+
+    private getDiksGroups(disks) {
+        let disksGroups = [],
+            groupsUniquer = {},
+            i, length, disk, key;
+
         for (i = 0, length = disks.length; i < length; i++) {
             disk = disks[i];
             key = disk.status.is_ssd + '_' + disk.mediasize + '_' + disk.max_rotation;
+
             if (!groupsUniquer[key]) {
                 groupsUniquer[key] = [];
                 disksGroups.push(groupsUniquer[key]);
             }
+
             // Make non ssd weighter than ssd
             disk.isSpinning = 1 / (1 + disk.status.is_ssd);
             groupsUniquer[key].push(disk);
         }
-        return disksGroups.sort(function (a, b) {
-            var delta = b.length - a.length, meaningfulSpecifications = ['isSpinning', 'size'], diskA = a[0], diskB = b[0], specification;
+
+        return disksGroups.sort((a, b) => {
+            let delta = b.length - a.length,
+                meaningfulSpecifications = ['isSpinning', 'size'],
+                diskA = a[0], diskB = b[0],
+                specification;
+
             while (delta === 0 && meaningfulSpecifications.length > 0 && diskA) {
                 specification = meaningfulSpecifications.shift();
                 delta = +diskB[specification] - +diskA[specification];
             }
+
             return delta;
         });
-    };
-    TopologyService.prototype.buildDataVdevsWithDisks = function (type, size, dataDisks) {
-        var vdevs = [], disks = dataDisks.slice(0, size), sliceStart = size, i, length, vdev;
+    }
+
+    private buildDataVdevsWithDisks(type, size, dataDisks) {
+        let vdevs = [],
+            disks = dataDisks.slice(0, size),
+            sliceStart = size,
+            i, length, vdev;
+
         do {
             vdevs.push(this.buildVdevWithDisks(type, disks));
             disks = dataDisks.slice(sliceStart, sliceStart + size);
             sliceStart += size;
-        } while (disks.length >= size);
+        } while (disks.length >= size)
+
         if (disks.length) {
             //fixme: @pierre probably dead code
             this.clearDisks(disks);
+
             if (vdevs.length === 1) {
                 if (disks.length <= (size / 2)) {
                     this.addDisksToVdev(disks, vdevs[0]);
+                } else {
+                    vdevs = this.buildDataVdevsWithDisks(
+                        type,
+                        Math.floor(dataDisks.length / 2),
+                        dataDisks
+                    );
                 }
-                else {
-                    vdevs = this.buildDataVdevsWithDisks(type, Math.floor(dataDisks.length / 2), dataDisks);
-                }
-            }
-            else {
-                var bonusDiskCountPerVdev = Math.floor(disks.length / vdevs.length);
+            } else {
+                let bonusDiskCountPerVdev = Math.floor(disks.length / vdevs.length);
+
                 for (i = 0, length = vdevs.length; i < length; i++) {
                     vdev = vdevs[i];
-                    this.addDisksToVdev(disks.slice(i * bonusDiskCountPerVdev, i * bonusDiskCountPerVdev + bonusDiskCountPerVdev), vdev);
+                    this.addDisksToVdev(disks.slice(
+                        i * bonusDiskCountPerVdev,
+                        i * bonusDiskCountPerVdev + bonusDiskCountPerVdev
+                    ), vdev);
                 }
             }
         }
+
         for (i = 0, length = vdevs.length; i < length; i++) {
             vdev = vdevs[i];
             if (vdev.children && vdev.children.length == 1) {
@@ -224,42 +295,50 @@ var TopologyService = (function () {
             }
         }
         return vdevs;
-    };
-    TopologyService.prototype.buildVdevWithDisks = function (type, disks) {
+    }
+
+    private buildVdevWithDisks(type, disks) {
         return {
             _isNew: true,
             _objectType: 'ZfsVdev',
             type: type,
             children: disks.map(this.diskToVdev)
         };
-    };
-    TopologyService.prototype.addDisksToVdev = function (disks, vdev) {
+    }
+
+    private addDisksToVdev(disks, vdev) {
         if (!vdev.children) {
             vdev.children = [];
         }
-        for (var i = 0, length_2 = disks.length; i < length_2; i++) {
+
+        for (let i = 0, length = disks.length; i < length; i++) {
             vdev.children.push(this.diskToVdev(disks[i]));
         }
-    };
-    TopologyService.prototype.clearDisks = function (disks) {
+    }
+
+    private clearDisks(disks: Array<any>) {
         if (disks) {
-            var disk = void 0;
-            for (var i = 0, length_3 = disks.length; i < length_3; i++) {
+            let disk;
+
+            for (let i = 0, length = disks.length; i < length; i++) {
                 disk = disks[i].volume = null;
             }
         }
-    };
-    TopologyService.prototype.areVdevDifferents = function (a, b) {
-        var aDisks, bDisks, j, disksLength, result = a.length != b.length;
+    }
+
+    private areVdevDifferents(a, b) {
+        let aDisks, bDisks,
+            j, disksLength,
+            result = a.length != b.length;
+
         if (!result) {
-            for (var i = 0, length_4 = a.length; i < length_4; i++) {
+            for (let i = 0, length = a.length; i < length; i++) {
                 if (a[i].children.length != b[i].children.length) {
                     result = true;
                     break;
-                }
-                else {
-                    aDisks = a[i].children.map(function (x) { return x._disk.path; }).sort();
-                    bDisks = b[i].children.map(function (x) { return x._disk.path; }).sort();
+                } else {
+                    aDisks = a[i].children.map(function (x) { return x._disk.path }).sort();
+                    bDisks = b[i].children.map(function (x) { return x._disk.path }).sort();
                     for (j = 0, disksLength = aDisks.length; j < disksLength; j++) {
                         if (aDisks[j] != bDisks[j]) {
                             result = true;
@@ -273,46 +352,62 @@ var TopologyService = (function () {
             }
         }
         return result;
-    };
-    TopologyService.prototype.getVdevRecommendation = function (redundancy, speed, storage) {
-        var priorities = [
+    }
+
+    private getVdevRecommendation(redundancy, speed, storage) {
+        let priorities = [
             { type: CONSTRAINTS_KEYS.STORAGE, tieBreaker: 2, weight: Math.round(storage * 10) / 10 },
             { type: CONSTRAINTS_KEYS.REDUNDANCY, tieBreaker: 0, weight: Math.round(redundancy * 10) / 10 },
             { type: CONSTRAINTS_KEYS.SPEED, tieBreaker: 1, weight: Math.round(speed * 10) / 10 }
-        ], orderedPriorities = priorities.sort(function (a, b) {
-            var delta = b.weight - a.weight;
-            if (delta == 0) {
-                delta = b.tieBreaker - a.tieBreaker;
-            }
-            return delta;
-        }), firstPriority = orderedPriorities[0], secondPriority = orderedPriorities[1].weight > 0 ? orderedPriorities[1] : orderedPriorities[0];
+        ],
+            orderedPriorities = priorities.sort((a, b) => {
+                let delta = b.weight - a.weight;
+                if (delta == 0) {
+                    delta = b.tieBreaker - a.tieBreaker;
+                }
+                return delta;
+            }),
+            firstPriority = orderedPriorities[0],
+            secondPriority = orderedPriorities[1].weight > 0 ? orderedPriorities[1] : orderedPriorities[0];
+
         return {
             recommendation: TopologyService.vdevRecommendations[firstPriority.type][secondPriority.type],
             priorities: [firstPriority.type, secondPriority.type]
         };
-    };
-    TopologyService.prototype.getDisksGroups = function (disks) {
-        var disksGroups = [], groupsUniquer = {}, i, length, disk, key;
+    }
+
+    private getDisksGroups(disks) {
+        let disksGroups = [],
+            groupsUniquer = {},
+            i, length, disk, key;
+
         for (i = 0, length = disks.length; i < length; i++) {
             disk = disks[i];
             key = disk.status.is_ssd + '_' + disk.mediasize + '_' + disk.max_rotation;
+
             if (!groupsUniquer[key]) {
                 groupsUniquer[key] = [];
                 disksGroups.push(groupsUniquer[key]);
             }
+
             // Make non ssd weighter than ssd
             disk.isSpinning = 1 / (1 + disk.status.is_ssd);
             groupsUniquer[key].push(disk);
         }
-        return disksGroups.sort(function (a, b) {
-            var delta = b.length - a.length, meaningfulSpecifications = ['isSpinning', 'size'], diskA = a[0], diskB = b[0], specification;
+
+        return disksGroups.sort((a, b) => {
+            let delta = b.length - a.length,
+                meaningfulSpecifications = ['isSpinning', 'size'],
+                diskA = a[0], diskB = b[0],
+                specification;
+
             while (delta === 0 && meaningfulSpecifications.length > 0 && diskA) {
                 specification = meaningfulSpecifications.shift();
                 delta = +diskB[specification] - +diskA[specification];
             }
+
             return delta;
         });
-    };
-    return TopologyService;
-}());
-exports.TopologyService = TopologyService;
+    }
+
+}
