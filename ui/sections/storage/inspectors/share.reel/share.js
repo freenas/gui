@@ -1,7 +1,5 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     Model = require("core/model/model").Model,
-    FileSystemController = require("core/controller/filesystem-tree-controller").FilesystemTreeController,
-    DataSetTreeController = require("core/controller/dataset-tree-controller").DatasetTreeController,
     application = require("montage/core/application").application,
     ShareService = require("core/service/share-service").ShareService;
 
