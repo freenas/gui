@@ -14,10 +14,21 @@
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
                 "element": {"#": "active_media_type"},
-                "label": "Media Type"
+                "label": "Active Media Type"
             },
             "bindings": {
                 "value": {"<-": "@owner.active_media_type"}
+            }
+        },
+        "media": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "media"},
+                "label": "Selected Media Type"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.object.status.supported_media"},
+                "selectedValue": {"<->": "@owner.object.media"}
             }
         },
         "link_address": {
@@ -47,6 +58,7 @@
 <body>
     <div data-montage-id="owner" class="Interface">
         <div data-montage-id="active_media_type"></div>
+        <div data-montage-id="media">
         <div data-montage-id="link_address"></div>
         <div data-montage-id="capabilities"></div>
     </div>
