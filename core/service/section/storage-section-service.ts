@@ -35,6 +35,28 @@ export class StorageSectionService extends AbstractSectionService {
 
     private storageOverview: any;
 
+    private readonly DEFAULT_PERMISSIONS = {
+        user: 'root',
+        group: 'wheel',
+        modes: {
+            user: {
+                read: true,
+                write: true,
+                execute: true
+            },
+            group: {
+                read: true,
+                write: true,
+                execute: true
+            },
+            others: {
+                read: true,
+                write: false,
+                execute: true
+            },
+        }
+    };
+
     protected init() {
         let self = this;
 
@@ -286,6 +308,26 @@ export class StorageSectionService extends AbstractSectionService {
 
     public listServices() {
         return this.serviceRepository.listServices();
+    }
+
+    public initializeDatasetProperties(dataset: any) {
+        return this.volumeRepository.initializeDatasetProperties(dataset);
+    }
+
+    public convertVolumeDatasetSizeProperties(dataset: any) {
+        return this.volumeRepository.convertVolumeDatasetSizeProperties(dataset);
+    }
+
+    public ensureDefaultPermissionsAreSetOnDataset(dataset: any) {
+        return (dataset.permissions ?
+            Promise.resolve(dataset.permissions) :
+            this.volumeRepository.getNewPermissions()).then((permissions) => {
+                dataset.permissions = _.defaults(permissions, this.DEFAULT_PERMISSIONS);
+            });
+    }
+
+    public isRootDataset(dataset: any) {
+        return dataset.id === dataset.volume;
     }
 
     private cloneVdevs(vdevs: Array<any>): Array<any> {

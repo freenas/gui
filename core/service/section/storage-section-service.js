@@ -22,7 +22,29 @@ var _ = require("lodash");
 var StorageSectionService = (function (_super) {
     __extends(StorageSectionService, _super);
     function StorageSectionService() {
-        return _super.apply(this, arguments) || this;
+        var _this = _super.apply(this, arguments) || this;
+        _this.DEFAULT_PERMISSIONS = {
+            user: 'root',
+            group: 'wheel',
+            modes: {
+                user: {
+                    read: true,
+                    write: true,
+                    execute: true
+                },
+                group: {
+                    read: true,
+                    write: true,
+                    execute: true
+                },
+                others: {
+                    read: true,
+                    write: false,
+                    execute: true
+                },
+            }
+        };
+        return _this;
     }
     StorageSectionService.prototype.init = function () {
         var self = this;
@@ -226,6 +248,23 @@ var StorageSectionService = (function (_super) {
     };
     StorageSectionService.prototype.listServices = function () {
         return this.serviceRepository.listServices();
+    };
+    StorageSectionService.prototype.initializeDatasetProperties = function (dataset) {
+        return this.volumeRepository.initializeDatasetProperties(dataset);
+    };
+    StorageSectionService.prototype.convertVolumeDatasetSizeProperties = function (dataset) {
+        return this.volumeRepository.convertVolumeDatasetSizeProperties(dataset);
+    };
+    StorageSectionService.prototype.ensureDefaultPermissionsAreSetOnDataset = function (dataset) {
+        var _this = this;
+        return (dataset.permissions ?
+            Promise.resolve(dataset.permissions) :
+            this.volumeRepository.getNewPermissions()).then(function (permissions) {
+            dataset.permissions = _.defaults(permissions, _this.DEFAULT_PERMISSIONS);
+        });
+    };
+    StorageSectionService.prototype.isRootDataset = function (dataset) {
+        return dataset.id === dataset.volume;
     };
     StorageSectionService.prototype.cloneVdevs = function (vdevs) {
         return _.map(vdevs, function (vdev) {

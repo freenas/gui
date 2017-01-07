@@ -144,7 +144,7 @@ var VolumeRoute = (function (_super) {
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function (volumes, uiDescriptor) {
             context.userInterfaceDescriptor = uiDescriptor;
-            context.object = _.find(volumes, { id: volumeId });
+            context.object = _.find(volumes, { id: _.toString(volumeId) });
             return self.updateStackWithContext(stack, context);
         });
     };

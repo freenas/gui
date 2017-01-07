@@ -148,7 +148,7 @@ export class VolumeRoute extends AbstractRoute {
             columnIndex = 2,
             objectType = Model.DetachedVolume,
             parentContext = stack[columnIndex-1],
-            context = {
+            context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: parentContext,
@@ -157,9 +157,9 @@ export class VolumeRoute extends AbstractRoute {
         return Promise.all([
             this.volumeRepository.listDetachedVolumes(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(volumes, uiDescriptor) {
+        ]).spread(function(volumes: Array<any>, uiDescriptor) {
             context.userInterfaceDescriptor = uiDescriptor;
-            context.object = _.find(volumes, {id: volumeId});
+            context.object = _.find(volumes, {id: _.toString(volumeId)});
             return self.updateStackWithContext(stack, context);
         });
     }

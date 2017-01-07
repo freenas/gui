@@ -1,15 +1,7 @@
-/**
- * @module ui/boot-pool.reel
- */
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Bindings = require("montage/core/core").Bindings,
     Promise = require("montage/core/promise").Promise,
     NotificationCenterModule = require("core/backend/notification-center");
 
-/**
- * @class BootPool
- * @extends Component
- */
 exports.BootPool = AbstractInspector.specialize(/** @lends BootPool# */ {
 
     _scrubTaskId: {
@@ -18,17 +10,9 @@ exports.BootPool = AbstractInspector.specialize(/** @lends BootPool# */ {
 
     enterDocument: {
         value: function (isFirstTime) {
-            var self = this;
-
             if (isFirstTime) {
                 this._bootEnvironmentService = this.application.bootEnvironmentService;
                 this._notificationCenter = NotificationCenterModule.defaultNotificationCenter;
-
-/*
-                this._notificationCenter.startListenToChangesOnModelTypeIfNeeded("BootPool").then(function() {
-                    self._notificationCenter.addEventListener('modelChange', self);
-                });
-*/
             }
             this._populateComponentIfNeeded();
         }

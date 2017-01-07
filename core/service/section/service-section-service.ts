@@ -1,18 +1,21 @@
-import {SystemRepository} from "../../repository/system-repository";
-import {ServiceRepository} from "../../repository/service-repository";
-import {AbstractSectionService} from "./abstract-section-service-ng";
-import * as Promise from "bluebird";
-import {NetworkRepository} from "../../repository/network-repository";
+import {SystemRepository} from '../../repository/system-repository';
+import {ServiceRepository} from '../../repository/service-repository';
+import {AbstractSectionService} from './abstract-section-service-ng';
+import {NetworkRepository} from '../../repository/network-repository';
+import {VolumeRepository} from '../../repository/volume-repository';
+import * as Promise from 'bluebird';
 
-export class ServiceSectionService extends AbstractSectionService{
+export class ServiceSectionService extends AbstractSectionService {
     private systemRepository: SystemRepository;
     private serviceRepository: ServiceRepository;
     private networkRepository: NetworkRepository;
+    private volumeRepository: VolumeRepository;
 
     protected init() {
         this.systemRepository = SystemRepository.getInstance();
         this.serviceRepository = ServiceRepository.getInstance();
         this.networkRepository = NetworkRepository.getInstance();
+        this.volumeRepository = VolumeRepository.getInstance();
     }
 
     public getSystemGeneral() {
@@ -37,6 +40,10 @@ export class ServiceSectionService extends AbstractSectionService{
 
     public provideDcUrl() {
         return this.serviceRepository.provideDcUrl();
+    }
+
+    public listvolumes() {
+        return this.volumeRepository.listVolumes;
     }
 
     protected loadEntries(): Promise<Array<any>> {

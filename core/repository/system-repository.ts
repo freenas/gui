@@ -8,6 +8,7 @@ import {DatabaseDao} from "../dao/database-dao";
 import {SystemAdvancedDao} from "../dao/system-advanced-dao";
 import {SystemUiDao} from "../dao/system-ui-dao";
 import {DebugDao} from "../dao/debug-dao";
+import {SystemInfoDao} from '../dao/system-info-dao';
 
 export class SystemRepository {
     private static instance: SystemRepository;
@@ -21,7 +22,8 @@ export class SystemRepository {
         private databaseDao: DatabaseDao,
         private debugDao: DebugDao,
         private systemAdvancedDao: SystemAdvancedDao,
-        private systemUiDao: SystemUiDao
+        private systemUiDao: SystemUiDao,
+        private systemInfoDao: SystemInfoDao
     ) {}
 
     public static getInstance() {
@@ -35,7 +37,8 @@ export class SystemRepository {
                 new DatabaseDao(),
                 new DebugDao(),
                 new SystemAdvancedDao(),
-                new SystemUiDao()
+                new SystemUiDao(),
+                new SystemInfoDao()
             );
         }
         return SystemRepository.instance;
@@ -47,6 +50,10 @@ export class SystemRepository {
 
     public getTime(): Object {
         return this.systemTimeDao.get();
+    }
+
+    public getVersion() {
+        return this.systemInfoDao.version();
     }
 
     public getDataset(): Promise<any> {

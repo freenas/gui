@@ -2,10 +2,14 @@ import {CalendarRepository} from "../../repository/calendar-repository";
 import {TaskRepository} from "../../repository/task-repository";
 import {AbstractSectionService} from "./abstract-section-service-ng";
 import Promise = require("bluebird");
+import {DiskRepository} from '../../repository/disk-repository';
+import {VolumeRepository} from '../../repository/volume-repository';
 
 export class CalendarSectionService extends AbstractSectionService {
     private calendarRepository: CalendarRepository;
     private taskRepository: TaskRepository;
+    private diskRepository: DiskRepository;
+    private volumeRepository: VolumeRepository;
 
     public readonly SCHEDULE_OPTIONS = CalendarRepository.SCHEDULE_OPTIONS;
     public readonly DAYS = CalendarRepository.DAYS;
@@ -18,6 +22,8 @@ export class CalendarSectionService extends AbstractSectionService {
     protected init() {
         this.calendarRepository = CalendarRepository.getInstance();
         this.taskRepository = TaskRepository.getInstance();
+        this.diskRepository = DiskRepository.getInstance();
+        this.volumeRepository = VolumeRepository.getInstance();
     }
 
     protected loadEntries(): Promise<Array<any>> {
@@ -60,5 +66,13 @@ export class CalendarSectionService extends AbstractSectionService {
 
     public updateScheduleOnTask(task: any) {
         this.calendarRepository.updateScheduleOnTask(task);
+    }
+
+    public listDisks() {
+        return this.diskRepository.listDisks();
+    }
+
+    public listVolumes() {
+        return this.volumeRepository.listVolumes();
     }
 }

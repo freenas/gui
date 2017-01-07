@@ -12,10 +12,18 @@ var container_repository_1 = require("../../repository/container-repository");
 var network_repository_1 = require("../../repository/network-repository");
 var crypto_certificate_repository_1 = require("../../repository/crypto-certificate-repository");
 var tunable_repository_1 = require("../../repository/tunable-repository");
+var volume_repository_1 = require("../../repository/volume-repository");
+var share_repository_1 = require("../../repository/share-repository");
+var peer_repository_1 = require("../../repository/peer-repository");
+var replication_repository_1 = require("../../repository/replication-repository");
+var disk_repository_1 = require("../../repository/disk-repository");
 var SystemSectionService = (function (_super) {
     __extends(SystemSectionService, _super);
     function SystemSectionService() {
-        return _super.apply(this, arguments) || this;
+        var _this = _super.apply(this, arguments) || this;
+        _this.SELF_SIGNED = crypto_certificate_repository_1.CryptoCertificateRepository.SELF_SIGNED;
+        _this.CREATION = crypto_certificate_repository_1.CryptoCertificateRepository.CREATION;
+        return _this;
     }
     SystemSectionService.prototype.init = function () {
         this.systemRepository = system_repository_1.SystemRepository.getInstance();
@@ -25,6 +33,11 @@ var SystemSectionService = (function (_super) {
         this.networkRepository = network_repository_1.NetworkRepository.getInstance();
         this.cryptoCertificateRepository = crypto_certificate_repository_1.CryptoCertificateRepository.getInstance();
         this.tunableRepository = tunable_repository_1.TunableRepository.getInstance();
+        this.volumeRepository = volume_repository_1.VolumeRepository.getInstance();
+        this.shareRepository = share_repository_1.ShareRepository.getInstance();
+        this.peerRepository = peer_repository_1.PeerRepository.getInstance();
+        this.replicationRepository = replication_repository_1.ReplicationRepository.getInstance();
+        this.diskRepository = disk_repository_1.DiskRepository.getInstance();
     };
     SystemSectionService.prototype.loadEntries = function () {
         return this.systemRepository.listSystemSections();
@@ -37,6 +50,18 @@ var SystemSectionService = (function (_super) {
     };
     SystemSectionService.prototype.getSystemGeneral = function () {
         return this.systemRepository.getGeneral();
+    };
+    SystemSectionService.prototype.getSystemTime = function () {
+        return this.systemRepository.getTime();
+    };
+    SystemSectionService.prototype.getSystemVersion = function () {
+        return this.systemRepository.getVersion();
+    };
+    SystemSectionService.prototype.getSystemDataset = function () {
+        return this.systemRepository.getDataset();
+    };
+    SystemSectionService.prototype.getSystemAdvanced = function () {
+        return this.systemRepository.getAdvanced();
     };
     SystemSectionService.prototype.listNtpServers = function () {
         return this.ntpServerRepository.listNtpServers();
@@ -61,6 +86,30 @@ var SystemSectionService = (function (_super) {
     };
     SystemSectionService.prototype.listTunables = function () {
         return this.tunableRepository.listTunables();
+    };
+    SystemSectionService.prototype.saveCertificate = function (certificate) {
+        return this.cryptoCertificateRepository.saveCryptoCertificate(certificate);
+    };
+    SystemSectionService.prototype.listVolumes = function () {
+        return this.volumeRepository.listVolumes();
+    };
+    SystemSectionService.prototype.listDisks = function () {
+        return this.diskRepository.listDisks();
+    };
+    SystemSectionService.prototype.listVolumeSnapshots = function () {
+        return this.volumeRepository.listSnapshots();
+    };
+    SystemSectionService.prototype.listVolumeDatasets = function () {
+        return this.volumeRepository.listDatasets();
+    };
+    SystemSectionService.prototype.listShares = function () {
+        return this.shareRepository.listShares();
+    };
+    SystemSectionService.prototype.listPeers = function () {
+        return this.peerRepository.listPeers();
+    };
+    SystemSectionService.prototype.listReplications = function () {
+        return this.replicationRepository.listReplications();
     };
     SystemSectionService.prototype.loadExtraEntries = function () {
         return undefined;
