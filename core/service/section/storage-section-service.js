@@ -35,11 +35,10 @@ var StorageSectionService = (function (_super) {
         this.peerRepository = peer_repository_1.PeerRepository.getInstance();
         this.networkRepository = network_repository_1.NetworkRepository.getInstance();
         this.serviceRepository = service_repository_1.ServiceRepository.getInstance();
-        this.volumeRepository.getVdevRecommendations().then(function (vdevRecommendations) {
-            self.topologyService = topology_service_1.TopologyService.instance.init(vdevRecommendations);
-        });
+        this.topologyService = topology_service_1.TopologyService.getInstance();
         this.eventDispatcherService.addEventListener(model_event_name_1.ModelEventName.Disk.listChange, this.handleDisksChange.bind(this));
         this.eventDispatcherService.addEventListener(model_event_name_1.ModelEventName.Volume.listChange, this.handleVolumesChange.bind(this));
+        return this.topologyService.init();
     };
     StorageSectionService.prototype.loadEntries = function () {
         this.entries = [];
@@ -62,6 +61,9 @@ var StorageSectionService = (function (_super) {
     };
     StorageSectionService.prototype.loadSettings = function () {
         return undefined;
+    };
+    StorageSectionService.prototype.getVdevRecommendation = function (redundancy, speed, storage) {
+        return this.topologyService.getVdevRecommendation(redundancy, speed, storage);
     };
     StorageSectionService.prototype.setRootDatasetForVolume = function (volume) {
         return this.volumeRepository.listDatasets().then(function (datasets) {
@@ -139,22 +141,22 @@ var StorageSectionService = (function (_super) {
         _.forEach(volume_repository_1.VolumeRepository.TOPOLOGY_KEYS, function (key) { return topologyProxy[key] = _this.cloneVdevs(topology[key]); });
         return topologyProxy;
     };
-    StorageSectionService.prototype.generateTopology = function (topology, disks, redundancy, speed, storage) {
-        var self = this;
-        this.clearReservedDisks();
-        var vdev, j, disksLength, priorities = self.topologyService.generateTopology(topology, this.diskRepository.listAvailableDisks(), redundancy, speed, storage);
-        for (var i = 0, vdevsLength = topology.data.length; i < vdevsLength; i++) {
-            vdev = topology.data[i];
-            if (Array.isArray(vdev.children)) {
-                for (j = 0, disksLength = vdev.children.length; j < disksLength; j++) {
-                    self.markDiskAsReserved(vdev.children[j].path);
-                }
-            }
-            else {
-                self.markDiskAsReserved(vdev.path);
-            }
-        }
-        return priorities;
+    StorageSectionService.prototype.generateTopology = function (disks, topologyProfile) {
+        // let self = this;
+        // this.clearReservedDisks();
+        // let vdev, j, disksLength,
+        //     priorities = self.topologyService.generateTopology(this.diskRepository.listAvailableDisks(), redundancy, speed, storage);
+        // for (let i = 0, vdevsLength = topology.data.length; i < vdevsLength; i++) {
+        //     vdev = topology.data[i];
+        //     if (Array.isArray(vdev.children)) {
+        //         for (j = 0, disksLength = vdev.children.length; j < disksLength; j++) {
+        //             self.markDiskAsReserved(vdev.children[j].path);
+        //         }
+        //     } else {
+        //         self.markDiskAsReserved(vdev.path);
+        //     }
+        // }
+        return this.topologyService.generateTopology(this.diskRepository.listAvailableDisks(), topologyProfile);
     };
     StorageSectionService.prototype.getNewZfsVdev = function () {
         return this.volumeRepository.getNewZfsVdev();

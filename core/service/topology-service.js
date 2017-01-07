@@ -30,6 +30,9 @@ var TopologyService = (function () {
         return TopologyService.instance;
     };
     TopologyService.prototype.init = function () {
+        return this.getVdevRecommendations();
+    };
+    TopologyService.prototype.getVdevRecommendations = function () {
         if (!TopologyService.vdevRecommendations) {
             return this.volumeRepository.getVdevRecommendations().then(function (vdevRecommendations) {
                 return (TopologyService.vdevRecommendations = vdevRecommendations);
