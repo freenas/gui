@@ -27,7 +27,13 @@ exports.Volume = Component.specialize(/** @lends Volume# */ {
     enterDocument:{
         value: function (isFirstTime) {
             if (isFirstTime) {
+                self = this;
+
                 this.addPathChangeListener("profile", this, "handleProfileChange");
+
+                this._sectionService.listAvailableDisks().then(function (disks) {
+                    self.availableDisks = disks;
+                });
             }
 
             //Thanks to the binding.

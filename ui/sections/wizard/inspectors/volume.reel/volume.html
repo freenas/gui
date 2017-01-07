@@ -40,21 +40,26 @@
             }
         },
 
-        "profiles": {
-            "prototype": "blue-shark/ui/select.reel",
+       "topologizer": {
+            "prototype": "ui/controls/topologizer.reel",
             "properties": {
-                "element": {"#": "profiles"},
-                "optionsMaxHeight": 200,
-                "options": [
-                    { "label": "Select a profile",  "value": ""},
-                    { "label": "Media",             "value": "media" },
-                    { "label": "Virtualization",    "value": "virtualization" },
-                    { "label": "Backup",            "value": "backup" },
-                    { "label": "Optimal",           "value": "optimal" }
-                ]
+                "element": {"#": "topologizer"}
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.profile"}
+                "topology": {"<->": "@owner.object.topology"},
+                "disks": {"<-": "@owner.availableDisks"},
+                "controller": {"<-": "@owner._sectionService"}
+            }
+        },
+
+        "topology": {
+            "prototype": "ui/controls/topology.reel",
+            "properties": {
+                "element": {"#": "topology"},
+                "mode": "READ"
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.topology"}
             }
         }
     }
@@ -64,7 +69,8 @@
     <div data-montage-id="owner" class="Volume-volumeCreator">
         <div data-montage-id="name"></div>
         <div data-montage-id="password"></div>
-        <div data-montage-id="profiles"></div>
+        <div data-montage-id="topologizer"></div>
+        <div data-montage-id="topology"></div>
     </div>
 </body>
 </html>
