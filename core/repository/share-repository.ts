@@ -5,13 +5,15 @@ import {Map} from 'immutable';
 import Promise = require('bluebird');
 import {Model} from '../model';
 import {PermissionsDao} from '../dao/permissions-dao';
+import {UnixPermissionsDao} from '../dao/unix-permissions-dao';
 
 export class ShareRepository extends AbstractRepository {
     private static instance: ShareRepository;
     private shares: Map<string, Map<string, any>>;
 
     private constructor(private shareDao: ShareDao,
-                        private permissionsDao: PermissionsDao) {
+                        private permissionsDao: PermissionsDao,
+                        private unixPermissionsDao: UnixPermissionsDao) {
         super([Model.Share]);
     }
 
@@ -19,7 +21,8 @@ export class ShareRepository extends AbstractRepository {
         if (!ShareRepository.instance) {
             ShareRepository.instance = new ShareRepository(
                 new ShareDao(),
-                new PermissionsDao()
+                new PermissionsDao(),
+                new UnixPermissionsDao()
             );
         }
         return ShareRepository.instance;
@@ -47,12 +50,11 @@ export class ShareRepository extends AbstractRepository {
     }
 
     public getNewPermissions() {
-        return this.permissionsDao.getNewInstance().then((permissions) => {
-            permissions.user = {};
-            permissions.group = {};
-            permissions.others = {};
-            return permissions;
-        });
+        return this.permissionsDao.getNewInstance();
+    }
+
+    public getNewUnixPermissions() {
+        return this.unixPermissionsDao.getNewInstance();
     }
 
     protected handleStateChange(name: string, state: any) {

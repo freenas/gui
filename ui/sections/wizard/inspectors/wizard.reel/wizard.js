@@ -41,7 +41,6 @@ exports.Wizard = AbstractInspector.specialize(/** @lends Wizard# */ {
         value: function (isFirstTime) {
             this._forceSectionService(WizardSectionService.instance);
             if (isFirstTime) {
-                this.selectionService.saveSelection(this.application.section, [{}]);
                 this.addEventListener("action", this);
             }
 

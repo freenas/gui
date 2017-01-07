@@ -3,6 +3,7 @@
   "version": "0.3.0",
   "dependencies": {
     "blue-shark": "freenas/blue-shark#5d5f185a165fd8fa59865ce24c74b2718fe778b0",
+    "bytes": "^2.4.0",
     "change-case": "^3.0.0",
     "collections": "montagejs/collections#90210529c7b01ed373b65d4a60409f5edd36a93a",
     "crossroads": "^0.12.2",
@@ -25,6 +26,7 @@
   },
   "redirects": {
     "redux": "redux/dist/redux.min.js",
+    "bytes": "bytes/index.js",
     "bluebird": "node_modules/montage/node_modules/bluebird/js/browser/bluebird.min.js"
   },
   "devDependencies": {

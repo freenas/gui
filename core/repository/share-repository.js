@@ -10,17 +10,19 @@ var model_event_name_1 = require("../model-event-name");
 var Promise = require("bluebird");
 var model_1 = require("../model");
 var permissions_dao_1 = require("../dao/permissions-dao");
+var unix_permissions_dao_1 = require("../dao/unix-permissions-dao");
 var ShareRepository = (function (_super) {
     __extends(ShareRepository, _super);
-    function ShareRepository(shareDao, permissionsDao) {
+    function ShareRepository(shareDao, permissionsDao, unixPermissionsDao) {
         var _this = _super.call(this, [model_1.Model.Share]) || this;
         _this.shareDao = shareDao;
         _this.permissionsDao = permissionsDao;
+        _this.unixPermissionsDao = unixPermissionsDao;
         return _this;
     }
     ShareRepository.getInstance = function () {
         if (!ShareRepository.instance) {
-            ShareRepository.instance = new ShareRepository(new share_dao_1.ShareDao(), new permissions_dao_1.PermissionsDao());
+            ShareRepository.instance = new ShareRepository(new share_dao_1.ShareDao(), new permissions_dao_1.PermissionsDao(), new unix_permissions_dao_1.UnixPermissionsDao());
         }
         return ShareRepository.instance;
     };
@@ -42,12 +44,10 @@ var ShareRepository = (function (_super) {
         return this.shareDao.save(object, object._isNew ? [null, isServiceEnabled] : [isServiceEnabled]);
     };
     ShareRepository.prototype.getNewPermissions = function () {
-        return this.permissionsDao.getNewInstance().then(function (permissions) {
-            permissions.user = {};
-            permissions.group = {};
-            permissions.others = {};
-            return permissions;
-        });
+        return this.permissionsDao.getNewInstance();
+    };
+    ShareRepository.prototype.getNewUnixPermissions = function () {
+        return this.unixPermissionsDao.getNewInstance();
     };
     ShareRepository.prototype.handleStateChange = function (name, state) {
         this.shares = this.dispatchModelEvents(this.shares, model_event_name_1.ModelEventName.Share, state);

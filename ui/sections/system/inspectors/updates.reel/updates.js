@@ -1,5 +1,5 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    UpdateService = require("core/service/update-service-ng").UpdateService,
+    UpdateService = require("core/service/update-service").UpdateService,
     Promise = require("montage/core/promise").Promise,
     _ = require("lodash");
 

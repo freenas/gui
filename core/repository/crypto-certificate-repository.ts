@@ -1,27 +1,33 @@
-import {AbstractRepository} from "./abstract-repository-ng";
-import {CryptoCertificateDao} from "../dao/crypto-certificate-dao";
-import {ModelEventName} from "../model-event-name";
-import {CryptoCertificateType} from "core/model/enumerations/crypto-certificate-type";
-import {Map} from "immutable";
-import Promise = require("bluebird");
-import _ = require("lodash");
-import {Model} from "../model";
+import {AbstractRepository} from './abstract-repository-ng';
+import {CryptoCertificateDao} from '../dao/crypto-certificate-dao';
+import {ModelEventName} from '../model-event-name';
+import {CryptoCertificateType} from '../model/enumerations/crypto-certificate-type';
+import {Model} from '../model';
+import {Map} from 'immutable';
+import * as Promise from 'bluebird';
+import * as _ from 'lodash';
 
 export class CryptoCertificateRepository extends AbstractRepository {
     private static instance: CryptoCertificateRepository;
     private cryptoCertificates: Map<string, Map<string, any>>;
+
+    public  static readonly SELF_SIGNED = 'Self Signed';
+    public  static readonly IMPORT = 'import';
+    public  static readonly CREATION = 'creation';
+
     private TYPE_TO_LABEL: Map<string, string>;
+    private static readonly SELF_SIGNED_TYPES = [CryptoCertificateType.CA_INTERNAL, CryptoCertificateType.CERT_INTERNAL];
 
 
     private constructor(private cryptoCertificateDao: CryptoCertificateDao) {
         super([Model.CryptoCertificate]);
         this.TYPE_TO_LABEL = Map<string, string>()
-            .set(CryptoCertificateType.CERT_INTERNAL, "Create Internal Certificate")
-            .set(CryptoCertificateType.CERT_CSR, "Create Signing Request")
-            .set(CryptoCertificateType.CERT_EXISTING, "Import Certificate")
-            .set(CryptoCertificateType.CA_INTERNAL, "Create Internal CA")
-            .set(CryptoCertificateType.CA_INTERMEDIATE, "Create Intermediate CA")
-            .set(CryptoCertificateType.CA_EXISTING, "Import CA");
+            .set(CryptoCertificateType.CERT_INTERNAL, 'Create Internal Certificate')
+            .set(CryptoCertificateType.CERT_CSR, 'Create Signing Request')
+            .set(CryptoCertificateType.CERT_EXISTING, 'Import Certificate')
+            .set(CryptoCertificateType.CA_INTERNAL, 'Create Internal CA')
+            .set(CryptoCertificateType.CA_INTERMEDIATE, 'Create Intermediate CA')
+            .set(CryptoCertificateType.CA_EXISTING, 'Import CA');
     }
 
     public static getInstance() {
@@ -31,7 +37,6 @@ export class CryptoCertificateRepository extends AbstractRepository {
         }
         return CryptoCertificateRepository.instance;
     }
-
     public listCryptoCertificates(): Promise<Array<Object>> {
         return this.cryptoCertificates ? Promise.resolve(this.cryptoCertificates.valueSeq().toJS()) : this.cryptoCertificateDao.list();
     }
@@ -39,11 +44,12 @@ export class CryptoCertificateRepository extends AbstractRepository {
     public listCountryCodes() {
         return this.cryptoCertificateDao.listCountryCodes();
     }
-
     public getNewCryptoCertificate(cryptoCertificateType: string) {
         let label = this.TYPE_TO_LABEL.get(cryptoCertificateType),
-            action = cryptoCertificateType === CryptoCertificateType.CA_EXISTING ||
-                        cryptoCertificateType === CryptoCertificateType.CERT_EXISTING ? "import" : "creation";
+            action =    cryptoCertificateType === CryptoCertificateType.CA_EXISTING ||
+                        cryptoCertificateType === CryptoCertificateType.CERT_EXISTING ?
+                            CryptoCertificateRepository.IMPORT :
+                            CryptoCertificateRepository.CREATION;
         if (label) {
             return this.cryptoCertificateDao.getNewInstance().then(function(cryptoCertificate) {
                 cryptoCertificate._isNewObject = true;
@@ -57,13 +63,24 @@ export class CryptoCertificateRepository extends AbstractRepository {
         }
     }
 
-    public saveCryptoCertificate(object: any, isServiceEnabled: boolean) {
-        return this.cryptoCertificateDao.save(object, object._isNew ? [null, isServiceEnabled] : [isServiceEnabled]);
+    public saveCryptoCertificate(certificate: any) {
+        let promise;
+        if (certificate._action === CryptoCertificateRepository.IMPORT) {
+            promise = this.cryptoCertificateDao.import(certificate);
+        } else {
+            certificate.selfsigned =    (!certificate.signing_ca_name || CryptoCertificateRepository.SELF_SIGNED === certificate.signing_ca_name) &&
+                                        _.includes(CryptoCertificateRepository.SELF_SIGNED_TYPES, certificate.type);
+            promise = this.cryptoCertificateDao.save(certificate);
+        }
+
+        return promise;
     }
 
     protected handleStateChange(name: string, state: any) {
         this.cryptoCertificates = this.dispatchModelEvents(this.cryptoCertificates, ModelEventName.CryptoCertificate, state);
     }
+
+
 
     protected handleEvent(name: string, data: any) {}
 }

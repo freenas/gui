@@ -84,7 +84,7 @@ exports.VolumeDatasetSettings = Component.specialize({
     enterDocument: {
         value: function() {
             this._isLoaded = false;
-            this.isRootDataset = this.application.storageService.isRootDataset(this.object);
+            this.isRootDataset = this._sectionService.isRootDataset(this.object);
             this._replaceLabel(this.compressionOptions, this._getDefaultLabelForProperty('compression'));
             this._replaceLabel(this.dedupOptions, this._getDefaultLabelForProperty('dedup'));
             this._replaceLabel(this.atimeOptions, this._getDefaultLabelForProperty('atime'));

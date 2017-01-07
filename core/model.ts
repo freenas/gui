@@ -67,6 +67,7 @@ const Model = {
     SystemUi: 'SystemUi' as 'SystemUi',
     Task: 'Task' as 'Task',
     Tunable: 'Tunable' as 'Tunable',
+    UnixPermissions: 'UnixPermissions' as 'UnixPermissions',
     Update: 'Update' as 'Update',
     User: 'User' as 'User',
     Vm: 'Vm' as 'Vm',

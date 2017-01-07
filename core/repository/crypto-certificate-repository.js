@@ -7,23 +7,23 @@ var __extends = (this && this.__extends) || function (d, b) {
 var abstract_repository_ng_1 = require("./abstract-repository-ng");
 var crypto_certificate_dao_1 = require("../dao/crypto-certificate-dao");
 var model_event_name_1 = require("../model-event-name");
-var crypto_certificate_type_1 = require("core/model/enumerations/crypto-certificate-type");
+var crypto_certificate_type_1 = require("../model/enumerations/crypto-certificate-type");
+var model_1 = require("../model");
 var immutable_1 = require("immutable");
 var Promise = require("bluebird");
 var _ = require("lodash");
-var model_1 = require("../model");
 var CryptoCertificateRepository = (function (_super) {
     __extends(CryptoCertificateRepository, _super);
     function CryptoCertificateRepository(cryptoCertificateDao) {
         var _this = _super.call(this, [model_1.Model.CryptoCertificate]) || this;
         _this.cryptoCertificateDao = cryptoCertificateDao;
         _this.TYPE_TO_LABEL = immutable_1.Map()
-            .set(crypto_certificate_type_1.CryptoCertificateType.CERT_INTERNAL, "Create Internal Certificate")
-            .set(crypto_certificate_type_1.CryptoCertificateType.CERT_CSR, "Create Signing Request")
-            .set(crypto_certificate_type_1.CryptoCertificateType.CERT_EXISTING, "Import Certificate")
-            .set(crypto_certificate_type_1.CryptoCertificateType.CA_INTERNAL, "Create Internal CA")
-            .set(crypto_certificate_type_1.CryptoCertificateType.CA_INTERMEDIATE, "Create Intermediate CA")
-            .set(crypto_certificate_type_1.CryptoCertificateType.CA_EXISTING, "Import CA");
+            .set(crypto_certificate_type_1.CryptoCertificateType.CERT_INTERNAL, 'Create Internal Certificate')
+            .set(crypto_certificate_type_1.CryptoCertificateType.CERT_CSR, 'Create Signing Request')
+            .set(crypto_certificate_type_1.CryptoCertificateType.CERT_EXISTING, 'Import Certificate')
+            .set(crypto_certificate_type_1.CryptoCertificateType.CA_INTERNAL, 'Create Internal CA')
+            .set(crypto_certificate_type_1.CryptoCertificateType.CA_INTERMEDIATE, 'Create Intermediate CA')
+            .set(crypto_certificate_type_1.CryptoCertificateType.CA_EXISTING, 'Import CA');
         return _this;
     }
     CryptoCertificateRepository.getInstance = function () {
@@ -40,7 +40,9 @@ var CryptoCertificateRepository = (function (_super) {
     };
     CryptoCertificateRepository.prototype.getNewCryptoCertificate = function (cryptoCertificateType) {
         var label = this.TYPE_TO_LABEL.get(cryptoCertificateType), action = cryptoCertificateType === crypto_certificate_type_1.CryptoCertificateType.CA_EXISTING ||
-            cryptoCertificateType === crypto_certificate_type_1.CryptoCertificateType.CERT_EXISTING ? "import" : "creation";
+            cryptoCertificateType === crypto_certificate_type_1.CryptoCertificateType.CERT_EXISTING ?
+            CryptoCertificateRepository.IMPORT :
+            CryptoCertificateRepository.CREATION;
         if (label) {
             return this.cryptoCertificateDao.getNewInstance().then(function (cryptoCertificate) {
                 cryptoCertificate._isNewObject = true;
@@ -52,8 +54,17 @@ var CryptoCertificateRepository = (function (_super) {
             });
         }
     };
-    CryptoCertificateRepository.prototype.saveCryptoCertificate = function (object, isServiceEnabled) {
-        return this.cryptoCertificateDao.save(object, object._isNew ? [null, isServiceEnabled] : [isServiceEnabled]);
+    CryptoCertificateRepository.prototype.saveCryptoCertificate = function (certificate) {
+        var promise;
+        if (certificate._action === CryptoCertificateRepository.IMPORT) {
+            promise = this.cryptoCertificateDao.import(certificate);
+        }
+        else {
+            certificate.selfsigned = (!certificate.signing_ca_name || CryptoCertificateRepository.SELF_SIGNED === certificate.signing_ca_name) &&
+                _.includes(CryptoCertificateRepository.SELF_SIGNED_TYPES, certificate.type);
+            promise = this.cryptoCertificateDao.save(certificate);
+        }
+        return promise;
     };
     CryptoCertificateRepository.prototype.handleStateChange = function (name, state) {
         this.cryptoCertificates = this.dispatchModelEvents(this.cryptoCertificates, model_event_name_1.ModelEventName.CryptoCertificate, state);
@@ -61,4 +72,8 @@ var CryptoCertificateRepository = (function (_super) {
     CryptoCertificateRepository.prototype.handleEvent = function (name, data) { };
     return CryptoCertificateRepository;
 }(abstract_repository_ng_1.AbstractRepository));
+CryptoCertificateRepository.SELF_SIGNED = 'Self Signed';
+CryptoCertificateRepository.IMPORT = 'import';
+CryptoCertificateRepository.CREATION = 'creation';
+CryptoCertificateRepository.SELF_SIGNED_TYPES = [crypto_certificate_type_1.CryptoCertificateType.CA_INTERNAL, crypto_certificate_type_1.CryptoCertificateType.CERT_INTERNAL];
 exports.CryptoCertificateRepository = CryptoCertificateRepository;

@@ -38,7 +38,6 @@ exports.VirtualMachineDeviceCreator = Component.specialize({
         value: function(isFirstTime) {
             var self = this;
             if (isFirstTime) {
-                this._selectionService = this.application.selectionService;
                 this._virtualMachineService = this.application.virtualMachineService;
                 this.addPathChangeListener("parentCascadingListItem.selectedObject", this, "_handleSelectionChange");
             }

@@ -1,13 +1,6 @@
-/**
- * @module ui/snapshot.reel
- */
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     Model = require("core/model/model").Model;
 
-/**
- * @class Snapshot
- * @extends Component
- */
 exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
 
     pathDisplayMode: {
@@ -102,19 +95,6 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
         }
     },
 
-    _getCurrentVolume: {
-        value: function() {
-            if (this._context) {
-                var currentSelection = this.application.selectionService.getCurrentSelection();
-                for (var i = this._context.columnIndex - 1; i >= 0; i--) {
-                    if (currentSelection[i].constructor.Type == Model.Volume) {
-                        return currentSelection[i];
-                    }
-                }
-            }
-        }
-    },
-
     _loadExpirationDate: {
         value: function() {
             var now = new Date(),
@@ -132,29 +112,6 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
             this._expirationType = expirationDate ? 'after' : 'never';
             this._expirationDate = expirationDate || defaultExpirationDate;
             this._lifetime = Math.ceil((this._expirationDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24)) * (60 * 60 * 24);
-        }
-    },
-
-    _loadParentDataset: {
-        value: function() {
-            var dataset = this._getCurrentDataset();
-            if (dataset) {
-                this._object.dataset = dataset.id;
-                this.pathDisplayMode = "display";
-            }
-        }
-    },
-
-    _getCurrentDataset: {
-        value: function() {
-            if (this._context) {
-                var currentSelection = this.application.selectionService.getCurrentSelection();
-                for (var i = this._context.columnIndex - 1; i >= 0; i--) {
-                    if (currentSelection[i].constructor.Type == Model.VolumeDataset) {
-                        return currentSelection[i];
-                    }
-                }
-            }
         }
     },
 

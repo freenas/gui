@@ -1,10 +1,6 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     VmwareDatasetFilterOp = require("core/model/enumerations/vmware-dataset-filter-op").VmwareDatasetFilterOp;
 
-/**
- * @class VmwareSnapshot
- * @extends Component
- */
 exports.VmwareSnapshot = AbstractInspector.specialize({
     _inspectorTemplateDidLoad: {
         value: function() {
@@ -31,28 +27,6 @@ exports.VmwareSnapshot = AbstractInspector.specialize({
             }
             if (this.object.vm_filter_op === null) {
                 this.object.vm_filter_op = "NONE";
-            }
-        }
-    },
-
-    _loadParentDataset: {
-        value: function() {
-            var dataset = this._getCurrentDataset();
-            if (dataset) {
-                this._object.dataset = dataset.id;
-            }
-        }
-    },
-
-    _getCurrentDataset: {
-        value: function() {
-            if (this._context) {
-                var currentSelection = this.application.selectionService.getCurrentSelection();
-                for (var i = this._context.columnIndex - 1; i >= 0; i--) {
-                    if (this._sectionService.isVolumeDataset(currentSelection[i])) {
-                        return currentSelection[i];
-                    }
-                }
             }
         }
     },

@@ -1,1 +1,1 @@
-.TableActiveDirectory .Table-cells>div:nth-child(1),.TableActiveDirectory .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(1){max-width:8em}
+.TableActiveDirectory .Table-cells>div:first-child,.TableActiveDirectory .TableHeaderLayout-row .TableHeaderLayout-cell:first-child{max-width:8em}

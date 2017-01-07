@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 var Model = {
     AccountCategory: 'AccountCategory',
     AccountSystem: 'AccountSystem',
@@ -68,6 +68,7 @@ var Model = {
     SystemUi: 'SystemUi',
     Task: 'Task',
     Tunable: 'Tunable',
+    UnixPermissions: 'UnixPermissions',
     Update: 'Update',
     User: 'User',
     Vm: 'Vm',

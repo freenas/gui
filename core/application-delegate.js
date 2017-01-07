@@ -3,13 +3,9 @@ require('./extras/string');
 
 var ModelDescriptorService = require('core/service/model-descriptor-service').ModelDescriptorService,
     TopologyService = require('core/service/topology-service').TopologyService,
-    SelectionService = require('core/service/selection-service').SelectionService,
     BootEnvironmentService = require('core/service/boot-environment-service').BootEnvironmentService,
     ConsoleService = require('core/service/console-service').ConsoleService,
     CalendarService = require('core/service/calendar-service').CalendarService,
-    CryptoCertificateService = require('core/service/crypto-certificate-service').CryptoCertificateService,
-    StorageService = require('core/service/storage-service').StorageService,
-    UpdateService = require('core/service/update-service').UpdateService,
     FilesystemService = require('core/service/filesystem-service').FilesystemService,
     StatisticsService = require('core/service/statistics-service').StatisticsService,
     PeeringService = require('core/service/peering-service').PeeringService,
@@ -41,13 +37,10 @@ exports.ApplicationDelegate = Montage.specialize({
             app.modelDescriptorService = this.modelDescriptorService = ModelDescriptorService.getInstance();
 
             app.topologyService = TopologyService.instance;
-            app.selectionService = SelectionService.instance;
             app.bootEnvironmentService = BootEnvironmentService.instance;
             app.calendarService = CalendarService.instance;
             app.consoleService = ConsoleService.instance;
-            app.cryptoCertificateService = CryptoCertificateService.instance;
-            app.storageService = StorageService.instance;
-            app.updateService = UpdateService.instance;
+
             app.filesystemService = FilesystemService.instance;
             app.statisticsService = StatisticsService.instance;
             app.peeringService = PeeringService.instance;

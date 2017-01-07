@@ -184,7 +184,7 @@ export class AbstractDao {
         return _.replace(_.snakeCase(aString), '_', '.');
     }
 
-    private loadTaskDescriptor(method: string): Promise<Map<string, any>> {
+    protected loadTaskDescriptor(method: string): Promise<Map<string, any>> {
         if (!this.taskDescriptorsPromise.has(method)) {
             this.taskDescriptorsPromise.set(method, this.modelDescriptorService.getTaskDescriptor(method));
         }
@@ -192,7 +192,7 @@ export class AbstractDao {
 
     }
 
-    private loadPropertyDescriptors(): Promise<any> {
+    protected loadPropertyDescriptors(): Promise<any> {
         if (!this.propertyDescriptorsPromise) {
             this.propertyDescriptorsPromise = this.modelDescriptorService.getPropertyDescriptorsForType(this.objectType);
         }
