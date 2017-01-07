@@ -44,6 +44,10 @@ export class TopologyService {
     }
 
     public init() {
+        return this.getVdevRecommendations();
+    }
+
+    public getVdevRecommendations() {
         if (!TopologyService.vdevRecommendations) {
             return this.volumeRepository.getVdevRecommendations().then((vdevRecommendations) => {
                 return (TopologyService.vdevRecommendations = vdevRecommendations);
@@ -354,7 +358,7 @@ export class TopologyService {
         return result;
     }
 
-    private getVdevRecommendation(redundancy, speed, storage) {
+    public getVdevRecommendation(redundancy, speed, storage) {
         let priorities = [
             { type: CONSTRAINTS_KEYS.STORAGE, tieBreaker: 2, weight: Math.round(storage * 10) / 10 },
             { type: CONSTRAINTS_KEYS.REDUNDANCY, tieBreaker: 0, weight: Math.round(redundancy * 10) / 10 },

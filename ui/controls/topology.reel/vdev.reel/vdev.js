@@ -2,6 +2,7 @@ var AbstractDropZoneComponent = require("blue-shark/core/drag-drop/abstract-drop
     TopologyItem = require("ui/controls/topology.reel/topology-item.reel").TopologyItem,
     CascadingList = require("ui/controls/cascading-list.reel").CascadingList,
     Topology = require("ui/controls/topology.reel").Topology,
+    TopologyService = require("core/service/topology-service").TopologyService,
     AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate,
     _ = require('lodash');
 
@@ -126,7 +127,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize({
             AbstractComponentActionDelegate.prototype.enterDocument.call(this, isFirstTime);
 
             if (isFirstTime) {
-                this._topologyService = this.application.topologyService;
+                this._topologyService = TopologyService.getInstance();
                 this.addRangeAtPathChangeListener("children", this, "handleChildrenChange");
                 this.addPathChangeListener("object.isExistingVDev", this, "handleIsExistingVDevChange");
                 this.addRangeAtPathChangeListener("object.type", this, "_handleObjectTypeChange");

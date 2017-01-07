@@ -69,13 +69,12 @@ export class StorageSectionService extends AbstractSectionService {
         this.peerRepository = PeerRepository.getInstance();
         this.networkRepository = NetworkRepository.getInstance();
         this.serviceRepository = ServiceRepository.getInstance();
-
-        this.volumeRepository.getVdevRecommendations().then(function(vdevRecommendations) {
-            self.topologyService = TopologyService.instance.init(vdevRecommendations);
-        });
+        this.topologyService = TopologyService.getInstance();
 
         this.eventDispatcherService.addEventListener(ModelEventName.Disk.listChange, this.handleDisksChange.bind(this));
         this.eventDispatcherService.addEventListener(ModelEventName.Volume.listChange, this.handleVolumesChange.bind(this));
+
+        return this.topologyService.init();
     }
 
     protected loadEntries() {
@@ -102,6 +101,10 @@ export class StorageSectionService extends AbstractSectionService {
 
     protected loadSettings() {
         return undefined;
+    }
+
+    public getVdevRecommendation(redundancy, speed, storage)  {
+        return this.topologyService.getVdevRecommendation(redundancy, speed, storage);
     }
 
     public setRootDatasetForVolume(this: StorageSectionService, volume: any) {
@@ -198,22 +201,22 @@ export class StorageSectionService extends AbstractSectionService {
         return topologyProxy;
     }
 
-    public generateTopology(topology, disks, redundancy, speed, storage) {
-        let self = this;
-        this.clearReservedDisks();
-        let vdev, j, disksLength,
-            priorities = self.topologyService.generateTopology(topology, this.diskRepository.listAvailableDisks(), redundancy, speed, storage);
-        for (let i = 0, vdevsLength = topology.data.length; i < vdevsLength; i++) {
-            vdev = topology.data[i];
-            if (Array.isArray(vdev.children)) {
-                for (j = 0, disksLength = vdev.children.length; j < disksLength; j++) {
-                    self.markDiskAsReserved(vdev.children[j].path);
-                }
-            } else {
-                self.markDiskAsReserved(vdev.path);
-            }
-        }
-        return priorities;
+    public generateTopology(disks, topologyProfile) {
+        // let self = this;
+        // this.clearReservedDisks();
+        // let vdev, j, disksLength,
+        //     priorities = self.topologyService.generateTopology(this.diskRepository.listAvailableDisks(), redundancy, speed, storage);
+        // for (let i = 0, vdevsLength = topology.data.length; i < vdevsLength; i++) {
+        //     vdev = topology.data[i];
+        //     if (Array.isArray(vdev.children)) {
+        //         for (j = 0, disksLength = vdev.children.length; j < disksLength; j++) {
+        //             self.markDiskAsReserved(vdev.children[j].path);
+        //         }
+        //     } else {
+        //         self.markDiskAsReserved(vdev.path);
+        //     }
+        // }
+        return this.topologyService.generateTopology(this.diskRepository.listAvailableDisks(), topologyProfile);
     }
 
     public getNewZfsVdev() {

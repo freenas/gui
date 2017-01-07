@@ -2,7 +2,7 @@ var AbstractSectionService = require('core/service/section/abstract-section-serv
     NotificationCenterModule = require('core/backend/notification-center'),
     Application = require('montage/core/application').application,
     ModelDescriptorService = require('core/service/model-descriptor-service').ModelDescriptorService,
-    TopologyService = require('core/service/topology-service-ng').TopologyService,
+    TopologyService = require('core/service/topology-service').TopologyService,
     DiskRepository = require('core/repository/disk-repository').DiskRepository,
     VolumeRepository = require('core/repository/volume-repository').VolumeRepository,
     SystemRepository = require('core/repository/system-repository').SystemRepository,
@@ -29,6 +29,12 @@ exports.WizardSectionService = AbstractSectionService.specialize({
                 this._volumeRepository.listVolumes(),
                 this._topologyService.init()
             ]);
+        }
+    },
+
+    getVdevRecommendation: {
+        value: function (redundancy, speed, storage)  {
+            return this._topologyService.getVdevRecommendation(redundancy, speed, storage);
         }
     },
 
@@ -272,6 +278,14 @@ exports.WizardSectionService = AbstractSectionService.specialize({
 
     generateTopology: {
         value: function (disks, topologyProfile) {
+            if (!disks) {
+                var self = this;
+
+                return this.listAvailableDisks().then(function (disks) {
+                    return self._topologyService.generateTopology(disks, topologyProfile);
+                });
+            }
+
             return this._topologyService.generateTopology(disks, topologyProfile);
         }
     },

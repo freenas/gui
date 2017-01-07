@@ -1,4 +1,5 @@
 var Component = require("montage/ui/component").Component,
+    TopologyProfile = require("core/service/topology-service").TopologyProfile,
     TranslateComposer = require("montage/composer/translate-composer").TranslateComposer;
 
 /**
@@ -21,7 +22,7 @@ exports.Topologizer = Component.specialize({
 
     profile: {
         get: function() {
-            return this._profile
+            return this._profile;
         },
         set: function(profile) {
             if (this._profile != profile) {
@@ -74,7 +75,6 @@ exports.Topologizer = Component.specialize({
     enterDocument: {
         value: function(isFirstTime) {
             if (isFirstTime) {
-
                 if (!this.constructor.cssTransform) {// check for transform support
                     if("webkitTransform" in this._element.style) {
                         this.constructor.cssTransform = "webkitTransform";
@@ -256,17 +256,34 @@ exports.Topologizer = Component.specialize({
                         barycentricValues = this.barycentricValues;
 
                     this.lockDisks = false;
+
                     if (!previousBarycentricValues ||
                         !this._areBarycentricValuesEqual(previousBarycentricValues, barycentricValues)) {
-                            var self = this;
-                            self.priorities = this.controller.generateTopology(
-                                this.topology,
-                                this.disks,
+
+                        var self = this;
+
+                        Promise.all([
+                            this.controller.getVdevRecommendation(
                                 barycentricValues[0],
                                 barycentricValues[1],
                                 barycentricValues[2]
-                            );
-                        }
+                            ),
+                            this.controller.generateTopology(
+                                this.disks,
+                                new TopologyProfile(
+                                    barycentricValues[0],
+                                    barycentricValues[1],
+                                    barycentricValues[2]
+                                )
+                            )
+                        ]).then(function (data) {
+                            var recommendation = data[0],
+                                topology = data[1];
+
+                            self.priorities = recommendation.priorities;
+                            self.topology = topology;
+                        });
+                    }
 
                     this._previousBarycentricValues = barycentricValues;
                 } else {
