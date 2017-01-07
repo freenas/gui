@@ -48,7 +48,7 @@
                 "vDevComponent": {"@": "owner"}
             },
             "bindings": {
-                "classList.has('hide')": {"<-": "!@owner.object._isNew"}
+                "classList.has('hide')": {"<-": "!@owner.object._isNew || !@owner.editable"}
             }
         }
     }
