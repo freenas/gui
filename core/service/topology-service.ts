@@ -100,7 +100,7 @@ export class TopologyService {
             });
         }
 
-        return Promise.reject("Can't generate topology without any disks");
+        return Promise.resolve(null);
     }
 
     public getProfiles(): immutable.Map<string, TopologyProfile> {
