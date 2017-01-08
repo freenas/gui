@@ -142,20 +142,6 @@ var StorageSectionService = (function (_super) {
         return topologyProxy;
     };
     StorageSectionService.prototype.generateTopology = function (disks, topologyProfile) {
-        // let self = this;
-        // this.clearReservedDisks();
-        // let vdev, j, disksLength,
-        //     priorities = self.topologyService.generateTopology(this.diskRepository.listAvailableDisks(), redundancy, speed, storage);
-        // for (let i = 0, vdevsLength = topology.data.length; i < vdevsLength; i++) {
-        //     vdev = topology.data[i];
-        //     if (Array.isArray(vdev.children)) {
-        //         for (j = 0, disksLength = vdev.children.length; j < disksLength; j++) {
-        //             self.markDiskAsReserved(vdev.children[j].path);
-        //         }
-        //     } else {
-        //         self.markDiskAsReserved(vdev.path);
-        //     }
-        // }
         return this.topologyService.generateTopology(this.diskRepository.listAvailableDisks(), topologyProfile);
     };
     StorageSectionService.prototype.getNewZfsVdev = function () {
