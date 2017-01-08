@@ -59,6 +59,8 @@ export class TopologyService {
 
     public generateTopology(disks: Array<Object>, topologyProfile: TopologyProfile) {
         if (disks && disks.length) {
+            this.diskRepository.clearReservedDisks();
+
             return this.volumeRepository.getTopologyInstance().then((topology) => {
                 let disksGroups = this.getDisksGroups(disks),
                     dataDisks = disksGroups.shift(),
@@ -95,6 +97,18 @@ export class TopologyService {
                     vdevRecommendation.recommendation.drives,
                     dataDisks
                 );
+
+                let vdev, j, disksLength;
+                for (let i = 0, vdevsLength = topology.data.length; i < vdevsLength; i++) {
+                    vdev = topology.data[i];
+                    if (Array.isArray(vdev.children)) {
+                        for (j = 0, disksLength = vdev.children.length; j < disksLength; j++) {
+                            this.diskRepository.markDiskAsReserved(vdev.children[j].path);
+                        }
+                    } else {
+                        this.diskRepository.markDiskAsReserved(vdev.path);
+                    }
+                }
 
                 return topology;
             });
