@@ -23,7 +23,7 @@
             "bindings": {
                 "options": {"<-": "@owner.vdevTypesOptions.map{value}"},
                 "selectedValue": {"<->": "@owner.object.type"},
-                "disabled": {"<-": "@owner.vdevTypesOptions.length < 2"}
+                "disabled": {"<-": "@owner.vdevTypesOptions.length < 2 || !@owner.editable"}
             }
         },
         "controller": {
