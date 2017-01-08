@@ -28,6 +28,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize({
                     throw new Error("Vdev component cannot used outside TopologyItem component");
                 }
 
+                this.dispatchOwnPropertyChange("topologyItem", topologyItem);
                 this._topologyItem = topologyItem;
             }
 
@@ -39,14 +40,6 @@ exports.Vdev = AbstractDropZoneComponent.specialize({
         get: function () {
             if (this.topologyItem) {
                 return this.topologyItem.gridIdentifier;
-            }
-        }
-    },
-
-    editable: {
-        get: function () {
-            if (this.topologyItem) {
-                return this.topologyItem.editable;
             }
         }
     },
