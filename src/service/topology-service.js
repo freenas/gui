@@ -71,7 +71,7 @@ var TopologyService = (function () {
                 return topology;
             });
         }
-        return Promise.reject("Can't generate topology without any disks");
+        return Promise.resolve(null);
     };
     TopologyService.prototype.getProfiles = function () {
         return TopologyService.profiles;

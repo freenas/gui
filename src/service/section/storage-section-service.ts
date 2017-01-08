@@ -217,7 +217,10 @@ export class StorageSectionService extends AbstractSectionService {
         //         self.markDiskAsReserved(vdev.path);
         //     }
         // }
-        return this.topologyService.generateTopology(this.diskRepository.listAvailableDisks(), topologyProfile);
+        return this.topologyService.generateTopology(
+            this.diskRepository.listAvailableDisks(),
+            topologyProfile
+        );
     }
 
     public getNewZfsVdev() {
