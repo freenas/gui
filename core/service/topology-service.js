@@ -43,6 +43,7 @@ var TopologyService = (function () {
     TopologyService.prototype.generateTopology = function (disks, topologyProfile) {
         var _this = this;
         if (disks && disks.length) {
+            this.diskRepository.clearReservedDisks();
             return this.volumeRepository.getTopologyInstance().then(function (topology) {
                 var disksGroups = _this.getDisksGroups(disks), dataDisks = disksGroups.shift(), vdevRecommendation;
                 if (dataDisks.length > 3) {
@@ -68,6 +69,18 @@ var TopologyService = (function () {
                 }
                 _this.clearDisks(disks);
                 topology.data = _this.buildDataVdevsWithDisks(vdevRecommendation.recommendation.type, vdevRecommendation.recommendation.drives, dataDisks);
+                var vdev, j, disksLength;
+                for (var i = 0, vdevsLength = topology.data.length; i < vdevsLength; i++) {
+                    vdev = topology.data[i];
+                    if (Array.isArray(vdev.children)) {
+                        for (j = 0, disksLength = vdev.children.length; j < disksLength; j++) {
+                            _this.diskRepository.markDiskAsReserved(vdev.children[j].path);
+                        }
+                    }
+                    else {
+                        _this.diskRepository.markDiskAsReserved(vdev.path);
+                    }
+                }
                 return topology;
             });
         }
