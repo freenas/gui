@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 var Model = {
     AccountCategory: 'AccountCategory',
     AccountSystem: 'AccountSystem',
@@ -73,6 +73,7 @@ var Model = {
     Vm: 'Vm',
     VmConfig: 'VmConfig',
     VmDevice: 'VmDevice',
+    VmDatastore: 'VmDatastore',
     VmReadme: 'VmReadme',
     VmVolume: 'VmVolume',
     VmwareCredentials: 'VmwareCredentials',

@@ -6,6 +6,11 @@
                 "name": "call",
                 "namespace": "rpc"
             },
+            "dismissAll": {
+                "method": "alert.dismiss_all",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "getAlertClasses": {
                 "method": "alert.get_alert_classes",
                 "name": "call",
@@ -260,6 +265,12 @@
     },
     "CalendarTask": {
         "instance": {
+            "changeTimezone": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "calendar_task.change_timezone"
+            },
             "command": {
                 "method": "task.submit",
                 "name": "call",
@@ -310,38 +321,15 @@
             }
         }
     },
-    "ClidEval": {
-        "class": {
-            "evalAst": {
-                "method": "clid.eval.eval_ast",
-                "name": "call",
-                "namespace": "rpc"
-            },
-            "evalCode": {
-                "method": "clid.eval.eval_code",
-                "name": "call",
-                "namespace": "rpc"
-            },
-            "parse": {
-                "method": "clid.eval.parse",
-                "name": "call",
-                "namespace": "rpc"
-            }
-        }
-    },
-    "ClidManagement": {
-        "class": {
-            "die": {
-                "method": "clid.management.die",
-                "name": "call",
-                "namespace": "rpc"
-            }
-        }
-    },
     "ContainerdDocker": {
         "class": {
-            "create": {
-                "method": "containerd.docker.create",
+            "connectContainerToNetwork": {
+                "method": "containerd.docker.connect_container_to_network",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "createContainer": {
+                "method": "containerd.docker.create_container",
                 "name": "call",
                 "namespace": "rpc"
             },
@@ -350,13 +338,28 @@
                 "name": "call",
                 "namespace": "rpc"
             },
-            "delete": {
-                "method": "containerd.docker.delete",
+            "createNetwork": {
+                "method": "containerd.docker.create_network",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "deleteContainer": {
+                "method": "containerd.docker.delete_container",
                 "name": "call",
                 "namespace": "rpc"
             },
             "deleteImage": {
                 "method": "containerd.docker.delete_image",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "deleteNetwork": {
+                "method": "containerd.docker.delete_network",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "disconnectContainerFromNetwork": {
+                "method": "containerd.docker.disconnect_container_from_network",
                 "name": "call",
                 "namespace": "rpc"
             },
@@ -367,6 +370,16 @@
             },
             "hostNameByContainerId": {
                 "method": "containerd.docker.host_name_by_container_id",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "hostNameByNetworkId": {
+                "method": "containerd.docker.host_name_by_network_id",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "labelsToPresets": {
+                "method": "containerd.docker.labels_to_presets",
                 "name": "call",
                 "namespace": "rpc"
             },
@@ -382,6 +395,11 @@
             },
             "queryImages": {
                 "method": "containerd.docker.query_images",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "queryNetworks": {
+                "method": "containerd.docker.query_networks",
                 "name": "call",
                 "namespace": "rpc"
             },
@@ -908,11 +926,6 @@
                 "name": "call",
                 "namespace": "rpc"
             },
-            "labelsToPresets": {
-                "method": "docker.image.labels_to_presets",
-                "name": "call",
-                "namespace": "rpc"
-            },
             "readme": {
                 "method": "docker.image.readme",
                 "name": "call",
@@ -931,6 +944,12 @@
                 "namespace": "rpc",
                 "task": "docker.image.delete"
             },
+            "flush": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "docker.image.flush"
+            },
             "pull": {
                 "method": "task.submit",
                 "name": "call",
@@ -939,6 +958,44 @@
             },
             "read": {
                 "method": "docker.image.query",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
+    "DockerNetwork": {
+        "instance": {
+            "connect": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "docker.network.connect"
+            },
+            "create": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "restrictions": {
+                    "requiredFields": [
+                        "name"
+                    ]
+                },
+                "task": "docker.network.create"
+            },
+            "delete": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "docker.network.delete"
+            },
+            "disconnect": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "docker.network.disconnect"
+            },
+            "read": {
+                "method": "docker.network.query",
                 "name": "call",
                 "namespace": "rpc"
             }
@@ -2024,6 +2081,12 @@
                 "namespace": "rpc",
                 "task": "replication.check_datasets"
             },
+            "cleanHistory": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "replication.clean_history"
+            },
             "create": {
                 "method": "task.submit",
                 "name": "call",
@@ -2417,21 +2480,6 @@
             }
         }
     },
-    "ServiceSmartd": {
-        "instance": {
-            "read": {
-                "method": "service.smartd.get_config",
-                "name": "call",
-                "namespace": "rpc"
-            },
-            "update": {
-                "method": "task.submit",
-                "name": "call",
-                "namespace": "rpc",
-                "task": "service.smartd.update"
-            }
-        }
-    },
     "ServiceSmb": {
         "class": {
             "adEnabled": {
@@ -2513,6 +2561,66 @@
                 "name": "call",
                 "namespace": "rpc",
                 "task": "service.webdav.update"
+            }
+        }
+    },
+    "ServicedJob": {
+        "class": {
+            "checkin": {
+                "method": "serviced.job.checkin",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "get": {
+                "method": "serviced.job.get",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "load": {
+                "method": "serviced.job.load",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "pushStatus": {
+                "method": "serviced.job.push_status",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "start": {
+                "method": "serviced.job.start",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "stop": {
+                "method": "serviced.job.stop",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "unload": {
+                "method": "serviced.job.unload",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "wait": {
+                "method": "serviced.job.wait",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        },
+        "instance": {
+            "read": {
+                "method": "serviced.job.query",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
+    "ServicedManagement": {
+        "class": {
+            "shutdown": {
+                "method": "serviced.management.shutdown",
+                "name": "call",
+                "namespace": "rpc"
             }
         }
     },
@@ -3308,6 +3416,11 @@
                 "name": "call",
                 "namespace": "rpc"
             },
+            "sleep": {
+                "method": "test.sleep",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "stream": {
                 "method": "test.stream",
                 "name": "call",
@@ -3680,6 +3793,184 @@
                 "name": "call",
                 "namespace": "rpc",
                 "task": "vm.config.update"
+            }
+        }
+    },
+    "VmDatastore": {
+        "class": {
+            "supportedDrivers": {
+                "method": "vm.datastore.supported_drivers",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        },
+        "instance": {
+            "cloneBlockDevice": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.datastore.clone_block_device"
+            },
+            "create": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.datastore.create"
+            },
+            "createBlockDevice": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.datastore.create_block_device"
+            },
+            "createDirectory": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.datastore.create_directory"
+            },
+            "delete": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.datastore.delete"
+            },
+            "deleteBlockDevice": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.datastore.delete_block_device"
+            },
+            "deleteDirectory": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.datastore.delete_directory"
+            },
+            "localCreateDirectory": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.datastore.local.create_directory"
+            },
+            "localDeleteDirectory": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.datastore.local.delete_directory"
+            },
+            "localRenameDirectory": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.datastore.local.rename_directory"
+            },
+            "nfsCreate": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.datastore.nfs.create"
+            },
+            "nfsCreateDirectory": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.datastore.nfs.create_directory"
+            },
+            "nfsDelete": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.datastore.nfs.delete"
+            },
+            "nfsDeleteDirectory": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.datastore.nfs.delete_directory"
+            },
+            "nfsRenameDirectory": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.datastore.nfs.rename_directory"
+            },
+            "nfsUpdate": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.datastore.nfs.update"
+            },
+            "read": {
+                "method": "vm.datastore.query",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "renameBlockDevice": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.datastore.rename_block_device"
+            },
+            "renameDirectory": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.datastore.rename_directory"
+            },
+            "resizeBlockDevice": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.datastore.resize_block_device"
+            },
+            "update": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.datastore.update"
+            },
+            "volumeCreateBlockDevice": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.datastore.volume.create_block_device"
+            },
+            "volumeCreateDirectory": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.datastore.volume.create_directory"
+            },
+            "volumeDeleteBlockDevice": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.datastore.volume.delete_block_device"
+            },
+            "volumeDeleteDirectory": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.datastore.volume.delete_directory"
+            },
+            "volumeRenameBlockDevice": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.datastore.volume.rename_block_device"
+            },
+            "volumeRenameDirectory": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.datastore.volume.rename_directory"
+            },
+            "volumeResizeBlockDevice": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.datastore.volume.resize_block_device"
             }
         }
     },
