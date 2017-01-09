@@ -1,4 +1,5 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
     RoutingService = require("core/service/routing-service").RoutingService,
     _ = require("lodash");
 
@@ -6,6 +7,7 @@ var Topology = exports.Topology = AbstractInspector.specialize({
     _inspectorTemplateDidLoad: {
         value: function() {
             this._routingService = RoutingService.getInstance();
+            this._eventDispatcherService = EventDispatcherService.getInstance();
         }
     },
 
@@ -23,11 +25,13 @@ var Topology = exports.Topology = AbstractInspector.specialize({
             });
             this.topologyProxy = this._sectionService.getTopologyProxy(this.object);
             this.context.cascadingListItem.classList.add("CascadingListItem-Topology");
+            this.availableDisksEventListener = this._eventDispatcherService.addEventListener('AvailableDisksChanged', this._handleAvailableDisksChange.bind(this));
         }
     },
 
     exitDocument: {
         value: function() {
+            this._eventDispatcherService.removeEventListener('availableDisksChange', this.availableDisksEventListener);
             this.context.cascadingListItem.classList.remove("CascadingListItem-Topology");
         }
     },
@@ -42,6 +46,12 @@ var Topology = exports.Topology = AbstractInspector.specialize({
         value: function() {
             this._sectionService.clearReservedDisks();
             this.topologyProxy = this._sectionService.getTopologyProxy(this.object);
+        }
+    },
+
+    _handleAvailableDisksChange: {
+        value: function(availableDisks) {
+            this.availableDisks = availableDisks.valueSeq().toJS();
         }
     },
 
