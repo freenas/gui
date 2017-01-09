@@ -28,6 +28,10 @@ export class ReplicationRepository extends AbstractRepository {
         return this.replicationDao.list();
     }
 
+    public getNewReplicationInstance() {
+        return this.replicationDao.getNewInstance();
+    }
+
     public getReplicationOptionsInstance() {
         return this.replicationOptionsDao.getNewInstance();
     }

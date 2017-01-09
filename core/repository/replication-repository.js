@@ -26,6 +26,9 @@ var ReplicationRepository = (function (_super) {
     ReplicationRepository.prototype.listReplications = function () {
         return this.replicationDao.list();
     };
+    ReplicationRepository.prototype.getNewReplicationInstance = function () {
+        return this.replicationDao.getNewInstance();
+    };
     ReplicationRepository.prototype.getReplicationOptionsInstance = function () {
         return this.replicationOptionsDao.getNewInstance();
     };

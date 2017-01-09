@@ -223,6 +223,57 @@ var DatasetRoute = (function (_super) {
             return stack;
         });
     };
+    DatasetRoute.prototype.listReplications = function (datasetId, stack) {
+        var self = this, objectType = model_1.Model.Replication, columnIndex = 4, parentContext = stack[columnIndex - 1], context = {
+            columnIndex: columnIndex,
+            objectType: this.objectType,
+            parentContext: parentContext,
+            path: parentContext.path + '/replication'
+        };
+        return Promise.all([
+            this.replicationRepository.listReplications(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function (replications, uiDescriptor) {
+            var filteredReplicationsDatasets = replications; //_.filter(replications, {dataset: datasetId});
+            filteredReplicationsDatasets._objectType = objectType;
+            context.object = filteredReplicationsDatasets;
+            context.userInterfaceDescriptor = uiDescriptor;
+            return self.updateStackWithContext(stack, context);
+        });
+    };
+    DatasetRoute.prototype.createReplication = function (datasetId, stack) {
+        var self = this, objectType = model_1.Model.Replication, columnIndex = 5, parentContext = stack[columnIndex - 1], context = {
+            columnIndex: columnIndex,
+            objectType: this.objectType,
+            parentContext: parentContext,
+            path: parentContext.path + '/create'
+        };
+        return Promise.all([
+            this.replicationRepository.getNewReplicationInstance(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function (replication, uiDescriptor) {
+            replication.dataset = datasetId;
+            context.object = replication;
+            context.userInterfaceDescriptor = uiDescriptor;
+            return self.updateStackWithContext(stack, context);
+        });
+    };
+    DatasetRoute.prototype.getReplication = function (replicationId, stack) {
+        var self = this, objectType = model_1.Model.Replication, columnIndex = 5, parentContext = stack[columnIndex - 1], context = {
+            columnIndex: columnIndex,
+            objectType: this.objectType,
+            parentContext: parentContext,
+            path: parentContext.path + '/_/' + encodeURIComponent(replicationId)
+        };
+        return Promise.all([
+            this.replicationRepository.listReplications(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function (replication, uiDescriptor) {
+            context.object = _.find(replication, { id: replicationId });
+            context.userInterfaceDescriptor = uiDescriptor;
+            return self.updateStackWithContext(stack, context);
+        });
+    };
     return DatasetRoute;
 }(abstract_route_1.AbstractRoute));
 exports.DatasetRoute = DatasetRoute;
