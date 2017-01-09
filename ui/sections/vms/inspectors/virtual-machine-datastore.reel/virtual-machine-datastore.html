@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "validationController": {"@": "validationController"},
+                "inspector": {"@": "inspector"}
+            },
+            "bindings": {
+                "moduleRoot": {"<-": "@owner.templateModuleId.substr(0, @owner.templateModuleId.lastIndexOf('/')+1)"},
+                "isNewObject": {"<-": "@owner.object._isNew.defined() && @owner.object._isNew"},
+                "isVolumeDatastore": {"<-": "@owner.object.type == 'volume'"}
+            }
+        },
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
+            }
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "validationController": {"@": "validationController"},
+                "canRevert": false,
+                "controller": {"@": "owner"}
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"},
+                "canSave": {"<-": "!@owner.isVolumeDatastore && @owner.isNewObject"},
+                "canDelete": {"<-": "!@owner.isVolumeDatastore && !@owner.isNewObject"}
+            }
+        },
+        "name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.name"},
+                "disabled": {"<-": "@owner.isVolumeDatastore"}
+            }
+        },
+        "datastoreTypePlaceholder": {
+            "prototype": "ui/controls/placeholder.reel",
+            "properties": {
+                "element": {"#": "datastoreTypePlaceholder"}
+            },
+            "bindings": {
+                "moduleId": {"<-": "@owner.moduleRoot + 'virtual-machine-datastore-' + @owner.object.type.toLowerCase() + '.reel'"},
+                "object": {"<-": "@owner.object.properties"},
+                "classList.has('hide')": {"<-": "@owner.isVolumeDatastore"}
+            }
+        },
+        "capabilitiesSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "capabilitiesSection"},
+                "title": "Capabilities"
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "@owner.isNewObject"}
+            }
+        },
+        "blockDevices": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "blockDevices"},
+                "disabled": true,
+                "label": "Block Devices"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.capabilities.block_devices"}
+            }
+        },
+        "clones": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "clones"},
+                "disabled": true,
+                "label": "Clones"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.capabilities.clones"}
+            }
+        },
+        "snapshots": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "snapshots"},
+                "disabled": true,
+                "label": "Snapshots"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.capabilities.snapshots"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="VirtualMachineDatastore">
+        <div data-montage-id="inspector">
+            <div data-montage-id="name"></div>
+            <div data-montage-id="datastoreTypePlaceholder"></div>
+            <div data-montage-id="capabilitiesSection">
+                <div data-montage-id="blockDevices"></div>
+                <div data-montage-id="clones"></div>
+                <div data-montage-id="snapshots"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
