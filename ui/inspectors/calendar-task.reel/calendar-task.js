@@ -83,13 +83,6 @@ exports.CalendarTask = AbstractInspector.specialize({
         }
     },
 
-    delete: {
-        value: function() {
-            this._closeInspector();
-            return this.inspector.delete();
-        }
-    },
-
     handleRunNowAction: {
         value: function () {
             if (this.argsInspector && typeof this.argsInspector.save === 'function') {
