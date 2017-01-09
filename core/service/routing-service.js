@@ -168,6 +168,10 @@ var RoutingService = (function () {
         crossroads.addRoute('/vms/create/volumes', function () { return _this.vmsRoute.getVolumes(_this.currentStacks.get('vms')); });
         crossroads.addRoute('/vms/create/volumes/create', function () { return _this.vmsRoute.createVolume(_this.currentStacks.get('vms')); });
         crossroads.addRoute('/vms/create/volumes/vm-volume/_/{volumeId}', function (volumeId) { return _this.vmsRoute.getVolume(volumeId, _this.currentStacks.get('vms')); });
+        crossroads.addRoute('/vms/vm-datastore', function () { return _this.vmsRoute.getDatastores(_this.currentStacks.get('vms')); });
+        crossroads.addRoute('/vms/vm-datastore/_/{datastoreId}', function (datastoreId) { return _this.vmsRoute.getDatastore(datastoreId, _this.currentStacks.get('vms')); });
+        crossroads.addRoute('/vms/vm-datastore/create', function () { return _this.vmsRoute.selectNewDatastoreType(_this.currentStacks.get('vms')); });
+        crossroads.addRoute('/vms/vm-datastore/create/{type}', function (type) { return _this.vmsRoute.createDatastore(type, _this.currentStacks.get('vms')); });
     };
     RoutingService.prototype.loadPeeringRoutes = function () {
         var _this = this;

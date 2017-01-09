@@ -181,6 +181,86 @@ var VmsRoute = (function (_super) {
             return self.updateStackWithContext(stack, context);
         });
     };
+    VmsRoute.prototype.getDatastores = function (stack) {
+        var self = this, objectType = model_1.Model.VmDatastore, columnIndex = 1, parentContext = stack[columnIndex - 1], context = {
+            columnIndex: columnIndex,
+            objectType: objectType,
+            parentContext: parentContext,
+            path: parentContext.path + '/vm-datastore'
+        };
+        return Promise.all([
+            this.vmRepository.listDatastores(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function (datastores, uiDescriptor) {
+            datastores._objectType = objectType;
+            context.object = datastores;
+            context.userInterfaceDescriptor = uiDescriptor;
+            return self.updateStackWithContext(stack, context);
+        });
+    };
+    VmsRoute.prototype.getDatastore = function (datastoreId, stack) {
+        var self = this, objectType = model_1.Model.VmDatastore, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+            columnIndex: columnIndex,
+            objectType: objectType,
+            parentContext: parentContext,
+            path: parentContext.path + '/vm-datastore/_/' + encodeURIComponent(datastoreId)
+        };
+        return Promise.all([
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function (uiDescriptor) {
+            context.object = _.find(parentContext.object, { id: datastoreId });
+            context.userInterfaceDescriptor = uiDescriptor;
+            return self.updateStackWithContext(stack, context);
+        });
+    };
+    VmsRoute.prototype.selectNewDatastoreType = function (stack) {
+        var _this = this;
+        var self = this, objectType = model_1.Model.VmDatastore, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+            columnIndex: columnIndex,
+            objectType: objectType,
+            parentContext: parentContext,
+            isCreatePrevented: true,
+            path: parentContext.path + '/create'
+        };
+        return Promise.all([
+            Promise.all(_.map(_.values(this.vmRepository.DATASTORE_TYPE), function (type) { return _this.vmRepository.getNewVmDatastoreForType(type); })),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function (vmdatastores, uiDescriptor) {
+            context.object = _.compact(vmdatastores);
+            context.userInterfaceDescriptor = uiDescriptor;
+            return self.updateStackWithContext(stack, context);
+        });
+    };
+    VmsRoute.prototype.createDatastore = function (datastoreType, stack) {
+        var self = this, objectType = model_1.Model.VmDatastore, columnIndex = 2, parentContext = stack[columnIndex], context = {
+            columnIndex: columnIndex,
+            objectType: objectType,
+            parentContext: parentContext,
+            path: parentContext.path + '/' + encodeURIComponent(datastoreType)
+        };
+        return Promise.all([
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function (uiDescriptor) {
+            context.object = _.find(parentContext.object, { _tmpId: datastoreType });
+            context.userInterfaceDescriptor = uiDescriptor;
+            return self.updateStackWithContext(stack, context);
+        });
+    };
+    VmsRoute.prototype.getVolumes = function (stack) {
+        var self = this, objectType = model_1.Model.VmVolume, columnIndex = 2, parentContext = stack[columnIndex - 1], context = {
+            columnIndex: columnIndex,
+            objectType: objectType,
+            parentContext: parentContext,
+            path: parentContext.path + '/volumes'
+        };
+        return Promise.all([
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function (uiDescriptor) {
+            context.object = _.forEach(parentContext.object._volumeDatastores, function (datastore) { return device._objectType = objectType; });
+            context.userInterfaceDescriptor = uiDescriptor;
+            return self.updateStackWithContext(stack, context);
+        });
+    };
     return VmsRoute;
 }(abstract_route_1.AbstractRoute));
 exports.VmsRoute = VmsRoute;
