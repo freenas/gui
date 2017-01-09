@@ -37,7 +37,7 @@
                 "element": {"#": "createButton"}
             },
             "bindings": {
-                "classList.has('hide')": {"<-": "!@owner.hasCreateEditor"}
+                "classList.has('hide')": {"<-": "@owner.hideCreateButton || !@owner.hasCreateEditor"}
             }
         },
 
