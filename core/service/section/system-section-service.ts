@@ -7,6 +7,12 @@ import {NetworkRepository} from "../../repository/network-repository";
 import {CryptoCertificateRepository} from "../../repository/crypto-certificate-repository";
 import Promise = require("bluebird");
 import {TunableRepository} from "../../repository/tunable-repository";
+import {BootPoolRepository} from "../../repository/boot-pool-repository";
+import {ModelEventName} from "../../model-event-name";
+import {DataObjectChangeService} from "../data-object-change-service";
+import * as Immutable from "immutable";
+import * as _ from "lodash";
+
 
 export class SystemSectionService extends AbstractSectionService {
     private systemRepository: SystemRepository;
@@ -16,6 +22,9 @@ export class SystemSectionService extends AbstractSectionService {
     private networkRepository: NetworkRepository;
     private cryptoCertificateRepository: CryptoCertificateRepository;
     private tunableRepository: TunableRepository;
+    private bootPoolRepository: BootPoolRepository;
+    private bootEnvironments: Array<any> = [];
+    private dataObjectChangeService: DataObjectChangeService;
 
     protected init() {
         this.systemRepository = SystemRepository.getInstance();
@@ -25,6 +34,13 @@ export class SystemSectionService extends AbstractSectionService {
         this.networkRepository = NetworkRepository.getInstance();
         this.cryptoCertificateRepository = CryptoCertificateRepository.getInstance();
         this.tunableRepository = TunableRepository.getInstance();
+        this.bootPoolRepository = BootPoolRepository.getInstance();
+        this.dataObjectChangeService = new DataObjectChangeService();
+
+        this.eventDispatcherService.addEventListener(
+            ModelEventName.BootEnvironment.listChange,
+            this.handleBootPoolChange.bind(this)
+        );
     }
 
     protected loadEntries() {
@@ -73,6 +89,22 @@ export class SystemSectionService extends AbstractSectionService {
 
     public listTunables() {
         return this.tunableRepository.listTunables();
+    }
+
+    public listBootEnvironments () {
+        return this.bootPoolRepository.listBootEnvironments().then((bootEnvironments) => {
+            return _.assign(this.bootEnvironments, bootEnvironments);
+        });
+    }
+
+    public getBootVolumeConfig () {
+        return this.bootPoolRepository.getBootPoolConfig().then((bootVolumeConfig) => {
+            return (bootVolumeConfig as any).data;
+        });
+    }
+
+    private handleBootPoolChange (bootEnvironments: Immutable.Map<string, Immutable.Map<string, any>>) {
+        this.dataObjectChangeService.handleDataChange(this.bootEnvironments, bootEnvironments);
     }
 
     protected loadExtraEntries() {

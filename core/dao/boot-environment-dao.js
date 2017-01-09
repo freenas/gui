@@ -9,7 +9,9 @@ var model_1 = require("../model");
 var BootEnvironmentDao = (function (_super) {
     __extends(BootEnvironmentDao, _super);
     function BootEnvironmentDao() {
-        return _super.call(this, model_1.Model.BootEnvironment) || this;
+        return _super.call(this, model_1.Model.BootEnvironment, {
+            eventName: 'entity-subscriber.boot.environment.changed'
+        }) || this;
     }
     BootEnvironmentDao.prototype.activate = function (bootEnvironment) {
         return this.middlewareClient.submitTask('boot.environment.activate', [bootEnvironment.persistedId]);

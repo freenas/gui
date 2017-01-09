@@ -12,10 +12,16 @@ var container_repository_1 = require("../../repository/container-repository");
 var network_repository_1 = require("../../repository/network-repository");
 var crypto_certificate_repository_1 = require("../../repository/crypto-certificate-repository");
 var tunable_repository_1 = require("../../repository/tunable-repository");
+var boot_pool_repository_1 = require("../../repository/boot-pool-repository");
+var model_event_name_1 = require("../../model-event-name");
+var data_object_change_service_1 = require("../data-object-change-service");
+var _ = require("lodash");
 var SystemSectionService = (function (_super) {
     __extends(SystemSectionService, _super);
     function SystemSectionService() {
-        return _super.apply(this, arguments) || this;
+        var _this = _super.apply(this, arguments) || this;
+        _this.bootEnvironments = [];
+        return _this;
     }
     SystemSectionService.prototype.init = function () {
         this.systemRepository = system_repository_1.SystemRepository.getInstance();
@@ -25,6 +31,9 @@ var SystemSectionService = (function (_super) {
         this.networkRepository = network_repository_1.NetworkRepository.getInstance();
         this.cryptoCertificateRepository = crypto_certificate_repository_1.CryptoCertificateRepository.getInstance();
         this.tunableRepository = tunable_repository_1.TunableRepository.getInstance();
+        this.bootPoolRepository = boot_pool_repository_1.BootPoolRepository.getInstance();
+        this.dataObjectChangeService = new data_object_change_service_1.DataObjectChangeService();
+        this.eventDispatcherService.addEventListener(model_event_name_1.ModelEventName.BootEnvironment.listChange, this.handleBootPoolChange.bind(this));
     };
     SystemSectionService.prototype.loadEntries = function () {
         return this.systemRepository.listSystemSections();
@@ -61,6 +70,20 @@ var SystemSectionService = (function (_super) {
     };
     SystemSectionService.prototype.listTunables = function () {
         return this.tunableRepository.listTunables();
+    };
+    SystemSectionService.prototype.listBootEnvironments = function () {
+        var _this = this;
+        return this.bootPoolRepository.listBootEnvironments().then(function (bootEnvironments) {
+            return _.assign(_this.bootEnvironments, bootEnvironments);
+        });
+    };
+    SystemSectionService.prototype.getBootVolumeConfig = function () {
+        return this.bootPoolRepository.getBootPoolConfig().then(function (bootVolumeConfig) {
+            return bootVolumeConfig.data;
+        });
+    };
+    SystemSectionService.prototype.handleBootPoolChange = function (bootEnvironments) {
+        this.dataObjectChangeService.handleDataChange(this.bootEnvironments, bootEnvironments);
     };
     SystemSectionService.prototype.loadExtraEntries = function () {
         return undefined;
