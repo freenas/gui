@@ -176,6 +176,18 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
                 return self._middlewareTaskRepository.runMiddlewareTask(middlewareTask);
             });
         }
+    },
+
+    startContainer: {
+        value: function(container) {
+            return this._containerRepository.startContainer(container);
+        }
+    },
+
+    stopContainer: {
+        value: function(container) {
+            return this._containerRepository.stopContainer(container);
+        }
     }
 
 });
