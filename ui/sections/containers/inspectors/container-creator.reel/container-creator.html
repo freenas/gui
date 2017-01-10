@@ -21,6 +21,7 @@
                 "object.image": {"<-": "@image.selectedValue.name"},
                 "_availablesDockers": {"<-": "@owner._hostDockers.map{{label: name, value: id}}"},
                 "object.interactive": {"<-": "@owner.currentTemplate.interactive"},
+                "object.autostart": {"<-": "@owner.currentTemplate.autostart"},
                 "object.expose_ports": {"<-": "!!@owner.currentTemplate.expose_ports"},
                 "object.names": {"<-": "@names.value.split(' ')"}
             }
