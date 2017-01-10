@@ -61,10 +61,12 @@ exports.AbstractInspector = AbstractComponentActionDelegate.specialize({
         value: function(isFirstTime) {
             this.super(isFirstTime);
 
-            if (this.validationController && !this._hasContextObjectListener) {
-                this.context.validationController = this.validationController;
-                this.addPathChangeListener("context.object", this, "_reloadValidationController");
-                this._hasContextObjectListener = true;
+            if (this.validationController) {
+                if (!this._hasContextObjectListener) {
+                    this.context.validationController = this.validationController;
+                    this.addPathChangeListener("context.object", this, "_reloadValidationController");
+                    this._hasContextObjectListener = true;
+                }
             }
         }
     },

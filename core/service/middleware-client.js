@@ -22,6 +22,7 @@ var MiddlewareClient = (function () {
         return MiddlewareClient.instance;
     };
     MiddlewareClient.prototype.connect = function (url) {
+        url = url || MiddlewareClient.getRootURL('ws') + '/dispatcher/socket';
         if (this.socket) {
             if (this.socket.url !== url && this.socket.readyState === this.socket.OPEN) {
                 this.closeConnection();
@@ -340,7 +341,7 @@ var MiddlewareClient = (function () {
         return result;
     };
     MiddlewareClient.getHostParam = function () {
-        return location.href.split(';').filter(function (x) { return x.split('=')[0] === 'host'; })[0];
+        return _.find(_.split(location.href, /[?&]/), function (param) { return _.startsWith(param, 'host='); });
     };
     return MiddlewareClient;
 }());

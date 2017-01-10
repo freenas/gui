@@ -19,7 +19,7 @@ var FakeMontageDataService = (function () {
     };
     FakeMontageDataService.prototype.loginWithCredentials = function (login, password) {
         var self = this;
-        return this.middlewareClient.connect(this.getURL()).then(function () {
+        return this.middlewareClient.connect().then(function () {
             return self.middlewareClient.login(login, password);
         });
     };
@@ -31,62 +31,21 @@ var FakeMontageDataService = (function () {
                     dao.find(criteria) :
                 dao.list();
         });
-        /*
-                let key = type.typeName,
-                    entries;
-                if (this.cacheService.hasCacheKey(key) && (entries = this.cacheService.getCacheEntry(key)).length > 0) {
-                    return Promise.resolve(entries);
-                } else {
-                    return this.queryObjectsFromMiddleware(type, criteria, isSingle);
-                }
-        */
     };
     FakeMontageDataService.prototype.saveDataObject = function (object, args) {
         return this.modelDescriptorService.getDaoForObject(object).then(function (dao) {
             return dao.save(object, args);
         });
-        /*
-                this.loadPropertyDescriptors(object);
-                return object._isNew ? this.create(object, args) : this.update(object, args);
-        */
     };
     FakeMontageDataService.prototype.deleteDataObject = function (object, args) {
         return this.modelDescriptorService.getDaoForObject(object).then(function (dao) {
             return dao.delete(object, args);
         });
-        /*
-                let typeName = object._objectType ||
-                    (object.Type && object.Type.typeName) ||
-                    (object.constructor.Type && object.constructor.Type.typeName);
-                return this.middlewareClient.submitTask(ChangeCase.dotCase(typeName) + '.delete', [object.id]);
-        */
     };
     FakeMontageDataService.prototype.getNewInstanceForType = function (type) {
         return this.modelDescriptorService.getDaoForType(type.typeName).then(function (dao) {
             return dao.getNewInstance();
         });
-        /*
-                let self = this;
-                return this.cacheService.registerTypeForKey(type, type.typeName).then(function () {
-                    let instance = self.cacheService.getDataObject(type.typeName);
-                    instance._isNew = true;
-                    return instance;
-                });
-        */
-    };
-    FakeMontageDataService.prototype.getURL = function () {
-        var scheme = location.protocol === 'https:' ? 'wss' : 'ws', host = this.getHost();
-        return scheme + "://" + host + "/dispatcher/socket";
-    };
-    FakeMontageDataService.prototype.getHost = function () {
-        var result = location.host, hostParam = location.href.split(';').filter(function (x) { return x.split('=')[0] === 'host'; })[0];
-        if (hostParam) {
-            var host = hostParam.split('=')[1];
-            if (host && host.length > 0) {
-                result = host;
-            }
-        }
-        return result;
     };
     return FakeMontageDataService;
 }());

@@ -1,11 +1,14 @@
 import {ModelDescriptorService} from './model-descriptor-service';
 import {MiddlewareClient} from './middleware-client';
+import {ModelEventName} from '../model-event-name';
+import {EventDispatcherService} from './event-dispatcher-service';
+import {DatastoreService} from './datastore-service';
+import {Model} from '../model';
 import {SectionRoute} from '../route/section';
 import {VolumeRoute} from '../route/volume';
 import {ShareRoute} from '../route/share';
 import {SnapshotRoute} from '../route/snapshot';
 import {DatasetRoute} from '../route/dataset';
-import {EventDispatcherService} from './event-dispatcher-service';
 import {CalendarRoute} from '../route/calendar';
 import {SystemRoute} from '../route/system';
 import {ServicesRoute} from '../route/services';
@@ -17,16 +20,19 @@ import {AccountsRoute} from '../route/accounts';
 import * as hasher from 'hasher';
 import * as crossroads from 'crossroads';
 import * as _ from 'lodash';
+import * as immutable from 'immutable';
+import * as Promise from 'bluebird';
 
 export class RoutingService {
     private static instance: RoutingService;
     private currentStacks: Map<string, Array<any>>;
-    private taskStacks: Map<number|string, Array<any>>;
+    private taskStacks: immutable.Map<number|string, Array<any>>;
     private currentSectionId: string;
 
     private constructor(private modelDescriptorService: ModelDescriptorService,
                         private eventDispatcherService: EventDispatcherService,
                         private middlewareClient: MiddlewareClient,
+                        private datastoreService: DatastoreService,
                         private sectionRoute: SectionRoute,
                         private volumeRoute: VolumeRoute,
                         private shareRoute: ShareRoute,
@@ -41,7 +47,7 @@ export class RoutingService {
                         private accountsRoute: AccountsRoute,
                         private dockerRoute: DockerRoute) {
         this.currentStacks = new Map<string, Array<any>>();
-        this.taskStacks = new Map<number|string, Array<any>>();
+        this.taskStacks = immutable.Map<number|string, Array<any>>();
 
         this.eventDispatcherService.addEventListener('taskSubmitted', this.handleTaskSubmitted.bind(this));
         this.eventDispatcherService.addEventListener('taskCreated', this.handleTaskCreated.bind(this));
@@ -57,6 +63,7 @@ export class RoutingService {
                 ModelDescriptorService.getInstance(),
                 EventDispatcherService.getInstance(),
                 MiddlewareClient.getInstance(),
+                DatastoreService.getInstance(),
                 SectionRoute.getInstance(),
                 VolumeRoute.getInstance(),
                 ShareRoute.getInstance(),
@@ -76,7 +83,11 @@ export class RoutingService {
     }
 
     public navigate(path: string) {
-        hasher.appendHash = ';' + this.middlewareClient.getExplicitHostParam();
+        if (hasher.appendHash.length === 0) {
+            hasher.appendHash = '?' + this.middlewareClient.getExplicitHostParam();
+        } else {
+            hasher.appendHash = _.replace(hasher.appendHash, /^\?\?+/, '?');
+        }
         if (path[0] === '/') {
             hasher.setHash(path);
         } else {
@@ -98,14 +109,6 @@ export class RoutingService {
     public handleTaskSubmitted(temporaryTaskId: string) {
         this.saveState(temporaryTaskId);
     }
-
-    public handleTaskCreated(taskIds: any) {
-        if (this.taskStacks.has(taskIds.old)) {
-            this.taskStacks.set(taskIds.new, this.taskStacks.get(taskIds.old));
-            this.taskStacks.delete(taskIds.old);
-        }
-    }
-
     private changeHash(newHash: string) {
         hasher.changed.active = false;
         this.navigate(newHash);
@@ -117,6 +120,20 @@ export class RoutingService {
         this.eventDispatcherService.dispatch('hashChange', newHash);
     }
 
+
+    public handleTaskCreated(taskIds: any) {
+        if (this.taskStacks.has(taskIds.old)) {
+            let task = this.taskStacks.get(taskIds.old);
+            this.taskStacks = this.taskStacks.set(taskIds.new, task).delete(taskIds.old);
+            let eventListener = this.eventDispatcherService.addEventListener(ModelEventName.Task.change(taskIds.new), (state) => {
+                if (state.get('state') === 'FINISHED') {
+                    this.taskStacks = this.taskStacks.delete(taskIds.new);
+                    this.eventDispatcherService.removeEventListener(ModelEventName.Task.change(taskIds.new), eventListener);
+                }
+            });
+        }
+    }
+
     private saveState(temporaryTaskId: string) {
         let stateSnapshot = [];
         _.forEach(this.currentStacks.get(this.currentSectionId), (value, index) => {
@@ -126,7 +143,7 @@ export class RoutingService {
             }
             stateSnapshot.push(context);
         });
-        this.taskStacks.set(temporaryTaskId, stateSnapshot);
+        this.taskStacks = this.taskStacks.set(temporaryTaskId, stateSnapshot);
     }
 
     private loadRoutes() {
@@ -402,30 +419,45 @@ export class RoutingService {
     }
 
     private loadSection(sectionId: string) {
-        let previousSectionId = this.currentSectionId;
         this.currentSectionId = sectionId;
-        if (this.currentStacks.has(sectionId) && previousSectionId !== sectionId) {
-            let stack = this.currentStacks.get(sectionId);
-            this.eventDispatcherService.dispatch('sectionChange', stack[0].service);
-            this.eventDispatcherService.dispatch('pathChange', stack);
-            this.changeHash(_.last(stack).path);
-        } else {
+        let promise: Promise<Array<any>> = this.currentStacks.has(sectionId) ?
+            new Promise<Array<any>>((resolve) => {
+                let stack = this.currentStacks.get(sectionId);
+                this.changeHash(_.last(stack).path);
+                hasher.changed.addOnce(this.handleTaskHashChange.bind(this));
+                resolve(stack);
+            }) :
             this.sectionRoute.get(sectionId).then((stack) => {
                 this.currentStacks.set(sectionId, stack);
-                this.eventDispatcherService.dispatch('sectionChange', stack[0].service);
-                this.eventDispatcherService.dispatch('pathChange', stack);
+                return stack;
             });
-        }
+        promise.then((stack) => {
+            this.eventDispatcherService.dispatch('sectionChange', stack[0].service);
+            this.eventDispatcherService.dispatch('pathChange', stack);
+        });
     }
 
     private restoreTask(taskId: number) {
         if (this.taskStacks.has(taskId)) {
-            let stack = this.taskStacks.get(taskId),
+            hasher.appendHash +=  (hasher.appendHash.length > 0 ? '&' : '?') + 'task=' + taskId;
+            let stack = _.clone(this.taskStacks.get(taskId)),
                 section = stack[0].object,
                 sectionId = section.id;
+            if (this.datastoreService.getState().get(Model.Task) &&
+                this.datastoreService.getState().get(Model.Task).get(taskId) &&
+                this.datastoreService.getState().get(Model.Task).get(taskId).get('error')) {
+                _.last(stack).error = this.datastoreService.getState().get(Model.Task).get(taskId).get('error').toJS();
+            }
             this.currentStacks.set(sectionId, stack);
             this.eventDispatcherService.dispatch('sectionRestored', sectionId);
             this.navigate('/' + sectionId);
+            hasher.changed.addOnce(this.handleTaskHashChange.bind(this));
         }
+    }
+
+    private handleTaskHashChange() {
+        let hash = hasher.getHash();
+        hasher.appendHash = _.join(_.filter(_.split(hasher.appendHash, '&'), (part) => !(part === '' || _.startsWith(part, 'task='))), '&');
+        this.changeHash(hash);
     }
 }
