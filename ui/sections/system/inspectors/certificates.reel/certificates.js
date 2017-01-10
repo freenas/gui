@@ -1,7 +1,9 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
+    DataObjectChangeService = require("core/service/data-object-change-service").DataObjectChangeService,
     ModelEventName = require("core/model-event-name").ModelEventName;
 
+var _ = require("lodash");
 
 exports.Certificates = AbstractInspector.specialize({
 
@@ -14,42 +16,22 @@ exports.Certificates = AbstractInspector.specialize({
         }
     },
 
-    _object: {
-        value: null
-    },
-
-    object: {
-        get: function() {
-            return this._object;
-        },
-        set: function(object) {
-            this._object = object;
-            this.availableCertsEventListener = this.eventDispatcherService.addEventListener(Model.CryptoCertificate.listChange, this._handleChange.bind(this));
-        }
-    },
-
-    _unregisterUpdates: {
-        value: function () {
-            this.eventDispatcherService.removeEventListener(Model.CryptoCertificate.listChange, this.availableCertsEventListener);
-        }
-    },
-
     exitDocument: {
         value: function() {
-            this._unregisterUpdates();
+            this.eventDispatcherService.removeEventListener(ModelEventName.CryptoCertificate.listChange, this.availableCertsEventListener);
         }
     },
 
     _handleChange: {
         value: function(state) {
-            _.assign(this.object, state.toJS());
-            this._unregisterUpdates();
+            this._dataObjectChangeService.handleDataChange(this.certificates, state);
         }
     },
 
     _inspectorTemplateDidLoad: {
         value: function (){
             var self = this;
+            this._dataObjectChangeService = new DataObjectChangeService();
             return this._sectionService.listCertificates().then(function (certificates) {
                 self.certificates = certificates;
             });
@@ -62,6 +44,7 @@ exports.Certificates = AbstractInspector.specialize({
             if (isFirsttime) {
                 this.addPathChangeListener("viewer.selectedObject", this, "_handleSelectedEntryChange");
             }
+            this.availableCertsEventListener = this.eventDispatcherService.addEventListener(ModelEventName.CryptoCertificate.listChange, this._handleChange.bind(this));
         }
     },
 

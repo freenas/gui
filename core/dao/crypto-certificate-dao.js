@@ -13,7 +13,9 @@ var Promise = require("bluebird");
 var CryptoCertificateDao = (function (_super) {
     __extends(CryptoCertificateDao, _super);
     function CryptoCertificateDao() {
-        return _super.call(this, model_1.Model.CryptoCertificate) || this;
+        return _super.call(this, model_1.Model.CryptoCertificate, {
+            eventName: 'entity-subscriber.crypto.certificate.changed'
+        }) || this;
     }
     CryptoCertificateDao.prototype.listCountryCodes = function () {
         return this.middlewareClient.callRpcMethod('crypto.certificate.get_country_codes');
