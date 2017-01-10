@@ -15,4 +15,12 @@ export class DockerContainerDao extends AbstractDao {
     public requestSerialConsole(containerId: string): Promise<string> {
         return this.middlewareClient.callRpcMethod('docker.container.request_serial_console', [containerId]);
     }
+
+    public start(container: any) {
+        return this.middlewareClient.submitTask('docker.container.start', [container.id]);
+    }
+
+    public stop(container: any) {
+        return this.middlewareClient.submitTask('docker.container.stop', [container.id]);
+    }
 }

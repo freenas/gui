@@ -209,6 +209,19 @@ exports.ContainerRepository = AbstractRepository.specialize({
         value: function(containerId) {
             return this._dockerContainerDao.requestSerialConsole(containerId);
         }
+    },
+
+    startContainer: {
+        value: function(container) {
+            return this._dockerContainerDao.start(container);
+        }
+    },
+
+    stopContainer: {
+        value: function(container) {
+            return this._dockerContainerDao.stop(container);
+        }
     }
+
 
 });
