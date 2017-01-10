@@ -7,18 +7,9 @@ var _ = require("lodash");
 
 exports.Certificates = AbstractInspector.specialize({
 
-    eventDispatcherService: {
-        get: function() {
-            if (!this._eventDispatcherService) {
-                this._eventDispatcherService = EventDispatcherService.getInstance();
-            }
-            return this._eventDispatcherService;
-        }
-    },
-
     exitDocument: {
         value: function() {
-            this.eventDispatcherService.removeEventListener(ModelEventName.CryptoCertificate.listChange, this.availableCertsEventListener);
+            this._eventDispatcherService.removeEventListener(ModelEventName.CryptoCertificate.listChange, this.availableCertsEventListener);
         }
     },
 
@@ -31,6 +22,7 @@ exports.Certificates = AbstractInspector.specialize({
     _inspectorTemplateDidLoad: {
         value: function (){
             var self = this;
+            this._eventDispatcherService = EventDispatcherService.getInstance()
             this._dataObjectChangeService = new DataObjectChangeService();
             return this._sectionService.listCertificates().then(function (certificates) {
                 self.certificates = certificates;
@@ -44,7 +36,7 @@ exports.Certificates = AbstractInspector.specialize({
             if (isFirsttime) {
                 this.addPathChangeListener("viewer.selectedObject", this, "_handleSelectedEntryChange");
             }
-            this.availableCertsEventListener = this.eventDispatcherService.addEventListener(ModelEventName.CryptoCertificate.listChange, this._handleChange.bind(this));
+            this.availableCertsEventListener = this._eventDispatcherService.addEventListener(ModelEventName.CryptoCertificate.listChange, this._handleChange.bind(this));
         }
     },
 
