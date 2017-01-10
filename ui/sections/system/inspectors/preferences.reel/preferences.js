@@ -1,13 +1,13 @@
-var Component = require("montage/ui/component").Component,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     Promise = require("montage/core/promise").Promise,
     _ = require("lodash");
 
-exports.Preferences = Component.specialize(/** @lends Preferences# */ {
+exports.Preferences = AbstractInspector.specialize({
 
     handleDownloadConfigAction: {
         value: function () {
             Promise.all([
-                this.application.systemService.getVersion(),
+                this._sectionService.getSystemVersion(),
                 this.application.systemService.getConfigFileAddress()
             ]).spread(function(systemVersion, taskReponse) {
                 var downloadLink = document.createElement("a");

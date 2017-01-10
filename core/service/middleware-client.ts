@@ -154,7 +154,7 @@ export class MiddlewareClient {
         let self = this,
             temporaryTaskId = uuid.v4();
         this.eventDispatcherService.dispatch('taskSubmitted', temporaryTaskId);
-        return this.callRpcMethod('task.submit_with_upload', _.concat([name], args)).spread(function(taskId, tokens) {
+        return this.callRpcMethod('task.submit_with_upload', [name, args]).spread(function(taskId, tokens) {
             self.eventDispatcherService.dispatch('taskCreated', {
                 old: temporaryTaskId,
                 new: taskId
