@@ -1,15 +1,16 @@
 /**
  * @module ui/volume-dataset-permissions.reel
  */
-var Component = require("montage/ui/component").Component,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     Model = require("core/model/model").Model,
     UnixPermissionsConverter = require("core/converter/unix-permissions-converter").UnixPermissionsConverter;
+
 
 /**
  * @class VolumeDatasetPermissions
  * @extends Component
  */
-exports.VolumeDatasetPermissions = Component.specialize(/** @lends VolumeDatasetPermissions# */ {
+exports.VolumeDatasetPermissions = AbstractInspector.specialize(/** @lends VolumeDatasetPermissions# */ {
 
     users: {
         value: null
@@ -45,7 +46,7 @@ exports.VolumeDatasetPermissions = Component.specialize(/** @lends VolumeDataset
                 this._object = object;
 
                 if (object) {
-                    this._ensureDefaultPermissionsAreSet();
+                    this._sectionService.ensureDefaultPermissionsAreSetOnDataset(this._object);
                 }
             }
         }

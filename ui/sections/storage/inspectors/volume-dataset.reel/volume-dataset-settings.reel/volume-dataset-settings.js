@@ -1,11 +1,11 @@
-var Component = require("montage/ui/component").Component,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     COMPRESSION_OPTIONS = require("core/model/enumerations/volume-dataset-property-compression-value").VolumeDatasetPropertyCompressionValue,
     DEDUP_OPTIONS = require("core/model/enumerations/volume-dataset-property-dedup-value").VolumeDatasetPropertyDedupValue,
     VOLBLOCKSIZE_OPTIONS = require("core/model/enumerations/volume-dataset-property-volblocksize-value").VolumeDatasetPropertyVolblocksizeValue;
 
 var ATIME_OPTIONS = {on: true, off: false};
 
-exports.VolumeDatasetSettings = Component.specialize({
+exports.VolumeDatasetSettings = AbstractInspector.specialize({
 
     volblocksizeDisplayMode: {
         value: null
@@ -73,7 +73,6 @@ exports.VolumeDatasetSettings = Component.specialize({
 
     templateDidLoad: {
         value: function() {
-
             this.compressionOptions = this._initializePropertyOptions(COMPRESSION_OPTIONS);
             this.dedupOptions = this._initializePropertyOptions(DEDUP_OPTIONS);
             this.atimeOptions = this._initializePropertyOptions(ATIME_OPTIONS);
