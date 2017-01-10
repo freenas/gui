@@ -9,10 +9,12 @@ var model_1 = require("../model");
 var DockerCollectionDao = (function (_super) {
     __extends(DockerCollectionDao, _super);
     function DockerCollectionDao() {
-        return _super.call(this, model_1.Model.DockerCollection) || this;
+        return _super.call(this, model_1.Model.DockerCollection, {
+            eventName: 'entity-subscriber.docker.collection.changed'
+        }) || this;
     }
     DockerCollectionDao.prototype.getImages = function (collection) {
-        return this.middlewareClient.callRpcMethod("docker.collection.get_entries", [collection.id]);
+        return this.middlewareClient.callRpcMethod('docker.collection.get_entries', [collection.id]);
     };
     return DockerCollectionDao;
 }(abstract_dao_1.AbstractDao));

@@ -9,7 +9,9 @@ var model_1 = require("../model");
 var DockerImageDao = (function (_super) {
     __extends(DockerImageDao, _super);
     function DockerImageDao() {
-        return _super.call(this, model_1.Model.DockerImage) || this;
+        return _super.call(this, model_1.Model.DockerImage, {
+            eventName: 'entity-subscriber.docker.image.changed'
+        }) || this;
     }
     return DockerImageDao;
 }(abstract_dao_1.AbstractDao));

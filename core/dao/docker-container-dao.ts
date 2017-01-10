@@ -1,11 +1,13 @@
 import { AbstractDao } from './abstract-dao';
-import {Model} from "../model";
-import Promise = require("bluebird");
+import {Model} from '../model';
+import * as Promise from 'bluebird';
 
 export class DockerContainerDao extends AbstractDao {
 
     public constructor() {
-        super(Model.DockerContainer);
+        super(Model.DockerContainer, {
+            eventName: 'entity-subscriber.docker.container.changed'
+        });
     }
 
     public requestInteractiveConsole(containerId: string): Promise<string> {
