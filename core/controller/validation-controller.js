@@ -1,54 +1,55 @@
-/**
- * @module core/controller/validation-controller
- */
 var Montage = require("montage/core/core").Montage,
     ValidationService = require("core/service/validation-service").ValidationService,
-    FastSet = require("collections/fast-set"),
-    FastMap = require("collections/fast-map");
-/**
- * @class ValidationController
- * @extends Montage
- */
-exports.ValidationController = Montage.specialize(/** @lends ValidationController# */ {
+    ModelDescriptorService = require("core/service/model-descriptor-service").ModelDescriptorService,
+    _ = require("lodash");
+
+exports.ValidationController = Montage.specialize({
     constructor: {
         value: function() {
             this._validationService = ValidationService.instance;
-            this._propertyToFieldsMapping = new FastMap();
-            this._mandatoryProperties = new FastSet();
-            this.missingProperties = new FastSet();
+            this._modelDescriptorService = ModelDescriptorService.getInstance();
+            this._propertyToFieldsMapping = new Map();
+            this._mandatoryProperties = new Set();
+            this.missingProperties = new Set();
+            this.hasMissingProperties = false;
         }
     },
 
     load: {
         value: function(form, object) {
+            var self = this;
             this._form = form;
             this._context = this._form.context;
             this._object = object || this._context.object;
             this._action = this._object._isNew ?
                 ValidationService.ACTIONS.CREATE :
                 ValidationService.ACTIONS.UPDATE;
-            this._type = this._object._objectType
-                || (this._object.Type && this._object.Type.typeName)
-                || (this._object.constructor.Type && this._object.constructor.Type.typeName);
-            this._loadFromObjectDescriptor();
-            this._loadFromFields();
-            this._linkErrorMessages();
+            this._type = this._object._objectType;
+            this.errorMessage = null;
+            this._loadFromObjectDescriptor().then(function() {
+                return self._loadFromFields();
+            }).then(function() {
+                return self._linkErrorMessages();
+            });
         }
     },
 
     _loadFromObjectDescriptor: {
         value: function() {
-            var propertyBlueprints = this._object.constructor.propertyBlueprints,
-                component, path;
-            if (propertyBlueprints) {
-                for (var i = 0, length = propertyBlueprints.length; i < length; i++) {
-                    path = propertyBlueprints[i].name;
-                    component = this._form.templateObjects[propertyBlueprints[i].name];
-                    if (component) {
-                        this._validateComponentWithPath(component, path);
-                    }
+            var self = this;
+            return this._modelDescriptorService.getPropertyDescriptorsForType(this._type).then(function(propertyBlueprints) {
+                var component;
+                if (propertyBlueprints) {
+                    return _.mapKeys(propertyBlueprints, function(value, path) {
+                        component = self._form.templateObjects[path];
+                        if (component) {
+                            return self._validateComponentWithPath(component, path);
+                        }
+                    });
+                } else {
+                    return null;
                 }
-            }
+            });
         }
     },
 
@@ -57,7 +58,7 @@ exports.ValidationController = Montage.specialize(/** @lends ValidationControlle
             if (this.fields && typeof this.fields === "object") {
                 var paths = Object.keys(this.fields),
                     path,
-                    components, component, j, componentsLength;
+                    components, j, componentsLength;
                 for (var i = 0, length = paths.length; i < length; i++) {
                     path = paths[i];
                     components = this.fields[path];
@@ -75,23 +76,28 @@ exports.ValidationController = Montage.specialize(/** @lends ValidationControlle
 
     _validateComponentWithPath: {
         value: function(component, path) {
+            var self = this;
             if (!this._propertyToFieldsMapping.has(path)) {
-                this._propertyToFieldsMapping.set(path, new FastSet());
+                this._propertyToFieldsMapping.set(path, new Set());
             }
+            this._cleanupComponentError(component);
             this._propertyToFieldsMapping.get(path).add(component);
-            component.isMandatory = this._validationService.isPropertyMandatory(this._type, path, this._action);
-            if (component.isMandatory) {
-                this.addPathChangeListener("_object." + path, this, "_handleMandatoryPropertyChange");
-                this._mandatoryProperties.add(path);
-                if (!this._validationService.isValid(this._type, path, this._action, this._object[path])) {
-                    this.missingProperties.add(path);
+            return this._validationService.isPropertyMandatory(this._type, path, this._action).then(function(isMandatory) {
+                component.isMandatory = isMandatory;
+                if (component.isMandatory) {
+                    self.addPathChangeListener("_object." + path, self, "_handleMandatoryPropertyChange");
+                    self._mandatoryProperties.add(path);
+                    if (!self._validationService.isValid(self._type, path, self._action, self._object[path])) {
+                        self.missingProperties.add(path);
+                        this.hasMissingProperties = true;
+                    }
+                } else {
+                    if (self.getPathChangeDescriptor("_object." + path, self)) {
+                        self.removePathChangeListener("_object." + path, self);
+                    }
                 }
-            } else {
-                if (this.getPathChangeDescriptor("_object." + path, this)) {
-                    this.removePathChangeListener("_object." + path, this);
-                }
-            }
-            component.hasError = false;
+                component.hasError = false;
+            });
         }
     },
 
@@ -103,6 +109,7 @@ exports.ValidationController = Montage.specialize(/** @lends ValidationControlle
             } else {
                 this.missingProperties.add(relativePath);
             }
+            this.hasMissingProperties = this.missingProperties.size > 0;
         }
     },
 
@@ -111,8 +118,8 @@ exports.ValidationController = Montage.specialize(/** @lends ValidationControlle
             if (this._context.error) {
                 var fieldErrors = this._context.error.extra;
                 if (fieldErrors) {
-                    var error, path, components,
-                        j, componentsLength, component;
+                    var error, components,
+                        j, componentsLength;
                     for (var i = 0, length = fieldErrors.length; i < length; i++) {
                         error = fieldErrors[i];
                         if (error.path.length > 1) {
@@ -139,6 +146,13 @@ exports.ValidationController = Montage.specialize(/** @lends ValidationControlle
         value: function(errorMessage, component) {
             component.hasError = true;
             component.errorMessage = errorMessage;
+        }
+    },
+
+    _cleanupComponentError: {
+        value: function(component) {
+            component.hasError = false;
+            component.errorMessage = null;
         }
     }
 });

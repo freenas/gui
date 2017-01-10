@@ -1,12 +1,11 @@
 var Montage = require("montage").Montage,
-    Services = require("core/model/services").Services,
-    FastMap = require("collections/fast-map"),
-    FastSet = require("collections/fast-set");
+    ModelDescriptorService = require("core/service/model-descriptor-service").ModelDescriptorService;
 
 var ValidationService = exports.ValidationService = Montage.specialize({
     constructor: {
         value: function() {
-            this._mandatoryPropertiesPerType = new FastMap();
+            this._mandatoryPropertiesPerType = new Map();
+            this._modelDescriptorService = ModelDescriptorService.getInstance();
         }
     },
 
@@ -15,7 +14,9 @@ var ValidationService = exports.ValidationService = Montage.specialize({
             if (!this._mandatoryPropertiesPerType.has(type)) {
                 this._loadTypeMandatoryProperties(type);
             }
-            return this._mandatoryPropertiesPerType.get(type).get(action).has(propertyName);
+            return this._mandatoryPropertiesPerType.get(type).then(function(mandatoryPropertiesPerAction) {
+                return mandatoryPropertiesPerAction.get(action).has(propertyName);
+            });
         }
     },
 
@@ -28,34 +29,36 @@ var ValidationService = exports.ValidationService = Montage.specialize({
 
     _isEmpty: {
         value: function(value) {
-            return typeof value === "undefined" || 
-                    (typeof value === "object" && !value) || 
+            return typeof value === "undefined" ||
+                    (typeof value === "object" && !value) ||
                     (typeof value === "string" && value.length == 0);
         }
     },
 
     _loadTypeMandatoryProperties: {
         value: function(type) {
-            var typeMandatoryPropertiesPerAction = new FastMap();
-            typeMandatoryPropertiesPerAction.set(ValidationService.ACTIONS.CREATE, this._getTypeMandatoryPropertiesForAction(type, ValidationService.ACTIONS.CREATE));
-            typeMandatoryPropertiesPerAction.set(ValidationService.ACTIONS.UPDATE, this._getTypeMandatoryPropertiesForAction(type, ValidationService.ACTIONS.UPDATE));
-            this._mandatoryPropertiesPerType.set(type, typeMandatoryPropertiesPerAction);
+            return this._mandatoryPropertiesPerType.set(type,
+                Promise.all([
+                    this._getTypeMandatoryPropertiesForAction(type, ValidationService.ACTIONS.CREATE),
+                    this._getTypeMandatoryPropertiesForAction(type, ValidationService.ACTIONS.UPDATE)
+                ]).spread(function(createMandatory, updateMandatory) {
+                    return new Map()
+                        .set(ValidationService.ACTIONS.CREATE, createMandatory)
+                        .set(ValidationService.ACTIONS.UPDATE, updateMandatory);
+                })
+            );
         }
     },
 
     _getTypeMandatoryPropertiesForAction: {
         value: function(type, action) {
-            var serviceDescriptors = Services.findServicesForType(type),
-                mandatoryProperties = new FastSet();
-            if (serviceDescriptors) {
-                var serviceDescriptor = serviceDescriptors[action];
-                if (serviceDescriptor) {
-                    if (serviceDescriptor.restrictions) {
-                        mandatoryProperties.addEach(serviceDescriptor.restrictions.requiredFields);
-                    }
-                }
-            }
-            return mandatoryProperties;
+            var self = this;
+            return this._modelDescriptorService.getDaoForType(type).then(function(dao) {
+                return self._modelDescriptorService.getTaskDescriptor(action === ValidationService.ACTIONS.CREATE ?
+                    dao.createMethod : dao.updateMethod);
+            }).then(function(taskDescriptor) {
+                return taskDescriptor ? taskDescriptor.get('mandatory') : [];
+            });
         }
     }
 

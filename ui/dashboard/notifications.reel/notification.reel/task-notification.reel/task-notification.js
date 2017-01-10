@@ -12,17 +12,6 @@ exports.TaskNotification = Component.specialize({
         }
     },
 
-/*
-    eventDispatcherService: {
-        get: function() {
-            if (!this._eventDispatcherService) {
-                this._eventDispatcherService = EventDispatcherService.getInstance();
-            }
-            return this._eventDispatcherService;
-        }
-    },
-*/
-
     _object: {
         value: null
     },
@@ -64,7 +53,13 @@ exports.TaskNotification = Component.specialize({
         value: function(state) {
             _.assign(this.object, state.toJS());
             if (this.object.state === 'FINISHED' || this.object.state === 'FAILED') {
+                var self = this;
                 this.object.progress.percentage = 100;
+                if (this.object.state === 'FINISHED') {
+                    setTimeout(function() {
+                        self.isExpired = true;
+                    }, 2000);
+                }
                 this._unregisterUpdates();
             }
         }

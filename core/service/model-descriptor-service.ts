@@ -11,6 +11,7 @@ export class ModelDescriptorService {
     private daoCache: Map<string, Promise<AbstractDao>>;
     private schema: Map<string, any>;
     private taskSchemaCache: Map<string, Map<string, any>>;
+    private taskSchemaPromise: Promise<Map<string, Map<string, any>>>;
 
     private readonly UI_DESCRIPTOR_PREFIX = 'core/model/user-interface-descriptors/';
     private readonly UI_DESCRIPTOR_SUFFIX = '-user-interface-descriptor.mjson';
@@ -109,17 +110,19 @@ if (typeof type !== 'string') debugger;
     private loadTasksDescriptors(): Promise<Map<string, any>> {
         return this.taskSchemaCache ?
             Promise.resolve(this.taskSchemaCache) :
-            this.middlewareClient.callRpcMethod('discovery.get_tasks').then((tasks) => {
-                this.taskSchemaCache = new Map<string, any>();
-                _.forEach(tasks, (task, taskName) => {
-                    this.taskSchemaCache.set(taskName, new Map<string, any>()
-                        .set('description', task.description)
-                        .set('abortable',   task.abortable)
-                        .set('mandatory',   this.getMandatoryProperties(task.schema))
-                        .set('forbidden',   this.getForbiddenProperties(task.schema)));
-                });
-                return this.taskSchemaCache;
-            });
+                this.taskSchemaPromise ?
+                    this.taskSchemaPromise :
+                    this.taskSchemaPromise = this.middlewareClient.callRpcMethod('discovery.get_tasks').then((tasks) => {
+                        this.taskSchemaCache = new Map<string, any>();
+                        _.forEach(tasks, (task, taskName) => {
+                            this.taskSchemaCache.set(taskName, new Map<string, any>()
+                                .set('description', task.description)
+                                .set('abortable',   task.abortable)
+                                .set('mandatory',   this.getMandatoryProperties(task.schema))
+                                .set('forbidden',   this.getForbiddenProperties(task.schema)));
+                        });
+                        return this.taskSchemaCache;
+                    });
     }
 
     private getMandatoryProperties(schema: Array<any>): Array<string> {
@@ -138,10 +141,9 @@ if (typeof type !== 'string') debugger;
             Promise.resolve(this.schema) :
             this.middlewareClient.callRpcMethod('discovery.get_schema').then(function(schema: any) {
                 self.schema = new Map<string, any>();
-                for (let schemaType in schema.definitions) {
-                    let objectType = _.upperFirst(_.camelCase(schemaType));
-                    self.schema.set(objectType, schema.definitions[schemaType]);
-                }
+                _.forIn(schema.definitions, (definition, type) => {
+                    self.schema.set(_.upperFirst(_.camelCase(type)), definition);
+                });
                 return self.schema;
             });
     }
