@@ -17,6 +17,12 @@ var DockerContainerDao = (function (_super) {
     DockerContainerDao.prototype.requestSerialConsole = function (containerId) {
         return this.middlewareClient.callRpcMethod('docker.container.request_serial_console', [containerId]);
     };
+    DockerContainerDao.prototype.start = function (container) {
+        return this.middlewareClient.submitTask('docker.container.start', [container.id]);
+    };
+    DockerContainerDao.prototype.stop = function (container) {
+        return this.middlewareClient.submitTask('docker.container.stop', [container.id]);
+    };
     return DockerContainerDao;
 }(abstract_dao_1.AbstractDao));
 exports.DockerContainerDao = DockerContainerDao;

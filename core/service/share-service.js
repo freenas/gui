@@ -2,10 +2,10 @@ var Montage = require("montage").Montage,
     ShareTargettype = require("core/model/enumerations/share-targettype").ShareTargettype,
     application = require("montage/core/application").application,
     FreeNASService = require("core/service/freenas-service").FreeNASService,
-    StorageService = require("core/service/storage-service").StorageService,
     ShareRepository = require("core/repository/share-repository").ShareRepository,
     Promise = require("montage/core/promise").Promise,
     Model = require("core/model/model").Model,
+    bytes = require("bytes"),
     _ = require("lodash");
 
 var ShareService = exports.ShareService = Montage.specialize({
@@ -57,7 +57,10 @@ var ShareService = exports.ShareService = Montage.specialize({
 
                 shareObject.properties = {};
                 shareObject.properties["%type"] = 'share-' + shareObject.type;
-                populatedSharePromise = this.shareRepository.getNewPermissions().then(function(permissions) {
+                populatedSharePromise = Promise.all([
+                    this.shareRepository.getNewPermissions(),
+                    this.shareRepository.getNewUnixPermissions()
+                ]).spread(function(permissions, unixPermissions) {
                     shareObject.permissions = _.cloneDeep(permissions);
 
                     if (shareTypes.SMB === shareObject.type) {
@@ -79,9 +82,9 @@ var ShareService = exports.ShareService = Montage.specialize({
                             lun: 0
                         });
                     } else if (shareTypes.AFP === shareObject.type) {
-                        shareObject.properties.default_file_perms = _.cloneDeep(permissions);
-                        shareObject.properties.default_directory_perms = _.cloneDeep(permissions);
-                        shareObject.properties.default_umask = _.cloneDeep(permissions);
+                        shareObject.properties.default_file_perms = _.cloneDeep(unixPermissions);
+                        shareObject.properties.default_directory_perms = _.cloneDeep(unixPermissions);
+                        shareObject.properties.default_umask = _.cloneDeep(unixPermissions);
                     }
 
                     return shareObject;
@@ -188,11 +191,11 @@ var ShareService = exports.ShareService = Montage.specialize({
                 datasetProperties = null;
 
             if (typeof blockSize === "string") {
-                shareObject.properties.block_size = this._storageService.convertSizeStringToBytes(blockSize);
+                shareObject.properties.block_size = bytes.parse(blockSize);
             }
 
             if (typeof size === "string") {
-                shareObject.properties.size = this._storageService.convertSizeStringToBytes(size);
+                shareObject.properties.size = bytes.parse(size);
             }
 
             if (isNewShareObject && shareObject.target_type === 'ZVOL' && !shareObject.properties.refreservation) {
@@ -268,7 +271,6 @@ var ShareService = exports.ShareService = Montage.specialize({
             if (!this._instance) {
                 this._instance = new ShareService();
                 this._instance._dataService = FreeNASService.instance;
-                this._instance._storageService = StorageService.instance;
                 this._instance.shareRepository = ShareRepository.getInstance();
             }
 

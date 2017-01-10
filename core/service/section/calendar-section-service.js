@@ -7,6 +7,8 @@ var __extends = (this && this.__extends) || function (d, b) {
 var calendar_repository_1 = require("../../repository/calendar-repository");
 var task_repository_1 = require("../../repository/task-repository");
 var abstract_section_service_ng_1 = require("./abstract-section-service-ng");
+var disk_repository_1 = require("../../repository/disk-repository");
+var volume_repository_1 = require("../../repository/volume-repository");
 var CalendarSectionService = (function (_super) {
     __extends(CalendarSectionService, _super);
     function CalendarSectionService() {
@@ -23,6 +25,8 @@ var CalendarSectionService = (function (_super) {
     CalendarSectionService.prototype.init = function () {
         this.calendarRepository = calendar_repository_1.CalendarRepository.getInstance();
         this.taskRepository = task_repository_1.TaskRepository.getInstance();
+        this.diskRepository = disk_repository_1.DiskRepository.getInstance();
+        this.volumeRepository = volume_repository_1.VolumeRepository.getInstance();
     };
     CalendarSectionService.prototype.loadEntries = function () {
         return this.calendarRepository.getNewCalendarInstance().then(function (calendar) {
@@ -55,6 +59,12 @@ var CalendarSectionService = (function (_super) {
     };
     CalendarSectionService.prototype.updateScheduleOnTask = function (task) {
         this.calendarRepository.updateScheduleOnTask(task);
+    };
+    CalendarSectionService.prototype.listDisks = function () {
+        return this.diskRepository.listDisks();
+    };
+    CalendarSectionService.prototype.listVolumes = function () {
+        return this.volumeRepository.listVolumes();
     };
     return CalendarSectionService;
 }(abstract_section_service_ng_1.AbstractSectionService));

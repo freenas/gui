@@ -58,7 +58,7 @@ exports.VolumeDatasetPermissions = Component.specialize(/** @lends VolumeDataset
     _fetchGroupsPromise: {
         value: null
     },
-    
+
     templateDidLoad: {
         value: function () {
             //Preload data before entering in the dom, in order to avoid graphic glitches
@@ -71,21 +71,7 @@ exports.VolumeDatasetPermissions = Component.specialize(/** @lends VolumeDataset
         value: function () {
             this._loadUsersIfNeeded();
             this._loadGroupsIfNeeded();
-            this._ensureDefaultPermissionsAreSet();
-        }
-    },
-
-    _ensureDefaultPermissionsAreSet: {
-        value: function () {
-            var self = this;
-
-            return this.application.storageService.ensureDefaultPermissionsAreSet(this._object)
-                .then(function() {
-                    // Set default permissions when creating datasets
-                    if (self._object._isNew) {
-                        self._object.permissions.modes = self.permissionsConverter.revert('775');
-                    }
-                });
+            this._sectionService.ensureDefaultPermissionsAreSetOnDataset(this._object);
         }
     },
 

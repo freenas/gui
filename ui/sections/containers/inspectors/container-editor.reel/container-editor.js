@@ -51,13 +51,13 @@ exports.ContainerEditor = AbstractInspector.specialize({
 
     handleStartAction: {
         value: function() {
-            this.object.services.start(this.object.id);
+            this._sectionService.startContainer(this.object);
         }
     },
 
     handleStopAction: {
         value: function() {
-            this.object.services.stop(this.object.id);
+            this._sectionService.stopContainer(this.object);
         }
     },
 

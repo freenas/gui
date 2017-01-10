@@ -5,7 +5,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var abstract_dao_1 = require("./abstract-dao");
+var methodCleaner_1 = require("../service/data-processor/methodCleaner");
+var cleaner_1 = require("../service/data-processor/cleaner");
+var null_1 = require("../service/data-processor/null");
 var model_1 = require("../model");
+var Promise = require("bluebird");
 var CryptoCertificateDao = (function (_super) {
     __extends(CryptoCertificateDao, _super);
     function CryptoCertificateDao() {
@@ -13,6 +17,19 @@ var CryptoCertificateDao = (function (_super) {
     }
     CryptoCertificateDao.prototype.listCountryCodes = function () {
         return this.middlewareClient.callRpcMethod('crypto.certificate.get_country_codes');
+    };
+    CryptoCertificateDao.prototype.import = function (certificate) {
+        var _this = this;
+        var taskName = 'crypto.certificate.import';
+        return Promise.all([
+            this.loadPropertyDescriptors(),
+            this.loadTaskDescriptor(taskName)
+        ]).spread(function (propertyDescriptors, methodDescriptor) {
+            var newObject = methodCleaner_1.processor.process(null_1.processor.process(cleaner_1.processor.process(certificate, propertyDescriptors)), methodDescriptor);
+            if (newObject) {
+                return _this.middlewareClient.submitTask(taskName, [newObject]);
+            }
+        });
     };
     return CryptoCertificateDao;
 }(abstract_dao_1.AbstractDao));

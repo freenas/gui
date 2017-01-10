@@ -12,10 +12,10 @@ exports.Overview = AbstractInspector.specialize({
             this.isLoading = true;
             this.systemInfo = {};
             return Promise.all([
-                this.application.systemService.getGeneral().then(function (systemGeneral) {
+                this._sectionService.getSystemGeneral().then(function (systemGeneral) {
                     self.systemInfo.general = systemGeneral;
                 }),
-                this.application.systemService.getTime().then(function (time) {
+                this._sectionService.getSystemTime().then(function (time) {
                     self.systemTime = time
                 }),
                 this._sectionService.listVms().then(function (virtualMachines) {
@@ -24,32 +24,32 @@ exports.Overview = AbstractInspector.specialize({
                 this._sectionService.listContainers().then(function (dockerContainers) {
                     self.containers = dockerContainers;
                 }),
-                this.application.storageService.listDatasets().then(function (datasetList) {
+                this._sectionService.listVolumeDatasets().then(function (datasetList) {
                     self.systemInfo.datasets = datasetList;
                 }),
-                this.application.storageService.listVolumeSnapshots().then(function (snapshots) {
+                this._sectionService.listVolumeSnapshots().then(function (snapshots) {
                     self.systemInfo.snapshots = snapshots;
                 }),
-                this.application.storageService.getShareData().then(function (shares) {
+                this._sectionService.listShares().then(function (shares) {
                     self.systemInfo.shares = shares;
                 }),
-                this.application.systemService.getVersion().then(function (version) {
+                this._sectionService.getSystemVersion().then(function (version) {
                     self.systemInfo.systemVersion = version;
                 }),
-                this.application.peeringService.listPeers().then(function (peers) {
+                this._sectionService.listPeers().then(function (peers) {
                     self.systemInfo.peers = peers;
                 }),
-                this.application.replicationService.listReplications().then(function (replications) {
+                this._sectionService.listReplications().then(function (replications) {
                     self.systemInfo.replications = replications;
                 }),
-                this.application.storageService.listVolumes().then(function (volumes) {
+                this._sectionService.listVolumes().then(function (volumes) {
                     self.systemInfo.volumes = volumes;
                 }),
-                this.application.storageService.listDisks().then(function (disks) {
+                this._sectionService.listDisks().then(function (disks) {
                     self.systemInfo.disks = disks
                 }),
-                this.application.systemService.getSystemDatasetPool().then(function(systemDatasetPool) {
-                    self.systemDatasetData = systemDatasetPool.pool;
+                this._sectionService.getSystemDataset().then(function(systemDataset) {
+                    self.systemDatasetData = systemDataset.pool;
                 }),
                 this._sectionService.listNetworkInterfaces().then(function (totalNetworkInterfaces) {
                     self.systemInfo.totalNetworkInterfaces = totalNetworkInterfaces;

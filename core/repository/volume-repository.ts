@@ -9,13 +9,25 @@ import {DetachedVolumeDao} from '../dao/detached-volume-dao';
 import {EncryptedVolumeImporterDao} from '../dao/encrypted-volume-importer-dao';
 import {ZfsTopologyDao} from '../dao/zfs-topology-dao';
 import {ModelEventName} from '../model-event-name';
-import {Map} from 'immutable';
 import {Model} from '../model';
 import {ZfsVdevDao} from '../dao/zfs-vdev-dao';
 import {DatastoreService} from '../service/datastore-service';
+import {VolumeDatasetPropertiesDao} from '../dao/volume-dataset-properties-dao';
+import {VolumeDatasetPropertyAtimeDao} from '../dao/volume-dataset-property-atime-dao';
+import {VolumeDatasetPropertyCasesensitivityDao} from '../dao/volume-dataset-property-casesensitivity-dao';
+import {VolumeDatasetPropertyCompressionDao} from '../dao/volume-dataset-property-compression-dao';
+import {VolumeDatasetPropertyDedupDao} from '../dao/volume-dataset-property-dedup-dao';
+import {VolumeDatasetPropertyQuotaDao} from '../dao/volume-dataset-property-quota-dao';
+import {VolumeDatasetPropertyRefquotaDao} from '../dao/volume-dataset-property-refquota-dao';
+import {VolumeDatasetPropertyVolblocksizeDao} from '../dao/volume-dataset-property-volblocksize-dao';
+import {VolumeDatasetPropertyRefreservationDao} from '../dao/volume-dataset-property-refreservation-dao';
+import {VolumeDatasetPropertyReservationDao} from '../dao/volume-dataset-property-reservation-dao';
 
+import {Map} from 'immutable';
 import * as Promise from 'bluebird';
-import _ = require('lodash');
+import * as bytes from 'bytes';
+import * as _ from 'lodash';
+import {PermissionsDao} from '../dao/permissions-dao';
 
 export class VolumeRepository extends AbstractRepository {
     private static instance: VolumeRepository;
@@ -25,6 +37,10 @@ export class VolumeRepository extends AbstractRepository {
     private volumeDatasets: Map<string, Map<string, any>>;
 
     public static readonly TOPOLOGY_KEYS = ['data', 'cache', 'log', 'spare'];
+    public static readonly INHERITED = 'INHERITED';
+    private static readonly DEFAULT_VOLBLOCKSIZE = 512;
+    private readonly DEFAULT_SOURCE_SETTING = {source: VolumeRepository.INHERITED};
+    private readonly DEFAULT_VOLBLOCKSIZE_SETTING = {parsed: VolumeRepository.DEFAULT_VOLBLOCKSIZE};
 
     private constructor(
         private volumeDao: VolumeDao,
@@ -37,7 +53,18 @@ export class VolumeRepository extends AbstractRepository {
         private encryptedVolumeImporterDao: EncryptedVolumeImporterDao,
         private zfsTopologyDao: ZfsTopologyDao,
         private zfsVdevDao: ZfsVdevDao,
-        private datastoreService: DatastoreService
+        private datastoreService: DatastoreService,
+        private volumeDatasetPropertiesDao: VolumeDatasetPropertiesDao,
+        private volumeDatasetPropertyAtimeDao: VolumeDatasetPropertyAtimeDao,
+        private volumeDatasetPropertyCasesensitivityDao: VolumeDatasetPropertyCasesensitivityDao,
+        private volumeDatasetPropertyCompressionDao: VolumeDatasetPropertyCompressionDao,
+        private volumeDatasetPropertyDedupDao: VolumeDatasetPropertyDedupDao,
+        private volumeDatasetPropertyQuotaDao: VolumeDatasetPropertyQuotaDao,
+        private volumeDatasetPropertyRefquotaDao: VolumeDatasetPropertyRefquotaDao,
+        private volumeDatasetPropertyVolblocksizeDao: VolumeDatasetPropertyVolblocksizeDao,
+        private volumeDatasetPropertyRefreservationDao: VolumeDatasetPropertyRefreservationDao,
+        private volumeDatasetPropertyReservationDao: VolumeDatasetPropertyReservationDao,
+        private permissionsDao: PermissionsDao
     ) {
         super([
             Model.Volume,
@@ -60,7 +87,18 @@ export class VolumeRepository extends AbstractRepository {
                 new EncryptedVolumeImporterDao(),
                 new ZfsTopologyDao(),
                 new ZfsVdevDao(),
-                DatastoreService.getInstance()
+                DatastoreService.getInstance(),
+                new VolumeDatasetPropertiesDao(),
+                new VolumeDatasetPropertyAtimeDao(),
+                new VolumeDatasetPropertyCasesensitivityDao(),
+                new VolumeDatasetPropertyCompressionDao(),
+                new VolumeDatasetPropertyDedupDao(),
+                new VolumeDatasetPropertyQuotaDao(),
+                new VolumeDatasetPropertyRefquotaDao(),
+                new VolumeDatasetPropertyVolblocksizeDao(),
+                new VolumeDatasetPropertyRefreservationDao(),
+                new VolumeDatasetPropertyReservationDao(),
+                new PermissionsDao()
             );
         }
         return VolumeRepository.instance;
@@ -104,10 +142,6 @@ export class VolumeRepository extends AbstractRepository {
                 (allocation, path) => this.setDiskAllocation(path, allocation)
             )
         );
-    }
-
-    public getAvailableDisks(): Promise<Array<string>> {
-        return this.volumeDao.getAvailableDisks();
     }
 
     public getVdevRecommendations(): Promise<Object> {
@@ -209,6 +243,59 @@ export class VolumeRepository extends AbstractRepository {
 
     public getNewZfsVdev() {
         return this.zfsVdevDao.getNewInstance();
+    }
+    public initializeDatasetProperties(dataset: any) {
+        return dataset.properties ?
+            Promise.resolve(dataset) :
+            Promise.all([
+                this.volumeDatasetPropertiesDao.getNewInstance(),
+                this.volumeDatasetPropertyAtimeDao.getNewInstance(),
+                this.volumeDatasetPropertyCasesensitivityDao.getNewInstance(),
+                this.volumeDatasetPropertyCompressionDao.getNewInstance(),
+                this.volumeDatasetPropertyDedupDao.getNewInstance(),
+                this.volumeDatasetPropertyQuotaDao.getNewInstance(),
+                this.volumeDatasetPropertyRefquotaDao.getNewInstance(),
+                this.volumeDatasetPropertyVolblocksizeDao.getNewInstance(),
+                this.volumeDatasetPropertyRefreservationDao.getNewInstance(),
+                this.volumeDatasetPropertyReservationDao.getNewInstance()
+            ]).spread((properties: any,
+                       atime,
+                       casesensitivity,
+                       compression,
+                       dedup,
+                       quota,
+                       refquota,
+                       volblocksize,
+                       refreservation,
+                       reservation) => {
+                properties.atime = _.assign(atime, this.DEFAULT_SOURCE_SETTING);
+                properties.casesensitivity = _.assign(casesensitivity, this.DEFAULT_SOURCE_SETTING);
+                properties.dedup = _.assign(dedup, this.DEFAULT_SOURCE_SETTING);
+                properties.compression = _.assign(compression, this.DEFAULT_SOURCE_SETTING);
+                properties.quota = quota;
+                properties.refquota = refquota;
+                properties.volblocksize = _.assign(volblocksize, this.DEFAULT_VOLBLOCKSIZE_SETTING);
+                properties.refreservation = refreservation;
+                properties.reservation = reservation;
+
+                dataset.properties = properties;
+            });
+    }
+
+    public convertVolumeDatasetSizeProperties(dataset: any) {
+        if (dataset.type === 'FILESYSTEM') {
+            dataset.properties.quota.parsed = bytes.parse(dataset.properties.quota.value);
+            dataset.properties.refquota.parsed = bytes.parse(dataset.properties.refquota.value);
+            dataset.properties.reservation.parsed = bytes.parse(dataset.properties.reservation.value);
+            dataset.properties.refreservation.parsed = bytes.parse(dataset.properties.refreservation.value);
+        } else {
+            dataset.volsize = bytes.parse(dataset.volsize);
+        }
+    }
+
+    // FIXME May need to be moved at a higher level (PermissionsService ?)
+    public getNewPermissions() {
+        return this.permissionsDao.getNewInstance();
     }
 
     private cleanupTopology(topology: any) {

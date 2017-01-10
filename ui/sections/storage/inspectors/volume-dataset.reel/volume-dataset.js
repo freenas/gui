@@ -88,8 +88,7 @@ exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# *
                 this.name = null;
                 this.treeController.open();
             }
-            var storageService = this.application.storageService;
-            storageService.initializeDatasetProperties(this.object);
+            this._sectionService.initializeDatasetProperties(this.object);
 
             if (isFirstTime) {
                 this.addPathChangeListener('object.type', this, '_handleExtraValidation');
@@ -120,7 +119,7 @@ exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# *
             } else if (this.object.type === "VOLUME") {
                 this.object.permissions = undefined;
             }
-            this.application.storageService.convertVolumeDatasetSizeProperties(this.object);
+            this._sectionService.convertVolumeDatasetSizeProperties(this.object);
 
             return this.inspector.save.apply(this.inspector, this.object._recursive ? [this.object._recursive] : []);
         }

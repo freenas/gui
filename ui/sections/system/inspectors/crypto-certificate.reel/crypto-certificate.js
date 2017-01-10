@@ -1,31 +1,22 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    CryptoCertificateType = require("core/model/enumerations/crypto-certificate-type").CryptoCertificateType;
+    _ = require("lodash");
 
 exports.CryptoCertificate = AbstractInspector.specialize({
     enterDocument: {
         value: function () {
             this.super();
             if (!this.object._action && !this.object._isNew) {
-                this.object._action = 'creation';
+                this.object._action = this._sectionService.CREATION;
             }
         }
     },
+
     save: {
         value: function () {
-            if (this.certificateComponent && typeof this.certificateComponent.save === 'function') {
+            if (_.isFunction(this.certificateComponent.save)) {
                 this.certificateComponent.save();
             }
-            if (this.object._action === 'import') {
-                this.application.cryptoCertificateService.import(this.object);
-            } else {
-                if ( [null, "Self Signed"].indexOf(this.object.signing_ca_name) !== -1 &&
-                    [CryptoCertificateType.CA_INTERNAL, CryptoCertificateType.CERT_INTERNAL].indexOf(this.object.type) !== -1
-                ) {
-                    this.signing_ca_name = null;
-                    this.object.selfsigned = true;
-                }
-                this.inspector.save();
-            }
+            return this._sectionService.saveCertificate(this.object);
         }
     }
 });

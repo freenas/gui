@@ -60,19 +60,19 @@ exports.Preferences = Component.specialize(/** @lends Preferences# */ {
             if(isFirstTime) {
                 this.isLoading = true;
                 loadingPromises.push(
-                    this.application.systemService.getAdvanced().then(function(advanced) {
+                    this._sectionService.getSystemAdvanced().then(function(advanced) {
                         self.systemAdvancedData = advanced;
                     }),
-                    this.application.systemService.getGeneral().then(function(systemGeneral) {
+                    this._sectionService.getSystemGeneral().then(function(systemGeneral) {
                         self.systemGeneralData = systemGeneral;
                     }),
                     this.application.systemService.getBootPoolConfig().then(function(bootPool){
                         self.datasetOptions.push({label:"Boot Pool", value:bootPool["id"]});
                     }),
-                    this.application.systemService.getSystemDatasetPool().then(function(systemDatasetPool) {
-                        self.systemDatasetData = systemDatasetPool.pool;
+                    this._sectionService.getSystemDataset().then(function(systemDataset) {
+                        self.systemDatasetData = systemDataset.pool;
                     }),
-                    this.application.storageService.listVolumes().then(function(volumesList) {
+                    this._sectionService.listVolumes().then(function(volumesList) {
                         for (var i = 0; i < volumesList.length; i++) {
                             self.datasetOptions.push({label:volumesList[i]["id"], value:volumesList[i]["id"]});
                         }

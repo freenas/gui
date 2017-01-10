@@ -18,11 +18,23 @@ var model_event_name_1 = require("../model-event-name");
 var model_1 = require("../model");
 var zfs_vdev_dao_1 = require("../dao/zfs-vdev-dao");
 var datastore_service_1 = require("../service/datastore-service");
+var volume_dataset_properties_dao_1 = require("../dao/volume-dataset-properties-dao");
+var volume_dataset_property_atime_dao_1 = require("../dao/volume-dataset-property-atime-dao");
+var volume_dataset_property_casesensitivity_dao_1 = require("../dao/volume-dataset-property-casesensitivity-dao");
+var volume_dataset_property_compression_dao_1 = require("../dao/volume-dataset-property-compression-dao");
+var volume_dataset_property_dedup_dao_1 = require("../dao/volume-dataset-property-dedup-dao");
+var volume_dataset_property_quota_dao_1 = require("../dao/volume-dataset-property-quota-dao");
+var volume_dataset_property_refquota_dao_1 = require("../dao/volume-dataset-property-refquota-dao");
+var volume_dataset_property_volblocksize_dao_1 = require("../dao/volume-dataset-property-volblocksize-dao");
+var volume_dataset_property_refreservation_dao_1 = require("../dao/volume-dataset-property-refreservation-dao");
+var volume_dataset_property_reservation_dao_1 = require("../dao/volume-dataset-property-reservation-dao");
 var Promise = require("bluebird");
+var bytes = require("bytes");
 var _ = require("lodash");
+var permissions_dao_1 = require("../dao/permissions-dao");
 var VolumeRepository = (function (_super) {
     __extends(VolumeRepository, _super);
-    function VolumeRepository(volumeDao, volumeSnapshotDao, volumeDatasetDao, volumeImporterDao, encryptedVolumeActionsDao, volumeVdevRecommendationsDao, detachedVolumeDao, encryptedVolumeImporterDao, zfsTopologyDao, zfsVdevDao, datastoreService) {
+    function VolumeRepository(volumeDao, volumeSnapshotDao, volumeDatasetDao, volumeImporterDao, encryptedVolumeActionsDao, volumeVdevRecommendationsDao, detachedVolumeDao, encryptedVolumeImporterDao, zfsTopologyDao, zfsVdevDao, datastoreService, volumeDatasetPropertiesDao, volumeDatasetPropertyAtimeDao, volumeDatasetPropertyCasesensitivityDao, volumeDatasetPropertyCompressionDao, volumeDatasetPropertyDedupDao, volumeDatasetPropertyQuotaDao, volumeDatasetPropertyRefquotaDao, volumeDatasetPropertyVolblocksizeDao, volumeDatasetPropertyRefreservationDao, volumeDatasetPropertyReservationDao, permissionsDao) {
         var _this = _super.call(this, [
             model_1.Model.Volume,
             model_1.Model.VolumeDataset,
@@ -40,11 +52,24 @@ var VolumeRepository = (function (_super) {
         _this.zfsTopologyDao = zfsTopologyDao;
         _this.zfsVdevDao = zfsVdevDao;
         _this.datastoreService = datastoreService;
+        _this.volumeDatasetPropertiesDao = volumeDatasetPropertiesDao;
+        _this.volumeDatasetPropertyAtimeDao = volumeDatasetPropertyAtimeDao;
+        _this.volumeDatasetPropertyCasesensitivityDao = volumeDatasetPropertyCasesensitivityDao;
+        _this.volumeDatasetPropertyCompressionDao = volumeDatasetPropertyCompressionDao;
+        _this.volumeDatasetPropertyDedupDao = volumeDatasetPropertyDedupDao;
+        _this.volumeDatasetPropertyQuotaDao = volumeDatasetPropertyQuotaDao;
+        _this.volumeDatasetPropertyRefquotaDao = volumeDatasetPropertyRefquotaDao;
+        _this.volumeDatasetPropertyVolblocksizeDao = volumeDatasetPropertyVolblocksizeDao;
+        _this.volumeDatasetPropertyRefreservationDao = volumeDatasetPropertyRefreservationDao;
+        _this.volumeDatasetPropertyReservationDao = volumeDatasetPropertyReservationDao;
+        _this.permissionsDao = permissionsDao;
+        _this.DEFAULT_SOURCE_SETTING = { source: VolumeRepository.INHERITED };
+        _this.DEFAULT_VOLBLOCKSIZE_SETTING = { parsed: VolumeRepository.DEFAULT_VOLBLOCKSIZE };
         return _this;
     }
     VolumeRepository.getInstance = function () {
         if (!VolumeRepository.instance) {
-            VolumeRepository.instance = new VolumeRepository(new volume_dao_1.VolumeDao(), new volume_snapshot_dao_1.VolumeSnapshotDao(), new volume_dataset_dao_1.VolumeDatasetDao(), new volume_importer_dao_1.VolumeImporterDao(), new encrypted_volume_actions_dao_1.EncryptedVolumeActionsDao(), new volume_vdev_recommendations_dao_1.VolumeVdevRecommendationsDao(), new detached_volume_dao_1.DetachedVolumeDao(), new encrypted_volume_importer_dao_1.EncryptedVolumeImporterDao(), new zfs_topology_dao_1.ZfsTopologyDao(), new zfs_vdev_dao_1.ZfsVdevDao(), datastore_service_1.DatastoreService.getInstance());
+            VolumeRepository.instance = new VolumeRepository(new volume_dao_1.VolumeDao(), new volume_snapshot_dao_1.VolumeSnapshotDao(), new volume_dataset_dao_1.VolumeDatasetDao(), new volume_importer_dao_1.VolumeImporterDao(), new encrypted_volume_actions_dao_1.EncryptedVolumeActionsDao(), new volume_vdev_recommendations_dao_1.VolumeVdevRecommendationsDao(), new detached_volume_dao_1.DetachedVolumeDao(), new encrypted_volume_importer_dao_1.EncryptedVolumeImporterDao(), new zfs_topology_dao_1.ZfsTopologyDao(), new zfs_vdev_dao_1.ZfsVdevDao(), datastore_service_1.DatastoreService.getInstance(), new volume_dataset_properties_dao_1.VolumeDatasetPropertiesDao(), new volume_dataset_property_atime_dao_1.VolumeDatasetPropertyAtimeDao(), new volume_dataset_property_casesensitivity_dao_1.VolumeDatasetPropertyCasesensitivityDao(), new volume_dataset_property_compression_dao_1.VolumeDatasetPropertyCompressionDao(), new volume_dataset_property_dedup_dao_1.VolumeDatasetPropertyDedupDao(), new volume_dataset_property_quota_dao_1.VolumeDatasetPropertyQuotaDao(), new volume_dataset_property_refquota_dao_1.VolumeDatasetPropertyRefquotaDao(), new volume_dataset_property_volblocksize_dao_1.VolumeDatasetPropertyVolblocksizeDao(), new volume_dataset_property_refreservation_dao_1.VolumeDatasetPropertyRefreservationDao(), new volume_dataset_property_reservation_dao_1.VolumeDatasetPropertyReservationDao(), new permissions_dao_1.PermissionsDao());
         }
         return VolumeRepository.instance;
     };
@@ -75,9 +100,6 @@ var VolumeRepository = (function (_super) {
     VolumeRepository.prototype.initializeDisksAllocations = function (diskIds) {
         var _this = this;
         this.volumeDao.getDisksAllocation(diskIds).then(function (allocations) { return _.forIn(allocations, function (allocation, path) { return _this.setDiskAllocation(path, allocation); }); });
-    };
-    VolumeRepository.prototype.getAvailableDisks = function () {
-        return this.volumeDao.getAvailableDisks();
     };
     VolumeRepository.prototype.getVdevRecommendations = function () {
         return this.volumeVdevRecommendationsDao.get();
@@ -161,6 +183,49 @@ var VolumeRepository = (function (_super) {
     };
     VolumeRepository.prototype.getNewZfsVdev = function () {
         return this.zfsVdevDao.getNewInstance();
+    };
+    VolumeRepository.prototype.initializeDatasetProperties = function (dataset) {
+        var _this = this;
+        return dataset.properties ?
+            Promise.resolve(dataset) :
+            Promise.all([
+                this.volumeDatasetPropertiesDao.getNewInstance(),
+                this.volumeDatasetPropertyAtimeDao.getNewInstance(),
+                this.volumeDatasetPropertyCasesensitivityDao.getNewInstance(),
+                this.volumeDatasetPropertyCompressionDao.getNewInstance(),
+                this.volumeDatasetPropertyDedupDao.getNewInstance(),
+                this.volumeDatasetPropertyQuotaDao.getNewInstance(),
+                this.volumeDatasetPropertyRefquotaDao.getNewInstance(),
+                this.volumeDatasetPropertyVolblocksizeDao.getNewInstance(),
+                this.volumeDatasetPropertyRefreservationDao.getNewInstance(),
+                this.volumeDatasetPropertyReservationDao.getNewInstance()
+            ]).spread(function (properties, atime, casesensitivity, compression, dedup, quota, refquota, volblocksize, refreservation, reservation) {
+                properties.atime = _.assign(atime, _this.DEFAULT_SOURCE_SETTING);
+                properties.casesensitivity = _.assign(casesensitivity, _this.DEFAULT_SOURCE_SETTING);
+                properties.dedup = _.assign(dedup, _this.DEFAULT_SOURCE_SETTING);
+                properties.compression = _.assign(compression, _this.DEFAULT_SOURCE_SETTING);
+                properties.quota = quota;
+                properties.refquota = refquota;
+                properties.volblocksize = _.assign(volblocksize, _this.DEFAULT_VOLBLOCKSIZE_SETTING);
+                properties.refreservation = refreservation;
+                properties.reservation = reservation;
+                dataset.properties = properties;
+            });
+    };
+    VolumeRepository.prototype.convertVolumeDatasetSizeProperties = function (dataset) {
+        if (dataset.type === 'FILESYSTEM') {
+            dataset.properties.quota.parsed = bytes.parse(dataset.properties.quota.value);
+            dataset.properties.refquota.parsed = bytes.parse(dataset.properties.refquota.value);
+            dataset.properties.reservation.parsed = bytes.parse(dataset.properties.reservation.value);
+            dataset.properties.refreservation.parsed = bytes.parse(dataset.properties.refreservation.value);
+        }
+        else {
+            dataset.volsize = bytes.parse(dataset.volsize);
+        }
+    };
+    // FIXME May need to be moved at a higher level (PermissionsService ?)
+    VolumeRepository.prototype.getNewPermissions = function () {
+        return this.permissionsDao.getNewInstance();
     };
     VolumeRepository.prototype.cleanupTopology = function (topology) {
         var clean = {};
@@ -280,4 +345,6 @@ var VolumeRepository = (function (_super) {
     return VolumeRepository;
 }(abstract_repository_ng_1.AbstractRepository));
 VolumeRepository.TOPOLOGY_KEYS = ['data', 'cache', 'log', 'spare'];
+VolumeRepository.INHERITED = 'INHERITED';
+VolumeRepository.DEFAULT_VOLBLOCKSIZE = 512;
 exports.VolumeRepository = VolumeRepository;

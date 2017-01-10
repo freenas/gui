@@ -18,6 +18,7 @@ exports.CryptoCertificateCreation = AbstractInspector.specialize(/** @lends Cryp
     _inspectorTemplateDidLoad: {
         value: function () {
             var self = this;
+            this.SELF_SIGNED = this._sectionService.SELF_SIGNED;
             this.algorithmOptions = CryptoCertificateDigestalgorithm.members.map(function(x) {
                 return {
                     label: x,
