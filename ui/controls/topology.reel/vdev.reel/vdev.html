@@ -12,7 +12,8 @@
             "bindings": {
                 "vdevTypesOptions": {"<-": "@owner.vdevTypes.filter{minDisks <= @owner.children.length}.filter{maxDisks.defined() ? maxDisks >= @owner.children.length : true}"},
                 "classList.has('unhealthy')": {"<-": "@owner.object.status.defined() && @owner.object.status != 'ONLINE'"},
-                "selectedDisk": {"<->": "@controller.selection.0"}
+                "selectedDisk": {"<->": "@controller.selection.0"},
+                "editable": {"<-": "@owner.topologyItem.editable"}
             }
         },
         "typeSelect": {
@@ -23,7 +24,7 @@
             "bindings": {
                 "options": {"<-": "@owner.vdevTypesOptions.map{value}"},
                 "selectedValue": {"<->": "@owner.object.type"},
-                "disabled": {"<-": "@owner.vdevTypesOptions.length < 2"}
+                "disabled": {"<-": "!@owner.editable || (@owner.editable && @owner.vdevTypesOptions.length < 2)"}
             }
         },
         "controller": {
@@ -48,7 +49,7 @@
                 "vDevComponent": {"@": "owner"}
             },
             "bindings": {
-                "classList.has('hide')": {"<-": "!@owner.object._isNew"}
+                "classList.has('hide')": {"<-": "!@owner.editable || (@owner.editable && !@owner.object._isNew)"}
             }
         }
     }

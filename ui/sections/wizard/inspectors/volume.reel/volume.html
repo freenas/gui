@@ -6,18 +6,60 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"},
-                "volumeCreator": {"@": "volumeCreator"}
+                "element": {"#": "owner"}
             },
             "bindings": {
-                "context.isNextStepDisabled": {"<-": "!@owner.object.id || @owner.object.topology.data.length == 0"}
+                "context.isNextStepDisabled": {"<-": "!@owner.object.id || (@owner.object.topology.data.length == 0 ?? true)"}
             }
         },
 
-        "volumeCreator": {
-            "prototype": "ui/sections/storage/inspectors/volume-creator.reel",
+        "id": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
-                "element": {"#": "volumeCreator"}
+                "element": {"#": "name"},
+                "label": "Name",
+                "validationPath": "id",
+                "placeholder": "enter volume name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.id"}
+            }
+        },
+
+        "password": {
+            "prototype": "blue-shark/ui/field-password.reel",
+            "properties": {
+                "element": {"#": "password"},
+                "label": "Password",
+                "placeholder1": "enter password",
+                "placeholder2": "confirm password",
+                "resetLabel": "Set Password"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object._password"}
+            }
+        },
+
+       "topologizer": {
+            "prototype": "ui/controls/topologizer.reel",
+            "properties": {
+                "element": {"#": "topologizer"}
+            },
+            "bindings": {
+                "topology": {"<->": "@owner.object.topology"},
+                "disks": {"<-": "@owner.availableDisks"},
+                "controller": {"<-": "@owner._sectionService"}
+            }
+        },
+
+        "topology": {
+            "prototype": "ui/controls/topology.reel",
+            "properties": {
+                "element": {"#": "topology"},
+                "mode": "READ"
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.topology"}
             }
         }
     }
@@ -25,7 +67,10 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Volume-volumeCreator">
-        <div data-montage-id="volumeCreator"></div>
+        <div data-montage-id="name"></div>
+        <div data-montage-id="password"></div>
+        <div data-montage-id="topologizer"></div>
+        <div data-montage-id="topology"></div>
     </div>
 </body>
 </html>

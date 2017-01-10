@@ -1,8 +1,7 @@
 /**
  * @module ui/volume.reel
  */
-var Component = require("montage/ui/component").Component,
-    StorageSectionService = require("core/service/section/storage-section-service").StorageSectionService;
+var Component = require("montage/ui/component").Component;
 
 /**
  * @class Volume
@@ -12,19 +11,17 @@ exports.Volume = Component.specialize(/** @lends Volume# */ {
 
     templateDidLoad: {
         value: function () {
-            this.volumeCreator.__sectionService = this.context.sectionService;
+            this._sectionService = this.context.sectionService;
         }
     },
 
     enterDocument:{
         value: function (isFirstTime) {
             if (isFirstTime) {
-                this.defineBinding("volumeCreator.context", {
-                    "<-": "context"
-                });
+                self = this;
 
-                this.defineBinding("volumeCreator.object", {
-                    "<-": "object"
+                this._sectionService.listAvailableDisks().then(function (disks) {
+                    self.availableDisks = disks;
                 });
             }
 
