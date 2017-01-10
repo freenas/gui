@@ -1,9 +1,12 @@
 var AbstractSectionService = require("core/service/section/abstract-section-service").AbstractSectionService,
     ContainerRepository = require("core/repository/container-repository").ContainerRepository,
+    DockerContainerRepository = require("core/repository/docker-container-repository-ng").DockerContainerRepository,
+    DockerHostRepository = require("core/repository/docker-host-repository-ng").DockerHostRepository,
+    DockerImageRepository = require("core/repository/docker-image-repository-ng").DockerImageRepository,
+    DockerCollectionRepository = require("core/repository/docker-collection-repository-ng").DockerCollectionRepository,
     MiddlewareTaskRepository = require("core/repository/middleware-task-repository").MiddlewareTaskRepository,
     UserRepository = require("core/repository/user-repository").UserRepository,
-    ApplicationContextService = require("core/service/application-context-service").ApplicationContextService,
-    Model = require("core/model/model").Model;
+    ApplicationContextService = require("core/service/application-context-service").ApplicationContextService;
 
 exports.ContainerSectionService = AbstractSectionService.specialize({
 
@@ -13,6 +16,10 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
             this._containerRepository = containerRepository || ContainerRepository.instance;
             this._applicationContextService = applicationContextService || ApplicationContextService.instance;
             this._userRepository = userRepository || UserRepository.instance;
+            DockerContainerRepository.getInstance();
+            DockerHostRepository.getInstance();
+            DockerImageRepository.getInstance();
+            DockerCollectionRepository.getInstance();
         }
     },
 

@@ -195,6 +195,7 @@ export class CalendarRepository extends AbstractRepository {
             index: 6
         }
     ];
+
     public static readonly CALENDAR_TASK_CATEGORIES = [
         { name: "Scrub", value: "volume.scrub", checked: true },
         { name: "Replication", value: "replication.replicate_dataset", checked: true },
@@ -203,7 +204,7 @@ export class CalendarRepository extends AbstractRepository {
         { name: "Command", value: "calendar_task.command", checked: true },
         { name: "Snapshot", value: "volume.snapshot_dataset", checked: true },
         { name: "Rsync", value: "rsync.copy", checked: true }
-    ]
+    ];
 
     public constructor(private calendarDao: CalendarDao,
                        private calendarTaskDao: CalendarTaskDao

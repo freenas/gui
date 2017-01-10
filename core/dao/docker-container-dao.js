@@ -9,7 +9,9 @@ var model_1 = require("../model");
 var DockerContainerDao = (function (_super) {
     __extends(DockerContainerDao, _super);
     function DockerContainerDao() {
-        return _super.call(this, model_1.Model.DockerContainer) || this;
+        return _super.call(this, model_1.Model.DockerContainer, {
+            eventName: 'entity-subscriber.docker.container.changed'
+        }) || this;
     }
     DockerContainerDao.prototype.requestInteractiveConsole = function (containerId) {
         return this.middlewareClient.callRpcMethod('docker.container.request_interactive_console', [containerId]);
