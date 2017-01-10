@@ -74,9 +74,10 @@
 }
 
 .Widget-content-front {
-    display: flex;
     flex: 1;
+    display: flex;
     flex-direction: column;
+    min-height: 0;
 
     & .Scrollview-transform {
         flex: none;
@@ -91,16 +92,19 @@
 }
 
 .Widget-flipper {
-    display: flex;
     flex: 1;
+    display: flex;
     flex-direction: column;
+    min-height: 0;
+    /* @apply --flex-column; */
 }
 
 .Widget-front,
 .Widget-back {
-    display: flex;
     flex: 1;
+    display: flex;
     flex-direction: column;
+    min-height: 0;
 }
 
 .Widget.flip .Widget-back,
