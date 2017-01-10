@@ -14,6 +14,11 @@
     display: flex;
     flex-wrap: nowrap;
     flex: 1;
+    min-height: 0;
+}
+
+.CascadingList .Scrollview-transform:first-of-type {
+    background: green;
 }
 
 
