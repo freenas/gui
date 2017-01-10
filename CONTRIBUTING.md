@@ -45,7 +45,7 @@ Once you have the environment bootstrapped, just for now do the following:
 
     1. minit serve &
        This will start the stand-alone web server so you can connect your web browser to localhost:8083 (see next step)
-    2. Add `#;host=<MIDDLEWARE_HOSTNAME>:<MIDDLEWARE_PORT>` to the URL minit gives you, e.g. `http://localhost:8083/#;host=freenas.local`
+    2. Add `#?host=<MIDDLEWARE_HOSTNAME>:<MIDDLEWARE_PORT>` to the URL minit gives you, e.g. `http://localhost:8083/#?host=freenas.local`
 
 In the example above, you have obviously already installed a copy of FreeNAS 10 on a machine called "freenas.local", which is the default mDNS name that FreeNAS gives itself - edit that to suit your actual configuration as necessary.
 
