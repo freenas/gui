@@ -222,6 +222,4 @@ exports.ContainerRepository = AbstractRepository.specialize({
             return this._dockerContainerDao.stop(container);
         }
     }
-
-
 });

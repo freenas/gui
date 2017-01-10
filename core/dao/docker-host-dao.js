@@ -9,7 +9,9 @@ var model_1 = require("../model");
 var DockerHostDao = (function (_super) {
     __extends(DockerHostDao, _super);
     function DockerHostDao() {
-        return _super.call(this, model_1.Model.DockerHost) || this;
+        return _super.call(this, model_1.Model.DockerHost, {
+            eventName: 'entity-subscriber.docker.host.changed'
+        }) || this;
     }
     return DockerHostDao;
 }(abstract_dao_1.AbstractDao));

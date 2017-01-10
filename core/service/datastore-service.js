@@ -74,7 +74,9 @@ var DatastoreService = (function () {
             for (var i = 0; i < ids.length; i++) {
                 id = ids[i];
                 entity = entities[i];
-                this.save(type, id, entity);
+                if (entity) {
+                    this.save(type, id, entity);
+                }
             }
         }
         else if (operation === 'delete') {

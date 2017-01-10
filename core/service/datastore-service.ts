@@ -92,7 +92,9 @@ export class DatastoreService {
             for (let i = 0; i < ids.length; i++) {
                 id = ids[i];
                 entity = entities[i];
-                this.save(type, id, entity);
+                if (entity) {
+                    this.save(type, id, entity);
+                }
             }
         } else if (operation === 'delete') {
             for (let id of ids) {
