@@ -85,17 +85,19 @@ var ModelDescriptorService = (function () {
         var _this = this;
         return this.taskSchemaCache ?
             Promise.resolve(this.taskSchemaCache) :
-            this.middlewareClient.callRpcMethod('discovery.get_tasks').then(function (tasks) {
-                _this.taskSchemaCache = new Map();
-                _.forEach(tasks, function (task, taskName) {
-                    _this.taskSchemaCache.set(taskName, new Map()
-                        .set('description', task.description)
-                        .set('abortable', task.abortable)
-                        .set('mandatory', _this.getMandatoryProperties(task.schema))
-                        .set('forbidden', _this.getForbiddenProperties(task.schema)));
+            this.taskSchemaPromise ?
+                this.taskSchemaPromise :
+                this.taskSchemaPromise = this.middlewareClient.callRpcMethod('discovery.get_tasks').then(function (tasks) {
+                    _this.taskSchemaCache = new Map();
+                    _.forEach(tasks, function (task, taskName) {
+                        _this.taskSchemaCache.set(taskName, new Map()
+                            .set('description', task.description)
+                            .set('abortable', task.abortable)
+                            .set('mandatory', _this.getMandatoryProperties(task.schema))
+                            .set('forbidden', _this.getForbiddenProperties(task.schema)));
+                    });
+                    return _this.taskSchemaCache;
                 });
-                return _this.taskSchemaCache;
-            });
     };
     ModelDescriptorService.prototype.getMandatoryProperties = function (schema) {
         var object = _.get(_.find(schema, function (arg) { return _.has(arg, 'allOf'); }), 'allOf', []);
@@ -111,10 +113,9 @@ var ModelDescriptorService = (function () {
             Promise.resolve(this.schema) :
             this.middlewareClient.callRpcMethod('discovery.get_schema').then(function (schema) {
                 self.schema = new Map();
-                for (var schemaType in schema.definitions) {
-                    var objectType = _.upperFirst(_.camelCase(schemaType));
-                    self.schema.set(objectType, schema.definitions[schemaType]);
-                }
+                _.forIn(schema.definitions, function (definition, type) {
+                    self.schema.set(_.upperFirst(_.camelCase(type)), definition);
+                });
                 return self.schema;
             });
     };

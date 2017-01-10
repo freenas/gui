@@ -23,10 +23,12 @@ exports.Updates = AbstractInspector.specialize({
         value: function() {
             var self = this;
             this.isLoading = true;
-            return this._updateService.check().then(function() {
-                self._refreshUpdateInfo();
-                self.isLoading = false;
-            });
+            if (this._inDocument) {
+                return this._updateService.check().then(function() {
+                    self._refreshUpdateInfo();
+                    self.isLoading = false;
+                });
+            }
         }
     },
 

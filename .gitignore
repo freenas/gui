@@ -33,7 +33,6 @@ $RECYCLE.BIN/
 
 
 ### PROJECT SETTINGS ###
-
 *.pyc
 *.swp
 *.mo
@@ -60,5 +59,6 @@ customSystem.js
 *.info/**/node_modules
 
 # Exclude builds
-
 builds/
+
+*.js.map

@@ -1,12 +1,15 @@
 "use strict";
 var model_descriptor_service_1 = require("./model-descriptor-service");
 var middleware_client_1 = require("./middleware-client");
+var model_event_name_1 = require("../model-event-name");
+var event_dispatcher_service_1 = require("./event-dispatcher-service");
+var datastore_service_1 = require("./datastore-service");
+var model_1 = require("../model");
 var section_1 = require("../route/section");
 var volume_1 = require("../route/volume");
 var share_1 = require("../route/share");
 var snapshot_1 = require("../route/snapshot");
 var dataset_1 = require("../route/dataset");
-var event_dispatcher_service_1 = require("./event-dispatcher-service");
 var calendar_1 = require("../route/calendar");
 var system_1 = require("../route/system");
 var services_1 = require("../route/services");
@@ -18,11 +21,14 @@ var accounts_1 = require("../route/accounts");
 var hasher = require("hasher");
 var crossroads = require("crossroads");
 var _ = require("lodash");
+var immutable = require("immutable");
+var Promise = require("bluebird");
 var RoutingService = (function () {
-    function RoutingService(modelDescriptorService, eventDispatcherService, middlewareClient, sectionRoute, volumeRoute, shareRoute, snapshotRoute, datasetRoute, calendarRoute, systemRoute, serviceRoute, peeringRoute, vmsRoute, networkRoute, accountsRoute, dockerRoute) {
+    function RoutingService(modelDescriptorService, eventDispatcherService, middlewareClient, datastoreService, sectionRoute, volumeRoute, shareRoute, snapshotRoute, datasetRoute, calendarRoute, systemRoute, serviceRoute, peeringRoute, vmsRoute, networkRoute, accountsRoute, dockerRoute) {
         this.modelDescriptorService = modelDescriptorService;
         this.eventDispatcherService = eventDispatcherService;
         this.middlewareClient = middlewareClient;
+        this.datastoreService = datastoreService;
         this.sectionRoute = sectionRoute;
         this.volumeRoute = volumeRoute;
         this.shareRoute = shareRoute;
@@ -37,7 +43,7 @@ var RoutingService = (function () {
         this.accountsRoute = accountsRoute;
         this.dockerRoute = dockerRoute;
         this.currentStacks = new Map();
-        this.taskStacks = new Map();
+        this.taskStacks = immutable.Map();
         this.eventDispatcherService.addEventListener('taskSubmitted', this.handleTaskSubmitted.bind(this));
         this.eventDispatcherService.addEventListener('taskCreated', this.handleTaskCreated.bind(this));
         this.loadRoutes();
@@ -47,12 +53,17 @@ var RoutingService = (function () {
     }
     RoutingService.getInstance = function () {
         if (!RoutingService.instance) {
-            RoutingService.instance = new RoutingService(model_descriptor_service_1.ModelDescriptorService.getInstance(), event_dispatcher_service_1.EventDispatcherService.getInstance(), middleware_client_1.MiddlewareClient.getInstance(), section_1.SectionRoute.getInstance(), volume_1.VolumeRoute.getInstance(), share_1.ShareRoute.getInstance(), snapshot_1.SnapshotRoute.getInstance(), dataset_1.DatasetRoute.getInstance(), calendar_1.CalendarRoute.getInstance(), system_1.SystemRoute.getInstance(), services_1.ServicesRoute.getInstance(), peering_1.PeeringRoute.getInstance(), vms_1.VmsRoute.getInstance(), network_1.NetworkRoute.getInstance(), accounts_1.AccountsRoute.getInstance(), docker_1.DockerRoute.getInstance());
+            RoutingService.instance = new RoutingService(model_descriptor_service_1.ModelDescriptorService.getInstance(), event_dispatcher_service_1.EventDispatcherService.getInstance(), middleware_client_1.MiddlewareClient.getInstance(), datastore_service_1.DatastoreService.getInstance(), section_1.SectionRoute.getInstance(), volume_1.VolumeRoute.getInstance(), share_1.ShareRoute.getInstance(), snapshot_1.SnapshotRoute.getInstance(), dataset_1.DatasetRoute.getInstance(), calendar_1.CalendarRoute.getInstance(), system_1.SystemRoute.getInstance(), services_1.ServicesRoute.getInstance(), peering_1.PeeringRoute.getInstance(), vms_1.VmsRoute.getInstance(), network_1.NetworkRoute.getInstance(), accounts_1.AccountsRoute.getInstance(), docker_1.DockerRoute.getInstance());
         }
         return RoutingService.instance;
     };
     RoutingService.prototype.navigate = function (path) {
-        hasher.appendHash = ';' + this.middlewareClient.getExplicitHostParam();
+        if (hasher.appendHash.length === 0) {
+            hasher.appendHash = '?' + this.middlewareClient.getExplicitHostParam();
+        }
+        else {
+            hasher.appendHash = _.replace(hasher.appendHash, /^\?\?+/, '?');
+        }
         if (path[0] === '/') {
             hasher.setHash(path);
         }
@@ -71,12 +82,6 @@ var RoutingService = (function () {
     RoutingService.prototype.handleTaskSubmitted = function (temporaryTaskId) {
         this.saveState(temporaryTaskId);
     };
-    RoutingService.prototype.handleTaskCreated = function (taskIds) {
-        if (this.taskStacks.has(taskIds.old)) {
-            this.taskStacks.set(taskIds.new, this.taskStacks.get(taskIds.old));
-            this.taskStacks.delete(taskIds.old);
-        }
-    };
     RoutingService.prototype.changeHash = function (newHash) {
         hasher.changed.active = false;
         this.navigate(newHash);
@@ -85,6 +90,19 @@ var RoutingService = (function () {
     RoutingService.prototype.handleHashChange = function (newHash) {
         crossroads.parse(decodeURIComponent(newHash));
         this.eventDispatcherService.dispatch('hashChange', newHash);
+    };
+    RoutingService.prototype.handleTaskCreated = function (taskIds) {
+        var _this = this;
+        if (this.taskStacks.has(taskIds.old)) {
+            var task = this.taskStacks.get(taskIds.old);
+            this.taskStacks = this.taskStacks.set(taskIds.new, task).delete(taskIds.old);
+            var eventListener_1 = this.eventDispatcherService.addEventListener(model_event_name_1.ModelEventName.Task.change(taskIds.new), function (state) {
+                if (state.get('state') === 'FINISHED') {
+                    _this.taskStacks = _this.taskStacks.delete(taskIds.new);
+                    _this.eventDispatcherService.removeEventListener(model_event_name_1.ModelEventName.Task.change(taskIds.new), eventListener_1);
+                }
+            });
+        }
     };
     RoutingService.prototype.saveState = function (temporaryTaskId) {
         var stateSnapshot = [];
@@ -95,7 +113,7 @@ var RoutingService = (function () {
             }
             stateSnapshot.push(context);
         });
-        this.taskStacks.set(temporaryTaskId, stateSnapshot);
+        this.taskStacks = this.taskStacks.set(temporaryTaskId, stateSnapshot);
     };
     RoutingService.prototype.loadRoutes = function () {
         var _this = this;
@@ -265,29 +283,42 @@ var RoutingService = (function () {
     };
     RoutingService.prototype.loadSection = function (sectionId) {
         var _this = this;
-        var previousSectionId = this.currentSectionId;
         this.currentSectionId = sectionId;
-        if (this.currentStacks.has(sectionId) && previousSectionId !== sectionId) {
-            var stack = this.currentStacks.get(sectionId);
-            this.eventDispatcherService.dispatch('sectionChange', stack[0].service);
-            this.eventDispatcherService.dispatch('pathChange', stack);
-            this.changeHash(_.last(stack).path);
-        }
-        else {
+        var promise = this.currentStacks.has(sectionId) ?
+            new Promise(function (resolve) {
+                var stack = _this.currentStacks.get(sectionId);
+                _this.changeHash(_.last(stack).path);
+                hasher.changed.addOnce(_this.handleTaskHashChange.bind(_this));
+                resolve(stack);
+            }) :
             this.sectionRoute.get(sectionId).then(function (stack) {
                 _this.currentStacks.set(sectionId, stack);
-                _this.eventDispatcherService.dispatch('sectionChange', stack[0].service);
-                _this.eventDispatcherService.dispatch('pathChange', stack);
+                return stack;
             });
-        }
+        promise.then(function (stack) {
+            _this.eventDispatcherService.dispatch('sectionChange', stack[0].service);
+            _this.eventDispatcherService.dispatch('pathChange', stack);
+        });
     };
     RoutingService.prototype.restoreTask = function (taskId) {
         if (this.taskStacks.has(taskId)) {
-            var stack = this.taskStacks.get(taskId), section = stack[0].object, sectionId = section.id;
+            hasher.appendHash += (hasher.appendHash.length > 0 ? '&' : '?') + 'task=' + taskId;
+            var stack = _.clone(this.taskStacks.get(taskId)), section = stack[0].object, sectionId = section.id;
+            if (this.datastoreService.getState().get(model_1.Model.Task) &&
+                this.datastoreService.getState().get(model_1.Model.Task).get(taskId) &&
+                this.datastoreService.getState().get(model_1.Model.Task).get(taskId).get('error')) {
+                _.last(stack).error = this.datastoreService.getState().get(model_1.Model.Task).get(taskId).get('error').toJS();
+            }
             this.currentStacks.set(sectionId, stack);
             this.eventDispatcherService.dispatch('sectionRestored', sectionId);
             this.navigate('/' + sectionId);
+            hasher.changed.addOnce(this.handleTaskHashChange.bind(this));
         }
+    };
+    RoutingService.prototype.handleTaskHashChange = function () {
+        var hash = hasher.getHash();
+        hasher.appendHash = _.join(_.filter(_.split(hasher.appendHash, '&'), function (part) { return !(part === '' || _.startsWith(part, 'task=')); }), '&');
+        this.changeHash(hash);
     };
     return RoutingService;
 }());

@@ -34,7 +34,8 @@ export class MiddlewareClient {
         return MiddlewareClient.instance;
     }
 
-    public connect(url: string): Promise<any> {
+    public connect(url?: string): Promise<any> {
+        url = url || MiddlewareClient.getRootURL('ws') + '/dispatcher/socket';
         if (this.socket) {
             if (this.socket.url !== url && this.socket.readyState === this.socket.OPEN) {
                 this.closeConnection();
@@ -391,8 +392,8 @@ export class MiddlewareClient {
         return result;
     }
 
-    private static getHostParam() {
-        return location.href.split(';').filter((x) => x.split('=')[0] === 'host')[0];
+    private static getHostParam(): string {
+        return _.find(_.split(location.href, /[?&]/), (param) => _.startsWith(param, 'host='));
     }
 }
 

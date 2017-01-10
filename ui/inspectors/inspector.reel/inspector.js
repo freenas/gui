@@ -66,7 +66,7 @@ exports.Inspector = Component.specialize({
             } else if (this.object) {
                 this.object.__isLocked = true;
                 this.clearObjectSelection();
-                promise = this.application.dataService.deleteDataObject(this.object).catch(this._logError);
+                promise = this.delete().catch(this._logError);
                 promise.then(function(){
                     self.object.__isLocked = false;
                 });
@@ -95,7 +95,7 @@ exports.Inspector = Component.specialize({
             var self = this,
                 args = _.toArray(arguments);
             this.object.__isLocked = true;
-            this._modelDescriptorService.getDaoForObject(this.object).then(function(dao) {
+            return this._getObjectDao(this.object).then(function(dao) {
                 return dao.delete(self.object, args);
             });
         }
@@ -138,12 +138,18 @@ exports.Inspector = Component.specialize({
                 console.warn('NOT IMPLEMENTED: save() on unknown controller.');
             }
 
-            if (this._isCreationInspector()) {
+            var isCreationInspector = this._isCreationInspector();
+            if (isCreationInspector) {
                 this.object.__isLocked = true;
-                this.clearObjectSelection();
             }
 
             event.stopPropagation();
+            return promise.then(function(task) {
+                if (isCreationInspector) {
+                    self.clearObjectSelection();
+                }
+                return task;
+            });
         }
     },
 
@@ -196,8 +202,8 @@ exports.Inspector = Component.specialize({
     },
 
     _getObjectDao: {
-        value: function() {
-            return this._modelDescriptorService.getDaoForObject(this.object);
+        value: function(object) {
+            return this._modelDescriptorService.getDaoForObject(object);
         }
     },
 

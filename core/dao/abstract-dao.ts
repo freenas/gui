@@ -20,8 +20,8 @@ export class AbstractDao {
     private middlewareName: string;
     private objectType: string;
     private queryMethod: string;
-    private createMethod: string;
-    private updateMethod: string;
+    public createMethod: string;
+    public updateMethod: string;
     private deleteMethod: string;
     private eventName: string;
     private preventQueryCaching: boolean;
