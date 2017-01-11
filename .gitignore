@@ -62,9 +62,14 @@ customSystem.js
 builds/
 
 *.js.map
-./core/*.*
-./core/dao
-./core/repository
-./core/service
+core/*.js
+core/dao/
+core/repository/
+core/service/
+core/backend/
+core/controller/
+core/converter/
+core/reducers/
+core/route/
 ui/**/*.css
 !ui/**/_*.css
