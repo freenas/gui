@@ -6,6 +6,7 @@ export class CalendarTaskDao extends AbstractDao {
             queryMethod: 'calendar_task.query',
             updateMethod: 'calendar_task.update',
             createMethod: 'calendar_task.create',
+            deleteMethod: 'calendar_task.delete',
             eventName: 'entity-subscriber.calendar_task.changed'
         });
     }

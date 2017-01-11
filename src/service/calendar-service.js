@@ -196,7 +196,7 @@ var CalendarService = exports.CalendarService = Montage.specialize({
             for (var i = this.DURATION_UNITS.length - 1; i >= 0; i--) {
                 var unit = this.DURATION_UNITS[i].unit;
                 if (unit === duration.unit) {
-                    schedule[unit] = '*/' + duration.count;
+                    schedule[unit] = duration.count == 1 ? '*' : '*/' + duration.count;
                     break;
                 }
                 schedule[unit] = '*';

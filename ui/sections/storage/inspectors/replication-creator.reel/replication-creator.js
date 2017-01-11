@@ -51,7 +51,8 @@ exports.ReplicationCreator = AbstractInspector.specialize(/** @lends Replication
                     [
                         this.object._dataset,
                         this.object._replicationOptions,
-                        transportOptions
+                        transportOptions,
+                        false
                     ],
                     this._repetition
                 ) : Promise.resolve()
