@@ -6,7 +6,193 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "validationController": {"@": "validationController"},
+                "inspector": {"@": "inspector"}
+            },
+            "bindings": {
+                "classList.has('has-loading-spinner')": {"<-": "@owner.isLoading"},
+                "isCreateMode": {"<-": "@owner.object._isNew || @owner.object._isNewObject"}
+            }
+        },
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
+            }
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "validationController": {"@": "validationController"},
+                "canDelete": true,
+                "canRevert": true,
+                "canSave": true,
+                "keys": [
+                    "name",
+                    "dataset"
+                ],
+                "controller": {"@": "owner"}
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"}
+            }
+        },
+        "name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.name"},
+                "classList.has('hide')": {"<-": "!@owner.isCreateMode"}
+            }
+        },
+        "peerOptionsConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "valuePropertyName": "id",
+                "labelPropertyName": "name"
+            }
+        },
+        "peer": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "peer"},
+                "label": "Peer",
+                "converter": {"@": "peerOptionsConverter"}
+            },
+            "bindings": {
+                "options": {"<-": "@owner.peers"},
+                "selectedValue": {"<->": "@owner.object.slave"}
+            }
+        },
+        "remote_dataset": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "remote_dataset"},
+                "label": "Target dataset"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.datasets.0.slave"},
+                "disabled": {"<-": "!!@owner.object.bidirectional"}
+            }
+        },
+        "compress": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "compress"},
+                "label": "Compression",
+                "options": [
+                    { "label": "---",    "value": null },
+                    { "label": "FAST", "value": "FAST" },
+                    { "label": "DEFAULT", "value": "DEFAULT" },
+                    { "label": "BEST", "value": "BEST" }
+                ]
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner._transportOptions.compress"}
+            }
+        },
+        "encrypt": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "encrypt"},
+                "label": "Encryption",
+                "options": [
+                    { "label": "---",    "value": null },
+                    { "label": "AES128", "value": "AES128" },
+                    { "label": "AES192", "value": "AES192" },
+                    { "label": "AES256", "value": "AES256" }
+                ]
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner._transportOptions.encrypt"}
+            }
+        },
+        "throttle": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "throttle"},
+                "label": "Throttling (B/s)"
+            },
+            "bindings": {
+                "value": {"<->": "@owner._transportOptions.throttle"}
+            }
+        },
+        "bidirectional": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "bidirectional"},
+                "label": "Bidirectional"
+            },
+            "bindings": {
+                "checked": {"<->": "!!@owner.object.bidirectional"}
+            }
+        },
+        "autoRecover": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "autoRecover"},
+                "label": "Auto Recover"
+            },
+            "bindings": {
+                "checked": {"<->": "!!@owner.object.auto_recover"},
+                "disabled": {"<-": "!@owner.object.bidirectional"}
+            }
+        },
+        "replicateServices": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "replicateServices"},
+                "label": "Replicate Services"
+            },
+            "bindings": {
+                "checked": {"<->": "!!@owner.object.replicate_services"},
+                "disabled": {"<-": "!@owner.object.bidirectional"}
+            }
+        },
+        "recursive": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "recursive"},
+                "label": "Recursive"
+            },
+            "bindings": {
+                "checked": {"<->": "!!@owner.object.recursive"}
+            }
+        },
+        "followDelete": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "followDelete"},
+                "label": "Follow delete"
+            },
+            "bindings": {
+                "checked": {"<->": "!!@owner.object.followdelete"}
+            }
+        },
+        "repetitionSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "repetitionSection"},
+                "title": "Repetition"
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "!@owner.isCreateMode"}
+            }
+        },
+        "repetition": {
+            "prototype": "blue-shark/ui/field-duration.reel",
+            "properties": {
+                "element": {"#": "repetition"},
+                "label": "Repeat Every"
+            },
+            "bindings": {
+                "value": {"<->": "@owner._repetition"}
             }
         }
     }
@@ -14,6 +200,21 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Replication">
+    <div data-montage-id="inspector">
+        <div data-montage-id="name"></div>
+        <div data-montage-id="peer"></div>
+        <div data-montage-id="remote_dataset"></div>
+        <div data-montage-id="compress"></div>
+        <div data-montage-id="encrypt"></div>
+        <div data-montage-id="throttle"></div>
+        <div data-montage-id="bidirectional"></div>
+        <div data-montage-id="autoRecover"></div>
+        <div data-montage-id="replicateServices"></div>
+        <div data-montage-id="recursive"></div>
+        <div data-montage-id="followDelete"></div>
+        <div data-montage-id="repetitionSection">
+            <div data-montage-id="repetition"></div>
+        </div>
     </div>
 </body>
 </html>

@@ -3,7 +3,7 @@
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
             "inspectorComponentModule": {"%": "ui/sections/storage/inspectors/replication.reel"},
-            "creatorComponentModule": {"%": "ui/sections/storage/inspectors/replication-creator.reel"},
+            "creatorComponentModule": {"%": "ui/sections/storage/inspectors/replication.reel"},
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "collectionNameExpression": "'Replications'",
             "nameExpression": "name"
