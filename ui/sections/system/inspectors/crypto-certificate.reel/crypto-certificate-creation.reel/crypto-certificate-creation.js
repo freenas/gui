@@ -1,4 +1,7 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
+    DataObjectChangeService = require("core/service/data-object-change-service").DataObjectChangeService,
+    ModelEventName = require("core/model-event-name").ModelEventName,
     CryptoCertificateDigestalgorithm = require("core/model/enumerations/crypto-certificate-digestalgorithm").CryptoCertificateDigestalgorithm,
     _ = require("lodash");
 
@@ -15,9 +18,19 @@ exports.CryptoCertificateCreation = AbstractInspector.specialize(/** @lends Cryp
         value: null
     },
 
+    _handleChange: {
+        value: function(state) {
+            this._dataObjectChangeService.handleDataChange(this.certificates, state);
+            // DTM
+            this.dispatchOwnPropertyChange('certificates', this.certificates);
+        }
+    },
+
     _inspectorTemplateDidLoad: {
         value: function () {
             var self = this;
+            this._eventDispatcherService = EventDispatcherService.getInstance()
+            this._dataObjectChangeService = new DataObjectChangeService();            
             this.SELF_SIGNED = this._sectionService.SELF_SIGNED;
             this.algorithmOptions = CryptoCertificateDigestalgorithm.members.map(function(x) {
                 return {
@@ -51,6 +64,11 @@ exports.CryptoCertificateCreation = AbstractInspector.specialize(/** @lends Cryp
                 this.object.key_length = 4096;
                 this.object.country = "US";
                 this.object.lifetime = 3000;
+                var self = this;
+                this._sectionService.listCertificates().then(function (certificates) {
+                    self.certificates = certificates;                    
+                })
+                this.availableCertsEventListener = this._eventDispatcherService.addEventListener(ModelEventName.CryptoCertificate.listChange, this._handleChange.bind(this));
             }
         }
     },
@@ -58,6 +76,7 @@ exports.CryptoCertificateCreation = AbstractInspector.specialize(/** @lends Cryp
     exitDocument: {
         value: function() {
             this.context = null;
+            this._eventDispatcherService.removeEventListener(ModelEventName.CryptoCertificate.listChange, this.availableCertsEventListener);
         }
     }
 });
