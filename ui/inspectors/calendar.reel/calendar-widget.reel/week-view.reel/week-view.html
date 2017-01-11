@@ -70,10 +70,10 @@
                 "value": {"<-": "@hours:iteration.object"}
             }
         },
-        "timezone": {
+        "GMT": {
             "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "timezone"}
+                "element": {"#": "GMT"}
             },
             "bindings": {
                 "value": {"<-": "'GMT' + @owner.gmtOffset"}
@@ -95,7 +95,7 @@
 
         <header class="CalendarWidget-view-header">
             <div class="CalendarWidget-view-column--axis">
-                <div data-montage-id="timezone" class="small CalendarWidget-view-timezone"></div>
+                <div data-montage-id="GMT" class="small CalendarWidget-view-timezone"></div>
             </div>
             <div data-montage-id="dayHeaders" class="CalendarWidget-view-days">
                 <div data-montage-id="dayHeader" class="CalendarWidget-view-day"></div>
