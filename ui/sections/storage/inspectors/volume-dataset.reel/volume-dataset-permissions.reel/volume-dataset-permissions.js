@@ -5,7 +5,6 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
     Model = require("core/model/model").Model,
     UnixPermissionsConverter = require("core/converter/unix-permissions-converter").UnixPermissionsConverter;
 
-
 /**
  * @class VolumeDatasetPermissions
  * @extends Component
@@ -72,7 +71,6 @@ exports.VolumeDatasetPermissions = AbstractInspector.specialize(/** @lends Volum
         value: function () {
             this._loadUsersIfNeeded();
             this._loadGroupsIfNeeded();
-            this._sectionService.ensureDefaultPermissionsAreSetOnDataset(this._object);
         }
     },
 

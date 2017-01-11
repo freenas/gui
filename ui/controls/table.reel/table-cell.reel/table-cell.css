@@ -1,1 +1,0 @@
-.TableCell{padding:0!important;position:relative;display:table-cell;vertical-align:middle}.TableCell:not(:last-child){border-right:1px solid rgba(0,0,0,.1)}.TableCell-true:before{content:"✓";color:#0dc92e}.TableCell-content{padding:.5em;overflow:hidden;text-overflow:ellipsis}.TableCell-content>.montage-Text{min-width:8em}.TableCell-content>.TextField{min-width:10em}

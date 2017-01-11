@@ -41,7 +41,7 @@
             "prototype": "core/controller/dataset-tree-controller",
             "bindings": {
                 "service": {"<-": "@owner.application.dataService"},
-                "root": {"<-": "@owner.volume.id"}
+                "root": {"<-": "@owner.object._volume.id"}
             }
         },
         "nameSubstitution": {

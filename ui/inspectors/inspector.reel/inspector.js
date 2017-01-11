@@ -66,7 +66,7 @@ exports.Inspector = Component.specialize({
             } else if (this.object) {
                 this.object.__isLocked = true;
                 this.clearObjectSelection();
-                promise = this.application.dataService.deleteDataObject(this.object).catch(this._logError);
+                promise = this.delete().catch(this._logError);
                 promise.then(function(){
                     self.object.__isLocked = false;
                 });
@@ -95,7 +95,7 @@ exports.Inspector = Component.specialize({
             var self = this,
                 args = _.toArray(arguments);
             this.object.__isLocked = true;
-            this._modelDescriptorService.getDaoForObject(this.object).then(function(dao) {
+            return this._getObjectDao(this.object).then(function(dao) {
                 return dao.delete(self.object, args);
             });
         }
@@ -126,10 +126,6 @@ exports.Inspector = Component.specialize({
 
             if (this.controller && typeof this.controller.save === 'function') {
                 promise = this.controller.save();
-
-                if (Promise.is(promise)) {
-                    promise.catch(this._logError);
-                }
             } else if (this.object) {
                 promise = this.save();
             } else if (this.controller) {
@@ -138,21 +134,31 @@ exports.Inspector = Component.specialize({
                 console.warn('NOT IMPLEMENTED: save() on unknown controller.');
             }
 
-            if (this._isCreationInspector()) {
+            var isCreationInspector = this._isCreationInspector();
+            if (isCreationInspector) {
                 this.object.__isLocked = true;
-                this.clearObjectSelection();
             }
 
+            promise = Promise.is(promise) ? promise : Promise.resolve(promise);
             event.stopPropagation();
+
+            return promise
+                .catch(this._logError)
+                .then(function(task) {
+                    if (isCreationInspector) {
+                        self.clearObjectSelection();
+                    }
+                    return task;
+                });
         }
     },
 
     save: {
         value: function() {
             var self = this;
-            (function(object, args) {
-                self._getObjectDao(object).then(function(dao) {
-                    return dao.save(object, _.values(args)).catch(self._logError);
+            return (function(object, args) {
+                return self._getObjectDao(object).then(function(dao) {
+                    return dao.save(object, _.values(args));
                 });
             })(this.object, arguments);
         }
@@ -186,7 +192,7 @@ exports.Inspector = Component.specialize({
         value: function() {
             var self = this;
             return this._getObjectDao(this.object).then(function(dao) {
-                return dao.revert
+                return dao.revert(self.object);
                 if (self.object._isNew) {
                     self.object = object;
                 }
@@ -196,14 +202,14 @@ exports.Inspector = Component.specialize({
     },
 
     _getObjectDao: {
-        value: function() {
-            return this._modelDescriptorService.getDaoForObject(this.object);
+        value: function(object) {
+            return this._modelDescriptorService.getDaoForObject(object);
         }
     },
 
     _isCreationInspector: {
         value: function() {
-            return !!this.object._isNew;
+            return this.object && !!this.object._isNew;
         }
     },
 

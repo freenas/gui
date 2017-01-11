@@ -9,8 +9,14 @@
         "module": "commonjs",
         "moduleResolution": "node",
         "experimentalDecorators": true,
-        "emitDecoratorMetadata": true
+        "emitDecoratorMetadata": true,
+        "sourceMap": true,
+        "allowJs": true,
+        "outDir": "core"
     },
+    "include": [
+        "src/**/*"
+    ],
     "exclude": [
         "**/node_modules"
     ]
