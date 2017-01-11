@@ -7,6 +7,14 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_update_internal": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "internal",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_update_train": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -30,6 +38,7 @@
       "name": "Update",
       "propertyBlueprints": [
         {"@": "blueprint_update_check_auto"},
+        {"@": "blueprint_update_internal"},
         {"@": "blueprint_update_train"},
         {"@": "blueprint_update_update_server"}
       ]
