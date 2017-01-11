@@ -11,16 +11,17 @@
     <link rel="stylesheet" href="node_modules/blue-shark/ui/global.css" />
     <link rel="stylesheet" href="assets/style/style.css" />
     <link rel="stylesheet" href="node_modules/plottable/plottable.css" />
+    <script src="rollbar_runtime_config.js"></script>
     <script>
         var _rollbarConfig = {
             accessToken: "be9e0a1aaa5c4dfe9f66c192073f4d37",
             captureUncaught: true,
             captureUnhandledRejections: false,
             payload: {
-                environment: "##dev##",
+                environment: window._FREENAS_ENVIRONMENT,
                 client: {
                     javascript: {
-                        code_version: "##git_sha##"
+                        code_version: window._FREENAS_GIT_SHA
                     }
                 }
             }

@@ -34,7 +34,9 @@
     "commander": "~2.9.0",
     "cssnano": "^3.7.1",
     "del": "^2.2.2",
+    "git-rev-sync": "^1.8.0",
     "gulp": "^3.9.1",
+    "gulp-file": "^0.3.0",
     "gulp-header": "^1.8.5",
     "gulp-newer": "^1.2.0",
     "gulp-postcss": "^6.1.1",
@@ -57,7 +59,7 @@
     "ws": "~1.1.1"
   },
   "scripts": {
-    "build": "node ./node_modules/.bin/gulp build",
-    "clean": "node ./node_modules/.bin/gulp clean"
+    "build": "gulp build",
+    "clean": "gulp clean"
   }
 }
