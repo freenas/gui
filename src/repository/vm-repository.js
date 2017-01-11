@@ -134,10 +134,12 @@ exports.VmRepository = AbstractRepository.specialize({
 
     getNewVmDeviceForType: {
         value: function(type) {
+            var self = this;
             return type !== this.DEVICE_TYPE.VOLUME && this._vmDeviceDao.getNewInstance().then(function(device) {
                 device.id = uuid.v4();
                 device._tmpId = type;
                 device.type = type;
+                self._setDeviceDefaults(device);
                 return device;
             });
         }
@@ -196,6 +198,30 @@ exports.VmRepository = AbstractRepository.specialize({
     getHardwareCapabilities: {
         value: function() {
             return this._vmDao.getHardwareCapabilities();
+        }
+    },
+
+    _setDeviceDefaults: {
+        value: function(device) {
+            device.properties = device.properties || {};
+            switch (device.type) {
+                case VmDeviceType.CDROM:
+                    break;
+                case VmDeviceType.DISK:
+                    device.properties.mode = device.properties.mode || "AHCI";
+                    device.properties.target_type = device.properties.target_type || "FILE";
+                    break;
+                case VmDeviceType.GRAPHICS:
+                    device.properties.resolution = device.properties.resolution || "1024x768";
+                    break;
+                case VmDeviceType.NIC:
+                    device.properties.device = device.properties.device || "VIRTIO";
+                    device.properties.mode = device.properties.mode || "NAT";
+                    break;
+                case VmDeviceType.USB:
+                    device.properties.device = device.properties.device || "tablet";
+                    break;
+            }
         }
     }
 

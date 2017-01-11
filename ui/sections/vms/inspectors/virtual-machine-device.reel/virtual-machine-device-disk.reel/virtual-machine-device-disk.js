@@ -4,6 +4,7 @@ exports.VirtualMachineDeviceDisk = AbstractInspector.specialize({
     templateDidLoad: {
         value: function() {
             this.diskModeOptions = this._sectionService.DISK_MODES;
+            this.targetTypeOptions = this._sectionService.TARGET_TYPES;
         }
     },
 
