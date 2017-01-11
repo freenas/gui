@@ -5,12 +5,18 @@ import {VmRepository} from '../../repository/vm-repository';
 import {ContainerRepository} from '../../repository/container-repository';
 import {NetworkRepository} from '../../repository/network-repository';
 import {CryptoCertificateRepository} from '../../repository/crypto-certificate-repository';
+import Promise = require("bluebird");
 import {TunableRepository} from '../../repository/tunable-repository';
 import {VolumeRepository} from '../../repository/volume-repository';
 import {ShareRepository} from '../../repository/share-repository';
 import {PeerRepository} from '../../repository/peer-repository';
 import {ReplicationRepository} from '../../repository/replication-repository';
 import {DiskRepository} from '../../repository/disk-repository';
+import {BootPoolRepository} from "../../repository/boot-pool-repository";
+import {ModelEventName} from "../../model-event-name";
+import {DataObjectChangeService} from "../data-object-change-service";
+import * as Immutable from "immutable";
+import * as _ from "lodash";
 
 export class SystemSectionService extends AbstractSectionService {
     private systemRepository: SystemRepository;
@@ -25,6 +31,9 @@ export class SystemSectionService extends AbstractSectionService {
     private peerRepository: PeerRepository;
     private replicationRepository: ReplicationRepository;
     private diskRepository: DiskRepository;
+    private bootPoolRepository: BootPoolRepository;
+    private bootEnvironments: Array<any> = [];
+    private dataObjectChangeService: DataObjectChangeService;
 
     public readonly SELF_SIGNED = CryptoCertificateRepository.SELF_SIGNED;
     public readonly CREATION = CryptoCertificateRepository.CREATION;
@@ -42,6 +51,13 @@ export class SystemSectionService extends AbstractSectionService {
         this.peerRepository = PeerRepository.getInstance();
         this.replicationRepository = ReplicationRepository.getInstance();
         this.diskRepository = DiskRepository.getInstance();
+        this.bootPoolRepository = BootPoolRepository.getInstance();
+        this.dataObjectChangeService = new DataObjectChangeService();
+
+        this.eventDispatcherService.addEventListener(
+            ModelEventName.BootEnvironment.listChange,
+            this.handleBootPoolChange.bind(this)
+        );
     }
 
     protected loadEntries() {
@@ -106,6 +122,22 @@ export class SystemSectionService extends AbstractSectionService {
 
     public listTunables() {
         return this.tunableRepository.listTunables();
+    }
+
+    public listBootEnvironments () {
+        return this.bootPoolRepository.listBootEnvironments().then((bootEnvironments) => {
+            return _.assign(this.bootEnvironments, bootEnvironments);
+        });
+    }
+
+    public getBootVolumeConfig () {
+        return this.bootPoolRepository.getBootPoolConfig().then((bootVolumeConfig) => {
+            return (bootVolumeConfig as any).data;
+        });
+    }
+
+    private handleBootPoolChange (bootEnvironments: Immutable.Map<string, Immutable.Map<string, any>>) {
+        this.dataObjectChangeService.handleDataChange(this.bootEnvironments, bootEnvironments);
     }
 
     public saveCertificate(certificate: any) {
