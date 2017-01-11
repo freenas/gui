@@ -8,6 +8,7 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
     VmDeviceNicMode = require("core/model/enumerations/vm-device-nic-mode").VmDeviceNicMode,
     VmDeviceUsbDevice = require("core/model/enumerations/vm-device-usb-device").VmDeviceUsbDevice,
     VmDeviceVolumeType = require("core/model/enumerations/vm-device-volume-type").VmDeviceVolumeType,
+    VmDatastoreNfsVersion = require("core/model/enumerations/vm-datastore-nfs-version").VmDatastoreNfsVersion,
     VmRepository = require("core/repository/vm-repository").VmRepository,
     VolumeRepository = require("core/repository/volume-repository").VolumeRepository,
     NetworkRepository = require("core/repository/network-repository").NetworkRepository,
@@ -106,6 +107,12 @@ exports.VmsSectionService = AbstractSectionService.specialize({
         }
     },
 
+    NFS_DATASTORE_VERSIONS: {
+        get: function() {
+            return VmDatastoreNfsVersion.members;
+        }
+    },
+
     init: {
         value: function() {
             this._vmRepository = VmRepository.instance;
@@ -126,6 +133,12 @@ exports.VmsSectionService = AbstractSectionService.specialize({
                 sortedEntries._objectType = 'Vm';
                 return sortedEntries;
             });
+        }
+    },
+
+    loadExtraEntries: {
+        value: function() {
+            return Promise.all([this._vmRepository.listDatastores()]);
         }
     },
 

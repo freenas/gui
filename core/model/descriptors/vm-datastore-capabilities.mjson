@@ -1,0 +1,37 @@
+{
+  "blueprint_vmdatastorecapabilities_block_devices": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "block_devices",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_vmdatastorecapabilities_clones": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "clones",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_vmdatastorecapabilities_snapshots": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "snapshots",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "VmDatastoreCapabilities",
+      "propertyBlueprints": [
+        {"@": "blueprint_vmdatastorecapabilities_block_devices"},
+        {"@": "blueprint_vmdatastorecapabilities_clones"},
+        {"@": "blueprint_vmdatastorecapabilities_snapshots"}
+      ]
+    }
+  }
+}

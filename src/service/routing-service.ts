@@ -259,6 +259,14 @@ export class RoutingService {
             () => this.vmsRoute.createVolume(this.currentStacks.get('vms')));
         crossroads.addRoute('/vms/create/volumes/vm-volume/_/{volumeId}',
             (volumeId) => this.vmsRoute.getVolume(volumeId, this.currentStacks.get('vms')));
+        crossroads.addRoute('/vms/vm-datastore',
+            () => this.vmsRoute.getDatastores(this.currentStacks.get('vms')));
+        crossroads.addRoute('/vms/vm-datastore/_/{datastoreId}',
+            (datastoreId) => this.vmsRoute.getDatastore(datastoreId, this.currentStacks.get('vms')));
+        crossroads.addRoute('/vms/vm-datastore/create',
+            () => this.vmsRoute.selectNewDatastoreType(this.currentStacks.get('vms')));
+        crossroads.addRoute('/vms/vm-datastore/create/{type}',
+            (type) => this.vmsRoute.createDatastore(type, this.currentStacks.get('vms')));
     }
 
     private loadPeeringRoutes() {
