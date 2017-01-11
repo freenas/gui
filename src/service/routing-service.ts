@@ -409,7 +409,9 @@ export class RoutingService {
         crossroads.addRoute('/storage/create/disk/_/{diskId}',
             (diskId) => this.volumeRoute.creatorDisk(diskId, this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/volume-importer/_/-',
-            () => this.volumeRoute.import(this.currentStacks.get('storage')));
+            () => this.volumeRoute.import(this.currentStacks.get("storage")));
+        crossroads.addRoute('/storage/volume-media-importer/_/-',
+            () => this.volumeRoute.mediaImport(this.currentStacks.get("storage")));
         crossroads.addRoute('/storage/volume-importer/_/-/detached-volume/_/{volumeId}',
             (volumeId) => this.volumeRoute.getDetachedVolume(volumeId, this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/volume-importer/_/-/detached-volume/_/{volumeId}/topology',

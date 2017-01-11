@@ -83,7 +83,7 @@
                 "element": {"#": "emptyMessage"}
             },
             "bindings": {
-                "value": {"<-": "@owner.emptyMessage ?? 'There are currently no items in ' + @title.value"}
+                "value": {"<-": "!!@owner.emptyMessage ? @owner.emptyMessage : 'There are currently no items in ' + @title.value"}
             }
         },
         "viewerControls": {
