@@ -14,6 +14,9 @@ exports.Interface = Component.specialize({
             if (this.object.status) {
                 this.active_media_type = this.object.status.active_media_type + " " + this.object.status.active_media_subtype;
             }
+            if (this.object.media === null) {
+                this.object.media = "autoselect";
+            }
         }
     }
 });
