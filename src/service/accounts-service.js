@@ -20,6 +20,12 @@ var AccountsService = exports.AccountsService = Montage.specialize({
         value: function() {
             return this._accountRepository.listUsers();
         }
+    },
+    
+    findUserWithName: {
+        value: function(username) {
+            return this._accountRepository.findUserWithName(username);
+        }
     }
 
 }, {
