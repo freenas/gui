@@ -92,6 +92,7 @@ var SignIn = exports.SignIn = Component.specialize({
         value: function (isFirstTime) {
             this.addEventListener("action", this, false);
             this._keyComposer.addEventListener("keyPress", this, false);
+            this.element.addEventListener("transitionend", this, false);
 
             // checks for disconnected hash
             if(window.location.href.indexOf(";disconnected") > -1) {
@@ -155,6 +156,14 @@ var SignIn = exports.SignIn = Component.specialize({
 
                     self.isAuthenticating = false;
                 });
+            }
+        }
+    },
+
+    handleTransitionend: {
+        value: function (e) {
+            if(this.isLoggedIn && e.target == this.element && e.propertyName == 'opacity') {
+                this.element.style.display = 'none';
             }
         }
     },
