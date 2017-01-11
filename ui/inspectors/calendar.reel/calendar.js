@@ -23,6 +23,15 @@ exports.Calendar = AbstractInspector.specialize({
                 }
             }
         }
-    }
+    },
 
+    enterDocument: {
+        value: function () {
+            var self = this;
+            this._sectionService.getGmtOffset()
+                .then(function(gmtOffset) {
+                    return self.object._gmtOffset = gmtOffset.slice(0,3);
+                });
+        }
+    }
 });

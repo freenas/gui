@@ -156,8 +156,17 @@ Header
 .CalendarWidget-view-header {
     display: flex;
     flex-shrink: 0;
+    /* outline: 1px solid blue; */
+    align-items: flex-end;
     /* added to match the CalendarWidget-view main border */
     border: 1px solid transparent;
+    position: relative;
+}
+
+.CalendarWidget-view-timezone {
+    flex: 1;
+    text-align: center;
+    font-size: .75rem;
 }
 
 .CalendarWidget-view-days {
@@ -289,6 +298,10 @@ Main Content
 .CalendarWidget-view-column--axis {
     flex: 1;
     max-width: calc(var(--hourHeight));
+
+    @nest .CalendarWidget-view-header & {
+        display: flex;
+    }
 }
 
 /*

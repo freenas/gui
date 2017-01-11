@@ -35,6 +35,15 @@
                 "selectedDay": {"<->": "@owner.selectedDay"}
             }
         },
+        "GMT": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "GMT"}
+            },
+            "bindings": {
+                "value": {"<-": "'GMT' + @owner.object._gmtOffset"}
+            }
+        },
         "scrollview": {
             "prototype": "blue-shark/ui/scrollview.reel",
             "properties": {
@@ -51,7 +60,10 @@
             <div class="Calendar-wrapper">
                 <div data-montage-id="calendarWidget" class="Calendar-calendarWidget"></div>
                 <div class="Calendar-events">
-                    <h2>Agenda</h2>
+                    <div class="Calendar-events-header flex-row g-margin-top flex-align--baseline">
+                        <h2 class="g-margin-right--half">Agenda</h2>
+                        <span data-montage-id="GMT" class="small"></span>
+                    </div>
                     <div data-montage-id="list" class="Calendar-eventsList"></div>
                 </div>
             </div>
