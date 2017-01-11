@@ -52,10 +52,10 @@
                 "selectedTask": {"<->": "@owner.selectedTask"}
             }
         },
-        "timezone": {
+        "GMT": {
             "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "timezone"}
+                "element": {"#": "GMT"}
             },
             "bindings": {
                 "value": {"<-": "'GMT' + @owner.gmtOffset"}
@@ -76,7 +76,7 @@
 
         <header class="CalendarWidget-view-header">
             <div class="CalendarWidget-view-column--axis">
-                <span data-montage-id="timezone" class="CalendarWidget-view-timezone small"></span>
+                <span data-montage-id="GMT" class="CalendarWidget-view-timezone small"></span>
             </div>
             <div class="CalendarWidget-view-days">
                 <div data-montage-id="dayHeader" class="CalendarWidget-view-day"></div>
