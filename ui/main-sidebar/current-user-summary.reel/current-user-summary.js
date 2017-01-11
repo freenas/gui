@@ -1,11 +1,21 @@
 var Component = require("montage/ui/component").Component,
     SystemService = require("core/service/system-service").SystemService,
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
+    ModelEventName = require("core/model-event-name.js").ModelEventName,
     MiddlewareClient = require("core/service/middleware-client").MiddlewareClient;
 
 exports.CurrentUserSummary = Component.specialize({
 
     dotRegEx: {
         value: /\./g
+    },
+    
+    datePattern: {
+        value: "M/d/yy"
+    },
+
+    timePattern: {
+        value: "T"
     },
 
     _synchronizeClockTimeoutId: {
@@ -20,17 +30,55 @@ exports.CurrentUserSummary = Component.specialize({
         value: 10 // sec
     },
 
+    eventDispatcherService: {
+        get: function() {
+            if (!this._eventDispatcherService) {
+                this._eventDispatcherService = EventDispatcherService.getInstance();
+            }
+            return this._eventDispatcherService;
+        }
+    },
+
+    _sessionDidOpen: {
+        value: false
+    },
+
+    _getUserPrefs: {
+        value: function(user) {
+            this.datePattern = user.attributes.userSettings.dateFormatShort;
+            this.timePattern = user.attributes.userSettings.timeFormatLong;
+        }
+    },
+
+    _handleOpenedSession: {
+        value: function() {
+            var self = this;
+            this.application.accountsService.findUserWithName(this.middlewareClient.user).then(function(user) {
+                self._getUserPrefs(user);
+                self.userPreferencesEventListener = self.eventDispatcherService.addEventListener(ModelEventName.User.change(user.id), self._handleUserChange.bind(self));
+            });
+            this._sessionDidOpen = true;
+        }
+    },
+
+    _handleUserChange: {
+        value: function(user) {
+            this._getUserPrefs(user.toJS());
+        }
+    },
+
     templateDidLoad: {
         value: function() {
             this.middlewareClient = MiddlewareClient.getInstance();
             this.systemService = SystemService.getInstance();
+            this.sessionOpenedEventListener = this.eventDispatcherService.addEventListener("SessionOpened", this._handleOpenedSession.bind(this));
         }
     },
 
     _loadTime: {
         value: function() {
             var self = this;
-            return this.application.sessionService.session.username ?
+            return this._sessionDidOpen ?
                 self.systemService.getTime().then(function (time) {
                     return new Date(time.system_time.$date);
                 }) :
