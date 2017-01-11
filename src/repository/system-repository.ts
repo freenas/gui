@@ -3,6 +3,7 @@ import {SystemTimeDao} from "../dao/system-time-dao";
 import {SystemDatasetDao} from "../dao/system-dataset-dao";
 import {SystemDeviceDao} from "../dao/system-device-dao";
 import {SystemSectionDao} from "../dao/system-section-dao";
+import * as moment from "moment-timezone";
 import * as Promise from "bluebird";
 import {DatabaseDao} from "../dao/database-dao";
 import {SystemAdvancedDao} from "../dao/system-advanced-dao";
@@ -50,6 +51,15 @@ export class SystemRepository {
 
     public getTime(): Object {
         return this.systemTimeDao.get();
+    }
+
+    public getGmtOffset() {
+        return Promise.all([
+            this.getTime(),
+            this.getGeneral()
+        ]).spread((time,general) => {
+            return moment.tz(time.system_time.$date, general.timezone).format('Z');
+        })
     }
 
     public getVersion() {
