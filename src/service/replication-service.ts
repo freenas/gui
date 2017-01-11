@@ -1,21 +1,43 @@
 import {ReplicationRepository} from "../repository/replication-repository";
+import {SystemRepository} from '../repository/system-repository';
+import {MiddlewareClient} from './middleware-client';
+import * as Promise from "bluebird";
+import * as _ from "lodash";
+import {Model} from "../model";
 
 export class ReplicationService {
     private static instance: ReplicationService;
 
-    public constructor(private replicationRepository: ReplicationRepository) {}
+    private hostPromise: Promise<string>;
+
+    public constructor(private systemRepository: SystemRepository,
+                       private middlewareClient: MiddlewareClient,
+                       private replicationRepository: ReplicationRepository) {}
 
     public static getInstance(): ReplicationService {
         if (!ReplicationService.instance) {
             ReplicationService.instance = new ReplicationService(
+                SystemRepository.getInstance(),
+                MiddlewareClient.getInstance(),
                 ReplicationRepository.getInstance()
             );
         }
         return ReplicationService.instance;
     }
 
-    public listReplications(): Array<any> {
+    public listReplications(): Promise<any> {
         return this.replicationRepository.listReplications();
+    }
+
+    public listReplicationsForDataset(dataset: string): Promise<any> {
+        return Promise.all([
+            this.replicationRepository.listReplications(),
+            this.getHostUuid()
+        ])
+            .spread((replications, host) => _.filter(replications, replication =>
+                (replication.master === host && replication.datasets[0].master === dataset) ||
+                    (replication.slave === host && replication.datasets[0].slave === dataset)
+            ));
     }
 
     public extractTransportOptions(replication) {
@@ -25,11 +47,11 @@ export class ReplicationService {
 
         for (i = 0; i < length; i++) {
             option = replication.transportOptions[i];
-            if (option["%type"] === "compress-replication-transport-plugin") {
+            if (option["%type"] === "compress-replication-transport-option") {
                 result.compress = option.level;
-            } else if (option["%type"] === "encrypt-replication-transport-plugin") {
+            } else if (option["%type"] === "encrypt-replication-transport-option") {
                 result.encrypt = option.type;
-            } else if (option["%type"] === "throttle-replication-transport-plugin") {
+            } else if (option["%type"] === "throttle-replication-transport-option") {
                 result.throttle = option.buffer_size;
             }
         }
@@ -37,28 +59,45 @@ export class ReplicationService {
         return result;
     }
 
-    public setTransportOptions(replication, options) {
-        let transportOptions = [];
+    public buildTransportOptions(options) {
+        let promises = [];
 
         if (options.encrypt) {
-            transportOptions.push({
-                "%type": "encrypt-replication-transport-plugin",
-                type: options.encrypt
-            });
+            promises.push(
+                this.replicationRepository
+                    .getNewReplicationTransportOptionInstance(Model.EncryptReplicationTransportOption)
+                    .then(option => _.set(option, 'type', options.encrypt))
+            );
         }
         if (options.compress) {
-            transportOptions.push({
-                "%type": "compress-replication-transport-plugin",
-                level: options.compress
-            });
+            promises.push(
+                this.replicationRepository
+                    .getNewReplicationTransportOptionInstance(Model.CompressReplicationTransportOption)
+                    .then(option => _.set(option, 'level', options.compress))
+            );
         }
         if (options.throttle) {
-            transportOptions.push({
-                "%type": "throttle-replication-transport-plugin",
-                buffer_size: options.throttle
-            });
+            promises.push(
+                this.replicationRepository
+                    .getNewReplicationTransportOptionInstance(Model.ThrottleReplicationTransportOption)
+                    .then(option => _.set(option, 'buffer_size', options.throttle))
+            );
         }
 
-        replication.transportOptions = transportOptions;
+        return Promise.all(promises);
+    }
+
+    public getNewReplicationInstance() {
+        return Promise.all([
+            this.replicationRepository.getNewReplicationInstance(),
+            this.getHostUuid()
+        ]).spread((replication, host) => {
+            replication.master = host;
+            return replication;
+        });
+    }
+
+    private getHostUuid(): Promise<string> {
+        return this.hostPromise = this.hostPromise || this.middlewareClient.callRpcMethod('system.info.host_uuid');
     }
 }

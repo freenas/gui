@@ -18,6 +18,7 @@ exports.Replication = AbstractInspector.specialize(/** @lends Replication# */ {
                 this._replicationService = this.application.replicationService;
 
                 this.application.peeringService.list().then(function(peers) {
+                    console.log(peers);
                     self.peers = peers;
                     if (peers && peers.length && !self.object.slave) {
                         self.object.slave = peers[0].id;
@@ -32,10 +33,18 @@ exports.Replication = AbstractInspector.specialize(/** @lends Replication# */ {
 
     save: {
         value: function() {
-            this.object.master = 
-            this._replicationService.setTransportOptions(this.object, this._transportOptions);
+            var self = this;
 
-            return this.inspector.save();
+            if (this.object.bidirectional) {
+                this.object.datasets[0].slave = this.object.datasets[0].master;
+            } else {
+                this.object.auto_recover = this.object.replicate_services = false;
+            }
+
+            return this._replicationService.buildTransportOptions(this._transportOptions).then(function(transportOptions) {
+                self.object.transportOptions = transportOptions;
+                return self.inspector.save();
+            });
         }
     }
 

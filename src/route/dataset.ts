@@ -6,6 +6,7 @@ import {ModelEventName} from "../model-event-name";
 import _ = require("lodash");
 import Promise = require("bluebird");
 import {ReplicationRepository} from "../repository/replication-repository";
+import {ReplicationService} from "../service/replication-service";
 import {VmwareRepository} from "../repository/vmware-repository";
 import {AbstractRoute} from "./abstract-route";
 import {Model} from "../model";
@@ -16,6 +17,7 @@ export class DatasetRoute extends AbstractRoute {
 
     private constructor(private volumeRepository: VolumeRepository,
                         private replicationRepository: ReplicationRepository,
+                        private replicationService: ReplicationService,
                         private vmwareRepository: VmwareRepository,
                         eventDispatcherService: EventDispatcherService,
                         private modelDescriptorService: ModelDescriptorService,
@@ -30,6 +32,7 @@ export class DatasetRoute extends AbstractRoute {
             DatasetRoute.instance = new DatasetRoute(
                 VolumeRepository.getInstance(),
                 ReplicationRepository.getInstance(),
+                ReplicationService.getInstance(),
                 VmwareRepository.getInstance(),
                 EventDispatcherService.getInstance(),
                 ModelDescriptorService.getInstance(),
@@ -285,12 +288,11 @@ export class DatasetRoute extends AbstractRoute {
                 path: parentContext.path + '/replication'
             };
         return Promise.all([
-            this.replicationRepository.listReplications(),
+            this.replicationService.listReplicationsForDataset(datasetId),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(replications, uiDescriptor) {
-            let filteredReplicationsDatasets = replications;//_.filter(replications, {dataset: datasetId});
-            filteredReplicationsDatasets._objectType = objectType;
-            context.object = filteredReplicationsDatasets;
+            replications._objectType = objectType;
+            context.object = replications;
             context.userInterfaceDescriptor = uiDescriptor;
             return self.updateStackWithContext(stack, context);
         });
@@ -308,10 +310,10 @@ export class DatasetRoute extends AbstractRoute {
                 path: parentContext.path + '/create'
             };
         return Promise.all([
-            this.replicationRepository.getNewReplicationInstance(),
+            this.replicationService.getNewReplicationInstance(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(replication, uiDescriptor) {
-            replication.dataset = datasetId;
+            replication.datasets = [ { master: datasetId } ];
             context.object = replication;
             context.userInterfaceDescriptor = uiDescriptor;
             return self.updateStackWithContext(stack, context);

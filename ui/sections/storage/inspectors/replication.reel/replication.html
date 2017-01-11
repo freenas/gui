@@ -81,6 +81,13 @@
                 "disabled": {"<-": "!!@owner.object.bidirectional"}
             }
         },
+        "transportSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "transportSection"},
+                "title": "Transport Options"
+            }
+        },
         "compress": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
@@ -121,6 +128,13 @@
             },
             "bindings": {
                 "value": {"<->": "@owner._transportOptions.throttle"}
+            }
+        },
+        "advancedSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "advancedSection"},
+                "title": "Advanced"
             }
         },
         "bidirectional": {
@@ -204,14 +218,18 @@
         <div data-montage-id="name"></div>
         <div data-montage-id="peer"></div>
         <div data-montage-id="remote_dataset"></div>
-        <div data-montage-id="compress"></div>
-        <div data-montage-id="encrypt"></div>
-        <div data-montage-id="throttle"></div>
-        <div data-montage-id="bidirectional"></div>
-        <div data-montage-id="autoRecover"></div>
-        <div data-montage-id="replicateServices"></div>
-        <div data-montage-id="recursive"></div>
-        <div data-montage-id="followDelete"></div>
+        <div data-montage-id="transportSection">
+            <div data-montage-id="compress"></div>
+            <div data-montage-id="encrypt"></div>
+            <div data-montage-id="throttle"></div>
+        </div>
+        <div data-montage-id="advancedSection">
+            <div data-montage-id="bidirectional"></div>
+            <div data-montage-id="autoRecover"></div>
+            <div data-montage-id="replicateServices"></div>
+            <div data-montage-id="recursive"></div>
+            <div data-montage-id="followDelete"></div>
+        </div>
         <div data-montage-id="repetitionSection">
             <div data-montage-id="repetition"></div>
         </div>
