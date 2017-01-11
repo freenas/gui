@@ -70,6 +70,15 @@
                 "value": {"<-": "@hours:iteration.object"}
             }
         },
+        "GMT": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "GMT"}
+            },
+            "bindings": {
+                "value": {"<-": "'GMT' + @owner.gmtOffset"}
+            }
+        },
         "scrollview": {
             "prototype": "blue-shark/ui/scrollview.reel",
             "properties": {
@@ -85,7 +94,9 @@
     <div data-montage-id="owner" class="WeekView">
 
         <header class="CalendarWidget-view-header">
-            <div class="CalendarWidget-view-column--axis"></div>
+            <div class="CalendarWidget-view-column--axis">
+                <div data-montage-id="GMT" class="small CalendarWidget-view-timezone"></div>
+            </div>
             <div data-montage-id="dayHeaders" class="CalendarWidget-view-days">
                 <div data-montage-id="dayHeader" class="CalendarWidget-view-day"></div>
             </div>

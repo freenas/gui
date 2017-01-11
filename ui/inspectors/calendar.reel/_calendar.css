@@ -18,11 +18,14 @@
     flex-direction: column;
 }
 
-/* $fix - should be a title mixin */
-.Calendar-events h2 {
-    padding-bottom: .25em;
-    margin-bottom: 0;
+.Calendar-events-header {
     border-bottom: 1px solid rgba(255,255,255,.2);
+    flex-shrink: 0;
+    padding-bottom: .25em;
+}
+
+.Calendar-events h2 {
+    margin: 0;
     color: #B1BCBE;
 }
 
