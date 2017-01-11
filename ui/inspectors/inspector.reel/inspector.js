@@ -126,10 +126,6 @@ exports.Inspector = Component.specialize({
 
             if (this.controller && typeof this.controller.save === 'function') {
                 promise = this.controller.save();
-
-                if (Promise.is(promise)) {
-                    promise.catch(this._logError);
-                }
             } else if (this.object) {
                 promise = this.save();
             } else if (this.controller) {
@@ -143,13 +139,17 @@ exports.Inspector = Component.specialize({
                 this.object.__isLocked = true;
             }
 
+            promise = Promise.is(promise) ? promise : Promise.resolve(promise);
             event.stopPropagation();
-            return promise.then(function(task) {
-                if (isCreationInspector) {
-                    self.clearObjectSelection();
-                }
-                return task;
-            });
+
+            return promise
+                .catch(this._logError)
+                .then(function(task) {
+                    if (isCreationInspector) {
+                        self.clearObjectSelection();
+                    }
+                    return task;
+                });
         }
     },
 
@@ -158,7 +158,7 @@ exports.Inspector = Component.specialize({
             var self = this;
             return (function(object, args) {
                 return self._getObjectDao(object).then(function(dao) {
-                    return dao.save(object, _.values(args)).catch(self._logError);
+                    return dao.save(object, _.values(args));
                 });
             })(this.object, arguments);
         }
@@ -192,7 +192,7 @@ exports.Inspector = Component.specialize({
         value: function() {
             var self = this;
             return this._getObjectDao(this.object).then(function(dao) {
-                return dao.revert
+                return dao.revert(self.object);
                 if (self.object._isNew) {
                     self.object = object;
                 }
@@ -209,7 +209,7 @@ exports.Inspector = Component.specialize({
 
     _isCreationInspector: {
         value: function() {
-            return !!this.object._isNew;
+            return this.object && !!this.object._isNew;
         }
     },
 
