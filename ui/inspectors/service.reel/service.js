@@ -1,4 +1,6 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
+    ModelEventName = require("core/model-event-name").ModelEventName,
     ServiceSectionService = require("core/service/section/service-section-service").ServiceSectionService;
 
 exports.Service = AbstractInspector.specialize({
@@ -8,6 +10,7 @@ exports.Service = AbstractInspector.specialize({
 
     _inspectorTemplateDidLoad: {
         value: function() {
+            this._eventDispatcherService = EventDispatcherService.getInstance();
             this.__sectionService = new ServiceSectionService();
         }
     },
@@ -17,10 +20,17 @@ exports.Service = AbstractInspector.specialize({
             this.super();
             if (isFirstTime) {
                 var self = this;
-                return this._sectionService.getSystemGeneral().then(function(systemGeneral) {
+                this._sectionService.getSystemGeneral().then(function(systemGeneral) {
                     self.systemGeneral = systemGeneral;
                 });
             }
+            this.modelChangeListener = this._eventDispatcherService.addEventListener(ModelEventName.Service.change(this.object.id), this._handleServiceChange.bind(this));
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            this._eventDispatcherService.removeEventListener(ModelEventName.Service.change(this.object.id), this.modelChangeListener);
         }
     },
 
@@ -30,6 +40,12 @@ exports.Service = AbstractInspector.specialize({
                 this.configComponent.save();
             }
             this._sectionService.saveService(this.object);
+        }
+    },
+
+    _handleServiceChange: {
+        value: function(state) {
+            this.object.state = state.get('state');
         }
     }
 });
