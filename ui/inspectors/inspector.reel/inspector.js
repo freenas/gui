@@ -156,8 +156,8 @@ exports.Inspector = Component.specialize({
     save: {
         value: function() {
             var self = this;
-            (function(object, args) {
-                self._getObjectDao(object).then(function(dao) {
+            return (function(object, args) {
+                return self._getObjectDao(object).then(function(dao) {
                     return dao.save(object, _.values(args)).catch(self._logError);
                 });
             })(this.object, arguments);
