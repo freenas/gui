@@ -21,9 +21,10 @@ class DiffProcessor implements DataProcessor {
         return changes;
     }
 
-    private getDifferences(object: Object, reference: Map<string, any>, propertyDescriptors?: Map<string, Object>): Object {
-        let differences = Map<string, any>();
-        (propertyDescriptors || reference).forEach(function(value, key) {
+    private getDifferences(object: Object, reference: Map<string, any>, propertyDescriptors?: any): Object {
+        let differences = Map<string, any>(),
+            usedReference = (propertyDescriptors && Map<string, any>(propertyDescriptors)) || reference;
+        usedReference.forEach(function(value, key) {
             value = reference.get(key);
             if (object.hasOwnProperty(key) && (value instanceof Map || value instanceof List || value !== object[key])) {
                 differences = differences.set(key, object[key]);
