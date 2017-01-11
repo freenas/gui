@@ -5,8 +5,6 @@ import {DataObjectChangeService} from "../service/data-object-change-service";
 import {ModelEventName} from "../model-event-name";
 import _ = require("lodash");
 import Promise = require("bluebird");
-import {ReplicationRepository} from "../repository/replication-repository";
-import {ReplicationService} from "../service/replication-service";
 import {VmwareRepository} from "../repository/vmware-repository";
 import {AbstractRoute} from "./abstract-route";
 import {Model} from "../model";
@@ -16,8 +14,6 @@ export class DatasetRoute extends AbstractRoute {
     private objectType: string;
 
     private constructor(private volumeRepository: VolumeRepository,
-                        private replicationRepository: ReplicationRepository,
-                        private replicationService: ReplicationService,
                         private vmwareRepository: VmwareRepository,
                         eventDispatcherService: EventDispatcherService,
                         private modelDescriptorService: ModelDescriptorService,
@@ -31,8 +27,6 @@ export class DatasetRoute extends AbstractRoute {
         if (!DatasetRoute.instance) {
             DatasetRoute.instance = new DatasetRoute(
                 VolumeRepository.getInstance(),
-                ReplicationRepository.getInstance(),
-                ReplicationService.getInstance(),
                 VmwareRepository.getInstance(),
                 EventDispatcherService.getInstance(),
                 ModelDescriptorService.getInstance(),
@@ -82,7 +76,6 @@ export class DatasetRoute extends AbstractRoute {
     }
 
     public create(volumeId: string, stack: Array<any>) {
-
         let self = this,
             columnIndex = 3,
             parentContext = stack[columnIndex-1],
@@ -132,36 +125,6 @@ export class DatasetRoute extends AbstractRoute {
             let dataset = _.find(datasets, {id: datasetId});
             dataset._volume = _.find(volumes, {id: volumeId});
             context.object = dataset;
-            context.userInterfaceDescriptor = uiDescriptor;
-
-            while (stack.length > columnIndex) {
-                let context = stack.pop();
-                if (context && context.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
-                }
-            }
-
-            stack.push(context);
-            return stack;
-        });
-    }
-
-    public replication(datasetId: string, stack: Array<any>) {
-        let self = this,
-            columnIndex = 4,
-            parentContext = stack[columnIndex-1],
-            context: any = {
-                columnIndex: columnIndex,
-                objectType: this.objectType,
-                parentContext: parentContext,
-                path: parentContext.path + '/replication'
-            };
-        return Promise.all([
-            this.replicationRepository.getReplicationOptionsInstance(),
-            this.modelDescriptorService.getUiDescriptorForType('ReplicationOptions')
-        ]).spread(function(replicationOptions, uiDescriptor) {
-            replicationOptions._dataset = datasetId;
-            context.object = replicationOptions;
             context.userInterfaceDescriptor = uiDescriptor;
 
             while (stack.length > columnIndex) {
@@ -273,71 +236,6 @@ export class DatasetRoute extends AbstractRoute {
 
             stack.push(context);
             return stack;
-        });
-    }
-
-    public listReplications(datasetId: string, stack: Array<any>) {
-        let self = this,
-            objectType = Model.Replication,
-            columnIndex = 4,
-            parentContext = stack[columnIndex-1],
-            context: any = {
-                columnIndex: columnIndex,
-                objectType: this.objectType,
-                parentContext: parentContext,
-                path: parentContext.path + '/replication'
-            };
-        return Promise.all([
-            this.replicationService.listReplicationsForDataset(datasetId),
-            this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(replications, uiDescriptor) {
-            replications._objectType = objectType;
-            context.object = replications;
-            context.userInterfaceDescriptor = uiDescriptor;
-            return self.updateStackWithContext(stack, context);
-        });
-    }
-
-    public createReplication(datasetId: string, stack: Array<any>) {
-        let self = this,
-            objectType = Model.Replication,
-            columnIndex = 5,
-            parentContext = stack[columnIndex-1],
-            context: any = {
-                columnIndex: columnIndex,
-                objectType: this.objectType,
-                parentContext: parentContext,
-                path: parentContext.path + '/create'
-            };
-        return Promise.all([
-            this.replicationService.getNewReplicationInstance(),
-            this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(replication, uiDescriptor) {
-            replication.datasets = [ { master: datasetId } ];
-            context.object = replication;
-            context.userInterfaceDescriptor = uiDescriptor;
-            return self.updateStackWithContext(stack, context);
-        });
-    }
-
-    public getReplication(replicationId: string, stack: Array<any>) {
-        let self = this,
-            objectType = Model.Replication,
-            columnIndex = 5,
-            parentContext = stack[columnIndex-1],
-            context: any = {
-                columnIndex: columnIndex,
-                objectType: this.objectType,
-                parentContext: parentContext,
-                path: parentContext.path + '/_/' + encodeURIComponent(replicationId)
-            };
-        return Promise.all([
-            this.replicationRepository.listReplications(),
-            this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(replication, uiDescriptor) {
-            context.object = _.find(replication, {id: replicationId});
-            context.userInterfaceDescriptor = uiDescriptor;
-            return self.updateStackWithContext(stack, context);
         });
     }
 }

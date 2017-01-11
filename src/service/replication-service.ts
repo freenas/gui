@@ -29,6 +29,17 @@ export class ReplicationService {
         return this.replicationRepository.listReplications();
     }
 
+    public listReplicationsForVolume(volume: string): Promise<any> {
+        return Promise.all([
+            this.replicationRepository.listReplications(),
+            this.getHostUuid()
+        ])
+            .spread((replications, host) => _.filter(replications, replication =>
+                (replication.master === host && replication.datasets[0].master.startsWith(volume)) ||
+                    (replication.slave === host && replication.datasets[0].slave.startsWith(volume))
+            ));
+    }
+
     public listReplicationsForDataset(dataset: string): Promise<any> {
         return Promise.all([
             this.replicationRepository.listReplications(),
@@ -93,6 +104,7 @@ export class ReplicationService {
             this.getHostUuid()
         ]).spread((replication, host) => {
             replication.master = host;
+            replication.datasets = [{}];
             return replication;
         });
     }

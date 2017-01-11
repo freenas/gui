@@ -16,8 +16,9 @@ exports.Replication = AbstractInspector.specialize(/** @lends Replication# */ {
             if (isFirstTime) {
                 this._calendarService = this.application.calendarService;
                 this._replicationService = this.application.replicationService;
+                this._peeringService = this.application.peeringService;
 
-                this.application.peeringService.list().then(function(peers) {
+                this._peeringService.list().then(function(peers) {
                     self.peers = peers;
                     if (peers && peers.length && !self.object.slave) {
                         self.object.slave = peers[0].id;
@@ -27,7 +28,15 @@ exports.Replication = AbstractInspector.specialize(/** @lends Replication# */ {
 
             this._transportOptions = this._replicationService.extractTransportOptions(this.object);
             this._repetition = null;
-            console.log(this.mode);
+
+            if (this.context.dataset) {
+                this.object.datasets.master = this.context.dataset;
+                this._hideSourceDataset = true;
+            }
+
+            if (this.datasetTreeController) {
+                this.datasetTreeController.open(this.object.datasets.master || this.context.volume);
+            }
         }
     },
 

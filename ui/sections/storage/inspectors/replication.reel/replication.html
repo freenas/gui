@@ -8,12 +8,13 @@
             "properties": {
                 "element": {"#": "owner"},
                 "validationController": {"@": "validationController"},
-                "inspector": {"@": "inspector"}
+                "inspector": {"@": "inspector"},
+                "datasetTreeController": {"@": "datasetTreeController"},
+                "sourceDataset": {"@": "source_dataset"}
             },
             "bindings": {
                 "classList.has('has-loading-spinner')": {"<-": "@owner.isLoading"},
-                "isCreateMode": {"<-": "@owner.object._isNew.defined() && @owner.object._isNew"},
-                "mode": {"<-": "@owner.object._isNew.defined() && @owner.object._isNew ? 'CREATE' : 'EDIT'"}
+                "isCreateMode": {"<-": "(@owner.object._isNew.defined() && @owner.object._isNew) || (@owner.object._isNewObject.defined() && @owner.object._isNewObject)"}
             }
         },
         "validationController": {
@@ -39,6 +40,25 @@
             },
             "bindings": {
                 "context": {"<-": "@owner.context"}
+            }
+        },
+        "datasetTreeController": {
+            "prototype": "core/controller/dataset-tree-controller",
+            "bindings": {
+                "service": {"<-": "@owner.application.dataService"},
+                "root": {"<-": "@owner.context.volume"}
+            }
+        },
+        "source_dataset": {
+            "prototype": "ui/controls/field-treeview.reel",
+            "properties": {
+                "element": {"#": "source_dataset"},
+                "controller": {"@": "datasetTreeController"},
+                "label": "Source dataset"
+            },
+            "bindings": {
+                "selectedPath": {"<->": "@owner.object.datasets.0.master"},
+                "classList.has('hide')": {"<-": "!!@owner.context.dataset"}
             }
         },
         "name": {
@@ -71,22 +91,15 @@
                 "selectedValue": {"<->": "@owner.object.slave"}
             }
         },
-        "remote_dataset": {
+        "target_dataset": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
-                "element": {"#": "remote_dataset"},
+                "element": {"#": "target_dataset"},
                 "label": "Target dataset"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.datasets.0.slave"},
                 "disabled": {"<-": "!!@owner.object.bidirectional"}
-            }
-        },
-        "transportSection": {
-            "prototype": "ui/controls/foldable-section.reel",
-            "properties": {
-                "element": {"#": "transportSection"},
-                "title": "Transport Options"
             }
         },
         "compress": {
@@ -196,7 +209,7 @@
                 "element": {"#": "createdSubstitution"}
             },
             "bindings": {
-                "switchValue": {"<-": "@owner.mode"}
+                "switchValue": {"<-": "@owner.isCreateMode ? 'CREATE' : 'EDIT'"}
             }
         },
         "currentState": {
@@ -242,12 +255,11 @@
     <div data-montage-id="inspector">
         <div data-montage-id="name"></div>
         <div data-montage-id="peer"></div>
-        <div data-montage-id="remote_dataset"></div>
-        <div data-montage-id="transportSection">
-            <div data-montage-id="compress"></div>
-            <div data-montage-id="encrypt"></div>
-            <div data-montage-id="throttle"></div>
-        </div>
+        <div data-montage-id="source_dataset"></div>
+        <div data-montage-id="target_dataset"></div>
+        <div data-montage-id="compress"></div>
+        <div data-montage-id="encrypt"></div>
+        <div data-montage-id="throttle"></div>
         <div data-montage-id="advancedSection">
             <div data-montage-id="bidirectional"></div>
             <div data-montage-id="autoRecover"></div>

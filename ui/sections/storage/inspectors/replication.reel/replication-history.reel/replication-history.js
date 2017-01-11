@@ -29,7 +29,7 @@ exports.ReplicationHistory = AbstractInspector.specialize(/** @lends Replication
             var history = [],
                 i, entry;
 
-            for (i = status.length - 1; i >= 0; i--) {
+            for (i = (status || []).length - 1; i >= 0; i--) {
                 entry = status[i];
                 history.push({
                     started: entry.started_at['$date'],
