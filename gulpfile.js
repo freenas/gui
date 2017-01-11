@@ -10,9 +10,11 @@ var path                    = require('path');
     postcssDiscardComments  = require('postcss-discard-comments'),
     browserSync             = require('browser-sync').create(),
     cssnano                 = require('cssnano'),
+    del                     = require("del"),
     ts                      = require('gulp-typescript');
 
 var tsProject = ts.createProject('tsconfig.json'),
+    tsProjectProd = ts.createProject('tsconfig.json', { sourceMap: false }),
     processors = [
         styleLint({
             config: {
@@ -39,7 +41,7 @@ var tsProject = ts.createProject('tsconfig.json'),
 
 // Tasks
 
-gulp.task('serve', ['allCss'], function() {
+gulp.task('serve', ['allCss', 'typescript'], function() {
     browserSync.init({
         server: "./"
     });
@@ -75,11 +77,32 @@ gulp.task('allCss', function() {
         .pipe(browserSync.stream());
 });
 
-gulp.task('typescript', function(){
-  gulp.src(['**/*.ts', '!**/node_modules/**'])
+gulp.task('typescript', function() {
+  return tsProject.src()
     .pipe(tsProject())
-    .pipe(gulp.dest('.'))
+    .pipe(gulp.dest('core'));
 });
 
-// Default task to be run with `gulp`
+gulp.task('build', ['allCss'], function() {
+    return tsProjectProd.src()
+        .pipe(tsProject())
+        .pipe(gulp.dest('core'));
+});
+
+gulp.task('clean', function() {
+    return del([
+        'ui/**/**/*.css',
+        '!ui/**/**/_*.css',
+        'core/*.*',
+        'core/backend',
+        'core/controller',
+        'core/converter',
+        'core/dao',
+        'core/reducers',
+        'core/repository',
+        'core/route',
+        'core/service'
+    ]);
+});
+
 gulp.task('default', ['serve']);
