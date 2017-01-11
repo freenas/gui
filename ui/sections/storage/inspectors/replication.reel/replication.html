@@ -12,7 +12,8 @@
             },
             "bindings": {
                 "classList.has('has-loading-spinner')": {"<-": "@owner.isLoading"},
-                "isCreateMode": {"<-": "@owner.object._isNew || @owner.object._isNewObject"}
+                "isCreateMode": {"<-": "@owner.object._isNew.defined() && @owner.object._isNew"},
+                "mode": {"<-": "@owner.object._isNew.defined() && @owner.object._isNew ? 'CREATE' : 'EDIT'"}
             }
         },
         "validationController": {
@@ -189,14 +190,38 @@
                 "checked": {"<->": "!!@owner.object.followdelete"}
             }
         },
+        "createdSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "createdSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.mode"}
+            }
+        },
+        "currentState": {
+            "prototype": "./replication-status.reel",
+            "properties": {
+                "element": {"#": "currentState"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.current_state"}
+            }
+        },
+        "history": {
+            "prototype": "./replication-history.reel",
+            "properties": {
+                "element": {"#": "history"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object"}
+            }
+        },
         "repetitionSection": {
             "prototype": "ui/controls/foldable-section.reel",
             "properties": {
                 "element": {"#": "repetitionSection"},
                 "title": "Repetition"
-            },
-            "bindings": {
-                "classList.has('hide')": {"<-": "!@owner.isCreateMode"}
             }
         },
         "repetition": {
@@ -230,8 +255,14 @@
             <div data-montage-id="recursive"></div>
             <div data-montage-id="followDelete"></div>
         </div>
-        <div data-montage-id="repetitionSection">
-            <div data-montage-id="repetition"></div>
+        <div data-montage-id="createdSubstitution">
+            <div data-arg="EDIT">
+                <div data-montage-id="currentState"></div>
+                <div data-montage-id="history"></div>
+            </div>
+            <div data-montage-id="repetitionSection" data-arg="CREATE">
+                <div data-montage-id="repetition"></div>
+            </div>
         </div>
     </div>
 </body>

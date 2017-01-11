@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "statusSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "statusSection"},
+                "title": "Current State"
+            }
+        },
+        "status": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "status"},
+                "label": "Status"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.status"}
+            }
+        },
+        "progress": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "progress"},
+                "label": "Progress"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.progress"}
+            }
+        },
+        "speed": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "speed"},
+                "label": "Speed"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.speed"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="ReplicationStatus">
+        <div data-montage-id="statusSection">
+            <div data-montage-id="status"></div>
+            <div data-montage-id="progress"></div>
+            <div data-montage-id="speed"></div>
+        </div>
+    </div>
+</body>
+</html>
