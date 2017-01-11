@@ -2,6 +2,7 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
     VmGuestType = require("core/model/enumerations/vm-guest-type").VmGuestType,
     VmConfigBootloader = require("core/model/enumerations/vm-config-bootloader").VmConfigBootloader,
     VmDeviceDiskMode = require("core/model/enumerations/vm-device-disk-mode").VmDeviceDiskMode,
+    VmDeviceDiskTargetType = require("core/model/enumerations/vm-device-disk-target-type").VmDeviceDiskTargetType,
     VmDeviceGraphicsResolution = require("core/model/enumerations/vm-device-graphics-resolution").VmDeviceGraphicsResolution,
     VmDeviceNicDevice = require("core/model/enumerations/vm-device-nic-device").VmDeviceNicDevice,
     VmDeviceNicMode = require("core/model/enumerations/vm-device-nic-mode").VmDeviceNicMode,
@@ -66,6 +67,12 @@ exports.VmsSectionService = AbstractSectionService.specialize({
     DISK_MODES: {
         get: function() {
             return VmDeviceDiskMode.members;
+        }
+    },
+
+    TARGET_TYPES: {
+        get: function() {
+            return VmDeviceDiskTargetType.members;
         }
     },
 
@@ -153,6 +160,7 @@ exports.VmsSectionService = AbstractSectionService.specialize({
             if (Array.isArray(addedDevices)) {
                 for (i = 0, length = addedDevices.length; i < length; i++) {
                     device = addedDevices[i];
+                    device._objectType = 'VmDevice';
                     if (device.type === this._vmRepository.DEVICE_TYPE.VOLUME) {
                         if (vm._volumeDevices.indexOf(device) === -1) {
                             vm._volumeDevices.push(device);

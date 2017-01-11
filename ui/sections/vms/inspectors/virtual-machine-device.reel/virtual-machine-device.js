@@ -38,7 +38,7 @@ exports.VirtualMachineDevice = AbstractInspector.specialize({
             if (this.object._isNew) {
                 this._sectionService.initializeNewDevice(this.object);
             }
-            this._vm = this.context.parentContext.parentContext.object;
+            this._vm = this.context.parentContext.parentContext.parentContext.object;
             this._parentColumn = this.context.parentContext.cascadingListItem;
         }
     },
