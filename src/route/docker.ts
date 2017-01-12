@@ -354,6 +354,9 @@ export class DockerRoute extends AbstractRoute {
         ]).spread((networks, uiDescriptor) => {
             context.object = networks;
             context.userInterfaceDescriptor = uiDescriptor;
+            context.changeListener = this.eventDispatcherService.addEventListener(ModelEventName[objectType].listChange, (state) => {
+                this.dataObjectChangeService.handleDataChange(networks, state);
+            });
 
             return this.updateStackWithContext(stack, context);
         });
