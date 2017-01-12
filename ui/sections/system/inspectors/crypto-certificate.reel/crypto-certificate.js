@@ -18,5 +18,19 @@ exports.CryptoCertificate = AbstractInspector.specialize({
             }
             return this._sectionService.saveCertificate(this.object);
         }
+    },
+
+    handleExportAction: {
+        value: function () {
+            console.log("do something");
+            var self = this;
+            this.application.systemService.getCertificateFileAddress(this.object.id, this.object.name + ".crt", this.object.name + ".key").then(function (certificateObject) {
+                var downloadLink = document.createElement("a");
+                    downloadLink.href = certificateObject.link;
+                    console.log(downloadLink.href);
+                    downloadLink.download = "FreeNAS10" + "-" + "debug.tar.gz";
+                    downloadLink.click();
+            })
+        }
     }
 });

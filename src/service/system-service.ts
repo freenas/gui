@@ -111,4 +111,8 @@ export class SystemService {
     public getDebugFileAddress() {
         return this.systemRepository.getDebugFileAddress();
     }
+
+    public getCertificateFileAddress(id: string, pubkeyFilename: string, privateKeyFilename: string) {
+        return this.systemRepository.getCertificateFileAddress(id, pubkeyFilename, privateKeyFilename);
+    }
 }

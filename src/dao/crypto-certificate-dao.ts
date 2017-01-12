@@ -17,6 +17,10 @@ export class CryptoCertificateDao extends AbstractDao {
         return this.middlewareClient.callRpcMethod('crypto.certificate.get_country_codes');
     }
 
+    public collect(id: string, pubKeyFilename: string, privateKeyFilename: string) {
+        return this.middlewareClient.submitTaskWithDownload('crypto.certificate.export', [id, pubKeyFilename, privateKeyFilename]);
+    }
+
     public import(certificate: any) {
         let taskName = 'crypto.certificate.import';
         return Promise.all([
