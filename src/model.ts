@@ -8,6 +8,7 @@ const Model = {
     AmazonS3Credentials: 'AmazonS3Credentials' as 'AmazonS3Credentials',
     BootEnvironment: 'BootEnvironment' as 'BootEnvironment',
     Calendar: 'Calendar' as 'Calendar',
+    CalendarCustomSchedule: 'CalendarCustomSchedule' as 'CalendarCustomSchedule',
     CalendarTask: 'CalendarTask' as 'CalendarTask',
     CryptoCertificate: 'CryptoCertificate' as 'CryptoCertificate',
     Database: 'Database' as 'Database',

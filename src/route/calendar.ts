@@ -135,4 +135,25 @@ export class CalendarRoute extends AbstractRoute {
             return self.updateStackWithContext(stack, context);
         });
     }
+
+    getCustomSchedule(stack: Array<any>) {
+        let self = this,
+            objectType = Model.CalendarCustomSchedule,
+            columnIndex = 2,
+            parentContext = stack[columnIndex - 1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/calendar-custom-schedule'
+            };
+        return Promise.all([
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(uiDescriptor) {
+            context.object = parentContext.object._customSchedule;
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            return self.updateStackWithContext(stack, context);
+        });
+    }
 }

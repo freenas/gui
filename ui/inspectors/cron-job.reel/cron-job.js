@@ -26,7 +26,7 @@ exports.CronJob = Component.specialize({
         value: function() {
             var self = this;
             this._canDrawGate.setField(this.constructor._CAN_DRAW_FIELD, false);
-            CalendarSectionService.instance.then(function(sectionService) {
+            new CalendarSectionService().instanciationPromise.then(function(sectionService) {
                 self._sectionService = sectionService;
                 self.monthOptions = sectionService.MONTHS;
                 self.dayOptions = sectionService.DAYS;
