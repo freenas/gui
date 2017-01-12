@@ -494,15 +494,41 @@ exports.VmsSectionService = AbstractSectionService.specialize({
                     // DTM
                     var entry = self._findObjectWithId(self.entries, stateEntry.get('id'));
                     if (entry) {
-                        _.assign(entry, stateEntry.toJS());
-                        entry.devices.forEach(function(device) {
-                            if (!device.id) {
-                                device.id = uuid.v4();
+                        var newEntry = stateEntry.toJS();
+                        _.assignWith(entry, newEntry, function(oldValue, newValue, key) {
+                            if (key === 'devices') {
+                                _.forEach(newValue, function(newDevice) {
+                                    var oldDevice = _.find(oldValue, {name: newDevice.name});
+                                    if (oldDevice) {
+                                        var newDeviceWithId = _.assign(_.cloneDeep(newDevice), {id: oldDevice.id}),
+                                            oldDeviceCleaned = _.pickBy(_.toPlainObject(oldDevice), function(value, key) { return !_.startsWith(key, '_'); });
+                                        oldDeviceCleaned.properties = _.pickBy(_.toPlainObject(oldDevice.properties), function(value, key) { return !_.startsWith(key, '_'); });
+                                        _.assignWith(newDeviceWithId, oldDeviceCleaned, function(newDeviceValue, oldDeviceValue, key) {
+                                            if (key !== 'properties') {
+                                                return _.has(newDeviceWithId, key) ? newDeviceValue : oldDeviceValue;
+                                            } else {
+                                                return _.assignWith(newDeviceWithId.properties, oldDeviceCleaned.properties, function(newDevicePropertyValue, oldDevicePropertyValue, propertyKey) {
+                                                    return _.has(newDeviceWithId, propertyKey) ? newDevicePropertyValue : oldDevicePropertyValue;
+                                                });
+                                            }
+                                        });
+                                        if (!_.isEqual(oldDeviceCleaned, newDeviceWithId)) {
+                                            _.assignWith(oldDevice, newDevice, function());
+                                        }
+                                    } else {
+                                        newDevice.id = uuid.v4();
+                                        oldValue.splice(_.sortedIndexBy(oldValue, newDevice, 'name'), 0, newDevice);
+                                    }
+                                });
+                                _.remove(oldValue, function(oldDevice) {
+                                    return !_.find(newValue, {name: oldDevice.name});
+                                });
+                                return oldValue;
                             }
                         });
                     } else {
                         entry = stateEntry.toJS();
-                        entry._objectType = 'Peer';
+                        entry._objectType = 'Vm';
                         entry.devices.forEach(function(device) {
                             device.id = uuid.v4();
                         });
