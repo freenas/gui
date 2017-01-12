@@ -1,5 +1,5 @@
 /*global require, exports, Error*/
-require('./extras/string');
+require('vendors/string');
 
 var ModelDescriptorService = require('core/service/model-descriptor-service').ModelDescriptorService,
     TopologyService = require('core/service/topology-service').TopologyService,

@@ -1,0 +1,49 @@
+{
+  "propertyblueprint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "%type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "vm-datastore-nfs"
+      ]
+    }
+  },
+  "blueprint_vmdatastorepropertiesnfs_address": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "address",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_vmdatastorepropertiesnfs_path": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "path",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_vmdatastorepropertiesnfs_version": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "version",
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VmDatastoreNfsVersion"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "VmDatastorePropertiesNfs",
+      "propertyBlueprints": [
+        {"@": "propertyblueprint"},
+        {"@": "blueprint_vmdatastorepropertiesnfs_address"},
+        {"@": "blueprint_vmdatastorepropertiesnfs_path"},
+        {"@": "blueprint_vmdatastorepropertiesnfs_version"}
+      ]
+    }
+  }
+}

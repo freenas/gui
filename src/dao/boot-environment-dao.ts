@@ -4,7 +4,9 @@ import {Model} from "../model";
 export class BootEnvironmentDao extends AbstractDao {
 
     public constructor() {
-        super(Model.BootEnvironment);
+        super(Model.BootEnvironment, {
+            eventName: 'entity-subscriber.boot.environment.changed'
+        });
     }
 
     public activate(bootEnvironment: any) {

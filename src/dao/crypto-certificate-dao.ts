@@ -8,7 +8,9 @@ import * as Promise from 'bluebird';
 
 export class CryptoCertificateDao extends AbstractDao {
     public constructor() {
-        super(Model.CryptoCertificate);
+        super(Model.CryptoCertificate, {
+        	eventName: 'entity-subscriber.crypto.certificate.changed'
+        });
     }
 
     public listCountryCodes(): Promise<Array<Object>> {

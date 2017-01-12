@@ -7,7 +7,59 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "treeControllers": {
+                    "ZVOL":         {"@": "datasetTreeController"},
+                    "DISK":         {"@": "directoryTreeController"},
+                    "FILE":         {"@": "fileTreeController"}
+                }
+            }
+        },
+        "datasetTreeController": {
+            "prototype": "core/controller/dataset-tree-controller",
+            "bindings": {
+                "service": {"<-": "@owner.application.dataService"}
+            }
+        },
+        "directoryTreeController": {
+            "prototype": "core/controller/filesystem-tree-controller",
+            "properties": {
+                "canListFiles": false
+            },
+            "bindings": {
+                "service": {"<-": "@owner.application.filesystemService"}
+            }
+        },
+        "fileTreeController": {
+            "prototype": "core/controller/filesystem-tree-controller",
+            "properties": {
+                "canListFiles": true
+            },
+            "bindings": {
+                "service": {"<-": "@owner.application.filesystemService"}
+            }
+        },
+        "targetPath": {
+            "prototype": "ui/controls/field-treeview.reel",
+            "properties": {
+                "element": {"#": "targetPath"},
+                "controller": {"@": "datasetTreeController"},
+                "label": "Target Path"
+            },
+            "bindings": {
+                "selectedPath": {"<->": "@owner.object.target_path"},
+                "controller": {"<-": "@owner.treeControllers[@owner.object.target_type]"}
+            }
+        },
+        "targetType": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "targetType"},
+                "label": "Target Type"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.targetTypeOptions"},
+                "selectedValue": {"<->": "@owner.object.target_type"}
             }
         },
         "sizeValidator": {
@@ -55,6 +107,8 @@
 </head>
 <body>
     <div data-montage-id="owner" class="VirtualMachineDeviceDisk">
+        <div data-montage-id="targetType"></div>
+        <div data-montage-id="targetPath"></div>
         <div data-montage-id="diskSize"></div>
         <div data-montage-id="diskMode"></div>
     </div>

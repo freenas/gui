@@ -2,11 +2,13 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
     VmGuestType = require("core/model/enumerations/vm-guest-type").VmGuestType,
     VmConfigBootloader = require("core/model/enumerations/vm-config-bootloader").VmConfigBootloader,
     VmDeviceDiskMode = require("core/model/enumerations/vm-device-disk-mode").VmDeviceDiskMode,
+    VmDeviceDiskTargetType = require("core/model/enumerations/vm-device-disk-target-type").VmDeviceDiskTargetType,
     VmDeviceGraphicsResolution = require("core/model/enumerations/vm-device-graphics-resolution").VmDeviceGraphicsResolution,
     VmDeviceNicDevice = require("core/model/enumerations/vm-device-nic-device").VmDeviceNicDevice,
     VmDeviceNicMode = require("core/model/enumerations/vm-device-nic-mode").VmDeviceNicMode,
     VmDeviceUsbDevice = require("core/model/enumerations/vm-device-usb-device").VmDeviceUsbDevice,
     VmDeviceVolumeType = require("core/model/enumerations/vm-device-volume-type").VmDeviceVolumeType,
+    VmDatastoreNfsVersion = require("core/model/enumerations/vm-datastore-nfs-version").VmDatastoreNfsVersion,
     VmRepository = require("core/repository/vm-repository").VmRepository,
     VolumeRepository = require("core/repository/volume-repository").VolumeRepository,
     NetworkRepository = require("core/repository/network-repository").NetworkRepository,
@@ -69,6 +71,12 @@ exports.VmsSectionService = AbstractSectionService.specialize({
         }
     },
 
+    TARGET_TYPES: {
+        get: function() {
+            return VmDeviceDiskTargetType.members;
+        }
+    },
+
     GRAPHICS_RESOLUTIONS: {
         get: function() {
             return VmDeviceGraphicsResolution.members;
@@ -99,6 +107,12 @@ exports.VmsSectionService = AbstractSectionService.specialize({
         }
     },
 
+    NFS_DATASTORE_VERSIONS: {
+        get: function() {
+            return VmDatastoreNfsVersion.members;
+        }
+    },
+
     init: {
         value: function() {
             this._vmRepository = VmRepository.instance;
@@ -119,6 +133,12 @@ exports.VmsSectionService = AbstractSectionService.specialize({
                 sortedEntries._objectType = 'Vm';
                 return sortedEntries;
             });
+        }
+    },
+
+    loadExtraEntries: {
+        value: function() {
+            return Promise.all([this._vmRepository.listDatastores()]);
         }
     },
 
@@ -153,6 +173,7 @@ exports.VmsSectionService = AbstractSectionService.specialize({
             if (Array.isArray(addedDevices)) {
                 for (i = 0, length = addedDevices.length; i < length; i++) {
                     device = addedDevices[i];
+                    device._objectType = 'VmDevice';
                     if (device.type === this._vmRepository.DEVICE_TYPE.VOLUME) {
                         if (vm._volumeDevices.indexOf(device) === -1) {
                             vm._volumeDevices.push(device);
@@ -473,15 +494,41 @@ exports.VmsSectionService = AbstractSectionService.specialize({
                     // DTM
                     var entry = self._findObjectWithId(self.entries, stateEntry.get('id'));
                     if (entry) {
-                        _.assign(entry, stateEntry.toJS());
-                        entry.devices.forEach(function(device) {
-                            if (!device.id) {
-                                device.id = uuid.v4();
+                        var newEntry = stateEntry.toJS();
+                        _.assignWith(entry, newEntry, function(oldValue, newValue, key) {
+                            if (key === 'devices') {
+                                _.forEach(newValue, function(newDevice) {
+                                    var oldDevice = _.find(oldValue, {name: newDevice.name});
+                                    if (oldDevice) {
+                                        var newDeviceWithId = _.assign(_.cloneDeep(newDevice), {id: oldDevice.id}),
+                                            oldDeviceCleaned = _.pickBy(_.toPlainObject(oldDevice), function(value, key) { return !_.startsWith(key, '_'); });
+                                        oldDeviceCleaned.properties = _.pickBy(_.toPlainObject(oldDevice.properties), function(value, key) { return !_.startsWith(key, '_'); });
+                                        _.assignWith(newDeviceWithId, oldDeviceCleaned, function(newDeviceValue, oldDeviceValue, key) {
+                                            if (key !== 'properties') {
+                                                return _.has(newDeviceWithId, key) ? newDeviceValue : oldDeviceValue;
+                                            } else {
+                                                return _.assignWith(newDeviceWithId.properties, oldDeviceCleaned.properties, function(newDevicePropertyValue, oldDevicePropertyValue, propertyKey) {
+                                                    return _.has(newDeviceWithId, propertyKey) ? newDevicePropertyValue : oldDevicePropertyValue;
+                                                });
+                                            }
+                                        });
+                                        if (!_.isEqual(oldDeviceCleaned, newDeviceWithId)) {
+                                            _.assignWith(oldDevice, newDevice, function());
+                                        }
+                                    } else {
+                                        newDevice.id = uuid.v4();
+                                        oldValue.splice(_.sortedIndexBy(oldValue, newDevice, 'name'), 0, newDevice);
+                                    }
+                                });
+                                _.remove(oldValue, function(oldDevice) {
+                                    return !_.find(newValue, {name: oldDevice.name});
+                                });
+                                return oldValue;
                             }
                         });
                     } else {
                         entry = stateEntry.toJS();
-                        entry._objectType = 'Peer';
+                        entry._objectType = 'Vm';
                         entry.devices.forEach(function(device) {
                             device.id = uuid.v4();
                         });

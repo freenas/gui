@@ -42,8 +42,8 @@ export class ServiceSectionService extends AbstractSectionService {
         return this.serviceRepository.provideDcUrl();
     }
 
-    public listvolumes() {
-        return this.volumeRepository.listVolumes;
+    public listVolumes() {
+        return this.volumeRepository.listVolumes();
     }
 
     protected loadEntries(): Promise<Array<any>> {

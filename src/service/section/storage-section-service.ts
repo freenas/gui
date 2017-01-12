@@ -85,7 +85,8 @@ export class StorageSectionService extends AbstractSectionService {
 
     protected loadExtraEntries() {
         return Promise.all([
-            this.volumeRepository.getVolumeImporter()
+            this.volumeRepository.getVolumeImporter(),
+            this.volumeRepository.getVolumeMediaImporter()
         ]);
     }
 

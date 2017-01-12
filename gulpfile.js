@@ -54,7 +54,8 @@ gulp.task('serve', ['allCss', 'typescript'], function () {
 
     gulp.watch("ui/**/**/_*.css", ['css']);
     gulp.watch("ui/**/*.html").on('change', browserSync.reload);
-    gulp.watch("**/*.ts", ['typescript']);
+    gulp.watch("src/**/*.ts", ['typescript']);
+    gulp.watch("src/**/*.js", ['typescript']);
 });
 
 

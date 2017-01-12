@@ -2,6 +2,7 @@ import {ModelDescriptorService} from "../service/model-descriptor-service";
 import {EventDispatcherService} from "../service/event-dispatcher-service";
 import {VmRepository} from '../repository/vm-repository';
 import {AbstractRoute} from "./abstract-route";
+import {Model} from "../model";
 import _ = require("lodash");
 import Promise = require("bluebird");
 import {Model} from "../model";
@@ -105,7 +106,7 @@ export class VmsRoute extends AbstractRoute {
         return Promise.all([
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(uiDescriptor) {
-            context.object = _.forEach(parentContext.object._nonVolumeDevices, (device) => device._objectType = objectType);
+            context.object = parentContext.object._nonVolumeDevices;
             context.userInterfaceDescriptor = uiDescriptor;
 
             return self.updateStackWithContext(stack, context);
@@ -235,6 +236,115 @@ export class VmsRoute extends AbstractRoute {
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(vmvolume, uiDescriptor) {
             context.object = vmvolume;
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            return self.updateStackWithContext(stack, context);
+        });
+    }
+
+    public getDatastores(stack: Array<any>) {
+        let self = this,
+            objectType = Model.VmDatastore,
+            columnIndex = 1,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/vm-datastore'
+            };
+        return Promise.all([
+            this.vmRepository.listDatastores(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(datastores, uiDescriptor) {
+            datastores._objectType = objectType;
+            context.object = datastores;
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            return self.updateStackWithContext(stack, context);
+        });
+    }
+
+    public getDatastore(datastoreId: string, stack: Array<any>) {
+        let self = this,
+            objectType = Model.VmDatastore,
+            columnIndex = 2,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/vm-datastore/_/' + encodeURIComponent(datastoreId)
+            };
+        return Promise.all([
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(uiDescriptor) {
+            context.object = _.find(parentContext.object, {id: datastoreId});
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            return self.updateStackWithContext(stack, context);
+        });
+    }
+
+    public selectNewDatastoreType(stack: Array<any>) {
+        let self = this,
+            objectType = Model.VmDatastore,
+            columnIndex = 2,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                isCreatePrevented: true,
+                path: parentContext.path + '/create'
+            };
+        return Promise.all([
+            Promise.all(_.map(_.values(this.vmRepository.DATASTORE_TYPE), (type) => this.vmRepository.getNewVmDatastoreForType(type))),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(vmdatastores, uiDescriptor) {
+            context.object = _.compact(vmdatastores);
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            return self.updateStackWithContext(stack, context);
+        });
+    }
+
+    public createDatastore(datastoreType: string, stack: Array<any>) {
+        let self = this,
+            objectType = Model.VmDatastore,
+            columnIndex = 2,
+            parentContext = stack[columnIndex],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/' + encodeURIComponent(datastoreType)
+            };
+        return Promise.all([
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(uiDescriptor) {
+            context.object = _.find(parentContext.object, {_tmpId: datastoreType});
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            return self.updateStackWithContext(stack, context);
+        });
+    }
+
+    public getVolumes(stack: Array<any>) {
+        let self = this,
+            objectType = Model.VmVolume,
+            columnIndex = 2,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/volumes'
+            };
+        return Promise.all([
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(uiDescriptor) {
+            context.object = _.forEach(parentContext.object._volumeDatastores, (datastore) => device._objectType = objectType);
             context.userInterfaceDescriptor = uiDescriptor;
 
             return self.updateStackWithContext(stack, context);

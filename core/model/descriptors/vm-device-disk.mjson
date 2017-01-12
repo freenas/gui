@@ -37,6 +37,25 @@
       "valueType": "String"
     }
   },
+  "blueprint_vmdevicedisk_target_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "target_type",
+      "blueprint": {"@": "root"},
+      "mandatory": true,
+      "valueType": "object",
+      "valueObjectPrototypeName": "VmDeviceDiskTargetType"
+    }
+  },
+  "blueprint_vmdevicedisk_target_path": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "target_path",
+      "blueprint": {"@": "root"},
+      "mandatory": true,
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
@@ -45,7 +64,9 @@
         {"@": "propertyblueprint"},
         {"@": "blueprint_vmdevicedisk_mode"},
         {"@": "blueprint_vmdevicedisk_size"},
-        {"@": "blueprint_vmdevicedisk_source"}
+        {"@": "blueprint_vmdevicedisk_source"},
+        {"@": "blueprint_vmdevicedisk_target_type"},
+        {"@": "blueprint_vmdevicedisk_target_path"}
       ]
     }
   }

@@ -174,8 +174,12 @@ export class RoutingService {
             () => this.calendarRoute.get().then((stack) => this.currentStacks.set('calendar', stack)));
         crossroads.addRoute('/calendar/calendar-task/_/{calendarTaskId}',
             (calendarTaskId) => this.calendarRoute.getTask(calendarTaskId, this.currentStacks.get('calendar')));
+        crossroads.addRoute('/calendar/calendar-task/_/{calendarTaskId}/calendar-custom-schedule',
+            () => this.calendarRoute.getCustomSchedule(this.currentStacks.get('calendar')));
         crossroads.addRoute('/calendar/calendar-task/create/{taskType}',
             (taskType) => this.calendarRoute.createTask(taskType, this.currentStacks.get('calendar')));
+        crossroads.addRoute('/calendar/calendar-task/create/{taskType}/calendar-custom-schedule',
+            () => this.calendarRoute.getCustomSchedule(this.currentStacks.get('calendar')));
     }
 
     private loadNetworkRoutes() {
@@ -262,6 +266,14 @@ export class RoutingService {
             () => this.vmsRoute.createVolume(this.currentStacks.get('vms')));
         crossroads.addRoute('/vms/create/volumes/vm-volume/_/{volumeId}',
             (volumeId) => this.vmsRoute.getVolume(volumeId, this.currentStacks.get('vms')));
+        crossroads.addRoute('/vms/vm-datastore',
+            () => this.vmsRoute.getDatastores(this.currentStacks.get('vms')));
+        crossroads.addRoute('/vms/vm-datastore/_/{datastoreId}',
+            (datastoreId) => this.vmsRoute.getDatastore(datastoreId, this.currentStacks.get('vms')));
+        crossroads.addRoute('/vms/vm-datastore/create',
+            () => this.vmsRoute.selectNewDatastoreType(this.currentStacks.get('vms')));
+        crossroads.addRoute('/vms/vm-datastore/create/{type}',
+            (type) => this.vmsRoute.createDatastore(type, this.currentStacks.get('vms')));
     }
 
     private loadPeeringRoutes() {
@@ -412,7 +424,9 @@ export class RoutingService {
         crossroads.addRoute('/storage/create/disk/_/{diskId}',
             (diskId) => this.volumeRoute.creatorDisk(diskId, this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/volume-importer/_/-',
-            () => this.volumeRoute.import(this.currentStacks.get('storage')));
+            () => this.volumeRoute.import(this.currentStacks.get("storage")));
+        crossroads.addRoute('/storage/volume-media-importer/_/-',
+            () => this.volumeRoute.mediaImport(this.currentStacks.get("storage")));
         crossroads.addRoute('/storage/volume-importer/_/-/detached-volume/_/{volumeId}',
             (volumeId) => this.volumeRoute.getDetachedVolume(volumeId, this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/volume-importer/_/-/detached-volume/_/{volumeId}/topology',

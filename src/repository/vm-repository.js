@@ -3,6 +3,7 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
     VmDao = require("core/dao/vm-dao").VmDao,
     VmTemplateDao = require("core/dao/vm-template-dao").VmTemplateDao,
     VmDeviceDao = require("core/dao/vm-device-dao").VmDeviceDao,
+    VmDatastoreDao = require("core/dao/vm-datastore-dao").VmDatastoreDao,
     VmVolumeDao = require("core/dao/vm-volume-dao").VmVolumeDao,
     VmReadmeDao = require("core/dao/vm-readme-dao").VmReadmeDao,
     VmConfigDao = require("core/dao/vm-config-dao").VmConfigDao,
@@ -15,6 +16,7 @@ exports.VmRepository = AbstractRepository.specialize({
             this._vmDao = new VmDao();
             this._vmTemplateDao = new VmTemplateDao();
             this._vmDeviceDao = new VmDeviceDao();
+            this._vmDatastoreDao = new VmDatastoreDao();
             this._vmVolumeDao = new VmVolumeDao();
             this._vmReadmeDao = new VmReadmeDao();
             this._vmConfigDao = new VmConfigDao();
@@ -24,6 +26,7 @@ exports.VmRepository = AbstractRepository.specialize({
             this.DEFAULT_DEVICE_ID = this.constructor.DEFAULT_DEVICE_ID;
             this.BOOTABLE_DEVICE_TYPES = this.constructor.BOOTABLE_DEVICE_TYPES;
             this.DEVICE_TYPE = this.constructor.DEVICE_TYPE;
+            this.DATASTORE_TYPE = this.constructor.DATASTORE_TYPE;
         }
     },
 
@@ -45,6 +48,12 @@ exports.VmRepository = AbstractRepository.specialize({
                     return self._vms = vms;
                 });
             }
+        }
+    },
+
+    listDatastores: {
+        value: function() {
+            return this._datastoresPromise || (this._datastoresPromise = this._vmDatastoreDao.list());
         }
     },
 
@@ -134,12 +143,39 @@ exports.VmRepository = AbstractRepository.specialize({
 
     getNewVmDeviceForType: {
         value: function(type) {
+            var self = this;
             return type !== this.DEVICE_TYPE.VOLUME && this._vmDeviceDao.getNewInstance().then(function(device) {
                 device.id = uuid.v4();
                 device._tmpId = type;
                 device.type = type;
+                self._setDeviceDefaults(device);
                 return device;
             });
+        }
+    },
+
+    getNewVmDatastoreForType: {
+        value: function(type) {
+            var self = this;
+            return this._vmDatastoreDao.getNewInstance().then(function(datastore) {
+                datastore.id = uuid.v4();
+                datastore._tmpId = type;
+                datastore.type = type;
+                self.setDatastoreDefaultProperties(datastore);
+                return datastore;
+            });
+        }
+    },
+
+    setDatastoreDefaultProperties: {
+        value: function(datastore) {
+            datastore.properties = datastore.properties || {};
+            datastore.properties['%type'] = datastore.properties['%type'] || 'vm-datastore-' + datastore.type.toLowerCase();
+            switch (datastore.type) {
+                case 'NFS':
+                    datastore.properties.version = datastore.properties.version || "NFSV3";
+                    break;
+            }
         }
     },
 
@@ -197,6 +233,30 @@ exports.VmRepository = AbstractRepository.specialize({
         value: function() {
             return this._vmDao.getHardwareCapabilities();
         }
+    },
+
+    _setDeviceDefaults: {
+        value: function(device) {
+            device.properties = device.properties || {};
+            switch (device.type) {
+                case VmDeviceType.CDROM:
+                    break;
+                case VmDeviceType.DISK:
+                    device.properties.mode = device.properties.mode || "AHCI";
+                    device.properties.target_type = device.properties.target_type || "FILE";
+                    break;
+                case VmDeviceType.GRAPHICS:
+                    device.properties.resolution = device.properties.resolution || "1024x768";
+                    break;
+                case VmDeviceType.NIC:
+                    device.properties.device = device.properties.device || "VIRTIO";
+                    device.properties.mode = device.properties.mode || "NAT";
+                    break;
+                case VmDeviceType.USB:
+                    device.properties.device = device.properties.device || "tablet";
+                    break;
+            }
+        }
     }
 
 }, {
@@ -208,6 +268,12 @@ exports.VmRepository = AbstractRepository.specialize({
             NIC: 'NIC',
             USB: 'USB',
             VOLUME: 'VOLUME'
+        }
+    },
+
+    DATASTORE_TYPE: {
+        value: {
+            NFS: 'NFS'
         }
     },
 

@@ -49,6 +49,15 @@ exports.TaskNotification = Component.specialize({
         }
     },
 
+    handleTransitionend: {
+        value: function() {
+            if (this.isExpired) {
+                this.isHidden = true;
+                this.element.removeEventListener('transitionend', this);
+            }
+        }
+    },
+
     _handleChange: {
         value: function(state) {
             _.assign(this.object, state.toJS());
@@ -57,8 +66,9 @@ exports.TaskNotification = Component.specialize({
                 this.object.progress.percentage = 100;
                 if (this.object.state === 'FINISHED') {
                     setTimeout(function() {
+                        self.element.addEventListener('transitionend', self);
                         self.isExpired = true;
-                    }, 2000);
+                    }, 10000);
                 }
                 this._unregisterUpdates();
             }

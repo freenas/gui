@@ -12,7 +12,7 @@ export abstract class AbstractSectionService {
     public extraEntries: Array<any>;
     public overview: any;
 
-    protected constructor() {
+    public constructor() {
         this.eventDispatcherService = EventDispatcherService.getInstance();
         let self = this,
             initReturn = this.init();

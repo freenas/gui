@@ -1,18 +1,11 @@
-var Component = require("montage/ui/component").Component,
-    FreeNASService = require("core/service/freenas-service").FreeNASService,
-    Model = require("core/model/model").Model,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     ServiceUpsShutdownmode = require("core/model/enumerations/service-ups-shutdownmode").ServiceUpsShutdownmode,
     ServiceUpsMode = require("core/model/enumerations/service-ups-mode").ServiceUpsMode;
-/**
- * @class UpsService
- * @extends Component
- */
-exports.UpsService = Component.specialize({
+
+exports.UpsService = AbstractInspector.specialize({
     templateDidLoad: {
         value: function () {
             var self = this;
-            this.driverOptions = [];
-            this.driverPortOptions = [];
             this.modeOptions = ServiceUpsMode.members.map(function (x) {
                 return {
                     label: x,
@@ -26,17 +19,22 @@ exports.UpsService = Component.specialize({
                 };
             });
             Promise.all([
-                this.application.powerManagementService.listDrivers().then(function (drivers) {
-                    for (var i = 0; i < (drivers || []).length; i++) {
-                        self.driverOptions.push({label: drivers[i]['description'], value: drivers[i]['driver_name']});
-                    }
-                }),
-                this.application.powerManagementService.listUsbDevices().then(function (usbDevices) {
-                    for (var i = 0; i < (usbDevices || []).length; i++) {
-                        self.driverPortOptions.push({label: usbDevices[i]['device'] + ' - ' + usbDevices[i]['description'], value: usbDevices[i]['device']});
-                    }
-                })
-            ]);
+                this.application.powerManagementService.listDrivers(),
+                this.application.powerManagementService.listUsbDevices()
+            ]).spread(function(drivers, usbDevices) {
+                self.driverOptions = drivers.map(function(x) {
+                    return {
+                        label: x.description,
+                        value: x.driver_name
+                    };
+                });
+                self.driverPortOptions = usbDevices.map(function(x) {
+                    return {
+                        label: x.device + ' - ' + x.description,
+                        value: x.device
+                    };
+                });
+            });
         }
     }
-});;
+});
