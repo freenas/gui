@@ -3,7 +3,7 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
 exports.VirtualMachineDeviceVolume = AbstractInspector.specialize({
     templateDidLoad: {
         value: function() {
-            this.volumeTypeOptions = this._sectionService.VOLUME_TYPES;;
+            this.volumeTypeOptions = this._sectionService.VOLUME_TYPES;
         }
     }
 });
