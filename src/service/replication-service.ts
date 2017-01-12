@@ -53,11 +53,11 @@ export class ReplicationService {
 
     public extractTransportOptions(replication) {
         let result = {},
-            length = replication.transportOptions ? replication.transportOptions.length || Object.keys(replication.transportOptions).length : 0,
+            length = replication.transport_options ? replication.transport_options.length || Object.keys(replication.transport_options).length : 0,
             option, i;
 
         for (i = 0; i < length; i++) {
-            option = replication.transportOptions[i];
+            option = replication.transport_options[i];
             if (option["%type"] === "compress-replication-transport-option") {
                 result.compress = option.level;
             } else if (option["%type"] === "encrypt-replication-transport-option") {
