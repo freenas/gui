@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "historySection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "historySection"},
+                "title": "Replications History"
+            }
+        },
+        "table": {
+            "prototype": "blue-shark/ui/tables/table-read-only.reel",
+            "properties": {
+                "element": {"#": "table"},
+                "columns":  [
+                    {
+                        "value": "Started",
+                        "path": "started"
+                    },
+                    {
+                        "value": "Status",
+                        "path": "status"
+                    },
+                    {
+                        "value": "Size",
+                        "path": "size"
+                    },
+                    {
+                        "value": "Speed",
+                        "path": "speed"
+                    }
+                ]
+            },
+            "bindings": {
+                "rows": {"<->": "@owner._history"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="ReplicationHistory">
+        <div data-montage-id="historySection">
+            <div data-montage-id="table"></div>
+        </div>
+    </div>
+</body>
+</html>

@@ -73,7 +73,6 @@ exports.VolumeDatasetSettings = AbstractInspector.specialize({
 
     templateDidLoad: {
         value: function() {
-
             this.compressionOptions = this._initializePropertyOptions(COMPRESSION_OPTIONS);
             this.dedupOptions = this._initializePropertyOptions(DEDUP_OPTIONS);
             this.atimeOptions = this._initializePropertyOptions(ATIME_OPTIONS);

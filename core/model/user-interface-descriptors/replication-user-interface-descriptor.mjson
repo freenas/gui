@@ -1,0 +1,19 @@
+{
+    "root": {
+        "prototype": "montage/core/meta/user-interface-descriptor",
+        "properties": {
+            "inspectorComponentModule": {"%": "ui/sections/storage/inspectors/replication.reel"},
+            "creatorComponentModule": {"%": "ui/sections/storage/inspectors/replication.reel"},
+            "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
+            "collectionNameExpression": "'Replications'",
+            "nameExpression": "name",
+            "statusColorMapping": {
+                "STOPPED": "grey",
+                "RUNNING": "green",
+                "FAILED": "red"
+            },
+            "statusValueExpression": "current_state.status",
+            "subLabelExpression": "current_state.status == 'RUNNING' ? current_state.progress + '% (' + current_state.speed + ')' : ''"
+        }
+    }
+}

@@ -17,6 +17,7 @@ import {NetworkRoute} from '../route/network';
 import {DockerRoute} from '../route/docker';
 import {VmsRoute} from '../route/vms';
 import {AccountsRoute} from '../route/accounts';
+import {ReplicationRoute} from '../route/replication';
 import * as hasher from 'hasher';
 import * as crossroads from 'crossroads';
 import * as _ from 'lodash';
@@ -45,7 +46,8 @@ export class RoutingService {
                         private vmsRoute: VmsRoute,
                         private networkRoute: NetworkRoute,
                         private accountsRoute: AccountsRoute,
-                        private dockerRoute: DockerRoute) {
+                        private dockerRoute: DockerRoute,
+                        private replicationRoute: ReplicationRoute) {
         this.currentStacks = new Map<string, Array<any>>();
         this.taskStacks = immutable.Map<number|string, Array<any>>();
 
@@ -76,7 +78,8 @@ export class RoutingService {
                 VmsRoute.getInstance(),
                 NetworkRoute.getInstance(),
                 AccountsRoute.getInstance(),
-                DockerRoute.getInstance()
+                DockerRoute.getInstance(),
+                ReplicationRoute.getInstance()
             );
         }
         return RoutingService.instance;
@@ -411,7 +414,7 @@ export class RoutingService {
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/vmware-dataset/_/{vmwareDatasetId*}',
             (volumeId, datasetId, vmwareDatasetId) => this.datasetRoute.getVmware(vmwareDatasetId, this.currentStacks.get('storage')), 1);
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/replication',
-            (volumeId, datasetId) => this.datasetRoute.replication(datasetId, this.currentStacks.get('storage')), 1);
+            (volumeId, datasetId) => this.replicationRoute.createForDataset(datasetId, this.currentStacks.get('storage')), 1);
         crossroads.addRoute('/storage/volume/_/{volumeId}/topology',
             (volumeId) => this.volumeRoute.getVolumeTopology(this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/volume/_/{volumeId}/topology/disk/_/{diskId}',
@@ -430,6 +433,12 @@ export class RoutingService {
             (volumeId) => this.volumeRoute.getDetachedVolumeTopology(this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/volume-importer/_/-/encrypted',
             () => this.volumeRoute.importEncrypted(this.currentStacks.get('storage')));
+        crossroads.addRoute('/storage/volume/_/{volumeId}/replication',
+            (volumeId) => this.replicationRoute.list(volumeId, this.currentStacks.get('storage')), 1);
+        crossroads.addRoute('/storage/volume/_/{volumeId}/replication/create',
+            (volumeId) => this.replicationRoute.create(volumeId, this.currentStacks.get('storage')), 1);
+        crossroads.addRoute('/storage/volume/_/{volumeId}/replication/_/{replicationId*}',
+            (volumeId, replicationId) => this.replicationRoute.get(replicationId, this.currentStacks.get('storage')), 1);
     }
 
     private loadSection(sectionId: string) {
