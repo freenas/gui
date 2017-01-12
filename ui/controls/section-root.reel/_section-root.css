@@ -4,8 +4,7 @@
 }
 
 .SectionRoot-entries {
-    display: flex;
-    flex-direction: column;
+    @apply --flex-column;
 }
 
 .SectionRoot-overview {
