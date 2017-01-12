@@ -10,9 +10,8 @@
 
 .SectionRoot-overview {
     position: relative;
-    display: flex;
-    flex-direction: column;
     max-height: 15em;
+    @apply --flex-column;
     background: #2f3233;
 
     &:after {
@@ -26,9 +25,8 @@
     }
 
     & > :first-child {
-        display: flex;
         flex: 1;
-        flex-direction: column;
+        @apply --flex-column;
     }
 
     & .Scrollview-transform { display: block; }
