@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--fixme: need a readme component-->
+    <link rel="stylesheet" type="text/css" href="container-readme.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+        "readmeTextArea": {
+            "prototype": "blue-shark/ui/text-area.reel",
+            "properties": {
+                "element": {"#": "readmeTextArea"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.text"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="ContainerReadme">
+        <div data-montage-id="readmeTextArea"></div>
+    </div>
+</body>
+</html>

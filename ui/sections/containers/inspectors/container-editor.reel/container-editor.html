@@ -273,11 +273,24 @@
             "properties": {
                 "element": {"#": "bridgeAddress"},
                 "label": "IP address",
-                "disabled": true,
-                "classList.has('is-hidden')": {"<-": "!@owner.object.bridge.enabled"}
+                "disabled": true
             },
             "bindings": {
-                "checked": {"<-": "@owner.object.bridge.address"}
+                "checked": {"<-": "@owner.object.bridge.address"},
+                "classList.has('is-hidden')": {"<-": "!@owner.object.bridge.enabled"}
+            }
+        },
+
+        "bridgeMacAddress": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "bridgeMacAddress"},
+                "label": "MAC address",
+                "disabled": true
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.bridge.macaddress"},
+                "classList.has('is-hidden')": {"<-": "!@owner.object.bridge.enabled"}
             }
         },
 
@@ -291,6 +304,16 @@
                 "context": {"<-": "@owner.context"},
                 "object": {"<-": "@owner._dockerContainerLogs"},
                 "classList.has('is-hidden')": {"<-": "@owner.object.interactive"}
+            }
+        },
+
+        "readme": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "readme"},
+                "objectType": "VmReadme",
+                "name": "Readme",
+                "path": "readme"
             }
         }
 
@@ -327,7 +350,9 @@
             <div data-montage-id="interactive"></div>
             <div data-montage-id="bridged"></div>
             <div data-montage-id="bridgeAddress"></div>
+            <div data-montage-id="bridgeMacAddress"></div>
             <div data-montage-id="logs"></div>
+            <div data-montage-id="readme"></div>
         </div>
     </div>
 </body>

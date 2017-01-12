@@ -1,7 +1,8 @@
 /**
  * @module ui/container-creator.reel
  */
-var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    RoutingService = require("core/service/routing-service").RoutingService;
 
 /**
  * @class ContainerCreator
@@ -14,6 +15,7 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
             var self = this;
 
             this._environment = {};
+            this._routingService = RoutingService.getInstance();
 
             return this._sectionService.listDockerHosts().then(function (hostDockers) {
                 self._hostDockers = hostDockers;
@@ -47,6 +49,10 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
             var self = this;
             this._reset();
 
+            if (isFirstTime) {
+                this.addPathChangeListener("object.image", this, "handleSelectedImageChange");
+            }
+
             if (!this._loadDataPromise) {
                 this.isLoading = true;
 
@@ -63,6 +69,15 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
                 this._sectionService.getNewDockerContainerBridge().then(function(bridge) {
                     self.object.bridge = bridge;
                 });
+            }
+        }
+    },
+
+    handleSelectedImageChange: {
+        value: function (value) {
+            if (false) {
+                //FIXME: Pierre how to check current path.
+                this._routingService.navigate(this.context.path);
             }
         }
     },
