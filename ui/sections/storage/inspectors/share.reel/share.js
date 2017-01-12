@@ -171,7 +171,6 @@ exports.Share = AbstractInspector.specialize({
 
     save: {
         value: function() {
-            this._object.target_path = this.targetTreeview.pathInput.value;
             if (this.object._isNew) {
                 this.isPathReadOnly = true;
             }

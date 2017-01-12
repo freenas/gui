@@ -126,10 +126,11 @@
             "prototype": "ui/controls/field-treeview.reel",
             "properties": {
                 "element": {"#": "target_path"},
-                "validationPath": "target_path"
+                "validationPath": "target_path",
+                "allowPathInput": true
             },
             "bindings": {
-                "selectedPath": {"<->": "@owner.object._selected_path"},
+                "selectedPath": {"<->": "@owner.object.target_path"},
                 "label": {"<-": "@owner.targetType != 'DATASET' || @owner.targetType != 'ZVOL' ? 'Target' : 'Create target'"},
                 "readOnly": {"<-": "@owner.isPathReadOnly"},
                 "suffix": {"<-": "(@owner.targetType == 'DATASET' || @owner.targetType == 'ZVOL') && !@owner.isPathReadOnly ? @name.value || '' : ''"},

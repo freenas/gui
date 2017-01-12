@@ -103,7 +103,7 @@ exports.VmsSectionService = AbstractSectionService.specialize({
 
     VOLUME_TYPES: {
         get: function() {
-            return VmDeviceVolumeType.members;
+            return _.without(VmDeviceVolumeType.members, 'NFS');
         }
     },
 
@@ -173,12 +173,13 @@ exports.VmsSectionService = AbstractSectionService.specialize({
             if (Array.isArray(addedDevices)) {
                 for (i = 0, length = addedDevices.length; i < length; i++) {
                     device = addedDevices[i];
-                    device._objectType = 'VmDevice';
                     if (device.type === this._vmRepository.DEVICE_TYPE.VOLUME) {
+                        device._objectType = 'VmVolume';
                         if (vm._volumeDevices.indexOf(device) === -1) {
                             vm._volumeDevices.push(device);
                         }
                     } else {
+                        device._objectType = 'VmDevice';
                         if (vm._nonVolumeDevices.indexOf(device) === -1) {
                             vm._nonVolumeDevices.push(device);
                         }
