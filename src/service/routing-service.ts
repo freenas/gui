@@ -123,6 +123,9 @@ export class RoutingService {
         this.eventDispatcherService.dispatch('hashChange', newHash);
     }
 
+    public getCurrentPath() {
+        return hasher.getHash();
+    }
 
     public handleTaskCreated(taskIds: any) {
         if (this.taskStacks.has(taskIds.old)) {
