@@ -26,7 +26,9 @@ export class ModelEventName {
     public static DockerContainerSection = new ModelEventName('DockerContainerSection');
     public static DockerHost = new ModelEventName('DockerHost');
     public static DockerImage = new ModelEventName('DockerImage');
+    public static DockerImageReadme = new ModelEventName('DockerImageReadme');
     public static DockerImagePull = new ModelEventName('DockerImagePull');
+    public static DockerNetwork = new ModelEventName('DockerNetwork');
     public static EncryptedVolumeActions = new ModelEventName('EncryptedVolumeActions');
     public static EncryptedVolumeImporter = new ModelEventName('EncryptedVolumeImporter');
     public static FreenasCredentials = new ModelEventName('FreenasCredentials');

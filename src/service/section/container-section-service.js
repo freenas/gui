@@ -202,6 +202,30 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         value: function(container) {
             return this._containerRepository.stopContainer(container);
         }
-    }
+    },
+
+    getReadmeforDockerImage: {
+        value: function(dockerImageName) {
+            return this._containerRepository.getReadmeforDockerImage(dockerImageName);
+        }
+    },
+
+    getNewDockerNetwork: {
+        value: function () {
+            return this._containerRepository.getNewDockerNetwork();
+        }
+    },
+
+    listDockerNetworks: {
+        value: function () {
+            return this._containerRepository.listDockerNetworks();
+        }
+    },
+
+    saveDockerNetwork: {
+        value: function (dockerNetwork) {
+            return this._containerRepository.saveDockerNetwork(dockerNetwork);
+        }
+    },
 
 });

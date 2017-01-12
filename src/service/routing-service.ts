@@ -222,8 +222,18 @@ export class RoutingService {
             () => this.dockerRoute.listCollectionsForCreate(this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/docker-container/create/{collectionId}',
             (collectionId) => this.dockerRoute.createContainer(collectionId, this.currentStacks.get('containers')));
+        crossroads.addRoute('/containers/docker-container/create/{collectionId}/readme',
+            (containerId) => this.dockerRoute.getReadme(this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/docker-container/_/{containerId}',
             (containerId) => this.dockerRoute.getContainer(containerId, this.currentStacks.get('containers')));
+        crossroads.addRoute('/containers/docker-container/_/{containerId}/readme',
+            (containerId) => this.dockerRoute.getReadme(this.currentStacks.get('containers')));
+        crossroads.addRoute('/containers/docker-network',
+            () => this.dockerRoute.listDockerNetworks(this.currentStacks.get('containers')));
+        crossroads.addRoute('/containers/docker-network/_/{dockerNetworkId}',
+            (dockerNetworkId) => this.dockerRoute.getDockerNetwork(dockerNetworkId, this.currentStacks.get('containers')));
+        crossroads.addRoute('/containers/docker-network/create',
+            () => this.dockerRoute.createDockerNetwork(this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/section-settings',
             () => this.dockerRoute.getSettings(this.currentStacks.get('containers')));
     }

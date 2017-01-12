@@ -7,4 +7,9 @@ export class DockerImageDao extends AbstractDao {
             eventName: 'entity-subscriber.docker.image.changed'
         });
     }
+
+    public readme(dockerImageName: any) {
+        return this.middlewareClient.callRpcMethod('docker.image.readme', [dockerImageName]);
+    }
+
 }

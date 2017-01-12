@@ -8,6 +8,8 @@ var AbstractRepository = require("core/repository/abstract-repository").Abstract
     DockerContainerLogsDao = require("core/dao/docker-container-logs-dao").DockerContainerLogsDao,
     DockerImagePullDao = require("core/dao/docker-image-pull-dao").DockerImagePullDao,
     DockerContainerDao = require("core/dao/docker-container-dao").DockerContainerDao,
+    DockerImageReadmeDao = require("core/dao/docker-image-readme-dao").DockerImageReadmeDao,
+    DockerNetworkDao = require("core/dao/docker-network-dao").DockerNetworkDao,
     DockerContainerBridgeDao = require("core/dao/docker-container-bridge-dao").DockerContainerBridgeDao,
     ModelDescriptorService = require("core/service/model-descriptor-service").ModelDescriptorService;
 
@@ -26,6 +28,14 @@ exports.ContainerRepository = AbstractRepository.specialize({
             this._dockerContainerLogsRepository = new DockerContainerLogsDao();
             this._dockerContainerBridgeDao = new DockerContainerBridgeDao();
             this._modelDescriptorService = ModelDescriptorService.getInstance();
+            this._dockerImageReadmeDao = new DockerImageReadmeDao();
+            this._dockerNetworkDao = new DockerNetworkDao();
+        }
+    },
+
+    getNewDockerNetwork: {
+        value: function () {
+            return this._dockerNetworkDao.getNewInstance();
         }
     },
 
@@ -50,6 +60,12 @@ exports.ContainerRepository = AbstractRepository.specialize({
     getNewDockerContainerBridge: {
         value: function () {
             return this._dockerContainerBridgeDao.getNewInstance();
+        }
+    },
+
+    getDockerImageReadme: {
+        value: function () {
+            return this._dockerImageReadmeDao.getNewInstance();
         }
     },
 
@@ -144,6 +160,12 @@ exports.ContainerRepository = AbstractRepository.specialize({
         }
     },
 
+    listDockerNetworks: {
+        value: function () {
+            return this._dockerNetworkDao.list();
+        }
+    },
+
     listDockerContainers: {
         value: function () {
             return this._dockerContainerDao.list();
@@ -161,7 +183,8 @@ exports.ContainerRepository = AbstractRepository.specialize({
                 self.listDockerContainers(),
                 self.listDockerHosts(),
                 self.listDockerImages(),
-                self.listDockerCollections()
+                self.listDockerCollections(),
+                self.listDockerNetworks()
             ]).then(function (data) {
                 var containerSections = data[0];
 
@@ -193,6 +216,12 @@ exports.ContainerRepository = AbstractRepository.specialize({
         }
     },
 
+    saveDockerNetwork: {
+        value: function (dockerNetwork) {
+            return this._dockerNetworkDao.save(dockerNetwork);
+        }
+    },
+
     saveContainer: {
         value: function (container) {
             return this._dockerContainerDao.save(container);
@@ -220,6 +249,12 @@ exports.ContainerRepository = AbstractRepository.specialize({
     stopContainer: {
         value: function(container) {
             return this._dockerContainerDao.stop(container);
+        }
+    },
+
+    getReadmeforDockerImage: {
+        value: function(dockerImageName) {
+            return this._dockerImageDao.readme(dockerImageName);
         }
     }
 });
