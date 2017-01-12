@@ -1,7 +1,10 @@
 .Notification {
     position: relative;
-    border-bottom:  2px solid rgba(255,255,255,.05);
     background-color: rgba(0,0,0,.1);
+
+    & .Notification-placeholder > div:first-child {
+        border-bottom:  2px solid rgba(255,255,255,.05);
+    }
 }
 
 
