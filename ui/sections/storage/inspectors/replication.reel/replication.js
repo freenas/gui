@@ -52,7 +52,11 @@ exports.Replication = AbstractInspector.specialize(/** @lends Replication# */ {
 
             return this._replicationService.buildTransportOptions(this._transportOptions).then(function(transportOptions) {
                 self.object.transportOptions = transportOptions;
-                return self.inspector.save();
+                return self.inspector.save().then(function() {
+                    if (self._repetition) {
+                        self._calendarService.createNewRepeatedTask('replication.sync', self.object.name, [self.object.name], self._repetition);
+                    }
+                });
             });
         }
     }
