@@ -32,6 +32,7 @@ var Topology = exports.Topology = AbstractInspector.specialize({
     exitDocument: {
         value: function() {
             this._eventDispatcherService.removeEventListener('availableDisksChange', this.availableDisksEventListener);
+            this._sectionService.clearReservedDisks();
             this.context.cascadingListItem.classList.remove("CascadingListItem-Topology");
         }
     },

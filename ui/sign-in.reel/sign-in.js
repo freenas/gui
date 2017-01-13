@@ -95,10 +95,10 @@ var SignIn = exports.SignIn = Component.specialize({
             this.element.addEventListener("transitionend", this, false);
 
             // checks for disconnected hash
-            if(window.location.href.indexOf(";disconnected") > -1) {
+            if(location.href.indexOf(";disconnected") > -1) {
                 this.hasError = true;
                 this.errorMessage = "Oops! Your token has been expired. \n Please re-login.";
-                history.pushState('', document.title, window.location.href.replace(/;disconnected/g, ''));
+                location.href = location.href.replace(/;disconnected/g, '');
             }
             this.userNameTextField.focus();
         }

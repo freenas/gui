@@ -386,7 +386,7 @@ export class MiddlewareClient {
         if (hostParam) {
             let host = hostParam.split('=')[1];
             if (host && host.length > 0) {
-                result = host;
+                result = _.head(_.split(host, ';'));
             }
         }
         return result;

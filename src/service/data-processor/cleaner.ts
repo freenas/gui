@@ -6,6 +6,9 @@ class CleaningProcessor implements DataProcessor {
     private static validPropertyRegex: RegExp = /^[a-z0-9%$][a-zA-Z0-9_]*$/;
 
     public process(object: Object, propertyDescriptors?: any): Object {
+        if (_.isEmpty(object)) {
+            return null;
+        }
         let processed = Map<string, any>(),
             keys = _.keysIn(object),
             value, propertyDescriptor;

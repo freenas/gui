@@ -4,6 +4,9 @@ import {Map} from 'immutable';
 
 class TaskProcessor implements DataProcessor {
     public process(object: Object, taskDescriptor?: Map<string, any>): Object {
+        if (_.isEmpty(object)) {
+            return null;
+        }
         let missing = _.clone(taskDescriptor.get('mandatory')),
             forbidden = taskDescriptor.get('forbidden'),
             cleaned = {};

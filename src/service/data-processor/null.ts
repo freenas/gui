@@ -4,6 +4,9 @@ import * as _ from "lodash";
 
 class NullProcessor implements DataProcessor {
     public process(object: Object, propertyDescriptors?: Map<string, Object>): Object {
+        if (_.isEmpty(object)) {
+            return null;
+        }
         let processed = new Map<string, any>(),
             keys = _.keysIn(object),
             value;

@@ -1,4 +1,5 @@
-var Map = require("collections/map");
+var Map = require("collections/map"),
+    MiddlewareClient = require("core/service/middleware-client").MiddlewareClient;
 
 var WebSocketConfiguration = exports.WebSocketConfiguration =  function WebSocketConfiguration () {
     this._store = new Map();
@@ -58,23 +59,7 @@ WebSocketConfiguration.prototype._makeURL = function () {
         port = store.get(keys.PORT),
         path = store.get(keys.PATH);
 
-    return protocol + this._getHost() + (path ? path : '');
-};
-
-WebSocketConfiguration.prototype._getHost = function() {
-    var domain = document.domain,
-        result = ((domain === "localhost" || domain === "127.0.0.1") ? WebSocketConfiguration.SERVER_HOST : domain) + ':' + this._getPort(),
-        hostParam = window.location.href.split(';').filter(function(x) {
-            return x.split('=')[0] === "host";
-        })[0];
-
-    if (hostParam) {
-        var host = hostParam.split('=')[1];
-        if (host && host.length > 0) {
-            result = host;
-        }
-    }
-    return result;
+    return protocol + MiddlewareClient.getHost() + (path ? path : '');
 };
 
 WebSocketConfiguration.prototype._getPort = function() {
@@ -98,7 +83,7 @@ Object.defineProperties(WebSocketConfiguration, {
                 _defaultConfiguration._store.set(WebSocketConfiguration.KEYS.PATH, "/dispatcher/socket");
                 _defaultConfiguration._store.set(WebSocketConfiguration.KEYS.TIMEOUT, 60000);
 
-                _defaultConfiguration._store.set(WebSocketConfiguration.KEYS.HOST, _defaultConfiguration._getHost());
+                _defaultConfiguration._store.set(WebSocketConfiguration.KEYS.HOST, MiddlewareClient.getHost());
             }
 
             return _defaultConfiguration;
@@ -117,7 +102,7 @@ Object.defineProperties(WebSocketConfiguration, {
                 _shellConfiguration._store.set(WebSocketConfiguration.KEYS.PATH, "/dispatcher/shell");
                 _shellConfiguration._store.set(WebSocketConfiguration.KEYS.TIMEOUT, 30000);
 
-                _shellConfiguration._store.set(WebSocketConfiguration.KEYS.HOST, _shellConfiguration._getHost());
+                _shellConfiguration._store.set(WebSocketConfiguration.KEYS.HOST, MiddlewareClient.getHost());
             }
 
             return _shellConfiguration;
@@ -136,7 +121,7 @@ Object.defineProperties(WebSocketConfiguration, {
                 _fileUploadConfiguration._store.set(WebSocketConfiguration.KEYS.PATH, "/dispatcher/file");
                 _fileUploadConfiguration._store.set(WebSocketConfiguration.KEYS.TIMEOUT, 30000);
 
-                _fileUploadConfiguration._store.set(WebSocketConfiguration.KEYS.HOST, _fileUploadConfiguration._getHost());
+                _fileUploadConfiguration._store.set(WebSocketConfiguration.KEYS.HOST, MiddlewareClient.getHost());
             }
 
             return _fileUploadConfiguration;
@@ -155,7 +140,7 @@ Object.defineProperties(WebSocketConfiguration, {
                 _consoleConfiguration._store.set(WebSocketConfiguration.KEYS.PATH, "/containerd/console");
                 _consoleConfiguration._store.set(WebSocketConfiguration.KEYS.TIMEOUT, 30000);
 
-                _consoleConfiguration._store.set(WebSocketConfiguration.KEYS.HOST, _consoleConfiguration._getHost());
+                _consoleConfiguration._store.set(WebSocketConfiguration.KEYS.HOST, MiddlewareClient.getHost());
             }
 
             return _consoleConfiguration;

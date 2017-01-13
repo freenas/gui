@@ -1,5 +1,6 @@
 import { DataProcessor } from './data-processor';
 import { DatastoreService } from '../datastore-service';
+import * as _ from 'lodash';
 import {Map, List} from "immutable";
 
 class DiffProcessor implements DataProcessor {
@@ -10,6 +11,9 @@ class DiffProcessor implements DataProcessor {
     }
 
     public process(object: Object, type: string, id: string, propertyDescriptors?: Map<string, Object>) {
+        if (_.isEmpty(object)) {
+            return null;
+        }
         let changes,
             state = this.datastoreService.getState();
         if (state.get(type).has(id)) {

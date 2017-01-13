@@ -1,11 +1,12 @@
 import { VolumeRepository } from '../repository/volume-repository';
 import { DiskRepository } from '../repository/disk-repository';
 import * as immutable from 'immutable';
+import * as Promise from 'bluebird';
 
 const CONSTRAINTS_KEYS = {
-    STORAGE: "storage",
-    REDUNDANCY: "redundancy",
-    SPEED: "speed"
+    STORAGE: 'storage',
+    REDUNDANCY: 'redundancy',
+    SPEED: 'speed'
 };
 
 const RECORD_SIZE = 128;
@@ -151,12 +152,11 @@ export class TopologyService {
     }
 
     public getParitySizeOnTotal(disksCount, vdevType, totalSize) {
-        var paritySize = 0;
+        let paritySize = 0;
         switch (vdevType) {
             case 'disk':
                 break;
             case 'mirror':
-                // A mirror's parity amount is the number of disks minus one times the size of the disks.
                 paritySize = (disksCount - 1) * (totalSize / disksCount);
                 break;
             case 'raidz1':
@@ -178,7 +178,6 @@ export class TopologyService {
             case 'disk':
                 break;
             case 'mirror':
-                // A mirror's parity amount is the number of disks minus one times the size of the disks.
                 paritySize = (disksCount - 1) * (allocatedSize / disksCount);
                 break;
             case 'raidz1':
@@ -196,14 +195,14 @@ export class TopologyService {
 
     private getRaidzParityRatioOnTotal(disksCount, raidzLevel) {
         let precision = Math.pow(10, raidzLevel + 1),
-            number = Math.ceil((RECORD_SIZE + raidzLevel * Math.floor((RECORD_SIZE + disksCount - raidzLevel - 1) / (disksCount - raidzLevel))) * precision) / this.RECORD_SIZE;
+            number = Math.ceil((RECORD_SIZE + raidzLevel * Math.floor((RECORD_SIZE + disksCount - raidzLevel - 1) / (disksCount - raidzLevel))) * precision) / RECORD_SIZE;
         return (number - precision) / (number);
     }
 
 
     private getRaidzParityRatioOnAllocated(disksCount, raidzLevel) {
         let precision = Math.pow(10, raidzLevel + 1);
-        return (Math.ceil((RECORD_SIZE + raidzLevel * Math.floor((RECORD_SIZE + disksCount - raidzLevel - 1) / (disksCount - raidzLevel))) * precision) / this.RECORD_SIZE - precision) / precision;
+        return (Math.ceil((RECORD_SIZE + raidzLevel * Math.floor((RECORD_SIZE + disksCount - raidzLevel - 1) / (disksCount - raidzLevel))) * precision) / RECORD_SIZE - precision) / precision;
     }
 
     private findDiskWithPath(disks, path) {

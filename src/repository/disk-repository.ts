@@ -91,7 +91,7 @@ export class DiskRepository extends AbstractRepository {
     }
 
     private isDiskUsed(disk: any, diskUsage: Map<string, string>) {
-        return diskUsage && diskUsage.has(disk.get('path'));
+        return diskUsage && (diskUsage.has(disk.get('path')) || diskUsage.has(disk.get('id')));
     }
 
     protected handleStateChange(name: string, state: any) {

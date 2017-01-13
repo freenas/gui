@@ -64,6 +64,7 @@ exports.VolumeCreator = AbstractInspector.specialize({
         value: function() {
             this.super();
             this._eventDispatcherService.removeEventListener('availableDisksChange', this.availableDisksEventListener);
+            this._sectionService.clearReservedDisks();
             if (this._parentCascadingListItem) {
                 this._parentCascadingListItem.classList.remove("CascadingListItem-VolumeCreator");
             }

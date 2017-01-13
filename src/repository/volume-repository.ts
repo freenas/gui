@@ -348,13 +348,9 @@ export class VolumeRepository extends AbstractRepository {
     private updateVolumesDiskUsage(volumes: Map<string, Map<string, any>>, usageType: string) {
         let diskUsage: any = {};
         if (volumes) {
-            volumes.forEach(
-                (volume) => _.forEach(VolumeRepository.TOPOLOGY_KEYS,
-                    (topologyKey) => volume.get('topology').get(topologyKey).forEach(
-                        (vdev) => vdev.get('children').map((child) => child.get('path')).forEach(
-                            (path) => diskUsage[path] = volume.has('name') ? volume.get('name') : volume.get('id')
-                        )
-                    )
+            volumes.forEach((volume) =>
+                volume.get('disks').forEach((diskId) =>
+                    diskUsage[diskId] = volume.has('name') ? volume.get('name') : volume.get('id')
                 )
             );
             this.datastoreService.save(Model.DiskUsage, usageType, diskUsage);
