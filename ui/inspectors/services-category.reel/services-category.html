@@ -38,6 +38,14 @@
                 "element": {"#": "services"},
                 "controller": {"@": "controller"}
             }
+        },
+        "scrollview": {
+            "prototype": "blue-shark/ui/scrollview.reel",
+            "properties": {
+                "element": {"#": "scrollview"},
+                "hasFixedFooter": false,
+                "overflow": "scrollY"
+            }
         }
     }
     </script>
@@ -45,7 +53,9 @@
 <body>
     <div data-montage-id="owner" class="Share">
         <div data-montage-id="overview"></div>
-        <div data-montage-id="services"></div>
+        <div data-montage-id="scrollview">
+            <div data-montage-id="services"></div>
+        </div>
     </div>
 </body>
 </html>
