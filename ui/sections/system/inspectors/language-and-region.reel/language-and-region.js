@@ -1,5 +1,6 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    _ = require("lodash");
+    moment = require("moment-timezone"),
+    _      = require("lodash");
 
 exports.LanguageAndRegion = AbstractInspector.specialize(/** @lends LanguageAndRegion# */ {
     timezoneOptions: {
@@ -65,18 +66,6 @@ exports.LanguageAndRegion = AbstractInspector.specialize(/** @lends LanguageAndR
         ]
     },
 
-    daysOfWeek: {
-        value: [
-            'Sunday',
-            'Monday',
-            'Tuesday',
-            'Wednesday',
-            'Thursday',
-            'Friday',
-            'Saturday'
-        ]
-    },
-
     enterDocument: {
         value: function(isFirstTime) {
             var self = this;
@@ -116,7 +105,7 @@ exports.LanguageAndRegion = AbstractInspector.specialize(/** @lends LanguageAndR
                 this.timeFormatShortOptions = this.generateDateFormatConvertedList(today, this.shortTimeFormats);
                 this.timeFormatMediumOptions = this.generateDateFormatConvertedList(today, this.mediumTimeFormats);
                 this.timeFormatLongOptions = this.generateDateFormatConvertedList(today, this.longTimeFormats);
-                this.firstDayOfWeekOptions = _.map(this.daysOfWeek, function(day, index) {
+                this.firstDayOfWeekOptions = _.map(moment.weekdays(), function(day, index) {
                     return {
                         label: day,
                         value: index
