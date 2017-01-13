@@ -428,7 +428,7 @@ exports.VmsSectionService = AbstractSectionService.specialize({
             }
             if (!vm._volumeDevices) {
                 vm._volumeDevices = [];
-                vm._volumeDevices._objectType = 'VmDevice';
+                vm._volumeDevices._objectType = 'VmVolume';
             }
         }
     },

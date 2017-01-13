@@ -273,7 +273,7 @@ exports.VmRepository = AbstractRepository.specialize({
 
     DATASTORE_TYPE: {
         value: {
-            NFS: 'NFS'
+            NFS: 'nfs'
         }
     },
 

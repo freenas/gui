@@ -5,7 +5,7 @@
             "collectionNameExpression": "'Datastores'",
             "inspectorComponentModule": {"%": "ui/sections/vms/inspectors/virtual-machine-datastore.reel"},
             "creatorComponentModule": {"%": "ui/sections/vms/inspectors/virtual-machine-datastore.reel"},
-            "nameExpression": "!_isNew ? name : 'New ' + type + ' Datastore'"
+            "nameExpression": "!_isNew ? name : 'New ' + type.toUpperCase() + ' Datastore'"
         }
     }
 }
