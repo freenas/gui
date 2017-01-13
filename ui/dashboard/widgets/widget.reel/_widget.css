@@ -93,10 +93,7 @@
 
 .Widget-flipper {
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-    /* @apply --flex-column; */
+    @apply --flex-column;
 }
 
 .Widget-front,
