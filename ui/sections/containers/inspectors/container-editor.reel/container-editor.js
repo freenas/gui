@@ -41,8 +41,7 @@ exports.ContainerEditor = AbstractInspector.specialize({
 
     enterDocument: {
         value: function (isFirstTime) {
-            this.super();
-
+            this.super(isFirstTime);
             if (this.object.memory_limit) {
                 this.object.memory_limit = this.application.bytesService.convertSizeToString(this.object.memory_limit, this.application.bytesService.UNITS.M);
             }
@@ -66,7 +65,7 @@ exports.ContainerEditor = AbstractInspector.specialize({
             var self = this;
 
             this._sectionService.getInteractiveSerialTokenWithDockerContainer(this.object).then(function(token) {
-                window.open("/serial-console-app/#" + token, self.object.names[0] + " Serial Console");
+                window.open(self._sectionService.getSerialConsoleUrl(token), self.object.names[0] + " Serial Console");
             });
         }
     },

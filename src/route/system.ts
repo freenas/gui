@@ -1,17 +1,16 @@
-import {SystemRepository} from "../repository/system-repository";
-import {ModelEventName} from "../model-event-name";
-import {ModelDescriptorService} from "../service/model-descriptor-service";
-import {EventDispatcherService} from "../service/event-dispatcher-service";
-import {CryptoCertificateType} from "core/model/enumerations/crypto-certificate-type";
-import _ = require("lodash");
-import Promise = require("bluebird");
-import {CryptoCertificateRepository} from "../repository/crypto-certificate-repository";
-import {AlertFilterRepository} from "core/repository/alert-filter-repository";
-import {MailRepository} from "../repository/mail-repository";
-import {TunableRepository} from "../repository/tunable-repository";
-import {NtpServerRepository} from "../repository/ntp-server-repository";
-import {AbstractRoute} from "./abstract-route";
-import {Model} from "../model";
+import {SystemRepository} from '../repository/system-repository';
+import {ModelDescriptorService} from '../service/model-descriptor-service';
+import {EventDispatcherService} from '../service/event-dispatcher-service';
+import {CryptoCertificateType} from 'core/model/enumerations/crypto-certificate-type';
+import {CryptoCertificateRepository} from '../repository/crypto-certificate-repository';
+import {AlertFilterRepository} from 'core/repository/alert-filter-repository';
+import {MailRepository} from '../repository/mail-repository';
+import {TunableRepository} from '../repository/tunable-repository';
+import {NtpServerRepository} from '../repository/ntp-server-repository';
+import {AbstractRoute} from './abstract-route';
+import {Model} from '../model';
+import * as _ from 'lodash';
+import * as Promise from 'bluebird';
 
 export class SystemRoute extends AbstractRoute {
     private static instance: SystemRoute;

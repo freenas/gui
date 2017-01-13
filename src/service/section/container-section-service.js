@@ -6,7 +6,8 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
     DockerCollectionRepository = require("core/repository/docker-collection-repository-ng").DockerCollectionRepository,
     MiddlewareTaskRepository = require("core/repository/middleware-task-repository").MiddlewareTaskRepository,
     UserRepository = require("core/repository/user-repository").UserRepository,
-    ApplicationContextService = require("core/service/application-context-service").ApplicationContextService;
+    ApplicationContextService = require("core/service/application-context-service").ApplicationContextService,
+    MiddlewareClient = require("core/service/middleware-client").MiddlewareClient;
 
 exports.ContainerSectionService = AbstractSectionService.specialize({
 
@@ -124,7 +125,7 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
             var self = this;
 
             return this._containerRepository.getInteractiveConsoleToken(dockerContainer.id).then(function (response) {
-                return self.getSerialTokenWithDockerContainerId(response.data);
+                return self.getSerialTokenWithDockerContainerId(response);
             });
         }
     },
@@ -132,8 +133,14 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
     getSerialTokenWithDockerContainerId: {
         value: function (dockerContainerId) {
             return this._containerRepository.getSerialConsoleToken(dockerContainerId).then(function (response) {
-                return response.data;
+                return response;
             });
+        }
+    },
+
+    getSerialConsoleUrl: {
+        value: function (token) {
+            return MiddlewareClient.getRootURL('http') + "/serial-console-app/#" + token;
         }
     },
 
