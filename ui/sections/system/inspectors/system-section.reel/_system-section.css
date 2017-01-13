@@ -1,13 +1,11 @@
 .SystemSection-substitution {
-    display: flex;
-    flex-direction: column;
     flex: 1;
+    @apply --flex-column;
 }
 
 .SystemSection-substitution > div:first-child {
     display: flex;
-    flex-direction: column;
-    flex: 1;
+    @apply --flex-column;
 
     & .Scrollview-transform {
         display: block;
@@ -15,6 +13,6 @@
 }
 
 .SystemSection.has-table {
-    min-width: 45em;
+    /* min-width: 45em; */
 }
 
