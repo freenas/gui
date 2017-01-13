@@ -3,7 +3,7 @@
     min-width: 20em !Important;
 
     & textarea {
-        min-height: 20em;
+        flex: 1;
         max-height: 100%;
     }
 }
