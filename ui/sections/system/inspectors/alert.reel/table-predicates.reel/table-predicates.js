@@ -1,4 +1,5 @@
-var Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component,
+    _ = require("lodash");
 
 exports.TablePredicates = Component.specialize({
     tableWillUseNewEntry: {
@@ -11,23 +12,13 @@ exports.TablePredicates = Component.specialize({
                     _disabled: false
                 }
             } else if(this.rows && this.rows.length == 1){
-                switch (this.rows[0].property) {
-                    case "class": 
-                        return {
-                            property: "severity",
-                            operator: null,
-                            value: null,
-                            _disabled: true
-                        }
-                    case "severity":
-                        return {
-                            property: "class",
-                            operator: null,
-                            value: null,
-                            _disabled: true
-                        }
+                var self = this;
+                return {
+                    property : property = _.head(_.reject(["class", "severity"], function(x) { return x === self.rows[0].property; })),
+                    _disabled: true
                 }
             }
         }
     }
 });
+
