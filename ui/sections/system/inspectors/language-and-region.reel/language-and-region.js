@@ -65,6 +65,18 @@ exports.LanguageAndRegion = AbstractInspector.specialize(/** @lends LanguageAndR
         ]
     },
 
+    daysOfWeek: {
+        value: [
+            'Sunday',
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday'
+        ]
+    },
+
     enterDocument: {
         value: function(isFirstTime) {
             var self = this;
@@ -104,6 +116,12 @@ exports.LanguageAndRegion = AbstractInspector.specialize(/** @lends LanguageAndR
                 this.timeFormatShortOptions = this.generateDateFormatConvertedList(today, this.shortTimeFormats);
                 this.timeFormatMediumOptions = this.generateDateFormatConvertedList(today, this.mediumTimeFormats);
                 this.timeFormatLongOptions = this.generateDateFormatConvertedList(today, this.longTimeFormats);
+                this.firstDayOfWeekOptions = _.map(this.daysOfWeek, function(day, index) {
+                    return {
+                        label: day,
+                        value: index
+                    };
+                });
             }
         }
     },
@@ -128,6 +146,7 @@ exports.LanguageAndRegion = AbstractInspector.specialize(/** @lends LanguageAndR
             userSettings.dateFormatMedium = userSettings.dateFormatMedium || this.mediumDateFormats[0];
             userSettings.dateFormatLong = userSettings.dateFormatLong || this.longDateFormats[0];
             userSettings.dateFormatFull = userSettings.dateFormatFull || this.fullDateFormats[0];
+            userSettings.firstDayOfWeek = userSettings.firstDayOfWeek || 0;
         }
     },
 

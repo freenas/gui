@@ -104,7 +104,8 @@
                 "displayedPeriodLabel": {"<->": "@owner.displayedPeriodLabel"},
                 "taskCategories": {"<-": "@owner.taskCategories.filter{checked}"},
                 "selectedTask": {"<->":"@owner.selectedTask"},
-                "selectedDay": {"<->":"@owner.selectedDay"}
+                "selectedDay": {"<->":"@owner.selectedDay"},
+                "firstDayOfWeek": {"<-": "@owner.object._firstDayOfWeek"}
             }
         },
         "weekView": {
@@ -118,7 +119,8 @@
                 "taskCategories": {"<-": "@owner.taskCategories.filter{checked}"},
                 "selectedTask": {"<->":"@owner.selectedTask"},
                 "selectedDay": {"<->":"@owner.selectedDay"},
-                "gmtOffset": {"<-": "@owner.object._gmtOffset"}
+                "gmtOffset": {"<-": "@owner.object._gmtOffset"},
+                "firstDayOfWeek": {"<-": "@owner.object._firstDayOfWeek"}
             }
         },
         "dayView": {
