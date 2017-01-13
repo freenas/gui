@@ -17,7 +17,7 @@
                 "element": {"#": "addButton"}
             },
             "bindings": {
-                "disabled": {"<-": "@owner.table.isAddingNewEntry"}
+                "disabled": {"<-": "@owner.table.isAddingNewEntry || @owner.table.rows.length >= 2"}
             }
         },
 
