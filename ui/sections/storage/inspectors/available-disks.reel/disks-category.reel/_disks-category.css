@@ -27,6 +27,7 @@
     & .Button-content {
         display: flex;
         align-items: center;
+        justify-content: flex-start;
     }
 
     &:hover {
