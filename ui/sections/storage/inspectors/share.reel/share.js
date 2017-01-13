@@ -109,7 +109,6 @@ exports.Share = AbstractInspector.specialize({
 
                 this._object = object;
 
-                // trigger content change
                 this.dispatchOwnPropertyChange("possibleTargetTypes", this.possibleTargetTypes);
             }
         }
@@ -129,7 +128,6 @@ exports.Share = AbstractInspector.specialize({
                     this._openTreeController();
                 }
 
-                // triggers icon update
                 this.dispatchOwnPropertyChange("iconModuleId", this.iconModuleId);
             }
         },
@@ -160,10 +158,13 @@ exports.Share = AbstractInspector.specialize({
                 this.targetType = this.object.target_type;
 
                 //todo: block draw
+                this.isLoading = true;
                 this._shareService.populateShareObjectIfNeeded(this.object).then(function() {
                     if (self._object._isNew) {
+                        self.object.target_path = self.object._volume.id;
                         self._openTreeController();
                     }
+                    self.isLoading = false;
                 });
             }
         }
@@ -171,6 +172,7 @@ exports.Share = AbstractInspector.specialize({
 
     save: {
         value: function() {
+            this._object.target_path = this.targetTreeview.pathInput.value;
             if (this.object._isNew) {
                 this.isPathReadOnly = true;
             }

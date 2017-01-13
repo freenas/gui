@@ -50,11 +50,7 @@
             }
         },
         "validationController": {
-            "prototype": "core/controller/validation-controller",
-            "properties": {
-                "fields": {
-                }
-            }
+            "prototype": "core/controller/validation-controller"
         },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
@@ -68,7 +64,8 @@
             "bindings": {
                 "canDelete": {"<-": "!@owner.object._isNew"},
                 "isSaveDisabled": {"<-": "(@owner.targetType == 'ZVOL' && !@owner.object.properties.size)"},
-                "context": {"<-": "@owner.context"}
+                "context": {"<-": "@owner.context"},
+                "isLoading": {"<-": "@owner.isLoading"}
             }
         },
         "overview": {
