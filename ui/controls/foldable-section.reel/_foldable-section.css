@@ -67,12 +67,20 @@ title
 
 /* Icon */
 
-.FoldableSection.is-expanded .FoldableSection-expand svg {
-    transform: rotate(0);
+.FoldableSection.is-expanded .FoldableSection-expand svg { transform: rotate(0);}
+
+.FoldableSection-expand-titles {
+    flex: 1;
+    display: flex;
+    min-width: 0;
 }
 
-/* removes underline */
-.FoldableSection-expand-titles > .InspectorSectionTitle:before { display: none;}
+.FoldableSection-expand-titles > .InspectorSectionTitle {
+    min-width: 0;
+
+    /* removes underline */
+    &:before { display: none;}
+}
 
 
 /* content */

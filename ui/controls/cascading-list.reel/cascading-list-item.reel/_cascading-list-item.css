@@ -1,6 +1,7 @@
 .CascadingListItem {
     display: flex;
     flex-direction: column;
+    /* min-height: 0; */
     position: relative;
     font-family: 'lato';
     border-right: 1px solid rgba(255,255,255,.15);
@@ -52,11 +53,13 @@
     display: flex;
     flex-grow: 1;
     flex-direction: column;
+    min-height: 0;
 
     & > * {
         position: relative;
         flex: 1;
         display: flex;
+        min-height: 0;
         flex-direction: column;
         min-width: 16em;
     }

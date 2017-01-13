@@ -4,13 +4,11 @@
 
 .SectionSettings,
 .SectionSettings-content {
-    display: flex;
-    flex-direction: column;
     flex: 1;
+    @apply --flex-column;
 }
 
 .SectionSettings-content > * {
-    display: flex;
-    flex-direction: column;
     flex: 1;
+    @apply --flex-column;
 }
