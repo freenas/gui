@@ -15,7 +15,7 @@
         "lodash": "^4.17.2",
         "maphilight": "~1.2.3",
         "moment-timezone": "^0.5.11",
-        "montage": "freenas/montage#3cbfc415cee8dbb25e754de77df6b79eed91bb86",
+        "montage": "freenas/montage#fe6b9a704278d089f95e037bfdf1f3c06c694d6d",
         "montage-data": "montagestudio/montage-data#647f5208fcefbc89c405d1afea205c8184fddeda",
         "node-uuid": "^1.4.7",
         "plottable": "~2.5.0",
