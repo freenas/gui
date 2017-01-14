@@ -25,13 +25,13 @@
             "properties": {
                 "element": {"#": "inspector"},
                 "controller": {"@": "owner"},
-                "canSave": true,
                 "validationController": {"@": "validationController"}
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
                 "canDelete": {"<-": "!@owner.object._isNew"},
-                "canRevert": {"<-": "!@owner.object._isNew"},
+                "canSave": {"<-": "@owner.object._isNew"},
+                "canRevert": {"<-": "!@owner.object._isNew && @inspector.canSave"},
                 "classList.has('has-loading-spinner')": {"<-": "@owner.isLoading"}
             }
         },

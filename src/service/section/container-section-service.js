@@ -8,7 +8,8 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
     MiddlewareTaskRepository = require("core/repository/middleware-task-repository").MiddlewareTaskRepository,
     UserRepository = require("core/repository/user-repository").UserRepository,
     ApplicationContextService = require("core/service/application-context-service").ApplicationContextService,
-    MiddlewareClient = require("core/service/middleware-client").MiddlewareClient;
+    MiddlewareClient = require("core/service/middleware-client").MiddlewareClient,
+    _ = require("lodash");
 
 exports.ContainerSectionService = AbstractSectionService.specialize({
 
@@ -226,14 +227,39 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
 
     saveDockerNetwork: {
         value: function (dockerNetwork) {
-            var self = this;
+            var self = this,
+                newContainers = dockerNetwork.containers,
+                previousContainers;
 
             return this._containerRepository.saveDockerNetwork(dockerNetwork).then(function (task) {
                 task.taskPromise.then(function () {
                     //@pierre: need discution, probably not safe except if the name is unique.
                     return self.findDockerNetworkWithName(dockerNetwork.name);
-                }).then(function (network) {
-                    return self.connectContainersFromNetwork(dockerNetwork.containers, network[0]);
+                }).then(function (networks) {
+                    var containersToAdd, containersToRemove,
+                        network = networks[0],
+                        previousContainers = network.containers,
+                        promises = [];
+
+                    if (newContainers && previousContainers) {
+                       containersToAdd =  _.difference(newContainers, previousContainers);
+                       containersToRemove =  _.difference(previousContainers, newContainers);
+                    } else if (newContainers && newContainers.length) {
+                       containersToAdd =  newContainers;
+                    } else {
+                        containersToRemove = previousContainers;
+                    }
+
+                    if (containersToAdd && containersToAdd.length) {
+                        promises.push(self.connectContainersToNetwork(containersToAdd, network));
+                    }
+
+                    if (containersToRemove && containersToRemove.length) {
+                        promises.push(self.disconnectContainersFromNetwork(containersToRemove, network));
+                    }
+
+
+                    return Promise.all(promises);
                 });
 
                 return task;
@@ -247,7 +273,7 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         }
     },
 
-    connectContainersFromNetwork: {
+    connectContainersToNetwork: {
         value: function (containers, dockerNetwork) {
             if (dockerNetwork && containers) {
                 var promises = [];
@@ -273,7 +299,23 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         }
     },
 
-    disconnectContainerToNetwork: {
+     disconnectContainersFromNetwork: {
+        value: function (containers, dockerNetwork) {
+            if (dockerNetwork && containers) {
+                var promises = [];
+
+                for (var i = 0, length = containers.length; i < length; i++) {
+                    promises.push(this.disconnectContainerFromNetwork(containers[i], dockerNetwork.id));
+                }
+
+                return Promise.all(promises);
+            }
+
+            return Promise.resolve(null);
+        }
+    },
+
+    disconnectContainerFromNetwork: {
         value: function (containerId, dockerNetworkId) {
             var self = this;
 
