@@ -45,7 +45,7 @@ exports.SectionRoot = AbstractInspector.specialize({
             var self = this;
 
             if (this.object.id === 'vms' || this.object.id === 'containers') {
-                return VmRepository.instance.getHardwareCapabilities().then(function(hardware) {
+                return VmRepository.getInstance().getHardwareCapabilities().then(function(hardware) {
                     self._disabledMessage = !hardware.vtx_enabled && !hardware.svm_features ?
                         'The CPU does not support virtualization.' : null;
                 });

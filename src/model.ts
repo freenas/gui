@@ -79,6 +79,7 @@ const Model = {
     VmDevice: 'VmDevice' as 'VmDevice',
     VmDatastore: 'VmDatastore' as 'VmDatastore',
     VmReadme: 'VmReadme' as 'VmReadme',
+    VmTemplate: 'VmTemplate' as 'VmTemplate',
     VmVolume: 'VmVolume' as 'VmVolume',
     VmwareCredentials: 'VmwareCredentials' as 'VmwareCredentials',
     VmwareDataset: 'VmwareDataset' as 'VmwareDataset',

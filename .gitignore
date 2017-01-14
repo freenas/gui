@@ -62,6 +62,8 @@ customSystem.js
 builds/
 
 *.js.map
+bin/
+
 core/*.js
 core/dao/
 core/repository/

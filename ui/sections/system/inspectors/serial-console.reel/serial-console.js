@@ -45,7 +45,7 @@ exports.SerialConsole = AbstractInspector.specialize({
                     this.application.systemService.getGeneral().then(function(generalData) {
                         self.generalData = generalData;
                     }),
-                    this.application.systemService.getDevices('serial_port').then(function(serialPorts) {
+                    this.application.systemService.listDevices('serial_port').then(function(serialPorts) {
                         self.serialPortOptions = [];
                         for(var i=0; i<serialPorts.length; i++) {
                             self.serialPortOptions.push({label: serialPorts[i].name, value: serialPorts[i].name});

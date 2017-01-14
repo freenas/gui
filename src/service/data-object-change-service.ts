@@ -1,5 +1,5 @@
 import {Map} from 'immutable';
-import _ = require('lodash');
+import * as _ from 'lodash';
 export class DataObjectChangeService {
     public handleDataChange(uiObjects: Array<any>, state: Map<string, Map<string, any>>, objectType?: string) {
         state.forEach(function(volume) {
