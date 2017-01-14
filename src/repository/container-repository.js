@@ -256,5 +256,12 @@ exports.ContainerRepository = AbstractRepository.specialize({
         value: function(dockerImageName) {
             return this._dockerImageDao.readme(dockerImageName);
         }
+    },
+
+    findNetworkWithName: {
+        value: function (name) {
+            return this._dockerNetworkDao.find({name: name});
+        }
     }
+
 });

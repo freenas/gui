@@ -226,8 +226,61 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
 
     saveDockerNetwork: {
         value: function (dockerNetwork) {
-            return this._containerRepository.saveDockerNetwork(dockerNetwork);
+            var self = this;
+
+            return this._containerRepository.saveDockerNetwork(dockerNetwork).then(function (task) {
+                task.taskPromise.then(function () {
+                    //@pierre: need discution, probably not safe except if the name is unique.
+                    return self.findDockerNetworkWithName(dockerNetwork.name);
+                }).then(function (network) {
+                    return self.connectContainersFromNetwork(dockerNetwork.containers, network[0]);
+                });
+
+                return task;
+            });
         }
     },
+
+    findDockerNetworkWithName: {
+        value: function (name) {
+            return this._containerRepository.findNetworkWithName(name);
+        }
+    },
+
+    connectContainersFromNetwork: {
+        value: function (containers, dockerNetwork) {
+            if (dockerNetwork && containers) {
+                var promises = [];
+
+                for (var i = 0, length = containers.length; i < length; i++) {
+                    promises.push(this.connectContainerToNetwork(containers[i], dockerNetwork.id));
+                }
+
+                return Promise.all(promises);
+            }
+
+            return Promise.resolve(null);
+        }
+    },
+
+    connectContainerToNetwork: {
+        value: function (containerId, dockerNetworkId) {
+            var self = this;
+
+            this._middlewareTaskRepository.getNewMiddlewareTaskWithNameAndArgs("docker.network.connect", [containerId, dockerNetworkId]).then(function(middlewareTask) {
+                return self._middlewareTaskRepository.runMiddlewareTask(middlewareTask);
+            });
+        }
+    },
+
+    disconnectContainerToNetwork: {
+        value: function (containerId, dockerNetworkId) {
+            var self = this;
+
+            this._middlewareTaskRepository.getNewMiddlewareTaskWithNameAndArgs("docker.network.disconnect", [containerId, dockerNetworkId]).then(function(middlewareTask) {
+                return self._middlewareTaskRepository.runMiddlewareTask(middlewareTask);
+            });
+        }
+    }
 
 });

@@ -21,6 +21,12 @@ exports.DockerNetwork = AbstractInspector.specialize({
                 self._dockerContainers = data[1];
             });
         }
+    },
+
+    save: {
+        value: function () {
+            return this._sectionService.saveDockerNetwork(this.object);
+        }
     }
 
 });
