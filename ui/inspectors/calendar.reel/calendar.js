@@ -28,9 +28,14 @@ exports.Calendar = AbstractInspector.specialize({
     enterDocument: {
         value: function () {
             var self = this;
-            this._sectionService.getGmtOffset()
-                .then(function(gmtOffset) {
-                    return self.object._gmtOffset = gmtOffset.slice(0,3);
+
+            return Promise.all([
+                this._sectionService.getGmtOffset(),
+                this.application.applicationContextService.findCurrentUser()
+            ])
+                .spread(function(gmtOffset, user) {
+                    self.object._gmtOffset = gmtOffset.slice(0,3);
+                    self.object._firstDayOfWeek = _.get(user, 'attributes.userSettings.firstDayOfWeek', 0);
                 });
         }
     }

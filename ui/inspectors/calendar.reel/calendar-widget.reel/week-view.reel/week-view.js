@@ -6,6 +6,25 @@ var Component = require("montage/ui/component").Component,
  * @extends Component
  */
 exports.WeekView = Component.specialize({
+
+    _firstDayOfWeek: {
+        value: null
+    },
+
+    firstDayOfWeek: {
+        get: function() {
+            return this._firstDayOfWeek;
+        },
+        set: function(firstDayOfWeek) {
+            if (this._firstDayOfWeek !== firstDayOfWeek) {
+                this._firstDayOfWeek = firstDayOfWeek;
+                if (firstDayOfWeek) {
+                    this.gotoToday();
+                }
+            }
+        }
+    },
+
     _monthsCache: {
         value: null
     },
@@ -36,8 +55,10 @@ exports.WeekView = Component.specialize({
 
     gotoToday: {
         value: function() {
-            var currentPeriod = new Date();
-            currentPeriod.setDate(currentPeriod.getDate() - currentPeriod.getDay());
+            var currentPeriod = new Date(),
+                dayOfWeek = (currentPeriod.getDay() + 7 - (this.firstDayOfWeek || 0)) % 7;
+
+            currentPeriod.setDate(currentPeriod.getDate() - dayOfWeek);
             this._currentPeriod = currentPeriod;
             this._updateCalendar();
         }

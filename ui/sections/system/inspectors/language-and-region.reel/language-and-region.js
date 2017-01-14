@@ -1,5 +1,6 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    _ = require("lodash");
+    moment = require("moment-timezone"),
+    _      = require("lodash");
 
 exports.LanguageAndRegion = AbstractInspector.specialize(/** @lends LanguageAndRegion# */ {
     timezoneOptions: {
@@ -104,6 +105,12 @@ exports.LanguageAndRegion = AbstractInspector.specialize(/** @lends LanguageAndR
                 this.timeFormatShortOptions = this.generateDateFormatConvertedList(today, this.shortTimeFormats);
                 this.timeFormatMediumOptions = this.generateDateFormatConvertedList(today, this.mediumTimeFormats);
                 this.timeFormatLongOptions = this.generateDateFormatConvertedList(today, this.longTimeFormats);
+                this.firstDayOfWeekOptions = _.map(moment.weekdays(), function(day, index) {
+                    return {
+                        label: day,
+                        value: index
+                    };
+                });
             }
         }
     },
@@ -128,6 +135,7 @@ exports.LanguageAndRegion = AbstractInspector.specialize(/** @lends LanguageAndR
             userSettings.dateFormatMedium = userSettings.dateFormatMedium || this.mediumDateFormats[0];
             userSettings.dateFormatLong = userSettings.dateFormatLong || this.longDateFormats[0];
             userSettings.dateFormatFull = userSettings.dateFormatFull || this.fullDateFormats[0];
+            userSettings.firstDayOfWeek = userSettings.firstDayOfWeek || 0;
         }
     },
 

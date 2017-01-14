@@ -8,6 +8,25 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.MonthView = Component.specialize(/** @lends MonthView# */ {
+
+    _firstDayOfWeek: {
+        value: null
+    },
+
+    firstDayOfWeek: {
+        get: function() {
+            return this._firstDayOfWeek;
+        },
+        set: function(firstDayOfWeek) {
+            if (this._firstDayOfWeek !== firstDayOfWeek) {
+                this._firstDayOfWeek = firstDayOfWeek;
+                if (firstDayOfWeek) {
+                    this._updateCalendar();
+                }
+            }
+        }
+    },
+
     _months: {
         get: function() {
             return this.application.calendarService.MONTHS;
@@ -71,14 +90,9 @@ exports.MonthView = Component.specialize(/** @lends MonthView# */ {
                 today = new Date(),
                 week,
                 i, j;
-            if (this._firstDayOfTheWeek === "Monday") {
-                this.daysOfTheWeekContentForRepetition = this.daysOfTheWeek.slice(1);
-                this.daysOfTheWeekContentForRepetition.push(this.daysOfTheWeek[0]);
-                i = (8 - new Date(year, month, 1).getDay()) % 7;
-            } else {
-                this.daysOfTheWeekContentForRepetition = this.daysOfTheWeek;
-                i = 7 - new Date(year, month, 1).getDay();
-            }
+
+            this.daysOfTheWeekContentForRepetition = this.firstDayOfWeek ? [].concat(this.daysOfTheWeek.slice(this.firstDayOfWeek), this.daysOfTheWeek.slice(0, this.firstDayOfWeek)) : this.daysOfTheWeek;
+            i = ((this.firstDayOfWeek || 0) + 7 - new Date(year, month, 1).getDay()) % 7;
             if (i) {
                 i -= 7;
             }

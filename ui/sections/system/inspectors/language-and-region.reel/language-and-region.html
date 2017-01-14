@@ -49,6 +49,17 @@
                 "title": "Date and Time Format"
             }
         },
+        "firstDayOfWeek": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "firstDayOfWeek"},
+                "label": "First day of week"
+            },
+            "bindings": {
+                "options" : {"<-": "@owner.firstDayOfWeekOptions"},
+                "selectedValue": {"<->": "@owner.user.attributes.userSettings.firstDayOfWeek"}
+            }
+        },
         "timeFormatShort": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
@@ -179,6 +190,7 @@
             <div data-montage-id="timezones"></div>
             <div data-montage-id="timezonepicker" class="g-margin-bottom"></div>
             <div data-montage-id="advancedSection" class="AdvancedSection">
+                <div data-montage-id="firstDayOfWeek"></div>
                 <div data-montage-id="dateFormatTitle"></div>
                 <div data-montage-id="dateFormatShort"></div>
                 <div data-montage-id="dateFormatMedium"></div>
