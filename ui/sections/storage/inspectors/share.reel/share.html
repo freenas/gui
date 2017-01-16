@@ -19,7 +19,7 @@
                 "targetTreeview": {"@": "target_path"}
             },
             "bindings": {
-                "volumePath": {"<-": "'/mnt/' + @owner._volume.id"}
+                "volumePath": {"<-": "'/mnt/' + @owner.object._volume.id"}
             }
         },
         "datasetTreeController": {

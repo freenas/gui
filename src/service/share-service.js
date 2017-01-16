@@ -65,10 +65,10 @@ var ShareService = exports.ShareService = Montage.specialize({
 
                     if (shareTypes.SMB === shareObject.type) {
                         shareObject.properties.vfs_objects = [];
-                        shareObject.properties._browseable = true;
+                        shareObject.properties.browseable = true;
                         shareObject.properties.hosts_allow = [];
                         shareObject.properties.hosts_deny = [];
-                        shareObject.properties._previous_versions = true;
+                        shareObject.properties.previous_versions = true;
                     } else if (shareTypes.NFS === shareObject.type) {
                         shareObject.properties.hosts = [];
                         shareObject.properties.security = [];
@@ -125,9 +125,9 @@ var ShareService = exports.ShareService = Montage.specialize({
     save: {
         value: function (shareObject, isServiceEnabled) {
             var saveSharePromise;
-            delete shareObject.permissions.user;
-            delete shareObject.permissions.group;
-            delete shareObject.permissions.others;
+            // delete shareObject.permissions.user;
+            // delete shareObject.permissions.group;
+            // delete shareObject.permissions.others;
             //FIXME: workaround for the SELECT component. Future dead code.
             if (shareObject.type === this.constructor.SHARE_TYPES.NFS) {
                 saveSharePromise = this._saveNfsShareObject(shareObject, isServiceEnabled);
