@@ -9,11 +9,13 @@ import {Model} from "../model";
 
 export class ReplicationRoute extends AbstractRoute {
     private static instance: ReplicationRoute;
+    private objectType: string;
 
     private constructor(private replicationService: ReplicationService,
                         private modelDescriptorService: ModelDescriptorService,
                         eventDispatcherService: EventDispatcherService) {
         super(eventDispatcherService);
+        this.objectType = Model.Replication;
     }
 
     public static getInstance() {

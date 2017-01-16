@@ -125,9 +125,16 @@ export class RoutingService {
         hasher.changed.active = true;
     }
 
-    private handleHashChange(newHash) {
-        crossroads.parse(decodeURIComponent(newHash));
-        this.eventDispatcherService.dispatch('hashChange', newHash);
+    private handleHashChange(newHash, oldHash) {
+        this.eventDispatcherService.dispatch('inspectorExit').then((isBlockingNeeded) => {
+            if (!isBlockingNeeded) {
+                crossroads.parse(decodeURIComponent(newHash));
+                this.eventDispatcherService.dispatch('hashChange', newHash);
+            } else {
+                this.changeHash(oldHash);
+                this.eventDispatcherService.dispatch('hashChange', oldHash);
+            }
+        });
     }
 
     public getCurrentPath() {
@@ -499,9 +506,9 @@ export class RoutingService {
                 section = stack[0].object,
                 sectionId = section.id;
             if (this.datastoreService.getState().get(Model.Task) &&
-                this.datastoreService.getState().get(Model.Task).get(taskId) &&
-                this.datastoreService.getState().get(Model.Task).get(taskId).get('error')) {
-                _.last(stack).error = this.datastoreService.getState().get(Model.Task).get(taskId).get('error').toJS();
+                this.datastoreService.getState().get(Model.Task).get(_.toString(taskId)) &&
+                this.datastoreService.getState().get(Model.Task).get(_.toString(taskId)).get('error')) {
+                _.last(stack).error = this.datastoreService.getState().get(Model.Task).get(_.toString(taskId)).get('error').toJS();
             }
             this.currentStacks.set(sectionId, stack);
             this.eventDispatcherService.dispatch('sectionRestored', sectionId);
