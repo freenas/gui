@@ -3,6 +3,7 @@ var Montage = require("montage").Montage,
     application = require("montage/core/application").application,
     FreeNASService = require("core/service/freenas-service").FreeNASService,
     ShareRepository = require("core/repository/share-repository").ShareRepository,
+    VolumeRepository = require("core/repository/volume-repository").VolumeRepository,
     Promise = require("montage/core/promise").Promise,
     Model = require("core/model/model").Model,
     bytes = require("bytes"),
@@ -199,35 +200,35 @@ var ShareService = exports.ShareService = Montage.specialize({
             }
 
             if (isNewShareObject && shareObject.target_type === 'ZVOL' && !shareObject.properties.refreservation) {
-                // FIXME: Workaround for middleware schema validation - we should use proper VolumeDatasetPropertyRefreservation Model
                 datasetProperties = {
                     refreservation: {
                         parsed: 0
                     }
                 };
             }
+            delete shareObject.properties.refreservation;
 
-            var args = isNewShareObject ? [shareObject, datasetProperties, isServiceEnabled] : [shareObject];
-            return self._dataService.saveDataObject.apply(self._dataService, args).then(function () {
-                if (isNewShareObject) {
-                    return self._dataService.getNewInstanceForType(Model.ShareIscsiTarget);
-                }
-            }).then(function (target) {
-                var extentObject = {
-                        name: shareObject.name,
-                        number: shareObject.__extent.lun
-                    };
+            return this.shareRepository.saveShare(shareObject, datasetProperties, isServiceEnabled)
+                .then(function() {
+                    if (isNewShareObject) {
+                        return self._dataService.getNewInstanceForType(Model.ShareIscsiTarget).then(function(target) {
+                            var extentObject = {
+                                name: shareObject.name,
+                                number: shareObject.__extent.lun
+                            };
 
-                target.id = targetId;
+                            target.id = targetId;
 
-                if (Array.isArray(target.extents)) {
-                    target.extents.push(extentObject);
-                } else {
-                    target.extents = [extentObject];
-                }
+                            if (Array.isArray(target.extents)) {
+                                target.extents.push(extentObject);
+                            } else {
+                                target.extents = [extentObject];
+                            }
 
-                return self._dataService.saveDataObject(target);
-            });
+                            return self._dataService.saveDataObject(target);
+                        });
+                    }
+                });
         }
     },
 
@@ -272,6 +273,7 @@ var ShareService = exports.ShareService = Montage.specialize({
                 this._instance = new ShareService();
                 this._instance._dataService = FreeNASService.instance;
                 this._instance.shareRepository = ShareRepository.getInstance();
+                this._instance.volumeRepository = VolumeRepository.getInstance();
             }
 
             return this._instance;
