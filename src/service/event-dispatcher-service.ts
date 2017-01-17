@@ -32,7 +32,7 @@ export class EventDispatcherService {
         if (this.listeners.has(eventName)) {
             let handlers = this.listeners.get(eventName);
             promise = Promise.all(_.map(Array.from(handlers), (handler) => handler.call({}, detail)))
-                .then((results) => !_.every(results));
+                .then((results) => _.some(results));
         } else {
             promise = Promise.resolve();
         }

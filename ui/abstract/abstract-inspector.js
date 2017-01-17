@@ -118,7 +118,13 @@ exports.AbstractInspector = AbstractComponentActionDelegate.specialize({
                         _.unset(reference, path);
                     }
                 });
-                result = _.isEqual(object,reference);
+                // console.log(
+                //     _.reduce(object, function(result, value, key) {
+                //         return _.isEqual(value, reference[key]) ?
+                //             result : result.concat(key);
+                //     }, [])
+                // );
+                result = !_.isEqual(object,reference);
             }
             return result;
         }
