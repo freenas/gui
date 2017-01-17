@@ -68,8 +68,16 @@ exports.NetworkInterface = AbstractInspector.specialize({
     _handleInspectorExit: {
         value: function() {
             var defaults = [['name', '']],
-                ignored = ['media'];
-            return this.hasObjectChanged(defaults, ignored);
+                ignored = ['media', 'vlan'];
+
+            if (this.hasObjectChanged(defaults, ignored)) {
+                alert('has-changed');
+                this.application.isConfirmationShown = true;
+                return true;
+            } else {
+                alert('has-not-changed');
+                return false;
+            }
         }
     }
 });
