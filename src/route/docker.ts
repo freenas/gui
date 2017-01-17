@@ -406,4 +406,27 @@ export class DockerRoute extends AbstractRoute {
         });
     }
 
+
+    public getContainerLogs(stack:Array<any>) {
+        let objectType = Model.DockerContainerLogs,
+            columnIndex = 3,
+            parentContext = stack[columnIndex-1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/docker-container-logs'
+            };
+
+        return Promise.all([
+            this.dockerRepository.getNewDockerContainerLogs(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread((dockerContainerLogs, uiDescriptor) => {
+            context.object = dockerContainerLogs;
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            return this.updateStackWithContext(stack, context);
+        });
+    }
+
 }

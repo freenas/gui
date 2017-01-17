@@ -12,7 +12,7 @@ exports.DockerLogs = AbstractInspector.specialize(/** @lends DockerLogs# */ {
     enterDocument: {
         value: function () {
             var self = this,
-            dockerContainerId = this.context.parentContext.object.id;
+                dockerContainerId = this.context.parentContext.object.id;
 
             return this._sectionService.getSerialTokenWithDockerContainerId(dockerContainerId).then(function(token) {
                 self.token = token;
