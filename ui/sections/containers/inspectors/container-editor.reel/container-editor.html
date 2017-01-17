@@ -256,6 +256,18 @@
             }
         },
 
+        "privileged": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "privileged"},
+                "label": "Privileged",
+                "disabled": true
+            },
+            "bindings": {
+                "checked": {"<-": "@owner.object.privileged"}
+            }
+        },
+
         "bridged": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -348,6 +360,7 @@
             </div>
             <div data-montage-id="command"></div>
             <div data-montage-id="interactive"></div>
+            <div data-montage-id="privileged"></div>
             <div data-montage-id="bridged"></div>
             <div data-montage-id="bridgeAddress"></div>
             <div data-montage-id="bridgeMacAddress"></div>

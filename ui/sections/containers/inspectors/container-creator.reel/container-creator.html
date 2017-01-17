@@ -212,6 +212,17 @@
             }
         },
 
+         "privileged": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "privileged"},
+                "label": "Privileged"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.privileged"}
+            }
+        },
+
         "bridged": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -305,6 +316,7 @@
                 <div data-montage-id="exposePorts" class="g-margin-bottom"></div>
                 <div data-montage-id="volumesTable" class="g-margin-bottom"></div>
                 <div data-montage-id="interactive"></div>
+                <div data-montage-id="privileged"></div>
                 <div data-montage-id="bridged"></div>
                 <div data-montage-id="bridgeDHCP"></div>
                 <div data-montage-id="bridgeAddress"></div>
