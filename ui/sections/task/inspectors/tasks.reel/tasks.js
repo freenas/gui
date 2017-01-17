@@ -26,7 +26,7 @@ exports.Tasks = AbstractInspector.specialize(/** @lends Tasks# */ {
             var self = this;
                 this.filter = {};
             this._service = TaskService.getInstance();
-            this._service.loadEntries().then(function (entries) {
+            this._service.listTasks().then(function (entries) {
                 self.tasks = entries;
             });
         }

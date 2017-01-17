@@ -1,0 +1,24 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="task-entry/task-entry.html">
+<dom-module id="tasks-widget">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+        <div class="Notifications">
+            <div>
+                <svg class="Notifications-icon">
+                    <use xlink:href="#i-tasks"/>
+                </svg>
+                <div class="Notifications-title">Tasks</div>
+            </div>
+            <template is="dom-repeat" items="[[tasks]]" as="foo">
+                <task-entry task="{{foo}}"></task-entry>
+            </template>
+        </div>
+    </template>
+
+    <script src="tasks-widget.js"></script>
+</dom-module>

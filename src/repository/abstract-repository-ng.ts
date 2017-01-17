@@ -37,7 +37,8 @@ export abstract class AbstractRepository {
         this.eventDispatcherService.dispatch(modelEventName.listChange, state);
         state.forEach(function(stateEntry, id){
             if (!repositoryEntries || !repositoryEntries.has(id)) {
-                self.eventDispatcherService.dispatch(modelEventName.add(id), stateEntry);
+                self.eventDispatcherService.dispatch(modelEventName.add, stateEntry);
+                self.eventDispatcherService.dispatch(modelEventName.addObjectWithId(id), stateEntry);
                 hasListContentChanged = true;
             } else if (repositoryEntries.get(id) !== stateEntry) {
                 self.eventDispatcherService.dispatch(modelEventName.change(id), stateEntry);
@@ -45,8 +46,9 @@ export abstract class AbstractRepository {
         });
         if (repositoryEntries) {
             repositoryEntries.forEach(function(repositoryEntry, id){
-                if (!state.has(id) || state.get(id) !== repositoryEntry) {
-                    self.eventDispatcherService.dispatch(modelEventName.remove(id), repositoryEntry);
+                if (!state.has(id)) {
+                    self.eventDispatcherService.dispatch(modelEventName.remove, repositoryEntry);
+                    self.eventDispatcherService.dispatch(modelEventName.removeObjectWithId(id), repositoryEntry);
                     hasListContentChanged = true;
                 }
             });

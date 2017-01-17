@@ -1,0 +1,60 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-progress/paper-progress.html">
+<dom-module id="task-entry">
+    <template>
+        <style>
+            .TaskNotification:before {
+                position: absolute;
+                content: '';
+                top: 0;
+                width: 3px;
+                left: 0;
+                bottom: 0;
+            }
+
+            .TaskNotification.has-warning:before    { background-color: #D95B1B; }
+            .TaskNotification.has-error:before      { background-color: #E0003A; }
+
+            .TaskNotification paper-progress                { --paper-progress-active-color: #2089d3; }
+            .TaskNotification.has-success paper-progress    { --paper-progress-active-color: #1E963F; }
+            .TaskNotification.has-warning paper-progress    { --paper-progress-active-color: #D95B1B; }
+            .TaskNotification.has-error paper-progress      { --paper-progress-active-color: #E0003A; }
+        </style>
+        <div class$="Notification TaskNotification [[stateClass]]">
+            <div on-tap="handleExpand" class="Notification-header">
+                <div class="Notification-overview">
+                    <div>
+                        <div>[[task.description.message]]</div>
+                    </div>
+                    <div>
+                        <div class="Notification-time">[[task.startDate]]</div>
+                        <paper-progress id="progress" class="Notification-progress transiting"></paper-progress>
+                    </div>
+                </div>
+            </div>
+            <div class="Notification-details">
+                <header>
+                    <div class="Notification-details-title">TASK #[[task.id]]</div>
+                    <button data-montage-id="retryButton" class="Button--primary Button--small"></button>
+                </header>
+                <main>
+                    <div hidden$="[[!hasDescription]]">
+                        <h4>Description:</h4>
+                        <div class="Notification-details-messages">
+                            <p class="Notification-details-errorMessage">[[task.error.message]]</p>
+                            <template is="dom-repeat" items="[[task.warnings]]" as="warning">
+                                <p class="Notification-details-warning">[[warning.message]]</p>
+                            </template>
+                        </div>
+                    </div>
+                    <h4>Task Name:</h4>
+                    <p>[[task.name]]</p>
+                    <h4>State:</h4>
+                    <p>[[task.state]]</p>
+                </main>
+            </div>
+        </div>
+    </template>
+
+    <script src="task-entry.js"></script>
+</dom-module>

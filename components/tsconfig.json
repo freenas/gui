@@ -6,19 +6,20 @@
             "dom"
         ],
         "typeRoots" : [
-            "./typings/global",
-            "./typings/modules"
+            "../src",
+            "../typings/global",
+            "../typings/modules"
         ],
         "module": "commonjs",
         "moduleResolution": "node",
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "sourceMap": true,
-        "allowJs": true,
-        "outDir": "core"
+        "allowJs": false,
+        "rootDir": "."
     },
     "include": [
-        "src/**/*"
+        "**/*"
     ],
     "exclude": [
         "**/node_modules"

@@ -20,6 +20,7 @@ var path = require('path'),
 
 var tsProject = ts.createProject('tsconfig.json'),
     tsProjectProd = ts.createProject('tsconfig.json', {sourceMap: false}),
+    tsProjectComponents = ts.createProject('./components/tsconfig.json'),
     processors = [
         styleLint({
             config: {
@@ -50,13 +51,14 @@ var tsProject = ts.createProject('tsconfig.json'),
 
 // Tasks
 
-gulp.task('serve', ['allCss', 'packageUuid', 'typescript'], function () {
+gulp.task('serve', ['allCss', 'packageUuid', 'typescript', 'polymerComponentsTypescript'], function () {
     browserSync.init({
         server: "./"
     });
 
     gulp.watch("ui/**/**/_*.css", ['css']);
     gulp.watch("ui/**/*.html").on('change', browserSync.reload);
+    gulp.watch("components/**/*.ts", ['polymerComponentsTypescript']);
     gulp.watch("src/**/*.ts", ['typescript']);
     gulp.watch("src/**/*.js", ['typescript']);
 });
@@ -121,10 +123,17 @@ gulp.task('packageUuid', function() {
         .pipe(gulp.dest('bin/vendors/uuid'))
 });
 
+gulp.task('polymerComponentsTypescript', function() {
+    return tsProjectComponents.src()
+        .pipe(tsProjectComponents())
+        .pipe(gulp.dest('components'));
+});
+
 gulp.task('build', [
     'allCss',
     'packageUuid',
     'typescriptProd',
+    'polymerComponentsTypescript',
     'tagRollbar'
 ]);
 

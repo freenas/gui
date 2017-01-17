@@ -102,15 +102,19 @@ export class ModelEventName {
 
     public listChange: string;
     public contentChange: string;
-    public add: Function;
-    public remove: Function;
+    public add: string;
+    public remove: string;
+    public addObjectWithId: Function;
+    public removeObjectWithId: Function;
     public change: Function;
 
     private constructor(modelName: string) {
         this.listChange = modelName + 'ListChange';
         this.contentChange = modelName + 'ContentChange';
-        this.add = (id) => modelName + 'Add.' + id;
-        this.remove = (id) => modelName + 'Remove.' + id;
+        this.add = modelName + 'Add';
+        this.remove = modelName + 'Remove';
+        this.addObjectWithId = (id) => modelName + 'Add.' + id;
+        this.removeObjectWithId = (id) => modelName + 'Remove.' + id;
         this.change = (id) => modelName + '.' + id;
     }
 }

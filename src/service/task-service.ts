@@ -14,7 +14,7 @@ export class TaskService {
         return TaskService.instance;
     }
 
-    public loadEntries(): Promise<Array<Object> > {
+    public listTasks(): Promise<Array<Object> > {
         return this.taskRepository.listTasks();
     }
 
