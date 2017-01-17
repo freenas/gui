@@ -1,0 +1,12 @@
+{
+    "root": {
+        "prototype": "montage/core/meta/user-interface-descriptor",
+        "properties": {
+            "nameExpression": "id.defined() ? name : 'Create a network'",
+            "collectionNameExpression": "'Networks'",
+            "daoModuleId": "core/dao/docker-network-dao",
+            "inspectorComponentModule": {"%": "ui/sections/containers/inspectors/docker-network.reel"},
+            "creatorComponentModule": {"%": "ui/sections/containers/inspectors/docker-network.reel"}
+        }
+    }
+}

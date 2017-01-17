@@ -248,6 +248,18 @@
             }
         },
 
+        "bridgeMacAddress": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "bridgeMacAddress"},
+                "label": "MAC address"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.bridge.macaddress"},
+                "classList.has('hide')": {"<-": "!@owner.object.bridge.enable"}
+            }
+        },
+
         "autostart": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -256,6 +268,19 @@
             },
             "bindings": {
                 "checked": {"<->": "@owner.object.autostart"}
+            }
+        },
+
+        "readme": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "readme"},
+                "objectType": "VmReadme",
+                "name": "Readme",
+                "path": "readme"
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "!@owner.object.image"}
             }
         }
 
@@ -268,6 +293,7 @@
             <div data-montage-id="image" class="g-margin-bottom"></div>
             <div data-montage-id="name"></div>
             <div data-montage-id="dockerHost"></div>
+            <div data-montage-id="readme"></div>
 
             <div data-montage-id="advancedSection">
                 <div data-montage-id="hostname"></div>
@@ -282,6 +308,7 @@
                 <div data-montage-id="bridged"></div>
                 <div data-montage-id="bridgeDHCP"></div>
                 <div data-montage-id="bridgeAddress"></div>
+                <div data-montage-id="bridgeMacAddress"></div>
                 <div data-montage-id="command"></div>
                 <div data-montage-id="autostart"></div>
             </div>
