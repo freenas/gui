@@ -19,7 +19,7 @@ class DiffProcessor implements DataProcessor {
         return this.getDifferences(object, reference, propertyDescriptors);
     }
 
-    private getDifferences(object: Object, reference: Map<string, any>, propertyDescriptors?: any): Object {
+    private getDifferences(object: Object, reference?: Map<string, any>, propertyDescriptors?: any): Object {
         let differences;
         if (!reference) {
             differences = Map<string, any>(object);

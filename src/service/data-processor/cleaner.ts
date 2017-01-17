@@ -53,7 +53,7 @@ class CleaningProcessor implements DataProcessor {
                 CleaningProcessor.matchesDescriptor(value, descriptor);
     }
 
-    private static matchesDescriptor(value: any, descriptor: any) {
+    private static matchesDescriptor(value: any, descriptor?: any) {
         let result = true;
         if (descriptor) {
             result = !descriptor.readOnly;
