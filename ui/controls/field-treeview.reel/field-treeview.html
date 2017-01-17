@@ -11,6 +11,7 @@
             },
             "bindings": {
                 "displayedPath": {"<-": "@pathInput.value"},
+                "inspector.isSaveDisabled": {"<-": "!!@owner.isExpanded"},
                 "classList.has('is-expanded')": {"<-": "@owner.isExpanded"}
             },
             "listeners": [
