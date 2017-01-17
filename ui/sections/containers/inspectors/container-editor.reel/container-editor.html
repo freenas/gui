@@ -269,15 +269,15 @@
         },
 
         "bridgeAddress": {
-            "prototype": "blue-shark/ui/field-text.reel",
+            "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "bridgeAddress"},
                 "label": "IP address",
                 "disabled": true
             },
             "bindings": {
-                "checked": {"<-": "@owner.object.bridge.address"},
-                "classList.has('is-hidden')": {"<-": "!@owner.object.bridge.enabled"}
+                "value": {"<-": "@owner.object.bridge.address"},
+                "classList.has('is-hidden')": {"<-": "!@owner.object.bridge.enable && !!@owner.object.bridge.address"}
             }
         },
 
@@ -290,7 +290,7 @@
             },
             "bindings": {
                 "value": {"<-": "@owner.object.bridge.macaddress"},
-                "classList.has('is-hidden')": {"<-": "!@owner.object.bridge.enabled"}
+                "classList.has('is-hidden')": {"<-": "!@owner.object.bridge.enable && !!@owner.object.bridge.macaddress"}
             }
         },
 
