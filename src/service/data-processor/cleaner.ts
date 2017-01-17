@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import {Map} from 'immutable';
 
 class CleaningProcessor implements DataProcessor {
-    private static validPropertyRegex: RegExp = /^[a-z0-9%$][a-zA-Z0-9_]*$/;
+    private static validPropertyRegex: RegExp = /^[a-z0-9%$][a-zA-Z0-9_.:\-]*$/;
 
     public process(object: Object, propertyDescriptors?: any): Object {
         if (_.isEmpty(object)) {
@@ -50,8 +50,22 @@ class CleaningProcessor implements DataProcessor {
                 property !== 'constructor' &&
                 CleaningProcessor.validPropertyRegex.test(property) &&
                 typeof value !== 'function' &&
-                (!descriptor || !descriptor.readOnly);
+                CleaningProcessor.matchesDescriptor(value, descriptor);
     }
+
+    private static matchesDescriptor(value: any, descriptor?: any) {
+        let result = true;
+        if (descriptor) {
+            result = !descriptor.readOnly;
+            if (result) {
+                if (!_.includes(_.castArray(descriptor.type), 'null')) {
+                    result = !!value;
+                }
+            }
+        }
+        return result;
+    }
+
 }
 
 let processor: DataProcessor = new CleaningProcessor();
