@@ -144,23 +144,6 @@
                 "value": {"<->": "@owner._transportOptions.throttle"}
             }
         },
-        "advancedSection": {
-            "prototype": "ui/controls/foldable-section.reel",
-            "properties": {
-                "element": {"#": "advancedSection"},
-                "title": "Advanced"
-            }
-        },
-        "bidirectional": {
-            "prototype": "blue-shark/ui/field-checkbox.reel",
-            "properties": {
-                "element": {"#": "bidirectional"},
-                "label": "Bidirectional"
-            },
-            "bindings": {
-                "checked": {"<->": "!!@owner.object.bidirectional"}
-            }
-        },
         "autoRecover": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -169,7 +152,7 @@
             },
             "bindings": {
                 "checked": {"<->": "!!@owner.object.auto_recover"},
-                "disabled": {"<-": "!@owner.object.bidirectional"}
+                "classList.has('hide')": {"<-": "!@owner.object.bidirectional"}
             }
         },
         "replicateServices": {
@@ -180,7 +163,7 @@
             },
             "bindings": {
                 "checked": {"<->": "!!@owner.object.replicate_services"},
-                "disabled": {"<-": "!@owner.object.bidirectional"}
+                "classList.has('hide')": {"<-": "!@owner.object.bidirectional"}
             }
         },
         "recursive": {
@@ -260,13 +243,10 @@
         <div data-montage-id="compress"></div>
         <div data-montage-id="encrypt"></div>
         <div data-montage-id="throttle"></div>
-        <div data-montage-id="advancedSection">
-            <div data-montage-id="bidirectional"></div>
-            <div data-montage-id="autoRecover"></div>
-            <div data-montage-id="replicateServices"></div>
-            <div data-montage-id="recursive"></div>
-            <div data-montage-id="followDelete"></div>
-        </div>
+        <div data-montage-id="autoRecover"></div>
+        <div data-montage-id="replicateServices"></div>
+        <div data-montage-id="recursive"></div>
+        <div data-montage-id="followDelete"></div>
         <div data-montage-id="createdSubstitution">
             <div data-arg="EDIT">
                 <div data-montage-id="currentState"></div>
