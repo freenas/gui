@@ -2,7 +2,7 @@
     "name": "freenas-10-gui",
     "version": "10.0.0-BETA2",
     "dependencies": {
-        "blue-shark": "freenas/blue-shark#11e48ae7dcc89c5b90893e17f72e124a9d7c9f0b",
+        "blue-shark": "freenas/blue-shark#66c1ebb13c3ef9afb418d23309f044dd625269d6",
         "bytes": "^2.4.0",
         "change-case": "^3.0.0",
         "collections": "montagejs/collections#90210529c7b01ed373b65d4a60409f5edd36a93a",
@@ -15,7 +15,7 @@
         "lodash": "^4.17.2",
         "maphilight": "~1.2.3",
         "moment-timezone": "^0.5.11",
-        "montage": "freenas/montage#fe6b9a704278d089f95e037bfdf1f3c06c694d6d",
+        "montage": "freenas/montage#9d75a5cced0b80b9370de5e9fe2ef0d45d3dfd8e",
         "montage-data": "montagestudio/montage-data#647f5208fcefbc89c405d1afea205c8184fddeda",
         "node-uuid": "^1.4.7",
         "plottable": "~2.5.0",
