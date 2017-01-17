@@ -28,7 +28,8 @@
     "redirects": {
         "redux": "redux/dist/redux.min.js",
         "bytes": "bytes/index.js",
-        "bluebird": "node_modules/montage/node_modules/bluebird/js/browser/bluebird.min.js"
+        "bluebird": "node_modules/montage/node_modules/bluebird/js/browser/bluebird.min.js",
+        "uuid": "bin/vendors/uuid/index.js"
     },
     "devDependencies": {
         "browser-sync": "^2.13.0",
