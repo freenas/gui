@@ -126,9 +126,6 @@ var ShareService = exports.ShareService = Montage.specialize({
     save: {
         value: function (shareObject, isServiceEnabled) {
             var saveSharePromise;
-            // delete shareObject.permissions.user;
-            // delete shareObject.permissions.group;
-            // delete shareObject.permissions.others;
             //FIXME: workaround for the SELECT component. Future dead code.
             if (shareObject.type === this.constructor.SHARE_TYPES.NFS) {
                 saveSharePromise = this._saveNfsShareObject(shareObject, isServiceEnabled);
