@@ -17,11 +17,11 @@
         "moment-timezone": "^0.5.11",
         "montage": "freenas/montage#9d75a5cced0b80b9370de5e9fe2ef0d45d3dfd8e",
         "montage-data": "montagestudio/montage-data#647f5208fcefbc89c405d1afea205c8184fddeda",
-        "node-uuid": "^1.4.7",
         "plottable": "~2.5.0",
         "redux": "^3.6.0",
         "systemjs": "^0.19.41",
         "systemjs-plugin-json": "^0.2.2",
+        "uuid": "^3.0.1",
         "validators": "~0.3.1",
         "xterm": "^1.0.0"
     },
@@ -57,6 +57,9 @@
         "stylelint": "^7.6.0",
         "tslint": "^4.2.0",
         "typescript": "^2.1.0",
+        "vinyl-named": "^1.1.0",
+        "webpack": "^2.2.0-rc.4",
+        "webpack-stream": "^3.2.0",
         "ws": "~1.1.1"
     },
     "scripts": {

@@ -8,8 +8,12 @@ export class VmDao extends AbstractDao {
         super(Model.Vm);
     }
 
-    public requestSerialConsole(vmId: string): Promise<string> {
-        return this.middlewareClient.callRpcMethod('vm.request_serial_console', [vmId]);
+    public requestSerialConsole(vm: any): Promise<string> {
+        return this.middlewareClient.callRpcMethod('vm.request_serial_console', [vm.id]);
+    }
+
+    public requestWebvncConsole(vm: any): Promise<string> {
+        return this.middlewareClient.callRpcMethod('vm.request_webvnc_console', [vm.id]);
     }
 
     public getHardwareCapabilities() {

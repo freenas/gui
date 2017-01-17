@@ -1,7 +1,7 @@
 import {EventDispatcherService} from './event-dispatcher-service';
 import {ModelEventName} from '../model-event-name';
 
-import * as uuid from 'node-uuid';
+import * as uuid from 'uuid';
 import * as Promise from 'bluebird';
 import * as _ from 'lodash';
 

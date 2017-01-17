@@ -1,9 +1,7 @@
-var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
+    ModelEventName = require("core/model-event-name").ModelEventName;
 
-/**
- * @class VirtualMachine
- * @extends Component
- */
 exports.VirtualMachine = AbstractInspector.specialize({
     editMode: {
         value: null
@@ -29,6 +27,7 @@ exports.VirtualMachine = AbstractInspector.specialize({
             this.DEFAULT_STRING = this._sectionService.DEFAULT_STRING;
             this.guestTypeOptions = this._sectionService.GUEST_TYPES;
             this.bootloaderOptions = this._sectionService.BOOTLOADERS;
+            this._eventDispatcherService = EventDispatcherService.getInstance();
             return this._dependenciesLoadingPromise = this._load();
         }
     },
@@ -49,15 +48,13 @@ exports.VirtualMachine = AbstractInspector.specialize({
                 self._sectionService.initializeVm(self.object);
                 self.addPathChangeListener("object._bootDevice", self, "_handleBootDeviceChange");
                 self.addPathChangeListener("object._selectedTemplate", self, "_handleTemplateChange");
-                self._cancelDevicesListener = self.addRangeAtPathChangeListener("object.devices", self, "_handleDevicesChange");
-                self._cancelVolumeDevicesListener = self.addRangeAtPathChangeListener("object._volumeDevices", self, "_handleCategorizedDevicesChange");
-                self._cancelNonVolumeDevicesListener = self.addRangeAtPathChangeListener("object._nonVolumeDevices", self, "_handleCategorizedDevicesChange");
                 self._finishLoading();
             });
 
+            this._changeListener = this._eventDispatcherService.addEventListener(ModelEventName.Vm.change(this.object.id), this._handleChange.bind(this));
+
             if (isFirstTime) {
                 this.object._isShutdownRequested = false;
-                this.addPathChangeListener("object.status.state", this, "_handleStateChange");
             }
         }
     },
@@ -65,23 +62,13 @@ exports.VirtualMachine = AbstractInspector.specialize({
     exitDocument: {
         value: function() {
             this.super();
+            this._eventDispatcherService.removeEventListener(ModelEventName.Vm.change(this.object.id), this._changeListener);
+
             if (this.getPathChangeDescriptor('object._bootDevice', this)) {
                 this.removePathChangeListener('object._bootDevice', this);
             }
             if (this.getPathChangeDescriptor('object._selectedTemplate', this)) {
                 this.removePathChangeListener('object._selectedTemplate', this);
-            }
-            if (typeof this._cancelDevicesListener === 'function') {
-                this._cancelDevicesListener();
-                this._cancelDevicesListener = null;
-            }
-            if (typeof this._cancelVolumeDevicesListener === 'function') {
-                this._cancelVolumeDevicesListener();
-                this._cancelVolumeDevicesListener = null;
-            }
-            if (typeof this._cancelNonVolumeDevicesListener === 'function') {
-                this._cancelNonVolumeDevicesListener();
-                this._cancelNonVolumeDevicesListener = null;
             }
         }
     },
@@ -96,7 +83,6 @@ exports.VirtualMachine = AbstractInspector.specialize({
 
     save: {
         value: function() {
-            var self = this;
             return this._sectionService.saveVm(this.object);
         }
     },
@@ -123,8 +109,8 @@ exports.VirtualMachine = AbstractInspector.specialize({
     handleSerialConsoleAction: {
         value: function() {
             var self = this;
-            this._sectionService.getSerialConsoleForVm(this.object).then(function(serialConsole) {
-                window.open(serialConsole, self.object.name + " Serial Console");
+            this._sectionService.getSerialConsoleUrl(this.object).then(function(serialConsoleUrl) {
+                window.open(serialConsoleUrl, self.object.name + " Serial Console");
             });
         }
     },
@@ -132,7 +118,7 @@ exports.VirtualMachine = AbstractInspector.specialize({
     handleWebvncConsoleAction: {
         value: function() {
             var self = this;
-            this._sectionService.getVncConsoleForVm(this.object).then(function(vncConsole) {
+            this._sectionService.getWebVncConsoleUrl(this.object).then(function(vncConsole) {
                 window.open(vncConsole, self.object.name + " VM Console");
             });
         }
@@ -150,23 +136,6 @@ exports.VirtualMachine = AbstractInspector.specialize({
         value: function() {
             if (this._inDocument && this.object.config && this.object.config.boot_device !== this.object._bootDevice) {
                this.object.config.boot_device = this.object._bootDevice;
-            }
-        }
-    },
-
-    _handleCategorizedDevicesChange: {
-        value: function(addedDevices, removedDevices) {
-            this._sectionService.addDevicesToVm(this.object, addedDevices);
-            this._sectionService.removeDevicesFromVm(this.object, removedDevices);
-        }
-    },
-
-    _handleDevicesChange: {
-        value: function(addedDevices, removedDevices) {
-            this._sectionService.categorizeDevices(this.object, addedDevices, removedDevices);
-            var oldBootDevice = this.object._bootDevice;
-            if (this._sectionService.updateBootDevices(this.object) && this.object.config) {
-                this.object._bootDevice = oldBootDevice;
             }
         }
     },
@@ -216,7 +185,14 @@ exports.VirtualMachine = AbstractInspector.specialize({
             this.isLoading = false;
             this._canDrawGate.setField(this.constructor.DRAW_GATE_FIELD, true);
         }
+    },
+
+    _handleChange: {
+        value: function(state) {
+            this._sectionService.mergeVm(this.object, state);
+        }
     }
+
 }, {
     DRAW_GATE_FIELD: {
         value: "vmLoaded"
