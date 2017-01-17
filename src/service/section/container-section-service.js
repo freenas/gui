@@ -173,10 +173,10 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
     },
 
     deleteDockerImageFromDockerHost: {
-        value: function (imageName, dockerHostId) {
+        value: function (imageId, dockerHostId) {
             var self = this;
 
-            this._middlewareTaskRepository.getNewMiddlewareTaskWithNameAndArgs("docker.image.delete", [imageName, dockerHostId]).then(function(middlewareTask) {
+            this._middlewareTaskRepository.getNewMiddlewareTaskWithNameAndArgs("docker.image.delete", [imageId, dockerHostId]).then(function(middlewareTask) {
                 return self._middlewareTaskRepository.runMiddlewareTask(middlewareTask);
             });
         }
@@ -186,7 +186,7 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         value: function (dockerImage) {
             var self = this;
 
-            this._middlewareTaskRepository.getNewMiddlewareTaskWithNameAndArgs("docker.image.delete", [dockerImage.names[0], null]).then(function(middlewareTask) {
+            this._middlewareTaskRepository.getNewMiddlewareTaskWithNameAndArgs("docker.image.delete", [dockerImage.id, null]).then(function(middlewareTask) {
                 return self._middlewareTaskRepository.runMiddlewareTask(middlewareTask);
             });
         }

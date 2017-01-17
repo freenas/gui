@@ -62,7 +62,7 @@ exports.DockerImage = AbstractInspector.specialize({
             var dockerHost = this._findDockerWithName(dockerName);
 
             if (dockerHost) {
-                this._sectionService.deleteDockerImageFromDockerHost(this.object.names[0], dockerHost.id);
+                this._sectionService.deleteDockerImageFromDockerHost(this.object.id, dockerHost.id);
             }
         }
     },
