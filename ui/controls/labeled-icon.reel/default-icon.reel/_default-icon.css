@@ -1,5 +1,5 @@
 .DefaultIcon {
-    background: #ccc;
+    background: var(--grey-2);
     border-radius: 9999px;
     /* $fix - need to change how this works with js */
     width: 100% !important;

@@ -23,7 +23,7 @@
 }
 
 .MainNavigation-preferences:hover {
-    color: #fff;
+    color: var(--white);
 }
 
 .MainNavigation-preferences > svg {
@@ -41,7 +41,7 @@
     margin-left: -1.5em;
     margin-top:  -1.5em;
     border-radius: 50%;
-    background: #2B9CD8;
+    background: var(--color-selected);
     box-shadow: 0 2px 2px rgba(0,0,0,.3);
     z-index: -1;
 }

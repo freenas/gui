@@ -9,5 +9,5 @@
 }
 
 .Grid-icon.selected .InterfaceIcon svg {
-    color: #2B9CD8;
+    color: var(--color-selected);
 }

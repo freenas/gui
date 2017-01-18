@@ -1,5 +1,5 @@
 .Notification-details {
-    background: #242628;
+    background: var(--grey-blue);
     font-size: .8em;
 }
 

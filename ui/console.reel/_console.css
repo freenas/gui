@@ -2,7 +2,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    background: #000000;
+    background-color: var(--black);
 }
 
 .Console-terminal { display: flex; }
@@ -12,11 +12,11 @@
     font-family: monospace;
     font-size: 1.2em;
     color: currentColor !important;
-    background: transparent;
+    background-color: none;
     outline: none;
 }
 
-.Console .terminal-cursor { background: currentColor; }
+.Console .terminal-cursor { background-color: currentColor; }
 
 .Console .xterm-viewport,
 .Console .xterm-helpers {

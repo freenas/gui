@@ -7,12 +7,10 @@
 .AvailableDisks-header {
     height: 4em;
     padding: .75em 1em;
-    background-color: rgba(255,255,255,.1);
-    color: #B1BCBE;
+    background-color: var(--transparent--lighten);
+    color: var(--grey-2);
 
-    & p {
-        margin-bottom: 0;
-    }
+    & p { margin-bottom: 0; }
 }
 
 .AvailableDisks-category {

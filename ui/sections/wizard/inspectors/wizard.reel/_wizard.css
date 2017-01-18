@@ -15,8 +15,8 @@
 
 .Wizard-header {
     position: relative;
-    background: #0B1E29;
-    color: #fff;
+    background: var(--blue-darken-2);
+    color: var(--white);
 
     & .wrapper {
         margin: 0 auto;
@@ -32,7 +32,7 @@
 
 .Wizard-content {
     @apply --flex-column;
-    background: #2f3233;
+    background: var(--grey);
 
     & .stepPlaceholder {
         margin: 0 auto;
@@ -46,7 +46,7 @@
 
 .Wizard-footer {
     flex: 1;
-    background: #16171a;
+    background: var(--main-bg-color);
 }
 
 /* controls */

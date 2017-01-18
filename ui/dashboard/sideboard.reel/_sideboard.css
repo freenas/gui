@@ -58,7 +58,7 @@
     height: 2em;
     width:  2em;
     border-radius: 4px;
-    background: #2A2E33;
+    background: var(--grey-blue-1);
     padding: .3em;
     outline: none;
     border-color: transparent;
@@ -79,8 +79,8 @@
     }
 
     &:hover {
-        color: #fff;
-        background: color(#2A2E33 lightness(30%));
+        color: var(--white);
+        background: color(var(--grey-blue-1) lightness(30%));
     }
 }
 

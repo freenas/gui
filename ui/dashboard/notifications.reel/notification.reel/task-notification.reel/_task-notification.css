@@ -8,11 +8,11 @@
 }
 
 .TaskNotification.has-warning:before    { background-color: #D95B1B; }
-.TaskNotification.has-error:before      { background-color: #E0003A; }
+.TaskNotification.has-error:before      { background-color: var(--red); }
 
 .TaskNotification.has-success .Notification-progress .Progress-bar  { background-color: #1E963F; }
 .TaskNotification.has-warning .Notification-progress .Progress-bar  { background-color: #D95B1B; }
-.TaskNotification.has-error .Progress-wrapper                       { background-color: #E0003A; }
+.TaskNotification.has-error .Progress-wrapper                       { background-color: var(--red); }
 
 .TaskNotification.is-expired {
     transition: opacity 500ms ease-in;

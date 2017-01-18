@@ -55,7 +55,7 @@ title
         transition: color .25s ease-in-out;
     }
 
-    &:hover svg { color: #FFF; }
+    &:hover svg { color: var(--white); }
 }
 
 
@@ -63,7 +63,7 @@ title
     transition: border-color .25s ease-in-out;
 }
 
-.FoldableSection-expand:hover .InspectorSectionTitle-text:after { border-color: #fff; }
+.FoldableSection-expand:hover .InspectorSectionTitle-text:after { border-color: var(--white); }
 
 /* Icon */
 

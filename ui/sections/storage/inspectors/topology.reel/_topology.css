@@ -26,9 +26,9 @@
     right: 0;
     /* magic number tied to inspector margin */
     width: 12.3rem;
-    background-color: #2F3233;
+    background-color: var(--grey);
     overflow: hidden;
-    border-left: 2px solid #232629;
+    border-left: 2px solid var(--grey-blue);
     display: flex;
     flex-direction: column;
 }

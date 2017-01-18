@@ -8,7 +8,7 @@
     display: none;
     flex-shrink: 0;
     flex-wrap: wrap;
-    background: #2A2E33;
+    background: var(--grey-blue-1);
 }
 
 .Viewer-footer { flex-shrink: 0; }
@@ -42,7 +42,7 @@
     position: relative;
     outline: none;
     background-color: #1E9440;
-    color: #DFE4E4;
+    color: var(--grey-3);
     background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,.15));
     box-shadow: inset 0 1px 0 rgba(255,255,255,.2);
     transition: background-color .25s;
@@ -81,7 +81,7 @@
 }
 
 
-.Viewer-createButton:hover > * { color: #FFF; }
+.Viewer-createButton:hover > * { color: var(--white); }
 
 .selected > .Viewer-createButton {
     background: #2B9CD8;

@@ -5,7 +5,7 @@
     padding: 1em;
     border-bottom: 1px solid rgba(255,255,255,.15);
     background-color: #E0E5E5;
-    color: #16171A;
+    color: var(--main-bg-color);
 }
 
 .ServicesCategoryOverview-icon {

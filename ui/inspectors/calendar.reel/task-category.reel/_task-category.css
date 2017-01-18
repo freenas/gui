@@ -26,7 +26,7 @@
     line-height: 1.25rem;
     font-weight: bolder;
     font-weight: 200;
-    color: #fff;
+    color: var(--white);
 }
 
 .TaskCategory.is-displayed .TaskCategory-name                                       { color: #E0E5E5; }

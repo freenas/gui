@@ -11,7 +11,7 @@
     position: relative;
     border-top:     1px solid rgba(255,255,255,.2);
     border-bottom:  1px solid rgba(255,255,255,.2);
-    background-color: #232629;
+    background-color: var(--grey-blue);
     transition: background-color .25s, color .25s, border-color .25s;
 
     &:hover {
@@ -23,13 +23,13 @@
 /* States ---------------------------------- */
 
 .ListItem.selected {
-    background: #2B9CD8;
+    background: var(--color-selected);
     cursor: default;
     color: var(--main-text-color);
 
     @nest .CascadingListItem:not(:nth-last-child(2)) & {
-        background:     color(#2B9CD8 blackness(35%));
-        border-color:   color(#2B9CD8 blackness(35%));
+        background:     color(var(--color-selected) blackness(35%));
+        border-color:   color(var(--color-selected) blackness(35%));
     }
 }
 

@@ -59,13 +59,11 @@
     width: 110px;
     height: 95px;
     cursor: pointer;
-    color: #B1BCBE;
+    color: var(--grey-2);
     transition: color .25s;
 }
 
-.Topologizer-triangle:hover {
-    color: #fff;
-}
+.Topologizer-triangle:hover { color: var(--white); }
 
 .Topologizer-triangle svg {
     position: absolute;

@@ -97,7 +97,7 @@
     bottom: 0;
     list-style: none;
     margin: 0;
-    background: #242628;
+    background: var(--grey-blue);
     z-index: 1;
 
     &:active {
@@ -121,7 +121,7 @@
         transition: background-color .15s ease-in-out;
 
         &:hover {
-            background: color(#242628 l(19%));
+            background: color(var(--grey-blue) l(19%));
         }
     }
 
@@ -129,7 +129,7 @@
         width: 100%;
         text-align: left;
         padding: .5em;
-        color: #e6e6e6;
+        color: var(--main-text-color);
         font-size: 1em;
         font-weight: 200;
         font-family: inherit;
@@ -151,7 +151,7 @@
 
     & .MainSidebar-confirmation-message {
         margin-bottom: 1em;
-        color: #fff;
+        color: var(--white);
     }
 
     & .Button {

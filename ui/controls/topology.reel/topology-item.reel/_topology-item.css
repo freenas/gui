@@ -1,18 +1,18 @@
 :root {
     --topologyItemMaxHeight: 15em;
-    --topologyItemBg: #2F3233;
+    --topologyItemBg: var(--grey);
 }
 
 .TopologyItem {
     position: relative;
     z-index: 1;
-    background: #2F3233;
+    background: var(--grey);
     display: flex;
     flex-direction: column;
     min-height: 2em;
 
     &.has-items.Topology-log {
-        border-left: 1px solid #232629;
+        border-left: 1px solid var(--grey-blue);
     }
 }
 
@@ -34,7 +34,7 @@ Title
     line-height: 1.7em;
     padding: 0 1em;
     font-weight: 400;
-    background: #232629;
+    background: var(--grey-blue);
     border-top: 2px solid currentColor;
     overflow: hidden;
     /* set to hide behind dropZone overlay */
@@ -89,7 +89,7 @@ allocation bar
 
 
 .Topology-log {
-    border-left: 1px solid #232629;
+    border-left: 1px solid var(--grey-blue);
 }
 
 

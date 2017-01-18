@@ -11,7 +11,7 @@
     position: relative;
     max-height: 15em;
     @apply --flex-column;
-    background: #2f3233;
+    background: var(--grey);
 
     &:after {
         position: absolute;
@@ -37,7 +37,7 @@
 }
 
 .SectionRoot-title {
-    color: #fff;
+    color: var(--white);
     padding: .5em 1em;
     background: purple;
     font-weight: 400;
@@ -68,5 +68,5 @@
     position: absolute;
     top: 50%;
     text-align: center;
-    color: #fff;
+    color: var(--white);
 }

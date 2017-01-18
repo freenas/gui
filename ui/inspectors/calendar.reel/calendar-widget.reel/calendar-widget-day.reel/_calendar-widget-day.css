@@ -1,14 +1,14 @@
 .CalendarWidgetDay {
     position: relative;
     width: 14.2857%;
-    border-right: 1px solid #16171A;
-    border-top:   1px solid #16171A;
-    background: #242628;
+    border-right: 1px solid var(--main-bg-color);
+    border-top:   1px solid var(--main-bg-color);
+    background: var(--grey-blue);
     font-size: .8em;
 
     &.show-more {
         z-index: 2;
-        background-color: #242628;
+        background-color: var(--grey-blue);
     }
 }
 
@@ -53,7 +53,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #242628;
+    background-color: var(--grey-blue);
     padding: .25em;
 
     &:before {
@@ -106,12 +106,12 @@
     margin-top: .2rem;
 
     &:hover {
-        border-color: #2089d3;
+        border-color: var(--blue-lighten-2);
         box-shadow: none;
     }
 
     &:focus {
-        border-color: #2089d3;
+        border-color: var(--blue-lighten-2);
         box-shadow: none;
     }
 

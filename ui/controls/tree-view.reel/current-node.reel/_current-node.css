@@ -21,8 +21,8 @@
     display: flex;
     align-items: center;
     padding: .25em 0;
-    background-color: #2B9CD8;
-    color: #fff;
+    background-color: var(--blue-lighten-2);
+    color: var(--white);
     flex-shrink: 0;
 }
 
@@ -35,7 +35,7 @@
     width: .5em;
     top: 0;
     bottom: 0;
-    background-color: #2B9CD8;
+    background-color: var(--blue-lighten-2);
     z-index: 0;
 }
 
@@ -45,7 +45,7 @@
 .CurrentNode-parentNode-icon {
     width:  1.5em;
     height: 1.5em;
-    color: #fff;
+    color: var(--white);
     margin-right: .5em;
 }
 
@@ -59,7 +59,7 @@
 .CurrentNode-emptyState {
     display: none;
     max-width: 20em;
-    background-color: rgba(255,255,255,.1);
+    background-color: var(--transparent--lighten);
     align-self: center;
     padding: 1em 2em;
     text-align: center;

@@ -9,10 +9,10 @@
 .Volume-header {
     height: 4em;
     display: flex;
-    background: #DFE4E4;
-    color: #181A1D;
     justify-content: center;
     align-items: center;
+    background: var(--grey-3);
+    color:      var(--grey-blue);
 }
 
 /* Icon */

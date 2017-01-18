@@ -1,7 +1,6 @@
 .CascadingListItem {
     display: flex;
     flex-direction: column;
-    /* min-height: 0; */
     position: relative;
     font-family: 'lato';
     border-right: 1px solid rgba(255,255,255,.15);
@@ -17,10 +16,10 @@
     height:  3em;
     padding: 0 1em;
     background-color: #0F1213;
-    border-bottom: 1px solid #2F3233;
+    border-bottom: 1px solid var(--grey);
 
     & button {
-        color: #fff;
+        color: var(--white);
     }
 }
 
@@ -35,7 +34,7 @@
 
 .CascadingListItem-controls-help {
     @nest .help-is-shown & {
-        color: #2B9CD8;
+        color: var(--blue-lighten-2);
     }
 }
 
@@ -88,7 +87,7 @@
 }
 
 .CascadingListItem-help-message {
-    color: #fff;
+    color: var(--white);
     padding: .5em 1em;
 }
 

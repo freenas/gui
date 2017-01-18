@@ -1,7 +1,7 @@
 .TreeView {
     border: 1px solid #000;
     border-radius: 4px;
-    background-color: #242628;
+    background-color: var(--grey-blue);
     transition: opacity .25s ease-in-out;
     overflow: hidden;
 
@@ -17,7 +17,7 @@
     align-items: center;
     border-bottom: 1px solid #000;
     background: #0F1213;
-    color: #fff;
+    color: var(--white);
 }
 
 .TreeView-backButton.Button {
@@ -56,7 +56,7 @@
     font-weight: 400;
 
     &.is-selected {
-        background-color: #2089d3;
+        background-color: var(--blue-lighten-2);
     }
 }
 

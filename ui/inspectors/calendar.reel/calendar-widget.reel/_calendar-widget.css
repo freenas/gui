@@ -1,9 +1,9 @@
 :root {
-    --bg: #242628;
-    --titleBg:  #2a2e33;
-    --buttonBg: #2a2e33;
+    --bg:       var(--grey-blue);
+    --titleBg:  var(--grey-blue-1);
+    --buttonBg: var(--grey-blue-1);
     --hourHeight: 3rem;
-    --calenderStrongLine: #16171a;
+    --calenderStrongLine: var(--main-bg-color);
     --calenderWeakLine: color(var(--calenderStrongLine) alpha(.3));
     --allDayBg: #1e2123;
 }
@@ -16,7 +16,7 @@
     position: relative;
     border-spacing: 0;
     font-weight: 200;
-    border: 1px solid #16171A;
+    border: 1px solid var(--main-bg-color);
     min-width: 45em;
 }
 
@@ -56,8 +56,8 @@
 }
 
 .Calendar-navigation button:active {
-    background-color: #2089d3;
-    color: #fff;
+    background-color: var(--blue-lighten-2);
+    color: var(--white);
 }
 
 .CalendarWidget-todayButton {
@@ -91,7 +91,7 @@
 .Calendar-navigation-button {
     height: 2rem;
     width:  2rem;
-    background: #242628;
+    background: var(--grey-blue);
     color: #939E9F;
     cursor: pointer;
 }
@@ -116,7 +116,7 @@
 /* Days Header Height */
 
 .CalendarWidget thead td {
-    background: #2A2E33;
+    background: var(--grey-blue-1);
     color: #E0E5E5;
     font-weight: 200;
     height:      1rem;
@@ -345,7 +345,7 @@ Calendar Events
     border-radius: 2px;
     font-size: .75rem;
     padding: 0 .1rem;
-    color: #fff;
+    color: var(--white);
 }
 
 .CalendarWidget-event.type-rsync_copy .CalendarWidget-event-inner                        { background-color: #D95B1B; }
@@ -357,6 +357,6 @@ Calendar Events
 .CalendarWidget-event.type-calendar_task_command .CalendarWidget-event-inner             { background-color: grey; }
 
 .CalendarWidget-event.is-selected .CalendarWidget-event-inner {
-    color: #FFF;
-    background-color: #2B9CD8;
+    color: var(--white);
+    background-color: var(--color-selected);
 }

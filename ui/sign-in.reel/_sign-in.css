@@ -67,11 +67,11 @@
 }
 
 .SignIn-browserMessage {
-    background: #E0003A;
+    background: var(--red);
     margin: 0 -2em;
     margin-top: -2em;
     padding: 1em 2em;
-    color: #FFF;
+    color: var(--white);
     margin-bottom: 1em;
     text-align: center;
 }
@@ -92,8 +92,8 @@
     display: none;
     text-align: center;
     transition: opacity .25s;
-    background: #E0003A;
-    color: #FFF;
+    background: var(--red);
+    color: var(--white);
     padding: 1em 2em;
     margin: 0 -2rem;
     margin-bottom: 2rem;

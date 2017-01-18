@@ -3,7 +3,7 @@
     margin: 2em 0 1em;
     line-height: 1.5em;
     text-align: left;
-    color: #fff;
+    color: var(--white);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -15,7 +15,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    border-bottom: 1px solid rgba(255,255,255,.2);
+    border-bottom: 1px solid var(--transparent--lighten);
 }
 
 .InspectorSectionTitle-title {
@@ -26,7 +26,7 @@
 .InspectorSectionTitle-subtitle {
     position: relative;
     font-weight: 200;
-    color: #B1BCBE;
+    color: var(--grey-2);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

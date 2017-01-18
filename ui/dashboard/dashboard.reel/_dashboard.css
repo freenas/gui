@@ -22,7 +22,7 @@
     right:  1rem;
     z-index: 1;
     background: #333;
-    color: color(#fff alpha(.5));
+    color: color(var(--white) alpha(.5));
     border-radius: 4px;
 
     @nest .drawer-is-open & {

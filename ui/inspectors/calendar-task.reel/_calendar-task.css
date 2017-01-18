@@ -2,7 +2,7 @@
     width: 21em;
     color: inherit;
     min-width: 350px;
-    background-color: #2F3233;
+    background-color: var(--grey);
 }
 
 .CalendarTask-monthOptionDays .MultipleSelectGrid-option {

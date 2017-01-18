@@ -3,7 +3,7 @@
 }
 
 .Drawer {
-    background-color: #16171A;
+    background-color: var(--black);
     user-select: none;
     display: none;
     position: relative;
@@ -15,7 +15,7 @@
         right: 0;
         top: 0;
         height: 14.5em;
-        box-shadow: 0 -4px 6px rgba(0,0,0,.3);
+        box-shadow: 0 -4px 6px var(--shadow-1);
     }
 }
 
@@ -33,12 +33,12 @@
         width: 1em;
         top: 0;
         height: 100%;
-        background-image: linear-gradient(90deg, rgba(22,23,26,1), rgba(22,23,26,0));
+        background-image: linear-gradient(90deg, color(var(--black) a(100%)), color(var(--black) a(0%)));
     }
 
     &:after {
         right: 0;
-        background-image: linear-gradient(90deg, rgba(22,23,26,0), rgba(22,23,26,1));
+        background-image: linear-gradient(90deg, color(var(--black) a(0%)), color(var(--black) a(100%)));
     }
 }
 
@@ -51,7 +51,7 @@
     right:  0;
     left:   0;
     bottom: 0;
-    background-image: radial-gradient(rgba(224,0,58,.2), rgba(224,0,58,.8));
+    background-image: radial-gradient(color(var(--red) a(30%)), color(var(--red) a(80%)));
     background-size: 95vw 95vw;
     background-repeat: no-repeat;
     background-position: center;
@@ -66,7 +66,7 @@
     @nest .acceptDrop & {
         opacity: 1;
         visibility: visible;
-        background: rgba(224,0,58,1);
+        background: var(--red);
     }
 
     & svg {
@@ -76,10 +76,10 @@
         height: 5em;
         width:  5em;
         padding: 1.25em;
-        color: rgba(255,255,255,.9);
-        background: rgba(224,0,58,1);
+        color: var(--main-text-color);
+        background: var(--red);
         border-radius: 50%;
-        box-shadow: 0px 0px 3px 4px rgba(0,0,0,.2);
+        box-shadow: 0px 0px 3px 4px var(shadow-1);
     }
 }
 
@@ -90,7 +90,7 @@
     align-items: center;
     height: var(--drawer-header-height);
     padding: 0 1rem;
-    background: #242628;
+    background-color: var(--grey-blue);
 }
 
 .Drawer-close {
@@ -105,7 +105,7 @@
 .Drawer-title {
     font-size: 1em;
     margin: 0;
-    color: #e6e6e6;
+    color: var(--main-text-color);
     font-weight: 200;
 }
 

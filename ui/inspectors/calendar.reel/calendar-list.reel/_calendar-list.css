@@ -25,6 +25,6 @@
     padding: .45em 1em .55em;
     border-radius: 4px;
     margin-top: 1em;
-    color: #fff;
+    color: var(--white);
 }
 

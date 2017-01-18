@@ -27,7 +27,7 @@
 
 /* unhealthy vdev */
 
-.Topology.update-mode .Vdev.unhealthy { border-color: #E0003A; }
+.Topology.update-mode .Vdev.unhealthy { border-color: var(--red); }
 
 /* Drive Container */
 
@@ -95,7 +95,7 @@ Vdev Title
     &:focus { outline: none; }
 
     @nest .Vdev.unhealthy &:before {
-        background: #E0003A;
+        background: var(--red);
     }
 
     & .Select .montage--disabled .Select-currentOption {
@@ -134,8 +134,8 @@ Vdev Title
 /* delete hover state */
 
 .Vdev-deleteButton:hover #close-circle {
-    fill:   #E0003A;
-    stroke: #E0003A;
+    fill:   var(--red);
+    stroke: var(--red);
 }
 
-.Vdev-deleteButton:hover #close-x { fill: #fff;}
+.Vdev-deleteButton:hover #close-x { fill: var(--white);}

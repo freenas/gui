@@ -1,7 +1,7 @@
 .Calendar {
     flex: 1;
     display: flex;
-    background: #16171A;
+    background: var(--main-bg-color);
 }
 
 .Calendar-wrapper {
@@ -24,7 +24,7 @@
 
 .Calendar-events h2 {
     margin: 0;
-    color: #B1BCBE;
+    color: var(--grey-2);
 }
 
 .Calendar-eventsList {

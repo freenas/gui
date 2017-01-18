@@ -2,6 +2,4 @@
     color: #ccc;
 }
 
-.Grid-icon.selected .IpmiIcon svg {
-    color: #2B9CD8;
-}
+.Grid-icon.selected .IpmiIcon svg { color: var(--color-selected); }
