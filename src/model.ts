@@ -63,6 +63,7 @@ const Model = {
     ServicesCategory: 'ServicesCategory' as 'ServicesCategory',
     ServiceUps: 'ServiceUps' as 'ServiceUps',
     Share: 'Share' as 'Share',
+    ShareIscsiTarget: 'ShareIscsiTarget' as 'ShareIscsiTarget',
     SshCredentials: 'SshCredentials' as 'SshCredentials',
     SupportCategory: 'SupportCategory' as 'SupportCategory',
     SupportTicket: 'SupportTicket' as 'SupportTicket',

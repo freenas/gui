@@ -25,7 +25,12 @@ exports.IscsiShare = AbstractShareInspector.specialize({
 
     iscsiBlocksize: {
         get: function () {
-            return this._iscsiBlocksize || (this._iscsiBlocksize = ShareIscsiBlocksize.members);
+            return this._iscsiBlocksize || (this._iscsiBlocksize = _.map(ShareIscsiBlocksize.members, function(value) {
+                return {
+                    value: +value,
+                    label: value
+                }
+            }));
         }
     },
 
