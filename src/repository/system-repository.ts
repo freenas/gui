@@ -133,8 +133,8 @@ export class SystemRepository {
         return this.debugDao.collect("freenasdebug.tar.gz");
     }
 
-    public getCertificateFileAddress(id: string, pubKeyFilename: string, privateKeyFilename: string) {
-        return this.cryptoCertificateDao.collect(id, pubKeyFilename, privateKeyFilename)
+    public getCertificateFileAddress(id: string, certTarFileName: string) {
+        return this.cryptoCertificateDao.collect(id, certTarFileName);
     }
 }
 

@@ -22,12 +22,10 @@ exports.CryptoCertificate = AbstractInspector.specialize({
 
     handleExportAction: {
         value: function () {
-            console.log("do something");
             var self = this;
-            this.application.systemService.getCertificateFileAddress(this.object.id, this.object.name + ".crt", this.object.name + ".key").then(function (certificateObject) {
+            this.application.systemService.getCertificateFileAddress(this.object.id, this.object.name + ".tar.gz").then(function (certificateObject) {
                 var downloadLink = document.createElement("a");
                     downloadLink.href = certificateObject.link;
-                    console.log(downloadLink.href);
                     downloadLink.download = "FreeNAS10" + "-" + "debug.tar.gz";
                     downloadLink.click();
             })
