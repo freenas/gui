@@ -244,6 +244,18 @@
             }
         },
 
+        "autostart": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "autostart"},
+                "label": "Start at Boot",
+                "disabled": true
+            },
+            "bindings": {
+                "checked": {"<-": "@owner.object.autostart"}
+            }
+        },
+
         "interactive": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -359,6 +371,7 @@
                 <div></div>
             </div>
             <div data-montage-id="command"></div>
+            <div data-montage-id="autostart"></div>
             <div data-montage-id="interactive"></div>
             <div data-montage-id="privileged"></div>
             <div data-montage-id="bridged"></div>
