@@ -3,22 +3,19 @@ import {Model} from "../model";
 import Promise = require("bluebird");
 
 export class VolumeImporterDao extends AbstractDao {
-    private entries: Array<any>;
+    private volumeImporter: Array<any>;
 
     public constructor() {
         super(Model.VolumeImporter);
     }
 
-    public list(): Promise<Array<any>> {
-        let self = this;
-        return this.entries ?
-            Promise.resolve(this.entries) :
-            this.getNewInstance().then(function(volumeImporter) {
+    public get(): Promise<any> {
+        return this.volumeImporter ?
+            Promise.resolve(this.volumeImporter) :
+            this.getNewInstance().then((volumeImporter) => {
                 volumeImporter._isNew = false;
                 volumeImporter.id = '-';
-                self.entries = [volumeImporter];
-                (self.entries as any)._objectType = Model.VolumeImporter;
-                return self.entries;
+                return this.volumeImporter = volumeImporter;
             });
     }
 }

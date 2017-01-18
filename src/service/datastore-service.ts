@@ -79,12 +79,10 @@ export class DatastoreService {
     }
 
     private handleFragmentResponse (stream, message) {
-        let fragment = message.args.fragment,
-            payload = Array.isArray(fragment) ? fragment : [fragment],
+        let fragment = message.args.fragment || [],
             reachEnd = message.name === "end",
             sequenceNumber = message.args.seqno,
-            type = stream.get("type"),
-            promise;
+            type = stream.get("type");
 
         if (reachEnd) {
             stream = stream.set("lastSequence", sequenceNumber)
@@ -95,13 +93,13 @@ export class DatastoreService {
 
         //TODO: Store only data when the total number is under or equal to 2000.
         //TODO: Manage stockage streaming response.
-        let action = this.store.dispatch({
-                type: ACTIONS.IMPORT_OBJECTS,
-                meta: {
-                    type: type
-                },
-                payload: payload
-            });
+        this.store.dispatch({
+            type: ACTIONS.IMPORT_OBJECTS,
+            meta: {
+                type: type
+            },
+            payload: _.castArray(fragment)
+        });
 
         let data = this.getState().get(type).valueSeq().toJS(),
             previousLastSequence = stream.get("lastSequence");
@@ -120,7 +118,7 @@ export class DatastoreService {
             meta: {
                 type: message.id
             },
-            payload: stream
+            payload: stream.toJS()
         });
 
         //FIXME: remove automatical fetching once the ui would have been updated.
