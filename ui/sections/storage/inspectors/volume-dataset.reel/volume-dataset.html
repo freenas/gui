@@ -136,22 +136,14 @@
                 "name": "Snapshots"
             }
         },
-        "typeCondition": {
-            "prototype": "montage/ui/condition.reel",
-            "properties": {
-                "element": {"#": "typeCondition"}
-            },
-            "bindings": {
-                "condition": {"<-": "@owner.object.type == 'FILESYSTEM'"}
-            }
-        },
         "permissions": {
             "prototype": "./volume-dataset-permissions.reel",
             "properties": {
                 "element": {"#": "permissions"}
             },
             "bindings": {
-                "object": {"<->": "@owner.object"}
+                "object": {"<->": "@owner.object"},
+                "classList.has('hide')": {"<-": "@owner.object.type != 'FILESYSTEM'"}
             }
         },
         "vmwareSnapshots": {
@@ -180,9 +172,7 @@
             </div>
             <div data-montage-id="typeSelector"></div>
             <div data-montage-id="settings"></div>
-            <div data-montage-id="typeCondition">
-                <div data-montage-id="permissions"></div>
-            </div>
+            <div data-montage-id="permissions"></div>
             <div data-montage-id="createdCondition">
                 <div data-montage-id="replicate"></div>
                 <div data-montage-id="snapshots"></div>
