@@ -131,9 +131,7 @@ export class SystemSectionService extends AbstractSectionService {
     }
 
     public getBootVolumeConfig () {
-        return this.bootPoolRepository.getBootPoolConfig().then((bootVolumeConfig) => {
-            return (bootVolumeConfig as any).data;
-        });
+        return this.bootPoolRepository.getBootPoolConfig();
     }
 
     private handleBootPoolChange (bootEnvironments: Immutable.Map<string, Immutable.Map<string, any>>) {

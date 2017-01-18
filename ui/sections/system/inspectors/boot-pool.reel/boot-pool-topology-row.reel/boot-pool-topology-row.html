@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('has-loading-spinner')": {"<-": "!!@owner.object.promise"}
+            }
+        },
+
+        "name": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "name"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.path"}
+            }
+        },
+
+        "status": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "status"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.status"}
+            }
+        },
+
+        "capacity": {
+            "prototype": "../size-cell.reel",
+            "properties": {
+                "element": {"#": "capacity"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.stats.capacity"}
+            }
+        },
+
+        "space": {
+            "prototype": "../size-cell.reel",
+            "properties": {
+                "element": {"#": "space"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.stats.allocated"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="BootPoolTopologyRow Table-cells">
+        <div><span data-montage-id="name"></span></div>
+        <div><span data-montage-id="status"></span></div>
+        <div><span data-montage-id="capacity"></span></div>
+        <div><span data-montage-id="space"></span></div>
+    </div>
+</body>
+</html>

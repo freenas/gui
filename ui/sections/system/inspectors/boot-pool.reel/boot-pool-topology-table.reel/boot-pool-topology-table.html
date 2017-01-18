@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "table": {"@": "table"}
+            }
+        },
+        "table": {
+            "prototype": "blue-shark/ui/tables/table-editable.reel",
+            "properties": {
+                "element": {"#": "table"},
+                "columns": [
+                    {
+                        "value": "Disk"
+                    },
+                    {
+                        "value": "Status"
+                    },
+                    {
+                        "value": "Capacity"
+                    },
+                    {
+                        "value": "Space Used"
+                    }
+                ]
+            },
+            "bindings": {
+                "contentMaxHeight": {"<-": "@owner.contentMaxHeight"},
+                "label": {"<-": "@owner.label"},
+                "rows": {"<-": "@owner.object.groups.data.0.children"}
+            }
+        },
+
+        "rowEntry": {
+            "prototype": "../boot-pool-topology-row.reel",
+            "properties": {
+                "element": {"#": "rowEntry"}
+            },
+            "bindings": {
+                "object": {"<-": "@table:rowIteration.object.object"}
+            }
+        },
+
+        "editEntry": {
+            "prototype": "../boot-pool-topology-row.reel",
+            "properties": {
+                "element": {"#": "editEntry"}
+            },
+            "bindings": {
+                "object": {"<-": "@table.currentNewEntry.object"}
+            }
+        },
+
+        "add": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "add"},
+                "value": "Add"
+            }
+        },
+
+        "replace": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "replace"},
+                "value": "Replace"
+            },
+            "bindings": {
+                "disabled": {"<-": "@table.selectedRows.length!=1"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="BootPoolTopologyTable">
+        <div data-montage-id="table">
+            <div data-arg="table-editable-header-toolbar">
+                <div data-montage-id="add" class="Button--primary"></div>
+                <div data-montage-id="replace"></div>
+            </div>
+            <div data-arg="row-entry" data-montage-id="rowEntry"></div>
+            <div data-arg="row-new" data-montage-id="editEntry"></div>
+        </div>
+    </div>
+</body>
+</html>

@@ -6,6 +6,8 @@ import {NetworkRepository} from '../repository/network-repository';
 export class SystemService {
     private static instance: SystemService;
 
+    private bootPoolPromise: Promise<any>;
+
     private constructor(private systemRepository: SystemRepository,
                         private middlewareClient: MiddlewareClient,
                         private bootPoolRepository: BootPoolRepository,
@@ -77,7 +79,7 @@ export class SystemService {
     }
 
     public getBootPoolConfig() {
-        return this.bootPoolRepository.getBootPoolConfig();
+        return this.bootPoolPromise || (this.bootPoolPromise = this.bootPoolRepository.getBootPoolConfig());
     }
 
     public getSystemDatasetPool() {
@@ -110,5 +112,9 @@ export class SystemService {
 
     public getDebugFileAddress() {
         return this.systemRepository.getDebugFileAddress();
+    }
+
+    public addDiskToBootPool(newId: string, oldId?: string) {
+        return this.middlewareClient.submitTask('boot.disk.attach', newId);
     }
 }
