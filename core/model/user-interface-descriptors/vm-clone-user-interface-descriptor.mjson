@@ -1,0 +1,24 @@
+{
+    "root": {
+        "prototype": "montage/core/meta/user-interface-descriptor",
+        "properties": {
+            "collectionInspectorComponentModule": {
+                "%": "ui/controls/viewer.reel"
+            },
+            "collectionNameExpression": "'Clones'",
+            "inspectorComponentModule": {
+                "%": "ui/sections/vms/inspectors/vm-clone.reel"
+            },
+            "creatorComponentModule": {
+                "%": "ui/sections/vms/inspectors/vm-clone-creator.reel"
+            },
+            "nameExpression": "_isNew.defined() && _isNew ? 'Clone VM' : name",
+            "statusColorMapping": {
+                "RUNNING": "green",
+                "BOOTLOADER": "yellow",
+                "STOPPED": "grey"
+            },
+            "statusValueExpression": "status.state"
+        }
+    }
+}

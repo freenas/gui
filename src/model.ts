@@ -77,6 +77,7 @@ const Model = {
     Update: 'Update' as 'Update',
     User: 'User' as 'User',
     Vm: 'Vm' as 'Vm',
+    VmClone: 'VmClone' as 'VmClone',
     VmConfig: 'VmConfig' as 'VmConfig',
     VmDevice: 'VmDevice' as 'VmDevice',
     VmDatastore: 'VmDatastore' as 'VmDatastore',
