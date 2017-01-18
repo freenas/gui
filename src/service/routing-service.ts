@@ -170,6 +170,7 @@ export class RoutingService {
         this.loadVmsRoutes();
         this.loadContainersRoutes();
         this.loadWizardRoutes();
+        this.loadTasksRoutes();
     }
 
     private loadCalendarRoutes() {
@@ -378,6 +379,10 @@ export class RoutingService {
             () => this.accountsRoute.createKerberosKeytab(this.currentStacks.get('accounts')));
         crossroads.addRoute('/accounts/directory-services/kerberos-keytab/_/{kerberosKeytabId}',
             (kerberosKeytabId) => this.accountsRoute.getKerberosKeytab(kerberosKeytabId, this.currentStacks.get('accounts')));
+    }
+
+    private loadTasksRoutes() {
+        crossroads.addRoute('/tasks', () => this.sectionRoute.getOld('tasks'));
     }
 
     private loadDashboardRoutes() {
