@@ -30,18 +30,132 @@ export class DatastoreService {
         return DatastoreService.instance;
     }
 
-    public query(type: string, methodName: string, middlewareCriteria: Array<any>) {
-        let queryPromise = this.middlewareClient.callRpcMethod(methodName, middlewareCriteria).then(function(results) {
-            return Array.isArray(results) ? results : [results];
+    public query(type: string, methodName: string, middlewareCriteria?: Array<any>) {
+        return this.middlewareClient.callRpcMethod(methodName, middlewareCriteria).then((result) => {
+            let payload = Array.isArray(result) ? result : [result];
+
+            this.store.dispatch({
+                type: ACTIONS.IMPORT_OBJECTS,
+                meta: {
+                    type: type
+                },
+                payload: payload
+            });
+
+            return payload;
         });
+    }
+
+    public stream (type: string, methodName: string, middlewareCriteria?: Array<any>) {
+        //TODO: count rpc call in order to have the total of object for a type (LIMIT: 2000)
+        return this.middlewareClient.callRpcMethod(methodName, middlewareCriteria).then((message) => {
+            let streamId = message.id,
+                stream = this.getDefaultStreamObject(type, streamId);
+
+            this.store.dispatch({
+                type: ACTIONS.SAVE_STREAM,
+                meta: {
+                    type: streamId
+                },
+                payload: stream
+            });
+
+            stream = <any> this.getState().get("streams").get(streamId);
+
+            return this.handleFragmentResponse(stream, message);
+        });
+    }
+
+    private getDefaultStreamObject (type, streamId) {
+        return {
+            type: type,
+            streamId: streamId,
+            startSequence: 1,
+            endSequence: 1,
+            lastSequence: 1,
+            reachEnd: false,
+            data: []
+        };
+    }
+
+    private handleFragmentResponse (stream, message) {
+        let fragment = message.args.fragment || [],
+            reachEnd = message.name === "end",
+            sequenceNumber = message.args.seqno,
+            type = stream.get("type");
+
+        if (reachEnd) {
+            stream = stream.set("lastSequence", sequenceNumber)
+                        .set("reachEnd", true);
+
+            return stream;
+        }
+
+        //TODO: Store only data when the total number is under or equal to 2000.
+        //TODO: Manage stockage streaming response.
         this.store.dispatch({
             type: ACTIONS.IMPORT_OBJECTS,
             meta: {
                 type: type
             },
-            payload: queryPromise
+            payload: _.castArray(fragment)
         });
-        return queryPromise;
+
+        let data = this.getState().get(type).valueSeq().toJS(),
+            previousLastSequence = stream.get("lastSequence");
+
+        if (sequenceNumber > previousLastSequence) {
+            stream = stream.set("lastSequence", sequenceNumber);
+        }
+
+        //TODO: Remove data from strea objects. (related to montage data)
+        stream = stream.set("endSequence", sequenceNumber)
+                    .set("reachEnd", false)
+                    .set("data", data);
+
+        this.store.dispatch({
+            type: ACTIONS.SAVE_STREAM,
+            meta: {
+                type: message.id
+            },
+            payload: stream.toJS()
+        });
+
+        //FIXME: remove automatical fetching once the ui would have been updated.
+        return this.getNextSequenceForStream(stream.get("streamId"));
+    }
+
+    public getNextSequenceForStream (streamId) {
+        return this.getSequenceForStream(streamId);
+    }
+
+    public getPreviousSequenceForStream (streamId) {
+        return this.getSequenceForStream(streamId, false);
+    }
+
+    private getSequenceForStream(streamId, next = true) {
+        next = !!next;
+
+        if (streamId) {
+            let stream = this.getState().get("streams").get(streamId);
+
+            if (stream) {
+                let currentEndSequence = stream.get("endSequence"),
+                    sequenceNumber = next ? currentEndSequence + 1 : currentEndSequence - 1;
+
+                if (sequenceNumber > 0) {
+                    return this.middlewareClient.continueRpcMethod(streamId, sequenceNumber).then((message) => {
+                        return this.handleFragmentResponse(stream, message);
+                    });
+                }
+
+                return Promise.reject("The sequence number must equal or greater than 1");
+            }
+
+            return Promise.reject("Stream can be found with stream ID: " + streamId);
+        }
+
+        return Promise.reject("Stream ID missing");
     }
 
     public save(type: string, id: string, object: Object) {

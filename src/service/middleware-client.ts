@@ -80,6 +80,23 @@ export class MiddlewareClient {
         });
     }
 
+     public continueRpcMethod(id: string, sequence: number): Promise<any> {
+        return this.connectionPromise.then(() => {
+            let payload = {
+                namespace: 'rpc',
+                name: 'continue',
+                id: id,
+                args: sequence
+            };
+
+            return this.send(payload);
+        });
+    }
+
+    public enableStreamingResponses(): Promise<any> {
+        return this.callRpcMethod('management.enable_features', [['streaming_responses']]);
+    }
+
     public callRpcMethod(name: string, args?: Array<any>): Promise<any> {
         let self = this;
         return this.connectionPromise.then(function() {
@@ -246,7 +263,11 @@ export class MiddlewareClient {
                     resolve = _resolve;
                     reject = _reject;
                 });
-            payload.id = uuid.v4();
+
+            if (!payload.id) {
+                payload.id = uuid.v4();
+            }
+
             self.socket.send(JSON.stringify(payload));
             self.handlers.set(payload.id, {
                 resolve: resolve,
@@ -337,10 +358,24 @@ export class MiddlewareClient {
             let message = JSON.parse(event.data);
 
             if (message.namespace === 'rpc') {
-                if (message.name === 'response') {
-                    this.handleRpcResponse(message);
-                } else if (message.name === 'error') {
-                    this.handleRpcError(message);
+                let messageName = message.name;
+
+                switch (message.name) {
+                    case "response":
+                        this.handleRpcResponse(message);
+                        break;
+
+                    case "error":
+                        this.handleRpcError(message);
+                        break;
+
+                    case "fragment":
+                    case "end":
+                        this.handleFragmentResponse(message);
+                        break;
+
+                    default:
+                        break;
                 }
             } else if (message.namespace === 'events' && message.name === 'event') {
                 this.handleEvent(message);
@@ -363,6 +398,16 @@ export class MiddlewareClient {
             let deferred = this.handlers.get(message.id);
             this.handlers.delete(message.id);
             deferred.reject(new MiddlewareError(message));
+        }
+    }
+
+    private handleFragmentResponse(message: Object) {
+        let messageId = message.id;
+
+        if (this.handlers.has(messageId)) {
+            let deferred = this.handlers.get(messageId);
+            this.handlers.delete(messageId);
+            deferred.resolve(message);
         }
     }
 
