@@ -2,27 +2,17 @@
 
 # FreeNAS 10 GUI Development
 
-FreeNAS 10 is the next version of FreeNAS, a FreeBSD-based open source NAS
-operating system. This repo is where development of the GUI happens.
+FreeNAS 10 is the next version of FreeNAS, a FreeBSD-based open source NAS / application hosting software appliance. This repo is where development of the GUI happens.
 
-The FreeNAS 10 GUI is based on the Open Source [Montage Studio](http://www.montagestudio.com)
-development framework. The web site for the company behind the project is somewhat out of date
-as the company gone through some recent changes, but the [Github Repo](https://github.com/montagejs)
-for the project is still active and many of the FreeNAS UI developers collaborate on the development
-as necessary to meet the needs of the FreeNAS 10 UI.  The FreeNAS 10 GUI itself is probably the best
-"living example" of Montage in action for those wishing to work on the GUI.
+The FreeNAS 10 GUI is based on various HTML5 Javascript development frameworks and technologies.
 
-To learn how to run the FreeNAS 10 GUI stand-alone, please read the
-[CONTRIBUTING.md](https://github.com/freenas/gui/blob/master/CONTRIBUTING.md) document - it also
-documents the process for contributing to the GI.
+Please read the [CONTRIBUTING.md](https://github.com/freenas/gui/blob/master/CONTRIBUTING.md) document for the full documentation on contributing to the GUI project.  The quick TL;DR version of how to get started is:
 
-## Other resources
+1. Check out this repo somewhere and cd to it.
+2. Install FreeNAS 10 on a VM / machine (let's call it freenas.local)
+3. npm install (to install the various tools locally).
+4. npm run-script serve & (run the stand-alone web server)
+5. Go to http://localhost:3000/#?host=freenas.local
 
-* Montage repo
-http://github.com/montagejs
-
-* Montage-based widget set for FreeNAS 10 development
-https://github.com/freenas/blue-shark
-
-* Persistent data framework used to communicate between Montage and FreeNAS Middleware
-https://github.com/montagestudio/montage-data
+Edit sources as desired and the web server should pick up the changes, for
+incremental style development.
