@@ -47,6 +47,7 @@ export class AbstractDao {
         return (this.listPromise && !this.preventQueryCaching) ?
             this.listPromise :
             this.listPromise = this.stream().then((stream) => {
+                this.register();
                 let data = stream.get("data");
                 let dataArray = data.toJS();
                 dataArray._objectType = this.objectType;
