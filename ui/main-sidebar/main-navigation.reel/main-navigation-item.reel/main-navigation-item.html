@@ -9,6 +9,9 @@
             "properties": {
                 "element": {"#": "owner"},
                 "icon": {"#": "icon"}
+            },
+            "bindings": {
+                "classList.has('selected')": {"<-": "@owner.isSelected"}
             }
         },
 

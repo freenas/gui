@@ -75,7 +75,7 @@ exports.AbstractInspector = AbstractComponentActionDelegate.specialize({
                     this._hasContextObjectListener = true;
                 }
             }
-            if (_.isFunction(this._handleInspectorExit)) {
+            if (_.isFunction(this._handleInspectorExit) && !this.inspectorExitListener) {
                 this.inspectorExitListener = this.eventDispatcherService.addEventListener('inspectorExit', this._handleInspectorExit.bind(this));
             }
         }

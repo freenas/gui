@@ -107,7 +107,7 @@ export class RoutingService {
 
     public getURLFromObject(object: any) {
         let objectType = this.modelDescriptorService.getObjectType(object),
-            url = objectType === 'Section' ? '/' : _.kebabCase(objectType),
+            url = objectType === Model.Section ? '/' : _.kebabCase(objectType),
             id = !_.isNil(object.id) ?
                     object.id :
                     !_.isNil(object._tmpId) ?
@@ -494,8 +494,10 @@ export class RoutingService {
                 return stack;
             });
         promise.then((stack) => {
-            this.eventDispatcherService.dispatch('sectionChange', stack[0].service);
-            this.eventDispatcherService.dispatch('pathChange', stack);
+            if (this.currentSectionId === sectionId) {
+                this.eventDispatcherService.dispatch('sectionChange', stack[0].service);
+                this.eventDispatcherService.dispatch('pathChange', stack);
+            }
         });
     }
 

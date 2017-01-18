@@ -82,14 +82,24 @@ exports.NetworkInterface = AbstractInspector.specialize({
             // when and how should I clear the confirmationModal object
 
             if (this.hasObjectChanged(defaults, ignored)) {
+                var resolve, reject,
+                    promise = new Promise(function(_resolve, _reject) {
+                        resolve = _resolve;
+                        reject = _reject;
+                    });
                 this.application.confirmationModal = {
                     isShown: true,
                     message: 'Would you like to save your recent changes?',
                     title: 'You have unsaved changes!',
                     falseButtonLabel: 'Undo Changes',
-                    trueButtonLabel: 'Save Changes'
-                }
-                return true;
+                    trueButtonLabel: 'Save Changes',
+                    deferred: {
+                        resolve: resolve,
+                        reject: reject,
+                        promise: promise
+                    }
+                };
+                return promise;
             }
         }
     }
