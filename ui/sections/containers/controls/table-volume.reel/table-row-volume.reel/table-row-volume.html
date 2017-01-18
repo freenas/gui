@@ -33,7 +33,8 @@
                 "isNotTypable": false
             },
             "bindings": {
-                "selectedPath": {"<-": "@owner.object.host_path"}
+                "selectedPath": {"<-": "@owner.object.host_path"},
+                "disabled": {"<-": "@owner.object.isLocked"}
             }
         },
 
@@ -44,7 +45,8 @@
                 "placeholder": "e.g. container port"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.container_path"}
+                "value": {"<->": "@owner.object.container_path"},
+                "disabled": {"<-": "@owner.object.isLocked"}
             }
         },
 
@@ -54,7 +56,8 @@
                 "element": {"#": "readOnly"}
             },
             "bindings": {
-                "checked": {"<->": "!!@owner.object.readonly"}
+                "checked": {"<->": "!!@owner.object.readonly"},
+                "disabled": {"<-": "@owner.object.isLocked"}
             }
         }
     }
