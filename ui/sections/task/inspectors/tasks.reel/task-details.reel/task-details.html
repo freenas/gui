@@ -28,7 +28,7 @@
             },
             "bindings": {
                 "value": {"<-": "@owner.object.description.message"}
-            }        
+            }
         },
         "output": {
             "prototype": "blue-shark/ui/field-text.reel",
@@ -38,7 +38,7 @@
             },
             "bindings": {
                 "value": {"<-": "@owner.object.output"}
-            }          
+            }
         },
         "error": {
             "prototype": "blue-shark/ui/field-text.reel",
@@ -48,7 +48,7 @@
             },
             "bindings": {
                 "value": {"<-": "@owner.object.error.message"}
-            }            
+            }
         },
         "parent": {
             "prototype": "blue-shark/ui/field-text.reel",
@@ -57,14 +57,25 @@
                 "label": "Parent ID"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.parent"}
-            }           
+                "value": {"<-": "!!@owner.object.parent ? !!@owner.object.parent : 'none'"}
+            }
+        },
+        "title": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+            "properties": {
+                "element": {"#": "title"},
+                "emptyTitle": "Task Details"
+            },
+            "bindings": {
+                "value": {"<-": "!!@owner.object.id ? 'Task #' + @owner.object.id : emptyTitle"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="TaskDetails">
+        <div data-montage-id="title"></div>
         <div data-montage-id="name"></div>
         <div data-montage-id="parent"></div>
         <div data-montage-id="description"></div>

@@ -15,13 +15,6 @@
                 ]
             }
         },
-        "inspector": {
-            "prototype": "ui/inspectors/inspector.reel",
-            "properties": {
-                "element": {"#": "inspector"},
-                "isFooterHidden": true
-            }
-        },
         "viewTabs": {
             "prototype": "blue-shark/ui/tabs.reel",
             "properties": {
@@ -54,11 +47,11 @@
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="TasksInspector">
-        <div data-montage-id="inspector">
-            <div data-montage-id="viewTabs" class="Calendar-viewTabs g-margin-bottom"></div>
-            <div data-montage-id="table"></div>
-            <div data-montage-id="details"></div>
+    <div data-montage-id="owner" class="TasksInspector g-margin">
+        <div data-montage-id="viewTabs" class="Calendar-viewTabs g-margin-bottom"></div>
+        <div class="flex-column">
+            <div data-montage-id="table" class="TasksInspector-table"></div>
+            <div data-montage-id="details" class="TasksInspector-details"></div>
         </div>
     </div>
 </body>

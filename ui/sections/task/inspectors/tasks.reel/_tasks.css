@@ -1,5 +1,34 @@
 .TasksInspector {
-     flex: 1;
-     display: flex;
-     flex-direction: column;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.TasksInspector-table {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+
+    & .TableReadOnly {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    & .Table-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    & .Table {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    & .Table-caption        { flex-shrink: 0; }
+    & .Table-header-group   { flex-shrink: 0; }
 }
