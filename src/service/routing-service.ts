@@ -229,6 +229,8 @@ export class RoutingService {
             (containerId) => this.dockerRoute.getReadme(this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/docker-container/_/{containerId}',
             (containerId) => this.dockerRoute.getContainer(containerId, this.currentStacks.get('containers')));
+        crossroads.addRoute('/containers/docker-container/_/{containerId}/docker-container-logs',
+            (containerId) => this.dockerRoute.getContainerLogs(this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/docker-container/_/{containerId}/readme',
             (containerId) => this.dockerRoute.getReadme(this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/docker-network',
