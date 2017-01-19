@@ -31,7 +31,6 @@ exports.Tasks = AbstractInspector.specialize(/** @lends Tasks# */ {
             var self = this;
             this.currentView = "EXECUTING";
             this._service.loadEntries().then(function (entries) {
-                console.log(entries);
                 self.entries = entries.sort(function(a,b) {return (b.id > a.id) ? 1 : ((a.id > b.id) ? - 1 : 0);});
             });
         }
