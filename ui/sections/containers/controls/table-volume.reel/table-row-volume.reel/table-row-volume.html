@@ -9,7 +9,8 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "object.host_path": {"<-": "!!@hostPath.displayedPath ? @hostPath.displayedPath : @owner.object.host_path"}
+                "selectedType": {"<-": "@pathSelect.selectedValue"},
+                "object.host_path": {"<-": "@owner.selectedType == 'host' && !!@hostPath.displayedPath ? @hostPath.displayedPath : @owner.selectedType == 'vm' ? @vmPath.value : @owner.object.host_path"}
             }
         },
 
@@ -21,6 +22,40 @@
             },
             "bindings": {
                 "service": {"<-": "@owner.application.filesystemService"}
+            }
+        },
+
+        "pathSelect": {
+            "prototype": "blue-shark/ui/select.reel",
+            "properties": {
+                "element": {"#": "pathSelect"},
+                "options": [{"label": "host", "value": "host"}, {"label": "VM", "value": "vm"}],
+                "selectedValue": "host"
+            },
+            "bindings": {
+                "disabled": {"<-": "@owner.object.isLocked"}
+            }
+        },
+
+        "pathSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "pathSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@pathSelect.selectedValue"}
+            }
+        },
+
+        "vmPath": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "vmPath"},
+                "placeholder": "e.g. vm path"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.host_path"},
+                "disabled": {"<-": "@owner.object.isLocked"}
             }
         },
 
@@ -66,7 +101,11 @@
 </head>
 <body>
     <div data-montage-id="owner" class="TableRowVolume Table-cells">
-        <div><div data-montage-id="hostPath"></div></div>
+        <div><div data-montage-id="pathSelect"></div></div>
+        <div data-montage-id="pathSubstitution">
+            <div data-montage-id="vmPath" data-arg="vm"></div>
+            <div data-montage-id="hostPath" data-arg="host"></div>
+        </div>
         <div><div data-montage-id="containerPath"></div></div>
         <div><div data-montage-id="readOnly"></div></div>
     </div>
