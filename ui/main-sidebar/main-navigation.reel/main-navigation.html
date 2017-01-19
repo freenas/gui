@@ -13,8 +13,7 @@
         "repetition": {
             "prototype": "montage/ui/repetition.reel",
             "properties": {
-                "element": {"#": "repetition"},
-                "isSelectionEnabled": true
+                "element": {"#": "repetition"}
             },
             "bindings": {
                 "content": {"<-": "@owner.sections.filter{!isHidden}"}
@@ -27,9 +26,7 @@
                 "element": {"#": "item"}
             },
             "bindings": {
-                "iteration": {"<-": "@repetition:iteration"},
-                "object": {"<-": "iteration.object"},
-                "iteration.selected": {"<->": "application.section == iteration.object"}
+                "object": {"<-": "@repetition:iteration.object"}
             }
         }
     }

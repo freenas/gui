@@ -1,7 +1,13 @@
 var AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate,
-    EventDispatcherService = require('core/service/event-dispatcher-service').EventDispatcherService;
+    EventDispatcherService = require('core/service/event-dispatcher-service').EventDispatcherService,
+    DatastoreService = require("core/service/datastore-service").DatastoreService,
+    _ = require("lodash");
 
 exports.AbstractInspector = AbstractComponentActionDelegate.specialize({
+    _handleInspectorExit: {
+        value: null
+    },
+
     _selectedObject: {
         value: null
     },
@@ -43,6 +49,7 @@ exports.AbstractInspector = AbstractComponentActionDelegate.specialize({
     templateDidLoad: {
         value: function() {
             this.eventDispatcherService = EventDispatcherService.getInstance();
+            this.datastoreService = DatastoreService.getInstance();
             if (typeof this._inspectorTemplateDidLoad === 'function') {
                 var self = this;
                 this._canDrawGate.setField(this.constructor.ABSTRACT_DRAW_GATE_FIELD, false);
@@ -68,16 +75,58 @@ exports.AbstractInspector = AbstractComponentActionDelegate.specialize({
                     this._hasContextObjectListener = true;
                 }
             }
+            if (_.isFunction(this._handleInspectorExit) && !this.inspectorExitListener) {
+                this.inspectorExitListener = this.eventDispatcherService.addEventListener('inspectorExit', this._handleInspectorExit.bind(this));
+            }
         }
     },
 
     exitDocument: {
         value: function() {
             this.super();
+            if (this.inspectorExitListener) {
+                this.eventDispatcherService.removeEventListener('inspectorExit', this.inspectorExitListener);
+                this.inspectorExitListener = null;
+            }
             if (this._hasContextObjectListener) {
                 this.removePathChangeListener("context.object", this);
                 this._hasContextObjectListener = false;
             }
+        }
+    },
+
+    hasObjectChanged: {
+        value: function(defaults, ignored) {
+            defaults = defaults || [];
+            ignored = ignored || [];
+            var result = false;
+            if (!this.object._isNew) {
+                var reference = this.datastoreService.getState().get(this.object._objectType).get(this.object.id).toJS(),
+                    object = _.pickBy(_.toPlainObject(this.object), function(value, key) {
+                        return  !_.isUndefined(value) &&
+                                (key[0] !== '_' || key === '_objectType');
+                    });
+                _.forEach(ignored, function(path) {
+                    _.unset(object, path);
+                    _.unset(reference, path);
+                });
+                _.forEach(defaults, function(defaultKeyValue) {
+                    var path = defaultKeyValue[0],
+                        defaultValue = defaultKeyValue[1];
+                    if (_.get(object, path) === defaultValue && _.get(reference, path, null) === null) {
+                        _.unset(object, path);
+                        _.unset(reference, path);
+                    }
+                });
+                // console.log(
+                //     _.reduce(object, function(result, value, key) {
+                //         return _.isEqual(value, reference[key]) ?
+                //             result : result.concat(key);
+                //     }, [])
+                // );
+                result = !_.isEqual(object,reference);
+            }
+            return result;
         }
     },
 

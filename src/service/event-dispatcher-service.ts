@@ -1,3 +1,5 @@
+import * as _ from "lodash";
+
 export class EventDispatcherService {
     private static instance:   EventDispatcherService;
     private listeners:  Map<string, Set<Function>>;
@@ -26,13 +28,14 @@ export class EventDispatcherService {
     }
 
     public dispatch(eventName: string, detail?: any) {
+        let promise;
         if (this.listeners.has(eventName)) {
-            let handlers = this.listeners.get(eventName).values(),
-                handler = handlers.next().value;
-            while (typeof handler === 'function') {
-                handler.call({}, detail);
-                handler = handlers.next().value;
-            }
+            let handlers = this.listeners.get(eventName);
+            promise = Promise.all(_.map(Array.from(handlers), (handler) => handler.call({}, detail)))
+                .then((results) => _.some(results));
+        } else {
+            promise = Promise.resolve();
         }
+        return promise;
     }
 }
