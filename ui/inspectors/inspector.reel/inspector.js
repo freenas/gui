@@ -124,6 +124,7 @@ exports.Inspector = Component.specialize({
             var self = this,
                 promise;
 
+            var isCreationInspector = this._isCreationInspector();
             if (this.controller && typeof this.controller.save === 'function') {
                 promise = this.controller.save();
             } else if (this.object) {
@@ -134,7 +135,6 @@ exports.Inspector = Component.specialize({
                 console.warn('NOT IMPLEMENTED: save() on unknown controller.');
             }
 
-            var isCreationInspector = this._isCreationInspector();
             if (isCreationInspector) {
                 this.object.__isLocked = true;
             }
