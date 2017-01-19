@@ -78,7 +78,6 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
         value: function () {
             var self = this;
             this._sectionService.generateMacAddress().then(function(macAddress) {
-                console.log(macAddress)
                 self.object.bridge.macaddress = macAddress;
             });
         }
