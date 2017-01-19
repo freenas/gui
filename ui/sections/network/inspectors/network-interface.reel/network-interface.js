@@ -81,8 +81,8 @@ exports.NetworkInterface = AbstractInspector.specialize({
                     isShown: true,
                     title: 'You have unsaved changes!',
                     message: 'Would you like to save your recent changes?',
-                    buttonLabelFalse: 'Undo Changes',
-                    buttonLabelTrue: 'Save Changes',
+                    buttonLabelFalse: "Don't Save",
+                    buttonLabelTrue: 'Review Changes',
                     deferred: {
                         resolve: resolve,
                         reject: reject,
@@ -91,9 +91,10 @@ exports.NetworkInterface = AbstractInspector.specialize({
                 };
                 return promise.then(function(result){
                     if (result) {
-                        self.save();
+                        return true;
                     } else {
-                        // self.revert();
+                        self.revert();
+                        return false;
                     }
                 });
             }
