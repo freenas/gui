@@ -65,12 +65,6 @@ exports.NetworkInterface = AbstractInspector.specialize({
         }
     },
 
-    handleAction: {
-        value: function () {
-            console.log("this probably doesn't work");
-        }
-    },
-
     _handleInspectorExit: {
         value: function() {
             var defaults = [['name']],
