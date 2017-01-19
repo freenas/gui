@@ -1,9 +1,10 @@
-import {AbstractSectionService} from "./abstract-section-service-ng";
-import {NetworkRepository} from "../../repository/network-repository";
-import {SystemRepository} from "../../repository/system-repository";
-import {NetworkInterfaceAliasType} from "../../model/enumerations/network-interface-alias-type";
-import {NetworkInterfaceType} from "../../model/enumerations/network-interface-type";
-import Promise = require("bluebird");
+import {AbstractSectionService} from './abstract-section-service-ng';
+import {NetworkRepository} from '../../repository/network-repository';
+import {SystemRepository} from '../../repository/system-repository';
+import {NetworkInterfaceAliasType} from 'core/model/enumerations/network-interface-alias-type';
+import {NetworkInterfaceType} from 'core/model/enumerations/network-interface-type';
+import * as Promise from 'bluebird';
+import * as _ from 'lodash';
 
 export class NetworkSectionService extends AbstractSectionService {
 
@@ -172,7 +173,7 @@ export class NetworkSectionService extends AbstractSectionService {
     }
 
     private cleanupVlanInterface(networkInterface: any) {
-        if (typeof networkInterface.vlan.tag !== "number") {
+        if (typeof networkInterface.vlan.tag !== 'number') {
             networkInterface.vlan = {
                 tag: null,
                 parent: null
@@ -184,11 +185,11 @@ export class NetworkSectionService extends AbstractSectionService {
         let aliases = [];
 
         if (!networkInterface.dhcp) {
-            if (typeof networkInterface._ipAddress === "object" && !!networkInterface._ipAddress.address && !!networkInterface._ipAddress.netmask) {
+            if (typeof networkInterface._ipAddress === 'object' && !!networkInterface._ipAddress.address && !!networkInterface._ipAddress.netmask) {
                 networkInterface._ipAddress.type = NetworkInterfaceAliasType.INET;
                 aliases.push(networkInterface._ipAddress);
             }
-            if (typeof networkInterface._ipv6Address === "object" && !!networkInterface._ipv6Address.address && !!networkInterface._ipv6Address.netmask) {
+            if (typeof networkInterface._ipv6Address === 'object' && !!networkInterface._ipv6Address.address && !!networkInterface._ipv6Address.netmask) {
                 networkInterface._ipv6Address.type = NetworkInterfaceAliasType.INET6;
                 aliases.push(networkInterface._ipv6Address);
             }
@@ -205,6 +206,7 @@ export class NetworkSectionService extends AbstractSectionService {
         networkInterface._ipv6Address = null;
         for (i = 0, length = networkInterface.aliases.length; i < length; i++) {
             alias = networkInterface.aliases[i];
+            _.unset(alias, 'broadcast');
             if (alias.type === NetworkInterfaceAliasType.INET && networkInterface._ipAddress === null) {
                 networkInterface._ipAddress = alias;
             } else if (alias.type === NetworkInterfaceAliasType.INET6 && networkInterface._ipv6Address === null) {
