@@ -33,8 +33,9 @@ sync:
 		--exclude 'nas_ports' . ${host}:/usr/local/www/gui/
 
 clean:
+	rm -f node_modules
 	npm cache clean
 
 install:
-	npm install
 	sudo npm install npm@2 -g
+	npm install
