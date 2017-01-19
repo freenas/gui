@@ -315,6 +315,12 @@ exports.VmsSectionService = AbstractSectionService.specialize({
         }
     },
 
+    getGuestInfo: {
+        value: function(vm) {
+            return this._vmRepository.getGuestInfo(vm);
+        }
+    },
+
     getWebVncConsoleUrl: {
         value: function(vm) {
             return this._vmRepository.getWebVncConsoleUrl(vm);

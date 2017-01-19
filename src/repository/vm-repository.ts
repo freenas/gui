@@ -7,6 +7,7 @@ import {VmDatastoreDao} from '../dao/vm-datastore-dao';
 import {VmConfigDao} from '../dao/vm-config-dao';
 import {VmTemplateDao} from '../dao/vm-template-dao';
 import {VmReadmeDao} from '../dao/vm-readme-dao';
+import {VmGuestInfoDao} from '../dao/vm-guest-info-dao';
 import {VmDeviceType} from 'core/model/enumerations/vm-device-type';
 import {VmDeviceVolumeType} from 'core/model/enumerations/vm-device-volume-type';
 import * as _ from 'lodash';
@@ -20,12 +21,13 @@ export class VmRepository extends AbstractRepository {
     private vms: Map<string, Map<string, any>>;
     private vmDatastores: Map<string, Map<string, any>>;
     private vmTemplates: Map<string, Map<string, any>>;
+    private vmGuestInfo: Map<string, Map<string, any>>;
     private vmConfig: Map<string, any>;
 
     public readonly DEVICE_TYPE = VmDeviceType;
 
     public DATASTORE_TYPE = {
-        NFS: 'NFS'
+        NFS: 'nfs'
     };
 
     public BOOTABLE_DEVICE_TYPES = [
@@ -65,6 +67,7 @@ export class VmRepository extends AbstractRepository {
                         private vmConfigDao: VmConfigDao,
                         private vmTemplateDao: VmTemplateDao,
                         private vmReadmeDao: VmReadmeDao,
+                        private vmGuestInfoDao: VmGuestInfoDao,
                         private vmDeviceDao: VmDeviceDao,
                         private vmVolumeDao: VmVolumeDao,
                         private vmCloneDao: VmCloneDao) {
@@ -72,7 +75,8 @@ export class VmRepository extends AbstractRepository {
             Model.Vm,
             Model.VmDatastore,
             Model.VmConfig,
-            Model.VmTemplate
+            Model.VmTemplate,
+            Model.VmGuestInfo
         ]);
     }
 
@@ -84,6 +88,7 @@ export class VmRepository extends AbstractRepository {
                 new VmConfigDao(),
                 new VmTemplateDao(),
                 new VmReadmeDao(),
+                new VmGuestInfoDao(),
                 new VmDeviceDao(),
                 new VmVolumeDao(),
                 new VmCloneDao()
@@ -121,6 +126,10 @@ export class VmRepository extends AbstractRepository {
 
     public getNewVmClone() {
         return this.vmCloneDao.getNewInstance();
+    }
+
+    public getGuestInfo(vm: any) {
+        return this.vmGuestInfoDao.getGuestInfo(vm);
     }
 
     public getNewVm() {

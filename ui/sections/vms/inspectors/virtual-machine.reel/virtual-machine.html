@@ -254,6 +254,76 @@
                 "path": "readme"
             }
         },
+        "guestInfoStatusLight": {
+            "prototype": "ui/controls/traffic-light.reel",
+            "properties": {
+                "element": {"#": "guestInfoStatusLight"},
+                "colorMapping": {"Y" : "green", "N" : "red"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.hasVmTools ? 'Y' : 'N'"}
+            }
+        },
+        "guestInfoStatus": {
+            "prototype": "blue-shark/ui/field.reel",
+            "properties": {
+                "label": "VM Tools Status",
+                "element": {"#": "guestInfoStatus"}
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "@owner.object._isNew"}
+            }
+        },
+        "guestInfoLoadAvg": {
+            "prototype": "blue-shark/ui/tables/table-read-only.reel",
+            "properties": {
+                "element": {"#": "guestInfoLoadAvg"},
+                "label": "Guest Load Averages",
+                "columns":  [
+                    {
+                        "value": "1 Minute",
+                        "path": "onemin"
+                    },
+                    {
+                        "value": "5 Minutes",
+                        "path": "fivemin"
+                    },
+                    {
+                        "value": "10 Minutes",
+                        "path": "tenmin"
+                    }
+                ]
+            },
+            "bindings": {
+                "rows": {"<-": "@owner.guestInfoLoadAvg"},
+                "classList.has('is-hidden')": {"<-": "!@owner.guestInfoLoadAvg.length"} 
+            }
+        },
+        "guestInfoInterfaces": {
+            "prototype": "blue-shark/ui/tables/table-read-only.reel",
+            "properties": {
+                "element": {"#": "guestInfoInterfaces"},
+                "label": "Guest Network Interfaces",
+                "columns":  [
+                    {
+                        "value": "Interface",
+                        "path": "interface"
+                    },
+                    {
+                        "value": "Type",
+                        "path": "type"
+                    },
+                    {
+                        "value": "Address",
+                        "path": "address"
+                    }
+                ]
+            },
+            "bindings": {
+                "rows": {"<-": "@owner.guestInfoInterfaces"},
+                "classList.has('is-hidden')": {"<-": "!@owner.guestInfoInterfaces.length"} 
+            }
+        },
         "devices": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
@@ -367,6 +437,11 @@
             <div data-montage-id="cpu"></div>
             <div data-montage-id="memory"></div>
             <div data-montage-id="autostart"></div>
+            <div data-montage-id="guestInfoStatus">
+                <div data-montage-id="guestInfoStatusLight"></div>
+            </div>
+            <div data-montage-id="guestInfoLoadAvg" class="g-margin-bottom"></div>
+            <div data-montage-id="guestInfoInterfaces" class="g-margin-bottom"></div>
             <div data-montage-id="readme"></div>
             <div data-montage-id="devices"></div>
             <div data-montage-id="volumeDevices"></div>
