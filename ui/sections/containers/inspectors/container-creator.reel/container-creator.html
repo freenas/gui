@@ -199,6 +199,7 @@
                 "element": {"#": "volumesTable"}
             },
             "bindings": {
+                "inspector": {"<-": "@inspector"},
                 "values": {"<-": "@owner.currentTemplateVolumes.map{{ host_path: host_path, container_path: container_path, readonly: readonly , isLocked: isLocked }}"}
             }
         },

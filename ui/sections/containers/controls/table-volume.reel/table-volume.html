@@ -47,6 +47,7 @@
                 "element": {"#": "newEntry"}
             },
             "bindings": {
+                "inspector": {"<-": "@owner.inspector"},
                 "object": {"<-": "@table.currentNewEntry.object"}
             }
         },
@@ -57,6 +58,7 @@
                 "element": {"#": "entry"}
             },
             "bindings": {
+                "inspector": {"<-": "@owner.inspector"},
                 "object": {"<-": "@table:rowIteration.object.object"}
             }
         }
