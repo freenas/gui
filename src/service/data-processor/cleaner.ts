@@ -59,7 +59,7 @@ class CleaningProcessor implements DataProcessor {
             result = !descriptor.readOnly;
             if (result) {
                 if (!_.includes(_.castArray(descriptor.type), 'null')) {
-                    result = !!value;
+                    result = !_.isNil(value);
                 }
             }
         }
