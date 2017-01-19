@@ -24,14 +24,16 @@
                 "controller": {"@": "owner"}
             },
             "bindings": {
-                "context": {"<-": "@owner.context"}
+                "context": {"<-": "@owner.context"},
+                "isSaveDisabled": {"<-": "!(@owner.object.username && @owner.object.password && @owner.object.type && @owner.object.category && @owner.object.subject && @owner.object.description)"}
             }
         },
         "username": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "username"},
-                "label": "Username"
+                "label": "Username",
+                "isMandatory": true
             },
             "bindings": {
                 "value": {"<->": "@owner.object.username"}
@@ -41,7 +43,8 @@
             "prototype": "blue-shark/ui/field-password-input.reel",
             "properties": {
                 "element": {"#": "password"},
-                "label": "Password"
+                "label": "Password",
+                "isMandatory": true
             },
             "bindings": {
                 "value": {"<->": "@owner.object.password"}
@@ -51,7 +54,8 @@
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "type"},
-                "label": "Type"
+                "label": "Type",
+                "isMandatory": true
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.object.type"},
@@ -62,7 +66,8 @@
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "category"},
-                "label": "Category"
+                "label": "Category",
+                "isMandatory": true
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.object.category"},
@@ -83,7 +88,8 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "subject"},
-                "label": "Subject"
+                "label": "Subject",
+                "isMandatory": true
             },
             "bindings": {
                 "value": {"<->": "@owner.object.subject"}
@@ -94,7 +100,8 @@
             "properties": {
                 "element": {"#": "description"},
                 "validationPath": "description",
-                "label": "Description"
+                "label": "Description",
+                "isMandatory": true
             },
             "bindings": {
                 "value": {"<->": "@owner.object.description"}
