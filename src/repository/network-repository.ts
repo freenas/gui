@@ -1,13 +1,13 @@
-import {AbstractRepository} from "./abstract-repository-ng";
-import {ModelEventName} from "../model-event-name";
-import {NetworkInterfaceDao} from "../dao/network-interface-dao";
-import {NetworkConfigDao} from "../dao/network-config-dao";
-import {NetworkRouteDao} from "../dao/network-route-dao";
-import {NetworkHostDao} from "../dao/network-host-dao";
-import {IpmiDao} from "../dao/ipmi-dao";
-import {Map} from "immutable";
-import * as Promise from "bluebird";
-import {Model} from "../model";
+import {AbstractRepository} from './abstract-repository-ng';
+import {ModelEventName} from '../model-event-name';
+import {NetworkInterfaceDao} from '../dao/network-interface-dao';
+import {NetworkConfigDao} from '../dao/network-config-dao';
+import {NetworkRouteDao} from '../dao/network-route-dao';
+import {NetworkHostDao} from '../dao/network-host-dao';
+import {IpmiDao} from '../dao/ipmi-dao';
+import {Map} from 'immutable';
+import * as Promise from 'bluebird';
+import {Model} from '../model';
 
 export class NetworkRepository extends AbstractRepository {
     private static instance: NetworkRepository;
@@ -21,7 +21,7 @@ export class NetworkRepository extends AbstractRepository {
             label: 'VLAN',
             properties: {
                 objectType: 'NetworkInterfaceVlanProperties',
-                type: "network-interface-vlan-properties"
+                type: 'network-interface-vlan-properties'
             }
         },
         LAGG: {
@@ -89,7 +89,7 @@ export class NetworkRepository extends AbstractRepository {
             newInterface._tmpId = interfaceType.type;
             newInterface.type = interfaceType.type.toUpperCase();
             newInterface.aliases = [];
-            newInterface.name = "";
+            newInterface.name = '';
             newInterface[interfaceType.type] = properties;
             return newInterface;
         });
