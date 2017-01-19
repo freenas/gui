@@ -12,7 +12,7 @@ export class DetachedVolumeDao extends AbstractDao {
     }
 
     public list(): Promise<Array<any>> {
-        return AbstractDao.prototype.list.call(this).then(function(detachedVolumes) {
+        return this.query().then(function(detachedVolumes) {
             for (let detachedVolume of detachedVolumes) {
                 detachedVolume._isDetached = true;
             }

@@ -24,7 +24,7 @@ import {VolumeDatasetPropertyVolblocksizeDao} from '../dao/volume-dataset-proper
 import {VolumeDatasetPropertyRefreservationDao} from '../dao/volume-dataset-property-refreservation-dao';
 import {VolumeDatasetPropertyReservationDao} from '../dao/volume-dataset-property-reservation-dao';
 
-import {Map} from 'immutable';
+import {Map, List} from 'immutable';
 import * as Promise from 'bluebird';
 import * as bytes from 'bytes';
 import * as _ from 'lodash';
@@ -349,12 +349,26 @@ export class VolumeRepository extends AbstractRepository {
         let diskUsage: any = {};
         if (volumes) {
             volumes.forEach((volume) =>
-                volume.get('disks').forEach((diskId) =>
+                VolumeRepository.getVolumeDisks(volume).forEach(diskId =>
                     diskUsage[diskId] = volume.has('name') ? volume.get('name') : volume.get('id')
                 )
             );
             this.datastoreService.save(Model.DiskUsage, usageType, diskUsage);
         }
+    }
+
+    private static getVolumeDisks(volume: any): List<any> {
+        let results: List<any>;
+        if (volume.has('disks')) {
+            results = volume.get('disks');
+        } else {
+            results = volume.get('topology').map(vdevs =>
+                vdevs.map(vdev =>
+                    vdev.get('children').size === 0 ? vdev.path : vdev.get('children').map(child => child.disk_id)
+                )
+            );
+        }
+        return results;
     }
 
     private setDiskAllocation(path, allocation: any) {

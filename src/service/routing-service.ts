@@ -54,7 +54,6 @@ export class RoutingService {
         this.eventDispatcherService.addEventListener('taskSubmitted', this.handleTaskSubmitted.bind(this));
         this.eventDispatcherService.addEventListener('taskCreated', this.handleTaskCreated.bind(this));
         this.loadRoutes();
-        crossroads.shouldTypecast = true;
         hasher.prependHash = '!';
         hasher.changed.add(this.handleHashChange.bind(this));
     }
