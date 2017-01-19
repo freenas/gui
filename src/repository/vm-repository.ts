@@ -24,7 +24,7 @@ export class VmRepository extends AbstractRepository {
     public readonly DEVICE_TYPE = VmDeviceType;
 
     public DATASTORE_TYPE = {
-        NFS: 'NFS'
+        NFS: 'nfs'
     };
 
     public BOOTABLE_DEVICE_TYPES = [
@@ -33,28 +33,28 @@ export class VmRepository extends AbstractRepository {
         'DISK'
     ];
 
-    public DEFAULT_CLONE_DEVICE_ID = "TEMPLATE_DEVICE_ID";
+    public DEFAULT_CLONE_DEVICE_ID = 'TEMPLATE_DEVICE_ID';
 
     public DEFAULT_VM_CONFIG = {
         ncpus: '',
-        bootloader: "GRUB"
+        bootloader: 'GRUB'
     };
 
     public DEFAULT_DEVICE_PROPERTIES = {
         CDROM: {
         },
         DISK: {
-            mode: "AHCI"
+            mode: 'AHCI'
         },
         GRAPHICS: {
-            resolution: "1024x768"
+            resolution: '1024x768'
         },
         NIC: {
-            mode: "NAT",
-            device: "VIRTIO"
+            mode: 'NAT',
+            device: 'VIRTIO'
         },
         USB: {
-            device: "tablet"
+            device: 'tablet'
         }
     };
 
@@ -145,7 +145,7 @@ export class VmRepository extends AbstractRepository {
         return this.vmVolumeDao.getNewInstance().then((vmVolume) => _.assign(vmVolume, {
             id: uuid.v4(),
             type: VmDeviceType.VOLUME
-        }))
+        }));
     }
 
     public static initializeNewVmDevice(device: any) {
@@ -194,18 +194,18 @@ export class VmRepository extends AbstractRepository {
             case VmDeviceType.CDROM:
                 break;
             case VmDeviceType.DISK:
-                properties.mode = "AHCI";
-                properties.target_type = "FILE";
+                properties.mode = 'AHCI';
+                properties.target_type = 'FILE';
                 break;
             case VmDeviceType.GRAPHICS:
-                properties.resolution = "1024x768";
+                properties.resolution = '1024x768';
                 break;
             case VmDeviceType.NIC:
-                properties.device = "VIRTIO";
-                properties.mode = "NAT";
+                properties.device = 'VIRTIO';
+                properties.mode = 'NAT';
                 break;
             case VmDeviceType.USB:
-                properties.device = "tablet";
+                properties.device = 'tablet';
                 break;
         }
         return properties;
@@ -229,7 +229,7 @@ export class VmRepository extends AbstractRepository {
             datastore._tmpId = type;
             datastore.type = type;
             return VmRepository.setDatastoreDefaultProperties(datastore);
-        })
+        });
     }
 
     private static setDatastoreDefaultProperties(datastore) {
@@ -237,10 +237,10 @@ export class VmRepository extends AbstractRepository {
         datastore.properties['%type'] = datastore.properties['%type'] || 'vm-datastore-' + datastore.type.toLowerCase();
         switch (datastore.type) {
             case 'NFS':
-                datastore.properties.version = datastore.properties.version || "NFSV3";
+                datastore.properties.version = datastore.properties.version || 'NFSV3';
                 break;
         }
-        return datastore
+        return datastore;
     }
 
     protected handleStateChange(name: string, state: any) {
