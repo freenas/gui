@@ -34,3 +34,6 @@ sync:
 .else
 .error Error: Undefined host variable
 .endif
+
+clean:
+	npm cache clean
