@@ -7,6 +7,7 @@ import { processor as nullProcessor } from '../service/data-processor/null';
 import * as _ from 'lodash';
 import * as Promise from 'bluebird';
 import {ModelDescriptorService} from '../service/model-descriptor-service';
+import {Map as iMap, List} from 'immutable';
 
 export class AbstractDao {
     protected middlewareClient: MiddlewareClient;
@@ -111,6 +112,24 @@ export class AbstractDao {
         let emptyList: any = [];
         emptyList._objectType = self.objectType;
         return Promise.resolve(emptyList);
+    }
+
+    public revert(object: any) {
+        let reference = this.datastoreService.getState().get(object._objectType).get(object.id);
+        _.forEach(object, (value, key) => {
+            if (key[0] !== '_') {
+                if (reference.has(key)) {
+                    let referenceValue = reference.get(key);
+                    if (referenceValue instanceof iMap || referenceValue instanceof List) {
+                        referenceValue = referenceValue.toJS();
+                    }
+                    if (value !== referenceValue) {
+                        object[key] = referenceValue;
+                    }
+                }
+            }
+        });
+        return object;
     }
 
     private update(object: any, args?: Array<any>): Promise<any> {

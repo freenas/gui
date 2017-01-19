@@ -112,6 +112,8 @@ exports.Inspector = Component.specialize({
                 if (Promise.is(promise)) {
                     promise.catch(this._logError);
                 }
+            } else if (this.object) {
+                this.revert(this.object);
             } else if (this.controller) {
                 console.warn('NOT IMPLEMENTED: revert() on ', this.controller.templateModuleId);
             } else {
@@ -195,10 +197,6 @@ exports.Inspector = Component.specialize({
             var self = this;
             return this._getObjectDao(this.object).then(function(dao) {
                 return dao.revert(self.object);
-                if (self.object._isNew) {
-                    self.object = object;
-                }
-                return self.object;
             });
         }
     },
