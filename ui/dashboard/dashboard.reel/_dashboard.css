@@ -21,7 +21,7 @@
     bottom: 1rem;
     right:  1rem;
     z-index: 1;
-    background: #333;
+    background: var(--grey);
     color: color(var(--white) alpha(.5));
     border-radius: 4px;
 

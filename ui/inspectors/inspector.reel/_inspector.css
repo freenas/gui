@@ -100,7 +100,7 @@
     padding-bottom: 540%;
     transform: translate(-46%,-50%);
     background-color: rgba(0,0,0,.5);
-    background-image: repeating-linear-gradient(-45deg, rgba(43,156,216,0.25), rgba(43,156,216,0.25) 1px, transparent 1px, transparent 10px);
+    background-image: repeating-linear-gradient(-45deg, color(var(--color-selected) a(25%))), color(var(--color-selected) a(25%) 1px, transparent 1px, transparent 10px);
     background-size: 28px 28px;
     border-radius: 50%;
     z-index: -1;

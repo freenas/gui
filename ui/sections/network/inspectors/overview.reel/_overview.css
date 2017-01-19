@@ -28,7 +28,7 @@
 }
 
 .Overview-disabledInterface:nth-child(even) {
-    background: rgba(0,0,0,.05);
+    background: var(--transparent--darken);
 }
 
 /* Foldable Section Overriedes */

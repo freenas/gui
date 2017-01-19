@@ -24,7 +24,7 @@
     background: var(--grey-2);
     color: #000;
     line-height: 1em;
-    box-shadow: 0 2px 2px rgba(0,0,0,.3);
+    box-shadow: 0 2px 2px var(--shadow-1);
 }
 
 /* sets color levels */

@@ -1,5 +1,5 @@
 .IpmiIcon svg {
-    color: #ccc;
+    color: var(--grey-2);
 }
 
 .Grid-icon.selected .IpmiIcon svg { color: var(--color-selected); }

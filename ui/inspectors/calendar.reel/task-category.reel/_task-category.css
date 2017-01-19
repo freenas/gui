@@ -29,7 +29,7 @@
     color: var(--white);
 }
 
-.TaskCategory.is-displayed .TaskCategory-name                                       { color: #E0E5E5; }
+.TaskCategory.is-displayed .TaskCategory-name                                       { color: var(--grey-3); }
 
 .TaskCategory.type-rsync_copy                                                       { color: #D95B1B; border-color: currentColor; }
 .TaskCategory.type-rsync_copy.is-displayed .TaskCategory-name                       { background-color: #D95B1B; }

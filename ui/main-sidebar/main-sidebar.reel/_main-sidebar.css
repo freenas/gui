@@ -1,7 +1,7 @@
 .MainSidebar {
     display: flex;
     flex-direction: column;
-    border-right: 2px solid #0F1213;
+    border-right: 2px solid var(--black);
     background-color: rgba(43, 156, 216, 1);
     background-size: 310px 195px;
     background-image: url(../../../assets/images/bg.png);
@@ -70,7 +70,7 @@
 .MainSidebar-globalActions-button {
     position: relative;
     z-index: 1;
-    background: #0F1213;
+    background: var(--black);
     display: flex;
     padding: .5em;
     cursor: pointer;
@@ -141,7 +141,7 @@
     display: none;
     position: absolute;
     bottom: 0;
-    background: #0F1213;
+    background: var(--black);
     padding: .5rem;
     z-index: 1;
 

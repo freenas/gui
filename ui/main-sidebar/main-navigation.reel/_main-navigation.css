@@ -42,6 +42,6 @@
     margin-top:  -1.5em;
     border-radius: 50%;
     background: var(--color-selected);
-    box-shadow: 0 2px 2px rgba(0,0,0,.3);
+    box-shadow: 0 2px 2px var(--shadow-1);
     z-index: -1;
 }

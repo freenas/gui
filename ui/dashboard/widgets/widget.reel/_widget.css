@@ -9,11 +9,11 @@
     background: var(--main-bg-color);
     border-radius: var(--widget-border-radius);
     overflow: hidden;
-    box-shadow: 0px 0px 2px 2px rgba(43,156,216,0);
+    box-shadow: 0px 0px 2px 2px color(var(--color-selected) a(0%));
     transition: box-shadow .25s ease-in-out;
 
     @nest .drawer-is-open &:hover {
-        box-shadow: 0px 0px 2px 2px rgba(43,156,216,1);
+        box-shadow: 0px 0px 2px 2px var(--color-selected);
     }
 }
 
@@ -23,8 +23,8 @@
     padding: .5rem;
     line-height: 1em;
     height: 2.5em;
-    background-color: #404040;
-    color: #E0E5E5;
+    background-color: var(--grey);
+    color: var(--grey-3);
 
     & svg {
         width: 1.4em;
@@ -34,7 +34,7 @@
     }
 
     @nest .flip & {
-        background-color: #0C5688;
+        background-color: var(--color-selected);
     }
 }
 
@@ -60,7 +60,7 @@
     flex-direction: column;
     position: relative;
     overflow: hidden;
-    border-bottom-left-radius: 4px;
+    border-bottom-left-radius:  4px;
     border-bottom-right-radius: 4px;
 
     &:before {
@@ -73,7 +73,7 @@
         right: 0;
         bottom: 0;
         border-radius: var(--widget-border-radius);
-        background: rgba(0,0,0,.75);
+        background: color(var(--black) a(75%));
         transition: visibility .35s ease-in-out, opacity .35s ease-in-out;
         z-index: 2;
     }
@@ -103,7 +103,7 @@
 
 .Widget-footer {
     display: flex;
-    align-items: flex-end;
+    align-items:     flex-end;
     justify-content: flex-end;
 }
 

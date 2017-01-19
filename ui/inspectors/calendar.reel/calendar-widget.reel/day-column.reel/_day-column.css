@@ -20,13 +20,13 @@
 
     &.acceptDrop:before {
         display: block;
-        border: 1px dashed rgba(43,156,216,1);
-        background-color: rgba(43,156,216,0.1);
+        border: 1px dashed var(--color-selected);
+        background-color: color(var(--color-selected) a(10%));
     }
 
     &.is-today {
-        background: rgba(255,255,255,.05);
-        box-shadow: 0 0 8px 2px rgba(0,0,0,.2);
+        background: var(--transparent--darken);
+        box-shadow: 0 0 8px 2px var(--shadow-1);
 
         @nest .DayView & {
             box-shadow: none;

@@ -5,7 +5,7 @@
     --hourHeight: 3rem;
     --calenderStrongLine: var(--main-bg-color);
     --calenderWeakLine: color(var(--calenderStrongLine) alpha(.3));
-    --allDayBg: #1e2123;
+    --allDayBg: var(--grey);
 }
 
 
@@ -28,7 +28,7 @@
 }
 
 .CalendarWidget-date {
-    color: #E0E5E5;
+    color: var(--grey-3);
     font-size: 1.5em;
     flex: 1;
 }
@@ -45,8 +45,8 @@
     font-size: .8em;
     height: 2.5em;
     background-color: var(--buttonBg);
-    color: #939E9F;
-    border: 1px solid #0F1213;
+    color: var(--grey-1);
+    border: 1px solid var(--black);
     cursor: pointer;
     outline: none;
 
@@ -92,7 +92,7 @@
     height: 2rem;
     width:  2rem;
     background: var(--grey-blue);
-    color: #939E9F;
+    color: var(--grey-1);
     cursor: pointer;
 }
 
@@ -117,7 +117,7 @@
 
 .CalendarWidget thead td {
     background: var(--grey-blue-1);
-    color: #E0E5E5;
+    color: var(--grey-3);
     font-weight: 200;
     height:      1rem;
     line-height: 1rem;
@@ -185,7 +185,7 @@ Header
     align-self: center;
     font-size: .8rem;
     padding: .5rem .25rem;
-    color: #e0e5e5;
+    color: var(--grey-3);
 }
 
 /* Recurring Events shown in Day Header */
@@ -288,7 +288,7 @@ Main Content
     flex-direction: column;
 
     &:not(:last-child) {
-        border-right: 1px solid #3b4042;
+        border-right: 1px solid var(--grey-blue-2);
     }
 }
 

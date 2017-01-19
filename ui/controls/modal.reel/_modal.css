@@ -12,8 +12,8 @@
     left:   0;
     right:  0;
     bottom: 0;
-    background-color: rgba(0,0,0,.85);
-    background-image: radial-gradient(rgba(43, 156, 216,.2),rgba(0,0,0,.5) 50%);
+    background-color: color(var(--black) a(85%));
+    background-image: radial-gradient(color(var(--color-selected) a(20%)), color(var(--black) a(50%)) 50%);
     z-index: 1000;
     transition: opacity .25s .5s;
 }
@@ -32,13 +32,13 @@
 .Modal-header {
     background: var(--blue-lighten-2);
     padding: 1em;
-    box-shadow: 0 2px 1px rgba(0,0,0,.3);
+    box-shadow: 0 2px 1px var(--shadow-1);
 }
 
 /* Modal Types - changes colors of header */
 
 .Modal-alert .Modal-header {
-    background: rgba(255,0,0,.9);
+    background: color(var(--red) a(90%));
 }
 
 /* Modal Title */
@@ -46,7 +46,7 @@
 .Modal-title {
     font-size: 1.5em;
     font-weight: 600;
-    text-shadow: 0 1px 1px rgba(0,0,0,.3);
+    text-shadow: 0 1px 1px var(--shadow-1);
 }
 
 .Modal-body {

@@ -15,7 +15,7 @@
     justify-content: space-between;
     height:  3em;
     padding: 0 1em;
-    background-color: #0F1213;
+    background-color: var(--black);
     border-bottom: 1px solid var(--grey);
 
     & button {

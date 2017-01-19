@@ -9,8 +9,8 @@
     background-color: #bcbcbc;
     border-right: 1px solid;
     border-bottom: 1px solid;
-    border-color: #ccc;
-    color: #333;
+    border-color: var(--grey-2);
+    color: var(--grey);
     text-align: center;
     white-space: nowrap;
     cursor: pointer;
