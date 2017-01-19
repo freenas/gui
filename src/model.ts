@@ -19,6 +19,7 @@ const Model = {
     DirectoryServices: 'DirectoryServices' as 'DirectoryServices',
     Disk: 'Disk' as 'Disk',
     DockerCollection: 'DockerCollection' as 'DockerCollection',
+    DockerCollectionImage: 'DockerCollectionImage' as 'DockerCollectionImage',
     DockerConfig: 'DockerConfig' as 'DockerConfig',
     DockerContainer: 'DockerContainer' as 'DockerContainer',
     DockerContainerBridge: 'DockerContainerBridge' as 'DockerContainerBridge',
