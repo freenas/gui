@@ -4,19 +4,31 @@
     <template>
         <style>
             :host {
-                display: block;
+                display: flex;
+                flex-direction: column;
+                height: 19rem;
+            }
+
+            :host .Notifications {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
             }
         </style>
         <div class="Notifications">
-            <div>
+            <div class="Widget-header">
                 <svg class="Notifications-icon">
                     <use xlink:href="#i-tasks"/>
                 </svg>
-                <div class="Notifications-title">Tasks</div>
+                <h4 class="Notifications-title">Tasks</h4>
             </div>
-            <template is="dom-repeat" items="[[tasks]]" as="foo">
-                <task-entry task="{{foo}}"></task-entry>
-            </template>
+            <div class="Widget-content">
+                <div class="Notifications-body">
+                    <template is="dom-repeat" items="[[tasks]]" as="foo">
+                        <task-entry task="{{foo}}"></task-entry>
+                    </template>
+                </div>
+            </div>
         </div>
     </template>
 

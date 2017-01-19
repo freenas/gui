@@ -62,6 +62,7 @@ var TaskEntry = TaskEntry_1 = (function (_super) {
             task.progress.percentage || 0;
     };
     TaskEntry.prototype.handleExpand = function (event) {
+        // FIXME: use this.root ?
         event.currentTarget.parentElement.classList.toggle('is-expanded');
     };
     return TaskEntry;
