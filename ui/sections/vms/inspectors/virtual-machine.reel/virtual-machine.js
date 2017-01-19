@@ -1,6 +1,7 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
     ModelEventName = require("core/model-event-name").ModelEventName;
+    _ = require("lodash");
 
 exports.VirtualMachine = AbstractInspector.specialize({
     editMode: {
@@ -20,6 +21,18 @@ exports.VirtualMachine = AbstractInspector.specialize({
                 this._object = object;
             }
         }
+    },
+
+    hasVmTools: {
+        value: false
+    },
+
+    guestInfoLoadAvg: {
+        value: []
+    },
+
+    guestInfoInterfaces: {
+        value: [] 
     },
 
     _inspectorTemplateDidLoad: {
@@ -48,6 +61,26 @@ exports.VirtualMachine = AbstractInspector.specialize({
                 self._sectionService.initializeVm(self.object);
                 self.addPathChangeListener("object._bootDevice", self, "_handleBootDeviceChange");
                 self.addPathChangeListener("object._selectedTemplate", self, "_handleTemplateChange");
+                self._sectionService.getGuestInfo(self.object).then(function(guestInfo) {
+                    if (guestInfo.load_avg) {
+                        self.hasVmTools = true;
+                        self.guestInfoLoadAvg = [{
+                                                    onemin: guestInfo.load_avg[0],
+                                                    fivemin: guestInfo.load_avg[1],
+                                                    tenmin: guestInfo.load_avg[2]
+                                                }];
+                        self.guestInfoInterfaces = _.map(
+                            _.reject(_.toPairs(guestInfo.interfaces), {0: 'lo'}),
+                            function (value, key)  {
+                                return _.map(_.reject(value[1].aliases, {af: 'LINK'}), 
+                                    function(alias) { 
+                                        return { 
+                                            interface: value[0], type: alias.af, address: alias.address 
+                                        }; 
+                                    });
+                            })[0];
+                    }
+                });
                 self._finishLoading();
             });
 
@@ -70,6 +103,9 @@ exports.VirtualMachine = AbstractInspector.specialize({
             if (this.getPathChangeDescriptor('object._selectedTemplate', this)) {
                 this.removePathChangeListener('object._selectedTemplate', this);
             }
+            this.hasVmTools = false;
+            this.guestInfoLoadAvg = [];
+            this.guestInfoInterfaces = [];
         }
     },
 
