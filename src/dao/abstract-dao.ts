@@ -25,6 +25,7 @@ export class AbstractDao {
     private deleteMethod: string;
     private eventName: string;
     private preventQueryCaching: boolean;
+    private idPath: string;
     private isRegistered = false;
 
     public constructor(objectType: any, config?: any) {
@@ -36,6 +37,7 @@ export class AbstractDao {
         this.createMethod = config.createMethod || AbstractDao.dotCase(objectType) + '.create';
         this.deleteMethod = config.deleteMethod || AbstractDao.dotCase(objectType) + '.delete';
         this.eventName = config.eventName || 'entity-subscriber.' + this.middlewareName + '.changed';
+        this.idPath = config.idPath || 'id';
         this.preventQueryCaching = config.preventQueryCaching;
         this.middlewareClient = MiddlewareClient.getInstance();
         this.datastoreService = DatastoreService.getInstance();
@@ -48,8 +50,7 @@ export class AbstractDao {
             this.listPromise :
             this.listPromise = this.stream().then((stream) => {
                 this.register();
-                let data = stream.get("data");
-                let dataArray = data.toJS();
+                let dataArray = stream.get('data').toJS();
                 dataArray._objectType = this.objectType;
 
                 return dataArray;
@@ -57,7 +58,7 @@ export class AbstractDao {
     }
 
     public stream() {
-        return this.datastoreService.stream(this.objectType, this.queryMethod);
+        return this.datastoreService.stream(this.objectType, this.queryMethod, this.idPath);
     }
 
     public get(): Promise<any> {
@@ -72,7 +73,7 @@ export class AbstractDao {
         });
     }
 
-    //TODO: need support for streamming responses.
+    // TODO: need support for streamming responses.
     public find(criteria?: any, params?: any): Promise<any> {
         criteria = criteria || {};
         params = params || {};
@@ -161,7 +162,7 @@ export class AbstractDao {
     private query(criteria?: any, isSingle?: boolean): Promise<any> {
         let self = this,
             middlewareCriteria = criteria ? this.getMiddlewareCriteria(criteria, isSingle) : [];
-        return this.datastoreService.query(self.objectType, self.queryMethod, middlewareCriteria).then(
+        return this.datastoreService.query(self.objectType, self.queryMethod, this.idPath, middlewareCriteria).then(
             (entries) => {
                 entries = Array.isArray(entries) ? entries : [entries];
                 self.register();

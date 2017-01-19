@@ -30,14 +30,15 @@ export class DatastoreService {
         return DatastoreService.instance;
     }
 
-    public query(type: string, methodName: string, middlewareCriteria?: Array<any>) {
+    public query(type: string, methodName: string, idPath: string, middlewareCriteria?: Array<any>) {
         return this.middlewareClient.callRpcMethod(methodName, middlewareCriteria).then((result) => {
             let payload = Array.isArray(result) ? result : [result];
 
             this.store.dispatch({
                 type: ACTIONS.IMPORT_OBJECTS,
                 meta: {
-                    type: type
+                    type: type,
+                    idPath: idPath
                 },
                 payload: payload
             });
@@ -46,11 +47,11 @@ export class DatastoreService {
         });
     }
 
-    public stream (type: string, methodName: string, middlewareCriteria?: Array<any>) {
-        //TODO: count rpc call in order to have the total of object for a type (LIMIT: 2000)
+    public stream(type: string, methodName: string, idPath: string, middlewareCriteria?: Array<any>) {
+        // TODO: count rpc call in order to have the total of object for a type (LIMIT: 2000)
         return this.middlewareClient.callRpcMethod(methodName, middlewareCriteria).then((message) => {
             let streamId = message.id,
-                stream = this.getDefaultStreamObject(type, streamId);
+                stream = this.getDefaultStreamObject(type, streamId, idPath);
 
             this.store.dispatch({
                 type: ACTIONS.SAVE_STREAM,
@@ -60,16 +61,15 @@ export class DatastoreService {
                 payload: stream
             });
 
-            stream = <any> this.getState().get("streams").get(streamId);
-
-            return this.handleFragmentResponse(stream, message);
+            return this.handleFragmentResponse(this.getState().get('streams').get(streamId), message);
         });
     }
 
-    private getDefaultStreamObject (type, streamId) {
+    private getDefaultStreamObject (type, streamId, idPath) {
         return {
             type: type,
             streamId: streamId,
+            idPath: idPath,
             startSequence: 1,
             endSequence: 1,
             lastSequence: 1,
@@ -78,40 +78,41 @@ export class DatastoreService {
         };
     }
 
-    private handleFragmentResponse (stream, message) {
+    private handleFragmentResponse (stream: Map<string, any>, message) {
         let fragment = message.args.fragment || [],
-            reachEnd = message.name === "end",
+            reachEnd = message.name === 'end',
             sequenceNumber = message.args.seqno,
-            type = stream.get("type");
+            type = stream.get('type');
 
         if (reachEnd) {
-            stream = stream.set("lastSequence", sequenceNumber)
-                        .set("reachEnd", true);
+            stream = stream.set('lastSequence', sequenceNumber)
+                        .set('reachEnd', true);
 
             return stream;
         }
 
-        //TODO: Store only data when the total number is under or equal to 2000.
-        //TODO: Manage stockage streaming response.
+        // TODO: Store only data when the total number is under or equal to 2000.
+        // TODO: Manage stockage streaming response.
         this.store.dispatch({
             type: ACTIONS.IMPORT_OBJECTS,
             meta: {
-                type: type
+                type: type,
+                idPath: stream.get('idPath')
             },
             payload: _.castArray(fragment)
         });
 
         let data = this.getState().get(type).valueSeq().toJS(),
-            previousLastSequence = stream.get("lastSequence");
+            previousLastSequence = stream.get('lastSequence');
 
         if (sequenceNumber > previousLastSequence) {
-            stream = stream.set("lastSequence", sequenceNumber);
+            stream = stream.set('lastSequence', sequenceNumber);
         }
 
-        //TODO: Remove data from strea objects. (related to montage data)
-        stream = stream.set("endSequence", sequenceNumber)
-                    .set("reachEnd", false)
-                    .set("data", data);
+        // TODO: Remove data from strea objects. (related to montage data)
+        stream = stream.set('endSequence', sequenceNumber)
+                    .set('reachEnd', false)
+                    .set('data', data);
 
         this.store.dispatch({
             type: ACTIONS.SAVE_STREAM,
@@ -121,8 +122,8 @@ export class DatastoreService {
             payload: stream.toJS()
         });
 
-        //FIXME: remove automatical fetching once the ui would have been updated.
-        return this.getNextSequenceForStream(stream.get("streamId"));
+        // FIXME: remove automatic fetching once the ui would have been updated.
+        return this.getNextSequenceForStream(stream.get('streamId'));
     }
 
     public getNextSequenceForStream (streamId) {
@@ -137,10 +138,10 @@ export class DatastoreService {
         next = !!next;
 
         if (streamId) {
-            let stream = this.getState().get("streams").get(streamId);
+            let stream = this.getState().get('streams').get(streamId);
 
             if (stream) {
-                let currentEndSequence = stream.get("endSequence"),
+                let currentEndSequence = stream.get('endSequence'),
                     sequenceNumber = next ? currentEndSequence + 1 : currentEndSequence - 1;
 
                 if (sequenceNumber > 0) {
@@ -149,13 +150,13 @@ export class DatastoreService {
                     });
                 }
 
-                return Promise.reject("The sequence number must equal or greater than 1");
+                return Promise.reject('The sequence number must equal or greater than 1');
             }
 
-            return Promise.reject("Stream can be found with stream ID: " + streamId);
+            return Promise.reject('Stream can be found with stream ID: ' + streamId);
         }
 
-        return Promise.reject("Stream ID missing");
+        return Promise.reject('Stream ID missing');
     }
 
     public save(type: string, id: string, object: Object) {
