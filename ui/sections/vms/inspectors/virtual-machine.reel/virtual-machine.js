@@ -91,7 +91,6 @@ exports.VirtualMachine = AbstractInspector.specialize({
             if (isFirstTime) {
                 this.object._isShutdownRequested = false;
             }
-            console.log(this.object);
         }
     },
 
