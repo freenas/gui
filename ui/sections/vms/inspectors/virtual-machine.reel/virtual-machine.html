@@ -23,11 +23,7 @@
             ]
         },
         "validationController": {
-            "prototype": "core/controller/validation-controller",
-            "properties": {
-                "fields": {
-                }
-            }
+            "prototype": "core/controller/validation-controller"
         },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
@@ -346,6 +342,18 @@
                 "path": "volumes"
             }
         },
+        "clones": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "clones"},
+                "name": "Clones",
+                "objectType": "Vm",
+                "path": "clones"
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "!!@owner.object.parent"}
+            }
+        },
         "start": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
@@ -376,15 +384,6 @@
                 "disabled": {"<-": "@owner.object.status.state == 'STOPPED'"}
             }
         },
-        "webvncConsoleCondition": {
-            "prototype": "montage/ui/condition.reel",
-            "properties": {
-                "element": {"#": "webvncConsoleCondition"}
-            },
-            "bindings": {
-                "condition": {"<-": "@owner.object.devices.some{type == 'GRAPHICS'}"}
-            }
-        },
         "webvncConsole": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
@@ -392,6 +391,7 @@
                 "value": "VGA Console"
             },
             "bindings": {
+                "classList.has('hide')": {"<-": "@owner.object._hasGraphicDevice"},
                 "disabled": {"<-": "@owner.object.status.state == 'STOPPED'"}
             }
         },
@@ -416,9 +416,7 @@
                 <div data-montage-id="stop"></div>
                 <div data-montage-id="reboot"></div>
                 <div data-montage-id="serialConsole"></div>
-                <div data-montage-id="webvncConsoleCondition">
-                    <div data-montage-id="webvncConsole"></div>
-                </div>
+                <div data-montage-id="webvncConsole"></div>
             </div>
             <div data-montage-id="stateCondition">
                 <div data-montage-id="state"></div>
@@ -447,6 +445,7 @@
             <div data-montage-id="readme"></div>
             <div data-montage-id="devices"></div>
             <div data-montage-id="volumeDevices"></div>
+            <div data-montage-id="clones"></div>
         </div>
     </div>
 </body>

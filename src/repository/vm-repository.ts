@@ -14,6 +14,7 @@ import * as _ from 'lodash';
 import * as uuid from 'uuid';
 import {VmDeviceDao} from '../dao/vm-device-dao';
 import {VmVolumeDao} from '../dao/vm-volume-dao';
+import {VmCloneDao} from '../dao/vm-clone-dao';
 
 export class VmRepository extends AbstractRepository {
     private static instance: VmRepository;
@@ -68,7 +69,8 @@ export class VmRepository extends AbstractRepository {
                         private vmReadmeDao: VmReadmeDao,
                         private vmGuestInfoDao: VmGuestInfoDao,
                         private vmDeviceDao: VmDeviceDao,
-                        private vmVolumeDao: VmVolumeDao) {
+                        private vmVolumeDao: VmVolumeDao,
+                        private vmCloneDao: VmCloneDao) {
         super([
             Model.Vm,
             Model.VmDatastore,
@@ -88,7 +90,8 @@ export class VmRepository extends AbstractRepository {
                 new VmReadmeDao(),
                 new VmGuestInfoDao(),
                 new VmDeviceDao(),
-                new VmVolumeDao()
+                new VmVolumeDao(),
+                new VmCloneDao()
             );
         }
         return VmRepository.instance;
@@ -121,6 +124,10 @@ export class VmRepository extends AbstractRepository {
         });
     }
 
+    public getNewVmClone() {
+        return this.vmCloneDao.getNewInstance();
+    }
+
     public getGuestInfo(vm: any) {
         return this.vmGuestInfoDao.getGuestInfo(vm);
     }
@@ -133,6 +140,10 @@ export class VmRepository extends AbstractRepository {
         let vmPlain = _.toPlainObject(vm);
         vmPlain.devices = _.map(vmPlain.devices, (device) => _.omitBy(_.toPlainObject(device), _.isNull));
         return this.vmDao.save(vmPlain);
+    }
+
+    public cloneVmToName(vmId: string, name: string) {
+        return this.vmCloneDao.clone(vmId, name);
     }
 
     public getNewVmDeviceForType(type: string) {

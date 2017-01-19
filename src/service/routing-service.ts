@@ -300,6 +300,12 @@ export class RoutingService {
             () => this.vmsRoute.selectNewDatastoreType(this.currentStacks.get('vms')));
         crossroads.addRoute('/vms/vm-datastore/create/{type}',
             (type) => this.vmsRoute.createDatastore(type, this.currentStacks.get('vms')));
+        crossroads.addRoute('/vms/vm/_/{vmId}/clones',
+            (vmId) => this.vmsRoute.listClones(vmId, this.currentStacks.get('vms')));
+        crossroads.addRoute('/vms/vm/_/{vmId}/clones/vm/_/{cloneId}',
+            (vmId, cloneId) => this.vmsRoute.getClone(cloneId, this.currentStacks.get('vms')));
+        crossroads.addRoute('/vms/vm/_/{vmId}/clones/create',
+            (vmId) => this.vmsRoute.createClone(vmId, this.currentStacks.get('vms')));
     }
 
     private loadPeeringRoutes() {
@@ -450,9 +456,9 @@ export class RoutingService {
         crossroads.addRoute('/storage/create/disk/_/{diskId}',
             (diskId) => this.volumeRoute.creatorDisk(diskId, this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/volume-importer/_/-',
-            () => this.volumeRoute.import(this.currentStacks.get("storage")));
+            () => this.volumeRoute.import(this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/volume-media-importer/_/-',
-            () => this.volumeRoute.mediaImport(this.currentStacks.get("storage")));
+            () => this.volumeRoute.mediaImport(this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/volume-importer/_/-/detached-volume/_/{volumeId}',
             (volumeId) => this.volumeRoute.getDetachedVolume(volumeId, this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/volume-importer/_/-/detached-volume/_/{volumeId}/topology',

@@ -418,6 +418,12 @@ exports.VmsSectionService = AbstractSectionService.specialize({
         }
     },
 
+    cloneVmToName: {
+        value: function (vmId, name) {
+            return this._vmRepository.cloneVmToName(vmId, name);
+        }
+    },
+
     _initializeDevicesOnVm: {
         value: function(vm) {
             if (!vm.devices) {
@@ -483,9 +489,16 @@ exports.VmsSectionService = AbstractSectionService.specialize({
                 // DTM
                 var entry = _.find(self.entries, {id: vm.get('id')});
                 if (entry) {
+                    entry._hasGraphicDevice = vm.get('devices').some(function (x) {
+                        return x.type === self._vmRepository.DEVICE_TYPE.GRAPHICS;
+                    });
                     self.mergeVm(entry, vm);
                 } else {
-                    self.entries.push(_.assign(vm.toJS(), {_objectType: Model.Vm}));
+                    entry = _.assign(vm.toJS(), {_objectType: Model.Vm});
+                    entry._hasGraphicDevice = vm.get('devices').some(function (x) {
+                        return x.type === self._vmRepository.DEVICE_TYPE.GRAPHICS;
+                    });
+                    self.entries.push(entry);
                 }
             });
             // DTM

@@ -73,6 +73,7 @@ export class ModelEventName {
     public static Update = new ModelEventName(Model.Update);
     public static User = new ModelEventName(Model.User);
     public static Vm = new ModelEventName(Model.Vm);
+    public static VmClone = new ModelEventName(Model.VmClone);
     public static VmConfig = new ModelEventName(Model.VmConfig);
     public static VmDatastore = new ModelEventName(Model.VmDatastore);
     public static VmDevice = new ModelEventName(Model.VmDevice);
