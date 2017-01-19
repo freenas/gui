@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "field": {"@": "field"},
+                "control": {"@": "control"}
+            },
+            "bindings": {
+                "hasError": {"<-": "!!@control.errorMessage"}
+            }
+        },
+        "field": {
+            "prototype": "blue-shark/ui/field.reel",
+            "properties": {
+                "element": {"#": "field"}
+            },
+            "bindings": {
+                "label": {"<-": "@owner.label"},
+                "documentationReference": {"<-": "@owner.documentationReference"},
+                "helpMessage": {"<-": "@owner.helpMessage"},
+                "disabled": {"<-": "@owner.disabled"},
+                "errorMessage": {"<-": "@owner.errorMessage || @control.errorMessage"},
+                "hasError": {"<-": "@owner.hasError"},
+                "isMandatory": {"<-": "@owner.isMandatory"}
+            }
+        },
+        "control": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "control"}
+            },
+            "bindings": {
+                "placeholder": {"<-": "@owner.placeholder"},
+                "converter": {"<-": "@owner.converter"},
+                "value": {"<->": "@owner.value"},
+                "disabled": {"<-": "@owner.disabled"},
+                "readonly": {"<-": "@owner.readonly"}
+            }
+        },
+
+        "generate": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "generate"},
+                "value": "Generate"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="FieldTextInput">
+        <div data-montage-id="field">
+            <div class="flex-row">
+                <div data-montage-id="control"></div>
+                <div data-montage-id="generate"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
