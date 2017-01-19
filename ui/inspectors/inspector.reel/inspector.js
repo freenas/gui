@@ -62,10 +62,8 @@ exports.Inspector = Component.specialize({
                 if (Promise.is(promise)) {
                     promise.catch(this._logError);
                 }
-                this.clearObjectSelection();
             } else if (this.object) {
                 this.object.__isLocked = true;
-                this.clearObjectSelection();
                 promise = this.delete().catch(this._logError);
                 promise.then(function(){
                     self.object.__isLocked = false;
@@ -76,9 +74,13 @@ exports.Inspector = Component.specialize({
                 console.warn('NOT IMPLEMENTED: delete() on unknown controller.');
             }
 
+            promise = Promise.is(promise) ? promise : Promise.resolve(promise);
             if (event) {
                 event.stopPropagation();
             }
+            promise.then(function() {
+                self.clearObjectSelection();
+            });
 
             this.isConfirmationVisible = false;
         }
@@ -167,7 +169,7 @@ exports.Inspector = Component.specialize({
     clearObjectSelection: {
         value: function() {
             var parentPath = this.parentCascadingListItem.data.parentContext.path;
-            return this._routingService.navigate(parentPath);
+            return this._routingService.navigate(parentPath, true);
         }
     },
 

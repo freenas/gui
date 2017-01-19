@@ -85,11 +85,18 @@ export class RoutingService {
         return RoutingService.instance;
     }
 
-    public navigate(path: string) {
+    public navigate(path: string, force?: boolean) {
+        force = !!force;
         if (hasher.appendHash.length === 0) {
             hasher.appendHash = '?' + this.middlewareClient.getExplicitHostParam();
         } else {
             hasher.appendHash = _.replace(hasher.appendHash, /^\?\?+/, '?');
+        }
+        if (force) {
+            let section = RoutingService.getPathSection(path);
+            if (path === '/' + section) {
+                this.currentStacks.delete(section);
+            }
         }
         if (path[0] === '/') {
             hasher.setHash(path);
@@ -150,6 +157,10 @@ export class RoutingService {
             stateSnapshot.push(context);
         });
         this.taskStacks = this.taskStacks.set(temporaryTaskId, stateSnapshot);
+    }
+
+    private static getPathSection(path: string) {
+        return _.head(_.compact(_.split(path, '/')));
     }
 
     private loadRoutes() {
