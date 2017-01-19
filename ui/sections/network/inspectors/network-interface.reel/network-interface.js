@@ -73,13 +73,9 @@ exports.NetworkInterface = AbstractInspector.specialize({
 
     _handleInspectorExit: {
         value: function() {
-            var defaults = [['name', '']],
-                ignored = ['media', 'vlan'];
-
-            // assuming we don't want to have to make a confirmation modal component for every inspector...
-            // how do I send a unique command to the true button for each inspector
-            // should I pass an object for the information of the modal
-            // when and how should I clear the confirmationModal object
+            var defaults = [['name']],
+                ignored = ['media', 'vlan'],
+                self = this;
 
             if (this.hasObjectChanged(defaults, ignored)) {
                 var resolve, reject,
@@ -89,17 +85,23 @@ exports.NetworkInterface = AbstractInspector.specialize({
                     });
                 this.application.confirmationModal = {
                     isShown: true,
-                    message: 'Would you like to save your recent changes?',
                     title: 'You have unsaved changes!',
-                    falseButtonLabel: 'Undo Changes',
-                    trueButtonLabel: 'Save Changes',
+                    message: 'Would you like to save your recent changes?',
+                    buttonLabelFalse: 'Undo Changes',
+                    buttonLabelTrue: 'Save Changes',
                     deferred: {
                         resolve: resolve,
                         reject: reject,
                         promise: promise
                     }
                 };
-                return promise;
+                return promise.then(function(result){
+                    if (result) {
+                        self.save();
+                    } else {
+                        // self.revert();
+                    }
+                });
             }
         }
     }
