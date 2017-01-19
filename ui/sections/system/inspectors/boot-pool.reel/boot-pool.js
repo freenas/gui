@@ -54,7 +54,7 @@ exports.BootPool = AbstractInspector.specialize(/** @lends BootPool# */ {
 
             this._availableDisks = _(disks)
                 .filter(function(disk) {
-                    return disk.mediasize >= self.bootVolume.properties.size.rawvalue;
+                    return disk.mediasize >= (self.bootVolume ? self.bootVolume.properties.size.rawvalue : 0);
                 })
                 .sortBy('name')
                 .value();

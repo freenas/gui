@@ -31,7 +31,12 @@ exports.BootPoolTopologyTable = Component.specialize({
 
     tableWillAddNewEntry: {
         value: function(table, object) {
-            this.callDelegateMethod('didRequestAddDisk', object, this._selectedRow ? this._selectedRow.object : null);
+            if (object && object.path) {
+                this.callDelegateMethod('didRequestAddDisk', object, this._selectedRow ? this._selectedRow.object : null);
+                if (this._selectedRow) {
+                    this._selectedRow.object = object;
+                }
+            }
             return false;
         }
     }

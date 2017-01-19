@@ -121,6 +121,7 @@ export class SystemService {
         if (!oldDisk) {
             return this.middlewareClient.submitTask('boot.disk.attach', [newDisk.path]);
         }
+        return Promise.resolve();
     }
 
     public getCertificateFileAddress(id: string, certTarFileName: string) {
