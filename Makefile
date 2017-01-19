@@ -34,3 +34,7 @@ sync:
 
 clean:
 	npm cache clean
+
+install:
+	npm install
+	sudo npm install npm@2 -g
