@@ -51,6 +51,7 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
 
             if (isFirstTime) {
                 this.addPathChangeListener("object.image", this, "handleSelectedImageChange");
+                this.addEventListener("action", this);
             }
 
             if (!this._loadDataPromise) {
@@ -70,6 +71,16 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
                     self.object.bridge = bridge;
                 });
             }
+        }
+    },
+
+    handleGenerateAction: {
+        value: function () {
+            var self = this;
+            this._sectionService.generateMacAddress().then(function(macAddress) {
+                console.log(macAddress)
+                self.object.bridge.macaddress = macAddress;
+            });
         }
     },
 

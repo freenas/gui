@@ -323,6 +323,12 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
                 return self._middlewareTaskRepository.runMiddlewareTask(middlewareTask);
             });
         }
+    },
+
+    generateMacAddress: {
+        value: function () {
+            return this._containerRepository.generateMacAddress();
+        }
     }
 
 });

@@ -262,6 +262,12 @@ exports.ContainerRepository = AbstractRepository.specialize({
         value: function (name) {
             return this._dockerNetworkDao.find({name: name});
         }
+    },
+
+    generateMacAddress: {
+        value: function () {
+            return this._dockerContainerDao.generateMacAddress();
+        }
     }
 
 });
