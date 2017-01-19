@@ -273,6 +273,9 @@
             "properties": {
                 "label": "VM Tools Status",
                 "element": {"#": "guestInfoStatus"}
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "@owner.object._isNew"}
             }
         },
         "guestInfoLoadAvg": {
