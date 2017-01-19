@@ -61,53 +61,36 @@ exports.WebUi = AbstractInspector.specialize({
             return Promise.all([
                 this.application.systemService.saveAdvanced(this.systemAdvanced),
                 this.application.systemService.saveUi(this.config)
-            ]).then(function (tasks) {
-                //FIXME:  task.taskPromise doesn't seem to work.
-                self._scrubTaskId = tasks[1].taskId;
+            ]).spread(function (taskSaveAdvanced, taskSaveUi) {
+                taskSaveUi.taskPromise.then(function () {
+                    self._handleSaveDone();
+                });
             });
         }
     },
 
-    enterDocument: {
+    _handleSaveDone: {
         value: function () {
-            this.super();
-            NotificationCenterModule.defaultNotificationCenter.addEventListener("taskDone", this);
-        }
-    },
+            var config = this.config,
+                protocol = config.webui_protocol[0],
+                isHttpProtocol = protocol === "HTTP",
+                isHttpsProtocol = protocol === "HTTPS",
+                url = isHttpProtocol ? "http://" :
+                    isHttpsProtocol ? "https://" : void 0,
 
-    exitDocument: {
-        value: function () {
-            this.super();
-            NotificationCenterModule.defaultNotificationCenter.removeEventListener("taskDone", this);
-        }
-    },
+                httpsPort = config.webui_https_port || 443,
+                httpPort = config.webui_http_port || 80,
+                port = isHttpProtocol ? httpPort : httpsPort,
 
-    handleTaskDone: {
-        value: function (event) {
-            if (this._scrubTaskId === event.detail.jobId) {
-                this._scrubTaskId = 0;
+                ipv6 = config.ipv6,
+                ipv4 = config.ipv4,
+                ip = ipv6 || ipv4 || window.location.hostname;
 
-                if (!event.detail.errorMessage) {
-                    //TODO: move that part to the section service
-                    //and check for delta with snapshoting.
-                    var config = this.config,
-                        protocol = config.webui_protocol[0],
-                        isHttpProtocol = protocol === "HTTP",
-                        isHttpsProtocol = protocol === "HTTPS",
-                        url = isHttpProtocol ? "http://" :
-                            isHttpsProtocol ? "https://" : void 0,
+            if (url) {
+                url = url + ip + ":" + port;
 
-                        httpsPort = config.webui_https_port || 443,
-                        httpPort = config.webui_http_port || 80,
-                        port = isHttpProtocol ? httpPort : httpsPort,
-
-                        ipv6 = config.ipv6,
-                        ipv4 = config.ipv4,
-                        ip = ipv6 || ipv4 || window.location.hostname;
-
-                    if (url) {
-                        window.location.href = url + ip + ":" + port;
-                    }
+                if (window.location.href !== url) {
+                    window.location.href = url;
                 }
             }
         }
