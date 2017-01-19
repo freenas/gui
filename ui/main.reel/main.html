@@ -111,7 +111,8 @@
                 "element": {"#": "migrationSubstitution"}
             },
             "bindings": {
-                "switchValue": {"<-": "@owner.sectionGeneration"}
+                "switchValue": {"<-": "@owner.sectionGeneration"},
+                "classList.has('is-hidden')": {"<-": "!@signIn.isLoggedIn"}
             }
         },
         "confirmationModal": {
@@ -123,6 +124,8 @@
                 "isShown": {"<-": "@owner.application.confirmationModal.isShown"},
                 "message": {"<-": "@owner.application.confirmationModal.message"},
                 "title": {"<-": "@owner.application.confirmationModal.title"},
+                "buttonLabelFalse": {"<-": "@owner.application.confirmationModal.buttonLabelFalse"},
+                "buttonLabelTrue": {"<-": "@owner.application.confirmationModal.buttonLabelTrue"},
                 "deferred": {"<-": "@owner.application.confirmationModal.deferred"}
             }
         },
