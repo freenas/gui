@@ -15,18 +15,24 @@ exports.BootPoolTopologyTable = Component.specialize({
         }
     },
     
-    enterDocument: {
-        value: function (isFirstTime) {
-            if (isFirstTime) {
-                this._systemService = this.application.systemService;
-            }
+    handleAddAction: {
+        value: function() {
+            this._selectedRow = null;
+            this.table.showNewEntryRow();
         }
     },
 
-    handleAddAction: {
-        value: function () {
-            // return this._systemService.addDiskToBootPool(this.table.selectedRow.object.path);
+    handleReplaceAction: {
+        value: function() {
+            this._selectedRow = this.table.selectedRows[0];
             this.table.showNewEntryRow();
+        }
+    },
+
+    tableWillAddNewEntry: {
+        value: function(table, object) {
+            this.callDelegateMethod('didRequestAddDisk', object, this._selectedRow ? this._selectedRow.object : null);
+            return false;
         }
     }
 });

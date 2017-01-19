@@ -13,7 +13,7 @@ export class BootPoolDao extends AbstractDao {
     }
 
     public scrub() {
-        return this.middlewareClient.callRpcMethod('boot.pool.scrub');
+        return this.middlewareClient.submitTask('boot.pool.scrub');
     }
 }
 

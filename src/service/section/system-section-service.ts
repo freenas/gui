@@ -34,6 +34,7 @@ export class SystemSectionService extends AbstractSectionService {
     private bootPoolRepository: BootPoolRepository;
     private bootEnvironments: Array<any> = [];
     private dataObjectChangeService: DataObjectChangeService;
+    private initialDiskAllocationPromise: Promise<any>;
 
     public readonly SELF_SIGNED = CryptoCertificateRepository.SELF_SIGNED;
     public readonly CREATION = CryptoCertificateRepository.CREATION;
@@ -57,6 +58,11 @@ export class SystemSectionService extends AbstractSectionService {
         this.eventDispatcherService.addEventListener(
             ModelEventName.BootEnvironment.listChange,
             this.handleBootPoolChange.bind(this)
+        );
+
+        this.eventDispatcherService.addEventListener(
+            ModelEventName.Disk.listChange,
+            this.handleDisksChange.bind(this)
         );
     }
 
@@ -147,7 +153,19 @@ export class SystemSectionService extends AbstractSectionService {
     }
 
     public listDisks() {
-        return this.diskRepository.listDisks();
+        if (!this.initialDiskAllocationPromise || this.initialDiskAllocationPromise.isRejected()) {
+            this.initialDiskAllocationPromise = this.diskRepository.listDisks()
+                .tap(disks => this.volumeRepository.initializeDisksAllocations((_.map(disks, 'path') as Array<string>)));
+        }
+        return this.initialDiskAllocationPromise;
+    }
+
+    public listAvailableDisks() {
+        return this.diskRepository.listAvailableDisks();
+    }
+
+    public listBootDisks() {
+        return this.diskRepository.listBootDisks();
     }
 
     public listVolumeSnapshots() {
@@ -180,5 +198,8 @@ export class SystemSectionService extends AbstractSectionService {
 
     protected loadOverview() {
         return undefined;
+    }
+
+    private handleDisksChange(disks: Map<string, Map<string, any>>) {
     }
 }

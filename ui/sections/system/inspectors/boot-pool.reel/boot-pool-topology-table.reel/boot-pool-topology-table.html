@@ -15,6 +15,7 @@
             "prototype": "blue-shark/ui/tables/table-editable.reel",
             "properties": {
                 "element": {"#": "table"},
+                "delegate": {"@": "owner"},
                 "columns": [
                     {
                         "value": "Disk"
@@ -26,14 +27,14 @@
                         "value": "Capacity"
                     },
                     {
-                        "value": "Space Used"
+                        "value": "Disk Type"
                     }
                 ]
             },
             "bindings": {
                 "contentMaxHeight": {"<-": "@owner.contentMaxHeight"},
                 "label": {"<-": "@owner.label"},
-                "rows": {"<-": "@owner.object.groups.data.0.children"}
+                "rows": {"<-": "@owner.bootDisks"}
             }
         },
 
@@ -48,12 +49,13 @@
         },
 
         "editEntry": {
-            "prototype": "../boot-pool-topology-row.reel",
+            "prototype": "../boot-pool-topology-edit-row.reel",
             "properties": {
                 "element": {"#": "editEntry"}
             },
             "bindings": {
-                "object": {"<-": "@table.currentNewEntry.object"}
+                "object": {"<->": "@table.currentNewEntry.object"},
+                "availableDisks": {"<-": "@owner.availableDisks"}
             }
         },
 

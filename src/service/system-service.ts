@@ -2,6 +2,7 @@ import {SystemRepository} from '../repository/system-repository';
 import {MiddlewareClient} from './middleware-client';
 import {BootPoolRepository} from "../repository/boot-pool-repository";
 import {NetworkRepository} from '../repository/network-repository';
+import {DiskRepository} from '../repository/disk-repository';
 
 export class SystemService {
     private static instance: SystemService;
@@ -11,7 +12,8 @@ export class SystemService {
     private constructor(private systemRepository: SystemRepository,
                         private middlewareClient: MiddlewareClient,
                         private bootPoolRepository: BootPoolRepository,
-                        private networkRepository: NetworkRepository) {
+                        private networkRepository: NetworkRepository,
+                        private diskRepository: DiskRepository) {
     }
 
     public static getInstance() {
@@ -20,7 +22,8 @@ export class SystemService {
                 SystemRepository.getInstance(),
                 MiddlewareClient.getInstance(),
                 BootPoolRepository.getInstance(),
-                NetworkRepository.getInstance()
+                NetworkRepository.getInstance(),
+                DiskRepository.getInstance()
             );
         }
         return SystemService.instance;
@@ -114,7 +117,9 @@ export class SystemService {
         return this.systemRepository.getDebugFileAddress();
     }
 
-    public addDiskToBootPool(newId: string, oldId?: string) {
-        return this.middlewareClient.submitTask('boot.disk.attach', newId);
+    public addDiskToBootPool(newDisk: string, oldDisk?: string) {
+        if (!oldDisk) {
+            return this.middlewareClient.submitTask('boot.disk.attach', [newDisk.path]);
+        }
     }
 }

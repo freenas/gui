@@ -12,12 +12,13 @@
         },
 
         "name": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/select.reel",
             "properties": {
                 "element": {"#": "name"}
             },
             "bindings": {
-                "value": {"<->": "@owner.object.name"}
+                "options": {"<-": "@owner._diskOptions"},
+                "selectedValue": {"<->": "@owner.selectedPath"}
             }
         },
 
@@ -27,7 +28,8 @@
                 "element": {"#": "status"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.online ? 'ONLINE' : 'OFFLINE'"}
+                "value": {"<-": "@owner.object.online ? 'ONLINE' : 'OFFLINE'"},
+                "classList.has('hide')": {"<-": "!@owner.selectedPath"}
             }
         },
 
@@ -37,7 +39,8 @@
                 "element": {"#": "capacity"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.mediasize"}
+                "value": {"<-": "@owner.object.mediasize"},
+                "classList.has('hide')": {"<-": "!@owner.selectedPath"}
             }
         },
 
@@ -47,14 +50,15 @@
                 "element": {"#": "is_ssd"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.status.is_ssd.defined() &&  @owner.object.status.is_ssd ? 'SSD' : 'HDD'"}
+                "value": {"<-": "@owner.object.status.is_ssd.defined() && @owner.object.status.is_ssd ? 'SSD' : 'HDD'"},
+                "classList.has('hide')": {"<-": "!@owner.selectedPath"}
             }
         }
     }
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="BootPoolTopologyRow Table-cells">
+    <div data-montage-id="owner" class="BootPoolTopologyEditRow Table-cells">
         <div><span data-montage-id="name"></span></div>
         <div><span data-montage-id="status"></span></div>
         <div><span data-montage-id="capacity"></span></div>

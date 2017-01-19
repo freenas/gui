@@ -10,7 +10,7 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "classList.has('has-loading-spinner')": {"<-": "!!@owner._scrubTaskId"}
+                "classList.has('has-loading-spinner')": {"<-": "!!@owner._blockingTaskId"}
             },
             "listeners": [
                 {
@@ -107,10 +107,13 @@
             "properties": {
                 "element": {"#": "bootPoolTopologyTable"},
                 "label": "Boot Pool Topology",
-                "contentMaxHeight": 8
+                "contentMaxHeight": 8,
+                "delegate": {"@": "owner"}
             },
             "bindings": {
-                "object": {"<-": "@owner.bootVolume"}
+                "object": {"<-": "@owner.bootVolume"},
+                "availableDisks": {"<-": "@owner._availableDisks"},
+                "bootDisks": {"<-": "@owner._bootDisks"}
             }
         },
         "activeEnvironmentTable": {
