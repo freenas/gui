@@ -109,6 +109,17 @@
                 "options": {"<-": "[{label: @owner.DEFAULT_STRING, value: null}].concat(@owner.templates).sorted{label}"}
             }
         },
+        "parent": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "parent"},
+                "label": "Parent"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object._parent.name"},
+                "classList.has('is-hidden')": {"<-": "@owner.object._isNew || !@owner.object.parent"}
+            }
+        },
         "bootloader": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
@@ -144,21 +155,21 @@
                 "options": {"<-": "@owner.guestTypeOptions.sorted{label}"}
             }
         },
-        "volumeSubstitution": {
+        "datastoreSubstitution": {
             "prototype": "montage/ui/substitution.reel",
             "properties": {
-                "element": {"#": "volumeSubstitution"}
+                "element": {"#": "datastoreSubstitution"}
             },
             "bindings": {
                 "switchValue": {"<-": "@owner.editMode"}
             }
         },
-        "volumeDisplay": {
+        "datastoreDisplay": {
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
-                "element": {"#": "volumeDisplay"},
+                "element": {"#": "datastoreDisplay"},
                 "validationPath": "target",
-                "label": "Volume"
+                "label": "Datastore"
             },
             "bindings": {
                 "value": {"<-": "@owner.object.target"}
@@ -168,7 +179,7 @@
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "target"},
-                "label": "Volume"
+                "label": "Datastore"
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.object.target"},
@@ -261,13 +272,24 @@
                 "colorMapping": {"Y" : "green", "N" : "red"}
             },
             "bindings": {
-                "value": {"<-": "@owner.hasVmTools ? 'Y' : 'N'"}
+                "value": {"<-": "@owner.object.status.vm_tools_available ? 'Y' : 'N'"}
+            }
+        },
+        "guestInfoRefresh": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "guestInfoRefresh"},
+                "value": "refreshGuestInfo"
+            },
+            "bindings": {
+                "disabled": {"<-": "!@owner.object.status.vm_tools_available"},
+                "classList.has('is-hidden')": {"<-": "@owner.object._isNew"}
             }
         },
         "guestInfoStatus": {
             "prototype": "blue-shark/ui/field.reel",
             "properties": {
-                "label": "VM Tools Status",
+                "label": "VM tools status",
                 "element": {"#": "guestInfoStatus"}
             },
             "bindings": {
@@ -278,7 +300,7 @@
             "prototype": "blue-shark/ui/tables/table-read-only.reel",
             "properties": {
                 "element": {"#": "guestInfoLoadAvg"},
-                "label": "Guest Load Averages",
+                "label": "Guest load averages",
                 "columns":  [
                     {
                         "value": "1 Minute",
@@ -303,7 +325,7 @@
             "prototype": "blue-shark/ui/tables/table-read-only.reel",
             "properties": {
                 "element": {"#": "guestInfoInterfaces"},
-                "label": "Guest Network Interfaces",
+                "label": "Guest network interfaces",
                 "columns":  [
                     {
                         "value": "Interface",
@@ -426,9 +448,10 @@
                 <div data-montage-id="vmTemplateEdit" data-arg="edit"></div>
                 <div data-montage-id="vmTemplateDisplay" data-arg="display"></div>
             </div>
-            <div data-montage-id="volumeSubstitution">
+            <div data-montage-id="parent"></div>
+            <div data-montage-id="datastoreSubstitution">
                 <div data-montage-id="target" data-arg="edit"></div>
-                <div data-montage-id="volumeDisplay" data-arg="display"></div>
+                <div data-montage-id="datastoreDisplay" data-arg="display"></div>
             </div>
             <div data-montage-id="bootloader"></div>
             <div data-montage-id="bootDevice"></div>
@@ -440,6 +463,7 @@
             <div data-montage-id="guestInfoStatus">
                 <div data-montage-id="guestInfoStatusLight"></div>
             </div>
+            <div data-montage-id="guestInfoRefresh" class="g-margin-bottom"></div>
             <div data-montage-id="guestInfoLoadAvg" class="g-margin-bottom"></div>
             <div data-montage-id="guestInfoInterfaces" class="g-margin-bottom"></div>
             <div data-montage-id="readme"></div>
