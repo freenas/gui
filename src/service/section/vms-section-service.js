@@ -193,6 +193,7 @@ exports.VmsSectionService = AbstractSectionService.specialize({
                     vm.devices.push(device);
                 }
             }
+            this.categorizeDevices(vm);
         }
     },
 
@@ -213,6 +214,7 @@ exports.VmsSectionService = AbstractSectionService.specialize({
                         vm.devices.splice(deviceIndex, 1);
                     }
                 }
+                this.categorizeDevices(vm);
             }
         }
     },
@@ -252,6 +254,7 @@ exports.VmsSectionService = AbstractSectionService.specialize({
 
     populateVmWithTemplate: {
         value: function(vm, template) {
+            var self = this;
             vm.config = Object.clone(template.config);
             vm.config.readme = template.template.readme;
             this._setMemoryOnVm(vm);
@@ -267,8 +270,9 @@ exports.VmsSectionService = AbstractSectionService.specialize({
             return Promise.all([
                 Promise.all(devicesPromises),
                 this.setReadmeOnVm(vm)
-            ]).then(function(results) {
-                vm.devices = results[0];
+            ]).spread(function(devices) {
+                vm.devices = devices;
+                self.categorizeDevices(vm);
                 return vm;
             });
         }
