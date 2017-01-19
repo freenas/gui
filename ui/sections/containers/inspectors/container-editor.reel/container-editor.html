@@ -244,6 +244,18 @@
             }
         },
 
+        "autostart": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "autostart"},
+                "label": "Start at Boot",
+                "disabled": true
+            },
+            "bindings": {
+                "checked": {"<-": "@owner.object.autostart"}
+            }
+        },
+
         "interactive": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -253,6 +265,18 @@
             },
             "bindings": {
                 "checked": {"<-": "@owner.object.interactive"}
+            }
+        },
+
+        "privileged": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "privileged"},
+                "label": "Privileged",
+                "disabled": true
+            },
+            "bindings": {
+                "checked": {"<-": "@owner.object.privileged"}
             }
         },
 
@@ -269,15 +293,15 @@
         },
 
         "bridgeAddress": {
-            "prototype": "blue-shark/ui/field-text.reel",
+            "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "bridgeAddress"},
                 "label": "IP address",
                 "disabled": true
             },
             "bindings": {
-                "checked": {"<-": "@owner.object.bridge.address"},
-                "classList.has('is-hidden')": {"<-": "!@owner.object.bridge.enabled"}
+                "value": {"<-": "@owner.object.bridge.address"},
+                "classList.has('is-hidden')": {"<-": "!@owner.object.bridge.enable && !!@owner.object.bridge.address"}
             }
         },
 
@@ -290,7 +314,7 @@
             },
             "bindings": {
                 "value": {"<-": "@owner.object.bridge.macaddress"},
-                "classList.has('is-hidden')": {"<-": "!@owner.object.bridge.enabled"}
+                "classList.has('is-hidden')": {"<-": "!@owner.object.bridge.enable && !!@owner.object.bridge.macaddress"}
             }
         },
 
@@ -347,7 +371,9 @@
                 <div></div>
             </div>
             <div data-montage-id="command"></div>
+            <div data-montage-id="autostart"></div>
             <div data-montage-id="interactive"></div>
+            <div data-montage-id="privileged"></div>
             <div data-montage-id="bridged"></div>
             <div data-montage-id="bridgeAddress"></div>
             <div data-montage-id="bridgeMacAddress"></div>

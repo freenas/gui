@@ -13,31 +13,28 @@ exports.SystemInfo = Component.specialize({
             var self = this;
 
             this._systemService = SystemService.getInstance();
-            this._vmRepository = VmRepository.instance;
+            this._vmRepository = VmRepository.getInstance();
             this._diskRepository = DiskRepository.getInstance();
 
-            this.systemInfo = {};
-
-            this._systemService.getVersion().then(function(version) {
-                self.systemInfo.version = version;
-                return self._systemService.getHardware();
-            }).then(function(hardware) {
-                self.systemInfo.hardware = hardware;
-                return self._systemService.getGeneral();
-            }).then(function(general) {
-                self.systemInfo.general = general;
-                return self._diskRepository.listDisks();
-            }).then(function(disks) {
-                self.systemInfo.disks = disks;
-                return self._systemService.getLoad();
-            }).then(function(load) {
-                self.systemInfo.load = load;
-                return self._vmRepository.getHardwareCapabilities();
-            }).then(function(vm) {
-                self.systemInfo.vmSupport = vm.vtx_enabled ?
-                    vm.unrestricted_guest ? "Full" : "Partial" :
-                    vm.svm_features ? "Partial" : "None";
-            });
+            Promise.all([
+                this._systemService.getVersion(),
+                this._systemService.getHardware(),
+                this._systemService.getGeneral(),
+                this._diskRepository.listDisks(),
+                this._systemService.getLoad(),
+                this._vmRepository.getHardwareCapabilities()
+            ]).spread(function (version, hardware, general, disks, load, vm) {
+                self.systemInfo = {
+                    version: version,
+                    hardware: hardware,
+                    general: general,
+                    disks: disks,
+                    load: load,
+                    vmSupport: vm.vtx_enabled ?
+                        vm.unrestricted_guest ? "Full" : "Partial" :
+                        vm.svm_features ? "Partial" : "None"
+                };
+            })
         }
     },
 

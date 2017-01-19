@@ -10,6 +10,7 @@ import {SystemAdvancedDao} from "../dao/system-advanced-dao";
 import {SystemUiDao} from "../dao/system-ui-dao";
 import {DebugDao} from "../dao/debug-dao";
 import {SystemInfoDao} from '../dao/system-info-dao';
+import {CryptoCertificateDao} from '../dao/crypto-certificate-dao';
 
 export class SystemRepository {
     private static instance: SystemRepository;
@@ -24,7 +25,8 @@ export class SystemRepository {
         private debugDao: DebugDao,
         private systemAdvancedDao: SystemAdvancedDao,
         private systemUiDao: SystemUiDao,
-        private systemInfoDao: SystemInfoDao
+        private systemInfoDao: SystemInfoDao,
+        private cryptoCertificateDao: CryptoCertificateDao
     ) {}
 
     public static getInstance() {
@@ -39,7 +41,8 @@ export class SystemRepository {
                 new DebugDao(),
                 new SystemAdvancedDao(),
                 new SystemUiDao(),
-                new SystemInfoDao()
+                new SystemInfoDao(),
+                new CryptoCertificateDao()
             );
         }
         return SystemRepository.instance;
@@ -128,6 +131,10 @@ export class SystemRepository {
 
     public getDebugFileAddress() {
         return this.debugDao.collect("freenasdebug.tar.gz");
+    }
+
+    public getCertificateFileAddress(id: string, certTarFileName: string) {
+        return this.cryptoCertificateDao.collect(id, certTarFileName);
     }
 }
 

@@ -1,22 +1,19 @@
 import { AbstractDao } from './abstract-dao';
 
 export class VolumeMediaImporterDao extends AbstractDao {
-    private entries: Array<any>;
+    private volumeMediaImporter: Array<any>;
 
     public constructor() {
         super('VolumeMediaImporter');
     }
 
-    public list(): Promise<Array<any>> {
-        let self = this;
-        return this.entries ?
-            Promise.resolve(this.entries) :
-            this.getNewInstance().then(function(volumeMediaImporter) {
+    public get(): Promise<Array<any>> {
+        return this.volumeMediaImporter ?
+            Promise.resolve(this.volumeMediaImporter) :
+            this.getNewInstance().then((volumeMediaImporter) => {
                 volumeMediaImporter._isNew = false;
                 volumeMediaImporter.id = '-';
-                self.entries = [volumeMediaImporter];
-                self.entries._objectType = 'VolumeMediaImporter';
-                return self.entries;
+                return this.volumeMediaImporter = volumeMediaImporter;
             });
     }
 }

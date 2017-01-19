@@ -111,4 +111,8 @@ export class SystemService {
     public getDebugFileAddress() {
         return this.systemRepository.getDebugFileAddress();
     }
+
+    public getCertificateFileAddress(id: string, certTarFileName: string) {
+        return this.systemRepository.getCertificateFileAddress(id, certTarFileName);
+    }
 }

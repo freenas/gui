@@ -18,6 +18,8 @@
             },
             "bindings": {
                 "currentTemplate": {"<-": "@image.selectedValue.presets"},
+                "currentStaticVolumes": {"<-": "@owner.currentTemplate.static_volumes.map{{ host_path: host_path, container_path: container_path, readonly: readonly, isLocked: true }}"},
+                "currentTemplateVolumes": {"<-": "@owner.currentStaticVolumes.concat(@owner.currentTemplate.volumes)"},
                 "object.image": {"<-": "@image.selectedValue.name"},
                 "_availablesDockers": {"<-": "@owner._hostDockers.map{{label: name, value: id}}"},
                 "object.interactive": {"<-": "@owner.currentTemplate.interactive"},
@@ -198,7 +200,7 @@
             },
             "bindings": {
                 "inspector": {"<-": "@inspector"},
-                "values": {"<-": "@owner.currentTemplate.volumes.map{{ host_path: host_path, container_path: container_path, readonly: readonly }}"}
+                "values": {"<-": "@owner.currentTemplateVolumes.map{{ host_path: host_path, container_path: container_path, readonly: readonly , isLocked: isLocked }}"}
             }
         },
 
@@ -210,6 +212,17 @@
             },
             "bindings": {
                 "checked": {"<->": "@owner.object.interactive"}
+            }
+        },
+
+         "privileged": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "privileged"},
+                "label": "Privileged"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.privileged"}
             }
         },
 
@@ -306,6 +319,7 @@
                 <div data-montage-id="exposePorts" class="g-margin-bottom"></div>
                 <div data-montage-id="volumesTable" class="g-margin-bottom"></div>
                 <div data-montage-id="interactive"></div>
+                <div data-montage-id="privileged"></div>
                 <div data-montage-id="bridged"></div>
                 <div data-montage-id="bridgeDHCP"></div>
                 <div data-montage-id="bridgeAddress"></div>

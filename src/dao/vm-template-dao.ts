@@ -4,7 +4,7 @@ import {Model} from "../model";
 export class VmTemplateDao extends AbstractDao {
 
     public constructor() {
-        super(Model.Vm, {
+        super(Model.VmTemplate, {
             queryMethod: 'vm.template.query'
         });
     }

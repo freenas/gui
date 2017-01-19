@@ -14,7 +14,7 @@ exports.Settings = AbstractInspector.specialize({
         }
     },
 
-    save: {       
+    save: {
         value: function() {
             var templates = [];
             for (var i = 0; i < this.additional_templates.length; i++) {
@@ -25,7 +25,7 @@ exports.Settings = AbstractInspector.specialize({
                 });
             }
             this.object.settings.config.additional_templates = templates;
-            this._sectionService.saveSettings();
+            this._sectionService.saveSettings(this.object.settings);
         }
     },
 

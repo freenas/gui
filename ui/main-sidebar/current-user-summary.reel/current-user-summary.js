@@ -9,7 +9,7 @@ exports.CurrentUserSummary = Component.specialize({
     dotRegEx: {
         value: /\./g
     },
-    
+
     datePattern: {
         value: "M/d/yy"
     },
@@ -43,10 +43,12 @@ exports.CurrentUserSummary = Component.specialize({
         value: false
     },
 
-    _getUserPrefs: {
+    _loadUserSettings: {
         value: function(user) {
-            this.datePattern = user.attributes.userSettings.dateFormatShort;
-            this.timePattern = user.attributes.userSettings.timeFormatLong;
+            if (user.attributes.userSettings) {
+                this.datePattern = user.attributes.userSettings.dateFormatShort;
+                this.timePattern = user.attributes.userSettings.timeFormatLong;
+            }
         }
     },
 
@@ -54,7 +56,7 @@ exports.CurrentUserSummary = Component.specialize({
         value: function() {
             var self = this;
             this.application.accountsService.findUserWithName(this.middlewareClient.user).then(function(user) {
-                self._getUserPrefs(user);
+                self._loadUserSettings(user);
                 self.userPreferencesEventListener = self.eventDispatcherService.addEventListener(ModelEventName.User.change(user.id), self._handleUserChange.bind(self));
             });
             this._sessionDidOpen = true;
@@ -63,7 +65,7 @@ exports.CurrentUserSummary = Component.specialize({
 
     _handleUserChange: {
         value: function(user) {
-            this._getUserPrefs(user.toJS());
+            this._loadUserSettings(user.toJS());
         }
     },
 
@@ -71,7 +73,7 @@ exports.CurrentUserSummary = Component.specialize({
         value: function() {
             this.middlewareClient = MiddlewareClient.getInstance();
             this.systemService = SystemService.getInstance();
-            this.sessionOpenedEventListener = this.eventDispatcherService.addEventListener("SessionOpened", this._handleOpenedSession.bind(this));
+            this.eventDispatcherService.addEventListener("SessionOpened", this._handleOpenedSession.bind(this));
         }
     },
 
@@ -96,7 +98,7 @@ exports.CurrentUserSummary = Component.specialize({
                     this._loadTime().then(function (now) {
                         var seconds = now.getSeconds(),
                             timeLag = seconds % self._intervalTime;
-                        
+
                         now.setSeconds(seconds + (
                             initial ? -timeLag : timeLag > self._intervalTime / 2 ? self._intervalTime - timeLag : -timeLag
                         ));
@@ -129,13 +131,12 @@ exports.CurrentUserSummary = Component.specialize({
             var now = new Date(),
                 timeRemainingBeforeSync = ((this._intervalTime - (now.getSeconds() % this._intervalTime)) * 1000) - now.getMilliseconds();
 
-            //Set initial time.
             this._timeChangetimeoutCallBack(true);
 
-            if (timeRemainingBeforeSync === this._intervalTime * 1000) { // clock already synchronized with the interval set.
+            if (timeRemainingBeforeSync === this._intervalTime * 1000) {
                 this._setIntervalTime();
 
-            } else { // need to be synchronized.
+            } else {
                 var self = this;
                 this._synchronizeClockTimeoutId = setTimeout(function () {
                     self._timeChangetimeoutCallBack();

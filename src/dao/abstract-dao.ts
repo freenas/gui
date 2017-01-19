@@ -46,11 +46,22 @@ export class AbstractDao {
     public list(): Promise<Array<any>> {
         return (this.listPromise && !this.preventQueryCaching) ?
             this.listPromise :
-            this.listPromise = this.query();
+            this.listPromise = this.stream().then((stream) => {
+                this.register();
+                let data = stream.get("data");
+                let dataArray = data.toJS();
+                dataArray._objectType = this.objectType;
+
+                return dataArray;
+            });
+    }
+
+    public stream() {
+        return this.datastoreService.stream(this.objectType, this.queryMethod);
     }
 
     public get(): Promise<any> {
-        return this.list().then((x) => x[0]);
+        return this.query().then((x) => x[0]);
     }
 
     public findSingleEntry(criteria: any, params?: any): Promise<any> {
@@ -61,6 +72,7 @@ export class AbstractDao {
         });
     }
 
+    //TODO: need support for streamming responses.
     public find(criteria?: any, params?: any): Promise<any> {
         criteria = criteria || {};
         params = params || {};
