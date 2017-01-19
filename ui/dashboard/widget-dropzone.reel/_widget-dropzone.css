@@ -67,7 +67,7 @@
 .Dashboard-emptyMessage {
     border-radius: 8px;
     overflow: hidden;
-    border: 2px dashed grey;
+    border: 2px dashed var(--grey-1);
     padding: 1em;
     background: rgba(255,255,255,.05);
     visibility: visible;

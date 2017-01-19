@@ -37,11 +37,11 @@
 }
 
 
-.WidgetIcon.has-info .WidgetIcon-badge      { background-color: #BB8E00;}
-.WidgetIcon.has-info                        { border-color:     #BB8E00;}
+.WidgetIcon.has-info .WidgetIcon-badge      { background-color: var(--yellow-orange);}
+.WidgetIcon.has-info                        { border-color:     var(--yellow-orange);}
 
-.WidgetIcon.has-warning .WidgetIcon-badge   { background-color: #D95B1B;}
-.WidgetIcon.has-warning                     { border-color:     #D95B1B;}
+.WidgetIcon.has-warning .WidgetIcon-badge   { background-color: var(--orange);}
+.WidgetIcon.has-warning                     { border-color:     var(--orange);}
 
 
 .WidgetIcon.has-critical .WidgetIcon-badge { background-color: var(--red); }

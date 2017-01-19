@@ -86,7 +86,7 @@
 .selected > .Viewer-createButton {
     background: #2B9CD8;
     cursor: default;
-    color: white;
+    color: var(--white);
 }
 
 .Viewer-listItem + .Viewer-listItem { border-top: none; }
@@ -96,7 +96,7 @@
 .Viewer-listItem.selected {
     background: #1a82eb;
     cursor: default;
-    color: white;
+    color: var(--white);
 }
 
 /* Empty State */

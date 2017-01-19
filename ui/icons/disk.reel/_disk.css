@@ -61,7 +61,7 @@
     text-align: center;
     font-size: .7em;
     padding: 0 .15em .1em;
-    background: var(--orange, #bb8e00);
+    background: var(--orange);
     border-radius: .25em;
     color: var(--white);
     margin-bottom: .15em;

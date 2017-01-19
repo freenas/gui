@@ -348,13 +348,13 @@ Calendar Events
     color: var(--white);
 }
 
-.CalendarWidget-event.type-rsync_copy .CalendarWidget-event-inner                        { background-color: #D95B1B; }
-.CalendarWidget-event.type-volume_scrub .CalendarWidget-event-inner                      { background-color: #093A51; }
-.CalendarWidget-event.type-replication_replicate_dataset .CalendarWidget-event-inner     { background-color: #008C84; }
-.CalendarWidget-event.type-disk_parallel_test .CalendarWidget-event-inner                { background-color: #990F82; }
-.CalendarWidget-event.type-update_checkfetch .CalendarWidget-event-inner                 { background-color: #C4A412; }
-.CalendarWidget-event.type-volume_snapshot_dataset .CalendarWidget-event-inner           { background-color: #6D2A2A; }
-.CalendarWidget-event.type-calendar_task_command .CalendarWidget-event-inner             { background-color: grey; }
+.CalendarWidget-event.type-rsync_copy .CalendarWidget-event-inner                        { background-color: var(--orange); }
+.CalendarWidget-event.type-volume_scrub .CalendarWidget-event-inner                      { background-color: var(--blue-darken-2); }
+.CalendarWidget-event.type-replication_replicate_dataset .CalendarWidget-event-inner     { background-color: var(--aqua); }
+.CalendarWidget-event.type-disk_parallel_test .CalendarWidget-event-inner                { background-color: var(--purple); }
+.CalendarWidget-event.type-update_checkfetch .CalendarWidget-event-inner                 { background-color: var(--yellow-orange); }
+.CalendarWidget-event.type-volume_snapshot_dataset .CalendarWidget-event-inner           { background-color: var(--maroon); }
+.CalendarWidget-event.type-calendar_task_command .CalendarWidget-event-inner             { background-color: var(--grey-1); }
 
 .CalendarWidget-event.is-selected .CalendarWidget-event-inner {
     color: var(--white);

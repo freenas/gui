@@ -15,12 +15,12 @@
     top: 50%;
     margin-top: -.5rem;
     left: .25rem;
-    color: rgba(255,255,255,.8);
+    color: color(var(--white) a(80%));
     display: flex;
 }
 
 .AllocationBar-segement-data > div:first-child { margin-right: .25em; }
 
-.AllocationBar-parity     { background-color: #672BD8; }
-.AllocationBar-used       { background-color: #DE9B16; }
-.AllocationBar-available  { background-color: #40AD40; }
+.AllocationBar-parity     { background-color: var(--purple); }
+.AllocationBar-used       { background-color: var(--yellow-orange); }
+.AllocationBar-available  { background-color: var(--green); }

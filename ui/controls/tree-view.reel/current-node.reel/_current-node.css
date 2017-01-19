@@ -39,8 +39,8 @@
     z-index: 0;
 }
 
-.childSelected .CurrentNode-parentNode { background-color: grey; }
-.childSelected .CurrentNode-parentNode:before { background-color: grey; }
+.childSelected .CurrentNode-parentNode { background-color: var(--grey-1); }
+.childSelected .CurrentNode-parentNode:before { background-color: var(--grey-1); }
 
 .CurrentNode-parentNode-icon {
     width:  1.5em;
