@@ -33,7 +33,7 @@
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
-                "canSave": {"<-": "!@owner.isVolumeDatastore && @owner.isNewObject"},
+                "canSave": {"<-": "!@owner.isVolumeDatastore"},
                 "canDelete": {"<-": "!@owner.isVolumeDatastore && !@owner.isNewObject"}
             }
         },
@@ -63,21 +63,11 @@
             "prototype": "ui/controls/foldable-section.reel",
             "properties": {
                 "element": {"#": "capabilitiesSection"},
-                "title": "Capabilities"
+                "title": "Capabilities",
+                "isExpanded": true
             },
             "bindings": {
                 "classList.has('hide')": {"<-": "@owner.isNewObject"}
-            }
-        },
-        "blockDevices": {
-            "prototype": "blue-shark/ui/field-checkbox.reel",
-            "properties": {
-                "element": {"#": "blockDevices"},
-                "disabled": true,
-                "label": "Block Devices"
-            },
-            "bindings": {
-                "checked": {"<->": "@owner.object.capabilities.block_devices"}
             }
         },
         "clones": {
@@ -111,7 +101,6 @@
             <div data-montage-id="name"></div>
             <div data-montage-id="datastoreTypePlaceholder"></div>
             <div data-montage-id="capabilitiesSection">
-                <div data-montage-id="blockDevices"></div>
                 <div data-montage-id="clones"></div>
                 <div data-montage-id="snapshots"></div>
             </div>

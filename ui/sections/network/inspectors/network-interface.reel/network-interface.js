@@ -59,14 +59,5 @@ exports.NetworkInterface = AbstractInspector.specialize({
         value: function() {
             return this._sectionService.saveInterface(this.object);
         }
-    },
-
-    revert: {
-        value: function() {
-            var self = this;
-            return this.inspector.revert().then(function() {
-                self.object.type = self.interfaceType;
-            });
-        }
     }
 });

@@ -18,7 +18,10 @@
                 "label": "Volumes",
                 "columns":  [
                     {
-                        "value": "host path"
+                        "value": "type"
+                    },
+                    {
+                        "value": "path"
                     },
                     {
                         "value": "container path"
@@ -47,6 +50,7 @@
                 "element": {"#": "newEntry"}
             },
             "bindings": {
+                "inspector": {"<-": "@owner.inspector"},
                 "object": {"<-": "@table.currentNewEntry.object"}
             }
         },
@@ -57,6 +61,7 @@
                 "element": {"#": "entry"}
             },
             "bindings": {
+                "inspector": {"<-": "@owner.inspector"},
                 "object": {"<-": "@table:rowIteration.object.object"}
             }
         }

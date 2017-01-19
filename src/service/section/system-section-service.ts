@@ -42,7 +42,7 @@ export class SystemSectionService extends AbstractSectionService {
     protected init() {
         this.systemRepository = SystemRepository.getInstance();
         this.ntpServerRepository = NtpServerRepository.getInstance();
-        this.vmRepository = VmRepository.instance;
+        this.vmRepository = VmRepository.getInstance();
         this.containerRepository = ContainerRepository.instance;
         this.networkRepository = NetworkRepository.getInstance();
         this.cryptoCertificateRepository = CryptoCertificateRepository.getInstance();

@@ -17,7 +17,10 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
     CONSTANTS = require("core/constants"),
     Dict = require("collections/dict").Dict,
     EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
-    uuid = require("node-uuid"),
+    MiddlewareClient = require("core/service/middleware-client").MiddlewareClient,
+    ModelEventName = require("core/model-event-name").ModelEventName,
+    Model = require("core/model").Model,
+    uuid = require("uuid"),
     _ = require("lodash");
 
 exports.VmsSectionService = AbstractSectionService.specialize({
@@ -115,23 +118,30 @@ exports.VmsSectionService = AbstractSectionService.specialize({
 
     init: {
         value: function() {
-            this._vmRepository = VmRepository.instance;
+            this._vmRepository = VmRepository.getInstance();
             this._volumeRepository = VolumeRepository.getInstance();
             this._networkRepository = NetworkRepository.getInstance();
             this._consoleService = ConsoleService.instance;
             this._bytesService = BytesService.instance;
-            EventDispatcherService.getInstance().addEventListener('stateChange', this._handleStateChange.bind(this));
+            EventDispatcherService.getInstance().addEventListener(ModelEventName.Vm.listChange, this._handleVmsChange.bind(this));
         }
     },
 
     loadEntries: {
         value: function() {
+            var self = this;
             this.entries = [];
             this.entries._objectType = 'Vm';
             return this._vmRepository.listVms().then(function(entries) {
-                var sortedEntries = _.sortBy(entries, 'name');
-                sortedEntries._objectType = 'Vm';
-                return sortedEntries;
+                return _.assign(
+                    _.sortBy(
+                        _.forEach(entries, function(entry) {
+                            self.categorizeDevices(entry);
+                        }),
+                        'name'
+                    ),
+                    { _objectType: 'Vm' }
+                );
             });
         }
     },
@@ -167,43 +177,10 @@ exports.VmsSectionService = AbstractSectionService.specialize({
     },
 
     categorizeDevices: {
-        value: function(vm, addedDevices, removedDevices) {
-            addedDevices = addedDevices || vm.devices;
-            var i, length, device;
-            if (Array.isArray(addedDevices)) {
-                for (i = 0, length = addedDevices.length; i < length; i++) {
-                    device = addedDevices[i];
-                    if (device.type === this._vmRepository.DEVICE_TYPE.VOLUME) {
-                        device._objectType = 'VmVolume';
-                        if (vm._volumeDevices.indexOf(device) === -1) {
-                            vm._volumeDevices.push(device);
-                        }
-                    } else {
-                        device._objectType = 'VmDevice';
-                        if (vm._nonVolumeDevices.indexOf(device) === -1) {
-                            vm._nonVolumeDevices.push(device);
-                        }
-                    }
-                }
-            }
-
-            if (Array.isArray(removedDevices)) {
-                var deviceIndex;
-                for (i = 0, length = removedDevices.length; i < length; i++) {
-                    device = removedDevices[i];
-                    if (device.type === this._vmRepository.DEVICE_TYPE.VOLUME) {
-                        deviceIndex = vm._volumeDevices.indexOf(device);
-                        if (deviceIndex !== -1) {
-                            vm._volumeDevices.splice(deviceIndex, 1);
-                        }
-                    } else {
-                        deviceIndex = vm._nonVolumeDevices.indexOf(device);
-                        if (deviceIndex !== -1) {
-                            vm._nonVolumeDevices.splice(deviceIndex, 1);
-                        }
-                    }
-                }
-            }
+        value: function(vm, newDevices) {
+            newDevices = newDevices || vm.devices;
+            vm._nonVolumeDevices = this._mergeDevices(vm._nonVolumeDevices || [], _.reject(newDevices, { type: this._vmRepository.DEVICE_TYPE.VOLUME }));
+            vm._volumeDevices = this._mergeDevices(vm._volumeDevices || [], _.filter(newDevices, { type: this._vmRepository.DEVICE_TYPE.VOLUME }));
         }
     },
 
@@ -216,6 +193,7 @@ exports.VmsSectionService = AbstractSectionService.specialize({
                     vm.devices.push(device);
                 }
             }
+            this.categorizeDevices(vm);
         }
     },
 
@@ -236,6 +214,7 @@ exports.VmsSectionService = AbstractSectionService.specialize({
                         vm.devices.splice(deviceIndex, 1);
                     }
                 }
+                this.categorizeDevices(vm);
             }
         }
     },
@@ -260,7 +239,7 @@ exports.VmsSectionService = AbstractSectionService.specialize({
 
     initializeNewDevice: {
         value: function(device) {
-            return this._vmRepository.initializeNewVmDevice(device);
+            return VmRepository.initializeNewVmDevice(device);
         }
     },
 
@@ -275,6 +254,7 @@ exports.VmsSectionService = AbstractSectionService.specialize({
 
     populateVmWithTemplate: {
         value: function(vm, template) {
+            var self = this;
             vm.config = Object.clone(template.config);
             vm.config.readme = template.template.readme;
             this._setMemoryOnVm(vm);
@@ -284,14 +264,15 @@ exports.VmsSectionService = AbstractSectionService.specialize({
             var devicesPromises = [];
             if (Array.isArray(template.devices)) {
                 for (var i = 0, length = template.devices.length; i < length; i++) {
-                    devicesPromises.push(this._cloneVmDevice(template.devices[i]));
+                    devicesPromises.push(this._vmRepository.cloneVmDevice(template.devices[i]));
                 }
             }
             return Promise.all([
                 Promise.all(devicesPromises),
                 this.setReadmeOnVm(vm)
-            ]).then(function(results) {
-                vm.devices = results[0];
+            ]).spread(function(devices) {
+                vm.devices = devices;
+                self.categorizeDevices(vm);
                 return vm;
             });
         }
@@ -338,16 +319,22 @@ exports.VmsSectionService = AbstractSectionService.specialize({
         }
     },
 
-    getVncConsoleForVm: {
+    getGuestInfo: {
         value: function(vm) {
-            return vm.constructor.services.requestWebvncConsole(vm.id);
+            return this._vmRepository.getGuestInfo(vm);
         }
     },
 
-    getSerialConsoleForVm: {
+    getWebVncConsoleUrl: {
         value: function(vm) {
-            return this._vmRepository.getSerialToken(vm.id).then(function(token) {
-                return "/serial-console-app/#" + token;
+            return this._vmRepository.getWebVncConsoleUrl(vm);
+        }
+    },
+
+    getSerialConsoleUrl: {
+        value: function(vm) {
+            return this._vmRepository.getSerialToken(vm).then(function(token) {
+                return MiddlewareClient.getRootURL('http') + '/serial-console-app/#' + token;
             });
         }
     },
@@ -399,20 +386,41 @@ exports.VmsSectionService = AbstractSectionService.specialize({
 
     loadSettings: {
         value: function() {
-            var self = this;
             return this._vmRepository.getVmSettings();
         }
     },
 
     saveSettings: {
-        value: function() {
-            return this._vmRepository.saveVmSettings();
+        value: function(settings) {
+            return this._vmRepository.saveVmSettings(settings);
         }
     },
 
     revertSettings: {
         value: function() {
             return this._vmRepository.revertVmSettings();
+        }
+    },
+
+    mergeVm: {
+        value: function(vm, state) {
+            var self = this;
+            _.assignWith(vm, state.toJS(), function(oldValue, newValue, key, oldVm) {
+                if (key === 'devices') {
+                    var devices = self._mergeDevices(oldValue || [], newValue || []);
+                    self.categorizeDevices(oldVm);
+                    return devices;
+                } else {
+                    return newValue;
+                }
+            });
+
+        }
+    },
+
+    cloneVmToName: {
+        value: function (vmId, name) {
+            return this._vmRepository.cloneVmToName(vmId, name);
         }
     },
 
@@ -455,21 +463,6 @@ exports.VmsSectionService = AbstractSectionService.specialize({
         }
     },
 
-    _cloneVmDevice: {
-        value: function(device) {
-            var self = this;
-            return this._vmRepository.getNewVmDevice().then(function(clone) {
-                clone.id = self._vmRepository.DEFAULT_CLONE_DEVICE_ID;
-                clone._isNew = false;
-                clone.type = device.type;
-                clone.name = device.name;
-                clone.properties = Object.clone(device.properties);
-                self._populateDefaultValuesOnVmDevice(clone);
-                return clone;
-            });
-        }
-    },
-
     _populateDefaultValuesOnVmDevice: {
         value: function(device) {
             var defaults = this._vmRepository.DEFAULT_DEVICE_PROPERTIES[device.type];
@@ -486,79 +479,64 @@ exports.VmsSectionService = AbstractSectionService.specialize({
         }
     },
 
-    _handleStateChange: {
-        value: function(state) {
-            var self = this,
-                vmState = state.get('Vm');
-            if (vmState) {
-                vmState.forEach(function(stateEntry) {
-                    // DTM
-                    var entry = self._findObjectWithId(self.entries, stateEntry.get('id'));
-                    if (entry) {
-                        var newEntry = stateEntry.toJS();
-                        _.assignWith(entry, newEntry, function(oldValue, newValue, key) {
-                            if (key === 'devices') {
-                                _.forEach(newValue, function(newDevice) {
-                                    var oldDevice = _.find(oldValue, {name: newDevice.name});
-                                    if (oldDevice) {
-                                        var newDeviceWithId = _.assign(_.cloneDeep(newDevice), {id: oldDevice.id}),
-                                            oldDeviceCleaned = _.pickBy(_.toPlainObject(oldDevice), function(value, key) { return !_.startsWith(key, '_'); });
-                                        oldDeviceCleaned.properties = _.pickBy(_.toPlainObject(oldDevice.properties), function(value, key) { return !_.startsWith(key, '_'); });
-                                        _.assignWith(newDeviceWithId, oldDeviceCleaned, function(newDeviceValue, oldDeviceValue, key) {
-                                            if (key !== 'properties') {
-                                                return _.has(newDeviceWithId, key) ? newDeviceValue : oldDeviceValue;
-                                            } else {
-                                                return _.assignWith(newDeviceWithId.properties, oldDeviceCleaned.properties, function(newDevicePropertyValue, oldDevicePropertyValue, propertyKey) {
-                                                    return _.has(newDeviceWithId, propertyKey) ? newDevicePropertyValue : oldDevicePropertyValue;
-                                                });
-                                            }
-                                        });
-                                        if (!_.isEqual(oldDeviceCleaned, newDeviceWithId)) {
-                                            _.assignWith(oldDevice, newDevice, function());
-                                        }
-                                    } else {
-                                        newDevice.id = uuid.v4();
-                                        oldValue.splice(_.sortedIndexBy(oldValue, newDevice, 'name'), 0, newDevice);
-                                    }
-                                });
-                                _.remove(oldValue, function(oldDevice) {
-                                    return !_.find(newValue, {name: oldDevice.name});
-                                });
-                                return oldValue;
-                            }
-                        });
-                    } else {
-                        entry = stateEntry.toJS();
-                        entry._objectType = 'Vm';
-                        entry.devices.forEach(function(device) {
-                            device.id = uuid.v4();
-                        });
-                        // DTM: Why doesn't sortedArray allow to just push in that specific case ?
-                        self.entries.splice(_.sortedIndexBy(self.entries, entry, 'name'), 0, entry);
-                    }
-                });
+    _handleVmsChange: {
+        value: function(vms) {
+            var self = this;
+            if (!this.entries) {
+                this.entries = [];
+            }
+            vms.forEach(function(vm) {
                 // DTM
-                if (this.entries) {
-                    for (var i = this.entries.length - 1; i >= 0; i--) {
-                        if (!vmState.has(this.entries[i].id)) {
-                            this.entries.splice(i, 1);
-                        }
+                var entry = _.find(self.entries, {id: vm.get('id')});
+                if (entry) {
+                    entry._hasGraphicDevice = vm.get('devices').some(function (x) {
+                        return x.type === self._vmRepository.DEVICE_TYPE.GRAPHICS;
+                    });
+                    self.mergeVm(entry, vm);
+                } else {
+                    entry = _.assign(vm.toJS(), {_objectType: Model.Vm});
+                    entry._hasGraphicDevice = vm.get('devices').some(function (x) {
+                        return x.type === self._vmRepository.DEVICE_TYPE.GRAPHICS;
+                    });
+                    self.entries.push(entry);
+                }
+            });
+            // DTM
+            if (this.entries) {
+                for (var i = this.entries.length - 1; i >= 0; i--) {
+                    if (!vms.has(this.entries[i].id)) {
+                        this.entries.splice(i, 1);
                     }
                 }
             }
         }
     },
 
-    _findObjectWithId: {
-        value: function(entries, id) {
-            var entry;
-            for (var i = 0; i < entries.length; i++) {
-                entry = entries[i];
-                if (entry.id === id) {
-                    return entry;
+    _mergeDevices: {
+        value: function(oldDevices, newDevices) {
+            var self = this;
+            _.forEach(newDevices, function(newDevice) {
+                // DTM
+                var oldDevice = _.find(oldDevices, {name: newDevice.name});
+                if (oldDevice) {
+                    _.assign(oldDevice, _.omit(newDevice, ['name', 'id']));
+                } else {
+                    oldDevices.push(_.assign(
+                        newDevice,
+                        {
+                            _objectType: newDevice.type === self._vmRepository.DEVICE_TYPE.VOLUME ? Model.VmVolume : Model.VmDevice,
+                            id: uuid.v4()
+                        }
+                    ));
+                }
+            });
+            // DTM
+            for (var i = oldDevices.length - 1; i >= 0; i--) {
+                if (!_.find(newDevices, { id: oldDevices[i].id })) {
+                    oldDevices.splice(i, 1);
                 }
             }
-            return null;
+            return oldDevices;
         }
     }
 });

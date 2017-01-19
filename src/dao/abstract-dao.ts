@@ -7,6 +7,7 @@ import { processor as nullProcessor } from '../service/data-processor/null';
 import * as _ from 'lodash';
 import * as Promise from 'bluebird';
 import {ModelDescriptorService} from '../service/model-descriptor-service';
+import {Map as iMap, List} from 'immutable';
 
 export class AbstractDao {
     protected middlewareClient: MiddlewareClient;
@@ -25,6 +26,7 @@ export class AbstractDao {
     private deleteMethod: string;
     private eventName: string;
     private preventQueryCaching: boolean;
+    private idPath: string;
     private isRegistered = false;
 
     public constructor(objectType: any, config?: any) {
@@ -36,6 +38,7 @@ export class AbstractDao {
         this.createMethod = config.createMethod || AbstractDao.dotCase(objectType) + '.create';
         this.deleteMethod = config.deleteMethod || AbstractDao.dotCase(objectType) + '.delete';
         this.eventName = config.eventName || 'entity-subscriber.' + this.middlewareName + '.changed';
+        this.idPath = config.idPath || 'id';
         this.preventQueryCaching = config.preventQueryCaching;
         this.middlewareClient = MiddlewareClient.getInstance();
         this.datastoreService = DatastoreService.getInstance();
@@ -46,11 +49,21 @@ export class AbstractDao {
     public list(): Promise<Array<any>> {
         return (this.listPromise && !this.preventQueryCaching) ?
             this.listPromise :
-            this.listPromise = this.query();
+            this.listPromise = this.stream().then((stream) => {
+                this.register();
+                let dataArray = stream.get('data').toJS();
+                dataArray._objectType = this.objectType;
+
+                return dataArray;
+            });
+    }
+
+    public stream() {
+        return this.datastoreService.stream(this.objectType, this.queryMethod, this.idPath);
     }
 
     public get(): Promise<any> {
-        return this.list().then((x) => x[0]);
+        return this.query().then((x) => x[0]);
     }
 
     public findSingleEntry(criteria: any, params?: any): Promise<any> {
@@ -61,6 +74,7 @@ export class AbstractDao {
         });
     }
 
+    // TODO: need support for streamming responses.
     public find(criteria?: any, params?: any): Promise<any> {
         criteria = criteria || {};
         params = params || {};
@@ -98,6 +112,24 @@ export class AbstractDao {
         let emptyList: any = [];
         emptyList._objectType = self.objectType;
         return Promise.resolve(emptyList);
+    }
+
+    public revert(object: any) {
+        let reference = this.datastoreService.getState().get(object._objectType).get(object.id);
+        _.forEach(object, (value, key) => {
+            if (key[0] !== '_') {
+                if (reference.has(key)) {
+                    let referenceValue = reference.get(key);
+                    if (referenceValue instanceof iMap || referenceValue instanceof List) {
+                        referenceValue = referenceValue.toJS();
+                    }
+                    if (value !== referenceValue) {
+                        object[key] = referenceValue;
+                    }
+                }
+            }
+        });
+        return object;
     }
 
     private update(object: any, args?: Array<any>): Promise<any> {
@@ -149,7 +181,7 @@ export class AbstractDao {
     private query(criteria?: any, isSingle?: boolean): Promise<any> {
         let self = this,
             middlewareCriteria = criteria ? this.getMiddlewareCriteria(criteria, isSingle) : [];
-        return this.datastoreService.query(self.objectType, self.queryMethod, middlewareCriteria).then(
+        return this.datastoreService.query(self.objectType, self.queryMethod, this.idPath, middlewareCriteria).then(
             (entries) => {
                 entries = Array.isArray(entries) ? entries : [entries];
                 self.register();

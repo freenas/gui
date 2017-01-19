@@ -62,10 +62,8 @@ exports.Inspector = Component.specialize({
                 if (Promise.is(promise)) {
                     promise.catch(this._logError);
                 }
-                this.clearObjectSelection();
             } else if (this.object) {
                 this.object.__isLocked = true;
-                this.clearObjectSelection();
                 promise = this.delete().catch(this._logError);
                 promise.then(function(){
                     self.object.__isLocked = false;
@@ -76,9 +74,13 @@ exports.Inspector = Component.specialize({
                 console.warn('NOT IMPLEMENTED: delete() on unknown controller.');
             }
 
+            promise = Promise.is(promise) ? promise : Promise.resolve(promise);
             if (event) {
                 event.stopPropagation();
             }
+            promise.then(function() {
+                self.clearObjectSelection();
+            });
 
             this.isConfirmationVisible = false;
         }
@@ -110,6 +112,8 @@ exports.Inspector = Component.specialize({
                 if (Promise.is(promise)) {
                     promise.catch(this._logError);
                 }
+            } else if (this.object) {
+                this.revert(this.object);
             } else if (this.controller) {
                 console.warn('NOT IMPLEMENTED: revert() on ', this.controller.templateModuleId);
             } else {
@@ -124,6 +128,7 @@ exports.Inspector = Component.specialize({
             var self = this,
                 promise;
 
+            var isCreationInspector = this._isCreationInspector();
             if (this.controller && typeof this.controller.save === 'function') {
                 promise = this.controller.save();
             } else if (this.object) {
@@ -134,7 +139,6 @@ exports.Inspector = Component.specialize({
                 console.warn('NOT IMPLEMENTED: save() on unknown controller.');
             }
 
-            var isCreationInspector = this._isCreationInspector();
             if (isCreationInspector) {
                 this.object.__isLocked = true;
             }
@@ -167,7 +171,7 @@ exports.Inspector = Component.specialize({
     clearObjectSelection: {
         value: function() {
             var parentPath = this.parentCascadingListItem.data.parentContext.path;
-            return this._routingService.navigate(parentPath);
+            return this._routingService.navigate(parentPath, true);
         }
     },
 
@@ -193,10 +197,6 @@ exports.Inspector = Component.specialize({
             var self = this;
             return this._getObjectDao(this.object).then(function(dao) {
                 return dao.revert(self.object);
-                if (self.object._isNew) {
-                    self.object = object;
-                }
-                return self.object;
             });
         }
     },

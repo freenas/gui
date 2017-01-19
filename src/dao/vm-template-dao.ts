@@ -1,11 +1,12 @@
 import { AbstractDao } from './abstract-dao';
-import {Model} from "../model";
+import {Model} from '../model';
 
 export class VmTemplateDao extends AbstractDao {
 
     public constructor() {
-        super(Model.Vm, {
-            queryMethod: 'vm.template.query'
+        super(Model.VmTemplate, {
+            queryMethod: 'vm.template.query',
+            idPath: 'template.name'
         });
     }
 

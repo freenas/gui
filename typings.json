@@ -5,7 +5,7 @@
     "crossroads": "registry:dt/crossroads#0.0.0+20160628004037",
     "hasher": "registry:dt/hasher#0.0.0+20160628004037",
     "lodash": "registry:npm/lodash#4.0.0+20161015015725",
-    "node-uuid": "registry:npm/node-uuid#1.4.7+20160723033700"
+    "uuid": "registry:npm/uuid#3.0.1+20161206160008"
   },
   "globalDependencies": {
     "systemjs": "registry:dt/systemjs#0.19.29+20161215140219"

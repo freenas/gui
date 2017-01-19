@@ -122,4 +122,8 @@ export class SystemService {
             return this.middlewareClient.submitTask('boot.disk.attach', [newDisk.path]);
         }
     }
+
+    public getCertificateFileAddress(id: string, certTarFileName: string) {
+        return this.systemRepository.getCertificateFileAddress(id, certTarFileName);
+    }
 }

@@ -23,11 +23,7 @@
             ]
         },
         "validationController": {
-            "prototype": "core/controller/validation-controller",
-            "properties": {
-                "fields": {
-                }
-            }
+            "prototype": "core/controller/validation-controller"
         },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
@@ -258,6 +254,76 @@
                 "path": "readme"
             }
         },
+        "guestInfoStatusLight": {
+            "prototype": "ui/controls/traffic-light.reel",
+            "properties": {
+                "element": {"#": "guestInfoStatusLight"},
+                "colorMapping": {"Y" : "green", "N" : "red"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.hasVmTools ? 'Y' : 'N'"}
+            }
+        },
+        "guestInfoStatus": {
+            "prototype": "blue-shark/ui/field.reel",
+            "properties": {
+                "label": "VM Tools Status",
+                "element": {"#": "guestInfoStatus"}
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "@owner.object._isNew"}
+            }
+        },
+        "guestInfoLoadAvg": {
+            "prototype": "blue-shark/ui/tables/table-read-only.reel",
+            "properties": {
+                "element": {"#": "guestInfoLoadAvg"},
+                "label": "Guest Load Averages",
+                "columns":  [
+                    {
+                        "value": "1 Minute",
+                        "path": "onemin"
+                    },
+                    {
+                        "value": "5 Minutes",
+                        "path": "fivemin"
+                    },
+                    {
+                        "value": "10 Minutes",
+                        "path": "tenmin"
+                    }
+                ]
+            },
+            "bindings": {
+                "rows": {"<-": "@owner.guestInfoLoadAvg"},
+                "classList.has('is-hidden')": {"<-": "!@owner.guestInfoLoadAvg.length"} 
+            }
+        },
+        "guestInfoInterfaces": {
+            "prototype": "blue-shark/ui/tables/table-read-only.reel",
+            "properties": {
+                "element": {"#": "guestInfoInterfaces"},
+                "label": "Guest Network Interfaces",
+                "columns":  [
+                    {
+                        "value": "Interface",
+                        "path": "interface"
+                    },
+                    {
+                        "value": "Type",
+                        "path": "type"
+                    },
+                    {
+                        "value": "Address",
+                        "path": "address"
+                    }
+                ]
+            },
+            "bindings": {
+                "rows": {"<-": "@owner.guestInfoInterfaces"},
+                "classList.has('is-hidden')": {"<-": "!@owner.guestInfoInterfaces.length"} 
+            }
+        },
         "devices": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
@@ -274,6 +340,18 @@
                 "name": "Volumes",
                 "objectType": "VmVolume",
                 "path": "volumes"
+            }
+        },
+        "clones": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "clones"},
+                "name": "Clones",
+                "objectType": "Vm",
+                "path": "clones"
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "!!@owner.object.parent"}
             }
         },
         "start": {
@@ -306,15 +384,6 @@
                 "disabled": {"<-": "@owner.object.status.state == 'STOPPED'"}
             }
         },
-        "webvncConsoleCondition": {
-            "prototype": "montage/ui/condition.reel",
-            "properties": {
-                "element": {"#": "webvncConsoleCondition"}
-            },
-            "bindings": {
-                "condition": {"<-": "@owner.object.devices.some{type == 'GRAPHICS'}"}
-            }
-        },
         "webvncConsole": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
@@ -322,6 +391,7 @@
                 "value": "VGA Console"
             },
             "bindings": {
+                "classList.has('hide')": {"<-": "@owner.object._hasGraphicDevice"},
                 "disabled": {"<-": "@owner.object.status.state == 'STOPPED'"}
             }
         },
@@ -346,9 +416,7 @@
                 <div data-montage-id="stop"></div>
                 <div data-montage-id="reboot"></div>
                 <div data-montage-id="serialConsole"></div>
-                <div data-montage-id="webvncConsoleCondition">
-                    <div data-montage-id="webvncConsole"></div>
-                </div>
+                <div data-montage-id="webvncConsole"></div>
             </div>
             <div data-montage-id="stateCondition">
                 <div data-montage-id="state"></div>
@@ -369,9 +437,15 @@
             <div data-montage-id="cpu"></div>
             <div data-montage-id="memory"></div>
             <div data-montage-id="autostart"></div>
+            <div data-montage-id="guestInfoStatus">
+                <div data-montage-id="guestInfoStatusLight"></div>
+            </div>
+            <div data-montage-id="guestInfoLoadAvg" class="g-margin-bottom"></div>
+            <div data-montage-id="guestInfoInterfaces" class="g-margin-bottom"></div>
             <div data-montage-id="readme"></div>
             <div data-montage-id="devices"></div>
             <div data-montage-id="volumeDevices"></div>
+            <div data-montage-id="clones"></div>
         </div>
     </div>
 </body>

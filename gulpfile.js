@@ -13,6 +13,9 @@ var path = require('path'),
     cssnano = require('cssnano'),
     del = require("del"),
     git = require("git-rev-sync"),
+    named = require("vinyl-named"),
+    webpackStream = require("webpack-stream"),
+    webpack2 = require("webpack"),
     ts = require('gulp-typescript');
 
 var tsProject = ts.createProject('tsconfig.json'),
@@ -47,7 +50,7 @@ var tsProject = ts.createProject('tsconfig.json'),
 
 // Tasks
 
-gulp.task('serve', ['allCss', 'typescript'], function () {
+gulp.task('serve', ['allCss', 'packageUuid', 'typescript'], function () {
     browserSync.init({
         server: "./"
     });
@@ -105,8 +108,22 @@ gulp.task('tagRollbar', function () {
     });
 });
 
+gulp.task('packageUuid', function() {
+    return gulp.src('node_modules/uuid/index.js')
+        .pipe(named())
+        .pipe(webpackStream({
+            output: {
+                filename: 'index.js',
+                library: 'uuid',
+                libraryTarget: 'umd'
+            }
+        }), webpack2)
+        .pipe(gulp.dest('bin/vendors/uuid'))
+});
+
 gulp.task('build', [
     'allCss',
+    'packageUuid',
     'typescriptProd',
     'tagRollbar'
 ]);

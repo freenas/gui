@@ -57,6 +57,14 @@ export abstract class AbstractRepository {
         return state;
     }
 
+    protected dispatchSingleObjectChange(repositoryEntry: Map<string, any>, modelEventName: ModelEventName, state: Map<string, any>) {
+        let stateEntry = state.first();
+        if (repositoryEntry !== stateEntry) {
+            this.eventDispatcherService.dispatch(modelEventName.contentChange, stateEntry);
+        }
+        return stateEntry;
+    }
+
     protected abstract handleStateChange(name: string, state: any);
     protected abstract handleEvent(name: string, data: any);
 }

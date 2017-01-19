@@ -9,6 +9,11 @@ export class DockerCollectionDao extends AbstractDao {
     }
 
     public getImages (collection) {
-        return this.middlewareClient.callRpcMethod('docker.collection.get_entries', [collection.id]);
+        return this.datastoreService.stream(Model.DockerCollectionImage, 'docker.collection.get_entries', 'name', [collection.id]).then((stream) => {
+            let dataArray = stream.get('data').toJS();
+            dataArray._objectType = Model.DockerCollectionImage;
+
+            return dataArray;
+        });
     }
 }

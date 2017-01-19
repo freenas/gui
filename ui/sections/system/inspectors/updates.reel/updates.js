@@ -4,40 +4,23 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
     _ = require("lodash");
 
 exports.Updates = AbstractInspector.specialize({
-    _inspectorTemplateDidLoad: {
-        value: function() {
-            var self = this;
-            this._updateService = UpdateService.getInstance();
-            return Promise.all([
-                this._updateService.getConfig(),
-                this._updateService.getTrains(),
-                this._refreshUpdateInfo()
-            ]).spread(function(config, trains) {
-                self.config = config;
-                self.trains = trains;
-            });
-        }
-    },
 
     enterDocument: {
-        value: function() {
+        value: function(isFirstTime) {
             var self = this;
-            this.isLoading = true;
-            if (this._inDocument) {
-                return this._updateService.check().then(function() {
-                    self._refreshUpdateInfo();
-                    self.isLoading = false;
+
+            if (isFirstTime) {
+                this._updateService = UpdateService.getInstance();
+                return Promise.all([
+                    this._updateService.getConfig(),
+                    this._updateService.getTrains(),
+                    this._updateService.getInfo()
+                ]).spread(function(config, trains, info) {
+                    self.config = config;
+                    self.trains = trains;
+                    self.info = info;
                 });
             }
-        }
-    },
-
-    _refreshUpdateInfo: {
-        value: function() {
-            var self = this;
-            return this._updateService.getInfo().then(function(info) {
-                self.info = info;
-            });
         }
     },
 

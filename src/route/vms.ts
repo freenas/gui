@@ -1,17 +1,19 @@
-import {ModelDescriptorService} from "../service/model-descriptor-service";
-import {EventDispatcherService} from "../service/event-dispatcher-service";
+import {ModelDescriptorService} from '../service/model-descriptor-service';
+import {EventDispatcherService} from '../service/event-dispatcher-service';
+import {AbstractRoute} from './abstract-route';
+import {Model} from '../model';
 import {VmRepository} from '../repository/vm-repository';
-import {AbstractRoute} from "./abstract-route";
-import {Model} from "../model";
-import _ = require("lodash");
-import Promise = require("bluebird");
-import {Model} from "../model";
+import {ModelEventName} from '../model-event-name';
+import {DataObjectChangeService} from '../service/data-object-change-service';
+import * as _ from 'lodash';
+import * as Promise from 'bluebird';
 
 export class VmsRoute extends AbstractRoute {
     private static instance: VmsRoute;
 
     private constructor(private modelDescriptorService: ModelDescriptorService,
                         eventDispatcherService: EventDispatcherService,
+                        private dataObjectChangeService: DataObjectChangeService,
                         private vmRepository: VmRepository) {
         super(eventDispatcherService);
     }
@@ -21,39 +23,23 @@ export class VmsRoute extends AbstractRoute {
             VmsRoute.instance = new VmsRoute(
                 ModelDescriptorService.getInstance(),
                 EventDispatcherService.getInstance(),
-                VmRepository.instance
+                new DataObjectChangeService(),
+                VmRepository.getInstance()
             );
         }
         return VmsRoute.instance;
     }
 
     public get(vmId: string, stack: Array<any>) {
-        let self = this,
-            objectType = Model.Vm,
-            columnIndex = 1,
-            parentContext = stack[columnIndex-1],
-            context: any = {
-                columnIndex: columnIndex,
-                objectType: objectType,
-                parentContext: parentContext,
-                path: parentContext.path + '/vm/_/' + encodeURIComponent(vmId)
-            };
-        return Promise.all([
-            this.vmRepository.listVms(),
-            this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(vms, uiDescriptor) {
-            context.object = _.find(vms, {id: vmId});
-            context.userInterfaceDescriptor = uiDescriptor;
-
-            return self.updateStackWithContext(stack, context);
-        });
+        let columnIndex = 1;
+        return this.getVmWithIdAtColumnIndex(stack[columnIndex - 1].object.entries, vmId, stack, columnIndex);
     }
 
     public create(stack: Array<any>) {
         let self = this,
             objectType = Model.Vm,
             columnIndex = 1,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -75,7 +61,7 @@ export class VmsRoute extends AbstractRoute {
         let self = this,
             objectType = Model.VmReadme,
             columnIndex = 2,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -92,11 +78,11 @@ export class VmsRoute extends AbstractRoute {
         });
     }
 
-    public getDevices(stack: Array<any>) {
+    public listDevices(stack: Array<any>) {
         let self = this,
             objectType = Model.VmDevice,
             columnIndex = 2,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -107,6 +93,7 @@ export class VmsRoute extends AbstractRoute {
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(uiDescriptor) {
             context.object = parentContext.object._nonVolumeDevices;
+            context.object._vm = parentContext.object;
             context.userInterfaceDescriptor = uiDescriptor;
 
             return self.updateStackWithContext(stack, context);
@@ -117,7 +104,7 @@ export class VmsRoute extends AbstractRoute {
         let self = this,
             objectType = Model.VmDevice,
             columnIndex = 3,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -128,6 +115,7 @@ export class VmsRoute extends AbstractRoute {
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(uiDescriptor) {
             context.object = _.find(parentContext.object, {id: deviceId});
+            context.object._vm = parentContext.object._vm;
             context.userInterfaceDescriptor = uiDescriptor;
 
             return self.updateStackWithContext(stack, context);
@@ -138,7 +126,7 @@ export class VmsRoute extends AbstractRoute {
         let self = this,
             objectType = Model.VmDevice,
             columnIndex = 3,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -151,6 +139,7 @@ export class VmsRoute extends AbstractRoute {
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(vmdevices, uiDescriptor) {
             context.object = _.compact(vmdevices);
+            context.object._vm = parentContext.object._vm;
             context.userInterfaceDescriptor = uiDescriptor;
 
             return self.updateStackWithContext(stack, context);
@@ -172,17 +161,18 @@ export class VmsRoute extends AbstractRoute {
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(uiDescriptor) {
             context.object = _.find(parentContext.object, {_tmpId: deviceType});
+            context.object._vm = parentContext.object._vm;
             context.userInterfaceDescriptor = uiDescriptor;
 
             return self.updateStackWithContext(stack, context);
         });
     }
 
-    public getVolumes(stack: Array<any>) {
+    public listVolumes(stack: Array<any>) {
         let self = this,
             objectType = Model.VmVolume,
             columnIndex = 2,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -193,6 +183,7 @@ export class VmsRoute extends AbstractRoute {
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(uiDescriptor) {
             context.object = _.reject(parentContext.object._volumeDevices, {properties: {type: 'NFS'}});
+            context.object._vm = parentContext.object;
             context.object._objectType = objectType;
             context.userInterfaceDescriptor = uiDescriptor;
 
@@ -204,7 +195,7 @@ export class VmsRoute extends AbstractRoute {
         let self = this,
             objectType = Model.VmVolume,
             columnIndex = 3,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -215,6 +206,7 @@ export class VmsRoute extends AbstractRoute {
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(uiDescriptor) {
             context.object = _.find(parentContext.object, {id: volumeId});
+            context.object._vm = parentContext.object._vm;
             context.userInterfaceDescriptor = uiDescriptor;
 
             return self.updateStackWithContext(stack, context);
@@ -225,7 +217,7 @@ export class VmsRoute extends AbstractRoute {
         let self = this,
             objectType = Model.VmVolume,
             columnIndex = 3,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -237,17 +229,18 @@ export class VmsRoute extends AbstractRoute {
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(vmvolume, uiDescriptor) {
             context.object = vmvolume;
+            context.object._vm = parentContext.object._vm;
             context.userInterfaceDescriptor = uiDescriptor;
 
             return self.updateStackWithContext(stack, context);
         });
     }
 
-    public getDatastores(stack: Array<any>) {
+    public listDatastores(stack: Array<any>) {
         let self = this,
             objectType = Model.VmDatastore,
             columnIndex = 1,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -270,7 +263,7 @@ export class VmsRoute extends AbstractRoute {
         let self = this,
             objectType = Model.VmDatastore,
             columnIndex = 2,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -291,7 +284,7 @@ export class VmsRoute extends AbstractRoute {
         let self = this,
             objectType = Model.VmDatastore,
             columnIndex = 2,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -331,4 +324,80 @@ export class VmsRoute extends AbstractRoute {
         });
     }
 
+    public listClones(vmId: string, stack: Array<any>) {
+        let objectType = Model.VmClone,
+            columnIndex = 2,
+            parentContext = stack[columnIndex - 1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/clones'
+            };
+        return Promise.all([
+            this.vmRepository.listVms(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread((vms, uiDescriptor) => {
+            let clones = _.sortBy(_.filter(vms, {parent: vmId}), 'name');
+            clones._objectType = objectType;
+            context.object = clones;
+            context.userInterfaceDescriptor = uiDescriptor;
+            context.changeListener = this.eventDispatcherService.addEventListener(ModelEventName.Vm.listChange, (state) => {
+                this.dataObjectChangeService.handleDataChange(clones, state);
+                for (let i = clones.length - 1; i >= 0; i--) {
+                    if (clones[i].parent !== vmId) {
+                        clones.splice(i, 1);
+                    }
+                }
+            });
+
+            return this.updateStackWithContext(stack, context);
+        });
+    }
+
+    public getClone(cloneId: string, stack: Array<any>) {
+        let columnIndex = 3;
+        return this.getVmWithIdAtColumnIndex(stack[columnIndex - 1].object, cloneId, stack, columnIndex);
+    }
+
+    public createClone(vmId: string, stack: Array<any>) {
+        let objectType = Model.VmClone,
+            columnIndex = 3,
+            parentContext = stack[columnIndex - 1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/create'
+            };
+        return Promise.all([
+            this.vmRepository.getNewVmClone(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread((clone, uiDescriptor) => {
+            context.object = _.assign(clone, {parent: vmId});
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            return this.updateStackWithContext(stack, context);
+        });
+    }
+
+    private getVmWithIdAtColumnIndex(vms: Array<any>, vmId: string, stack: Array<any>, columnIndex: number) {
+        let self = this,
+            objectType = Model.Vm,
+            parentContext = stack[columnIndex - 1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/vm/_/' + encodeURIComponent(vmId)
+            };
+        return Promise.all([
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function (uiDescriptor) {
+            context.object = _.find(vms, {id: vmId});
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            return self.updateStackWithContext(stack, context);
+        });
+    }
 }
