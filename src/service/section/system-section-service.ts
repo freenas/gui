@@ -5,18 +5,17 @@ import {VmRepository} from '../../repository/vm-repository';
 import {ContainerRepository} from '../../repository/container-repository';
 import {NetworkRepository} from '../../repository/network-repository';
 import {CryptoCertificateRepository} from '../../repository/crypto-certificate-repository';
-import Promise = require("bluebird");
 import {TunableRepository} from '../../repository/tunable-repository';
 import {VolumeRepository} from '../../repository/volume-repository';
 import {ShareRepository} from '../../repository/share-repository';
 import {PeerRepository} from '../../repository/peer-repository';
 import {ReplicationRepository} from '../../repository/replication-repository';
 import {DiskRepository} from '../../repository/disk-repository';
-import {BootPoolRepository} from "../../repository/boot-pool-repository";
-import {ModelEventName} from "../../model-event-name";
-import {DataObjectChangeService} from "../data-object-change-service";
-import * as Immutable from "immutable";
-import * as _ from "lodash";
+import {BootPoolRepository} from '../../repository/boot-pool-repository';
+import {ModelEventName} from '../../model-event-name';
+import {DataObjectChangeService} from '../data-object-change-service';
+import * as Immutable from 'immutable';
+import * as _ from 'lodash';
 
 export class SystemSectionService extends AbstractSectionService {
     private systemRepository: SystemRepository;
@@ -76,6 +75,10 @@ export class SystemSectionService extends AbstractSectionService {
         return this.systemRepository.getGeneral();
     }
 
+    public saveSystemGeneral(systemGeneral) {
+        return this.systemRepository.saveGeneral(systemGeneral);
+    }
+
     public getSystemTime() {
         return this.systemRepository.getTime();
     }
@@ -90,6 +93,10 @@ export class SystemSectionService extends AbstractSectionService {
 
     public getSystemAdvanced() {
         return this.systemRepository.getAdvanced();
+    }
+
+    public saveSystemAdvanced(systemAdvanced) {
+        return this.systemRepository.saveAdvanced(systemAdvanced);
     }
 
     public listNtpServers() {
@@ -170,6 +177,10 @@ export class SystemSectionService extends AbstractSectionService {
 
     public listReplications() {
         return this.replicationRepository.listReplications();
+    }
+
+    public listDevicesWithClass(deviceClass: string) {
+        return this.systemRepository.getDevices(deviceClass);
     }
 
     protected loadExtraEntries() {
