@@ -10,7 +10,7 @@
 .TaskNotification.has-warning:before    { background-color: var(--orange); }
 .TaskNotification.has-error:before      { background-color: var(--red); }
 
-.TaskNotification.has-success .Notification-progress .Progress-bar  { background-color: #1E963F; }
+.TaskNotification.has-success .Notification-progress .Progress-bar  { background-color: var(--green); }
 .TaskNotification.has-warning .Notification-progress .Progress-bar  { background-color: var(--orange); }
 .TaskNotification.has-error .Progress-wrapper                       { background-color: var(--red); }
 

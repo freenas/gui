@@ -59,9 +59,9 @@
 
     &.acceptDrop:after {
         color: var(--white);
-        box-shadow: 0 0 0 1px #1E963F,
+        box-shadow: 0 0 0 1px var(--green),
                     0 2px 2px var(--transparent--darken);
-        background: #1E963F;
+        background-color: var(--green);
     }
 }
 

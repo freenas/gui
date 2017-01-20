@@ -19,7 +19,7 @@
     text-align: right;
     margin-right: .5rem;
     font-weight: 400;
-    color: #666;
+    color: var(--grey-1);
 
     @nest .CalendarListItem.is-selected &           { color: var(--white); }
     @nest .CalendarListItem.is-textual-schedule &   { font-size: smaller; }

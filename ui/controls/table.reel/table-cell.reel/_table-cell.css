@@ -11,7 +11,7 @@
 
 .TableCell-true:before {
     content: "✓";
-    color: #0dc92e;
+    color: var(--green);
 }
 
 .TableCell-content {

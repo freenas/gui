@@ -22,7 +22,7 @@
     padding: 0.2em 0.45em .25em;
     font-size: 0.7em;
     background: var(--grey-2);
-    color: #000;
+    color: var(--black);
     line-height: 1em;
     box-shadow: 0 2px 2px var(--shadow-1);
 }

@@ -1,7 +1,7 @@
 .InterfaceIcon {
     position: relative;
     line-height: 0;
-    color: red;
+    color: var(--red);
 }
 
 .InterfaceIcon svg {

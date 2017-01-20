@@ -13,6 +13,6 @@
     padding: .5em 0;
 
     &:hover {
-        color: color(#929E9F lightness(80%));
+        color: color(var(--grey-1) lightness(80%));
     }
 }

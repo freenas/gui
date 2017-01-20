@@ -32,9 +32,9 @@
     width:  1.4rem;
     height: 1.4rem;
     margin-right: .75rem;
-    color: #0090D3;
+    color: var(--color-selected);
 
-    @nest .selected & {
+    @nest .MainNavigationItem.selected & {
         color: var(--white);
     }
 }

@@ -3,7 +3,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    background-color: #0F1214;
+    background-color: var(--black);
     width: 15em;
     overflow: hidden;
     transition: margin .5s cubic-bezier(.7,0,.3,1);

@@ -35,7 +35,7 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-    background-color: #15171B;
+    background-color: var(--main-bg-color);
     background-size: cover, 310px 310px;
     background-image:
         radial-gradient(

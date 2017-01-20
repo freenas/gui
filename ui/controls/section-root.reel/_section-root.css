@@ -39,7 +39,7 @@
 .SectionRoot-title {
     color: var(--white);
     padding: .5em 1em;
-    background: purple;
+    background-color: var(--purple);
     font-weight: 400;
     margin: 0;
 }

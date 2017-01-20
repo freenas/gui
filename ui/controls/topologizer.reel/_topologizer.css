@@ -3,7 +3,7 @@
     position: relative;
     user-select: none;
     padding: 1em;
-    background: rgba(0,0,0,.2);
+    background: var(--transparent--darken);
 }
 
 .Topologizer-legend {
@@ -22,19 +22,19 @@
 .Topologizer-legend-item-marker {
     position: relative;
     top: .15em;
-    background: aqua;
+    background-color: var(--aqua);
     height: 1em;
     width:  1em;
     border-radius: 1em;
     margin-right: .5em;
-    border: 4px solid green;
+    border: 4px solid var(--green);
 }
 
 .Topologizer-legend-item-label {
     flex: 1;
     margin-right: .5em;
     font-weight: 200;
-    color: rgba(255,255,255,.8);
+    color: color(var(--white) a(80%));
 }
 
 .Topologizer-legend-item-score {
@@ -91,22 +91,22 @@
 /* marker colors - controls both svg and html */
 
 .Topologizer-color-speed {
-    background-color:   #4A90E2;
-    fill:               #4A90E2;
-    border-color:   #3672B9;
-    stroke:         #3672B9;
+    background-color:   var(--blue-lighten-2);
+    fill:               var(--blue-lighten-2);
+    border-color:   color(var(--blue-lighten-2) shade(15%));
+    stroke:         color(var(--blue-lighten-2) shade(15%));
 }
 
 .Topologizer-color-storage {
-    background-color:   #DE9B16;
-    fill:               #DE9B16;
-    border-color:   #92650B;
-    stroke:         #92650B;
+    background-color:   var(--yellow-orange);
+    fill:               var(--yellow-orange);
+    border-color:   color(var(--yellow-orange) shade(15%));
+    stroke:         color(var(--yellow-orange) shade(15%));
 }
 
 .Topologizer-color-redundancy {
-    background-color:   #BB78C5;
-    fill:               #BB78C5;
-    border-color:   #87508F;
-    stroke:         #87508F;
+    background-color:   var(--purple);
+    fill:               var(--purple);
+    border-color:   color(var(--purple) shade(15%));
+    stroke:         color(var(--purple) shade(15%));
 }

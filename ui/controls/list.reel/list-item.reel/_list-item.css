@@ -15,7 +15,7 @@
     transition: background-color .25s, color .25s, border-color .25s;
 
     &:hover {
-        background-color: #33373B;
+        background-color: color(var(--grey-blue) shade(20%));
         color: var(--main-text-color);
     }
 }
@@ -28,8 +28,8 @@
     color: var(--main-text-color);
 
     @nest .CascadingListItem:not(:nth-last-child(2)) & {
-        background:     color(var(--color-selected) blackness(35%));
-        border-color:   color(var(--color-selected) blackness(35%));
+        background:     color(var(--color-selected) shade(15%));
+        border-color:   color(var(--color-selected) shade(15%));
     }
 }
 

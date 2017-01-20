@@ -50,7 +50,7 @@
 }
 
 .Vdev-grid {
-    background: #282b2b;
+    background: var(--grey-1);
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
     box-shadow: 0 1px 1px var(--shadow-1);
@@ -72,7 +72,7 @@ Vdev Title
     position: relative;
     order: -1;
     text-align: left;
-    background: #222;
+    background: var(--grey-1);
     border-top-right-radius: 4px;
     border-top-left-radius:  4px;
     padding: 0 .25em;
@@ -84,7 +84,7 @@ Vdev Title
         display: inline-block;
         width:  .5em;
         height: .5em;
-        background: green;
+        background: var(--green);
         border-radius: .5em;
         margin-bottom: .02em;
         margin-right: .25em;
@@ -110,7 +110,7 @@ Vdev Title
     height: 0;
     border-left:    6px solid transparent;
     border-right:   6px solid transparent;
-    border-top:     6px solid #929e9f;
+    border-top:     6px solid var(--grey-1);
 }
 
 /* delete button */

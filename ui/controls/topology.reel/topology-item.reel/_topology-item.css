@@ -82,10 +82,10 @@ allocation bar
 
 /* Sets the different colors */
 
-.Topology-data .TopologyItem-title  { color: #D75B1B; }
-.Topology-cache .TopologyItem-title { color: #D68E2A; }
-.Topology-log .TopologyItem-title   { color: #929E9F; }
-.Topology-spare .TopologyItem-title { color: #CB6614; }
+.Topology-data .TopologyItem-title  { color: var(--orange-lighten-1); }
+.Topology-cache .TopologyItem-title { color: var(--orange); }
+.Topology-spare .TopologyItem-title { color: var(--orange-darken-1); }
+.Topology-log .TopologyItem-title   { color: var(--grey-1); }
 
 
 .Topology-log {
