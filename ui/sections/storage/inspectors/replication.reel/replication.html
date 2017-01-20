@@ -53,6 +53,7 @@
             "prototype": "ui/controls/field-treeview.reel",
             "properties": {
                 "element": {"#": "source_dataset"},
+                "isMandatory": true,
                 "controller": {"@": "datasetTreeController"},
                 "label": "Source dataset",
                 "allowPathInput": true
@@ -66,6 +67,7 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "name"},
+                "isMandatory": true,
                 "label": "Name"
             },
             "bindings": {
@@ -84,6 +86,7 @@
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "peer"},
+                "isMandatory": true,
                 "label": "Peer",
                 "converter": {"@": "peerOptionsConverter"}
             },
@@ -96,6 +99,7 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "target_dataset"},
+                "isMandatory": true,
                 "label": "Target dataset"
             },
             "bindings": {
