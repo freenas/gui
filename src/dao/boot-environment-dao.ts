@@ -10,11 +10,11 @@ export class BootEnvironmentDao extends AbstractDao {
     }
 
     public activate(bootEnvironment: any) {
-        return this.middlewareClient.submitTask('boot.environment.activate', [bootEnvironment.persistedId]);
+        return this.middlewareClient.submitTask('boot.environment.activate', [bootEnvironment.id]);
     }
 
     public clone(bootEnvironment: any, cloneName: string) {
-        return this.middlewareClient.submitTask('boot.environment.clone', [cloneName, bootEnvironment.persistedId]);
+        return this.middlewareClient.submitTask('boot.environment.clone', [cloneName, bootEnvironment.id]);
     }
 }
 

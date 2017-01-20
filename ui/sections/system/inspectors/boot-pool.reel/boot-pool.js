@@ -65,8 +65,8 @@ exports.BootPool = AbstractInspector.specialize(/** @lends BootPool# */ {
         value: function () {
             if (!this._populatingPromise && (!this.bootEnvironments || !this.bootVolume)) {
                 this._populatingPromise = Promise.all([
-                    this._sectionService.listBootEnvironments(),
-                    this._sectionService.getBootVolumeConfig(),
+                    this._bootEnvironmentService.list(),
+                    this._bootEnvironmentService.getBootVolumeConfig(),
                     this._sectionService.listDisks()
                 ]).bind(this).then(function (data) {
                     this.bootEnvironments = data[0];
