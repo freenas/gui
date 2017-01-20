@@ -5,7 +5,6 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
     DockerImageRepository = require("core/repository/docker-image-repository-ng").DockerImageRepository,
     DockerCollectionRepository = require("core/repository/docker-collection-repository-ng").DockerCollectionRepository,
     DockerNetworkRepository = require("core/repository/docker-network-repository").DockerNetworkRepository,
-    MiddlewareTaskRepository = require("core/repository/middleware-task-repository").MiddlewareTaskRepository,
     UserRepository = require("core/repository/user-repository").UserRepository,
     ApplicationContextService = require("core/service/application-context-service").ApplicationContextService,
     MiddlewareClient = require("core/service/middleware-client").MiddlewareClient,
@@ -15,7 +14,6 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
 
     init: {
         value: function (containerRepository, middlewareTaskRepository, applicationContextService, userRepository) {
-            this._middlewareTaskRepository = middlewareTaskRepository || MiddlewareTaskRepository.instance;
             this._containerRepository = containerRepository || ContainerRepository.instance;
             this._applicationContextService = applicationContextService || ApplicationContextService.instance;
             this._userRepository = userRepository || UserRepository.instance;
@@ -135,9 +133,7 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
 
     getSerialTokenWithDockerContainerId: {
         value: function (dockerContainerId) {
-            return this._containerRepository.getSerialConsoleToken(dockerContainerId).then(function (response) {
-                return response;
-            });
+            return this._containerRepository.getSerialConsoleToken(dockerContainerId);
         }
     },
 
@@ -167,31 +163,19 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
 
     pullDockerImageToDockerHost: {
         value: function (imageName, dockerHostId) {
-            var self = this;
-
-            this._middlewareTaskRepository.getNewMiddlewareTaskWithNameAndArgs("docker.image.pull", [imageName, dockerHostId]).then(function(middlewareTask) {
-                return self._middlewareTaskRepository.runMiddlewareTask(middlewareTask);
-            });
+            return this._containerRepository.pullImageToHost(imageName, dockerHostId);
         }
     },
 
     deleteDockerImageFromDockerHost: {
         value: function (imageId, dockerHostId) {
-            var self = this;
-
-            this._middlewareTaskRepository.getNewMiddlewareTaskWithNameAndArgs("docker.image.delete", [imageId, dockerHostId]).then(function(middlewareTask) {
-                return self._middlewareTaskRepository.runMiddlewareTask(middlewareTask);
-            });
+            return this._containerRepository.deleteImageFromHost(imageId, dockerHostId);
         }
     },
 
     deleteDockerImage: {
         value: function (dockerImage) {
-            var self = this;
-
-            this._middlewareTaskRepository.getNewMiddlewareTaskWithNameAndArgs("docker.image.delete", [dockerImage.id, null]).then(function(middlewareTask) {
-                return self._middlewareTaskRepository.runMiddlewareTask(middlewareTask);
-            });
+            return this._containerRepository.deleteImageFromHost(dockerImage.id, null);
         }
     },
 
@@ -233,7 +217,7 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
 
             return this._containerRepository.saveDockerNetwork(dockerNetwork).then(function (task) {
                 task.taskPromise.then(function () {
-                    //@pierre: need discution, probably not safe except if the name is unique.
+                    //@pierre: need discussion, probably not safe except if the name is unique.
                     return self.findDockerNetworkWithName(dockerNetwork.name);
                 }).then(function (networks) {
                     var containersToAdd, containersToRemove,
@@ -291,37 +275,27 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
 
     connectContainerToNetwork: {
         value: function (containerId, dockerNetworkId) {
-            var self = this;
-
-            this._middlewareTaskRepository.getNewMiddlewareTaskWithNameAndArgs("docker.network.connect", [containerId, dockerNetworkId]).then(function(middlewareTask) {
-                return self._middlewareTaskRepository.runMiddlewareTask(middlewareTask);
-            });
+            return this._containerRepository.connectContainerToNetwork(containerId, dockerNetworkId);
         }
     },
 
      disconnectContainersFromNetwork: {
         value: function (containers, dockerNetwork) {
+            var self = this,
+                networkId = dockerNetwork.id,
+                promise = null;
             if (dockerNetwork && containers) {
-                var promises = [];
-
-                for (var i = 0, length = containers.length; i < length; i++) {
-                    promises.push(this.disconnectContainerFromNetwork(containers[i], dockerNetwork.id));
-                }
-
-                return Promise.all(promises);
+                promise = Promise.all(_.map(containers, function(containerId) {
+                    return self.disconnectContainerFromNetwork(containerId, networkId);
+                }));
             }
-
-            return Promise.resolve(null);
+            return Promise.resolve(promise);
         }
     },
 
     disconnectContainerFromNetwork: {
         value: function (containerId, dockerNetworkId) {
-            var self = this;
-
-            this._middlewareTaskRepository.getNewMiddlewareTaskWithNameAndArgs("docker.network.disconnect", [containerId, dockerNetworkId]).then(function(middlewareTask) {
-                return self._middlewareTaskRepository.runMiddlewareTask(middlewareTask);
-            });
+            return this._containerRepository.disconnectContainerFromNetwork(containerId, dockerNetworkId);
         }
     },
 

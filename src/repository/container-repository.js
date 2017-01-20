@@ -268,6 +268,30 @@ exports.ContainerRepository = AbstractRepository.specialize({
         value: function () {
             return this._dockerContainerDao.generateMacAddress();
         }
+    },
+
+    pullImageToHost: {
+        value: function(imageName, hostId) {
+            return this._dockerImageDao.pullToHost(imageName, hostId);
+        }
+    },
+
+    deleteImageFromHost: {
+        value: function(imageId, hostId) {
+            return this._dockerImageDao.deleteFromHost(imageId, hostId);
+        }
+    },
+
+    connectContainerToNetwork: {
+        value: function(containerId, networkId) {
+            return this._dockerNetworkDao.connectContainer(networkId, containerId);
+        }
+    },
+
+    disconnectContainerFromNetwork: {
+        value: function(containerId, networkId) {
+            return this._dockerNetworkDao.disconnectContainer(networkId, containerId)
+        }
     }
 
 });
