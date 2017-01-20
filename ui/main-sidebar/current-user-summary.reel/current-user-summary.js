@@ -46,8 +46,8 @@ exports.CurrentUserSummary = Component.specialize({
     _loadUserSettings: {
         value: function(user) {
             if (user.attributes.userSettings) {
-                this.datePattern = user.attributes.userSettings.dateFormatShort;
-                this.timePattern = user.attributes.userSettings.timeFormatLong;
+                this.datePattern = user.attributes.userSettings.dateFormatShort || this.datePattern;
+                this.timePattern = user.attributes.userSettings.timeFormatLong || this.timePattern;
             }
         }
     },
