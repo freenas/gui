@@ -99,7 +99,8 @@ exports.AbstractInspector = AbstractComponentActionDelegate.specialize({
         value: function(defaults, ignored) {
             defaults = defaults || [];
             ignored = ignored || [];
-            var result = false;
+            var result = false,
+                self = this;
             if (!this.object._isNew) {
                 var reference = this.datastoreService.getState().get(this.object._objectType).get(this.object.id).toJS(),
                     object = _.pickBy(_.toPlainObject(this.object), function(value, key) {
@@ -107,8 +108,12 @@ exports.AbstractInspector = AbstractComponentActionDelegate.specialize({
                                 (key[0] !== '_' || key === '_objectType');
                     });
                 _.forEach(ignored, function(path) {
-                    _.unset(object, path);
-                    _.unset(reference, path);
+                    if (path.indexOf('.*.') !== -1) {
+                        self._recursivelyIgnore(_.split(path, '.'), object, reference);
+                    } else {
+                        _.unset(object, path);
+                        _.unset(reference, path);
+                    }
                 });
                 _.forEach(defaults, function(defaultKeyValue) {
                     var path = defaultKeyValue[0],
@@ -118,15 +123,30 @@ exports.AbstractInspector = AbstractComponentActionDelegate.specialize({
                         _.unset(reference, path);
                     }
                 });
-                // console.log(
-                //     _.reduce(object, function(result, value, key) {
-                //         return _.isEqual(value, reference[key]) ?
-                //             result : result.concat(key);
-                //     }, [])
-                // );
                 result = !_.isEqual(object,reference);
             }
             return result;
+        }
+    },
+
+    _recursivelyIgnore: {
+        value: function(parts, objectPart, referencePart) {
+            _.forEach(parts, function(part, depth) {
+                if (part === '*') {
+                    if (objectPart.length !== referencePart.length) {
+                        return false;
+                    }
+                    var relativePath = _.join(_.tail(_.slice(parts, depth)), '.');
+                    _.forEach(objectPart, function(entry, index) {
+                        _.unset(objectPart[index], relativePath);
+                        _.unset(referencePart[index], relativePath);
+                    });
+                    return false;
+                } else {
+                    objectPart = _.get(objectPart, part);
+                    referencePart = _.get(referencePart, part);
+                }
+            });
         }
     },
 

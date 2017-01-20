@@ -60,7 +60,7 @@ exports.NetworkInterface = AbstractInspector.specialize({
         value: function() {
             var self = this;
             return this.inspector.revert().then(function() {
-                self.object.type = self.interfaceType;
+                self._sectionService.initializeInterface(self.object);
             });
         }
     },
@@ -68,7 +68,7 @@ exports.NetworkInterface = AbstractInspector.specialize({
     _handleInspectorExit: {
         value: function() {
             var defaults = [['name']],
-                ignored = ['media', 'vlan'],
+                ignored = ['media', 'vlan', 'aliases.*.broadcast'],
                 self = this;
 
             if (this.hasObjectChanged(defaults, ignored)) {
