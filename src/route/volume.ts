@@ -167,7 +167,7 @@ export class VolumeRoute extends AbstractRoute {
         let self = this,
             columnIndex = 2,
             objectType = Model.DetachedVolume,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -199,7 +199,7 @@ export class VolumeRoute extends AbstractRoute {
         let self = this,
             objectType = Model.ZfsTopology,
             parentContext = stack[columnIndex - 1],
-            context = {
+            context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: parentContext,

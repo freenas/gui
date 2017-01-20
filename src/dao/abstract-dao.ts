@@ -178,7 +178,7 @@ export class AbstractDao {
         });
     }
 
-    private query(criteria?: any, isSingle?: boolean): Promise<any> {
+    protected query(criteria?: any, isSingle?: boolean): Promise<any> {
         let self = this,
             middlewareCriteria = criteria ? this.getMiddlewareCriteria(criteria, isSingle) : [];
         return this.datastoreService.query(self.objectType, self.queryMethod, this.idPath, middlewareCriteria).then(

@@ -52,7 +52,7 @@ export class ReplicationService {
     }
 
     public extractTransportOptions(replication) {
-        let result = {},
+        let result: any = {},
             length = replication.transport_options ? replication.transport_options.length || Object.keys(replication.transport_options).length : 0,
             option, i;
 

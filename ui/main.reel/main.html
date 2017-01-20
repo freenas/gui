@@ -70,7 +70,7 @@
             }
         },
         "modal": {
-            "prototype": "../controls/modal.reel",
+            "prototype": "blue-shark/ui/modal.reel",
             "properties": {
                 "element": {"#": "modal"}
             }
@@ -111,11 +111,26 @@
                 "element": {"#": "migrationSubstitution"}
             },
             "bindings": {
-                "switchValue": {"<-": "@owner.sectionGeneration"}
+                "switchValue": {"<-": "@owner.sectionGeneration"},
+                "classList.has('is-hidden')": {"<-": "!@signIn.isLoggedIn"}
+            }
+        },
+        "confirmationModal": {
+            "prototype": "blue-shark/ui/confirmation-modal.reel",
+            "properties": {
+                "element": {"#": "confirmationModal"}
+            },
+            "bindings": {
+                "isShown": {"<-": "@owner.application.confirmationModal.isShown"},
+                "message": {"<-": "@owner.application.confirmationModal.message"},
+                "title": {"<-": "@owner.application.confirmationModal.title"},
+                "buttonLabelFalse": {"<-": "@owner.application.confirmationModal.buttonLabelFalse"},
+                "buttonLabelTrue": {"<-": "@owner.application.confirmationModal.buttonLabelTrue"},
+                "deferred": {"<-": "@owner.application.confirmationModal.deferred"}
             }
         },
         "signInModal": {
-            "prototype": "ui/controls/modal.reel",
+            "prototype": "blue-shark/ui/modal.reel",
             "properties": {
                 "element": {"#": "signInModal"}
             },
@@ -159,6 +174,7 @@
         </div>
         <div data-montage-id="modal" class="Main-modal"></div>
         <div data-montage-id="disconnectionModal"></div>
+        <div data-montage-id="confirmationModal"></div>
     </div>
 </body>
 </html>

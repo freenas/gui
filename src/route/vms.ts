@@ -392,10 +392,12 @@ export class VmsRoute extends AbstractRoute {
                 path: parentContext.path + '/vm/_/' + encodeURIComponent(vmId)
             };
         return Promise.all([
-            this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function (uiDescriptor) {
+            this.modelDescriptorService.getUiDescriptorForType(objectType),
+            this.vmRepository.listVms()
+        ]).spread(function (uiDescriptor, allVms) {
             context.object = _.find(vms, {id: vmId});
             context.userInterfaceDescriptor = uiDescriptor;
+            context.object._parent = _.find(allVms, {id: context.object.parent});
 
             return self.updateStackWithContext(stack, context);
         });

@@ -1,5 +1,7 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     _ = require("lodash");
+    NotificationCenterModule = require("core/backend/notification-center"),
+    Model = require("core/model/model").Model;
 
 exports.WebUi = AbstractInspector.specialize({
 
@@ -54,10 +56,43 @@ exports.WebUi = AbstractInspector.specialize({
 
     save: {
         value: function() {
+            var self = this;
+
             return Promise.all([
                 this.application.systemService.saveAdvanced(this.systemAdvanced),
                 this.application.systemService.saveUi(this.config)
-            ]);
+            ]).spread(function (taskSaveAdvanced, taskSaveUi) {
+                taskSaveUi.taskPromise.then(function () {
+                    self._handleSaveDone();
+                });
+            });
+        }
+    },
+
+    _handleSaveDone: {
+        value: function () {
+            var config = this.config,
+                protocol = config.webui_protocol[0],
+                isHttpProtocol = protocol === "HTTP",
+                isHttpsProtocol = protocol === "HTTPS",
+                url = isHttpProtocol ? "http://" :
+                    isHttpsProtocol ? "https://" : void 0,
+
+                httpsPort = config.webui_https_port || 443,
+                httpPort = config.webui_http_port || 80,
+                port = isHttpProtocol ? httpPort : httpsPort,
+
+                ipv6 = config.ipv6,
+                ipv4 = config.ipv4,
+                ip = ipv6 || ipv4 || window.location.hostname;
+
+            if (url) {
+                url = url + ip + ":" + port;
+
+                if (window.location.href !== url) {
+                    window.location.href = url;
+                }
+            }
         }
     },
 
