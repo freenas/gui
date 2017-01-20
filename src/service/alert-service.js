@@ -4,7 +4,7 @@ var Montage = require("montage").Montage,
 exports.AlertService = Montage.specialize({
     constructor: {
         value: function () {
-            this._alertFilterRepository = AlertFilterRepository.instance;
+            this._alertFilterRepository = AlertFilterRepository.getInstance();
         }
     },
 

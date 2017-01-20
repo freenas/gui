@@ -1,9 +1,9 @@
-import {AbstractRepository} from "./abstract-repository-ng";
-import {ModelEventName} from "../model-event-name";
-import {Map} from "immutable";
-import {AlertDao} from "../dao/alert-dao";
-import * as Promise from "bluebird";
-import {Model} from "../model";
+import {AbstractRepository} from './abstract-repository-ng';
+import {ModelEventName} from '../model-event-name';
+import {Map} from 'immutable';
+import {AlertDao} from '../dao/alert-dao';
+import * as Promise from 'bluebird';
+import {Model} from '../model';
 
 export class AlertRepository extends AbstractRepository {
     private static instance: AlertRepository;
