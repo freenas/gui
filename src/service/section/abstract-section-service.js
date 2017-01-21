@@ -60,7 +60,7 @@ exports.AbstractSectionService = Montage.specialize({
             if (!this._instance) {
                 var self = this;
                 this._instance = new this();
-                this._sectionRepository = this._sectionRepository || SectionRepository.instance;
+                this._sectionRepository = this._sectionRepository || SectionRepository.getInstance();
                 var initReturn = this._instance.init();
                 if (!Promise.is(initReturn)) {
                     initReturn = Promise.resolve();
