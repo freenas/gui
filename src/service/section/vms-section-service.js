@@ -136,7 +136,10 @@ exports.VmsSectionService = AbstractSectionService.specialize({
                 return _.assign(
                     _.sortBy(
                         _.forEach(entries, function(entry) {
-                            self.categorizeDevices(entry);
+                            Promise.all([self.categorizeDevices(entry)]).then(function() {
+                                entry._hasGraphicDevice = _.get(entry, 'devices').some(function (x) {
+                                    return x.type === self._vmRepository.DEVICE_TYPE.GRAPHICS;                                                        });
+                            });
                         }),
                         'name'
                     ),
@@ -485,17 +488,17 @@ exports.VmsSectionService = AbstractSectionService.specialize({
             if (!this.entries) {
                 this.entries = [];
             }
-            vms.forEach(function(vm) {
+            _.forEach(vms.toJS(), function(vm) {
                 // DTM
-                var entry = _.find(self.entries, {id: vm.get('id')});
+                var entry = _.find(self.entries, {id: _.get(vm, 'id')});
                 if (entry) {
-                    entry._hasGraphicDevice = vm.get('devices').some(function (x) {
+                    entry._hasGraphicDevice = _.get(vm, 'devices').some(function (x) {
                         return x.type === self._vmRepository.DEVICE_TYPE.GRAPHICS;
                     });
                     self.mergeVm(entry, vm);
                 } else {
-                    entry = _.assign(vm.toJS(), {_objectType: Model.Vm});
-                    entry._hasGraphicDevice = vm.get('devices').some(function (x) {
+                    entry = _.assign(vm, {_objectType: Model.Vm});
+                    entry._hasGraphicDevice = _.get(vm, 'devices').some(function (x) {
                         return x.type === self._vmRepository.DEVICE_TYPE.GRAPHICS;
                     });
                     self.entries.push(entry);
@@ -504,7 +507,7 @@ exports.VmsSectionService = AbstractSectionService.specialize({
             // DTM
             if (this.entries) {
                 for (var i = this.entries.length - 1; i >= 0; i--) {
-                    if (!vms.has(this.entries[i].id)) {
+                    if (!_.has(vms, this.entries[i].id)) {
                         this.entries.splice(i, 1);
                     }
                 }
