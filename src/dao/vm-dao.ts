@@ -24,8 +24,8 @@ export class VmDao extends AbstractDao {
         return this.middlewareClient.submitTask('vm.start', [vm.id]);
     }
 
-    public stop(vm: any) {
-        return this.middlewareClient.submitTask('vm.stop', [vm.id]);
+    public stop(vm: any, force: any) {
+        return this.middlewareClient.submitTask('vm.stop', [vm.id, force]);
     }
 
     public reboot(vm: any) {

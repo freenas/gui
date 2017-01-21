@@ -178,8 +178,8 @@ export class VmRepository extends AbstractRepository {
         return this.vmDao.start(vm);
     }
 
-    public stopVm(vm: any) {
-        return this.vmDao.stop(vm);
+    public stopVm(vm: any, force: any) {
+        return this.vmDao.stop(vm, force);
     }
 
     public rebootVm(vm: any) {
