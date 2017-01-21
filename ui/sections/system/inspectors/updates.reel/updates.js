@@ -24,24 +24,9 @@ exports.Updates = AbstractInspector.specialize({
         }
     },
 
-    handleInstallUpdateAction: {
-        value: function() {
-            this._updateService.apply(true);
-        }
-    },
-
     handleVerifyAction: {
         value: function() {
             this._updateService.verify();
-        }
-    },
-
-    handleCheckDownloadAction: {
-        value: function() {
-            var self = this;
-            this._updateService.checkAndDownload().then(function(info) {
-                self.info = info;
-            });
         }
     },
 
