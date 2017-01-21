@@ -5,7 +5,6 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
     DockerImageRepository = require("core/repository/docker-image-repository-ng").DockerImageRepository,
     DockerCollectionRepository = require("core/repository/docker-collection-repository-ng").DockerCollectionRepository,
     DockerNetworkRepository = require("core/repository/docker-network-repository").DockerNetworkRepository,
-    UserRepository = require("core/repository/user-repository").UserRepository,
     ApplicationContextService = require("core/service/application-context-service").ApplicationContextService,
     MiddlewareClient = require("core/service/middleware-client").MiddlewareClient,
     _ = require("lodash");
@@ -16,7 +15,6 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         value: function (containerRepository, middlewareTaskRepository, applicationContextService, userRepository) {
             this._containerRepository = containerRepository || ContainerRepository.instance;
             this._applicationContextService = applicationContextService || ApplicationContextService.instance;
-            this._userRepository = userRepository || UserRepository.instance;
             DockerContainerRepository.getInstance();
             DockerNetworkRepository.getInstance();
             DockerHostRepository.getInstance();
@@ -140,12 +138,6 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
     getSerialConsoleUrl: {
         value: function (token) {
             return MiddlewareClient.getRootURL('http') + "/serial-console-app/#" + token;
-        }
-    },
-
-    saveCurrentUser: {
-        value: function (user) {
-            return this._userRepository.saveUser(user);
         }
     },
 

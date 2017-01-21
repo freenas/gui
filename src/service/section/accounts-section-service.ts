@@ -1,12 +1,13 @@
-import {AbstractSectionService} from "./abstract-section-service-ng";
-import {AccountRepository} from "../../repository/account-repository";
-import {Map, Iterable} from "immutable";
-import {KerberosRepository} from "../../repository/kerberos-repository";
-import {ShellRepository} from "../../repository/shell-repository";
-import * as Promise from "bluebird";
-import {ModelEventName} from "../../model-event-name";
-import {NtpServerRepository} from "../../repository/ntp-server-repository";
-import {SystemRepository} from "../../repository/system-repository";
+import {AbstractSectionService} from './abstract-section-service-ng';
+import {AccountRepository} from '../../repository/account-repository';
+import {Map, Iterable} from 'immutable';
+import {KerberosRepository} from '../../repository/kerberos-repository';
+import {ShellRepository} from '../../repository/shell-repository';
+import * as Promise from 'bluebird';
+import * as _ from 'lodash';
+import {ModelEventName} from '../../model-event-name';
+import {NtpServerRepository} from '../../repository/ntp-server-repository';
+import {SystemRepository} from '../../repository/system-repository';
 
 export class AccountsSectionService extends AbstractSectionService {
     private accountRepository: AccountRepository;
@@ -73,8 +74,7 @@ export class AccountsSectionService extends AbstractSectionService {
     }
 
     public saveKerberosKeytabWithKeytabStringBase64(kerberosKeytab, keytabStringBase64) {
-        kerberosKeytab.keytab = {"$binary": keytabStringBase64};
-        return this.kerberosRepository.saveKerberosKeytab(kerberosKeytab);
+        return this.kerberosRepository.saveKerberosKeytab(_.assign(kerberosKeytab, {keytab: {'$binary': keytabStringBase64}});
     }
 
     public getNewDirectoryForType(type: string) {
