@@ -1,17 +1,23 @@
 import {AbstractModelRepository} from './abstract-model-repository';
-import {Model} from '../model';
+import {DockerHostDao} from '../dao/docker-host-dao';
 
 export class DockerHostRepository extends AbstractModelRepository {
     private static instance: DockerHostRepository;
 
-    private constructor() {
-        super(Model.DockerHost);
+    private constructor(private dockerHostDao: DockerHostDao) {
+        super(dockerHostDao);
     }
 
     public static getInstance(): DockerHostRepository {
         if (!DockerHostRepository.instance) {
-            DockerHostRepository.instance = new DockerHostRepository();
+            DockerHostRepository.instance = new DockerHostRepository(
+                new DockerHostDao()
+            );
         }
         return DockerHostRepository.instance;
+    }
+
+    public listDockerHosts() {
+        return this.dockerHostDao.list();
     }
 }

@@ -1,31 +1,44 @@
 var AbstractSectionService = require("core/service/section/abstract-section-service").AbstractSectionService,
-    ContainerRepository = require("core/repository/container-repository").ContainerRepository,
     DockerContainerRepository = require("core/repository/docker-container-repository-ng").DockerContainerRepository,
     DockerHostRepository = require("core/repository/docker-host-repository-ng").DockerHostRepository,
     DockerImageRepository = require("core/repository/docker-image-repository-ng").DockerImageRepository,
     DockerCollectionRepository = require("core/repository/docker-collection-repository-ng").DockerCollectionRepository,
     DockerNetworkRepository = require("core/repository/docker-network-repository").DockerNetworkRepository,
+    DockerConfigRepository = require("core/repository/docker-config-repository").DockerConfigRepository,
+    DockerContainerLogsRepository = require("core/repository/docker-container-logs-repository").DockerContainerLogsRepository,
+    DockerContainerBridgeRepository = require("core/repository/docker-container-bridge-repository").DockerContainerBridgeRepository,
     ApplicationContextService = require("core/service/application-context-service").ApplicationContextService,
     MiddlewareClient = require("core/service/middleware-client").MiddlewareClient,
+    Model = require("core/model").Model,
     _ = require("lodash");
 
 exports.ContainerSectionService = AbstractSectionService.specialize({
 
     init: {
-        value: function (containerRepository, middlewareTaskRepository, applicationContextService, userRepository) {
-            this._containerRepository = containerRepository || ContainerRepository.instance;
-            this._applicationContextService = applicationContextService || ApplicationContextService.instance;
-            DockerContainerRepository.getInstance();
-            DockerNetworkRepository.getInstance();
-            DockerHostRepository.getInstance();
-            DockerImageRepository.getInstance();
-            DockerCollectionRepository.getInstance();
+        value: function () {
+            this._applicationContextService = ApplicationContextService.instance;
+            this._dockerContainerRepository = DockerContainerRepository.getInstance();
+            this._dockerNetworkRepository = DockerNetworkRepository.getInstance();
+            this._dockerHostRepository = DockerHostRepository.getInstance();
+            this._dockerImageRepository = DockerImageRepository.getInstance();
+            this._dockerCollectionRepository = DockerCollectionRepository.getInstance();
+            this._dockerConfigRepository = DockerConfigRepository.getInstance();
+            this._dockerContainerLogsRepository = DockerContainerLogsRepository.getInstance();
+            this._dockerContainerBridgeRepository = DockerContainerBridgeRepository.getInstance();
         }
     },
 
     loadEntries: {
         value: function() {
-            return this._containerRepository.listContainerSections();
+            return Promise.all([
+                this._dockerContainerRepository.getEmptyList(),
+                this._dockerHostRepository.getEmptyList(),
+                this._dockerImageRepository.getEmptyList(),
+                this._dockerCollectionRepository.getEmptyList(),
+                this._dockerNetworkRepository.getEmptyList()
+            ]).then(function (entries) {
+                return _.assign(entries, {_objectType: Model.DockerContainerSection};
+            });
         }
     },
 
@@ -37,79 +50,63 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
 
     listDockerContainers: {
         value: function () {
-            return this._containerRepository.listDockerContainers();
+            return this._dockerContainerRepository.listDockerContainers();
         }
     },
 
     listDockerImages: {
         value: function () {
-            return this._containerRepository.listDockerImages();
+            return this._dockerImageRepository.listDockerImages();
         }
     },
 
     listDockerHosts: {
         value: function () {
-            return this._containerRepository.listDockerHosts();
+            return this._dockerHostRepository.listDockerHosts();
         }
     },
 
     listDockerCollections: {
         value: function () {
-            return this._containerRepository.listDockerCollections();
+            return this._dockerCollectionRepository.listDockerCollections();
         }
     },
 
     getDockerSettings: {
         value: function () {
-            return this._containerRepository.getDockerContainerSettings();
+            return this._dockerConfigRepository.getDockerContainerSettings();
         }
     },
 
     getDockerImagesWithCollection: {
         value: function (collection) {
-            return this._containerRepository.getDockerImagesWithCollection(collection);
-        }
-    },
-
-    getNewInstanceRelatedToObjectModel: {
-        value: function (object) {
-            return this._containerRepository.getNewInstanceRelatedToObjectModel(object);
+            return this._dockerCollectionRepository.getDockerImagesWithCollection(collection);
         }
     },
 
     getNewInstanceFromObjectType: {
         value: function (objectType) {
-            return this._containerRepository.getNewInstanceFromObjectType(objectType);
+            return objectType === Model.DockerContainer ?
+                this._dockerContainerRepository.getNewDockerContainer() :
+                this._dockerImageRepository.getNewDockerImage();
         }
     },
 
     getNewDockerContainerLogs: {
         value: function () {
-            return this._containerRepository.getNewDockerContainerLogs();
+            return this._dockerContainerLogsRepository.getNewDockerContainerLogs();
         }
     },
 
     getNewDockerCollection: {
         value: function () {
-            return this._containerRepository.getNewDockerCollection();
+            return this._dockerCollectionRepository.getNewDockerCollection();
         }
     },
 
     getNewDockerContainerBridge: {
         value: function () {
-            return this._containerRepository.getNewDockerContainerBridge();
-        }
-    },
-
-    getNewDockerContainerCreator: {
-        value: function () {
-            return this._containerRepository.getNewDockerContainerCreator();
-        }
-    },
-
-    getNewDockerImagePull: {
-        value: function() {
-            return this._containerRepository.getNewImagePull();
+            return this._dockerContainerBridgeRepository.getNewDockerContainerBridge();
         }
     },
 
@@ -123,7 +120,7 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         value: function (dockerContainer) {
             var self = this;
 
-            return this._containerRepository.getInteractiveConsoleToken(dockerContainer.id).then(function (response) {
+            return this._dockerContainerRepository.getInteractiveConsoleToken(dockerContainer.id).then(function (response) {
                 return self.getSerialTokenWithDockerContainerId(response);
             });
         }
@@ -131,7 +128,7 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
 
     getSerialTokenWithDockerContainerId: {
         value: function (dockerContainerId) {
-            return this._containerRepository.getSerialConsoleToken(dockerContainerId);
+            return this._dockerContainerRepository.getSerialConsoleToken(dockerContainerId);
         }
     },
 
@@ -143,71 +140,70 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
 
     saveSettings: {
         value: function (settings) {
-            return this._containerRepository.saveSettings(settings);
+            return this._dockerConfigRepository.saveSettings(settings);
         }
     },
 
     saveContainer: {
         value: function (container) {
-            return this._containerRepository.saveContainer(container);
+            return this._dockerContainerRepository.saveContainer(container);
         }
     },
 
     pullDockerImageToDockerHost: {
         value: function (imageName, dockerHostId) {
-            return this._containerRepository.pullImageToHost(imageName, dockerHostId);
+            return this._dockerImageRepository.pullImageToHost(imageName, dockerHostId);
         }
     },
 
     deleteDockerImageFromDockerHost: {
         value: function (imageId, dockerHostId) {
-            return this._containerRepository.deleteImageFromHost(imageId, dockerHostId);
+            return this._dockerImageRepository.deleteImageFromHost(imageId, dockerHostId);
         }
     },
 
     deleteDockerImage: {
         value: function (dockerImage) {
-            return this._containerRepository.deleteImageFromHost(dockerImage.id, null);
+            return this._dockerImageRepository.deleteImageFromHost(dockerImage.id, null);
         }
     },
 
     startContainer: {
         value: function(container) {
-            return this._containerRepository.startContainer(container);
+            return this._dockerContainerRepository.startContainer(container);
         }
     },
 
     stopContainer: {
         value: function(container) {
-            return this._containerRepository.stopContainer(container);
+            return this._dockerContainerRepository.stopContainer(container);
         }
     },
 
     getReadmeforDockerImage: {
         value: function(dockerImageName) {
-            return this._containerRepository.getReadmeforDockerImage(dockerImageName);
+            return this._dockerImageRepository.getReadmeForDockerImage(dockerImageName);
         }
     },
 
     getNewDockerNetwork: {
         value: function () {
-            return this._containerRepository.getNewDockerNetwork();
+            return this._dockerNetworkRepository.getNewDockerNetwork();
         }
     },
 
     listDockerNetworks: {
         value: function () {
-            return this._containerRepository.listDockerNetworks();
+            return this._dockerNetworkRepository.listDockerNetworks();
         }
     },
 
     saveDockerNetwork: {
         value: function (dockerNetwork) {
             var self = this,
-                newContainers = dockerNetwork.containers,
-                previousContainers;
+                newContainers = dockerNetwork.containers;
 
-            return this._containerRepository.saveDockerNetwork(dockerNetwork).then(function (task) {
+            return this._dockerNetworkRepository.saveDockerNetwork(dockerNetwork).then(function (task) {
                 task.taskPromise.then(function () {
                     //@pierre: need discussion, probably not safe except if the name is unique.
                     return self.findDockerNetworkWithName(dockerNetwork.name);
@@ -245,7 +241,7 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
 
     findDockerNetworkWithName: {
         value: function (name) {
-            return this._containerRepository.findNetworkWithName(name);
+            return this._dockerNetworkRepository.findNetworkWithName(name);
         }
     },
 
@@ -267,7 +263,7 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
 
     connectContainerToNetwork: {
         value: function (containerId, dockerNetworkId) {
-            return this._containerRepository.connectContainerToNetwork(containerId, dockerNetworkId);
+            return this._dockerNetworkRepository.connectContainerToNetwork(containerId, dockerNetworkId);
         }
     },
 
@@ -287,13 +283,13 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
 
     disconnectContainerFromNetwork: {
         value: function (containerId, dockerNetworkId) {
-            return this._containerRepository.disconnectContainerFromNetwork(containerId, dockerNetworkId);
+            return this._dockerNetworkRepository.disconnectContainerFromNetwork(containerId, dockerNetworkId);
         }
     },
 
     generateMacAddress: {
         value: function () {
-            return this._containerRepository.generateMacAddress();
+            return this._dockerContainerRepository.generateMacAddress();
         }
     }
 
