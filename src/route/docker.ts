@@ -2,19 +2,31 @@ import * as _ from 'lodash';
 import * as Promise from 'bluebird';
 import {EventDispatcherService} from '../service/event-dispatcher-service';
 import {ModelDescriptorService} from '../service/model-descriptor-service';
-import {ContainerRepository} from '../repository/container-repository';
 import {AbstractRoute} from './abstract-route';
 import {Model} from '../model';
 import {ModelEventName} from '../model-event-name';
 import {DataObjectChangeService} from '../service/data-object-change-service';
+import {DockerHostRepository} from '../repository/docker-host-repository-ng';
+import {DockerImageReadmeRepository} from '../repository/docker-image-readme-repository';
+import {DockerImageRepository} from '../repository/docker-image-repository-ng';
+import {DockerCollectionRepository} from '../repository/docker-collection-repository-ng';
+import {DockerContainerRepository} from '../repository/docker-container-repository-ng';
+import {DockerNetworkRepository} from '../repository/docker-network-repository';
+import {DockerContainerLogsRepository} from '../repository/docker-container-logs-repository';
 
 export class DockerRoute extends AbstractRoute {
     private static instance: DockerRoute;
 
-     private constructor(private modelDescriptorService: ModelDescriptorService,
-                         eventDispatcherService: EventDispatcherService,
-                         private dataObjectChangeService: DataObjectChangeService,
-                         private dockerRepository: ContainerRepository) {
+    private constructor(private modelDescriptorService: ModelDescriptorService,
+                        eventDispatcherService: EventDispatcherService,
+                        private dataObjectChangeService: DataObjectChangeService,
+                        private dockerHostRepository: DockerHostRepository,
+                        private dockerImageRepository: DockerImageRepository,
+                        private dockerCollectionRepository: DockerCollectionRepository,
+                        private dockerContainerRepository: DockerContainerRepository,
+                        private dockerNetworkRepository: DockerNetworkRepository,
+                        private dockerContainerLogsRepository: DockerContainerLogsRepository,
+                        private dockerImageReadmeRepository: DockerImageReadmeRepository) {
         super(eventDispatcherService);
     }
 
@@ -24,7 +36,13 @@ export class DockerRoute extends AbstractRoute {
                 ModelDescriptorService.getInstance(),
                 EventDispatcherService.getInstance(),
                 new DataObjectChangeService(),
-                ContainerRepository.instance
+                DockerHostRepository.getInstance(),
+                DockerImageRepository.getInstance(),
+                DockerCollectionRepository.getInstance(),
+                DockerContainerRepository.getInstance(),
+                DockerNetworkRepository.getInstance(),
+                DockerContainerLogsRepository.getInstance(),
+                DockerImageReadmeRepository.getInstance()
             );
         }
         return DockerRoute.instance;
@@ -42,12 +60,12 @@ export class DockerRoute extends AbstractRoute {
                 path: parentContext.path + '/docker-host'
             };
         return Promise.all([
-            this.dockerRepository.listDockerHosts(),
+            this.dockerHostRepository.listDockerHosts(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread((hosts: any, uiDescriptor) => {
             context.object = hosts;
             context.userInterfaceDescriptor = uiDescriptor;
-            context.changeListener = self.eventDispatcherService.addEventListener(ModelEventName[objectType].listChange, function(state) {
+            context.changeListener = self.eventDispatcherService.addEventListener(ModelEventName[objectType].listChange, function (state) {
                 self.dataObjectChangeService.handleDataChange(hosts, state);
             });
 
@@ -66,7 +84,7 @@ export class DockerRoute extends AbstractRoute {
                 path: parentContext.path + '/_/' + hostId
             };
         return Promise.all([
-            this.dockerRepository.listDockerHosts(),
+            this.dockerHostRepository.listDockerHosts(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread((hosts: any, uiDescriptor) => {
             context.object = _.find(hosts, {id: hostId});
@@ -88,12 +106,12 @@ export class DockerRoute extends AbstractRoute {
                 path: parentContext.path + '/docker-image'
             };
         return Promise.all([
-            this.dockerRepository.listDockerImages(),
+            this.dockerImageRepository.listDockerImages(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread((images: any, uiDescriptor) => {
             context.object = images;
             context.userInterfaceDescriptor = uiDescriptor;
-            context.changeListener = self.eventDispatcherService.addEventListener(ModelEventName[objectType].listChange, function(state) {
+            context.changeListener = self.eventDispatcherService.addEventListener(ModelEventName[objectType].listChange, function (state) {
                 self.dataObjectChangeService.handleDataChange(images, state);
             });
 
@@ -112,7 +130,7 @@ export class DockerRoute extends AbstractRoute {
                 path: parentContext.path + '/_/' + imageId
             };
         return Promise.all([
-            this.dockerRepository.listDockerImages(),
+            this.dockerImageRepository.listDockerImages(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread((images: any, uiDescriptor) => {
             context.object = _.find(images, {id: imageId});
@@ -122,7 +140,7 @@ export class DockerRoute extends AbstractRoute {
         });
     }
 
-    public pullImage (collectionId, stack: Array<any>) {
+    public pullImage(collectionId, stack: Array<any>) {
         let objectType = Model.DockerImagePull,
             columnIndex = 2,
             parentContext = stack[columnIndex],
@@ -133,8 +151,8 @@ export class DockerRoute extends AbstractRoute {
                 path: parentContext.path
             };
         return Promise.all([
-            this.dockerRepository.getNewDockerImage(),
-            this.dockerRepository.listDockerCollections(),
+            this.dockerImageRepository.getNewDockerImage(),
+            this.dockerCollectionRepository.listDockerCollections(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread((image: any, collections, uiDescriptor) => {
             image.dockerCollection = _.find(collections, {id: collectionId});
@@ -159,12 +177,12 @@ export class DockerRoute extends AbstractRoute {
                 path: parentContext.path + '/docker-collection'
             };
         return Promise.all([
-            this.dockerRepository.listDockerCollections(),
+            this.dockerCollectionRepository.listDockerCollections(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread((images: any, uiDescriptor) => {
             context.object = images;
             context.userInterfaceDescriptor = uiDescriptor;
-            context.changeListener = self.eventDispatcherService.addEventListener(ModelEventName[objectType].listChange, function(state) {
+            context.changeListener = self.eventDispatcherService.addEventListener(ModelEventName[objectType].listChange, function (state) {
                 self.dataObjectChangeService.handleDataChange(images, state);
             });
 
@@ -183,7 +201,7 @@ export class DockerRoute extends AbstractRoute {
                 path: parentContext.path + '/_/' + collectionId
             };
         return Promise.all([
-            this.dockerRepository.listDockerCollections(),
+            this.dockerCollectionRepository.listDockerCollections(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread((collections: any, uiDescriptor) => {
             context.object = _.find(collections, {id: collectionId});
@@ -205,12 +223,12 @@ export class DockerRoute extends AbstractRoute {
                 path: parentContext.path + '/docker-container'
             };
         return Promise.all([
-            this.dockerRepository.listDockerContainers(),
+            this.dockerContainerRepository.listDockerContainers(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread((containers: any, uiDescriptor) => {
             context.object = containers;
             context.userInterfaceDescriptor = uiDescriptor;
-            context.changeListener = self.eventDispatcherService.addEventListener(ModelEventName[objectType].listChange, function(state) {
+            context.changeListener = self.eventDispatcherService.addEventListener(ModelEventName[objectType].listChange, function (state) {
                 self.dataObjectChangeService.handleDataChange(containers, state);
             });
 
@@ -230,7 +248,7 @@ export class DockerRoute extends AbstractRoute {
             };
 
         return Promise.all([
-            this.dockerRepository.listDockerContainers(),
+            this.dockerContainerRepository.listDockerContainers(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread((containers: any, uiDescriptor) => {
             context.object = _.find(containers, {id: containerId});
@@ -240,7 +258,7 @@ export class DockerRoute extends AbstractRoute {
         });
     }
 
-    public getSettings (stack: Array<any>) {
+    public getSettings(stack: Array<any>) {
         // todo
     }
 
@@ -257,7 +275,7 @@ export class DockerRoute extends AbstractRoute {
             };
 
         return Promise.all([
-            this.dockerRepository.listDockerCollections(),
+            this.dockerCollectionRepository.listDockerCollections(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread((collections, uiDescriptor) => {
             context.object = collections;
@@ -278,7 +296,7 @@ export class DockerRoute extends AbstractRoute {
                 path: parentContext.path + '/create'
             };
         return Promise.all([
-            this.dockerRepository.getNewDockerCollection(),
+            this.dockerCollectionRepository.getNewDockerCollection(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread((collection, uiDescriptor) => {
             context.userInterfaceDescriptor = uiDescriptor;
@@ -300,8 +318,8 @@ export class DockerRoute extends AbstractRoute {
                 path: parentContext.path + '/' + collectionId
             };
         return Promise.all([
-            this.dockerRepository.getNewDockerContainer(),
-            this.dockerRepository.listDockerCollections(),
+            this.dockerContainerRepository.getNewDockerContainer(),
+            this.dockerCollectionRepository.listDockerCollections(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread((container: any, collections, uiDescriptor) => {
             container.dockerCollection = _.find(collections, {id: collectionId});
@@ -317,7 +335,7 @@ export class DockerRoute extends AbstractRoute {
     public getReadme(stack: Array<any>) {
         let objectType = Model.DockerImageReadme,
             columnIndex = 3,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             imageName = parentContext.object.image,
             context: any = {
                 columnIndex: columnIndex,
@@ -326,8 +344,8 @@ export class DockerRoute extends AbstractRoute {
                 path: parentContext.path + '/readme'
             };
         return Promise.all([
-            this.dockerRepository.getDockerImageReadme(),
-            this.dockerRepository.getReadmeforDockerImage(imageName),
+            this.dockerImageReadmeRepository.getDockerImageReadme(),
+            this.dockerImageRepository.getReadmeForDockerImage(imageName),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread((dockerImageReadme, readme, uiDescriptor) => {
             (dockerImageReadme as any).text = readme;
@@ -341,7 +359,7 @@ export class DockerRoute extends AbstractRoute {
     public listDockerNetworks(stack: Array<any>) {
         let objectType = Model.DockerNetwork,
             columnIndex = 1,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -349,7 +367,7 @@ export class DockerRoute extends AbstractRoute {
                 path: parentContext.path + '/docker-network'
             };
         return Promise.all([
-            this.dockerRepository.listDockerNetworks(),
+            this.dockerNetworkRepository.listDockerNetworks(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread((networks, uiDescriptor) => {
             context.object = networks;
@@ -365,7 +383,7 @@ export class DockerRoute extends AbstractRoute {
     public getDockerNetwork(dockerNetworkId, stack: Array<any>) {
         let objectType = Model.DockerNetwork,
             columnIndex = 2,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -374,7 +392,7 @@ export class DockerRoute extends AbstractRoute {
             };
 
         return Promise.all([
-            this.dockerRepository.listDockerNetworks(),
+            this.dockerNetworkRepository.listDockerNetworks(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread((networks, uiDescriptor) => {
             context.object = _.find(networks, {id: dockerNetworkId});
@@ -384,10 +402,10 @@ export class DockerRoute extends AbstractRoute {
         });
     }
 
-    public createDockerNetwork(stack:Array<any>) {
+    public createDockerNetwork(stack: Array<any>) {
         let objectType = Model.DockerNetwork,
             columnIndex = 2,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -395,7 +413,7 @@ export class DockerRoute extends AbstractRoute {
                 path: parentContext.path + '/create'
             };
         return Promise.all([
-            this.dockerRepository.getNewDockerNetwork(),
+            this.dockerNetworkRepository.getNewDockerNetwork(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread((dockerNetwork, uiDescriptor) => {
             (dockerNetwork as any)._isNewObject = true;
@@ -406,11 +424,10 @@ export class DockerRoute extends AbstractRoute {
         });
     }
 
-
-    public getContainerLogs(stack:Array<any>) {
+    public getContainerLogs(stack: Array<any>) {
         let objectType = Model.DockerContainerLogs,
             columnIndex = 3,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -419,7 +436,7 @@ export class DockerRoute extends AbstractRoute {
             };
 
         return Promise.all([
-            this.dockerRepository.getNewDockerContainerLogs(),
+            this.dockerContainerLogsRepository.getNewDockerContainerLogs(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread((dockerContainerLogs, uiDescriptor) => {
             context.object = dockerContainerLogs;

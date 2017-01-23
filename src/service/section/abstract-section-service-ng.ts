@@ -4,7 +4,7 @@ import {EventDispatcherService} from '../event-dispatcher-service';
 import * as Promise from "bluebird";
 
 export abstract class AbstractSectionService {
-    private static readonly sectionRepository: SectionRepository = SectionRepository.instance;
+    private static readonly sectionRepository: SectionRepository = SectionRepository.getInstance();
     protected eventDispatcherService: EventDispatcherService;
     public instanciationPromise: Promise<AbstractSectionService>;
     public section: Section;

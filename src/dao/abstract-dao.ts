@@ -19,7 +19,7 @@ export class AbstractDao {
     private taskDescriptorsPromise: Map<string, Promise<any>>;
 
     private middlewareName: string;
-    private objectType: string;
+    public objectType: string;
     private queryMethod: string;
     public createMethod: string;
     public updateMethod: string;

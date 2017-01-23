@@ -68,13 +68,14 @@ builds/
 bin/
 
 core/*.js
-core/dao/
-core/repository/
-core/service/
 core/backend/
+core/components/
 core/controller/
 core/converter/
+core/dao/
 core/reducers/
+core/repository/
 core/route/
+core/service/
 ui/**/*.css
 !ui/**/_*.css

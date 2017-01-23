@@ -1,7 +1,9 @@
 import {Map} from 'immutable';
 import * as _ from 'lodash';
+
 export class DataObjectChangeService {
-    public handleDataChange(uiObjects: Array<any>, state: Map<string, Map<string, any>>, objectType?: string) {
+    public handleDataChange(uiObjects: Array<any>, state: Map<string, Map<string, any>>, objectType?: string): Array<any> {
+        uiObjects = uiObjects || [];
         state.forEach(function(volume) {
             let entry = _.find(uiObjects, {id: volume.get('id')});
             if (entry) {
@@ -19,5 +21,6 @@ export class DataObjectChangeService {
                 }
             }
         }
+        return uiObjects;
     }
 }
