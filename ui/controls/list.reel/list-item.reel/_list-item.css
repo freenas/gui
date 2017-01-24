@@ -26,11 +26,12 @@
     background: var(--color-selected);
     cursor: default;
     color: var(--main-text-color);
+    border-color: transparent;
 
-    @nest .CascadingListItem:not(:nth-last-child(2)) & {
+    /* @nest .CascadingListItem:not(:nth-last-child(2)) & {
         background:     color(var(--color-selected) shade(15%));
         border-color:   color(var(--color-selected) shade(15%));
-    }
+    } */
 }
 
 .ListItem + .ListItem,
