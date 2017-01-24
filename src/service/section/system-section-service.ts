@@ -2,7 +2,6 @@ import {AbstractSectionService} from './abstract-section-service-ng';
 import {SystemRepository} from '../../repository/system-repository';
 import {NtpServerRepository} from '../../repository/ntp-server-repository';
 import {VmRepository} from '../../repository/vm-repository';
-import {ContainerRepository} from '../../repository/container-repository';
 import {NetworkRepository} from '../../repository/network-repository';
 import {CryptoCertificateRepository} from '../../repository/crypto-certificate-repository';
 import {TunableRepository} from '../../repository/tunable-repository';
@@ -16,12 +15,13 @@ import {ModelEventName} from '../../model-event-name';
 import {DataObjectChangeService} from '../data-object-change-service';
 import * as Immutable from 'immutable';
 import * as _ from 'lodash';
+import {DockerContainerRepository} from '../../repository/docker-container-repository-ng';
 
 export class SystemSectionService extends AbstractSectionService {
     private systemRepository: SystemRepository;
     private ntpServerRepository: NtpServerRepository;
     private vmRepository: VmRepository;
-    private containerRepository: ContainerRepository;
+    private dockerContainerRepository: DockerContainerRepository;
     private networkRepository: NetworkRepository;
     private cryptoCertificateRepository: CryptoCertificateRepository;
     private tunableRepository: TunableRepository;
@@ -41,7 +41,7 @@ export class SystemSectionService extends AbstractSectionService {
         this.systemRepository = SystemRepository.getInstance();
         this.ntpServerRepository = NtpServerRepository.getInstance();
         this.vmRepository = VmRepository.getInstance();
-        this.containerRepository = ContainerRepository.instance;
+        this.dockerContainerRepository = DockerContainerRepository.getInstance();
         this.networkRepository = NetworkRepository.getInstance();
         this.cryptoCertificateRepository = CryptoCertificateRepository.getInstance();
         this.tunableRepository = TunableRepository.getInstance();
@@ -112,7 +112,7 @@ export class SystemSectionService extends AbstractSectionService {
     }
 
     public listContainers() {
-        return this.containerRepository.listDockerContainers();
+        return this.dockerContainerRepository.listDockerContainers();
     }
 
     public listNetworkInterfaces() {
