@@ -182,6 +182,7 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
                 entry = values[i];
 
                 if (entry.host_path && entry.container_path) {
+                    delete entry.isLocked;
                     volumes.push(entry);
                 }
             }
