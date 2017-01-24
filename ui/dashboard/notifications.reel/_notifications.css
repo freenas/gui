@@ -19,7 +19,7 @@
     position: relative;
     z-index: 1;
     flex: 1;
-    background-color: var(--grey-blue);
+    background-color: var(--main-bg-color);
     transition: transform .5s cubic-bezier(.7,0,.3,1);
 }
 

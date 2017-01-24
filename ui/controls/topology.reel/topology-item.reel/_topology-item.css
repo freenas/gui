@@ -83,8 +83,8 @@ allocation bar
 /* Sets the different colors */
 
 .Topology-data .TopologyItem-title  { color: var(--orange-lighten-1); }
-.Topology-cache .TopologyItem-title { color: var(--orange); }
-.Topology-spare .TopologyItem-title { color: var(--orange-darken-1); }
+.Topology-cache .TopologyItem-title { color: var(--orange-darken-2); }
+.Topology-spare .TopologyItem-title { color: var(--orange); }
 .Topology-log .TopologyItem-title   { color: var(--grey-1); }
 
 

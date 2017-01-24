@@ -12,7 +12,7 @@
 }
 
 .TrafficLight.is-green .TrafficLight-light {
-    color: var(--green);
+    color: color(var(--green) tint(0%));
 }
 
 .TrafficLight.is-yellow .TrafficLight-light {

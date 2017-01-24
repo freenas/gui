@@ -35,7 +35,7 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-    background-color: var(--main-bg-color);
+    background-color: color(var(--grey) shade(5%));
     background-size: cover, 310px 310px;
     background-image:
         radial-gradient(
@@ -43,7 +43,7 @@
             rgba(255, 255, 255, .1),
             rgba(0, 0, 0, .05)
         ),
-        url(../../assets/images/bg.png);
+        /* url(../../assets/images/bg.png); */
 }
 
 .SignInModal.montage-Overlay--visible {

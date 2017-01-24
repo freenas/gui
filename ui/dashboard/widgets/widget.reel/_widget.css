@@ -23,7 +23,7 @@
     padding: .5rem;
     line-height: 1em;
     height: 2.5em;
-    background-color: var(--grey);
+    background-color: var(--grey-blue);
     color: var(--grey-3);
 
     & svg {

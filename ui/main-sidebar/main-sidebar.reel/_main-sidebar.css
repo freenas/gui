@@ -1,10 +1,10 @@
 .MainSidebar {
     display: flex;
     flex-direction: column;
-    border-right: 2px solid var(--black);
-    background-color: rgba(43, 156, 216, 1);
+    border-right: 1px solid var(--grey);
+    background-color: var(--blue-darken-3);
     background-size: 310px 195px;
-    background-image: url(../../../assets/images/bg.png);
+    /* background-image: url(../../../assets/images/bg.png); */
     width: 9rem;
 }
 
