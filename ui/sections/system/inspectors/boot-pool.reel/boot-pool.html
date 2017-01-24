@@ -138,6 +138,13 @@
                 "rows": {"<-": "@owner.bootEnvironments.filter{!active && !onReboot}"}
             }
         },
+        "bootVolumeTopologySection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "bootVolumeTopologySection"},
+                "title": "Boot Volume Disks"
+            }
+        },
         "scrub": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
@@ -157,9 +164,11 @@
             <div data-montage-id="bootVolumeUsed"></div>
             <div data-montage-id="bootVolumeCapacityUsed"></div>
             <div data-montage-id="bootVolumeCondition"></div>
-            <div data-montage-id="bootPoolTopologyTable" class="BootPool-table"></div>
             <div data-montage-id="activeEnvironmentTable" class="BootPool-table BootPool-activeEnvironmentTable"></div>
             <div data-montage-id="inactiveEnvironmentTable" class="BootPool-table"></div>
+            <div data-montage-id="bootVolumeTopologySection">
+                <div data-montage-id="bootPoolTopologyTable" class="BootPool-table"></div>
+            </div>
             <div data-arg="footer-additional-button" class="ActionButtons">
                 <div data-montage-id="scrub"></div>
             </div>
