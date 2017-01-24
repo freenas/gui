@@ -66,6 +66,13 @@
             "bindings": {
                 "values": {"<->": "@owner.object.parameters.addresses"}
             }
+        },
+        "info": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "info"},
+                "label": "alerts will only send when all predicates are true"
+            }
         }
     }
     </script>
@@ -75,6 +82,7 @@
         <div data-montage-id="inspector">
             <div data-montage-id="id"></div>
             <div data-montage-id="table" class="g-margin-bottom"></div>
+            <div data-montage-id="info"></div>
             <div data-montage-id="addresses"></div>
         </div>
     </div>
