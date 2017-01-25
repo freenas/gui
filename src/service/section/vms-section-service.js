@@ -133,18 +133,16 @@ exports.VmsSectionService = AbstractSectionService.specialize({
             this.entries = [];
             this.entries._objectType = 'Vm';
             return this._vmRepository.listVms().then(function(entries) {
-                return _.assign(
-                    _.sortBy(
-                        _.forEach(entries, function(entry) {
-                            Promise.all([self.categorizeDevices(entry)]).then(function() {
-                                entry._hasGraphicDevice = _.get(entry, 'devices').some(function (x) {
-                                    return x.type === self._vmRepository.DEVICE_TYPE.GRAPHICS;                                                        });
-                            });
-                        }),
-                        'name'
-                    ),
-                    { _objectType: 'Vm' }
-                );
+                return _.assign(_.sortBy(entries, 'name' ), { _objectType: 'Vm' });
+            }).then(function(entries) {
+                return Promise.all(_.map(entries, function(entry) {
+                    return Promise.all([self.categorizeDevices(entry)]).then(function() {
+                        entry._hasGraphicDevice = _.get(entry, 'devices').some(function (x) {
+                            return x.type === self._vmRepository.DEVICE_TYPE.GRAPHICS;
+                        });
+                        return entry;
+                    });
+                }));
             });
         }
     },
@@ -406,9 +404,9 @@ exports.VmsSectionService = AbstractSectionService.specialize({
     },
 
     mergeVm: {
-        value: function(vm, state) {
+        value: function(vm, newVm) {
             var self = this;
-            _.assignWith(vm, state.toJS(), function(oldValue, newValue, key, oldVm) {
+            _.assignWith(vm, newVm, function(oldValue, newValue, key, oldVm) {
                 if (key === 'devices') {
                     var devices = self._mergeDevices(oldValue || [], newValue || []);
                     self.categorizeDevices(oldVm);
@@ -507,7 +505,7 @@ exports.VmsSectionService = AbstractSectionService.specialize({
             // DTM
             if (this.entries) {
                 for (var i = this.entries.length - 1; i >= 0; i--) {
-                    if (!_.has(vms, this.entries[i].id)) {
+                    if (!vms.has(this.entries[i].id)) {
                         this.entries.splice(i, 1);
                     }
                 }
