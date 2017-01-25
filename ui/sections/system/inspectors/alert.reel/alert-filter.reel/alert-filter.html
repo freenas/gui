@@ -68,10 +68,13 @@
             }
         },
         "info": {
-            "prototype": "blue-shark/ui/field-text.reel",
+            "prototype": "montage/ui/text.reel",
             "properties": {
                 "element": {"#": "info"},
-                "label": "alerts will only send when all predicates are true"
+                "value": "Alerts will only send when all predicates are true."
+            },
+            "bindings": {
+                "classList.has('hide')" : {"<-": "!@table.rows || @table.rows.length == 0"}
             }
         }
     }
@@ -81,8 +84,8 @@
     <div data-montage-id="owner" class="AlertFilter">
         <div data-montage-id="inspector">
             <div data-montage-id="id"></div>
-            <div data-montage-id="table" class="g-margin-bottom"></div>
-            <div data-montage-id="info"></div>
+            <div data-montage-id="table"></div>
+            <div data-montage-id="info" class="g-margin-bottom"></div>
             <div data-montage-id="addresses"></div>
         </div>
     </div>

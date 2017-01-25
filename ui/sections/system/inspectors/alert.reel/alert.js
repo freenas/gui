@@ -8,6 +8,8 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
 exports.Alert = AbstractInspector.specialize( {
     _inspectorTemplateDidLoad: {
         value: function () {
+            this.entries = [];
+            this.entries._objectType = 'AlertFilter';
             this._service = AlertService.instance;
             this._dataObjectChangeService = new DataObjectChangeService();
             this._eventDispatcherService = EventDispatcherService.getInstance();
