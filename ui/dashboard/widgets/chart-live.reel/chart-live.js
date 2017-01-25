@@ -57,6 +57,29 @@ exports.ChartLive = Component.specialize({
         }
     },
 
+    _defaultLabelSorter: {
+        value: function(a, b) {
+            var strA = a.replace(/\d+$/, ''),
+                strB = b.replace(/\d+$/, '');
+
+            if (strA === strB) {
+                return +(a.replace(strA, '')) - +(b.replace(strB, ''));
+            }
+            return Object.compare(a, b);
+        }
+    },
+
+    _getChartLabelSorter: {
+        value: function() {
+            if (this.isTimeSeries) {
+                return undefined;
+            } else if (this.delegate && typeof this.delegate.labelSorter === 'function') {
+                return this.delegate.labelSorter;
+            }
+            return this._defaultLabelSorter;
+        }
+    },
+
     _handleDatasourcesChange: {
         value: function () {
             //todo save the promise instead.
@@ -234,7 +257,7 @@ exports.ChartLive = Component.specialize({
             return this._statisticsService.getDatasources().then(function(datasources) {
                 return Object.keys(datasources)
                     .filter(function(x) { return self.datasources.indexOf(x) != -1; })
-                    .sort()
+                    .sort(self._getChartLabelSorter())
                     .map(function(x) { return datasources[x]; });
             }).then(function(datasources) {
                 var i, sourceLength, source,
