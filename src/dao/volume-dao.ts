@@ -64,6 +64,14 @@ export class VolumeDao extends AbstractDao {
     public importDisk(disk: string, path: string, fsType: string) {
         return this.middlewareClient.submitTask('volume.import_disk', [disk, path, fsType]);
     }
+
+    public offlineVdev(volumeId: string, vdev: any) {
+        return this.middlewareClient.submitTask('zfs.pool.offline_disk', [volumeId, vdev.guid]);
+    }
+
+    public onlineVdev(volumeId: string, vdev: any) {
+        return this.middlewareClient.submitTask('zfs.pool.online_disk', [volumeId, vdev.guid]);
+    }
 }
 
 

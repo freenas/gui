@@ -45,17 +45,17 @@ export class DiskRepository extends AbstractRepository {
 
     public getDiskAllocation(disk: any) {
         let allocation;
-        if (this.diskUsage.has('attached') && this.diskUsage.get('attached').has(disk.path)) {
+        if (this.diskUsage.has('attached') && (this.diskUsage.get('attached').has(disk.path) || this.diskUsage.get('attached').has(disk.id))) {
             allocation = {
-                name: this.diskUsage.get('attached').get(disk.path),
+                name: this.diskUsage.get('attached').get(disk.path) || this.diskUsage.get('attached').get(disk.id),
                 type: 'VOLUME'
             };
-        } else if (this.diskUsage.has('detached') && this.diskUsage.get('detached').has(disk.path)) {
+        } else if (this.diskUsage.has('detached') && (this.diskUsage.get('detached').has(disk.path) || this.diskUsage.get('detached').has(disk.id))) {
             allocation = {
-                name: this.diskUsage.get('detached').get(disk.path),
+                name: this.diskUsage.get('detached').get(disk.path) || this.diskUsage.get('detached').get(disk.id),
                 type: 'EXPORTED_VOLUME'
             };
-        } else if (this.diskUsage.has('boot') && this.diskUsage.get('boot').has(disk.path)) {
+        } else if (this.diskUsage.has('boot') && (this.diskUsage.get('boot').has(disk.path) || this.diskUsage.get('boot').has(disk.id))) {
             allocation = {
                 type: 'BOOT'
             };
@@ -79,6 +79,10 @@ export class DiskRepository extends AbstractRepository {
                             {};
         delete diskUsage[diskPath];
         this.datastoreService.save(Model.DiskUsage, 'reserved', diskUsage);
+    }
+
+    public erase(disk: any) {
+        return this.diskDao.erase(disk);
     }
 
     private getAvailableDisks(disks: Map<string, Map<string, any>>, diskUsage: Map<string, Map<string, string>>): Map<string, Map<string, any>> {
