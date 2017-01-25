@@ -12,14 +12,8 @@
         "widget": {
             "prototype": "ui/dashboard/widgets/widget.reel",
             "properties": {
-                "element": {"#": "widget"}
-            }
-        },
-        "text": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "title"},
-                "value": "Disk I/O"
+                "element": {"#": "widget"},
+                "title": "Disk I/O"
             }
         },
         "chart": {
@@ -42,10 +36,7 @@
 <body>
     <div data-montage-id="owner" class="DiskTraffic">
         <div data-montage-id="widget">
-            <div data-arg="widget-title">
-                <svg><use xlink:href="#i-barChart"/></svg>
-                <div data-montage-id="title"></div>
-            </div>
+            <svg data-arg="widget-icon"><use xlink:href="#i-barChart"/></svg>
             <div data-arg="widget-content">
                 <div data-montage-id="chart-live"></div>
             </div>

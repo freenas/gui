@@ -21,12 +21,13 @@
             }
         },
         "text": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
-                "element": {"#": "title"}
+                "element": {"#": "title"},
+                "value": "Network Traffic - {card}"
             },
             "bindings": {
-                "value": {"<-": "'Network Traffic - ' + @owner.card"}
+                "args": {"<-": "{card: @owner.card}"}
             }
         },
         "chart": {

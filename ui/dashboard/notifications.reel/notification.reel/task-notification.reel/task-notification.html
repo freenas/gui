@@ -23,31 +23,24 @@
             }
         },
         "taskSummary": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "taskSummary"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.description.message"},
+                "value": {"<-": "@owner.object.description.format.string"},
+                "args": {"<-": "@owner.object.description.format.args"},
                 "classList.has('hide')": {"<-": "!@owner.object.description"}
             }
         },
-        "converter": {
-            "prototype": "montage/core/converter/date-converter",
-            "properties": {
-                "pattern": "HH:mm:ss"
-            }
-        },
         "timestamp": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
-                "element": {"#": "timestamp"}
+                "element": {"#": "timestamp"},
+                "value": "{date, HH:mm:ss}"
             },
             "bindings": {
-                "value": {
-                    "<-": "@owner.object.startDate",
-                    "converter": {"@": "converter"}
-                }
+                "args": {"<-": "@owner.object.startDate && {date: @owner.object.startDate}"}
             }
         },
         "progress": {

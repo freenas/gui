@@ -103,7 +103,7 @@
             }
         },
         "scheduleString": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "scheduleString"}
             },
@@ -186,6 +186,41 @@
             "bindings": {
                 "value": {"<->": "@owner.object._simpleSchedule.time"}
             }
+        },
+        "dailyOccurringLabel": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "dailyOccurringLabel"},
+                "value": "Occurring at:"
+            }
+        },
+        "weeklyOccurringLabel": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "weeklyOccurringLabel"},
+                "value": "Occurring at:"
+            }
+        },
+        "monthlyOccurringLabel": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "monthlyOccurringLabel"},
+                "value": "Occurring at:"
+            }
+        },
+        "weeklyDaysLabel": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "weeklyDaysLabel"},
+                "value": "On days:"
+            }
+        },
+        "monthlyDaysLabel": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "monthlyDaysLabel"},
+                "value": "On days:"
+            }
         }
     }
     </script>
@@ -204,17 +239,17 @@
             <div data-montage-id="scheduleOptions" class="RadioButtonFieldGroup--block g-margin-bottom"></div>
             <div data-montage-id="scheduleOptionsSubstitution">
                 <div data-arg="DAILY">
-                    <p class="g-margin-right--half bold">Occuring at:</p>
+                    <p data-montage-id="dailyOccurringLabel" class="g-margin-right--half bold"></p>
                 </div>
                 <div data-arg="WEEKLY">
-                    <p class="g-margin-right--half bold">On days: </p>
+                    <p data-montage-id="weeklyDaysLabel" class="g-margin-right--half bold"></p>
                     <div data-montage-id="weekOptionDay" class="g-margin-bottom CalendarTask-weekOptionDay"></div>
-                    <p class="g-margin-right--half bold">Occuring at:</p>
+                    <p data-montage-id="weeklyOccurringLabel" class="g-margin-right--half bold"></p>
                 </div>
                 <div data-arg="MONTHLY">
-                    <p class="g-margin-right--half bold">On days:</p>
+                    <p data-montage-id="monthlyDaysLabel" class="g-margin-right--half bold"></p>
                     <div data-montage-id="monthOptionDays" class="g-margin-bottom CalendarTask-monthOptionDays"></div>
-                    <p class="g-margin-right--half bold">Occuring at:</p>
+                    <p data-montage-id="monthlyOccurringLabel" class="g-margin-right--half bold"></p>
                 </div>
                 <div data-arg="CUSTOM">
                     <div data-montage-id="customOptionButton"></div>

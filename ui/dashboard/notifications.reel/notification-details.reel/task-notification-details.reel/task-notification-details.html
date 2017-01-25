@@ -14,16 +14,24 @@
             }
         },
         "jobId": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
-                "element": {"#": "jobId"}
+                "element": {"#": "jobId"},
+                "value": "Task #{id}"
             },
             "bindings": {
-                "value": {"<-": "'TASK #' + @owner.object.id"}
+                "args": {"<-": "{id: @owner.object.id}"}
+            }
+        },
+        "taskNameLabel": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "taskNameLabel"},
+                "value": "Task Name"
             }
         },
         "taskName": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "taskName"}
             },
@@ -31,13 +39,27 @@
                 "value": {"<-": "@owner.object.name"}
             }
         },
+        "stateLabel": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "stateLabel"},
+                "value": "State"
+            }
+        },
         "state": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "state"}
             },
             "bindings": {
                 "value": {"<-": "@owner.object.state"}
+            }
+        },
+        "descriptionLabel": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "descriptionLabel"},
+                "value": "Description"
             }
         },
         "errorCondition": {
@@ -50,7 +72,7 @@
             }
         },
         "errorMessage": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "errorMessage"}
             },
@@ -68,7 +90,7 @@
             }
         },
         "warning": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "warning"}
             },
@@ -96,16 +118,16 @@
             <button data-montage-id="retryButton" class="Button--primary Button--small"></button>
         </header>
         <main>
-            <h4>Description:</h4>
+            <h4 data-montage-id="descriptionLabel"></h4>
             <div data-montage-id="errorCondition" class="Notification-details-messages">
                 <p data-montage-id="errorMessage" class="Notification-details-errorMessage"></p>
                 <div data-montage-id="warnings">
                     <p data-montage-id="warning" class="Notification-details-warning"></p>
                 </div>
             </div>
-            <h4>Task Name:</h4>
+            <h4 data-montage-id="taskNameLabel"></h4>
             <p data-montage-id="taskName"></p>
-            <h4>State:</h4>
+            <h4 data-montage-id="stateLabel"></h4>
             <p data-montage-id="state"></p>
         </main>
     </div>

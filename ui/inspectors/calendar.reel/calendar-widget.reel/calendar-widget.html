@@ -30,7 +30,7 @@
             ]
         },
         "displayedPeriodLabel": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "displayedPeriodLabel"}
             },
@@ -145,6 +145,13 @@
             "bindings": {
                 "options": {"<-": "@owner.taskCategories"}
             }
+        },
+        "dragLabel": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "dragLabel"},
+                "value": "Drag to create"
+            }
         }
     }
     </script>
@@ -169,7 +176,7 @@
             </div>
             <div class="flex-row flex-spaceBetween flex-align--center">
                 <div class="flex-row">
-                    <span>Drag to create</span>
+                    <span data-montage-id="dragLabel"></span>
                     <div data-montage-id="taskCategories" class="CalendarWidget-taskCategories g-margin-left--half">
                         <div data-montage-id="taskCategory" class="CalendarWidget-taskCategory"></div>
                     </div>

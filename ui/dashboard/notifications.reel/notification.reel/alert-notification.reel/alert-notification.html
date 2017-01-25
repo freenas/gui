@@ -20,14 +20,8 @@
                 }
             ]
         },
-        "converter": {
-            "prototype": "montage/core/converter/date-converter",
-            "properties": {
-                "pattern": "HH:mm:ss"
-            }
-        },
         "summary": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "summary"}
             },
@@ -37,15 +31,13 @@
             }
         },
         "timestamp": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
-                "element": {"#": "timestamp"}
+                "element": {"#": "timestamp"},
+                "value": "{date, HH:mm:ss}"
             },
             "bindings": {
-                "value": {
-                    "<-": "@owner.object.date",
-                    "converter": {"@": "converter"}
-                }
+                "args": {"<-": "@owner.object.date && {date: @owner.object.date}"}
             }
         },
         "dismissButton": {

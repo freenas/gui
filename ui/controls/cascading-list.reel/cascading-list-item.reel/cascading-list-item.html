@@ -23,7 +23,7 @@
             ]
         },
         "title": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "title"}
             },
@@ -59,8 +59,15 @@
                 "overflow": "scrollY"
             }
         },
+        "helpLabel": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "helpLabel"},
+                "value": "Help"
+            }
+        },
         "helpMessage": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "helpMessage"}
             },
@@ -84,7 +91,7 @@
         <div class="CascadingListItem-help">
             <div data-montage-id="scrollview">
                 <div class="CascadingListItem-help-message">
-                    <h5>Help</h5>
+                    <h5 data-montage-id="helpLabel"></h5>
                     <div data-montage-id="helpMessage"></div>
                 </div>
             </div>
