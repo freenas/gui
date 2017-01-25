@@ -501,6 +501,7 @@ export class RoutingService {
     }
 
     private restoreTask(taskId: number) {
+        taskId = _.toNumber(taskId);
         if (this.taskStacks.has(taskId)) {
             hasher.appendHash +=  (hasher.appendHash.length > 0 ? '&' : '?') + 'task=' + taskId;
             let stack = _.clone(this.taskStacks.get(taskId)),
