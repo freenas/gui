@@ -47,7 +47,7 @@ var BootEnvironmentService = exports.BootEnvironmentService = Montage.specialize
         value: function() {
             var self = this;
             return this._bootPoolRepository.getBootPoolConfig().then(function(bootVolumeConfig) {
-                return self._bootVolumeConfig = bootVolumeConfig.data;
+                return self._bootVolumeConfig = bootVolumeConfig;
             });
         }
     },
