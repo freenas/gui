@@ -57,6 +57,29 @@ exports.ChartLive = Component.specialize({
         }
     },
 
+    _defaultLabelSorter: {
+        value: function(a, b) {
+            var strA = a.replace(/\d+$/, ''),
+                strB = b.replace(/\d+$/, '');
+
+            if (strA === strB) {
+                return +(a.replace(strA, '')) - +(b.replace(strB, ''));
+            }
+            return Object.compare(a, b);
+        }
+    },
+
+    _getChartLabelSorter: {
+        value: function() {
+            if (this.isTimeSeries) {
+                return undefined;
+            } else if (this.delegate && typeof this.delegate.labelSorter === 'function') {
+                return this.delegate.labelSorter;
+            }
+            return this._defaultLabelSorter;
+        }
+    },
+
     _handleDatasourcesChange: {
         value: function () {
             //todo save the promise instead.
@@ -234,7 +257,7 @@ exports.ChartLive = Component.specialize({
             return this._statisticsService.getDatasources().then(function(datasources) {
                 return Object.keys(datasources)
                     .filter(function(x) { return self.datasources.indexOf(x) != -1; })
-                    .sort()
+                    .sort(self._getChartLabelSorter())
                     .map(function(x) { return datasources[x]; });
             }).then(function(datasources) {
                 var i, sourceLength, source,
@@ -268,7 +291,7 @@ exports.ChartLive = Component.specialize({
             var key = this._eventToKey[event.name];
             if (key) {
                 if (this.isTimeSeries) {
-                    this.chart.addPoint(key, {
+                    this._addPointToChart(key, {
                         x: this._dateToTimestamp(event.args.timestamp),
                         y: this.transformValue(event.args.value)
                     });
@@ -282,9 +305,33 @@ exports.ChartLive = Component.specialize({
         }
     },
 
+    _addPointToChart: {
+        value: function(key, point) {
+            var numKeys = Object.keys(this._eventToKey).length,
+                avgTime = 0, series;
+
+            this._pointsCache = this._pointsCache || {};
+            this._pointsCache[key] = point;
+
+            if (Object.keys(this._pointsCache).length === numKeys) {
+                for (series in this._pointsCache) {
+                    avgTime += this._pointsCache[series].x;
+                }
+                avgTime = Math.floor(avgTime / numKeys / this.constructor.TIME_SERIES_INTERVAL) * this.constructor.TIME_SERIES_INTERVAL;
+                for (series in this._pointsCache) {
+                    this.chart.addPoint(series, {
+                        x: avgTime,
+                        y: this._pointsCache[series].y
+                    });
+                }
+                this._pointsCache = null;
+            }
+        }
+    },
+
     _dateToTimestamp: {
         value: function(date) {
-            return Math.floor((new Date(date.$date).getTime() - this._timezoneOffset) / this.constructor.TIME_SERIES_INTERVAL) * this.constructor.TIME_SERIES_INTERVAL;
+            return new Date(date.$date).getTime() - this._timezoneOffset;
         }
     }
 
