@@ -1,6 +1,5 @@
 var Component = require("montage/ui/component").Component,
-    Promise = require("montage/core/promise").Promise,
-    _ = require('lodash');
+    Promise = require("montage/core/promise").Promise;
 
 /**
  * @class ChartLive
@@ -309,14 +308,16 @@ exports.ChartLive = Component.specialize({
     _addPointToChart: {
         value: function(key, point) {
             var numKeys = Object.keys(this._eventToKey).length,
-                avgTime, series;
+                avgTime = 0, series;
 
             this._pointsCache = this._pointsCache || {};
             this._pointsCache[key] = point;
 
             if (Object.keys(this._pointsCache).length === numKeys) {
-                avgTime = _.sum(_.map(this._pointsCache, 'x')) / numKeys;
-                avgTime = Math.floor(avgTime / this.constructor.TIME_SERIES_INTERVAL) * this.constructor.TIME_SERIES_INTERVAL;
+                for (series in this._pointsCache) {
+                    avgTime += this._pointsCache[series].x;
+                }
+                avgTime = Math.floor(avgTime / numKeys / this.constructor.TIME_SERIES_INTERVAL) * this.constructor.TIME_SERIES_INTERVAL;
                 for (series in this._pointsCache) {
                     this.chart.addPoint(series, {
                         x: avgTime,
