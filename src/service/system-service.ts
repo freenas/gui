@@ -2,14 +2,18 @@ import {SystemRepository} from '../repository/system-repository';
 import {MiddlewareClient} from './middleware-client';
 import {BootPoolRepository} from "../repository/boot-pool-repository";
 import {NetworkRepository} from '../repository/network-repository';
+import {DiskRepository} from '../repository/disk-repository';
 
 export class SystemService {
     private static instance: SystemService;
 
+    private bootPoolPromise: Promise<any>;
+
     private constructor(private systemRepository: SystemRepository,
                         private middlewareClient: MiddlewareClient,
                         private bootPoolRepository: BootPoolRepository,
-                        private networkRepository: NetworkRepository) {
+                        private networkRepository: NetworkRepository,
+                        private diskRepository: DiskRepository) {
     }
 
     public static getInstance() {
@@ -18,7 +22,8 @@ export class SystemService {
                 SystemRepository.getInstance(),
                 MiddlewareClient.getInstance(),
                 BootPoolRepository.getInstance(),
-                NetworkRepository.getInstance()
+                NetworkRepository.getInstance(),
+                DiskRepository.getInstance()
             );
         }
         return SystemService.instance;
@@ -77,7 +82,7 @@ export class SystemService {
     }
 
     public getBootPoolConfig() {
-        return this.bootPoolRepository.getBootPoolConfig();
+        return this.bootPoolPromise || (this.bootPoolPromise = this.bootPoolRepository.getBootPoolConfig());
     }
 
     public getSystemDatasetPool() {
@@ -110,6 +115,13 @@ export class SystemService {
 
     public getDebugFileAddress() {
         return this.systemRepository.getDebugFileAddress();
+    }
+
+    public addDiskToBootPool(newDisk: string, oldDisk?: string) {
+        if (!oldDisk) {
+            return this.middlewareClient.submitTask('boot.disk.attach', [newDisk.path]);
+        }
+        return Promise.resolve();
     }
 
     public getCertificateFileAddress(id: string, certTarFileName: string) {

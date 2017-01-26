@@ -11,6 +11,7 @@ export class DiskRepository extends AbstractRepository {
     private static instance: DiskRepository;
     private disks: Map<string, Map<string, any>>;
     private availableDisks: Map<string, Map<string, any>>;
+    private bootDisks: Map<string, Map<string, any>>;
     private diskUsage: Map<string, Map<string, any>>;
 
     private constructor(private diskDao: DiskDao,
@@ -40,7 +41,11 @@ export class DiskRepository extends AbstractRepository {
     }
 
     public listAvailableDisks() {
-        return this.availableDisks.valueSeq().toJS();
+        return this.availableDisks ? this.availableDisks.valueSeq().toJS() : [];
+    }
+
+    public listBootDisks() {
+        return this.bootDisks ? this.bootDisks.valueSeq().toJS() : [];
     }
 
     public getDiskAllocation(disk: any) {
@@ -94,6 +99,12 @@ export class DiskRepository extends AbstractRepository {
         );
     }
 
+    private getBootDisks(disks: Map<string, Map<string, any>>, diskUsage: Map<string, Map<string, string>>): Map<string, Map<string, any>> {
+        return Map<string, Map<string, any>>(
+            disks.filter((disk) => this.isDiskUsed(disk, diskUsage.get('boot')))
+        );
+    }
+
     private isDiskUsed(disk: any, diskUsage: Map<string, string>) {
         return diskUsage && (diskUsage.has(disk.get('path')) || diskUsage.has(disk.get('id')));
     }
@@ -105,8 +116,10 @@ export class DiskRepository extends AbstractRepository {
                 break;
             case Model.DiskUsage:
                 this.availableDisks = this.getAvailableDisks(this.disks, state);
+                this.bootDisks = this.getBootDisks(this.disks, state);
                 this.diskUsage = state;
                 this.eventDispatcherService.dispatch('AvailableDisksChanged', this.availableDisks);
+                this.eventDispatcherService.dispatch('BootDisksChanged', this.bootDisks);
                 break;
             default:
                 break;

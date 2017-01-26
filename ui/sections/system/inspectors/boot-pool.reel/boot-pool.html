@@ -10,7 +10,7 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "classList.has('has-loading-spinner')": {"<-": "!!@owner._scrubTaskId"}
+                "classList.has('has-loading-spinner')": {"<-": "!!@owner._blockingTaskId"}
             },
             "listeners": [
                 {
@@ -39,6 +39,16 @@
         },
         "bytesSizeConverter": {
             "prototype": "montage/core/converter/bytes-converter"
+        },
+        "bootVolumeName": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "bootVolumeName"},
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.bootVolume.id"}
+            }
         },
         "bootVolumeSize": {
             "prototype": "blue-shark/ui/field-text.reel",
@@ -82,6 +92,30 @@
                 "value": {"<-": "@owner.bootVolume.status"}
             }
         },
+        "bootVolumeType": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "bootVolumeType"},
+                "label": "Type"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.bootVolume.groups.data.0.type"}
+            }
+        },
+        "bootPoolTopologyTable": {
+            "prototype": "./boot-pool-topology-table.reel",
+            "properties": {
+                "element": {"#": "bootPoolTopologyTable"},
+                "label": "Boot Pool Topology",
+                "contentMaxHeight": 8,
+                "delegate": {"@": "owner"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.bootVolume"},
+                "availableDisks": {"<-": "@owner._availableDisks"},
+                "bootDisks": {"<-": "@owner._bootDisks"}
+            }
+        },
         "activeEnvironmentTable": {
             "prototype": "./boot-environment-table.reel",
             "properties": {
@@ -104,6 +138,13 @@
                 "rows": {"<-": "@owner.bootEnvironments.filter{!active && !onReboot}"}
             }
         },
+        "bootVolumeTopologySection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "bootVolumeTopologySection"},
+                "title": "Boot Volume Disks"
+            }
+        },
         "scrub": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
@@ -117,12 +158,17 @@
 <body>
     <div data-montage-id="owner" class="BootPool">
         <div data-montage-id="inspector">
+            <div data-montage-id="bootVolumeName"></div>
+            <div data-montage-id="bootVolumeType"></div>
             <div data-montage-id="bootVolumeSize"></div>
             <div data-montage-id="bootVolumeUsed"></div>
             <div data-montage-id="bootVolumeCapacityUsed"></div>
             <div data-montage-id="bootVolumeCondition"></div>
             <div data-montage-id="activeEnvironmentTable" class="BootPool-table BootPool-activeEnvironmentTable"></div>
             <div data-montage-id="inactiveEnvironmentTable" class="BootPool-table"></div>
+            <div data-montage-id="bootVolumeTopologySection" class="hide">
+                <div data-montage-id="bootPoolTopologyTable" class="BootPool-table"></div>
+            </div>
             <div data-arg="footer-additional-button" class="ActionButtons">
                 <div data-montage-id="scrub"></div>
             </div>

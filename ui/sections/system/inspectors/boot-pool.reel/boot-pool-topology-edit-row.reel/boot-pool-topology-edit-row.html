@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+        "name": {
+            "prototype": "blue-shark/ui/select.reel",
+            "properties": {
+                "element": {"#": "name"}
+            },
+            "bindings": {
+                "options": {"<-": "@owner._diskOptions"},
+                "selectedValue": {"<->": "@owner.selectedPath"}
+            }
+        },
+
+        "status": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "status"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.online ? 'ONLINE' : 'OFFLINE'"},
+                "classList.has('hide')": {"<-": "!@owner.selectedPath"}
+            }
+        },
+
+        "capacity": {
+            "prototype": "../size-cell.reel",
+            "properties": {
+                "element": {"#": "capacity"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.mediasize"},
+                "classList.has('hide')": {"<-": "!@owner.selectedPath"}
+            }
+        },
+
+        "is_ssd": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "is_ssd"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.status.is_ssd.defined() && @owner.object.status.is_ssd ? 'SSD' : 'HDD'"},
+                "classList.has('hide')": {"<-": "!@owner.selectedPath"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="BootPoolTopologyEditRow Table-cells">
+        <div><span data-montage-id="name"></span></div>
+        <div><span data-montage-id="status"></span></div>
+        <div><span data-montage-id="capacity"></span></div>
+        <div><span data-montage-id="is_ssd"></span></div>
+    </div>
+</body>
+</html>
