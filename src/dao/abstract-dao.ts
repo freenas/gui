@@ -70,7 +70,7 @@ export class AbstractDao {
         params = params || {};
         params.single = true;
         return this.query(criteria, params).then(function(results) {
-            return results[0];
+            return _.assign(results[0], {_stableId: results[0].id});
         });
     }
 
