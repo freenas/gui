@@ -107,7 +107,7 @@ var BootEnvironmentService = exports.BootEnvironmentService = Montage.specialize
     cloneBootEnvironment: {
         value: function(bootEnvironment) {
             var self = this,
-                cloneName = this._findAvailableBootEnvironmentNameWithName(bootEnvironment.persistedId);
+                cloneName = this._findAvailableBootEnvironmentNameWithName(bootEnvironment._stableId);
 
             //FIXME: not safe! new name should be created by the middleware!!
             return this._bootPoolRepository.cloneBootEnvironment(bootEnvironment, cloneName).finally(function () {
