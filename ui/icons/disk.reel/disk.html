@@ -22,7 +22,7 @@
             "object": "./[defaultBytesConverter]"
         },
         "mediaSize": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "mediaSize"},
                 "converter": {"@": "bytesConverter"}
@@ -59,7 +59,21 @@
                 "classList.has('hide')": {"<-": "!@owner.isOffline && !@owner.isDetached"},
                 "switchValue": {"<-": "@owner.isOffline ? 'offline' : 'exported'"}
             }
-        }
+        },
+        "offline": {
+           "prototype": "blue-shark/ui/text.reel",
+           "properties": {
+               "element": {"#": "offline"},
+               "value": "Offline"
+           }
+        },
+        "exported": {
+           "prototype": "blue-shark/ui/text.reel",
+           "properties": {
+               "element": {"#": "exported"},
+               "value": "Exported"
+           }
+       }
     }
     </script>
 </head>
@@ -70,8 +84,8 @@
         <div data-arg="fail" class="smartStatus-fail"><svg><use xlink:href="#i-alert"/></svg></div>
     </div>
     <div data-montage-id="diskState" class="DiskIcon-states">
-        <div data-arg="offline" class="DiskIcon-state DiskIcon-state-offline">offline</div>
-        <div data-arg="exported" class="DiskIcon-state">exported</div>
+        <div data-arg="offline" data-montage-id="offline" class="DiskIcon-state DiskIcon-state-offline"></div>
+        <div data-arg="exported" data-montage-id="exported" class="DiskIcon-state"></div>
     </div>
     <div data-montage-id="substitution" class="DiskIcon-img">
         <img data-arg="hdd" src="./hdd.svg" alt="HDD Icon">

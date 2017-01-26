@@ -24,12 +24,6 @@
         "sizeConverter": {
             "prototype": "montage/core/converter/bytes-converter"
         },
-        "dateConverter": {
-            "prototype": "montage/core/converter/date-converter",
-            "properties": {
-                "pattern": "MM/dd/yyyy hh:mm:ss tt"
-            }
-        },
         "datasetTreeController": {
             "prototype": "core/controller/dataset-tree-controller",
             "bindings": {
@@ -190,10 +184,10 @@
             "properties": {
                 "element": {"#": "creation"},
                 "label": "Creation Time",
-                "converter": {"@": "dateConverter"}
+                "value": "{date, MM/DD/YYYY HH:mm:ss}"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.properties.creation.rawvalue * 1000"}
+                "args": {"<-": "!!@owner.object._creationDate && {date: @owner.object._creationDate}"}
             }
         },
         "repetitionSection": {

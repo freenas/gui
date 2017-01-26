@@ -11,11 +11,11 @@ exports.CurrentUserSummary = Component.specialize({
     },
 
     datePattern: {
-        value: "M/d/yy"
+        value: "MM/DD/YYYY"
     },
 
     timePattern: {
-        value: "T"
+        value: "hh:mm:ss A"
     },
 
     _synchronizeClockTimeoutId: {
@@ -104,7 +104,7 @@ exports.CurrentUserSummary = Component.specialize({
                         ));
                         now.setMilliseconds(0);
 
-                        self.now = now.getTime();
+                        self.now = now;
                     });
                 }).bind(this);
             }

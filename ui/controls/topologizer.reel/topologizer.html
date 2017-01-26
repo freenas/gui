@@ -30,7 +30,7 @@
             }
         },
         "speedScore": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "speedScore"}
             },
@@ -41,7 +41,7 @@
             }
         },
         "storageScore": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "storageScore"}
             },
@@ -52,7 +52,7 @@
             }
         },
         "redundancyScore": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "redundancyScore"}
             },
@@ -60,6 +60,27 @@
                 "value": {"<-": "@owner.barycentricValues.0"},
                 "classList.has('is-first-priority')": {"<-": "@owner.priorities.0 == 'redundancy'"},
                 "classList.has('is-second-priority')": {"<-": "@owner.priorities.1 == 'redundancy'"}
+            }
+        },
+        "speedLabel": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "speedLabel"},
+                "value": "Speed"
+            }
+        },
+        "storageLabel": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "storageLabel"},
+                "value": "Storage"
+            }
+        },
+        "redundancyLabel": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "redundancyLabel"},
+                "value": "Redundancy"
             }
         }
     }
@@ -83,17 +104,17 @@
             <div data-montage-id="profiles" class="Topologizer-profiles g-margin-bottom"></div>
             <div class="Topologizer-legend-item">
                 <span class="Topologizer-legend-item-marker Topologizer-color-speed"></span>
-                <span class="Topologizer-legend-item-label">Speed</span>
+                <span data-montage-id="speedLabel" class="Topologizer-legend-item-label"></span>
                 <span class="Topologizer-legend-item-score" data-montage-id="speedScore"></span>
             </div>
             <div class="Topologizer-legend-item">
                 <span class="Topologizer-legend-item-marker Topologizer-color-storage"></span>
-                <span class="Topologizer-legend-item-label">Storage</span>
+                <span data-montage-id="storageLabel" class="Topologizer-legend-item-label"></span>
                 <span class="Topologizer-legend-item-score" data-montage-id="storageScore"></span>
             </div>
             <div class="Topologizer-legend-item">
                 <span class="Topologizer-legend-item-marker Topologizer-color-redundancy"></span>
-                <span class="Topologizer-legend-item-label">Redundancy</span>
+                <span data-montage-id="redundancyLabel" class="Topologizer-legend-item-label"></span>
                 <span class="Topologizer-legend-item-score" data-montage-id="redundancyScore"></span>
             </div>
         </div>

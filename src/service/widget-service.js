@@ -6,84 +6,84 @@ var Montage = require("montage").Montage,
 // Need help from the middleware.
 var WIDGETS = [
     {
-        title: "alerts",
+        title: "Alerts",
         description: null,
         imgPreview: null,
         moduleId: "ui/widgets/alerts.reel",
         allowMultiple: false
     },
     {
-        title: "arc-demand-data",
+        title: "Arc Demand Data",
         description: null,
         imgPreview: null,
         moduleId: "ui/widgets/arc-demand-data.reel",
         allowMultiple: false
     },
     {
-        title: "cpu-usage",
+        title: "CPU Usage",
         description: null,
         imgPreview: null,
         moduleId: "ui/widgets/cpu-usage.reel",
         allowMultiple: false
     },
     {
-        title: "load-average",
+        title: "Load Average",
         description: null,
         imgPreview: null,
         moduleId: "ui/widgets/load-average.reel",
         allowMultiple: false
     },
     {
-        title: "memory-allocation",
+        title: "Memory Allocation",
         description: null,
         imgPreview: null,
         moduleId: "ui/widgets/memory-allocation.reel",
         allowMultiple: false
     },
     {
-        title: "network-traffic",
+        title: "Network Traffic",
         description: null,
         imgPreview: null,
         moduleId: "ui/widgets/network-traffic.reel",
         allowMultiple: true
     },
     {
-        title: "system-info",
+        title: "System Info",
         description: null,
         imgPreview: null,
         moduleId: "ui/widgets/system-info.reel",
         allowMultiple: false
     },
     {
-        title: "tasks",
+        title: "Tasks",
         description: null,
         imgPreview: null,
         moduleId: "ui/widgets/tasks.reel",
         allowMultiple: false
     },
     {
-        title: "disk-traffic",
+        title: "Disk I/O",
         description: null,
         imgPreview: null,
         moduleId: "ui/widgets/disk-traffic.reel",
         allowMultiple: false
     },
     {
-        title: "cpu-temperature",
+        title: "CPU temperature",
         description: null,
         imgPreview: null,
         moduleId: "ui/widgets/cpu-temperature.reel",
         allowMultiple: false
     },
     {
-        title: "disk-temperature",
+        title: "Disk Temperature",
         description: null,
         imgPreview: null,
         moduleId: "ui/widgets/disk-temperature.reel",
         allowMultiple: false
     },
     {
-        title: "composite-temperature",
+        title: "Composite Temperature",
         description: null,
         imgPreview: null,
         moduleId: "ui/widgets/composite-temperature.reel",

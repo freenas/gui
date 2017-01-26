@@ -10,7 +10,18 @@
             },
             "bindings": {
                 "classList.has('flip')": {"<-": "this.isFlipped"},
-                "classList.has('has-settings')": {"<-": "@owner.hasSettings"}
+                "classList.has('has-settings')": {"<-": "@owner.hasSettings"},
+                "classList.has('is-title-injected')": {"<-": "!@owner.title"}
+            }
+        },
+
+        "title": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "title"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.title"}
             }
         },
 
@@ -39,7 +50,7 @@
         },
 
         "settingsTitle": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "settingsTitle"}
             },
@@ -54,7 +65,11 @@
     <div data-montage-id="owner" class="Widget">
         <div class="Widget-flipper">
             <div class="Widget-front">
-                <div data-param="widget-title" class="Widget-header"></div>
+                <div class="Widget-header Own">
+                    <div data-param="widget-icon"></div>
+                    <span data-montage-id="title"></span>
+                </div>
+                <div data-param="widget-title" class="Widget-header Injected"></div>
                 <div class="Widget-content">
                     <div data-param="widget-content" class="Widget-content-front"></div>
                 </div>

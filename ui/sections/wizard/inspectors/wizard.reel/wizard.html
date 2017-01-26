@@ -14,7 +14,7 @@
         },
 
         "stepsLabel": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "stepsLabel"}
             },
@@ -81,7 +81,7 @@
         },
 
         "currentPageNumber": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "currentPageNumber"}
             },
@@ -91,7 +91,7 @@
         },
 
         "totalPageNumber": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "totalPageNumber"}
             },
@@ -115,9 +115,7 @@
             <div class="wrapper">
                 <h2 data-montage-id="stepsLabel" class="flush-v Wizard-header-title"></h2>
                 <div class="Wizard-counter bold">
-                    <span data-montage-id="currentPageNumber"></span>
-                    of
-                    <span data-montage-id="totalPageNumber"></span>
+                    <span data-montage-id="currentPageNumber"></span> / <span data-montage-id="totalPageNumber"></span>
                 </div>
             </div>
         </div>

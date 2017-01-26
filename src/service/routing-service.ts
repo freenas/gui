@@ -87,7 +87,7 @@ export class RoutingService {
     public navigate(path: string, force?: boolean) {
         force = !!force;
         if (hasher.appendHash.length === 0) {
-            hasher.appendHash = '?' + this.middlewareClient.getExplicitHostParam();
+            hasher.appendHash = '?' + location.hash.split('?')[1] || this.middlewareClient.getExplicitHostParam();
         } else {
             hasher.appendHash = _.replace(hasher.appendHash, /^\?\?+/, '?');
         }

@@ -12,7 +12,8 @@
         "widget": {
             "prototype": "ui/dashboard/widgets/widget.reel",
             "properties": {
-                "element": {"#": "widget"}
+                "element": {"#": "widget"},
+                "title": "System Overview"
             }
         },
         "bytesConverter": {
@@ -33,8 +34,15 @@
         "iso8601ToStringConverter": {
             "prototype": "core/converter/iso8601-to-string-converter"
         },
+        "hostnameTitle": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "hostnameTitle"},
+                "value": "Hostname"
+            }
+        },
         "hostname": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "hostname"}
             },
@@ -42,8 +50,15 @@
                 "value": {"<-": "@owner.systemInfo.general.hostname"}
             }
         },
+        "descriptionTitle": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "descriptionTitle"},
+                "value": "Description"
+            }
+        },
         "description": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "description"}
             },
@@ -51,8 +66,15 @@
                 "value": {"<-": "@owner.systemInfo.general.description"}
             }
         },
+        "osVersionTitle": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "osVersionTitle"},
+                "value": "Build"
+            }
+        },
         "osVersion": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "osVersion"}
             },
@@ -60,28 +82,51 @@
                 "value": {"<-": "@owner.systemInfo.version"}
             }
         },
+        "uptimeTitle": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "uptimeTitle"},
+                "value": "Uptime"
+            }
+        },
         "uptime": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "uptime"},
-                "converter": {"@": "secondsToStringConverter"}
+                "converter": {"@": "secondsToStringConverter"},
+                "disableTranslation": true
             },
             "bindings": {
                 "value": {"<-": "@owner.systemInfo.time.uptime"}
             }
         },
+        "systemTimeTitle": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "systemTimeTitle"},
+                "value": "System Time"
+            }
+        },
         "systemTime": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "systemTime"},
-                "converter": {"@": "iso8601ToStringConverter"}
+                "converter": {"@": "iso8601ToStringConverter"},
+                "disableTranslation": true
             },
             "bindings": {
                 "value": {"<-": "@owner.systemInfo.time.system_time"}
             }
         },
+        "platformTitle": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "platformTitle"},
+                "value": "Platform"
+            }
+        },
         "cpuCount": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "cpuCount"}
             },
@@ -90,7 +135,7 @@
             }
         },
         "cpuSpeed": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "cpuSpeed"},
                 "converter": {"@": "numberConverter"}
@@ -100,7 +145,7 @@
             }
         },
         "cpuDetails": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "cpuDetails"}
             },
@@ -108,8 +153,15 @@
                 "value": {"<-": "@owner.systemInfo.hardware.cpu_model"}
             }
         },
+        "vmSupportTitle": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "vmSupportTitle"},
+                "value": "CPU VM Support"
+            }
+        },
         "vmSupport": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "vmSupport"}
             },
@@ -117,8 +169,15 @@
                 "value": {"<-": "@owner.systemInfo.vmSupport"}
             }
         },
+        "memoryTitle": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "memoryTitle"},
+                "value": "Memory"
+            }
+        },
         "memorySize": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "memorySize"},
                 "converter": {"@": "bytesConverter"}
@@ -128,7 +187,7 @@
             }
         },
         "memoryDetails": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "memoryDetails"}
             },
@@ -146,7 +205,7 @@
             }
         },
         "disksType": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "disksType"}
             },
@@ -164,7 +223,7 @@
             }
         },
         "disksSize": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "disksSize"},
                 "converter": {"@": "bytesConverter"}
@@ -174,7 +233,7 @@
             }
         },
         "disksCount": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "disksCount"}
             },
@@ -195,39 +254,36 @@
 <body>
     <div data-montage-id="owner" class="SystemInfo">
         <div data-montage-id="widget">
-            <div data-arg="widget-title">
-                <svg><use xlink:href="#i-lineChart"/></svg>
-                System Overview
-            </div>
+            <svg data-arg="widget-icon"><use xlink:href="#i-lineChart"/></svg>
             <div data-arg="widget-content">
                 <div data-montage-id="scrollview">
                     <div class="SystemInfo-body-content">
                         <dl>
-                            <dt>Hostname</dt>
+                            <dt data-montage-id="hostnameTitle"></dt>
                             <dd data-montage-id="hostname" class="SystemInfo-hostname"></dd>
 
-                            <dt>Description</dt>
+                            <dt data-montage-id="descriptionTitle"></dt>
                             <dd data-montage-id="description"></dd>
 
-                            <dt>Build</dt>
+                            <dt data-montage-id="osVersionTitle"></dt>
                             <dd data-montage-id="osVersion"></dd>
 
-                            <dt>Uptime</dt>
+                            <dt data-montage-id="uptimeTitle"></dt>
                             <dd data-montage-id="uptime"></dd>
 
-                            <dt>System Time</dt>
+                            <dt data-montage-id="systemTimeTitle"></dt>
                             <dd data-montage-id="systemTime"></dd>
 
-                            <dt>Platform</dt>
+                            <dt data-montage-id="platformTitle"></dt>
                             <dd>
                                 <div data-montage-id="cpuDetails" class="SystemInfo-data"></div>
                                 <span data-montage-id="cpuCount"></span> @ <span data-montage-id="cpuSpeed"></span>GHz
                             </dd>
 
-                            <dt>CPU VM Support</dt>
+                            <dt data-montage-id="vmSupportTitle"></dt>
                             <dd data-montage-id="vmSupport"></dd>
 
-                            <dt>Memory</dt>
+                            <dt data-montage-id="memoryTitle"></dt>
                             <dd data-montage-id="memorySize" class="SystemInfo-data"></dd>
                             <dd data-montage-id="memoryDetails" class="SystemInfo-data"></dd>
                             <div data-montage-id="disksTypeRepetition">
