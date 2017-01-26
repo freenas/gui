@@ -1,10 +1,13 @@
 var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model,
     currentEnvironment = require("montage/core/environment").currentEnvironment,
     KeyComposer = require("montage/composer/key-composer").KeyComposer;
 
 
 var SignIn = exports.SignIn = Component.specialize({
+
+    _isFirstTransitionEnd: {
+        value: true
+    },
 
     userName: {
         value: void 0
@@ -164,6 +167,9 @@ var SignIn = exports.SignIn = Component.specialize({
         value: function (e) {
             if(this.isLoggedIn && e.target == this.element && e.propertyName == 'opacity') {
                 this.element.style.display = 'none';
+            } else if (this._isFirstTransitionEnd) {
+                this._isFirstTransitionEnd = false;
+                this.userNameTextField.focus();
             }
         }
     },

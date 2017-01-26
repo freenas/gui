@@ -30,12 +30,12 @@ exports.Replication = AbstractInspector.specialize(/** @lends Replication# */ {
             this._repetition = null;
 
             if (this.context.dataset) {
-                this.object.datasets.master = this.context.dataset;
+                this.object.datasets[0].master = this.context.dataset;
                 this._hideSourceDataset = true;
             }
 
             if (this.datasetTreeController) {
-                this.datasetTreeController.open(this.object.datasets.master || this.context.volume);
+                this.datasetTreeController.open(this.object.datasets[0].master || this.context.volume);
             }
         }
     },

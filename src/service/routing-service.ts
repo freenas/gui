@@ -87,7 +87,7 @@ export class RoutingService {
     public navigate(path: string, force?: boolean) {
         force = !!force;
         if (hasher.appendHash.length === 0) {
-            hasher.appendHash = '?' + this.middlewareClient.getExplicitHostParam();
+            hasher.appendHash = '?' + location.hash.split('?')[1] || this.middlewareClient.getExplicitHostParam();
         } else {
             hasher.appendHash = _.replace(hasher.appendHash, /^\?\?+/, '?');
         }
@@ -454,7 +454,7 @@ export class RoutingService {
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/replication',
             (volumeId, datasetId) => this.replicationRoute.createForDataset(datasetId, this.currentStacks.get('storage')), 1);
         crossroads.addRoute('/storage/volume/_/{volumeId}/topology',
-            (volumeId) => this.volumeRoute.getVolumeTopology(this.currentStacks.get('storage')));
+            (volumeId) => this.volumeRoute.topology(volumeId, this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/volume/_/{volumeId}/topology/disk/_/{diskId}',
             (volumeId, diskId) => this.volumeRoute.topologyDisk(diskId, this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/create',
@@ -501,6 +501,7 @@ export class RoutingService {
     }
 
     private restoreTask(taskId: number) {
+        taskId = _.toNumber(taskId);
         if (this.taskStacks.has(taskId)) {
             hasher.appendHash +=  (hasher.appendHash.length > 0 ? '&' : '?') + 'task=' + taskId;
             let stack = _.clone(this.taskStacks.get(taskId)),

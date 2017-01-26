@@ -39,6 +39,9 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
             if (this.object._dataset) {
                 this.object.dataset = this.object._dataset.id;
             }
+            if (!this.object._isNew) {
+                this.object._creationDate = new Date(this.object.properties.creation.rawvalue * 1000);
+            }
             this._loadExpirationDate();
             this._resetRepetition();
         }

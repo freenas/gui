@@ -11,7 +11,49 @@
                 "modeBitsElement": {"#": "modeBits"}
             },
             "bindings": {
-                "classList.has('is-disabled')": {"<-": "@owner.disabled"}    
+                "classList.has('is-disabled')": {"<-": "@owner.disabled"}
+            }
+        },
+        "user": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "user"},
+                "value": "User"
+            }
+        },
+        "group": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "group"},
+                "value": "Group"
+            }
+        },
+        "all": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "all"},
+                "value": "All"
+            }
+        },
+        "read": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "read"},
+                "value": "Read"
+            }
+        },
+        "write": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "write"},
+                "value": "Write"
+            }
+        },
+        "execute": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "execute"},
+                "value": "Execute"
             }
         },
         "userRead": {
@@ -133,24 +175,24 @@
         <table class="Permissions-flags">
             <tr>
                 <td></td>
-                <th class="PermissionsFlag-label">User</th>
-                <th class="PermissionsFlag-label">Group</th>
-                <th class="PermissionsFlag-label">All</th>
+                <th data-montage-id="user" class="PermissionsFlag-label">User</th>
+                <th data-montage-id="group" class="PermissionsFlag-label">Group</th>
+                <th data-montage-id="all" class="PermissionsFlag-label">All</th>
             </tr>
             <tr>
-                <th class="PermissionsFlag-label">Read</th>
+                <th data-montage-id="read" class="PermissionsFlag-label">Read</th>
                 <td><div data-montage-id="userRead"></div></td>
                 <td><div data-montage-id="groupRead"></div></td>
                 <td><div data-montage-id="othersRead"></div></td>
             </tr>
             <tr>
-                <th class="PermissionsFlag-label">Write</th>
+                <th data-montage-id="write" class="PermissionsFlag-label">Write</th>
                 <td><div data-montage-id="userWrite"></div></td>
                 <td><div data-montage-id="groupWrite"></div></td>
                 <td><div data-montage-id="othersWrite"></div></td>
             </tr>
             <tr>
-                <th class="PermissionsFlag-label">Execute</th>
+                <th data-montage-id="execute" class="PermissionsFlag-label">Execute</th>
                 <td><div data-montage-id="userExecute"></div></td>
                 <td><div data-montage-id="groupExecute"></div></td>
                 <td><div data-montage-id="othersExecute"></div></td>

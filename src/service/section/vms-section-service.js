@@ -133,15 +133,16 @@ exports.VmsSectionService = AbstractSectionService.specialize({
             this.entries = [];
             this.entries._objectType = 'Vm';
             return this._vmRepository.listVms().then(function(entries) {
-                return _.assign(
-                    _.sortBy(
-                        _.forEach(entries, function(entry) {
-                            self.categorizeDevices(entry);
-                        }),
-                        'name'
-                    ),
-                    { _objectType: 'Vm' }
-                );
+                return _.assign(_.sortBy(entries, 'name' ), { _objectType: 'Vm' });
+            }).then(function(entries) {
+                return Promise.all(_.map(entries, function(entry) {
+                    return Promise.all([self.categorizeDevices(entry)]).then(function() {
+                        entry._hasGraphicDevice = _.get(entry, 'devices').some(function (x) {
+                            return x.type === self._vmRepository.DEVICE_TYPE.GRAPHICS;
+                        });
+                        return entry;
+                    });
+                }));
             });
         }
     },
@@ -403,9 +404,9 @@ exports.VmsSectionService = AbstractSectionService.specialize({
     },
 
     mergeVm: {
-        value: function(vm, state) {
+        value: function(vm, newVm) {
             var self = this;
-            _.assignWith(vm, state.toJS(), function(oldValue, newValue, key, oldVm) {
+            _.assignWith(vm, newVm, function(oldValue, newValue, key, oldVm) {
                 if (key === 'devices') {
                     var devices = self._mergeDevices(oldValue || [], newValue || []);
                     self.categorizeDevices(oldVm);
@@ -485,17 +486,17 @@ exports.VmsSectionService = AbstractSectionService.specialize({
             if (!this.entries) {
                 this.entries = [];
             }
-            vms.forEach(function(vm) {
+            _.forEach(vms.toJS(), function(vm) {
                 // DTM
-                var entry = _.find(self.entries, {id: vm.get('id')});
+                var entry = _.find(self.entries, {id: _.get(vm, 'id')});
                 if (entry) {
-                    entry._hasGraphicDevice = vm.get('devices').some(function (x) {
+                    entry._hasGraphicDevice = _.get(vm, 'devices').some(function (x) {
                         return x.type === self._vmRepository.DEVICE_TYPE.GRAPHICS;
                     });
                     self.mergeVm(entry, vm);
                 } else {
-                    entry = _.assign(vm.toJS(), {_objectType: Model.Vm});
-                    entry._hasGraphicDevice = vm.get('devices').some(function (x) {
+                    entry = _.assign(vm, {_objectType: Model.Vm});
+                    entry._hasGraphicDevice = _.get(vm, 'devices').some(function (x) {
                         return x.type === self._vmRepository.DEVICE_TYPE.GRAPHICS;
                     });
                     self.entries.push(entry);

@@ -66,6 +66,16 @@
             "bindings": {
                 "values": {"<->": "@owner.object.parameters.addresses"}
             }
+        },
+        "info": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "info"},
+                "value": "Alerts will only send when all predicates are true."
+            },
+            "bindings": {
+                "classList.has('hide')" : {"<-": "!@table.rows || @table.rows.length == 0"}
+            }
         }
     }
     </script>
@@ -74,7 +84,8 @@
     <div data-montage-id="owner" class="AlertFilter">
         <div data-montage-id="inspector">
             <div data-montage-id="id"></div>
-            <div data-montage-id="table" class="g-margin-bottom"></div>
+            <div data-montage-id="table"></div>
+            <div data-montage-id="info" class="g-margin-bottom"></div>
             <div data-montage-id="addresses"></div>
         </div>
     </div>

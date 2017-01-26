@@ -28,7 +28,7 @@ exports.VirtualMachine = AbstractInspector.specialize({
     },
 
     guestInfoInterfaces: {
-        value: [] 
+        value: []
     },
 
     _inspectorTemplateDidLoad: {
@@ -54,18 +54,18 @@ exports.VirtualMachine = AbstractInspector.specialize({
                     self.guestInfoInterfaces = _.map(
                     _.reject(_.toPairs(guestInfo.interfaces), {0: 'lo'}),
                     function (value, key)  {
-                        return _.map(_.reject(value[1].aliases, {af: 'LINK'}), 
-                        function(alias) { 
-                            return { 
-                                interface: value[0], type: alias.af, address: alias.address 
-                            }; 
+                        return _.map(_.reject(value[1].aliases, {af: 'LINK'}),
+                        function(alias) {
+                            return {
+                                interface: value[0], type: alias.af, address: alias.address
+                            };
                         });
                     })[0];
                 }
             });
         }
     },
-    
+
     enterDocument: {
         value: function(isFirstTime) {
             this.super();
@@ -233,7 +233,7 @@ exports.VirtualMachine = AbstractInspector.specialize({
 
     _handleChange: {
         value: function(state) {
-            this._sectionService.mergeVm(this.object, state);
+            this._sectionService.mergeVm(this.object, state.toJS());
         }
     }
 

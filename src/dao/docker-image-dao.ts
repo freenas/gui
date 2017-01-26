@@ -13,4 +13,11 @@ export class DockerImageDao extends AbstractDao {
         return this.middlewareClient.callRpcMethod('docker.image.readme', [dockerImageName]);
     }
 
+    public pullToHost(imageName: string, hostId: string): Promise<any> {
+        return this.middlewareClient.submitTask('docker.image.pull', [imageName, hostId]);
+    }
+
+    public deleteFromHost(imageId: string, hostId: string): Promise<any> {
+        return this.middlewareClient.submitTask('docker.image.delete', [imageId, hostId]);
+    }
 }

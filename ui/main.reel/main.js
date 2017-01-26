@@ -13,7 +13,7 @@ exports.Main = Component.specialize({
 
     templateDidLoad: {
         value: function() {
-            this.sectionRepository = SectionRepository.instance;
+            this.sectionRepository = SectionRepository.getInstance();
             this.routingService = RoutingService.getInstance();
             this.middlewareClient = MiddlewareClient.getInstance();
             this._eventDispatcherService = EventDispatcherService.getInstance();

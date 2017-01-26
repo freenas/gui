@@ -323,6 +323,22 @@ export class StorageSectionService extends AbstractSectionService {
         return dataset.id === dataset.volume;
     }
 
+    public getVdev(disk: any) {
+        return this.volumeRepository.getVdevFromDisk(disk);
+    }
+
+    public eraseDisk(disk: any) {
+        return this.diskRepository.erase(disk);
+    }
+
+    public offlineDisk(volumeId: string, vdev: any) {
+        return this.volumeRepository.offlineVdev(volumeId, vdev);
+    }
+
+    public onlineDisk(volumeId: string, vdev: any) {
+        return this.volumeRepository.onlineVdev(volumeId, vdev);
+    }
+
     private cloneVdevs(vdevs: Array<any>): Array<any> {
         return _.map(vdevs, (vdev) => {
             let clone = _.cloneDeep(vdev);

@@ -2,11 +2,11 @@ var Montage = require("montage").Montage,
     ShareTargettype = require("core/model/enumerations/share-targettype").ShareTargettype,
     application = require("montage/core/application").application,
     FreeNASService = require("core/service/freenas-service").FreeNASService,
+    BytesService = require("core/service/bytes-service").BytesService,
     ShareRepository = require("core/repository/share-repository").ShareRepository,
     VolumeRepository = require("core/repository/volume-repository").VolumeRepository,
     Promise = require("montage/core/promise").Promise,
     Model = require("core/model/model").Model,
-    bytes = require("bytes"),
     _ = require("lodash");
 
 var ShareService = exports.ShareService = Montage.specialize({
@@ -189,11 +189,11 @@ var ShareService = exports.ShareService = Montage.specialize({
                 datasetProperties = null;
 
             if (typeof blockSize === "string") {
-                shareObject.properties.block_size = bytes.parse(blockSize);
+                shareObject.properties.block_size = this._bytesService.convertStringToSize(blockSize);
             }
 
             if (typeof size === "string") {
-                shareObject.properties.size = bytes.parse(size);
+                shareObject.properties.size = this._bytesService.convertStringToSize(size);
             }
 
             if (isNewShareObject && shareObject.target_type === 'ZVOL' && !shareObject.properties.refreservation) {
@@ -269,6 +269,7 @@ var ShareService = exports.ShareService = Montage.specialize({
             if (!this._instance) {
                 this._instance = new ShareService();
                 this._instance._dataService = FreeNASService.instance;
+                this._instance._bytesService = BytesService.instance;
                 this._instance.shareRepository = ShareRepository.getInstance();
                 this._instance.volumeRepository = VolumeRepository.getInstance();
             }

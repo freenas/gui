@@ -39,6 +39,9 @@ Mouse.getDispatcher = function (elem) {
     return dispatcher;
 };
 
+Plottable.Scales.Category.prototype.stepWidth = function () {
+    return this._rescaleBand(this._d3Scale.rangeBand() * (1 + this.innerPadding())) || 1;
+};
 
 /**
  * @class Chart

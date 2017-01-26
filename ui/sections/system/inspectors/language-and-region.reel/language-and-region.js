@@ -2,7 +2,7 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
     moment = require("moment-timezone"),
     _      = require("lodash");
 
-exports.LanguageAndRegion = AbstractInspector.specialize(/** @lends LanguageAndRegion# */ {
+exports.LanguageAndRegion = AbstractInspector.specialize({
     timezoneOptions: {
         value: null
     },
@@ -13,56 +13,56 @@ exports.LanguageAndRegion = AbstractInspector.specialize(/** @lends LanguageAndR
 
     shortDateFormats: {
         value: [
-            "M/d/yy",
-            "d/M/yy",
-            "yy/M/d"
+            "MM/DD/YY",
+            "DD/MM/YY",
+            "YY/MM/DD"
         ]
     },
 
     mediumDateFormats: {
         value: [
-            "MM/dd/yy",
-            "dd/MM/yy",
-            "yy/MM/dd"
+            "MMM, DD YY",
+            "DD MMM YY",
+            "YY MMM DD"
         ]
     },
 
     longDateFormats: {
         value: [
-            "MMMM/dd/yyyy",
-            "dd/MMMM/yyyy",
-            "yyyy/MMMM/dd"
+            "MMMM DD, YYYY",
+            "DD MMMM YYYY",
+            "YYYY MMMM DD"
         ]
     },
 
     fullDateFormats: {
         value: [
-            "dddd, MMMM/dd/yyyy",
-            "dddd, dd/MMMM/yyyy",
-            "yyyy/MMMM/dd, dddd"
+            "dddd, MMMM DD, YYYY",
+            "dddd DD MMMM YYYY",
+            "YYYY MMMM DD dddd"
         ]
     },
 
     shortTimeFormats: {
         value: [
             "h:m",
-            "m:h"
+            "H:m"
         ]
     },
 
     mediumTimeFormats: {
         value: [
-            "hh:mm:ss",
-            "mm:hh:ss",
-            "ss:mm:hh"
+            "hh:mm:ss A",
+            "A hh:mm:ss",
+            "HH:mm:ss"
         ]
     },
 
     longTimeFormats: {
         value: [
-            "hh:mm:ss tt",
-            "mm:hh:ss tt",
-            "ss:mm:hh tt"
+            "hh:mm:ss A z",
+            "A hh:mm:ss z",
+            "HH:mm:ss z"
         ]
     },
 
@@ -119,8 +119,8 @@ exports.LanguageAndRegion = AbstractInspector.specialize(/** @lends LanguageAndR
         value: function(today, dateOptionList) {
             var formattedDateList = [];
             for (var i = 0,length = dateOptionList.length; i < length; i++) {
-                this.dateConverter.pattern = dateOptionList[i];
-                formattedDateList.push({label: "'" + this.dateConverter.convert(today) + "'", value: dateOptionList[i]});
+                var pattern = dateOptionList[i];
+                formattedDateList.push({label: "'" + moment(today).format(pattern) + "'", value: pattern});
             }
             return formattedDateList;
         }

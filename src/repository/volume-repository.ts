@@ -107,7 +107,7 @@ export class VolumeRepository extends AbstractRepository {
         return VolumeRepository.instance;
     }
 
-    public listVolumes(): Promise<Array<Object>> {
+    public listVolumes(): Promise<Array<any>> {
         return this.volumes ? Promise.resolve(this.volumes.valueSeq().toJS()) : this.volumeDao.list();
     }
 
@@ -303,6 +303,27 @@ export class VolumeRepository extends AbstractRepository {
     // FIXME May need to be moved at a higher level (PermissionsService ?)
     public getNewPermissions() {
         return this.permissionsDao.getNewInstance();
+    }
+
+    public getVdevFromDisk(disk: any) {
+        return _.find(
+            _.flatten(_.map(
+                _.flatten(_.filter(
+                    _.values(this.volumes.get(disk._allocation.name).get('topology').toJS()),
+                    x => x.length
+                )),
+                vdev => vdev.path ? vdev : vdev.children
+            )),
+            {path: disk.path}
+        );
+    }
+
+    public offlineVdev(volumeId: string, vdev: any) {
+        return this.volumeDao.offlineVdev(volumeId, vdev);
+    }
+
+    public onlineVdev(volumeId: string, vdev: any) {
+        return this.volumeDao.onlineVdev(volumeId, vdev);
     }
 
     private cleanupTopology(topology: any) {

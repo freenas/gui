@@ -38,6 +38,22 @@
     }
 }
 
+.Widget-header.Own {
+    display: flex;
+}
+
+.Widget-header.Injected {
+    display: none;
+}
+
+.is-title-injected .Widget-header.Own {
+    display: none;
+}
+
+.is-title-injected .Widget-header.Injected {
+    display: flex;
+}
+
 .Widget-content {
     flex: 1;
     display: flex;

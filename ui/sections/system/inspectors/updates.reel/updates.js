@@ -11,37 +11,29 @@ exports.Updates = AbstractInspector.specialize({
 
             if (isFirstTime) {
                 this._updateService = UpdateService.getInstance();
-                return Promise.all([
+                Promise.all([
                     this._updateService.getConfig(),
-                    this._updateService.getTrains(),
-                    this._updateService.getInfo()
-                ]).spread(function(config, trains, info) {
+                    this._updateService.getTrains()
+                ]).spread(function(config, trains) {
                     self.config = config;
                     self.trains = trains;
-                    self.info = info;
                 });
             }
-        }
-    },
-
-    handleInstallUpdateAction: {
-        value: function() {
-            this._updateService.apply(true);
+            if (this._inDocument) {
+                this._updateService.check().then(function(taskSubmission) {
+                    return taskSubmission.taskPromise;
+                }).then(function() {
+                    self._updateService.getInfo().then(function(info) {
+                        self.info = info;
+                    });
+                });
+            }
         }
     },
 
     handleVerifyAction: {
         value: function() {
             this._updateService.verify();
-        }
-    },
-
-    handleCheckDownloadAction: {
-        value: function() {
-            var self = this;
-            this._updateService.checkAndDownload().then(function(info) {
-                self.info = info;
-            });
         }
     },
 

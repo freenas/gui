@@ -16,7 +16,7 @@ exports.SystemInfo = Component.specialize({
             this._vmRepository = VmRepository.getInstance();
             this._diskRepository = DiskRepository.getInstance();
 
-            Promise.all([
+            this._dataPromise = Promise.all([
                 this._systemService.getVersion(),
                 this._systemService.getHardware(),
                 this._systemService.getGeneral(),
@@ -40,7 +40,13 @@ exports.SystemInfo = Component.specialize({
 
     enterDocument: {
         value: function () {
-            return this._systemService.getTime().then(this._startTimer.bind(this));
+            var self = this;
+            return Promise.all([
+                this._systemService.getTime(),
+                this._dataPromise
+            ]).spread(function(time) {
+                return self._startTimer(time);
+            });
         }
     },
 

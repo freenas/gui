@@ -3,7 +3,7 @@ import {ModelDescriptorService} from '../service/model-descriptor-service';
 import {EventDispatcherService} from '../service/event-dispatcher-service';
 import {CryptoCertificateType} from 'core/model/enumerations/crypto-certificate-type';
 import {CryptoCertificateRepository} from '../repository/crypto-certificate-repository';
-import {AlertFilterRepository} from 'core/repository/alert-filter-repository';
+import {AlertFilterRepository} from '../repository/alert-filter-repository';
 import {MailRepository} from '../repository/mail-repository';
 import {TunableRepository} from '../repository/tunable-repository';
 import {NtpServerRepository} from '../repository/ntp-server-repository';
@@ -35,7 +35,7 @@ export class SystemRoute extends AbstractRoute {
                 EventDispatcherService.getInstance(),
                 SystemRepository.getInstance(),
                 CryptoCertificateRepository.getInstance(),
-                AlertFilterRepository.instance,
+                AlertFilterRepository.getInstance(),
                 MailRepository.getInstance(),
                 TunableRepository.getInstance(),
                 NtpServerRepository.getInstance()
@@ -137,7 +137,7 @@ export class SystemRoute extends AbstractRoute {
         let self = this,
             objectType = Model.AlertFilter,
             columnIndex = 2,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -147,8 +147,8 @@ export class SystemRoute extends AbstractRoute {
         return Promise.all([
             this.alertFilterRepository.listAlertFilters(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(alterFilters, uiDescriptor) {
-            context.object = _.find(alterFilters, {id: filterId});
+        ]).spread(function(alertFilters, uiDescriptor) {
+            context.object = _.find(alertFilters, {id: filterId});
             context.userInterfaceDescriptor = uiDescriptor;
 
             return self.updateStackWithContext(stack, context);
@@ -159,7 +159,7 @@ export class SystemRoute extends AbstractRoute {
         let self = this,
             objectType = Model.AlertFilter,
             columnIndex = 2,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -169,8 +169,8 @@ export class SystemRoute extends AbstractRoute {
         return Promise.all([
             this.alertFilterRepository.getNewAlertFilter(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(alterFilter, uiDescriptor) {
-            context.object = alterFilter;
+        ]).spread(function(alertFilter, uiDescriptor) {
+            context.object = alertFilter;
             context.userInterfaceDescriptor = uiDescriptor;
 
             return self.updateStackWithContext(stack, context);
@@ -181,7 +181,7 @@ export class SystemRoute extends AbstractRoute {
         let self = this,
             objectType = Model.Mail,
             columnIndex = 2,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,

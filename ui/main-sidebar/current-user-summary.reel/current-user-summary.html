@@ -10,18 +10,6 @@
                 "element": {"#": "owner"}
             }
         },
-        "dateConverter": {
-            "prototype": "montage/core/converter/date-converter",
-            "bindings": {
-                "pattern": {"<-": "@owner.datePattern"}
-            }
-        },
-        "timeConverter": {
-            "prototype": "montage/core/converter/date-converter",
-            "bindings": {
-                "pattern": {"<-": "@owner.timePattern"}
-            }
-        },
         "hostStatus": {
             "prototype": "ui/controls/traffic-light.reel",
             "properties": {
@@ -37,41 +25,43 @@
             }
         },
         "host": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
-                "element": {"#": "host"}
+                "element": {"#": "host"},
+                "disableTranslation": true
             },
             "bindings": {
                 "value": {"<-": "@owner.middlewareClient.url"}
             }
         },
         "user": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
-                "element": {"#": "user"}
+                "element": {"#": "user"},
+                "disableTranslation": true
             },
             "bindings": {
                 "value": {"<-": "@owner.middlewareClient.user"}
             }
         },
         "date": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
-                "element": {"#": "date"},
-                "converter": {"@": "dateConverter"}
+                "element": {"#": "date"}
             },
             "bindings": {
-                "value": {"<-": "@owner.now"}
+                "args": {"<-": "!!@owner.now && {now: @owner.now}"},
+                "value": {"<-": "'{now, ' + @owner.datePattern + '}'"}
             }
         },
         "time": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
-                "element": {"#": "time"},
-                "converter": {"@": "timeConverter"}
+                "element": {"#": "time"}
             },
             "bindings": {
-                "value": {"<-": "@owner.now"}
+                "args": {"<-": "!!@owner.now && {now: @owner.now}"},
+                "value": {"<-": "'{now, ' + @owner.timePattern + '}'"}
             }
         }
     }

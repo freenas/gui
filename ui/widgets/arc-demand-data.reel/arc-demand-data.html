@@ -12,7 +12,8 @@
         "widget": {
             "prototype": "ui/dashboard/widgets/widget.reel",
             "properties": {
-                "element": {"#": "widget"}
+                "element": {"#": "widget"},
+                "title": "ARC Demand Data"
             }
         },
         "chart": {
@@ -42,10 +43,7 @@
 <body>
     <div data-montage-id="owner" class="ArcDemandData">
         <div data-montage-id="widget">
-            <div data-arg="widget-title">
-                <svg><use xlink:href="#i-lineChart"/></svg>
-                ARC Demand Data
-            </div>
+            <svg data-arg="widget-icon"><use xlink:href="#i-lineChart"/></svg>
             <div data-arg="widget-content">
                 <div data-montage-id="chart-live"></div>
             </div>

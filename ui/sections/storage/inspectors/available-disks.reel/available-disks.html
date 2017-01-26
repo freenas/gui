@@ -47,6 +47,13 @@
                 "controller": {"<-": "@owner.controller"},
                 "isExpanded": {"<-": "!@owner.locked && disks.length > 0"}
             }
+        },
+        "label": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "label"},
+                "value": "Drag disks to areas on the left"
+            }
         }
     }
     </script>
@@ -54,7 +61,7 @@
 <body>
     <div data-montage-id="owner" class="AvailableDisks">
         <div class="AvailableDisks-header">
-            <p>Drag disks to areas on the left</p>
+            <p data-montage-id="label"></p>
         </div>
         <div data-montage-id="hddsCategory" class="AvailableDisks-category"></div>
         <div data-montage-id="ssdsCategory" class="AvailableDisks-category"></div>

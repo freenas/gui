@@ -36,11 +36,10 @@ export class ModelDescriptorService {
         if (type) {
             result = this.getUiDescriptorForType(type);
         }
-        return result;
+        return Promise.resolve(result);
     }
 
     public getUiDescriptorForType(type: string): Promise<any> {
-if (typeof type !== 'string') debugger;
         let self = this;
         if (type) {
             let uiDescriptorPath = this.UI_DESCRIPTOR_PREFIX + _.kebabCase(type) + this.UI_DESCRIPTOR_SUFFIX;

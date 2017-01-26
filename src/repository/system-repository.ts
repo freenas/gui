@@ -1,16 +1,16 @@
-import {SystemGeneralDao} from "../dao/system-general-dao";
-import {SystemTimeDao} from "../dao/system-time-dao";
-import {SystemDatasetDao} from "../dao/system-dataset-dao";
-import {SystemDeviceDao} from "../dao/system-device-dao";
-import {SystemSectionDao} from "../dao/system-section-dao";
-import * as moment from "moment-timezone";
-import * as Promise from "bluebird";
-import {DatabaseDao} from "../dao/database-dao";
-import {SystemAdvancedDao} from "../dao/system-advanced-dao";
-import {SystemUiDao} from "../dao/system-ui-dao";
-import {DebugDao} from "../dao/debug-dao";
+import {SystemGeneralDao} from '../dao/system-general-dao';
+import {SystemTimeDao} from '../dao/system-time-dao';
+import {SystemDatasetDao} from '../dao/system-dataset-dao';
+import {SystemDeviceDao} from '../dao/system-device-dao';
+import {SystemSectionDao} from '../dao/system-section-dao';
+import {DatabaseDao} from '../dao/database-dao';
+import {SystemAdvancedDao} from '../dao/system-advanced-dao';
+import {SystemUiDao} from '../dao/system-ui-dao';
+import {DebugDao} from '../dao/debug-dao';
 import {SystemInfoDao} from '../dao/system-info-dao';
 import {CryptoCertificateDao} from '../dao/crypto-certificate-dao';
+import * as moment from 'moment-timezone';
+import * as Promise from 'bluebird';
 
 export class SystemRepository {
     private static instance: SystemRepository;
@@ -60,9 +60,9 @@ export class SystemRepository {
         return Promise.all([
             this.getTime(),
             this.getGeneral()
-        ]).spread((time,general) => {
+        ]).spread((time, general) => {
             return moment.tz(time.system_time.$date, general.timezone).format('Z');
-        })
+        });
     }
 
     public getVersion() {
@@ -86,7 +86,7 @@ export class SystemRepository {
     }
 
     public listKeymaps(): Promise<Array<Array<string>>> {
-        return this.systemGeneralDao.listKeymaps()
+        return this.systemGeneralDao.listKeymaps();
     }
 
     public getConfigFileAddress() {
@@ -130,7 +130,7 @@ export class SystemRepository {
     }
 
     public getDebugFileAddress() {
-        return this.debugDao.collect("freenasdebug.tar.gz");
+        return this.debugDao.collect('freenasdebug.tar.gz');
     }
 
     public getCertificateFileAddress(id: string, certTarFileName: string) {

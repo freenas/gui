@@ -73,6 +73,27 @@
                 "options": {"<-": "@owner.trains"}
             }
         },
+        "changelogLabel": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+            "properties": {
+                "element": {"#": "changelogLabel"},
+                "value": "Changelog"
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "@owner.info.changelog.length == 0"}
+            }
+        },
+        "changelog": {
+            "prototype": "blue-shark/ui/scrollable-list.reel",
+            "properties": {
+                "element": {"#": "changelog"},
+                "height": 8
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "@owner.info.changelog.length == 0"},
+                "content": {"<-": "@owner.info.changelog.map{{value: this}}"}
+            }
+        },
         "operationsTableLabel": {
             "prototype": "ui/controls/inspector-section-title.reel",
             "properties": {
@@ -108,20 +129,9 @@
             "properties": {
                 "element": {"#": "updateNow"},
                 "value": "Update and Reboot"
-            }
-        },
-        "installUpdate": {
-            "prototype": "blue-shark/ui/button.reel",
-            "properties": {
-                "element": {"#": "installUpdate"},
-                "value": "Install Pending Update"
-            }
-        },
-        "checkDownload": {
-            "prototype": "blue-shark/ui/button.reel",
-            "properties": {
-                "element": {"#": "checkDownload"},
-                "value": "Check for Update"
+            },
+            "bindings": {
+                "disabled": {"<-": "!@owner.info.available"}
             }
         },
         "verify": {
@@ -153,10 +163,10 @@
     <div data-montage-id="owner" class="Updates">
         <div data-montage-id="inspector">
             <div data-montage-id="updateNow"></div>
-            <div data-montage-id="checkDownload"></div>
-            <div data-montage-id="installUpdate"></div>
             <div data-montage-id="verify" class='hide'></div>
             <div class="Updates-operations g-margin-bottom">
+                <div data-montage-id="changelogLabel"></div>
+                <div data-montage-id="changelog" class="g-margin-top"></div>
                 <div data-montage-id="operationsTableLabel"></div>
                 <div data-montage-id="operationsTable" class="Updates-table"></div>
             </div>

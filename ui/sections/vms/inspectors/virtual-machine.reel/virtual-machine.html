@@ -265,14 +265,22 @@
                 "path": "readme"
             }
         },
-        "guestInfoStatusLight": {
-            "prototype": "ui/controls/traffic-light.reel",
+        "guestToolsSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
             "properties": {
-                "element": {"#": "guestInfoStatusLight"},
-                "colorMapping": {"Y" : "green", "N" : "red"}
+                "element": {"#": "guestToolsSubstitution"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.status.vm_tools_available ? 'Y' : 'N'"}
+                "switchValue": {"<-": "!@owner.object.status.vm_tools_available ? 'unavailable' : 'available'"},
+                "classList.has('is-hidden')": {"<-": "@owner.object._isNew"}
+            }
+        },
+        "guestTools": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "guestTools"},
+                "title": "Guest tools",
+                "isExpanded": false
             }
         },
         "guestInfoRefresh": {
@@ -282,18 +290,17 @@
                 "value": "Refresh guest info"
             },
             "bindings": {
-                "disabled": {"<-": "!@owner.object.status.vm_tools_available"},
-                "classList.has('is-hidden')": {"<-": "@owner.object._isNew"}
+                "disabled": {"<-": "!@owner.object.status.vm_tools_available"}
             }
         },
-        "guestInfoStatus": {
-            "prototype": "blue-shark/ui/field.reel",
+        "guestToolsStatus": {
+            "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
-                "label": "VM tools status",
-                "element": {"#": "guestInfoStatus"}
+                "label": "Guest tools",
+                "element": {"#": "guestToolsStatus"}
             },
             "bindings": {
-                "classList.has('is-hidden')": {"<-": "@owner.object._isNew"}
+                "value": {"<-": "!@owner.object.status.vm_tools_available ? 'Not detected' : 'Available'"}
             }
         },
         "guestInfoLoadAvg": {
@@ -413,7 +420,7 @@
                 "value": "VGA Console"
             },
             "bindings": {
-                "classList.has('hide')": {"<-": "@owner.object._hasGraphicDevice"},
+                "classList.has('hide')": {"<-": "!@owner.object._hasGraphicDevice"},
                 "disabled": {"<-": "@owner.object.status.state == 'STOPPED'"}
             }
         },
@@ -460,12 +467,14 @@
             <div data-montage-id="cpu"></div>
             <div data-montage-id="memory"></div>
             <div data-montage-id="autostart"></div>
-            <div data-montage-id="guestInfoStatus">
-                <div data-montage-id="guestInfoStatusLight"></div>
+            <div data-montage-id="guestToolsSubstitution">
+                <div data-montage-id="guestToolsStatus" data-arg="unavailable"></div>
+                <div data-montage-id="guestTools" data-arg="available">
+                    <div data-montage-id="guestInfoRefresh" class="g-margin-bottom"></div>
+                    <div data-montage-id="guestInfoLoadAvg" class="g-margin-bottom"></div>
+                    <div data-montage-id="guestInfoInterfaces" class="g-margin-bottom"></div>
+                </div>
             </div>
-            <div data-montage-id="guestInfoRefresh" class="g-margin-bottom"></div>
-            <div data-montage-id="guestInfoLoadAvg" class="g-margin-bottom"></div>
-            <div data-montage-id="guestInfoInterfaces" class="g-margin-bottom"></div>
             <div data-montage-id="readme"></div>
             <div data-montage-id="devices"></div>
             <div data-montage-id="volumeDevices"></div>

@@ -8,19 +8,19 @@ var AbstractSectionService = require('core/service/section/abstract-section-serv
     SystemRepository = require('core/repository/system-repository').SystemRepository,
     AccountRepository = require('core/repository/account-repository').AccountRepository,
     MailRepository = require('core/repository/mail-repository').MailRepository,
-    WizardRepository = require('core/repository/wizard-repository').WizardRepository,
+    ShareRepository = require("core/repository/share-repository").ShareRepository,
     _ = require("lodash");
 
 exports.WizardSectionService = AbstractSectionService.specialize({
 
     init: {
         value: function () {
-            this._wizardRepository = WizardRepository.instance;
             this._systemRepository = SystemRepository.getInstance();
             this._accountRepository = AccountRepository.getInstance();
             this._diskRepository = DiskRepository.getInstance();
             this._volumeRepository = VolumeRepository.getInstance();
             this._mailRepository = MailRepository.getInstance();
+            this._shareRepository = ShareRepository.getInstance();
             this._topologyService = TopologyService.getInstance();
             this._modelDescriptorService = ModelDescriptorService.getInstance();
             Application.addEventListener('taskDone', this);
@@ -40,37 +40,37 @@ exports.WizardSectionService = AbstractSectionService.specialize({
 
     getNewSystemGeneral: {
         value: function () {
-            return this._wizardRepository.getNewSystemGeneral();
+            return this._systemRepository.getGeneral();
         }
     },
 
     getNewVolume: {
         value: function () {
-            return this._wizardRepository.getNewVolume();
+            return this._volumeRepository.getNewVolume();
         }
     },
 
     getNewUser: {
         value: function() {
-            return this._wizardRepository.getNewUser();
+            return this._accountRepository.getNewUser();
         }
     },
 
     getNewDirectoryServices: {
         value: function () {
-            return this._wizardRepository.getNewDirectoryServices();
+            return this._accountRepository.getNewDirectoryServices();
         }
     },
 
     getMailData: {
         value: function () {
-            return this._wizardRepository.getMailData();
+            return this._mailRepository.getConfig();
         }
     },
 
     getNewShare: {
         value: function () {
-            return this._wizardRepository.getNewShare();
+            return this._shareRepository.getNewShare();
         }
     },
 

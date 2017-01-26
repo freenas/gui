@@ -1,13 +1,13 @@
-import {UserDao} from "../dao/user-dao";
-import {GroupDao} from "../dao/group-dao";
-import {DirectoryServicesDao} from "../dao/directory-services-dao";
-import {DirectoryserviceConfigDao} from "../dao/directoryservice-config-dao";
-import {AbstractRepository} from "./abstract-repository-ng";
-import * as Promise from "bluebird";
-import {DirectoryDao} from "../dao/directory-dao";
-import {Map} from "immutable";
-import {ModelEventName} from "../model-event-name";
-import {Model} from "../model";
+import {UserDao} from '../dao/user-dao';
+import {GroupDao} from '../dao/group-dao';
+import {DirectoryServicesDao} from '../dao/directory-services-dao';
+import {DirectoryserviceConfigDao} from '../dao/directoryservice-config-dao';
+import {AbstractRepository} from './abstract-repository-ng';
+import * as Promise from 'bluebird';
+import {DirectoryDao} from '../dao/directory-dao';
+import {Map} from 'immutable';
+import {ModelEventName} from '../model-event-name';
+import {Model} from '../model';
 
 export class AccountRepository extends AbstractRepository {
     private static instance: AccountRepository;
@@ -17,10 +17,10 @@ export class AccountRepository extends AbstractRepository {
     private directories: Map<string, Map<string, any>>;
 
     public static readonly DIRECTORY_TYPES_LABELS = {
-        winbind: "Active Directory",
-        freeipa: "FreeIPA",
-        ldap: "LDAP",
-        nis: "NIS"
+        winbind: 'Active Directory',
+        freeipa: 'FreeIPA',
+        ldap: 'LDAP',
+        nis: 'NIS'
     };
 
     private constructor(private userDao: UserDao,
@@ -93,14 +93,14 @@ export class AccountRepository extends AbstractRepository {
     }
 
     public listDirectories() {
-        return this.directories ? Promise.resolve(this.directories.toSet().toJS()) : this.directoryDao.list();
+        return this.directories ? Promise.resolve(this.directories.valueSeq().toJS()) : this.directoryDao.list();
     }
 
     public getNewDirectoryForType(type: string) {
         return this.directoryDao.getNewInstance().then(function (directory) {
             directory.type = type;
             directory._tmpId = type;
-            directory.parameters = {"%type": type + "-directory-params"};
+            directory.parameters = {'%type': type + '-directory-params'};
             directory.label = AccountRepository.DIRECTORY_TYPES_LABELS[type];
 
             return directory;

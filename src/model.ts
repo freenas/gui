@@ -102,6 +102,7 @@ const Model = {
     VolumeDatasetPropertyReservation: 'VolumeDatasetPropertyReservation' as 'VolumeDatasetPropertyReservation',
     VolumeDatasetPropertyVolblocksize: 'VolumeDatasetPropertyVolblocksize' as 'VolumeDatasetPropertyVolblocksize',
     VolumeImporter: 'VolumeImporter' as 'VolumeImporter',
+    VolumeMediaImporter: 'VolumeMediaImporter' as 'VolumeMediaImporter',
     VolumeSnapshot: 'VolumeSnapshot' as 'VolumeSnapshot',
     VolumeVdevRecommendations: 'VolumeVdevRecommendations' as 'VolumeVdevRecommendations',
     ZfsTopology: 'ZfsTopology' as 'ZfsTopology',
