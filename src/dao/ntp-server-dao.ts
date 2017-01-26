@@ -1,5 +1,5 @@
 import { AbstractDao } from './abstract-dao';
-import {Model} from "../model";
+import {Model} from '../model';
 
 export class NtpServerDao extends AbstractDao {
 
@@ -7,7 +7,8 @@ export class NtpServerDao extends AbstractDao {
         super(Model.NtpServer, {
             queryMethod: 'ntp_server.query',
             updateMethod: 'ntp_server.update',
-            createMethod: 'ntp_server.create'
+            createMethod: 'ntp_server.create',
+            deleteMethod: 'ntp_server.delete'
         });
     }
 
