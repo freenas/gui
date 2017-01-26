@@ -185,7 +185,7 @@ var ShareService = exports.ShareService = Montage.specialize({
                 isNewShareObject = shareObject._isNew,
                 blockSize = shareObject.properties.block_size,
                 size = shareObject.properties.size,
-                targetId = shareObject.__extent && shareObject.__extent.id,
+                targetId = shareObject.__extent ? shareObject.__extent.id : null,
                 datasetProperties = null;
 
             if (typeof blockSize === "string") {
@@ -211,7 +211,7 @@ var ShareService = exports.ShareService = Montage.specialize({
                         return self._dataService.getNewInstanceForType(Model.ShareIscsiTarget).then(function(target) {
                             var extentObject = {
                                 name: shareObject.name,
-                                number: shareObject.__extent.lun
+                                number: shareObject.__extent ? shareObject.__extent.lun : 0
                             };
 
                             target.id = targetId;
