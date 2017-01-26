@@ -107,7 +107,7 @@ export class VolumeRepository extends AbstractRepository {
         return VolumeRepository.instance;
     }
 
-    public listVolumes(): Promise<Array<Object>> {
+    public listVolumes(): Promise<Array<any>> {
         return this.volumes ? Promise.resolve(this.volumes.valueSeq().toJS()) : this.volumeDao.list();
     }
 

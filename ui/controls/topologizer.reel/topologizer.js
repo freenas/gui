@@ -189,18 +189,18 @@ exports.Topologizer = Component.specialize({
             var startPosition = this._translateComposer.pointerStartEventPosition,
                 triangleElementBoundingRect = this.triangleElement.getBoundingClientRect();
 
+            this.controller.clearReservedDisks();
+
             this._targetPosition = {
                 x: startPosition.pageX - triangleElementBoundingRect.left,
                 y: startPosition.pageY - triangleElementBoundingRect.top
             };
-
             this._translateComposer.translateX = this._targetPosition.x;
+
             this._translateComposer.translateY = this._targetPosition.y;
-
             this._translateComposer.addEventListener("translate", this, false);
-            this._translateComposer.addEventListener("translateEnd", this, false);
 
-            this.controller.clearReservedDisks();
+            this._translateComposer.addEventListener("translateEnd", this, false);
             this.profile = "";
             this.needsDraw = true;
 
@@ -262,26 +262,29 @@ exports.Topologizer = Component.specialize({
 
                         var self = this;
 
-                        Promise.all([
-                            this.controller.getVdevRecommendation(
-                                barycentricValues[0],
-                                barycentricValues[1],
-                                barycentricValues[2]
-                            ),
-                            this.controller.generateTopology(
-                                this.disks,
-                                new TopologyProfile(
+                        this.controller.clearReservedDisks();
+                        this.controller.listAvailableDisks().then(function(availableDisks) {
+                            return Promise.all([
+                                self.controller.getVdevRecommendation(
                                     barycentricValues[0],
                                     barycentricValues[1],
                                     barycentricValues[2]
+                                ),
+                                self.controller.generateTopology(
+                                    availableDisks,
+                                    new TopologyProfile(
+                                        barycentricValues[0],
+                                        barycentricValues[1],
+                                        barycentricValues[2]
+                                    )
                                 )
-                            )
-                        ]).then(function (data) {
-                            var recommendation = data[0],
-                                topology = data[1];
+                            ]).then(function (data) {
+                                var recommendation = data[0],
+                                    topology = data[1];
 
-                            self.priorities = recommendation.priorities;
-                            self.topology = topology;
+                                self.priorities = recommendation.priorities;
+                                self.topology = topology;
+                            });
                         });
                     }
 

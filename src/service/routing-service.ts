@@ -454,7 +454,7 @@ export class RoutingService {
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/replication',
             (volumeId, datasetId) => this.replicationRoute.createForDataset(datasetId, this.currentStacks.get('storage')), 1);
         crossroads.addRoute('/storage/volume/_/{volumeId}/topology',
-            (volumeId) => this.volumeRoute.getVolumeTopology(this.currentStacks.get('storage')));
+            (volumeId) => this.volumeRoute.topology(volumeId, this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/volume/_/{volumeId}/topology/disk/_/{diskId}',
             (volumeId, diskId) => this.volumeRoute.topologyDisk(diskId, this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/create',
