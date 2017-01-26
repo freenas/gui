@@ -1,13 +1,13 @@
-import {VolumeRepository} from "../repository/volume-repository";
-import {EventDispatcherService} from "../service/event-dispatcher-service";
-import {ModelDescriptorService} from "../service/model-descriptor-service";
-import {DataObjectChangeService} from "../service/data-object-change-service";
-import {ModelEventName} from "../model-event-name";
-import _ = require("lodash");
-import Promise = require("bluebird");
-import {VmwareRepository} from "../repository/vmware-repository";
-import {AbstractRoute} from "./abstract-route";
-import {Model} from "../model";
+import {VolumeRepository} from '../repository/volume-repository';
+import {EventDispatcherService} from '../service/event-dispatcher-service';
+import {ModelDescriptorService} from '../service/model-descriptor-service';
+import {DataObjectChangeService} from '../service/data-object-change-service';
+import {ModelEventName} from '../model-event-name';
+import {VmwareRepository} from '../repository/vmware-repository';
+import {AbstractRoute} from './abstract-route';
+import {Model} from '../model';
+import * as _ from 'lodash';
+import * as Promise from 'bluebird';
 
 export class DatasetRoute extends AbstractRoute {
     private static instance: DatasetRoute;
@@ -16,9 +16,9 @@ export class DatasetRoute extends AbstractRoute {
     private constructor(private volumeRepository: VolumeRepository,
                         private vmwareRepository: VmwareRepository,
                         eventDispatcherService: EventDispatcherService,
-                        private modelDescriptorService: ModelDescriptorService,
+                        modelDescriptorService: ModelDescriptorService,
                         private dataObjectChangeService: DataObjectChangeService) {
-        super(eventDispatcherService);
+        super(eventDispatcherService, modelDescriptorService);
         this.objectType = Model.VolumeDataset;
     }
 
@@ -42,32 +42,31 @@ export class DatasetRoute extends AbstractRoute {
             this.volumeRepository.listVolumes(),
             this.volumeRepository.listDatasets(),
             this.modelDescriptorService.getUiDescriptorForType(this.objectType)
-        ]).spread(function(volumes, datasets, uiDescriptor) {
-            while (stack.length > 2) {
+        ]).spread((volumes, datasets, uiDescriptor) => {
+            let columnIndex = 2,
+                parentContext = stack[columnIndex - 1],
+                filter = {volume: volumeId},
+                sort = 'name';
+            while (stack.length > columnIndex) {
                 let oldContext = stack.pop();
                 if (oldContext && oldContext.changeListener) {
                     self.eventDispatcherService.removeEventListener(ModelEventName[oldContext.objectType].listChange, oldContext.changeListener);
                 }
             }
 
-            let filteredDatasets = _.filter(datasets, {volume: volumeId});
-            filteredDatasets._objectType = self.objectType;
+            let filteredDatasets = _.sortBy(_.filter(datasets, filter), sort);
 
+            filteredDatasets._objectType = self.objectType;
             let context = {
                 object: filteredDatasets,
                 userInterfaceDescriptor: uiDescriptor,
-                columnIndex: 2,
+                columnIndex: columnIndex,
                 objectType: self.objectType,
-                parentContext: stack[1],
-                path: stack[1].path + '/volume-dataset',
-                changeListener: self.eventDispatcherService.addEventListener(ModelEventName.VolumeDataset.listChange, function(state) {
-                    self.dataObjectChangeService.handleDataChange(filteredDatasets, state);
-                    for (let i = filteredDatasets.length - 1; i >= 0; i--) {
-                        if (filteredDatasets[i].volume !== volumeId) {
-                            filteredDatasets.splice(i, 1);
-                        }
-                    }
-                })
+                parentContext: parentContext,
+                path: parentContext.path + '/volume-dataset',
+                changeListener: self.eventDispatcherService.addEventListener(ModelEventName.VolumeDataset.listChange, state =>
+                    this.dataObjectChangeService.handleDataChange(filteredDatasets, state, {filter: filter, sort: sort})
+                )
             };
 
             stack.push(context);
@@ -78,7 +77,7 @@ export class DatasetRoute extends AbstractRoute {
     public create(volumeId: string, stack: Array<any>) {
         let self = this,
             columnIndex = 3,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: this.objectType,
@@ -110,7 +109,7 @@ export class DatasetRoute extends AbstractRoute {
     public get(volumeId: string, datasetId: string, stack: Array<any>) {
         let self = this,
             columnIndex = 3,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: this.objectType,
@@ -143,7 +142,7 @@ export class DatasetRoute extends AbstractRoute {
         let self = this,
             objectType = Model.VmwareDataset,
             columnIndex = 4,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: this.objectType,
@@ -153,7 +152,7 @@ export class DatasetRoute extends AbstractRoute {
         return Promise.all([
             this.vmwareRepository.listDatasets(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(vmwareDatasets, uiDescriptor) {
+        ]).spread((vmwareDatasets, uiDescriptor) => {
             let filteredVmwareDatasets = _.filter(vmwareDatasets, {dataset: datasetId});
             filteredVmwareDatasets._objectType = objectType;
             context.object = filteredVmwareDatasets;
@@ -182,7 +181,7 @@ export class DatasetRoute extends AbstractRoute {
     public createVmware(datasetId: string, stack: Array<any>) {
         let self = this,
             columnIndex = 5,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: this.objectType,
@@ -213,7 +212,7 @@ export class DatasetRoute extends AbstractRoute {
     public getVmware(vmwareDatasetId: string, stack: Array<any>) {
         let self = this,
             columnIndex = 5,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: this.objectType,
