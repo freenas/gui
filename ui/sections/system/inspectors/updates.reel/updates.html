@@ -73,6 +73,27 @@
                 "options": {"<-": "@owner.trains"}
             }
         },
+        "currentVersion": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "currentVersion"},
+                "label": "Current Version"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.currentVersion"}
+            }
+        },
+        "newVersion": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "newVersion"},
+                "label": "New Version"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.info.version"},
+                "classList.has('hide')": {"<-": "!@owner.info.available"}
+            }
+        },
         "changelogLabel": {
             "prototype": "ui/controls/inspector-section-title.reel",
             "properties": {
@@ -148,6 +169,16 @@
                 "value": "No update available"
             }
         },
+        "updateAvailable": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+                  "properties": {
+                "element": {"#": "updateAvailable"},
+                "value": "An update is available"
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-":  "!@owner.info.available"}
+            }
+        },
         "settingsButtons": {
             "prototype": "ui/controls/inspector-footer.reel",
             "properties": {
@@ -164,13 +195,16 @@
         <div data-montage-id="inspector">
             <div data-montage-id="updateNow"></div>
             <div data-montage-id="verify" class='hide'></div>
+            <div data-montage-id="noOperation" class="Updates-noOperation"></div>
+            <div data-montage-id="updateAvailable"></div>
+            <div data-montage-id="currentVersion"></div>
+            <div data-montage-id="newVersion"></div>
             <div class="Updates-operations g-margin-bottom">
                 <div data-montage-id="changelogLabel"></div>
                 <div data-montage-id="changelog" class="g-margin-top"></div>
                 <div data-montage-id="operationsTableLabel"></div>
                 <div data-montage-id="operationsTable" class="Updates-table"></div>
             </div>
-            <div data-montage-id="noOperation" class="Updates-noOperation"></div>
             <div data-montage-id="settingsSection" class="Updates-settingsSection">
                 <div data-montage-id="autoCheckUpdate"></div>
                 <div data-montage-id="trainSelect"></div>

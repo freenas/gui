@@ -4,6 +4,9 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
     _ = require("lodash");
 
 exports.Updates = AbstractInspector.specialize({
+    currentVersion: {
+        value: null
+    },
 
     enterDocument: {
         value: function(isFirstTime) {
@@ -13,12 +16,15 @@ exports.Updates = AbstractInspector.specialize({
                 this._updateService = UpdateService.getInstance();
                 Promise.all([
                     this._updateService.getConfig(),
-                    this._updateService.getTrains()
-                ]).spread(function(config, trains) {
+                    this._updateService.getTrains(),
+                    this._sectionService.getSystemVersion()
+                ]).spread(function(config, trains, version) {
                     self.config = config;
                     self.trains = trains;
+                    self.currentVersion = version;
                 });
             }
+
             if (this._inDocument) {
                 this._updateService.check().then(function(taskSubmission) {
                     return taskSubmission.taskPromise;
