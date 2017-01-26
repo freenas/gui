@@ -3,6 +3,7 @@ import {Model} from '../model';
 import {Map} from 'immutable';
 import {ModelEventName} from '../model-event-name';
 import {AlertFilterDao} from '../dao/alert-filter-dao';
+import * as _ from 'lodash';
 
 export class AlertFilterRepository extends AbstractRepository {
     private static instance: AlertFilterRepository;
@@ -22,11 +23,12 @@ export class AlertFilterRepository extends AbstractRepository {
     }
 
     public getNewAlertFilter() {
-        return this.alertFilterDao.getNewInstance();
+        return this.alertFilterDao.getNewInstance()
+            .then(alertFilter => _.assign(alertFilter, {predicates: []}));
     }
 
     public listAlertFilters() {
-        return this.alertFilterDao.list();
+        return this.alertFilters ? this.alertFilters.valueSeq().toJS() : this.alertFilterDao.list();
     }
 
     protected handleStateChange(name: string, state: any) {

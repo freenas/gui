@@ -147,8 +147,8 @@ export class SystemRoute extends AbstractRoute {
         return Promise.all([
             this.alertFilterRepository.listAlertFilters(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(alterFilters, uiDescriptor) {
-            context.object = _.find(alterFilters, {id: filterId});
+        ]).spread(function(alertFilters, uiDescriptor) {
+            context.object = _.find(alertFilters, {id: filterId});
             context.userInterfaceDescriptor = uiDescriptor;
 
             return self.updateStackWithContext(stack, context);
@@ -169,8 +169,8 @@ export class SystemRoute extends AbstractRoute {
         return Promise.all([
             this.alertFilterRepository.getNewAlertFilter(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(alterFilter, uiDescriptor) {
-            context.object = alterFilter;
+        ]).spread(function(alertFilter, uiDescriptor) {
+            context.object = alertFilter;
             context.userInterfaceDescriptor = uiDescriptor;
 
             return self.updateStackWithContext(stack, context);
