@@ -1,5 +1,6 @@
 var Component = require("montage/ui/component").Component,
-    Promise = require("montage/core/promise").Promise;
+    Promise = require("montage/core/promise").Promise,
+    _ = require('lodash');
 
 /**
  * @class ChartLive
@@ -291,7 +292,7 @@ exports.ChartLive = Component.specialize({
             var key = this._eventToKey[event.name];
             if (key) {
                 if (this.isTimeSeries) {
-                    this.chart.addPoint(key, {
+                    this._addPointToChart(key, {
                         x: this._dateToTimestamp(event.args.timestamp),
                         y: this.transformValue(event.args.value)
                     });
@@ -305,9 +306,31 @@ exports.ChartLive = Component.specialize({
         }
     },
 
+    _addPointToChart: {
+        value: function(key, point) {
+            var numKeys = Object.keys(this._eventToKey).length,
+                avgTime, series;
+
+            this._pointsCache = this._pointsCache || {};
+            this._pointsCache[key] = point;
+
+            if (Object.keys(this._pointsCache).length === numKeys) {
+                avgTime = _.sum(_.map(this._pointsCache, 'x')) / numKeys;
+                avgTime = Math.floor(avgTime / this.constructor.TIME_SERIES_INTERVAL) * this.constructor.TIME_SERIES_INTERVAL;
+                for (series in this._pointsCache) {
+                    this.chart.addPoint(series, {
+                        x: avgTime,
+                        y: this._pointsCache[series].y
+                    });
+                }
+                this._pointsCache = null;
+            }
+        }
+    },
+
     _dateToTimestamp: {
         value: function(date) {
-            return Math.floor((new Date(date.$date).getTime() - this._timezoneOffset) / this.constructor.TIME_SERIES_INTERVAL) * this.constructor.TIME_SERIES_INTERVAL;
+            return new Date(date.$date).getTime() - this._timezoneOffset;
         }
     }
 

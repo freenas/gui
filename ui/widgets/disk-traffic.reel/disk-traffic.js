@@ -43,12 +43,20 @@ exports.DiskTraffic = Component.specialize(/** @lends DiskTraffic# */ {
 
     _refreshChart: {
         value: function() {
-            this.chart.metrics = this.disks.map(function(disk) {
+            this.chart.metrics = this.disks.sort(function(a, b) {
+                var strA = a.name.replace(/\d+$/, ''),
+                    strB = b.name.replace(/\d+$/, '');
+
+                if (strA === strB) {
+                    return +(a.name.replace(strA, '')) - +(b.name.replace(strB, ''));
+                }
+                return Object.compare(a, b);    
+            }).map(function(disk) {
                 return [
                     ['geom_ops_rwd-' + (disk.is_multipath ? 'multipath_' : '') + disk.name, 'read'],
                     ['geom_ops_rwd-' + (disk.is_multipath ? 'multipath_' : '') + disk.name, 'write']
                 ];
-            }).flatten().sort();
+            }).flatten();
             this.chart.datasources = ['geom_stat'];
         }
     }
