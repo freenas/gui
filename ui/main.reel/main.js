@@ -13,12 +13,13 @@ exports.Main = Component.specialize({
 
     templateDidLoad: {
         value: function() {
+            var self = this;
             this.sectionRepository = SectionRepository.getInstance();
             this.routingService = RoutingService.getInstance();
             this.middlewareClient = MiddlewareClient.getInstance();
             this._eventDispatcherService = EventDispatcherService.getInstance();
-            this._eventDispatcherService.addEventListener('connectionStatusChange', function(status) {
-                self.connectionStatus = status;
+            this._eventDispatcherService.addEventListener('connectionStatusChange', function(state) {
+                self.connectionState = state;
             });
 
             this._eventDispatcherService.addEventListener('sectionChange', this._handleSectionChange.bind(this));

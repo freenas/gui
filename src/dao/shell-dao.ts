@@ -1,5 +1,4 @@
 import { AbstractDao } from './abstract-dao';
-import * as Promise from "bluebird";
 
 export class ShellDao extends AbstractDao {
 

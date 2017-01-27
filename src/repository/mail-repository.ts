@@ -1,5 +1,4 @@
 import {MailDao} from "../dao/mail-dao";
-import * as Promise from "bluebird";
 
 export class MailRepository {
     private static instance: MailRepository;

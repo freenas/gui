@@ -2,7 +2,6 @@ import {AbstractRepository} from "./abstract-repository-ng";
 import {CalendarDao} from "../dao/calendar-dao";
 import {CalendarTaskDao} from "../dao/calendar-task-dao";
 import * as _ from "lodash";
-import * as Promise from "bluebird";
 import {ModelEventName} from "../model-event-name";
 import {Map} from "immutable";
 import {Model} from "../model";

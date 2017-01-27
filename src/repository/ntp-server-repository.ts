@@ -3,7 +3,6 @@ import { NtpServerDao } from '../dao/ntp-server-dao';
 import {Map} from "immutable";
 import {ModelEventName} from "../model-event-name";
 import {Model} from "../model";
-import * as Promise from "bluebird";
 
 export class NtpServerRepository extends AbstractRepository {
     private static instance: NtpServerRepository;

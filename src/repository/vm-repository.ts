@@ -137,7 +137,7 @@ export class VmRepository extends AbstractRepository {
     }
 
     public saveVm(vm: any) {
-        let vmPlain = _.toPlainObject(vm);
+        let vmPlain: any = _.toPlainObject(vm);
         vmPlain.devices = _.map(vmPlain.devices, (device) => _.omitBy(_.toPlainObject(device), _.isNull));
         return this.vmDao.save(vmPlain);
     }

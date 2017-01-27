@@ -18,7 +18,7 @@ export class DataObjectChangeService {
         if (!uiObjects) {
             uiObjects = newObjects;
         } else {
-            _.forEach(newObjects, newObject => {
+            _.forEach(newObjects, (newObject: any) => {
                 let uiObject = _.find(uiObjects, {id: newObject.id});
                 if (uiObject) {
                     Object.assign(uiObject, newObject);

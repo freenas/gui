@@ -4,8 +4,6 @@ import { processor as cleaningProcessor } from '../service/data-processor/cleane
 import { processor as nullProcessor } from '../service/data-processor/null';
 import {Model} from '../model';
 
-import * as Promise from 'bluebird';
-
 export class CryptoCertificateDao extends AbstractDao {
     public constructor() {
         super(Model.CryptoCertificate, {

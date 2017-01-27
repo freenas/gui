@@ -1,6 +1,5 @@
 import { AbstractDao } from './abstract-dao';
 import {Model} from '../model';
-import * as Promise from 'bluebird';
 
 export class DockerContainerDao extends AbstractDao {
 

@@ -1,29 +1,19 @@
-import {ModelDescriptorService} from '../service/model-descriptor-service';
-import {EventDispatcherService} from '../service/event-dispatcher-service';
 import {AbstractRoute} from './abstract-route';
 import {Model} from '../model';
 import {VmRepository} from '../repository/vm-repository';
 import {ModelEventName} from '../model-event-name';
-import {DataObjectChangeService} from '../service/data-object-change-service';
 import * as _ from 'lodash';
-import * as Promise from 'bluebird';
 
 export class VmsRoute extends AbstractRoute {
     private static instance: VmsRoute;
 
-    private constructor(private modelDescriptorService: ModelDescriptorService,
-                        eventDispatcherService: EventDispatcherService,
-                        private dataObjectChangeService: DataObjectChangeService,
-                        private vmRepository: VmRepository) {
-        super(eventDispatcherService);
+    private constructor(private vmRepository: VmRepository) {
+        super();
     }
 
     public static getInstance() {
         if (!VmsRoute.instance) {
             VmsRoute.instance = new VmsRoute(
-                ModelDescriptorService.getInstance(),
-                EventDispatcherService.getInstance(),
-                new DataObjectChangeService(),
                 VmRepository.getInstance()
             );
         }
@@ -135,9 +125,9 @@ export class VmsRoute extends AbstractRoute {
                 path: parentContext.path + '/create'
             };
         return Promise.all([
-            Promise.all(_.map(_.values(this.vmRepository.DEVICE_TYPE), (type) => this.vmRepository.getNewVmDeviceForType(type))),
+            Promise.all(_.map(_.values(this.vmRepository.DEVICE_TYPE), (type: string) => this.vmRepository.getNewVmDeviceForType(type))),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(vmdevices, uiDescriptor) {
+        ]).spread(function(vmdevices: Array<any>, uiDescriptor) {
             context.object = _.compact(vmdevices);
             context.object._vm = parentContext.object._vm;
             context.userInterfaceDescriptor = uiDescriptor;
@@ -251,7 +241,7 @@ export class VmsRoute extends AbstractRoute {
             this.vmRepository.listDatastores(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(datastores, uiDescriptor) {
-            datastores._objectType = objectType;
+            (datastores as any)._objectType = objectType;
             context.object = datastores;
             context.userInterfaceDescriptor = uiDescriptor;
 
@@ -295,7 +285,7 @@ export class VmsRoute extends AbstractRoute {
         return Promise.all([
             Promise.all(_.map(_.values(this.vmRepository.DATASTORE_TYPE), (type) => this.vmRepository.getNewVmDatastoreForType(type))),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(vmdatastores, uiDescriptor) {
+        ]).spread(function(vmdatastores: Array<any>, uiDescriptor) {
             context.object = _.compact(vmdatastores);
             context.userInterfaceDescriptor = uiDescriptor;
 
@@ -337,9 +327,9 @@ export class VmsRoute extends AbstractRoute {
         return Promise.all([
             this.vmRepository.listVms(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread((vms, uiDescriptor) => {
+        ]).spread((vms: Array<any>, uiDescriptor) => {
             let clones = _.sortBy(_.filter(vms, {parent: vmId}), 'name');
-            clones._objectType = objectType;
+            (clones as any)._objectType = objectType;
             context.object = clones;
             context.userInterfaceDescriptor = uiDescriptor;
             context.changeListener = this.eventDispatcherService.addEventListener(ModelEventName.Vm.listChange, (state) => {
@@ -392,9 +382,9 @@ export class VmsRoute extends AbstractRoute {
                 path: parentContext.path + '/vm/_/' + encodeURIComponent(vmId)
             };
         return Promise.all([
-            this.modelDescriptorService.getUiDescriptorForType(objectType),
-            this.vmRepository.listVms()
-        ]).spread(function (uiDescriptor, allVms) {
+            this.vmRepository.listVms(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function (allVms: Array<any>, uiDescriptor) {
             context.object = _.find(vms, {id: vmId});
             context.userInterfaceDescriptor = uiDescriptor;
             context.object._parent = _.find(allVms, {id: context.object.parent});

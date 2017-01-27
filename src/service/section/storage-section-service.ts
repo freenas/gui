@@ -15,7 +15,6 @@ import {PeerRepository} from '../../repository/peer-repository';
 import {NetworkRepository} from '../../repository/network-repository';
 import {ServiceRepository} from '../../repository/service-repository';
 import {Map} from 'immutable';
-import * as Promise from 'bluebird';
 import * as _ from 'lodash';
 
 export class StorageSectionService extends AbstractSectionService {

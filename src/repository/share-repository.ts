@@ -2,7 +2,6 @@ import { AbstractRepository } from './abstract-repository-ng';
 import { ShareDao } from '../dao/share-dao';
 import {ModelEventName} from '../model-event-name';
 import {Map} from 'immutable';
-import Promise = require('bluebird');
 import {Model} from '../model';
 import {PermissionsDao} from '../dao/permissions-dao';
 import {UnixPermissionsDao} from '../dao/unix-permissions-dao';
@@ -45,7 +44,7 @@ export class ShareRepository extends AbstractRepository {
         });
     }
 
-    public saveShare(object: any, datasetProperties?: any, isServiceEnabled: boolean) {
+    public saveShare(object: any, datasetProperties?: any, isServiceEnabled?: boolean) {
         if (typeof datasetProperties === 'boolean') {
             isServiceEnabled = datasetProperties;
             datasetProperties = null;

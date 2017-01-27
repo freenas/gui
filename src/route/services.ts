@@ -1,26 +1,18 @@
-import _ = require("lodash");
-import Promise = require("bluebird");
-import {ModelEventName} from "../model-event-name";
-import {EventDispatcherService} from "../service/event-dispatcher-service";
-import {ModelDescriptorService} from "../service/model-descriptor-service";
-import {ServiceRepository} from "../repository/service-repository";
-import {AbstractRoute} from "./abstract-route";
-import {Model} from "../model";
+import _ = require('lodash');
+import {ServiceRepository} from '../repository/service-repository';
+import {AbstractRoute} from './abstract-route';
+import {Model} from '../model';
 
 export class ServicesRoute extends AbstractRoute {
     private static instance: ServicesRoute;
 
-    private constructor(private modelDescriptorService: ModelDescriptorService,
-                        eventDispatcherService: EventDispatcherService,
-                        private serviceRepository: ServiceRepository) {
-        super(eventDispatcherService);
+    private constructor(private serviceRepository: ServiceRepository) {
+        super();
     }
 
     public static getInstance() {
         if (!ServicesRoute.instance) {
             ServicesRoute.instance = new ServicesRoute(
-                ModelDescriptorService.getInstance(),
-                EventDispatcherService.getInstance(),
                 ServiceRepository.getInstance()
             );
         }
@@ -31,7 +23,7 @@ export class ServicesRoute extends AbstractRoute {
         let self = this,
             objectType = Model.ServicesCategory,
             columnIndex = 1,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -41,7 +33,7 @@ export class ServicesRoute extends AbstractRoute {
         return Promise.all([
             this.serviceRepository.listServicesCategories(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(categories, uiDescriptor) {
+        ]).spread(function(categories: Array<any>, uiDescriptor) {
             context.object = _.find(categories, {id: categoryId});
             context.userInterfaceDescriptor = uiDescriptor;
 
@@ -53,7 +45,7 @@ export class ServicesRoute extends AbstractRoute {
         let self = this,
             objectType = Model.Service,
             columnIndex = 2,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -63,7 +55,7 @@ export class ServicesRoute extends AbstractRoute {
         return Promise.all([
             this.serviceRepository.listServices(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(services, uiDescriptor) {
+        ]).spread(function(services: Array<any>, uiDescriptor) {
             context.object = _.find(services, {id: serviceId});
             context.userInterfaceDescriptor = uiDescriptor;
             return Promise.resolve(context.object.config);
@@ -76,7 +68,7 @@ export class ServicesRoute extends AbstractRoute {
         let self = this,
             objectType = Model.RsyncdModule,
             columnIndex = 3,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -97,7 +89,7 @@ export class ServicesRoute extends AbstractRoute {
         let self = this,
             objectType = Model.RsyncdModule,
             columnIndex = 4,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -118,7 +110,7 @@ export class ServicesRoute extends AbstractRoute {
         let self = this,
             objectType = Model.RsyncdModule,
             columnIndex = 4,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -128,7 +120,7 @@ export class ServicesRoute extends AbstractRoute {
         return Promise.all([
             this.serviceRepository.listRsyncdModules(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(rsyncdModules, uiDescriptor) {
+        ]).spread(function(rsyncdModules: Array<any>, uiDescriptor) {
             context.object = _.find(rsyncdModules, {id: rsyncdModuleId});
             context.userInterfaceDescriptor = uiDescriptor;
             return self.updateStackWithContext(stack, context);

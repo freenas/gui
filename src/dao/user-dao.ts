@@ -1,5 +1,4 @@
 import { AbstractDao } from './abstract-dao';
-import Promise = require("bluebird");
 import {Model} from "../model";
 
 export class UserDao extends AbstractDao {

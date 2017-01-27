@@ -3,7 +3,6 @@ import {ServiceRepository} from '../../repository/service-repository';
 import {AbstractSectionService} from './abstract-section-service-ng';
 import {NetworkRepository} from '../../repository/network-repository';
 import {VolumeRepository} from '../../repository/volume-repository';
-import * as Promise from 'bluebird';
 
 export class ServiceSectionService extends AbstractSectionService {
     private systemRepository: SystemRepository;

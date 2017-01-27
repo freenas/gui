@@ -1,29 +1,23 @@
-import Promise = require("bluebird");
-import {EventDispatcherService} from "../service/event-dispatcher-service";
-import {ModelDescriptorService} from "../service/model-descriptor-service";
-
-import sectionsDescriptors  = require("../../data/sections-descriptors.json");
-import {CalendarRepository} from "../repository/calendar-repository";
-import _ = require("lodash");
-import {ModelEventName} from "../model-event-name";
-import {AbstractRoute} from "./abstract-route";
-import {Model} from "../model";
+// DTM
+declare let require: any;
+import sectionsDescriptors  = require('../../data/sections-descriptors.json');
+import {CalendarRepository} from '../repository/calendar-repository';
+import _ = require('lodash');
+import {ModelEventName} from '../model-event-name';
+import {AbstractRoute} from './abstract-route';
+import {Model} from '../model';
 
 export class CalendarRoute extends AbstractRoute {
     private static instance: CalendarRoute;
     private calendarService: any;
 
-    private constructor(private modelDescriptorService: ModelDescriptorService,
-                        eventDispatcherService: EventDispatcherService,
-                        private calendarRepository: CalendarRepository) {
-        super(eventDispatcherService);
+    private constructor(private calendarRepository: CalendarRepository) {
+        super();
     }
 
     public static getInstance() {
         if (!CalendarRoute.instance) {
             CalendarRoute.instance = new CalendarRoute(
-                ModelDescriptorService.getInstance(),
-                EventDispatcherService.getInstance(),
                 CalendarRepository.getInstance()
             );
         }
@@ -39,7 +33,7 @@ export class CalendarRoute extends AbstractRoute {
             servicePromise = Promise.resolve(this.calendarService);
         } else {
             servicePromise = Promise.resolve().then(function() {
-                return require.async(sectionDescriptor.service)
+                return require.async(sectionDescriptor.service);
             }).then(function(module) {
                 let exports = Object.keys(module);
                 if (exports.length === 1) {

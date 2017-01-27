@@ -1,5 +1,4 @@
 import {TaskRepository} from '../repository/task-repository';
-import * as Promise from 'bluebird';
 
 export class TaskService {
     private static instance: TaskService;

@@ -1,6 +1,5 @@
 import { AbstractDao } from './abstract-dao';
 import {Model} from "../model";
-import Promise = require("bluebird");
 
 export class VmDao extends AbstractDao {
 

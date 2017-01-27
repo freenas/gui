@@ -2,7 +2,6 @@ import {AbstractRepository} from "./abstract-repository-ng";
 import {ModelEventName} from "../model-event-name";
 import {Map} from "immutable";
 import {TaskDao} from "../dao/task-dao";
-import * as Promise from "bluebird";
 import {Model} from "../model";
 import * as _ from 'lodash';
 

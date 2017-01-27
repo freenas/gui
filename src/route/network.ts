@@ -1,7 +1,4 @@
 import * as _ from 'lodash';
-import * as Promise from 'bluebird';
-import {EventDispatcherService} from '../service/event-dispatcher-service';
-import {ModelDescriptorService} from '../service/model-descriptor-service';
 import {NetworkRepository} from '../repository/network-repository';
 import {AbstractRoute} from './abstract-route';
 import {Model} from '../model';
@@ -9,17 +6,13 @@ import {Model} from '../model';
 export class NetworkRoute extends AbstractRoute {
     private static instance: NetworkRoute;
 
-    private constructor(private modelDescriptorService: ModelDescriptorService,
-                        eventDispatcherService: EventDispatcherService,
-                        private networkRepository: NetworkRepository) {
-        super(eventDispatcherService);
+    private constructor(private networkRepository: NetworkRepository) {
+        super();
     }
 
     public static getInstance() {
         if (!NetworkRoute.instance) {
             NetworkRoute.instance = new NetworkRoute(
-                ModelDescriptorService.getInstance(),
-                EventDispatcherService.getInstance(),
                 NetworkRepository.getInstance()
             );
         }
@@ -40,7 +33,7 @@ export class NetworkRoute extends AbstractRoute {
         return Promise.all([
             this.networkRepository.listNetworkInterfaces(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(interfaces, uiDescriptor) {
+        ]).spread(function(interfaces: Array<any>, uiDescriptor) {
             context.object = _.find(interfaces, {id: interfaceId});
             context.userInterfaceDescriptor = uiDescriptor;
 
@@ -129,7 +122,7 @@ export class NetworkRoute extends AbstractRoute {
         return Promise.all([
             this.networkRepository.listIpmiChannels(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(ipmi, uiDescriptor) {
+        ]).spread(function(ipmi: Array<any>, uiDescriptor) {
             context.object = _.find(ipmi, {id: +ipmiId});
             context.userInterfaceDescriptor = uiDescriptor;
 

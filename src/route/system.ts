@@ -1,6 +1,4 @@
 import {SystemRepository} from '../repository/system-repository';
-import {ModelDescriptorService} from '../service/model-descriptor-service';
-import {EventDispatcherService} from '../service/event-dispatcher-service';
 import {CryptoCertificateType} from 'core/model/enumerations/crypto-certificate-type';
 import {CryptoCertificateRepository} from '../repository/crypto-certificate-repository';
 import {AlertFilterRepository} from '../repository/alert-filter-repository';
@@ -10,29 +8,24 @@ import {NtpServerRepository} from '../repository/ntp-server-repository';
 import {AbstractRoute} from './abstract-route';
 import {Model} from '../model';
 import * as _ from 'lodash';
-import * as Promise from 'bluebird';
 
 export class SystemRoute extends AbstractRoute {
     private static instance: SystemRoute;
     private objectType: string;
 
-    private constructor(private modelDescriptorService: ModelDescriptorService,
-                        eventDispatcherService: EventDispatcherService,
-                        private systemRepository: SystemRepository,
+    private constructor(private systemRepository: SystemRepository,
                         private cryptoCertificateRepository: CryptoCertificateRepository,
                         private alertFilterRepository: AlertFilterRepository,
                         private mailRepository: MailRepository,
                         private tunableRepository: TunableRepository,
                         private ntpServerRepository: NtpServerRepository) {
-        super(eventDispatcherService);
+        super();
         this.objectType = Model.SystemSection;
     }
 
     public static getInstance() {
         if (!SystemRoute.instance) {
             SystemRoute.instance = new SystemRoute(
-                ModelDescriptorService.getInstance(),
-                EventDispatcherService.getInstance(),
                 SystemRepository.getInstance(),
                 CryptoCertificateRepository.getInstance(),
                 AlertFilterRepository.getInstance(),
@@ -47,7 +40,7 @@ export class SystemRoute extends AbstractRoute {
     public get(systemSectionId: string, stack: Array<any>) {
         let self = this,
             columnIndex = 1,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: this.objectType,
@@ -57,7 +50,7 @@ export class SystemRoute extends AbstractRoute {
         return Promise.all([
             this.systemRepository.listSystemSections(),
             this.modelDescriptorService.getUiDescriptorForType(this.objectType)
-        ]).spread(function(systemSections, uiDescriptor) {
+        ]).spread(function(systemSections: Array<any>, uiDescriptor) {
             context.object = _.find(systemSections, {id: systemSectionId});
             context.userInterfaceDescriptor = uiDescriptor;
 
@@ -69,7 +62,7 @@ export class SystemRoute extends AbstractRoute {
         let self = this,
             objectType = Model.CryptoCertificate,
             columnIndex = 2,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -79,7 +72,7 @@ export class SystemRoute extends AbstractRoute {
         return Promise.all([
             this.cryptoCertificateRepository.listCryptoCertificates(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(certificates, uiDescriptor) {
+        ]).spread(function(certificates: Array<any>, uiDescriptor) {
             context.object = _.find(certificates, {id: certificateId});
             context.userInterfaceDescriptor = uiDescriptor;
 
@@ -91,7 +84,7 @@ export class SystemRoute extends AbstractRoute {
         let self = this,
             objectType = Model.CryptoCertificate,
             columnIndex = 2,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -102,8 +95,8 @@ export class SystemRoute extends AbstractRoute {
         return Promise.all([
             Promise.all(_.map(_.keys(CryptoCertificateType), (type) => this.cryptoCertificateRepository.getNewCryptoCertificate(type))),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(cryptoCertificates, uiDescriptor) {
-            cryptoCertificates._objectType = objectType;
+        ]).spread(function(cryptoCertificates: Array<any>, uiDescriptor) {
+            (cryptoCertificates as any)._objectType = objectType;
             context.object = _.compact(cryptoCertificates);
             context.userInterfaceDescriptor = uiDescriptor;
 
@@ -147,7 +140,7 @@ export class SystemRoute extends AbstractRoute {
         return Promise.all([
             this.alertFilterRepository.listAlertFilters(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(alertFilters, uiDescriptor) {
+        ]).spread(function(alertFilters: Array<any>, uiDescriptor) {
             context.object = _.find(alertFilters, {id: filterId});
             context.userInterfaceDescriptor = uiDescriptor;
 
@@ -203,7 +196,7 @@ export class SystemRoute extends AbstractRoute {
         let self = this,
             objectType = Model.Tunable,
             columnIndex = 2,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -225,7 +218,7 @@ export class SystemRoute extends AbstractRoute {
         let self = this,
             objectType = Model.Tunable,
             columnIndex = 2,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -235,7 +228,7 @@ export class SystemRoute extends AbstractRoute {
         return Promise.all([
             this.tunableRepository.listTunables(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(tunables, uiDescriptor) {
+        ]).spread(function(tunables: Array<any>, uiDescriptor) {
             context.object = _.find(tunables, {id: tunableId});
             context.userInterfaceDescriptor = uiDescriptor;
 
@@ -247,7 +240,7 @@ export class SystemRoute extends AbstractRoute {
         let self = this,
             objectType = Model.NtpServer,
             columnIndex = 2,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -269,7 +262,7 @@ export class SystemRoute extends AbstractRoute {
         let self = this,
             objectType = Model.NtpServer,
             columnIndex = 2,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -279,7 +272,7 @@ export class SystemRoute extends AbstractRoute {
         return Promise.all([
             this.ntpServerRepository.listNtpServers(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(ntpServers, uiDescriptor) {
+        ]).spread(function(ntpServers: Array<any>, uiDescriptor) {
             context.object = _.find(ntpServers, {id: ntpServerId});
             context.userInterfaceDescriptor = uiDescriptor;
 

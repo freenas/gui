@@ -1,7 +1,6 @@
 import {MiddlewareClient} from './middleware-client';
 import {DatastoreService} from './datastore-service';
 import {ModelDescriptorService} from './model-descriptor-service';
-import Promise = require('bluebird');
 
 // DTM
 export class FakeMontageDataService {

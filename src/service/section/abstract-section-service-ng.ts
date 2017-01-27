@@ -1,13 +1,11 @@
 import {SectionRepository} from '../../repository/section-repository';
-import {Section} from '../../model/models/section';
 import {EventDispatcherService} from '../event-dispatcher-service';
-import * as Promise from "bluebird";
 
 export abstract class AbstractSectionService {
     private static readonly sectionRepository: SectionRepository = SectionRepository.getInstance();
     protected eventDispatcherService: EventDispatcherService;
     public instanciationPromise: Promise<AbstractSectionService>;
-    public section: Section;
+    public section: any;
     public entries: Array<any>;
     public extraEntries: Array<any>;
     public overview: any;
@@ -45,23 +43,22 @@ export abstract class AbstractSectionService {
 
 
     private load(): Promise<AbstractSectionService> {
-        let self = this;
         return Promise.all([
             AbstractSectionService.sectionRepository.getNewSection(),
             AbstractSectionService.sectionRepository.getNewSectionSettings(),
-            self.loadEntries(),
-            self.loadExtraEntries(),
-            self.loadSettings(),
-            self.loadOverview()
-        ]).spread(function(section, sectionSettings, entries: Array<any>, extraEntries, settings, overview) {
+            this.loadEntries(),
+            this.loadExtraEntries(),
+            this.loadSettings(),
+            this.loadOverview()
+        ]).spread((section: any, sectionSettings: any, entries: Array<any>, extraEntries: Array<any>, settings: any, overview: any) => {
             (sectionSettings as any).section = section;
             (sectionSettings as any).settings = settings;
-            self.section = section;
-            self.section.settings = sectionSettings;
-            self.entries = self.section.entries = entries;
-            self.extraEntries = self.section.extraEntries = extraEntries;
-            self.overview = self.section.overview = overview;
-            return self;
+            this.section = section;
+            this.section.settings = sectionSettings;
+            this.entries = this.section.entries = entries;
+            this.extraEntries = this.section.extraEntries = extraEntries;
+            this.overview = this.section.overview = overview;
+            return this;
         });
     }
 }

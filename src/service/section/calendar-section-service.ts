@@ -2,7 +2,6 @@ import {CalendarRepository} from "../../repository/calendar-repository";
 import {TaskRepository} from "../../repository/task-repository";
 import {SystemRepository} from "../../repository/system-repository";
 import {AbstractSectionService} from "./abstract-section-service-ng";
-import Promise = require("bluebird");
 import {DiskRepository} from '../../repository/disk-repository';
 import {VolumeRepository} from '../../repository/volume-repository';
 

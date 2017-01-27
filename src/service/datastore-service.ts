@@ -1,6 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { dispatchAction, ACTIONS } from '../reducers/main';
-import * as Promise from 'bluebird';
 
 import { MiddlewareClient } from './middleware-client';
 import { EventDispatcherService } from './event-dispatcher-service';

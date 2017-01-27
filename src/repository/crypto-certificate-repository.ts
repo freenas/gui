@@ -4,7 +4,6 @@ import {ModelEventName} from '../model-event-name';
 import {CryptoCertificateType} from '../model/enumerations/crypto-certificate-type';
 import {Model} from '../model';
 import {Map} from 'immutable';
-import * as Promise from 'bluebird';
 import * as _ from 'lodash';
 
 export class CryptoCertificateRepository extends AbstractRepository {

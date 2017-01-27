@@ -1,5 +1,4 @@
 import {AbstractDao} from "./abstract-dao";import {Model} from '../model';
-import * as Promise from "bluebird";
 
 export class SectionSettingsDao extends AbstractDao {
     private static entries = [];

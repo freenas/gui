@@ -1,11 +1,9 @@
 import { AbstractRepository } from './abstract-repository-ng';
-
-import * as immutable from 'immutable';
-import {VmwareDatasetDao} from "../dao/vmware-dataset-dao";
-import {VmwareDatastoreDao} from "../dao/vmware-datastore-dao";
-import {Model} from "../model";
-import {Map} from "immutable";
-import {ModelEventName} from "../model-event-name";
+import {VmwareDatasetDao} from '../dao/vmware-dataset-dao';
+import {VmwareDatastoreDao} from '../dao/vmware-datastore-dao';
+import {Model} from '../model';
+import {Map} from 'immutable';
+import {ModelEventName} from '../model-event-name';
 
 export class VmwareRepository extends AbstractRepository {
     private static instance: VmwareRepository;
@@ -32,7 +30,7 @@ export class VmwareRepository extends AbstractRepository {
         return VmwareRepository.instance;
     }
 
-    public listDatasets() {
+    public listDatasets(): Promise<Array<any>> {
         return this.datasets ? Promise.resolve(this.datasets.valueSeq().toJS()) : this.vmwareDatasetDao.list();
     }
 
@@ -41,7 +39,7 @@ export class VmwareRepository extends AbstractRepository {
     }
 
     public listDatastores(peer: any) {
-        return this.datastores ? Promise.resolve(this.datastores.valueSeq().toJS()) : this.vmwareDatastoreDao.list(peer);
+        return this.datastores ? Promise.resolve(this.datastores.valueSeq().toJS()) : this.vmwareDatastoreDao.listDatastoresOnPeer(peer);
     }
 
     protected handleStateChange(name: string, state: any) {

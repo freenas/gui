@@ -6,7 +6,6 @@ import {NetworkRouteDao} from '../dao/network-route-dao';
 import {NetworkHostDao} from '../dao/network-host-dao';
 import {IpmiDao} from '../dao/ipmi-dao';
 import {Map} from 'immutable';
-import * as Promise from 'bluebird';
 import {Model} from '../model';
 
 export class NetworkRepository extends AbstractRepository {
@@ -142,16 +141,7 @@ export class NetworkRepository extends AbstractRepository {
     }
 
     public getNetworkSettings() {
-        let self = this;
-        this._networkSettings = {};
-        return this.networkConfigDao.get().then(config => {
-            self._networkSettings.config = config;
-            return self._networkSettings;
-        });
-    }
-
-    public revertNetworkSettings() {
-        return this.networkConfigDao.revert(this._networkSettings.config);
+        return this.networkConfigDao.get().then(config => ({config: config}));
     }
 
     public saveNetworkSettings(settings: any) {

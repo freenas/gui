@@ -1,15 +1,14 @@
-import {AbstractRepository} from "./abstract-repository-ng";
-import {ServiceDao} from "../dao/service-dao";
-import {ServicesCategoryDao} from "../dao/services-category-dao";
-import {ServiceDyndnsDao} from "../dao/service-dyndns-dao";
-import {ServiceUpsDao} from "../dao/service-ups-dao";
-import {ServiceDcDao} from "../dao/service-dc-dao";
-import * as Promise from "bluebird";
-import * as _ from "lodash";
-import {RsyncdModuleDao} from "../dao/rsyncd-module-dao";
-import {Map} from "immutable";
-import {ModelEventName} from "../model-event-name";
-import {Model} from "../model";
+import {AbstractRepository} from './abstract-repository-ng';
+import {ServiceDao} from '../dao/service-dao';
+import {ServicesCategoryDao} from '../dao/services-category-dao';
+import {ServiceDyndnsDao} from '../dao/service-dyndns-dao';
+import {ServiceUpsDao} from '../dao/service-ups-dao';
+import {ServiceDcDao} from '../dao/service-dc-dao';
+import * as _ from 'lodash';
+import {RsyncdModuleDao} from '../dao/rsyncd-module-dao';
+import {Map} from 'immutable';
+import {ModelEventName} from '../model-event-name';
+import {Model} from '../model';
 
 export class ServiceRepository extends AbstractRepository {
     private static instance: ServiceRepository;
@@ -53,7 +52,7 @@ export class ServiceRepository extends AbstractRepository {
     public listRsyncdModules() {
         let promise = this.rsyncdModules ? Promise.resolve(this.rsyncdModules.toSet().toJS()) : this.rsyncdModuleDao.list();
         return promise.then((rsyncdModules) => {
-            rsyncdModules._objectType = 'RsyncdModule';
+            (rsyncdModules as any)._objectType = 'RsyncdModule';
             return rsyncdModules;
         });
     }

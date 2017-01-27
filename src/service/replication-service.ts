@@ -1,9 +1,8 @@
-import {ReplicationRepository} from "../repository/replication-repository";
+import {ReplicationRepository} from '../repository/replication-repository';
 import {SystemRepository} from '../repository/system-repository';
 import {MiddlewareClient} from './middleware-client';
-import * as Promise from "bluebird";
-import * as _ from "lodash";
-import {Model} from "../model";
+import * as _ from 'lodash';
+import {Model} from '../model';
 
 export class ReplicationService {
     private static instance: ReplicationService;
@@ -33,8 +32,7 @@ export class ReplicationService {
         return Promise.all([
             this.replicationRepository.listReplications(),
             this.getHostUuid()
-        ])
-            .spread((replications, host) => _.filter(replications, replication =>
+        ]).spread((replications, host) => _.filter(replications, (replication: any) =>
                 (replication.master === host && replication.datasets[0].master.startsWith(volume)) ||
                     (replication.slave === host && replication.datasets[0].slave.startsWith(volume))
             ));
@@ -44,8 +42,7 @@ export class ReplicationService {
         return Promise.all([
             this.replicationRepository.listReplications(),
             this.getHostUuid()
-        ])
-            .spread((replications, host) => _.filter(replications, replication =>
+        ]).spread((replications, host) => _.filter(replications, (replication: any) =>
                 (replication.master === host && replication.datasets[0].master === dataset) ||
                     (replication.slave === host && replication.datasets[0].slave === dataset)
             ));
@@ -58,11 +55,11 @@ export class ReplicationService {
 
         for (i = 0; i < length; i++) {
             option = replication.transport_options[i];
-            if (option["%type"] === "compress-replication-transport-option") {
+            if (option['%type'] === 'compress-replication-transport-option') {
                 result.compress = option.level;
-            } else if (option["%type"] === "encrypt-replication-transport-option") {
+            } else if (option['%type'] === 'encrypt-replication-transport-option') {
                 result.encrypt = option.type;
-            } else if (option["%type"] === "throttle-replication-transport-option") {
+            } else if (option['%type'] === 'throttle-replication-transport-option') {
                 result.throttle = option.buffer_size;
             }
         }

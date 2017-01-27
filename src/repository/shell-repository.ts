@@ -1,6 +1,5 @@
 import { AbstractRepository } from './abstract-repository-ng';
 import { ShellDao } from '../dao/shell-dao';
-import Promise = require("bluebird");
 
 export class ShellRepository extends AbstractRepository {
     private static instance: ShellRepository;

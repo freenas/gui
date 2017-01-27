@@ -1,6 +1,5 @@
 import { AbstractDao } from './abstract-dao';
 import {Model} from "../model";
-import Promise = require("bluebird");
 
 export class VolumeImporterDao extends AbstractDao {
     private volumeImporter: Array<any>;

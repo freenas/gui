@@ -25,7 +25,6 @@ import {VolumeDatasetPropertyRefreservationDao} from '../dao/volume-dataset-prop
 import {VolumeDatasetPropertyReservationDao} from '../dao/volume-dataset-property-reservation-dao';
 
 import {Map, List} from 'immutable';
-import * as Promise from 'bluebird';
 import * as bytes from 'bytes';
 import * as _ from 'lodash';
 import {PermissionsDao} from '../dao/permissions-dao';
@@ -310,9 +309,9 @@ export class VolumeRepository extends AbstractRepository {
             _.flatten(_.map(
                 _.flatten(_.filter(
                     _.values(this.volumes.get(disk._allocation.name).get('topology').toJS()),
-                    x => x.length
+                    (x: any) => x.length
                 )),
-                vdev => vdev.path ? vdev : vdev.children
+                (vdev: any) => vdev.path ? vdev : vdev.children
             )),
             {path: disk.path}
         );

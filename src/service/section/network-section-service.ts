@@ -3,7 +3,6 @@ import {NetworkRepository} from '../../repository/network-repository';
 import {SystemRepository} from '../../repository/system-repository';
 import {NetworkInterfaceAliasType} from 'core/model/enumerations/network-interface-alias-type';
 import {NetworkInterfaceType} from 'core/model/enumerations/network-interface-type';
-import * as Promise from 'bluebird';
 import * as _ from 'lodash';
 
 export class NetworkSectionService extends AbstractSectionService {

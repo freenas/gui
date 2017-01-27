@@ -3,7 +3,6 @@ import {GroupDao} from '../dao/group-dao';
 import {DirectoryServicesDao} from '../dao/directory-services-dao';
 import {DirectoryserviceConfigDao} from '../dao/directoryservice-config-dao';
 import {AbstractRepository} from './abstract-repository-ng';
-import * as Promise from 'bluebird';
 import {DirectoryDao} from '../dao/directory-dao';
 import {Map} from 'immutable';
 import {ModelEventName} from '../model-event-name';
@@ -92,7 +91,7 @@ export class AccountRepository extends AbstractRepository {
         return this.directoryserviceConfigDao.get();
     }
 
-    public listDirectories() {
+    public listDirectories(): Promise<Array<any>> {
         return this.directories ? Promise.resolve(this.directories.valueSeq().toJS()) : this.directoryDao.list();
     }
 

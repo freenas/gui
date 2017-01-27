@@ -2,23 +2,32 @@ import {EventDispatcherService} from './event-dispatcher-service';
 import {ModelEventName} from '../model-event-name';
 
 import * as uuid from 'uuid';
-import * as Promise from 'bluebird';
 import * as _ from 'lodash';
 
 export class MiddlewareClient {
     private REQUEST_TIMEOUT = 90000;
 
-    private static CONNECTING = 'CONNECTING';
-    private static OPEN = 'OPEN';
-    private static CLOSED = 'CLOSED';
+    private static readonly FILE_READER_DONE = 2;
+    private static readonly WEBSOCKET_CLOSE_NORMAL = 1000;
+    private static readonly UNKNOWN_CONNECTION_STATUS = 99;
+
+    private static readonly CONNECTING = 'CONNECTING';
+    private static readonly OPEN = 'OPEN';
+    private static readonly CONNECTED = 'CONNECTED';
+    private static readonly CLOSED = 'CLOSED';
+
+    private static readonly DISCONNECT_REDIRECT_TIMEOUT = 2000;
 
     private static instance: MiddlewareClient;
-    private socket;
+    private socket: WebSocket;
     private handlers: Map<string, any>;
+
     private connectionPromise: Promise<any>;
 
     public url: string;
+
     public user: string;
+
     public state: string;
 
     public constructor(private eventDispatcherService: EventDispatcherService) {
@@ -46,9 +55,8 @@ export class MiddlewareClient {
     }
 
     public login(login: string, password: string) {
-        let self = this;
         this.state = MiddlewareClient.CONNECTING;
-        return this.connectionPromise.then(function() {
+        return this.connectionPromise.then(() => {
             let payload = {
                 namespace: 'rpc',
                 name: 'auth',
@@ -57,15 +65,17 @@ export class MiddlewareClient {
                     password: password
                 }
             };
-            return self.send(payload);
-        }).then(function() {
-            self.url = MiddlewareClient.getHost();
-            self.user = login;
-            self.eventDispatcherService.dispatch('SessionOpened', {
-                url: self.url,
-                user: self.user
+            return this.send(payload);
+        }).then(() => {
+            this.url = MiddlewareClient.getHost();
+            this.user = login;
+            this.eventDispatcherService.dispatch('SessionOpened', {
+                url: this.url,
+                user: this.user
             });
-            return self.state = MiddlewareClient.OPEN;
+            this.state = MiddlewareClient.OPEN;
+            this.dispatchConnectionStatus();
+            return this.state;
         }, function(error: MiddlewareError) {
             if (error) {
                 if (error.name === 'MiddlewareError') {
@@ -217,7 +227,7 @@ export class MiddlewareClient {
         reader.onloadend = function (event) {
             let target = event.target;
 
-            if ((target as any).readyState === 2) {
+            if ((target as any).readyState === MiddlewareClient.FILE_READER_DONE) {
                 connection.send((target as any).result);
 
                 if (stop === file.size) {
@@ -290,23 +300,22 @@ export class MiddlewareClient {
 
     private closeConnection() {
         console.log('Closing connection to ' + this.socket.url);
-        this.socket.close(1000);
+        this.socket.close(MiddlewareClient.WEBSOCKET_CLOSE_NORMAL);
         this.state = MiddlewareClient.CLOSED;
     }
 
     private openConnection(url: string): Promise<any> {
-        let self = this;
         if (!this.socket) {
-            this.connectionPromise = new Promise(function(resolve, reject) {
+            this.connectionPromise = new Promise((resolve, reject) => {
                 console.log('Opening connection to ' + url);
                 let isResolved = false;
-                self.socket = new WebSocket(url);
-                self.socket.onopen = function() {
+                this.socket = new WebSocket(url);
+                this.socket.onopen = () => {
                     isResolved = true;
                     resolve();
                 };
-                self.socket.onmessage = (event) => self.handleMessage(event, self.url);
-                self.socket.onerror = function(event) {
+                this.socket.onmessage = (event) => this.handleMessage(event, this.url);
+                this.socket.onerror = (event) => {
                     if (!isResolved) {
                         reject(new MiddlewareError({
                             args: {
@@ -314,18 +323,19 @@ export class MiddlewareClient {
                             }
                         }));
                     }
-                    self.handleError(event, self.url);
+                    this.handleError(event, this.url);
                 };
-                self.socket.onclose = (event) => self.handleClose(event, self.url);
-            }).then(function() {
-                return self.dispatchConnectionStatus();
+                this.socket.onclose = (event) => this.handleClose(event, this.url);
+            }).then(() => {
+                this.state = MiddlewareClient.CONNECTED;
+                return this.dispatchConnectionStatus();
             });
         }
         return this.connectionPromise;
     }
 
     private dispatchConnectionStatus() {
-        this.eventDispatcherService.dispatch('connectionStatusChange', this.socket ? this.socket.status : 99);
+        this.eventDispatcherService.dispatch('connectionStatusChange', this.state);
     }
 
     private handleError(event: Event, url: string) {
@@ -350,7 +360,7 @@ export class MiddlewareClient {
                 window.location.hash += ';disconnected';
             }
             location.reload();
-        }, 2000);
+        }, MiddlewareClient.DISCONNECT_REDIRECT_TIMEOUT);
     }
 
     private handleMessage(event: MessageEvent, url: string) {
@@ -358,19 +368,18 @@ export class MiddlewareClient {
             let message = JSON.parse(event.data);
 
             if (message.namespace === 'rpc') {
-                let messageName = message.name;
 
                 switch (message.name) {
-                    case "response":
+                    case 'response':
                         this.handleRpcResponse(message);
                         break;
 
-                    case "error":
+                    case 'error':
                         this.handleRpcError(message);
                         break;
 
-                    case "fragment":
-                    case "end":
+                    case 'fragment':
+                    case 'end':
                         this.handleFragmentResponse(message);
                         break;
 
@@ -401,7 +410,7 @@ export class MiddlewareClient {
         }
     }
 
-    private handleFragmentResponse(message: Object) {
+    private handleFragmentResponse(message: any) {
         let messageId = message.id;
 
         if (this.handlers.has(messageId)) {

@@ -2,7 +2,6 @@
 declare let require: any;
 import { MiddlewareClient } from './middleware-client';
 import { AbstractDao } from '../dao/abstract-dao';
-import * as Promise from 'bluebird';
 import * as _ from 'lodash';
 
 export class ModelDescriptorService {

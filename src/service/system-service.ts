@@ -12,8 +12,7 @@ export class SystemService {
     private constructor(private systemRepository: SystemRepository,
                         private middlewareClient: MiddlewareClient,
                         private bootPoolRepository: BootPoolRepository,
-                        private networkRepository: NetworkRepository,
-                        private diskRepository: DiskRepository) {
+                        private networkRepository: NetworkRepository) {
     }
 
     public static getInstance() {
@@ -22,8 +21,7 @@ export class SystemService {
                 SystemRepository.getInstance(),
                 MiddlewareClient.getInstance(),
                 BootPoolRepository.getInstance(),
-                NetworkRepository.getInstance(),
-                DiskRepository.getInstance()
+                NetworkRepository.getInstance()
             );
         }
         return SystemService.instance;
@@ -117,7 +115,7 @@ export class SystemService {
         return this.systemRepository.getDebugFileAddress();
     }
 
-    public addDiskToBootPool(newDisk: string, oldDisk?: string) {
+    public addDiskToBootPool(newDisk: any, oldDisk?: string) {
         if (!oldDisk) {
             return this.middlewareClient.submitTask('boot.disk.attach', [newDisk.path]);
         }

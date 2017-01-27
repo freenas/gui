@@ -1,6 +1,5 @@
 import {AlertRepository} from "../repository/alert-repository";
 import {TaskRepository} from "../repository/task-repository";
-import * as Promise from "bluebird";
 
 export class DashboardService {
     private static instance: DashboardService;

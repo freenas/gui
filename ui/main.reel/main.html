@@ -18,7 +18,7 @@
                 "element": {"#": "mainSidebar"}
             },
             "bindings": {
-                "classList.has('hide')": {"<-": "@owner.middlewareClient.state != 'OPEN'"}
+                "classList.has('hide')": {"<-": "@owner.connectionState != 'OPEN'"}
             }
         },
         "sideboard": {
@@ -27,7 +27,7 @@
                 "element": {"#": "sideboard"}
             },
             "bindings": {
-                "classList.has('hide')": {"<-": "@owner.middlewareClient.state != 'OPEN'"}
+                "classList.has('hide')": {"<-": "@owner.connectionState != 'OPEN'"}
             }
         },
         "substitution": {

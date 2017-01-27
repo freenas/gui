@@ -1,33 +1,23 @@
-import {ShareRepository} from "../repository/share-repository";
-import {ModelDescriptorService} from "../service/model-descriptor-service";
-import {EventDispatcherService} from "../service/event-dispatcher-service";
-import {VolumeRepository} from "../repository/volume-repository";
-import {ModelEventName} from "../model-event-name";
-import {DataObjectChangeService} from "../service/data-object-change-service";
-import {AbstractRoute} from "./abstract-route";
-import Promise = require("bluebird");
-import _ = require("lodash");
-import {Model} from "../model";
+import {ShareRepository} from '../repository/share-repository';
+import {VolumeRepository} from '../repository/volume-repository';
+import {ModelEventName} from '../model-event-name';
+import {AbstractRoute} from './abstract-route';
+import {Model} from '../model';
+import * as _ from 'lodash';
 
 export class ShareRoute extends AbstractRoute {
     private static instance: ShareRoute;
 
     private constructor(private shareRepository: ShareRepository,
-                        private volumeRepository: VolumeRepository,
-                        eventDispatcherService: EventDispatcherService,
-                        private modelDescriptorService: ModelDescriptorService,
-                        private dataObjectChangeService: DataObjectChangeService) {
-        super(eventDispatcherService);
+                        private volumeRepository: VolumeRepository) {
+        super();
     }
 
     public static getInstance() {
         if (!ShareRoute.instance) {
             ShareRoute.instance = new ShareRoute(
                 ShareRepository.getInstance(),
-                VolumeRepository.getInstance(),
-                EventDispatcherService.getInstance(),
-                ModelDescriptorService.getInstance(),
-                new DataObjectChangeService()
+                VolumeRepository.getInstance()
             );
         }
         return ShareRoute.instance;
@@ -35,47 +25,25 @@ export class ShareRoute extends AbstractRoute {
 
 
     public list(volumeId: string, stack: Array<any>) {
-        let self = this,
-            objectType = Model.Share;
-        return Promise.all([
-            this.volumeRepository.listVolumes(),
+        let columnIndex = 2,
+            volumePrefix = volumeId + '/',
+            mountPrefix = '/mnt/' + volumePrefix,
+            shareFilter = function(share) {
+                return  _.startsWith(share.target_path + '/', volumePrefix) ||
+                        _.startsWith(share.target_path + '/', mountPrefix);
+        };
+        return this.loadListInColumn(
+            stack,
+            columnIndex,
+            columnIndex - 1,
+            '/path',
+            Model.Share,
             this.shareRepository.listShares(),
-            this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(volumes, shares, uiDescriptor) {
-            while (stack.length > 2) {
-                let oldContext = stack.pop();
-                if (oldContext && oldContext.changeListener) {
-                    self.eventDispatcherService.removeEventListener(ModelEventName[oldContext.objectType].listChange, oldContext.changeListener);
-                }
+            {
+                filter: shareFilter,
+                sort: 'name'
             }
-
-            let shareFilter = function(share) {
-                return  _.startsWith(share.target_path + '/', volumeId + '/') ||
-                        _.startsWith(share.target_path + '/', '/mnt/' + volumeId + '/');
-            };
-            let filteredShares = _.filter(shares, shareFilter);
-            filteredShares._objectType = objectType;
-
-            let context = {
-                object: filteredShares,
-                userInterfaceDescriptor: uiDescriptor,
-                columnIndex: 2,
-                objectType: objectType,
-                parentContext: stack[1],
-                path: stack[1].path + '/share',
-                changeListener: self.eventDispatcherService.addEventListener(ModelEventName.Share.listChange, function(state) {
-                    self.dataObjectChangeService.handleDataChange(filteredShares, state);
-                    for (let i = filteredShares.length - 1; i >= 0; i--) {
-                        if (!shareFilter(filteredShares[i])) {
-                            filteredShares.splice(i, 1);
-                        }
-                    }
-                })
-            };
-
-            stack.push(context);
-            return stack;
-        });
+        );
     }
 
     public get(volumeId: string, shareId: string, stack: Array<any>) {
@@ -85,8 +53,9 @@ export class ShareRoute extends AbstractRoute {
             this.volumeRepository.listVolumes(),
             this.shareRepository.listShares(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(volumes, shares, uiDescriptor) {
-            while (stack.length > 3) {
+        ]).spread(function(volumes: Array<any>, shares: Array<any>, uiDescriptor) {
+            let columnIndex = 3;
+            while (stack.length > columnIndex) {
                 let context = stack.pop();
                 if (context && context.changeListener) {
                     self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
@@ -99,29 +68,30 @@ export class ShareRoute extends AbstractRoute {
             stack.push({
                 object: share,
                 userInterfaceDescriptor: uiDescriptor,
-                columnIndex: 3,
+                columnIndex: columnIndex,
                 objectType: objectType,
-                parentContext: stack[2],
-                path: stack[2].path + '/share/_/' + encodeURIComponent(shareId)
+                parentContext: stack[columnIndex - 1],
+                path: stack[columnIndex - 1].path + '/share/_/' + encodeURIComponent(shareId)
             });
             return stack;
         });
     }
 
     public selectNewType(volumeId: string, stack: Array<any>) {
+        let columnIndex = 3;
         let self = this,
             objectType = Model.Share,
             context: any = {
-                columnIndex: 3,
+                columnIndex: columnIndex,
                 objectType: objectType,
-                parentContext: stack[2],
+                parentContext: stack[columnIndex - 1],
                 isCreatePrevented: true,
-                path: stack[2].path + '/create'
+                path: stack[columnIndex - 1].path + '/create'
             };
         return Promise.all([
             this.volumeRepository.listVolumes(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(volumes, uiDescriptor) {
+        ]).spread(function(volumes: Array<any>, uiDescriptor) {
             let volume = _.find(volumes, {id: volumeId});
             context.userInterfaceDescriptor = uiDescriptor;
             return Promise.all([
@@ -130,12 +100,12 @@ export class ShareRoute extends AbstractRoute {
                 self.shareRepository.getNewShare(volume, 'afp'),
                 self.shareRepository.getNewShare(volume, 'iscsi'),
                 self.shareRepository.getNewShare(volume, 'webdav')
-            ]).then(function(shares) {
-                shares._objectType = objectType;
+            ]).then(function(shares: Array<any>) {
+                (shares as any)._objectType = objectType;
                 context.object = shares;
 
                 return self.updateStackWithContext(stack, context);
-            })
+            });
         });
     }
 
@@ -153,8 +123,8 @@ export class ShareRoute extends AbstractRoute {
         return Promise.all([
             this.volumeRepository.listVolumes(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(volumes, uiDescriptor) {
-            let share = _.find(parentContext.object, {type: type});
+        ]).spread(function(volumes: Array<any>, uiDescriptor) {
+            let share: any = _.find(parentContext.object, {type: type});
             share._volume = _.find(volumes, {id: volumeId});
             context.userInterfaceDescriptor = uiDescriptor;
             context.object = share;

@@ -83,6 +83,7 @@ const Model = {
     VmConfig: 'VmConfig' as 'VmConfig',
     VmDevice: 'VmDevice' as 'VmDevice',
     VmDatastore: 'VmDatastore' as 'VmDatastore',
+    VmGuestInfo: 'VmGuestInfo' as 'VmGuestInfo',
     VmReadme: 'VmReadme' as 'VmReadme',
     VmTemplate: 'VmTemplate' as 'VmTemplate',
     VmVolume: 'VmVolume' as 'VmVolume',

@@ -1,7 +1,6 @@
 import { AbstractRepository } from './abstract-repository-ng';
 import { DiskDao } from '../dao/disk-dao';
 import immutable = require('immutable');
-import Promise = require('bluebird');
 import {Model} from '../model';
 import {ModelEventName} from '../model-event-name';
 import {DatastoreService} from '../service/datastore-service';

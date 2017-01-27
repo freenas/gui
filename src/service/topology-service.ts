@@ -1,7 +1,6 @@
 import { VolumeRepository } from '../repository/volume-repository';
 import { DiskRepository } from '../repository/disk-repository';
 import * as immutable from 'immutable';
-import * as Promise from 'bluebird';
 
 const CONSTRAINTS_KEYS = {
     STORAGE: 'storage',

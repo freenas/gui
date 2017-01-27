@@ -10,7 +10,6 @@ import {DebugDao} from '../dao/debug-dao';
 import {SystemInfoDao} from '../dao/system-info-dao';
 import {CryptoCertificateDao} from '../dao/crypto-certificate-dao';
 import * as moment from 'moment-timezone';
-import * as Promise from 'bluebird';
 
 export class SystemRepository {
     private static instance: SystemRepository;

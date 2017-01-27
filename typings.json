@@ -1,10 +1,12 @@
 {
   "dependencies": {
     "bluebird": "registry:npm/bluebird#3.4.1+20160909132857",
+    "bluebird-global": "registry:dt/bluebird-global#3.0.0+20161231162150",
     "bytes": "registry:dt/bytes#2.4.0+20161128184045",
     "crossroads": "registry:dt/crossroads#0.0.0+20160628004037",
     "hasher": "registry:dt/hasher#0.0.0+20160628004037",
     "lodash": "registry:npm/lodash#4.0.0+20161015015725",
+    "signals": "registry:dt/signals#0.0.0+20160620211513",
     "uuid": "registry:npm/uuid#3.0.1+20161206160008"
   },
   "globalDependencies": {

@@ -2,7 +2,6 @@ import {AbstractRepository} from "./abstract-repository-ng";
 import {ModelEventName} from "../model-event-name";
 import {PeerDao} from "../dao/peer-dao";
 import {Map} from "immutable";
-import * as Promise from "bluebird";
 import {Model} from "../model";
 
 export class PeerRepository extends AbstractRepository {

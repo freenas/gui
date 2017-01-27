@@ -1,27 +1,20 @@
 import {VolumeRepository} from '../repository/volume-repository';
-import {ModelDescriptorService} from '../service/model-descriptor-service';
 import {DiskRepository} from '../repository/disk-repository';
 import {AbstractRoute} from './abstract-route';
-import {EventDispatcherService} from '../service/event-dispatcher-service';
 import {Model} from '../model';
 import * as _ from 'lodash';
-import * as Promise from 'bluebird';
 
 export class VolumeRoute extends AbstractRoute {
     private static instance: VolumeRoute;
 
-    private constructor(eventDispatcherService: EventDispatcherService,
-                        modelDescriptorService: ModelDescriptorService,
-                        private volumeRepository: VolumeRepository,
+    private constructor(private volumeRepository: VolumeRepository,
                         private diskRepository: DiskRepository) {
-        super(eventDispatcherService, modelDescriptorService);
+        super();
     }
 
     public static getInstance() {
         if (!VolumeRoute.instance) {
             VolumeRoute.instance = new VolumeRoute(
-                EventDispatcherService.getInstance(),
-                ModelDescriptorService.getInstance(),
                 VolumeRepository.getInstance(),
                 DiskRepository.getInstance()
             );
@@ -35,7 +28,7 @@ export class VolumeRoute extends AbstractRoute {
             stack,
             columnIndex,
             columnIndex - 1,
-            this.getObjectPathSuffix(Model.Volume, volumeId),
+            AbstractRoute.getObjectPathSuffix(Model.Volume, volumeId),
             Model.Volume,
             this.volumeRepository.listVolumes(),
             {id: volumeId}
@@ -54,7 +47,7 @@ export class VolumeRoute extends AbstractRoute {
                 'topology'
             ),
             this.volumeRepository.listVolumes()
-        ]).spread((stack, volumes) => {
+        ]).spread((stack: Array<any>, volumes) => {
             _.last(stack).object._volume = _.find(volumes, {id: volumeId});
             _.last(stack).object._disks = this.diskRepository.listAvailableDisks();
             return stack;
@@ -105,7 +98,7 @@ export class VolumeRoute extends AbstractRoute {
             stack,
             columnIndex,
             columnIndex - 1,
-            this.getObjectPathSuffix(Model.VolumeImporter, '-'),
+            AbstractRoute.getObjectPathSuffix(Model.VolumeImporter, '-'),
             Model.VolumeImporter,
             this.volumeRepository.getVolumeImporter()
         );
@@ -117,7 +110,7 @@ export class VolumeRoute extends AbstractRoute {
             stack,
             columnIndex,
             columnIndex - 1,
-            this.getObjectPathSuffix(Model.VolumeMediaImporter, '-'),
+            AbstractRoute.getObjectPathSuffix(Model.VolumeMediaImporter, '-'),
             Model.VolumeMediaImporter,
             this.volumeRepository.getVolumeMediaImporter()
         );
@@ -129,7 +122,7 @@ export class VolumeRoute extends AbstractRoute {
             stack,
             columnIndex,
             columnIndex - 1,
-            this.getObjectPathSuffix(Model.DetachedVolume, volumeId),
+            AbstractRoute.getObjectPathSuffix(Model.DetachedVolume, volumeId),
             Model.DetachedVolume,
             this.volumeRepository.listDetachedVolumes(),
             {id: _.toString(volumeId)}

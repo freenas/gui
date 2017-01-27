@@ -7,7 +7,6 @@ import {CompressReplicationTransportOptionDao} from "../dao/compress-replication
 import {EncryptReplicationTransportOptionDao} from "../dao/encrypt-replication-transport-option-dao";
 import {ThrottleReplicationTransportOptionDao} from "../dao/throttle-replication-transport-option-dao";
 import {Model} from "../model";
-import * as Promise from "bluebird";
 
 export class ReplicationRepository extends AbstractRepository {
     private static instance: ReplicationRepository;

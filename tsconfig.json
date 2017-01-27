@@ -5,7 +5,10 @@
             "es6",
             "dom"
         ],
-        "types": [],
+        "typeRoots": [
+            "./typings/modules",
+            "./typings/globals"
+        ],
         "module": "commonjs",
         "moduleResolution": "node",
         "experimentalDecorators": true,

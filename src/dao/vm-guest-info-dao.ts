@@ -1,5 +1,4 @@
 import { AbstractDao } from './abstract-dao';
-import * as Promise from "bluebird";
 import {Model} from "../model";
 import * as _ from 'lodash';
 
@@ -10,5 +9,5 @@ export class VmGuestInfoDao extends AbstractDao {
 
     public getGuestInfo(vm: any): Promise<any> {
         return this.middlewareClient.callRpcMethod('vm.get_guest_info', [vm.id]).then((guestInfo) => _.assign(guestInfo, {_objectType: Model.VmGuestInfo}));
-    }   
+    }
 }

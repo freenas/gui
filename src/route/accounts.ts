@@ -1,31 +1,21 @@
-import _ = require("lodash");
-import Promise = require("bluebird");
-import {ModelEventName} from "../model-event-name";
-import {EventDispatcherService} from "../service/event-dispatcher-service";
-import {ModelDescriptorService} from "../service/model-descriptor-service";
-import {AccountRepository} from "../repository/account-repository";
-import {DataObjectChangeService} from "../service/data-object-change-service";
-import {AbstractRoute} from "./abstract-route";
-import {KerberosRepository} from "../repository/kerberos-repository";
-import {Model} from "../model";
+import * as _ from 'lodash';
+import {ModelEventName} from '../model-event-name';
+import {AccountRepository} from '../repository/account-repository';
+import {AbstractRoute} from './abstract-route';
+import {KerberosRepository} from '../repository/kerberos-repository';
+import {Model} from '../model';
 
 export class AccountsRoute extends AbstractRoute {
     private static instance: AccountsRoute;
 
-    private constructor(private modelDescriptorService: ModelDescriptorService,
-                        eventDispatcherService: EventDispatcherService,
-                        private dataObjectChangeService: DataObjectChangeService,
-                        private accountRepository: AccountRepository,
-                        private kerberosRepository: KerberosRepository) {
-        super(eventDispatcherService);
+    public constructor(private accountRepository: AccountRepository,
+                       private kerberosRepository: KerberosRepository) {
+        super();
     }
 
     public static getInstance() {
         if (!AccountsRoute.instance) {
             AccountsRoute.instance = new AccountsRoute(
-                ModelDescriptorService.getInstance(),
-                EventDispatcherService.getInstance(),
-                new DataObjectChangeService(),
                 AccountRepository.getInstance(),
                 KerberosRepository.getInstance()
             );
@@ -37,7 +27,7 @@ export class AccountsRoute extends AbstractRoute {
         let self = this,
             objectType = Model.User,
             columnIndex = 1,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -47,18 +37,15 @@ export class AccountsRoute extends AbstractRoute {
         return Promise.all([
             this.accountRepository.listUsers(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(users, uiDescriptor) {
-            let filteredUsers = _.filter(users, {builtin: false});
-            filteredUsers._objectType = objectType;
+        ]).spread((users: Array<any>, uiDescriptor) => {
+            let filter = {builtin: false},
+                sort = 'username';
+            let filteredUsers = _.sortBy(_.filter(users, filter), sort);
+            (filteredUsers as any)._objectType = objectType;
             context.object = filteredUsers;
             context.userInterfaceDescriptor = uiDescriptor;
             context.changeListener = self.eventDispatcherService.addEventListener(ModelEventName[objectType].listChange, function(state) {
-                self.dataObjectChangeService.handleDataChange(filteredUsers, state);
-                for (let i = filteredUsers.length - 1; i >= 0; i--) {
-                    if (filteredUsers[i].builtin) {
-                        filteredUsers.splice(i, 1);
-                    }
-                }
+                self.dataObjectChangeService.handleDataChange(filteredUsers, state, {filter: filter, sort: sort});
             });
             return self.updateStackWithContext(stack, context);
         });
@@ -68,7 +55,7 @@ export class AccountsRoute extends AbstractRoute {
         let self = this,
             objectType = Model.User,
             columnIndex = 2,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -78,7 +65,7 @@ export class AccountsRoute extends AbstractRoute {
         return Promise.all([
             this.accountRepository.listUsers(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(users, uiDescriptor) {
+        ]).spread(function(users: Array<any>, uiDescriptor) {
             context.object = _.find(users, {id: userId});
             context.userInterfaceDescriptor = uiDescriptor;
             return self.updateStackWithContext(stack, context);
@@ -89,7 +76,7 @@ export class AccountsRoute extends AbstractRoute {
         let self = this,
             objectType = Model.User,
             columnIndex = 2,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -110,7 +97,7 @@ export class AccountsRoute extends AbstractRoute {
         let self = this,
             objectType = Model.Group,
             columnIndex = 1,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -120,18 +107,15 @@ export class AccountsRoute extends AbstractRoute {
         return Promise.all([
             this.accountRepository.listGroups(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(groups, uiDescriptor) {
-            let filteredGroups = _.filter(groups, {builtin: false});
-            filteredGroups._objectType = objectType;
+        ]).spread(function(groups: Array<any>, uiDescriptor) {
+            let filter = {builtin: false},
+                sort = 'name';
+            let filteredGroups = _.sortBy(_.filter(groups, filter), sort);
+            (filteredGroups as any)._objectType = objectType;
             context.object = filteredGroups;
             context.userInterfaceDescriptor = uiDescriptor;
             context.changeListener = self.eventDispatcherService.addEventListener(ModelEventName[objectType].listChange, function(state) {
-                self.dataObjectChangeService.handleDataChange(filteredGroups, state);
-                for (let i = filteredGroups.length - 1; i >= 0; i--) {
-                    if (filteredGroups[i].builtin) {
-                        filteredGroups.splice(i, 1);
-                    }
-                }
+                self.dataObjectChangeService.handleDataChange(filteredGroups, state, {filter: filter, sort: sort});
             });
             return self.updateStackWithContext(stack, context);
         });
@@ -141,7 +125,7 @@ export class AccountsRoute extends AbstractRoute {
         let self = this,
             objectType = Model.Group,
             columnIndex = 2,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -151,7 +135,7 @@ export class AccountsRoute extends AbstractRoute {
         return Promise.all([
             this.accountRepository.listGroups(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(groups, uiDescriptor) {
+        ]).spread(function(groups: Array<any>, uiDescriptor) {
             context.object = _.find(groups, {id: groupId});
             context.userInterfaceDescriptor = uiDescriptor;
             return self.updateStackWithContext(stack, context);
@@ -162,7 +146,7 @@ export class AccountsRoute extends AbstractRoute {
         let self = this,
             objectType = Model.Group,
             columnIndex = 2,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -183,7 +167,7 @@ export class AccountsRoute extends AbstractRoute {
         let self = this,
             objectType = Model.AccountSystem,
             columnIndex = 1,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -193,25 +177,18 @@ export class AccountsRoute extends AbstractRoute {
         return Promise.all([
             this.listSystemUsersAndGroups(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(accountSystems, uiDescriptor) {
-            context.object = accountSystems;
+        ]).spread(function(accountSystems: Array<any>, uiDescriptor) {
+            let filter = {builtin: true},
+                sort = ['username', 'name'];
+            context.object = _.sortBy(_.filter(accountSystems, filter), sort);
+            context.object._objectType = context.objectType = Model.AccountSystem;
             context.userInterfaceDescriptor = uiDescriptor;
             context.changeListener = [
                 self.eventDispatcherService.addEventListener(ModelEventName.User.listChange, function(state) {
-                    self.dataObjectChangeService.handleDataChange(accountSystems, state, 'User');
-                    for (let i = accountSystems.length - 1; i >= 0; i--) {
-                        if (!accountSystems[i].builtin) {
-                            accountSystems.splice(i, 1);
-                        }
-                    }
+                    self.dataObjectChangeService.handleDataChange(accountSystems, state, Model.User, {filter: filter, sort: sort});
                 }),
                 self.eventDispatcherService.addEventListener(ModelEventName.Group.listChange, function(state) {
-                    self.dataObjectChangeService.handleDataChange(accountSystems, state, 'Group');
-                    for (let i = accountSystems.length - 1; i >= 0; i--) {
-                        if (!accountSystems[i].builtin) {
-                            accountSystems.splice(i, 1);
-                        }
-                    }
+                    self.dataObjectChangeService.handleDataChange(accountSystems, state, Model.Group, {filter: filter, sort: sort});
                 })
             ];
             return self.updateStackWithContext(stack, context);
@@ -222,7 +199,7 @@ export class AccountsRoute extends AbstractRoute {
         let self = this,
             objectType = Model.DirectoryServices,
             columnIndex = 1,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -244,7 +221,7 @@ export class AccountsRoute extends AbstractRoute {
         let self = this,
             objectType = Model.Directory,
             columnIndex = 2,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -254,7 +231,7 @@ export class AccountsRoute extends AbstractRoute {
         return Promise.all([
             this.accountRepository.listDirectories(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(directories, uiDescriptor) {
+        ]).spread((directories: Array<any>, uiDescriptor) => {
             context.userInterfaceDescriptor = uiDescriptor;
             let directory = _.find(directories, {id: directoryId}),
                 promise;
@@ -274,7 +251,7 @@ export class AccountsRoute extends AbstractRoute {
         let self = this,
             objectType = Model.KerberosRealm,
             columnIndex = 2,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -284,7 +261,7 @@ export class AccountsRoute extends AbstractRoute {
         return Promise.all([
             this.kerberosRepository.listKerberosRealms(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(kerberosRealms, uiDescriptor) {
+        ]).spread(function(kerberosRealms: Array<any>, uiDescriptor) {
             context.object = kerberosRealms;
             context.userInterfaceDescriptor = uiDescriptor;
             context.changeListener = self.eventDispatcherService.addEventListener(ModelEventName[objectType].listChange, function(state) {
@@ -298,7 +275,7 @@ export class AccountsRoute extends AbstractRoute {
         let self = this,
             objectType = Model.KerberosRealm,
             columnIndex = 3,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -308,7 +285,7 @@ export class AccountsRoute extends AbstractRoute {
         return Promise.all([
             this.kerberosRepository.listKerberosRealms(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(kerberosRealms, uiDescriptor) {
+        ]).spread(function(kerberosRealms: Array<any>, uiDescriptor) {
             context.object = _.find(kerberosRealms, {id: kerberosRealmId});
             context.userInterfaceDescriptor = uiDescriptor;
             return self.updateStackWithContext(stack, context);
@@ -319,7 +296,7 @@ export class AccountsRoute extends AbstractRoute {
         let self = this,
             objectType = Model.KerberosRealm,
             columnIndex = 3,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -340,7 +317,7 @@ export class AccountsRoute extends AbstractRoute {
         let self = this,
             objectType = Model.KerberosKeytab,
             columnIndex = 2,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -350,7 +327,7 @@ export class AccountsRoute extends AbstractRoute {
         return Promise.all([
             this.kerberosRepository.listKerberosKeytabs(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(kerberosTabs, uiDescriptor) {
+        ]).spread(function(kerberosTabs: Array<any>, uiDescriptor) {
             context.object = kerberosTabs;
             context.userInterfaceDescriptor = uiDescriptor;
             context.changeListener = self.eventDispatcherService.addEventListener(ModelEventName[objectType].listChange, function(state) {
@@ -364,7 +341,7 @@ export class AccountsRoute extends AbstractRoute {
         let self = this,
             objectType = Model.KerberosKeytab,
             columnIndex = 3,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -374,7 +351,7 @@ export class AccountsRoute extends AbstractRoute {
         return Promise.all([
             this.kerberosRepository.listKerberosKeytabs(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(kerberosKeytabs, uiDescriptor) {
+        ]).spread(function(kerberosKeytabs: Array<any>, uiDescriptor) {
             context.object = _.find(kerberosKeytabs, {id: kerberosKeytabId});
             context.userInterfaceDescriptor = uiDescriptor;
             return self.updateStackWithContext(stack, context);
@@ -385,7 +362,7 @@ export class AccountsRoute extends AbstractRoute {
         let self = this,
             objectType = Model.KerberosKeytab,
             columnIndex = 3,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -406,13 +383,6 @@ export class AccountsRoute extends AbstractRoute {
         return Promise.all([
             this.accountRepository.listUsers(),
             this.accountRepository.listGroups()
-        ]).spread(function(users, groups) {
-            let accountSystems = _.concat(
-                _.filter(users, {builtin: true}),
-                _.filter(groups, {builtin: true})
-            );
-            accountSystems._objectType = Model.AccountSystem;
-            return accountSystems;
-        })
+        ]).spread((users: Array<any>, groups: Array<any>) => _.concat(users, groups));
     }
 }

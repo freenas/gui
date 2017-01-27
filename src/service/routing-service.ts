@@ -22,7 +22,6 @@ import * as hasher from 'hasher';
 import * as crossroads from 'crossroads';
 import * as _ from 'lodash';
 import * as immutable from 'immutable';
-import * as Promise from 'bluebird';
 
 export class RoutingService {
     private static instance: RoutingService;
@@ -257,7 +256,7 @@ export class RoutingService {
         crossroads.addRoute('/containers/docker-network/create',
             () => this.dockerRoute.createDockerNetwork(this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/section-settings',
-            () => this.dockerRoute.getSettings(this.currentStacks.get('containers')));
+            () => this.dockerRoute.getSettings());
     }
 
     private loadVmsRoutes() {

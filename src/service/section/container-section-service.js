@@ -37,7 +37,7 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
                 this._dockerCollectionRepository.getEmptyList(),
                 this._dockerNetworkRepository.getEmptyList()
             ]).then(function (entries) {
-                return _.assign(entries, {_objectType: Model.DockerContainerSection};
+                return _.assign(entries, {_objectType: Model.DockerContainerSection});
             });
         }
     },

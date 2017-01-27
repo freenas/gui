@@ -1,29 +1,22 @@
 // DTM
 declare let require: any;
-import {EventDispatcherService} from '../service/event-dispatcher-service';
-import {ModelDescriptorService} from '../service/model-descriptor-service';
 
 import {AbstractRoute} from './abstract-route';
 import {Model} from '../model';
-import * as Promise from 'bluebird';
 
 export class SectionRoute extends AbstractRoute {
     private static instance: SectionRoute;
     private sectionsServices: Map<string, any>;
     private sectionsDescriptorsPromise: Promise<any>;
 
-    private constructor(private modelDescriptorService: ModelDescriptorService,
-                        eventDispatcherService: EventDispatcherService) {
-        super(eventDispatcherService);
+    private constructor() {
+        super();
         this.sectionsServices = new Map<string, any>();
     }
 
     public static getInstance() {
         if (!SectionRoute.instance) {
-            SectionRoute.instance = new SectionRoute(
-                ModelDescriptorService.getInstance(),
-                EventDispatcherService.getInstance()
-            );
+            SectionRoute.instance = new SectionRoute();
         }
         return SectionRoute.instance;
     }

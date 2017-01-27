@@ -1,5 +1,4 @@
 import { AbstractDao } from './abstract-dao';
-import * as Promise from "bluebird";
 import {Model} from "../model";
 
 export class DetachedVolumeDao extends AbstractDao {

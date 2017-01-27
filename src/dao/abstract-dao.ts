@@ -5,7 +5,6 @@ import { processor as cleaningProcessor } from '../service/data-processor/cleane
 import { processor as diffProcessor } from '../service/data-processor/diff';
 import { processor as nullProcessor } from '../service/data-processor/null';
 import * as _ from 'lodash';
-import * as Promise from 'bluebird';
 import {ModelDescriptorService} from '../service/model-descriptor-service';
 import {Map as iMap, List} from 'immutable';
 

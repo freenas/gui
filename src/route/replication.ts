@@ -1,29 +1,21 @@
-import {VolumeRepository} from '../repository/volume-repository';
-import {EventDispatcherService} from "../service/event-dispatcher-service";
-import {ModelDescriptorService} from '../service/model-descriptor-service';
-import _ = require("lodash");
-import Promise = require("bluebird");
-import {ReplicationService} from "../service/replication-service";
-import {AbstractRoute} from "./abstract-route";
-import {Model} from "../model";
+import _ = require('lodash');
+import {ReplicationService} from '../service/replication-service';
+import {AbstractRoute} from './abstract-route';
+import {Model} from '../model';
 
 export class ReplicationRoute extends AbstractRoute {
     private static instance: ReplicationRoute;
     private objectType: string;
 
-    private constructor(private replicationService: ReplicationService,
-                        private modelDescriptorService: ModelDescriptorService,
-                        eventDispatcherService: EventDispatcherService) {
-        super(eventDispatcherService);
+    private constructor(private replicationService: ReplicationService) {
+        super();
         this.objectType = Model.Replication;
     }
 
     public static getInstance() {
         if (!ReplicationRoute.instance) {
             ReplicationRoute.instance = new ReplicationRoute(
-                ReplicationService.getInstance(),
-                ModelDescriptorService.getInstance(),
-                EventDispatcherService.getInstance()
+                ReplicationService.getInstance()
             );
         }
         return ReplicationRoute.instance;

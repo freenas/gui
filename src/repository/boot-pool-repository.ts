@@ -2,7 +2,6 @@ import {AbstractRepository} from "./abstract-repository-ng";
 import {BootPoolDao} from "../dao/boot-pool-dao";
 import {BootEnvironmentDao} from "../dao/boot-environment-dao";
 import {Map} from "immutable";
-import Promise = require("bluebird");
 import {Model} from "../model";
 import {ModelEventName} from "../model-event-name";
 

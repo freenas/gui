@@ -1,11 +1,7 @@
 import * as _ from 'lodash';
-import * as Promise from 'bluebird';
-import {EventDispatcherService} from '../service/event-dispatcher-service';
-import {ModelDescriptorService} from '../service/model-descriptor-service';
 import {AbstractRoute} from './abstract-route';
 import {Model} from '../model';
 import {ModelEventName} from '../model-event-name';
-import {DataObjectChangeService} from '../service/data-object-change-service';
 import {DockerHostRepository} from '../repository/docker-host-repository-ng';
 import {DockerImageReadmeRepository} from '../repository/docker-image-readme-repository';
 import {DockerImageRepository} from '../repository/docker-image-repository-ng';
@@ -17,25 +13,19 @@ import {DockerContainerLogsRepository} from '../repository/docker-container-logs
 export class DockerRoute extends AbstractRoute {
     private static instance: DockerRoute;
 
-    private constructor(private modelDescriptorService: ModelDescriptorService,
-                        eventDispatcherService: EventDispatcherService,
-                        private dataObjectChangeService: DataObjectChangeService,
-                        private dockerHostRepository: DockerHostRepository,
+    private constructor(private dockerHostRepository: DockerHostRepository,
                         private dockerImageRepository: DockerImageRepository,
                         private dockerCollectionRepository: DockerCollectionRepository,
                         private dockerContainerRepository: DockerContainerRepository,
                         private dockerNetworkRepository: DockerNetworkRepository,
                         private dockerContainerLogsRepository: DockerContainerLogsRepository,
                         private dockerImageReadmeRepository: DockerImageReadmeRepository) {
-        super(eventDispatcherService);
+        super();
     }
 
     public static getInstance() {
         if (!DockerRoute.instance) {
             DockerRoute.instance = new DockerRoute(
-                ModelDescriptorService.getInstance(),
-                EventDispatcherService.getInstance(),
-                new DataObjectChangeService(),
                 DockerHostRepository.getInstance(),
                 DockerImageRepository.getInstance(),
                 DockerCollectionRepository.getInstance(),
@@ -258,7 +248,7 @@ export class DockerRoute extends AbstractRoute {
         });
     }
 
-    public getSettings(stack: Array<any>) {
+    public getSettings() {
         // todo
     }
 
@@ -369,7 +359,7 @@ export class DockerRoute extends AbstractRoute {
         return Promise.all([
             this.dockerNetworkRepository.listDockerNetworks(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread((networks, uiDescriptor) => {
+        ]).spread((networks: Array<any>, uiDescriptor) => {
             context.object = networks;
             context.userInterfaceDescriptor = uiDescriptor;
             context.changeListener = this.eventDispatcherService.addEventListener(ModelEventName[objectType].listChange, (state) => {
@@ -394,7 +384,7 @@ export class DockerRoute extends AbstractRoute {
         return Promise.all([
             this.dockerNetworkRepository.listDockerNetworks(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread((networks, uiDescriptor) => {
+        ]).spread((networks: Array<any>, uiDescriptor) => {
             context.object = _.find(networks, {id: dockerNetworkId});
             context.userInterfaceDescriptor = uiDescriptor;
 

@@ -1,29 +1,22 @@
-import _ = require("lodash");
-import Promise = require("bluebird");
-import {ModelEventName} from "../model-event-name";
-import {EventDispatcherService} from "../service/event-dispatcher-service";
-import {ModelDescriptorService} from "../service/model-descriptor-service";
-import {PeerRepository} from "../repository/peer-repository";
-import {AbstractRoute} from "./abstract-route";
-import {Model} from "../model";
+import _ = require('lodash');
+import {ModelEventName} from '../model-event-name';
+import {PeerRepository} from '../repository/peer-repository';
+import {AbstractRoute} from './abstract-route';
+import {Model} from '../model';
 
 export class PeeringRoute extends AbstractRoute {
     private static instance: PeeringRoute;
 
     private objectType: string;
 
-    private constructor(private modelDescriptorService: ModelDescriptorService,
-                        eventDispatcherService: EventDispatcherService,
-                        private peerRepository: PeerRepository) {
-        super(eventDispatcherService);
+    private constructor(private peerRepository: PeerRepository) {
+        super();
         this.objectType = Model.Peer;
     }
 
     public static getInstance() {
         if (!PeeringRoute.instance) {
             PeeringRoute.instance = new PeeringRoute(
-                ModelDescriptorService.getInstance(),
-                EventDispatcherService.getInstance(),
                 PeerRepository.getInstance()
             );
         }
@@ -34,7 +27,7 @@ export class PeeringRoute extends AbstractRoute {
         let self = this,
             objectType = this.objectType,
             columnIndex = 1,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -44,7 +37,7 @@ export class PeeringRoute extends AbstractRoute {
         return Promise.all([
             this.peerRepository.listPeers(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(peers, uiDescriptor) {
+        ]).spread(function(peers: Array<any>, uiDescriptor) {
             context.object = _.find(peers, {id: peerId});
             context.userInterfaceDescriptor = uiDescriptor;
 
@@ -64,7 +57,7 @@ export class PeeringRoute extends AbstractRoute {
         let self = this,
             objectType = this.objectType,
             columnIndex = 1,
-            parentContext = stack[columnIndex-1],
+            parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -75,15 +68,15 @@ export class PeeringRoute extends AbstractRoute {
         return Promise.all([
             Promise.all(_.map(_.values(PeerRepository.PEER_TYPES), (type) => this.peerRepository.getNewPeerWithType(type))),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(peers, uiDescriptor) {
-            peers._objectType = objectType;
+        ]).spread(function(peers: Array<any>, uiDescriptor) {
+            (peers as any)._objectType = objectType;
             context.object = _.compact(peers);
             context.userInterfaceDescriptor = uiDescriptor;
             return self.updateStackWithContext(stack, context);
         });
     }
 
-    public create(peerType: string, stack:Array<any>) {
+    public create(peerType: string, stack: Array<any>) {
         let self = this,
             objectType = this.objectType,
             columnIndex = 1,
