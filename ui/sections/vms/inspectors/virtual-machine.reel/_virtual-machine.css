@@ -10,4 +10,8 @@
     }
 }
 
+.VirtualMachine-guestHealthStatus {
+    float: left;
+}
+
 .VirtualMachine.has-actions .VirtualMachine-actions { display: flex; }

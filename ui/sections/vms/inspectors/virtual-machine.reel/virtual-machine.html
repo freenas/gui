@@ -79,6 +79,23 @@
                 "valuePropertyName": "name"
             }
         },
+        "guestHealthStatusLight": {
+            "prototype": "ui/controls/traffic-light.reel",
+            "properties": {
+                "element": {"#": "guestHealthStatusLight"},
+                "colorMapping": {"HEALTHY" : "green", "DYING": "yellow", "DEAD" : "red", "UNKNOWN": "grey"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.status ? @owner.object.status.health : 'UNKNOWN'"}
+            }
+        },
+        "guestHealthStatusLabel": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "guestHealthStatusLabel"},
+                "value": "Guest Health"
+            }
+        },
         "vmTemplateSubstitution": {
             "prototype": "montage/ui/substitution.reel",
             "properties": {
@@ -467,6 +484,8 @@
             <div data-montage-id="cpu"></div>
             <div data-montage-id="memory"></div>
             <div data-montage-id="autostart"></div>
+            <div data-montage-id="guestHealthStatusLight" class="VirtualMachine-guestHealthStatus"></div>
+            <div data-montage-id="guestHealthStatusLabel"></div>
             <div data-montage-id="guestToolsSubstitution">
                 <div data-montage-id="guestToolsStatus" data-arg="unavailable"></div>
                 <div data-montage-id="guestTools" data-arg="available">
