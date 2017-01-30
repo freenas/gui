@@ -7,6 +7,7 @@ export class DataObjectChangeService {
             options = objectType;
             objectType = null;
         }
+        options = options || {};
 
         let newObjects = _.sortBy(
             _.filter(
