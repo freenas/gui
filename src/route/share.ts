@@ -36,7 +36,7 @@ export class ShareRoute extends AbstractRoute {
             stack,
             columnIndex,
             columnIndex - 1,
-            '/path',
+            '/share',
             Model.Share,
             this.shareRepository.listShares(),
             {
@@ -71,7 +71,7 @@ export class ShareRoute extends AbstractRoute {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: stack[columnIndex - 1],
-                path: stack[columnIndex - 1].path + '/share/_/' + encodeURIComponent(shareId)
+                path: stack[columnIndex - 1].path + '/_/' + encodeURIComponent(shareId)
             });
             return stack;
         });
