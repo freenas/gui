@@ -1,4 +1,4 @@
-///<reference path="../../../bower_components/polymer-ts/polymer-ts.d.ts"/>
+///<reference path="bower_components/polymer-ts/polymer-ts.d.ts"/>
 
 import {ModelEventName} from 'core/model-event-name';
 import {DashboardService} from 'core/service/dashboard-service';

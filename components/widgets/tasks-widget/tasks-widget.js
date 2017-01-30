@@ -1,4 +1,4 @@
-///<reference path="../../../bower_components/polymer-ts/polymer-ts.d.ts"/>
+///<reference path="bower_components/polymer-ts/polymer-ts.d.ts"/>
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];

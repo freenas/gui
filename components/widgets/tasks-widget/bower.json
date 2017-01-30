@@ -1,15 +1,11 @@
 {
-  "name": "tasks-widget",
-  "main": "tasks-widget.html",
-  "dependencies": {
-    "polymer": "Polymer/polymer#^1.4.0",
-    "paper-progress": "PolymerElements/paper-progress#^1.0.11",
-    "polymer-ts": "^0.1.28"
-  },
-  "devDependencies": {
-    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
-    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
-    "web-component-tester": "^4.0.0",
-    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
-  }
+    "name": "tasks-widget",
+    "main": "tasks-widget.html",
+    "dependencies": {
+        "polymer-ts": "^0.1.28"
+    },
+    "devDependencies": {
+        "web-component-tester": "^4.0.0",
+        "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+    }
 }

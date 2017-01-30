@@ -8,7 +8,8 @@
         "typeRoots" : [
             "../src",
             "../typings/global",
-            "../typings/modules"
+            "../typings/modules",
+            "../bower_components"
         ],
         "module": "commonjs",
         "moduleResolution": "node",

@@ -1,4 +1,4 @@
-<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="task-entry/task-entry.html">
 <dom-module id="tasks-widget">
     <template>
@@ -24,8 +24,8 @@
             </div>
             <div class="Widget-content">
                 <div class="Notifications-body">
-                    <template is="dom-repeat" items="[[tasks]]" as="foo">
-                        <task-entry task="{{foo}}"></task-entry>
+                    <template is="dom-repeat" items="[[tasks]]" as="task">
+                        <task-entry task="[[task]]"></task-entry>
                     </template>
                 </div>
             </div>

@@ -13,6 +13,6 @@
   "dependencies": {
     "polymer": "^1.7.1",
     "polymer-ts": "^0.1.28",
-    "systemjs-plugin-html": "Hypercubed/systemjs-plugin-html#^0.0.8"
+      "paper-progress": "PolymerElements/paper-progress#^1.0.11"
   }
 }
