@@ -24,6 +24,7 @@
                 "_availablesDockers": {"<-": "@owner._hostDockers.map{{label: name, value: id}}"},
                 "object.interactive": {"<-": "@owner.currentTemplate.interactive"},
                 "object.autostart": {"<-": "@owner.currentTemplate.autostart"},
+                "object.privileged": {"<-": "@owner.currentTemplate.privileged"},
                 "object.expose_ports": {"<-": "!!@owner.currentTemplate.expose_ports"},
                 "object.names": {"<-": "@names.value.split(' ')"}
             }
