@@ -30,6 +30,14 @@ export class AlertRepository extends AbstractRepository {
         return this.alertDao.dismiss(alert);
     }
 
+    public listAlertClasses(): Promise<Array<any>> {
+        return this.alertDao.listAlertClasses();
+    }
+
+    public listAlertSeverities(): Promise<Array<any>> {
+        return this.alertDao.listAlertSeverities();
+    }
+    
     protected handleStateChange(name: string, state: any) {
         this.alerts = this.dispatchModelEvents(this.alerts, ModelEventName.Alert, state);
     }
