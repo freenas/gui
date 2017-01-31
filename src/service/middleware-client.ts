@@ -280,6 +280,7 @@ export class MiddlewareClient {
 
             self.socket.send(JSON.stringify(payload));
             self.handlers.set(payload.id, {
+                payload: payload,
                 resolve: resolve,
                 reject: reject,
                 promise: promise
@@ -292,7 +293,7 @@ export class MiddlewareClient {
                         self.handlers.delete(payload.id);
                     }
                 }
-                console.log(error);
+                console.log(error, payload);
                 throw error;
             });
         });

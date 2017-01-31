@@ -1,6 +1,5 @@
 import { AbstractDao } from './abstract-dao';
 import {Model} from '../model';
-import {Model} from '../model';
 import {VolumeImporter} from '../model/VolumeImporter';
 import * as _ from 'lodash';
 
