@@ -1,4 +1,4 @@
-import {AbstractDao} from "./abstract-dao";import {Model} from '../model';
+import {AbstractDao} from './abstract-dao';import {Model} from '../model';
 import {NetworkConfig} from '../model/NetworkConfig';
 export class NetworkConfigDao extends AbstractDao<NetworkConfig> {
     public constructor() {

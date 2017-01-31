@@ -1,5 +1,5 @@
 import { AbstractDao } from './abstract-dao';
-import {Model} from "../model";
+import {Model} from '../model';
 import {ImportableDisk} from '../model/ImportableDisk';
 
 export class ImportableDiskDao extends AbstractDao<ImportableDisk> {

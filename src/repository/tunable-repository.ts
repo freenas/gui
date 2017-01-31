@@ -1,8 +1,8 @@
-import {AbstractRepository} from "./abstract-repository-ng";
-import {TunableDao} from "../dao/tunable-dao";
-import {Map} from "immutable";
-import {ModelEventName} from "../model-event-name";
-import {Model} from "../model";
+import {AbstractRepository} from './abstract-repository-ng';
+import {TunableDao} from '../dao/tunable-dao';
+import {Map} from 'immutable';
+import {ModelEventName} from '../model-event-name';
+import {Model} from '../model';
 
 export class TunableRepository extends AbstractRepository {
     private static instance: TunableRepository;

@@ -1,4 +1,4 @@
-import {ServiceRepository} from "../repository/service-repository";
+import {ServiceRepository} from '../repository/service-repository';
 
 export class PowerManagementService {
     private static instance: PowerManagementService;

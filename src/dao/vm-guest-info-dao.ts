@@ -1,5 +1,5 @@
 import { AbstractDao } from './abstract-dao';
-import {Model} from "../model";
+import {Model} from '../model';
 import * as _ from 'lodash';
 import {VmGuestInfo} from '../model/VmGuestInfo';
 

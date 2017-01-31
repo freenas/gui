@@ -1,5 +1,5 @@
 import { AbstractDao } from './abstract-dao';
-import {Model} from "../model";
+import {Model} from '../model';
 import {VolumeDataset} from '../model/VolumeDataset';
 
 export class VolumeDatasetDao extends AbstractDao<VolumeDataset> {

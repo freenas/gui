@@ -1,5 +1,5 @@
 import { AbstractDao } from './abstract-dao';
-import {Model} from "../model";
+import {Model} from '../model';
 import {Mail} from '../model/Mail';
 
 export class MailDao extends AbstractDao<Mail> {

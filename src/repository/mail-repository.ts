@@ -1,4 +1,4 @@
-import {MailDao} from "../dao/mail-dao";
+import {MailDao} from '../dao/mail-dao';
 
 export class MailRepository {
     private static instance: MailRepository;

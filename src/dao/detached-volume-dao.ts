@@ -1,5 +1,5 @@
 import { AbstractDao } from './abstract-dao';
-import {Model} from "../model";
+import {Model} from '../model';
 import {DetachedVolume} from '../model/DetachedVolume';
 
 export class DetachedVolumeDao extends AbstractDao<DetachedVolume> {

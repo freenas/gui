@@ -1,3 +1,4 @@
+/* tslint:disable:no-magic-numbers */
 import { VolumeRepository } from '../repository/volume-repository';
 import { DiskRepository } from '../repository/disk-repository';
 import * as immutable from 'immutable';
@@ -223,10 +224,10 @@ export class TopologyService {
     private static generateProfiles() {
         if (!this.profiles) {
             this.profiles = immutable.fromJS({
-                "media": new TopologyProfile(0, 0, 10),
-                "virtualization": new TopologyProfile(0, 10, 0),
-                "backup": new TopologyProfile(10, 0, 0),
-                "optimal": new TopologyProfile(3, 3, 3)
+                'media': new TopologyProfile(0, 0, 10),
+                'virtualization': new TopologyProfile(0, 10, 0),
+                'backup': new TopologyProfile(10, 0, 0),
+                'optimal': new TopologyProfile(3, 3, 3)
             });
         }
     };
@@ -306,7 +307,7 @@ export class TopologyService {
 
         for (i = 0, length = vdevs.length; i < length; i++) {
             vdev = vdevs[i];
-            if (vdev.children && vdev.children.length == 1) {
+            if (vdev.children && vdev.children.length === 1) {
                 vdev.type = 'disk';
             }
         }
@@ -345,18 +346,18 @@ export class TopologyService {
     private areVdevDifferents(a, b) {
         let aDisks, bDisks,
             j, disksLength,
-            result = a.length != b.length;
+            result = a.length !== b.length;
 
         if (!result) {
             for (let i = 0, length = a.length; i < length; i++) {
-                if (a[i].children.length != b[i].children.length) {
+                if (a[i].children.length !== b[i].children.length) {
                     result = true;
                     break;
                 } else {
                     aDisks = a[i].children.map(function (x) { return x._disk.path }).sort();
                     bDisks = b[i].children.map(function (x) { return x._disk.path }).sort();
                     for (j = 0, disksLength = aDisks.length; j < disksLength; j++) {
-                        if (aDisks[j] != bDisks[j]) {
+                        if (aDisks[j] !== bDisks[j]) {
                             result = true;
                             break;
                         }
@@ -378,7 +379,7 @@ export class TopologyService {
         ],
             orderedPriorities = priorities.sort((a, b) => {
                 let delta = b.weight - a.weight;
-                if (delta == 0) {
+                if (delta === 0) {
                     delta = b.tieBreaker - a.tieBreaker;
                 }
                 return delta;

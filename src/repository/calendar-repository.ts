@@ -1,10 +1,10 @@
-import {AbstractRepository} from "./abstract-repository-ng";
-import {CalendarDao} from "../dao/calendar-dao";
-import {CalendarTaskDao} from "../dao/calendar-task-dao";
-import * as _ from "lodash";
-import {ModelEventName} from "../model-event-name";
-import {Map} from "immutable";
-import {Model} from "../model";
+import {AbstractRepository} from './abstract-repository-ng';
+import {CalendarDao} from '../dao/calendar-dao';
+import {CalendarTaskDao} from '../dao/calendar-task-dao';
+import * as _ from 'lodash';
+import {ModelEventName} from '../model-event-name';
+import {Map} from 'immutable';
+import {Model} from '../model';
 
 export class CalendarRepository extends AbstractRepository {
     private static instance: CalendarRepository;
@@ -17,22 +17,22 @@ export class CalendarRepository extends AbstractRepository {
         MONTHLY:    {
             value: 'MONTHLY',
             label: 'every month',
-            stringTemplate: "Monthly on {days} at {time}."
+            stringTemplate: 'Monthly on {days} at {time}.'
         },
         WEEKLY:     {
             value: 'WEEKLY',
             label: 'every week',
-            stringTemplate: "Weekly on {days} at {time}."
+            stringTemplate: 'Weekly on {days} at {time}.'
         },
         DAILY:      {
             value: 'DAILY',
             label: 'every day',
-            stringTemplate: "Daily at {time}."
+            stringTemplate: 'Daily at {time}.'
         },
         CUSTOM:     {
             value: 'CUSTOM',
             label: 'custom',
-            stringTemplate: "Custom schedule, see dedicated panel."
+            stringTemplate: 'Custom schedule, see dedicated panel.'
         }
     };
     public static readonly DAYS = CalendarRepository.getIntegerSeries(1,31);
@@ -41,168 +41,168 @@ export class CalendarRepository extends AbstractRepository {
     public static readonly MONTHS = [
         {
             value: {
-                label: "January",
+                label: 'January',
                 index: 0
             },
-            label: "Jan",
+            label: 'Jan',
             index: 0
         },
         {
             value: {
-                label: "February",
+                label: 'February',
                 index: 1
             },
-            label: "Feb",
+            label: 'Feb',
             index: 1
         },
         {
             value: {
-                label: "March",
+                label: 'March',
                 index: 2
             },
-            label: "Mar",
+            label: 'Mar',
             index: 2
         },
         {
             value: {
-                label: "April",
+                label: 'April',
                 index: 3
             },
-            label: "Apr",
+            label: 'Apr',
             index: 3
         },
         {
             value: {
-                label: "May",
+                label: 'May',
                 index: 4
             },
-            label: "May",
+            label: 'May',
             index: 4
         },
         {
             value: {
-                label: "June",
+                label: 'June',
                 index: 5
             },
-            label: "Jun",
+            label: 'Jun',
             index: 5
         },
         {
             value: {
-                label: "July",
+                label: 'July',
                 index: 6
             },
-            label: "Jul",
+            label: 'Jul',
             index: 6
         },
         {
             value: {
-                label: "August",
+                label: 'August',
                 index: 7
             },
-            label: "Aug",
+            label: 'Aug',
             index: 7
         },
         {
             value: {
-                label: "September",
+                label: 'September',
                 index: 8
             },
-            label: "Sep",
+            label: 'Sep',
             index: 8
         },
         {
             value: {
-                label: "October",
+                label: 'October',
                 index: 9
             },
-            label: "Oct",
+            label: 'Oct',
             index: 9
         },
         {
             value: {
-                label: "November",
+                label: 'November',
                 index: 10
             },
-            label: "Nov",
+            label: 'Nov',
             index: 10
         },
         {
             value: {
-                label: "December",
+                label: 'December',
                 index: 11
             },
-            label: "Dec",
+            label: 'Dec',
             index: 11
         }
     ];
     public static readonly DAYS_OF_WEEK = [
         {
             value: {
-                label: "Sunday",
+                label: 'Sunday',
                 index: 0
             },
-            label: "S",
+            label: 'S',
             index: 0
         },
         {
             value: {
-                label: "Monday",
+                label: 'Monday',
                 index: 1
             },
-            label: "M",
+            label: 'M',
             index: 1
         },
         {
             value: {
-                label: "Tuesday",
+                label: 'Tuesday',
                 index: 2
             },
-            label: "T",
+            label: 'T',
             index: 2
         },
         {
             value: {
-                label: "Wednesday",
+                label: 'Wednesday',
                 index: 3
             },
-            label: "W",
+            label: 'W',
             index: 3
         },
         {
             value: {
-                label: "Thursday",
+                label: 'Thursday',
                 index: 4
             },
-            label: "Th",
+            label: 'Th',
             index: 4
         },
         {
             value: {
-                label: "Friday",
+                label: 'Friday',
                 index: 5
             },
-            label: "F",
+            label: 'F',
             index: 5
         },
         {
             value: {
-                label: "Saturday",
+                label: 'Saturday',
                 index: 6
             },
-            label: "S",
+            label: 'S',
             index: 6
         }
     ];
 
     public static readonly CALENDAR_TASK_CATEGORIES = [
-        { name: "Scrub", value: "volume.scrub", checked: true },
-        { name: "Replication", value: "replication.replicate_dataset", checked: true },
-        { name: "Smart", value: "disk.parallel_test", checked: true },
-        { name: "Update", value: "update.checkfetch", checked: true },
-        { name: "Command", value: "calendar_task.command", checked: true },
-        { name: "Snapshot", value: "volume.snapshot_dataset", checked: true },
-        { name: "Rsync", value: "rsync.copy", checked: true }
+        { name: 'Scrub', value: 'volume.scrub', checked: true },
+        { name: 'Replication', value: 'replication.replicate_dataset', checked: true },
+        { name: 'Smart', value: 'disk.parallel_test', checked: true },
+        { name: 'Update', value: 'update.checkfetch', checked: true },
+        { name: 'Command', value: 'calendar_task.command', checked: true },
+        { name: 'Snapshot', value: 'volume.snapshot_dataset', checked: true },
+        { name: 'Rsync', value: 'rsync.copy', checked: true }
     ];
 
     public constructor(private calendarDao: CalendarDao,
@@ -271,7 +271,7 @@ export class CalendarRepository extends AbstractRepository {
             tasksLength = task._concurrentTasks.length;
             task.concurrentEvents = tasksLength;
             for (j = 0; j < tasksLength; j++) {
-                if (task._concurrentTasks[j] == task) {
+                if (task._concurrentTasks[j] === task) {
                     task.concurrentIndex = j;
                     break;
                 }
@@ -539,25 +539,25 @@ export class CalendarRepository extends AbstractRepository {
             result = -1;
         } else if (a.hour > b.hour) {
             result = 1;
-        } else if (a.hour != '*' && b.hour == '*') {
+        } else if (a.hour !== '*' && b.hour === '*') {
             result = -1;
-        } else if (a.hour == '*' && b.hour != '*') {
+        } else if (a.hour === '*' && b.hour !== '*') {
             result = 1;
         } else if (a.minute < b.minute) {
             result = -1;
         } else if (a.minute > b.minute) {
             result = 1;
-        } else if (a.minute != '*' && b.minute == '*') {
+        } else if (a.minute !== '*' && b.minute === '*') {
             result = -1;
-        } else if (a.minute == '*' && b.minute != '*') {
+        } else if (a.minute === '*' && b.minute !== '*') {
             result = 1;
         } else if (a.second < b.second) {
             result = -1;
         } else if (a.second > b.second) {
             result = 1;
-        } else if (a.second != '*' && b.second == '*') {
+        } else if (a.second !== '*' && b.second === '*') {
             result = -1;
-        } else if (a.second == '*' && b.second != '*') {
+        } else if (a.second === '*' && b.second !== '*') {
             result = 1;
         } else if (a.task.name < b.task.name) {
             result = -1;
@@ -576,7 +576,7 @@ export class CalendarRepository extends AbstractRepository {
     }
 
     private iterateHours(task: any, occurrences = []) {
-        if (task.schedule.hour == '*') {
+        if (task.schedule.hour === '*') {
             this.iterateMinutes('*', task, occurrences);
         } else {
             for (let hour = 0; hour < 24; hour++) {
@@ -589,7 +589,7 @@ export class CalendarRepository extends AbstractRepository {
     }
 
     private iterateMinutes(hour: any, task: any, occurrences: Array<any>) {
-        if (task.schedule.minute == '*') {
+        if (task.schedule.minute === '*') {
             this.iterateSeconds(hour, '*', task, occurrences);
         } else {
             for (let minute = 0; minute < 60; minute++) {
@@ -601,7 +601,7 @@ export class CalendarRepository extends AbstractRepository {
     }
 
     private iterateSeconds(hour, minute, task, occurrences: Array<any>) {
-        if (task.schedule.second == '*') {
+        if (task.schedule.second === '*') {
             occurrences.push({
                 hour: hour,
                 minute: minute,
@@ -646,16 +646,16 @@ export class CalendarRepository extends AbstractRepository {
     }
 
     private static isValueMatchingSchedule(value: any, schedule: any) {
-        if (typeof schedule !== "string") {
+        if (typeof schedule !== 'string') {
             schedule = _.toString(schedule);
         }
         let parts = schedule.split(','),
             part;
         for (let i = 0, length = parts.length; i < length; i++) {
             part = parts[i];
-            if (part == '*' || part == value) {
+            if (part === '*' || part === value) {
                 return true;
-            } else if (part.indexOf('/') != -1) {
+            } else if (part.indexOf('/') !== -1) {
                 let period = +part.split('/')[1];
                 if (value % period === 0) {
                     return true;

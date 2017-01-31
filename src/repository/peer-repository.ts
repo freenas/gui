@@ -1,8 +1,8 @@
-import {AbstractRepository} from "./abstract-repository-ng";
-import {ModelEventName} from "../model-event-name";
-import {PeerDao} from "../dao/peer-dao";
-import {Map} from "immutable";
-import {Model} from "../model";
+import {AbstractRepository} from './abstract-repository-ng';
+import {ModelEventName} from '../model-event-name';
+import {PeerDao} from '../dao/peer-dao';
+import {Map} from 'immutable';
+import {Model} from '../model';
 
 export class PeerRepository extends AbstractRepository {
     private static instance: PeerRepository;
@@ -15,7 +15,7 @@ export class PeerRepository extends AbstractRepository {
             label: 'Freenas',
             credentials: {
                 objectType: 'FreenasCredentials',
-                type: "freenas-credentials"
+                type: 'freenas-credentials'
             }
         },
         SSH: {
@@ -23,7 +23,7 @@ export class PeerRepository extends AbstractRepository {
             label: 'ssh',
             credentials: {
                 objectType: 'SshCredentials',
-                type: "ssh-credentials"
+                type: 'ssh-credentials'
             }
         },
         VMWARE: {
@@ -31,7 +31,7 @@ export class PeerRepository extends AbstractRepository {
             label: 'VMware',
             credentials: {
                 objectType: 'VmwareCredentials',
-                type: "vmware-credentials"
+                type: 'vmware-credentials'
             }
         },
         AMAZON_S3: {
@@ -39,7 +39,7 @@ export class PeerRepository extends AbstractRepository {
             label: 'Amazon S3',
             credentials: {
                 objectType: 'AmazonS3Credentials',
-                type: "amazon-s3-credentials"
+                type: 'amazon-s3-credentials'
             }
         }
     };

@@ -1,7 +1,7 @@
-import {CalendarRepository} from "../../repository/calendar-repository";
-import {TaskRepository} from "../../repository/task-repository";
-import {SystemRepository} from "../../repository/system-repository";
-import {AbstractSectionService} from "./abstract-section-service-ng";
+import {CalendarRepository} from '../../repository/calendar-repository';
+import {TaskRepository} from '../../repository/task-repository';
+import {SystemRepository} from '../../repository/system-repository';
+import {AbstractSectionService} from './abstract-section-service-ng';
 import {DiskRepository} from '../../repository/disk-repository';
 import {VolumeRepository} from '../../repository/volume-repository';
 

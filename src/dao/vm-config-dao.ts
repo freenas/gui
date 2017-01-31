@@ -1,4 +1,4 @@
-import {AbstractDao} from "./abstract-dao";import {Model} from '../model';
+import {AbstractDao} from './abstract-dao';import {Model} from '../model';
 import {VmConfig} from '../model/VmConfig';
 
 export class VmConfigDao extends AbstractDao<VmConfig> {

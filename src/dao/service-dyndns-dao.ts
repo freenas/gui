@@ -1,5 +1,5 @@
 import { AbstractDao } from './abstract-dao';
-import {Model} from "../model";
+import {Model} from '../model';
 import {ServiceDyndns} from '../model/ServiceDyndns';
 
 export class ServiceDyndnsDao extends AbstractDao<ServiceDyndns> {

@@ -1,4 +1,4 @@
-import {AbstractDao} from "./abstract-dao";
+import {AbstractDao} from './abstract-dao';
 import {Model} from '../model';
 import {ThrottleReplicationTransportOption} from '../model/ThrottleReplicationTransportOption';
 

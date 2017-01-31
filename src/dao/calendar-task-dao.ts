@@ -1,4 +1,4 @@
-import {AbstractDao} from "./abstract-dao";import {Model} from '../model';
+import {AbstractDao} from './abstract-dao';import {Model} from '../model';
 import {CalendarTask} from '../model/CalendarTask';
 
 export class CalendarTaskDao extends AbstractDao<CalendarTask> {

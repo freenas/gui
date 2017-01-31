@@ -1,5 +1,5 @@
-import {AbstractDao} from "./abstract-dao";import {Model} from '../model';
-import {ServiceRepository} from "../repository/service-repository";
+import {AbstractDao} from './abstract-dao';import {Model} from '../model';
+import {ServiceRepository} from '../repository/service-repository';
 import {ServicesCategory} from '../model/ServicesCategory';
 
 export class ServicesCategoryDao extends AbstractDao<ServicesCategory> {

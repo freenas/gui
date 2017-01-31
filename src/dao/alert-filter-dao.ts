@@ -1,4 +1,4 @@
-import {AbstractDao} from "./abstract-dao";
+import {AbstractDao} from './abstract-dao';
 import {Model} from '../model';
 import {AlertFilter} from '../model/AlertFilter';
 export class AlertFilterDao extends AbstractDao<AlertFilter> {

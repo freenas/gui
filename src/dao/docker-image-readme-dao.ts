@@ -1,4 +1,4 @@
-import {AbstractDao} from "./abstract-dao";import {Model} from '../model';
+import {AbstractDao} from './abstract-dao';import {Model} from '../model';
 import {DockerImageReadme} from '../model/DockerImageReadme';
 
 export class DockerImageReadmeDao extends AbstractDao<DockerImageReadme> {

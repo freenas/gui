@@ -1,9 +1,9 @@
-import {KerberosKeytabDao} from "../dao/kerberos-keytab-dao";
-import {KerberosRealmDao} from "../dao/kerberos-realm-dao";
-import {Model} from "../model";
-import {AbstractRepository} from "./abstract-repository-ng";
-import {Map} from "immutable";
-import {ModelEventName} from "../model-event-name";
+import {KerberosKeytabDao} from '../dao/kerberos-keytab-dao';
+import {KerberosRealmDao} from '../dao/kerberos-realm-dao';
+import {Model} from '../model';
+import {AbstractRepository} from './abstract-repository-ng';
+import {Map} from 'immutable';
+import {ModelEventName} from '../model-event-name';
 
 export class KerberosRepository extends AbstractRepository {
     private static instance: KerberosRepository;

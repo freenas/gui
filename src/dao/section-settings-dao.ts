@@ -1,4 +1,4 @@
-import {AbstractDao} from "./abstract-dao";import {Model} from '../model';
+import {AbstractDao} from './abstract-dao';import {Model} from '../model';
 import {SectionSettings} from '../model/SectionSettings';
 
 export class SectionSettingsDao extends AbstractDao<SectionSettings> {

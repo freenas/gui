@@ -1,6 +1,6 @@
 import {SystemRepository} from '../repository/system-repository';
 import {MiddlewareClient} from './middleware-client';
-import {BootPoolRepository} from "../repository/boot-pool-repository";
+import {BootPoolRepository} from '../repository/boot-pool-repository';
 import {NetworkRepository} from '../repository/network-repository';
 import {DiskRepository} from '../repository/disk-repository';
 

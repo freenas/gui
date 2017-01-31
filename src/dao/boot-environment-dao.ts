@@ -1,5 +1,5 @@
 import { AbstractDao } from './abstract-dao';
-import {Model} from "../model";
+import {Model} from '../model';
 import {BootEnvironment} from '../model/BootEnvironment';
 
 export class BootEnvironmentDao extends AbstractDao<BootEnvironment> {

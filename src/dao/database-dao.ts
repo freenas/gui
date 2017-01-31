@@ -1,4 +1,4 @@
-import {AbstractDao} from "./abstract-dao";
+import {AbstractDao} from './abstract-dao';
 import {Model} from '../model';
 import {Database} from '../model/Database';
 export class DatabaseDao extends AbstractDao<Database> {
