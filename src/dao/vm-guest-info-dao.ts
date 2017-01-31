@@ -1,8 +1,9 @@
 import { AbstractDao } from './abstract-dao';
 import {Model} from "../model";
 import * as _ from 'lodash';
+import {VmGuestInfo} from '../model/VmGuestInfo';
 
-export class VmGuestInfoDao extends AbstractDao {
+export class VmGuestInfoDao extends AbstractDao<VmGuestInfo> {
     public constructor() {
         super(Model.VmGuestInfo);
     }

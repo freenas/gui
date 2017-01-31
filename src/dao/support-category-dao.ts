@@ -1,7 +1,8 @@
 import { AbstractDao } from './abstract-dao';
 import {Model} from "../model";
+import {SupportCategory} from '../model/SupportCategory';
 
-export class SupportCategoryDao extends AbstractDao {
+export class SupportCategoryDao extends AbstractDao<SupportCategory> {
 
     public constructor() {
         super(Model.SupportCategory, {

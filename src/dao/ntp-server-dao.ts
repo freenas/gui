@@ -1,7 +1,8 @@
 import { AbstractDao } from './abstract-dao';
 import {Model} from '../model';
+import {NtpServer} from '../model/NtpServer';
 
-export class NtpServerDao extends AbstractDao {
+export class NtpServerDao extends AbstractDao<NtpServer> {
 
     public constructor() {
         super(Model.NtpServer, {

@@ -1,9 +1,9 @@
 import { AbstractDao } from './abstract-dao';
 
-export class SystemDeviceDao extends AbstractDao {
+export class SystemDeviceDao extends AbstractDao<any> {
 
     public constructor() {
-        super({});
+        super('SystemDevice');
     }
 
     public getDevices(deviceClass: string): Promise<Object> {

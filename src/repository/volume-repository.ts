@@ -28,8 +28,26 @@ import {Map, List} from 'immutable';
 import * as bytes from 'bytes';
 import * as _ from 'lodash';
 import {PermissionsDao} from '../dao/permissions-dao';
+import {Volume} from '../model/Volume';
+import {VolumeDataset} from '../model/VolumeDataset';
+import {VolumeSnapshot} from '../model/VolumeSnapshot';
+import {VolumeMediaImporter} from '../model/VolumeMediaImporter';
+import {VolumeImporter} from '../model/VolumeImporter';
+import {EncryptedVolumeActions} from '../model/EncryptedVolumeActions';
+import {VolumeVdevRecommendations} from '../model/VolumeVdevRecommendations';
+import {DetachedVolume} from '../model/DetachedVolume';
+import {EncryptedVolumeImporter} from '../model/EncryptedVolumeImporter';
+import {ZfsTopology} from '../model/ZfsTopology';
+import {ZfsVdev} from '../model/ZfsVdev';
+import {VolumeDatasetProperties} from '../model/VolumeDatasetProperties';
+import {VolumeDatasetPropertyAtime} from '../model/VolumeDatasetPropertyAtime';
+import {VolumeDatasetPropertyCasesensitivity} from '../model/VolumeDatasetPropertyCasesensitivity';
+import {VolumeDatasetPropertyDedup} from '../model/VolumeDatasetPropertyDedup';
+import {VolumeDatasetPropertyCompression} from '../model/VolumeDatasetPropertyCompression';
+import {VolumeDatasetPropertyVolblocksize} from '../model/VolumeDatasetPropertyVolblocksize';
+import {VolumeProvidersPresence} from '../model/enumerations/VolumeProvidersPresence';
 
-export class VolumeRepository extends AbstractRepository {
+export class VolumeRepository extends AbstractRepository<Volume> {
     private static instance: VolumeRepository;
     private volumes: Map<string, Map<string, any>>;
     private detachedVolumes: Map<string, Map<string, any>>;
@@ -106,43 +124,43 @@ export class VolumeRepository extends AbstractRepository {
         return VolumeRepository.instance;
     }
 
-    public listVolumes(): Promise<Array<any>> {
+    public listVolumes(): Promise<Array<Volume>> {
         return this.volumes ? Promise.resolve(this.volumes.valueSeq().toJS()) : this.volumeDao.list();
     }
 
-    public listDatasets(): Promise<Array<Object>> {
+    public listDatasets(): Promise<Array<VolumeDataset>> {
         return this.volumeDatasets ? Promise.resolve(this.volumeDatasets.valueSeq().toJS()) : this.volumeDatasetDao.list();
     }
 
-    public listSnapshots(): Promise<Array<Object>> {
+    public listSnapshots(): Promise<Array<VolumeSnapshot>> {
         return this.volumeSnapshots ? Promise.resolve(this.volumeSnapshots.valueSeq().toJS()) : this.volumeSnapshotDao.list();
     }
 
-    public getVolumeImporter(): Promise<Object> {
+    public getVolumeImporter(): Promise<VolumeImporter> {
         return this.volumeImporterDao.get();
     }
 
-    public getVolumeMediaImporter(): Promise<Object> {
+    public getVolumeMediaImporter(): Promise<VolumeMediaImporter> {
         return this.volumeMediaImporterDao.get();
     }
 
-    public getNewVolumeSnapshot() {
+    public getNewVolumeSnapshot(): Promise<VolumeSnapshot> {
         return this.volumeSnapshotDao.getNewInstance();
     }
 
-    public getNewVolumeDataset() {
+    public getNewVolumeDataset(): Promise<VolumeDataset> {
         return this.volumeDatasetDao.getNewInstance();
     }
 
-    public getNewVolume() {
+    public getNewVolume(): Promise<Volume> {
         return this.volumeDao.getNewInstance();
     }
 
-    public getEncryptedVolumeActionsInstance(): Promise<Object> {
+    public getEncryptedVolumeActionsInstance(): Promise<EncryptedVolumeActions> {
         return this.encryptedVolumeActionsDao.getNewInstance();
     }
 
-    public initializeDisksAllocations(diskIds: Array<string>) {
+    public initializeDisksAllocations(diskIds: Array<string>): void {
         this.volumeDao.getDisksAllocation(diskIds).then(
             (allocations) => _.forIn(allocations,
                 (allocation, path) => this.setDiskAllocation(path, allocation)
@@ -150,7 +168,7 @@ export class VolumeRepository extends AbstractRepository {
         );
     }
 
-    public getVdevRecommendations(): Promise<Object> {
+    public getVdevRecommendations(): Promise<VolumeVdevRecommendations> {
         return this.volumeVdevRecommendationsDao.get();
     }
 
@@ -159,47 +177,47 @@ export class VolumeRepository extends AbstractRepository {
         return this.volumeDao.save(volume, [password]);
     }
 
-    public scrubVolume(volume: any) {
+    public scrubVolume(volume: Volume) {
         return this.volumeDao.scrub(volume);
     }
 
-    public upgradeVolume(volume: any) {
+    public upgradeVolume(volume: Volume) {
         return this.volumeDao.upgrade(volume);
     }
 
-    public listDetachedVolumes() {
+    public listDetachedVolumes(): Promise<Array<DetachedVolume>> {
         return this.detachedVolumes ? Promise.resolve(this.detachedVolumes.valueSeq().toJS()) : this.findDetachedVolumes();
     }
 
-    public findDetachedVolumes() {
+    public findDetachedVolumes(): Promise<Array<DetachedVolume>> {
         return this.detachedVolumeDao.list();
     }
 
-    public importDetachedVolume(volume: any) {
+    public importDetachedVolume(volume: DetachedVolume) {
         return this.detachedVolumeDao.import(volume);
     }
 
-    public deleteDetachedVolume(volume: any) {
+    public deleteDetachedVolume(volume: DetachedVolume) {
         return this.detachedVolumeDao.delete(volume);
     }
 
-    public exportVolume(volume: any) {
+    public exportVolume(volume: Volume) {
         return this.volumeDao.export(volume).then(() => this.findDetachedVolumes());
     }
 
-    public lockVolume(volume: any) {
+    public lockVolume(volume: Volume) {
         return this.volumeDao.lock(volume);
     }
 
-    public unlockVolume(volume: any, password?: string) {
+    public unlockVolume(volume: Volume, password?: string) {
         return this.volumeDao.unlock(volume, password);
     }
 
-    public rekeyVolume(volume: any, key: boolean, password?: string) {
+    public rekeyVolume(volume: Volume, key: boolean, password?: string) {
         return this.volumeDao.rekey(volume, key, password);
     }
 
-    public getVolumeKey(volume: any) {
+    public getVolumeKey(volume: Volume) {
         return this.volumeDao.getVolumeKey(volume);
     }
 
@@ -207,11 +225,11 @@ export class VolumeRepository extends AbstractRepository {
         return this.volumeDao.importEncrypted(name, disks, key, password);
     }
 
-    public getEncryptedVolumeImporterInstance() {
+    public getEncryptedVolumeImporterInstance(): Promise<EncryptedVolumeImporter> {
         return this.encryptedVolumeImporterDao.getNewInstance();
     }
 
-    public getTopologyInstance() {
+    public getTopologyInstance(): Promise<ZfsTopology> {
         return this.zfsTopologyDao.getNewInstance().then(function(zfsTopology) {
             for (let key of VolumeRepository.TOPOLOGY_KEYS) {
                 zfsTopology[key] = [];
@@ -220,7 +238,7 @@ export class VolumeRepository extends AbstractRepository {
         });
     }
 
-    public clearTopology(topology: any) {
+    public clearTopology(topology: ZfsTopology) {
         for (let key of VolumeRepository.TOPOLOGY_KEYS) {
             topology[key] = [];
         }
@@ -237,20 +255,20 @@ export class VolumeRepository extends AbstractRepository {
             .then(() => this.findDetachedVolumes());
     }
 
-    public updateVolumeTopology(volume: any, topology: any) {
+    public updateVolumeTopology(volume: Volume, topology: ZfsTopology) {
         volume.topology = this.cleanupTopology(topology);
 
         // FIXME: Remove once the middleware stops sending erroneous data
         if (!volume.providers_presence) {
-            volume.providers_presence = 'NONE';
+            volume.providers_presence = VolumeProvidersPresence.NONE;
         }
         return this.volumeDao.save(volume);
     }
 
-    public getNewZfsVdev() {
+    public getNewZfsVdev(): Promise<ZfsVdev> {
         return this.zfsVdevDao.getNewInstance();
     }
-    public initializeDatasetProperties(dataset: any) {
+    public initializeDatasetProperties(dataset: VolumeDataset): Promise<VolumeDataset> {
         return dataset.properties ?
             Promise.resolve(dataset) :
             Promise.all([
@@ -264,7 +282,7 @@ export class VolumeRepository extends AbstractRepository {
                 this.volumeDatasetPropertyVolblocksizeDao.getNewInstance(),
                 this.volumeDatasetPropertyRefreservationDao.getNewInstance(),
                 this.volumeDatasetPropertyReservationDao.getNewInstance()
-            ]).spread((properties: any,
+            ]).spread((properties: VolumeDatasetProperties,
                        atime,
                        casesensitivity,
                        compression,
@@ -274,13 +292,13 @@ export class VolumeRepository extends AbstractRepository {
                        volblocksize,
                        refreservation,
                        reservation) => {
-                properties.atime = _.assign(atime, this.DEFAULT_SOURCE_SETTING);
-                properties.casesensitivity = _.assign(casesensitivity, this.DEFAULT_SOURCE_SETTING);
-                properties.dedup = _.assign(dedup, this.DEFAULT_SOURCE_SETTING);
-                properties.compression = _.assign(compression, this.DEFAULT_SOURCE_SETTING);
+                properties.atime = (_.assign(atime, this.DEFAULT_SOURCE_SETTING) as VolumeDatasetPropertyAtime);
+                properties.casesensitivity = (_.assign(casesensitivity, this.DEFAULT_SOURCE_SETTING) as VolumeDatasetPropertyCasesensitivity);
+                properties.dedup = (_.assign(dedup, this.DEFAULT_SOURCE_SETTING) as VolumeDatasetPropertyDedup);
+                properties.compression = (_.assign(compression, this.DEFAULT_SOURCE_SETTING) as VolumeDatasetPropertyCompression);
                 properties.quota = quota;
                 properties.refquota = refquota;
-                properties.volblocksize = _.assign(volblocksize, this.DEFAULT_VOLBLOCKSIZE_SETTING);
+                properties.volblocksize = (_.assign(volblocksize, this.DEFAULT_VOLBLOCKSIZE_SETTING) as VolumeDatasetPropertyVolblocksize);
                 properties.refreservation = refreservation;
                 properties.reservation = reservation;
 
@@ -288,7 +306,7 @@ export class VolumeRepository extends AbstractRepository {
             });
     }
 
-    public convertVolumeDatasetSizeProperties(dataset: any) {
+    public convertVolumeDatasetSizeProperties(dataset: VolumeDataset) {
         if (dataset.type === 'FILESYSTEM') {
             dataset.properties.quota.parsed = bytes.parse(dataset.properties.quota.value);
             dataset.properties.refquota.parsed = bytes.parse(dataset.properties.refquota.value);
@@ -317,16 +335,16 @@ export class VolumeRepository extends AbstractRepository {
         );
     }
 
-    public offlineVdev(volumeId: string, vdev: any) {
+    public offlineVdev(volumeId: string, vdev: ZfsVdev) {
         return this.volumeDao.offlineVdev(volumeId, vdev);
     }
 
-    public onlineVdev(volumeId: string, vdev: any) {
+    public onlineVdev(volumeId: string, vdev: ZfsVdev) {
         return this.volumeDao.onlineVdev(volumeId, vdev);
     }
 
-    private cleanupTopology(topology: any) {
-        let clean = {};
+    private cleanupTopology(topology: ZfsTopology): ZfsTopology {
+        let clean = new ZfsTopology();
         for (let key of VolumeRepository.TOPOLOGY_KEYS) {
             if (topology[key] && topology[key].length > 0) {
                 let part = [];
@@ -339,7 +357,7 @@ export class VolumeRepository extends AbstractRepository {
         return clean;
     }
 
-    private cleanupVdev(vdev: any, isChild = false) {
+    private cleanupVdev(vdev: ZfsVdev, isChild = false) {
         let clean;
         if (vdev.type === 'disk' || isChild) {
             clean = {
@@ -377,12 +395,12 @@ export class VolumeRepository extends AbstractRepository {
         }
     }
 
-    private static getVolumeDisks(volume: any): List<any> {
+    private static getVolumeDisks(volumeMap: any): List<any> {
         let results: List<any>;
-        if (volume.has('disks')) {
-            results = volume.get('disks');
+        if (volumeMap.has('disks')) {
+            results = volumeMap.get('disks');
         } else {
-            results = volume.get('topology').map(vdevs =>
+            results = volumeMap.get('topology').map(vdevs =>
                 vdevs.map(vdev =>
                     vdev.get('children').size === 0 ? vdev.path : vdev.get('children').map(child => child.disk_id)
                 )
@@ -391,7 +409,7 @@ export class VolumeRepository extends AbstractRepository {
         return results;
     }
 
-    private setDiskAllocation(path, allocation: any) {
+    private setDiskAllocation(path: string, allocation: any) {
         let usageType;
         switch (allocation.type) {
             case 'VOLUME':

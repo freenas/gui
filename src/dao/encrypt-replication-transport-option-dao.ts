@@ -1,7 +1,8 @@
 import {AbstractDao} from "./abstract-dao";
 import {Model} from '../model';
+import {EncryptReplicationTransportOption} from '../model/EncryptReplicationTransportOption';
 
-export class EncryptReplicationTransportOptionDao extends AbstractDao {
+export class EncryptReplicationTransportOptionDao extends AbstractDao<EncryptReplicationTransportOption> {
     public constructor() {
         super(Model.EncryptReplicationTransportOption);
     }

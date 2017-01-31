@@ -1,8 +1,8 @@
 import {AbstractDao} from './abstract-dao';
 
-export class SystemInfoDao extends AbstractDao {
+export class SystemInfoDao extends AbstractDao<any> {
     public constructor() {
-        super('');
+        super('SystemInfo');
     }
 
     public version() {

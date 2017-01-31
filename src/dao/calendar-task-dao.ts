@@ -1,6 +1,7 @@
 import {AbstractDao} from "./abstract-dao";import {Model} from '../model';
+import {CalendarTask} from '../model/CalendarTask';
 
-export class CalendarTaskDao extends AbstractDao {
+export class CalendarTaskDao extends AbstractDao<CalendarTask> {
     public constructor() {
         super(Model.CalendarTask, {
             queryMethod: 'calendar_task.query',

@@ -4,8 +4,9 @@ import {Map} from 'immutable';
 import {ModelEventName} from '../model-event-name';
 import {AlertFilterDao} from '../dao/alert-filter-dao';
 import * as _ from 'lodash';
+import {AlertFilter} from '../model/AlertFilter';
 
-export class AlertFilterRepository extends AbstractRepository {
+export class AlertFilterRepository extends AbstractRepository<AlertFilter> {
     private static instance: AlertFilterRepository;
     private alertFilters: Map<string, Map<string, any>>;
 

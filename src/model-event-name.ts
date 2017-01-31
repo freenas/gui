@@ -107,7 +107,7 @@ export class ModelEventName {
     public remove: Function;
     public change: Function;
 
-    private constructor(modelName: string) {
+    public constructor(modelName: string) {
         this.listChange = modelName + 'ListChange';
         this.contentChange = modelName + 'ContentChange';
         this.add = (id) => modelName + 'Add.' + id;

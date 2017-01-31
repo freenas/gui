@@ -1,8 +1,9 @@
 import {AbstractDao} from './abstract-dao';
 import {Model} from '../model';
 import * as _ from 'lodash';
+import {DockerNetwork} from '../model/DockerNetwork';
 
-export class DockerNetworkDao extends AbstractDao {
+export class DockerNetworkDao extends AbstractDao<DockerNetwork> {
     public constructor() {
         super(Model.DockerNetwork, {
             eventName: 'entity-subscriber.docker.network.changed'

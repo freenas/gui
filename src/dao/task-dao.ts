@@ -1,7 +1,8 @@
 import { AbstractDao } from './abstract-dao';
 import {Model} from "../model";
+import {Task} from '../model/Task';
 
-export class TaskDao extends AbstractDao {
+export class TaskDao extends AbstractDao<Task> {
 
     public constructor() {
         super(Model.Task);

@@ -1,7 +1,8 @@
 import { AbstractDao } from './abstract-dao';
 import {Model} from '../model';
+import {Vm} from '../model/Vm';
 
-export class VmDao extends AbstractDao {
+export class VmDao extends AbstractDao<Vm> {
 
     public constructor() {
         super(Model.Vm);

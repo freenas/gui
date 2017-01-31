@@ -1,13 +1,14 @@
 import { AbstractDao } from './abstract-dao';
+import {VolumeMediaImporter} from '../model/VolumeMediaImporter';
 
-export class VolumeMediaImporterDao extends AbstractDao {
-    private volumeMediaImporter: Array<any>;
+export class VolumeMediaImporterDao extends AbstractDao<VolumeMediaImporter> {
+    private volumeMediaImporter: VolumeMediaImporter;
 
     public constructor() {
         super('VolumeMediaImporter');
     }
 
-    public get(): Promise<Array<any>> {
+    public get(): Promise<VolumeMediaImporter> {
         return this.volumeMediaImporter ?
             Promise.resolve(this.volumeMediaImporter) :
             this.getNewInstance().then((volumeMediaImporter) => {
