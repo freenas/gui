@@ -24,6 +24,7 @@
                 "_availablesDockers": {"<-": "@owner._hostDockers.map{{label: name, value: id}}"},
                 "object.interactive": {"<-": "@owner.currentTemplate.interactive"},
                 "object.autostart": {"<-": "@owner.currentTemplate.autostart"},
+                "object.privileged": {"<-": "@owner.currentTemplate.privileged"},
                 "object.expose_ports": {"<-": "!!@owner.currentTemplate.expose_ports"},
                 "object.names": {"<-": "@names.value.split(' ')"}
             }
@@ -172,6 +173,7 @@
                 "element": {"#": "settingsTable"}
             },
             "bindings": {
+                "inspector": {"<-": "@inspector"},
                 "values": {"<-": "@owner.currentTemplate.settings.map{{ variable: id, value: value, description: description, optional: optional }}"}
             }
         },
@@ -180,6 +182,9 @@
             "prototype": "ui/sections/containers/controls/table-environment.reel",
             "properties": {
                 "element": {"#": "environmentsTable"}
+            },
+            "bindings": {
+                "inspector": {"<-": "@inspector"}
             }
         },
 
@@ -189,6 +194,7 @@
                 "element": {"#": "portsTable"}
             },
             "bindings": {
+                "inspector": {"<-": "@inspector"},
                 "values": {"<-": "@owner.currentTemplate.ports.map{{ host_port: host_port, container_port: container_port, protocol: protocol }}"}
             }
         },
