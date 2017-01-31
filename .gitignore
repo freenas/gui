@@ -77,5 +77,7 @@ core/reducers/
 core/repository/
 core/route/
 core/service/
+core/model/enumerations/
+core/model/[A-Z]*.js
 ui/**/*.css
 !ui/**/_*.css
