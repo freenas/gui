@@ -8,16 +8,23 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "editMode": {"<-": "@owner.object._isNew.defined() && @owner.object._isNew ? 'edit' : 'display'"}
             }
+        },
+
+        "validationController": {
+            "prototype": "core/controller/validation-controller"
         },
 
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
-                "canSave": false,
-                "canRevert": false,
-                "canDelete": false,
+                "validationController": {"@": "validationController"},
+                "canSave": true,
+                "canDelete": true,
                 "controller": {"@": "owner"}
             },
             "bindings": {
@@ -25,25 +32,121 @@
             }
         },
 
+        "datastoresOptionConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "labelPropertyName": "name",
+                "valuePropertyName": "id"
+            }
+        },
+
         "name": {
-            "prototype": "blue-shark/ui/field-text.reel",
+            "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "name"},
                 "label": "Name"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.name"}
+                "value": {"<->": "@owner.object.name"}
             }
         },
 
-        "state": {
-            "prototype": "blue-shark/ui/field-text.reel",
+        "cpuValidator": {
+            "prototype": "core/converter/validator/integer-floor-validator",
             "properties": {
-                "element": {"#": "state"},
-                "label": "State"
+                "floor": 1,
+                "errorMessage": "A Docker must have at least 1 CPU."
+            }
+        },
+
+        "cpuConverter": {
+            "prototype": "core/converter/string-to-integer-converter",
+            "properties": {
+                "validator": {"@": "cpuValidator"}
+            }
+        },
+
+        "cpu": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "cpu"},
+                "label": "CPU Cores",
+                "converter": {"@": "cpuConverter"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.state"}
+                "value": {"<->": "@owner.object.config.ncpus"}
+            }
+        },
+
+        "memoryValidator": {
+            "prototype": "core/converter/validator/minimum-bytes-validator",
+            "properties": {
+                "allowDecimal": false,
+                "errorMessage": "Memory must be a positive integer size at least 1MiB.",
+                "minPrefix": "M",
+                "minValue": 1
+            }
+        },
+
+        "memoryConverter": {
+            "prototype": "core/converter/validation-only-converter",
+            "properties": {
+                "validator": {"@": "memoryValidator"}
+            }
+        },
+
+        "memory": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "memory"},
+                "label": "Memory",
+                "converter": {"@": "memoryConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object._memory"}
+            }
+        },
+
+        "datastoreSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "datastoreSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.editMode"}
+            }
+        },
+        "datastoreDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "datastoreDisplay"},
+                "validationPath": "target",
+                "label": "Datastore"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.target"}
+            }
+        },
+        "target": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "target"},
+                "label": "Datastore"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.target"},
+                "options": {"<-": "[{label: @owner.DEFAULT_STRING, value: null}].concat(@owner._datastores.map{{label: name, value: id}})"}
+            }
+        },
+
+        "detailsSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "detailsSection"},
+                "title": "Details"
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "@owner.editMode=='edit'"}
             }
         },
 
@@ -58,7 +161,7 @@
             }
         },
 
-         "uniqueId": {
+        "uniqueId": {
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
                 "element": {"#": "uniqueId"},
@@ -75,9 +178,16 @@
     <div data-montage-id="owner" class="DockerHost">
          <div data-montage-id="inspector">
             <div data-montage-id="name"></div>
-            <div data-montage-id="state"></div>
-            <div data-montage-id="os"></div>
-            <div data-montage-id="uniqueId"></div>
+            <div data-montage-id="cpu"></div>
+            <div data-montage-id="memory"></div>
+            <div data-montage-id="datastoreSubstitution">
+                <div data-montage-id="target" data-arg="edit"></div>
+                <div data-montage-id="datastoreDisplay" data-arg="display"></div>
+            </div>
+            <div data-montage-id="detailsSection">
+                <div data-montage-id="os"></div>
+                <div data-montage-id="uniqueId"></div>
+            </div>
         </div>
     </div>
 </body>

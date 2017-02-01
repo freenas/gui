@@ -84,6 +84,27 @@ export class DockerRoute extends AbstractRoute {
         });
     }
 
+    public createHost(stack: Array<any>) {
+        let objectType = Model.DockerHost,
+            columnIndex = 2,
+            parentContext = stack[columnIndex - 1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/create'
+            };
+        return Promise.all([
+            this.dockerHostRepository.getNewDockerHost(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread((dockerHost: any, uiDescriptor) => {
+            context.object = dockerHost;
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            return this.updateStackWithContext(stack, context);
+        });
+    }
+
     public listImages(stack: Array<any>) {
         let self = this,
             objectType = Model.DockerImage,

@@ -219,6 +219,8 @@ export class RoutingService {
         crossroads.addRoute('/containers', () => this.loadSection('containers'));
         crossroads.addRoute('/containers/docker-host',
             () => this.dockerRoute.listHosts(this.currentStacks.get('containers')));
+        crossroads.addRoute('/containers/docker-host/create',
+            () => this.dockerRoute.createHost(this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/docker-host/_/{hostId}',
             (hostId) => this.dockerRoute.getHost(hostId, this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/docker-image',
