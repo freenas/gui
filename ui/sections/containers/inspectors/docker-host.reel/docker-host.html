@@ -238,6 +238,18 @@
             "bindings": {
                 "disabled": {"<-": "@owner.object.state == 'DOWN'"}
             }
+        },
+
+        "networks": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "networks"},
+                "objectType": "DockerNetwork",
+                "name": "Networks"
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "@owner.object._isNew"}
+            }
         }
     }
     </script>
@@ -265,6 +277,7 @@
                 <div data-montage-id="os"></div>
                 <div data-montage-id="uniqueId"></div>
             </div>
+            <div data-montage-id="networks"></div>
         </div>
     </div>
 </body>

@@ -223,6 +223,12 @@ export class RoutingService {
             () => this.dockerRoute.createHost(this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/docker-host/_/{hostId}',
             (hostId) => this.dockerRoute.getHost(hostId, this.currentStacks.get('containers')));
+        crossroads.addRoute('/containers/docker-host/_/{hostId}/docker-network',
+            (hostId) => this.dockerRoute.listDockerNetworks(hostId, this.currentStacks.get('containers')));
+        crossroads.addRoute('/containers/docker-host/_/{hostId}/docker-network/_/{dockerNetworkId}',
+            (hostId, dockerNetworkId) => this.dockerRoute.getDockerNetwork(hostId, dockerNetworkId, this.currentStacks.get('containers')));
+        crossroads.addRoute('/containers/docker-host/_/{hostId}/docker-network/create',
+            (hostId) => this.dockerRoute.createDockerNetwork(hostId, this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/docker-image',
             () => this.dockerRoute.listImages(this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/docker-image/create',
@@ -251,12 +257,6 @@ export class RoutingService {
             (containerId) => this.dockerRoute.getContainerLogs(this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/docker-container/_/{containerId}/readme',
             (containerId) => this.dockerRoute.getReadme(this.currentStacks.get('containers')));
-        crossroads.addRoute('/containers/docker-network',
-            () => this.dockerRoute.listDockerNetworks(this.currentStacks.get('containers')));
-        crossroads.addRoute('/containers/docker-network/_/{dockerNetworkId}',
-            (dockerNetworkId) => this.dockerRoute.getDockerNetwork(dockerNetworkId, this.currentStacks.get('containers')));
-        crossroads.addRoute('/containers/docker-network/create',
-            () => this.dockerRoute.createDockerNetwork(this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/section-settings',
             () => this.dockerRoute.getSettings());
     }
