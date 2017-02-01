@@ -328,8 +328,41 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         value: function(dockerHost) {
             dockerHost.config.memsize = this._bytesService.convertStringToSize(dockerHost._memory, this._bytesService.UNITS.M);
             dockerHost.target = dockerHost.target === this.DEFAULT_STRING ? null : dockerHost.target;
-            return this._dockerHostRepository.saveDocketHost(dockerHost);
+            return this._dockerHostRepository.saveDockerHost(dockerHost);
         }
     },
+
+    getSerialConsoleUrl: {
+        value: function(dockerHost) {
+            return this._vmRepository.getSerialToken(dockerHost).then(function(token) {
+                return MiddlewareClient.getRootURL('http') + '/serial-console-app/#' + token;
+            });
+        }
+    },
+
+    startDockerHost: {
+        value: function(dockerHost) {
+            return this._vmRepository.startVm(dockerHost);
+        }
+    },
+
+    stopDockerHost: {
+        value: function(dockerHost, force) {
+            return this._vmRepository.stopVm(dockerHost);
+        }
+    },
+
+    killDockerHost: {
+        value: function(dockerHost, force) {
+            return this._vmRepository.stopVm(dockerHost, true);
+        }
+    },
+
+    rebootDockerHost: {
+        value: function(dockerHost) {
+            return this._vmRepository.rebootVm(dockerHost);
+        }
+    },
+
 
 });

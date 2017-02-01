@@ -2,7 +2,7 @@
 <html>
 <head>
     <title></title>
-
+    <link rel="stylesheet" type="text/css" href="docker-host.css">
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -10,8 +10,15 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "editMode": {"<-": "@owner.object._isNew.defined() && @owner.object._isNew ? 'edit' : 'display'"}
-            }
+                "editMode": {"<-": "@owner.object._isNew.defined() && @owner.object._isNew ? 'edit' : 'display'"},
+                "classList.has('has-actions')": {"<-": "!@owner.object._isNew"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
         },
 
         "validationController": {
@@ -116,6 +123,7 @@
                 "switchValue": {"<-": "@owner.editMode"}
             }
         },
+
         "datastoreDisplay": {
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
@@ -127,6 +135,7 @@
                 "value": {"<-": "@owner.object.target"}
             }
         },
+
         "target": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
@@ -170,6 +179,65 @@
             "bindings": {
                 "value": {"<-": "@owner.object.status.unique_id"}
             }
+        },
+
+        "stateSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "stateSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.object.state || 'DOWN'"}
+            }
+        },
+
+        "start": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "start"},
+                "value": "Start"
+            }
+        },
+
+        "stop": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "stop"},
+                "value": "Stop"
+            }
+        },
+
+        "reboot": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "reboot"},
+                "value": "Reboot"
+            },
+            "bindings": {
+                "disabled": {"<-": "@owner.object.state == 'DOWN'"}
+            }
+        },
+
+        "kill": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "kill"},
+                "value": "Kill"
+            },
+            "bindings": {
+                "disabled": {"<-": "@owner.object.state == 'DOWN'"}
+            }
+        },
+
+        "serialConsole": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "serialConsole"},
+                "value": "Serial Console"
+            },
+            "bindings": {
+                "disabled": {"<-": "@owner.object.state == 'DOWN'"}
+            }
         }
     }
     </script>
@@ -177,6 +245,15 @@
 <body>
     <div data-montage-id="owner" class="DockerHost">
          <div data-montage-id="inspector">
+            <div class="DockerHost-actions">
+                <span data-montage-id="stateSubstitution">
+                    <div data-montage-id="start" data-arg="DOWN"></div>
+                    <div data-montage-id="stop" data-arg="UP"></div>
+                </span>
+                <div data-montage-id="reboot"></div>
+                <div data-montage-id="kill"></div>
+                <div data-montage-id="serialConsole"></div>
+            </div>
             <div data-montage-id="name"></div>
             <div data-montage-id="cpu"></div>
             <div data-montage-id="memory"></div>
