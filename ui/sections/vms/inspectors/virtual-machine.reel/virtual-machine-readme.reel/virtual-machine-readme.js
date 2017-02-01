@@ -1,7 +1,10 @@
-var Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component,
+	marked = require('marked');
 
-/**
- * @class VirtualMachineReadme
- * @extends Component
- */
-exports.VirtualMachineReadme = Component.specialize();
+exports.VirtualMachineReadme = Component.specialize({
+	enterDocument: {
+		value: function() {
+			this.parsedHtml = marked(this.object.text);
+		}
+	}
+});
