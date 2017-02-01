@@ -10,14 +10,13 @@
                 "element": {"#": "owner"}
             }
         },
-
-        "readmeTextArea": {
-            "prototype": "blue-shark/ui/text-area.reel",
+        "readmeHtml": {
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
-                "element": {"#": "readmeTextArea"}
+                "element": {"#": "readmeHtml"}
             },
             "bindings": {
-                "value": {"<->": "@owner.object.text"}
+                "value": {"<-": "@owner.parsedHtml"}
             }
         }
     }
@@ -25,7 +24,7 @@
 </head>
 <body>
     <div data-montage-id="owner" class="ContainerReadme">
-        <div data-montage-id="readmeTextArea"></div>
+        <div data-montage-id="readmeHtml"></div>
     </div>
 </body>
 </html>
