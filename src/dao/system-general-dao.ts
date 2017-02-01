@@ -31,7 +31,7 @@ export class SystemGeneralDao extends AbstractDao {
                     )
                 ), methodDescriptor);
             if (update || (args && args.length > 0)) {
-                return this.middlewareClient.submitTask('system.advanced.update', [update]);
+                return this.middlewareClient.submitTask('system.general.update', [update]);
             }
         });
     }
