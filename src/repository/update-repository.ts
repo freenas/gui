@@ -1,4 +1,4 @@
-import {AbstractRepository} from './abstract-repository-ng';
+import {AbstractRepository} from './abstract-repository';
 import {UpdateDao} from '../dao/update-dao';
 import {Model} from '../model';
 export class UpdateRepository extends AbstractRepository {

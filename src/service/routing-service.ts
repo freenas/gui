@@ -1,3 +1,7 @@
+import * as _ from 'lodash';
+import * as crossroads from 'crossroads';
+import * as hasher from 'hasher';
+import * as immutable from 'immutable';
 import {ModelDescriptorService} from './model-descriptor-service';
 import {MiddlewareClient} from './middleware-client';
 import {ModelEventName} from '../model-event-name';
@@ -18,16 +22,13 @@ import {DockerRoute} from '../route/docker';
 import {VmsRoute} from '../route/vms';
 import {AccountsRoute} from '../route/accounts';
 import {ReplicationRoute} from '../route/replication';
-import * as hasher from 'hasher';
-import * as crossroads from 'crossroads';
-import * as _ from 'lodash';
-import * as immutable from 'immutable';
 
 export class RoutingService {
     private static instance: RoutingService;
     private currentStacks: Map<string, Array<any>>;
     private taskStacks: immutable.Map<number|string, Array<any>>;
     private currentSectionId: string;
+    private sectionRouters: Map<string, any>;
 
     private constructor(private modelDescriptorService: ModelDescriptorService,
                         private eventDispatcherService: EventDispatcherService,
@@ -44,11 +45,13 @@ export class RoutingService {
                         private peeringRoute: PeeringRoute,
                         private vmsRoute: VmsRoute,
                         private networkRoute: NetworkRoute,
-                        private accountsRoute: AccountsRoute,
+                        accountsRoute: AccountsRoute,
                         private dockerRoute: DockerRoute,
                         private replicationRoute: ReplicationRoute) {
         this.currentStacks = new Map<string, Array<any>>();
         this.taskStacks = immutable.Map<number|string, Array<any>>();
+        this.sectionRouters = new Map<string, any>()
+            .set('accounts', AccountsRoute.getInstance());
 
         this.eventDispatcherService.addEventListener('taskSubmitted', this.handleTaskSubmitted.bind(this));
         this.eventDispatcherService.addEventListener('taskCreated', this.handleTaskCreated.bind(this));
@@ -126,6 +129,7 @@ export class RoutingService {
     private handleHashChange(newHash, oldHash) {
         this.eventDispatcherService.dispatch('inspectorExit').then((isBlockingNeeded) => {
             if (!isBlockingNeeded) {
+                this.currentSectionId = RoutingService.getPathSection(newHash);
                 crossroads.parse(decodeURIComponent(newHash));
                 this.eventDispatcherService.dispatch('hashChange', newHash);
             } else {
@@ -153,14 +157,20 @@ export class RoutingService {
     }
 
     private saveState(temporaryTaskId: string) {
-        let stateSnapshot = [];
-        _.forEach(this.currentStacks.get(this.currentSectionId), (value, index) => {
-            let context = _.clone(value);
-            if (index > 0) {
-                context.parentcontext = stateSnapshot[index - 1];
-            }
-            stateSnapshot.push(context);
-        });
+        let stateSnapshot: Array<any>;
+        if (this.sectionRouters.has(this.currentSectionId)) {
+            stateSnapshot = this.sectionRouters.get(this.currentSectionId).saveState();
+        } else {
+            stateSnapshot = [];
+            let currentStack = this.currentStacks.get(this.currentSectionId);
+            _.forEach(currentStack, (value, index) => {
+                let context = _.clone(value);
+                if (index > 0) {
+                    context.parentcontext = stateSnapshot[index - 1];
+                }
+                stateSnapshot.push(context);
+            });
+        }
         this.taskStacks = this.taskStacks.set(temporaryTaskId, stateSnapshot);
     }
 
@@ -176,7 +186,6 @@ export class RoutingService {
 
         this.loadDashboardRoutes();
         this.loadStorageRoutes();
-        this.loadAccountsRoutes();
         this.loadNetworkRoutes();
         this.loadSettingsRoutes();
         this.loadServicesRoutes();
@@ -366,44 +375,6 @@ export class RoutingService {
             (categoryId, serviceId, moduleId) => this.serviceRoute.getRsyncdModule(moduleId, this.currentStacks.get('services')));
     }
 
-    private loadAccountsRoutes() {
-        crossroads.addRoute('/accounts', () => this.loadSection('accounts'));
-        crossroads.addRoute('/accounts/user',
-            () => this.accountsRoute.listUsers(this.currentStacks.get('accounts')));
-        crossroads.addRoute('/accounts/user/create',
-            () => this.accountsRoute.createUser(this.currentStacks.get('accounts')));
-        crossroads.addRoute('/accounts/user/_/{userId}',
-            (userId) => this.accountsRoute.getUser(userId, this.currentStacks.get('accounts')));
-        crossroads.addRoute('/accounts/group',
-            () => this.accountsRoute.listGroups(this.currentStacks.get('accounts')));
-        crossroads.addRoute('/accounts/group/create',
-            () => this.accountsRoute.createGroup(this.currentStacks.get('accounts')));
-        crossroads.addRoute('/accounts/group/_/{groupId}',
-            (groupId) => this.accountsRoute.getGroup(groupId, this.currentStacks.get('accounts')));
-        crossroads.addRoute('/accounts/account-system',
-            () => this.accountsRoute.listAccountSystems(this.currentStacks.get('accounts')));
-        crossroads.addRoute('/accounts/account-system/user/_/{userId}',
-            (userId) => this.accountsRoute.getUser(userId, this.currentStacks.get('accounts')));
-        crossroads.addRoute('/accounts/account-system/group/_/{groupId}',
-            (groupId) => this.accountsRoute.getGroup(groupId, this.currentStacks.get('accounts')));
-        crossroads.addRoute('/accounts/directory-services',
-            () => this.accountsRoute.getDirectoryServices(this.currentStacks.get('accounts')));
-        crossroads.addRoute('/accounts/directory-services/directory/_/{directoryId}',
-            (directoryId) => this.accountsRoute.getDirectory(directoryId, this.currentStacks.get('accounts')));
-        crossroads.addRoute('/accounts/directory-services/kerberos-realm',
-            () => this.accountsRoute.listKerberosRealms(this.currentStacks.get('accounts')));
-        crossroads.addRoute('/accounts/directory-services/kerberos-realm/create',
-            () => this.accountsRoute.createKerberosRealm(this.currentStacks.get('accounts')));
-        crossroads.addRoute('/accounts/directory-services/kerberos-realm/_/{kerberosRealmId}',
-            (kerberosRealmId) => this.accountsRoute.getKerberosRealm(kerberosRealmId, this.currentStacks.get('accounts')));
-        crossroads.addRoute('/accounts/directory-services/kerberos-keytab',
-            () => this.accountsRoute.listKerberosKeytabs(this.currentStacks.get('accounts')));
-        crossroads.addRoute('/accounts/directory-services/kerberos-keytab/create',
-            () => this.accountsRoute.createKerberosKeytab(this.currentStacks.get('accounts')));
-        crossroads.addRoute('/accounts/directory-services/kerberos-keytab/_/{kerberosKeytabId}',
-            (kerberosKeytabId) => this.accountsRoute.getKerberosKeytab(kerberosKeytabId, this.currentStacks.get('accounts')));
-    }
-
     private loadDashboardRoutes() {
         crossroads.addRoute('/dashboard', () => this.sectionRoute.getOld('dashboard'));
     }
@@ -508,12 +479,17 @@ export class RoutingService {
             let stack = _.clone(this.taskStacks.get(taskId)),
                 section = stack[0].object,
                 sectionId = section.id;
-            if (this.datastoreService.getState().get(Model.Task) &&
-                this.datastoreService.getState().get(Model.Task).get(_.toString(taskId)) &&
-                this.datastoreService.getState().get(Model.Task).get(_.toString(taskId)).get('error')) {
-                _.last(stack).error = this.datastoreService.getState().get(Model.Task).get(_.toString(taskId)).get('error').toJS();
+            let taskState = this.datastoreService.getState().get(Model.Task);
+            if (taskState &&
+                taskState.get(_.toString(taskId)) &&
+                taskState.get(_.toString(taskId)).get('error')) {
+                _.last(stack).error = taskState.get(_.toString(taskId)).get('error').toJS();
             }
-            this.currentStacks.set(sectionId, stack);
+            if (this.currentStacks.has(sectionId)) {
+                this.currentStacks.set(sectionId, stack);
+            } else {
+                this.sectionRouters.get(sectionId).restore(stack);
+            }
             this.eventDispatcherService.dispatch('sectionRestored', sectionId);
             this.navigate('/' + sectionId);
             hasher.changed.addOnce(this.handleTaskHashChange.bind(this));

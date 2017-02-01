@@ -1,7 +1,7 @@
 import {KerberosKeytabDao} from '../dao/kerberos-keytab-dao';
 import {KerberosRealmDao} from '../dao/kerberos-realm-dao';
 import {Model} from '../model';
-import {AbstractRepository} from './abstract-repository-ng';
+import {AbstractRepository} from './abstract-repository';
 import {Map} from 'immutable';
 import {ModelEventName} from '../model-event-name';
 

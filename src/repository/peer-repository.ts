@@ -1,4 +1,4 @@
-import {AbstractRepository} from './abstract-repository-ng';
+import {AbstractRepository} from './abstract-repository';
 import {ModelEventName} from '../model-event-name';
 import {PeerDao} from '../dao/peer-dao';
 import {Map} from 'immutable';

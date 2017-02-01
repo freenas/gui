@@ -7,8 +7,7 @@ const EnclosureElementStatus = {
     NOTINSTALLED: 'NOTINSTALLED' as 'NOTINSTALLED',
     UNKNOWN: 'UNKNOWN' as 'UNKNOWN',
     NOTAVAIL: 'NOTAVAIL' as 'NOTAVAIL',
-    NOACCESS: 'NOACCESS' as 'NOACCESS',
-    UNKNOWN: 'UNKNOWN' as 'UNKNOWN'
+    NOACCESS: 'NOACCESS' as 'NOACCESS'
 };
 type EnclosureElementStatus = (typeof EnclosureElementStatus)[keyof typeof EnclosureElementStatus];
 export {EnclosureElementStatus};

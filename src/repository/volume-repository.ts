@@ -1,4 +1,4 @@
-import { AbstractRepository } from './abstract-repository-ng';
+import { AbstractRepository } from './abstract-repository';
 import { VolumeDao } from '../dao/volume-dao';
 import { VolumeSnapshotDao } from '../dao/volume-snapshot-dao';
 import { VolumeDatasetDao } from '../dao/volume-dataset-dao';

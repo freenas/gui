@@ -1,4 +1,4 @@
-import { AbstractRepository } from './abstract-repository-ng';
+import { AbstractRepository } from './abstract-repository';
 import {VmwareDatasetDao} from '../dao/vmware-dataset-dao';
 import {VmwareDatastoreDao} from '../dao/vmware-datastore-dao';
 import {Model} from '../model';

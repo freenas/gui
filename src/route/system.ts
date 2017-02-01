@@ -1,5 +1,5 @@
 import {SystemRepository} from '../repository/system-repository';
-import {CryptoCertificateType} from 'core/model/enumerations/crypto-certificate-type';
+import {CryptoCertificateType} from '../model/enumerations/CryptoCertificateType';
 import {CryptoCertificateRepository} from '../repository/crypto-certificate-repository';
 import {AlertFilterRepository} from '../repository/alert-filter-repository';
 import {MailRepository} from '../repository/mail-repository';

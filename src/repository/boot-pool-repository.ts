@@ -1,4 +1,4 @@
-import {AbstractRepository} from './abstract-repository-ng';
+import {AbstractRepository} from './abstract-repository';
 import {BootPoolDao} from '../dao/boot-pool-dao';
 import {BootEnvironmentDao} from '../dao/boot-environment-dao';
 import {Map} from 'immutable';

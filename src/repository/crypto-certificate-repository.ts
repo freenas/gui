@@ -1,12 +1,13 @@
-import {AbstractRepository} from './abstract-repository-ng';
+import {AbstractRepository} from './abstract-repository';
 import {CryptoCertificateDao} from '../dao/crypto-certificate-dao';
 import {ModelEventName} from '../model-event-name';
-import {CryptoCertificateType} from '../model/enumerations/crypto-certificate-type';
+import {CryptoCertificateType} from '../model/enumerations/CryptoCertificateType';
 import {Model} from '../model';
 import {Map} from 'immutable';
 import * as _ from 'lodash';
+import {CryptoCertificate} from '../model/CryptoCertificate';
 
-export class CryptoCertificateRepository extends AbstractRepository {
+export class CryptoCertificateRepository extends AbstractRepository<CryptoCertificate> {
     private static instance: CryptoCertificateRepository;
     private cryptoCertificates: Map<string, Map<string, any>>;
 

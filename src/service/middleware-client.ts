@@ -3,6 +3,7 @@ import {ModelEventName} from '../model-event-name';
 
 import * as uuid from 'uuid';
 import * as _ from 'lodash';
+import {SubmittedTask} from '../model/SubmittedTask';
 
 export class MiddlewareClient {
     private REQUEST_TIMEOUT = 90000;
@@ -123,7 +124,7 @@ export class MiddlewareClient {
         });
     }
 
-    public submitTask(name: string, args?: Array<any>): Promise<any> {
+    public submitTask(name: string, args?: Array<any>): Promise<SubmittedTask> {
         let self = this,
             temporaryTaskId = uuid.v4();
         this.eventDispatcherService.dispatch('taskSubmitted', temporaryTaskId);
@@ -135,10 +136,7 @@ export class MiddlewareClient {
                     old: temporaryTaskId,
                     new: taskId
                 });
-                return {
-                    taskId: taskId,
-                    taskPromise: self.getTaskPromise(taskId)
-                };
+                return new SubmittedTask(taskId, self.getTaskPromise(taskId));
         });
     }
 

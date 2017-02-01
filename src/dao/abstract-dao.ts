@@ -8,6 +8,7 @@ import * as _ from 'lodash';
 import {ModelDescriptorService} from '../service/model-descriptor-service';
 import {Map as iMap, List} from 'immutable';
 import {AbstractDataObject} from '../model/AbstractDataObject';
+import {SubmittedTask} from '../model/SubmittedTask';
 
 export class AbstractDao<T extends AbstractDataObject> {
     protected middlewareClient: MiddlewareClient;
@@ -90,7 +91,7 @@ export class AbstractDao<T extends AbstractDataObject> {
         }
     }
 
-    public save(object: T, args?: Array<any>): Promise<any> {
+    public save(object: T, args?: Array<any>): Promise<SubmittedTask> {
         return object._isNew ? this.create(object, args) : this.update(object, args);
     }
 

@@ -1,4 +1,4 @@
-import {AbstractRepository} from './abstract-repository-ng';
+import {AbstractRepository} from './abstract-repository';
 import {Model} from '../model';
 import {Map} from 'immutable';
 import {ModelEventName} from '../model-event-name';

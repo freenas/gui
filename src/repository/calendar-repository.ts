@@ -1,4 +1,4 @@
-import {AbstractRepository} from './abstract-repository-ng';
+import {AbstractRepository} from './abstract-repository';
 import {CalendarDao} from '../dao/calendar-dao';
 import {CalendarTaskDao} from '../dao/calendar-task-dao';
 import * as _ from 'lodash';

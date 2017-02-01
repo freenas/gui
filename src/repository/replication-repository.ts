@@ -1,4 +1,4 @@
-import { AbstractRepository } from './abstract-repository-ng';
+import { AbstractRepository } from './abstract-repository';
 import {ModelEventName} from '../model-event-name';
 import {Map, Set} from 'immutable';
 import {ReplicationOptionsDao} from '../dao/replication-options-dao';
