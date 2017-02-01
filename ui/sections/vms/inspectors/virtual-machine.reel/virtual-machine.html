@@ -79,6 +79,23 @@
                 "valuePropertyName": "name"
             }
         },
+        "guestHealthStatusLight": {
+            "prototype": "ui/controls/traffic-light.reel",
+            "properties": {
+                "element": {"#": "guestHealthStatusLight"},
+                "colorMapping": {"HEALTHY" : "green", "DYING": "yellow", "DEAD" : "red", "UNKNOWN": "grey"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.status ? @owner.object.status.health : 'UNKNOWN'"}
+            }
+        },
+        "guestHealthStatusLabel": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "guestHealthStatusLabel"},
+                "value": "Guest Health"
+            }
+        },
         "vmTemplateSubstitution": {
             "prototype": "montage/ui/substitution.reel",
             "properties": {
@@ -325,7 +342,7 @@
             },
             "bindings": {
                 "rows": {"<-": "@owner.guestInfoLoadAvg"},
-                "classList.has('is-hidden')": {"<-": "!@owner.guestInfoLoadAvg.length"} 
+                "classList.has('is-hidden')": {"<-": "!@owner.guestInfoLoadAvg.length"}
             }
         },
         "guestInfoInterfaces": {
@@ -350,7 +367,7 @@
             },
             "bindings": {
                 "rows": {"<-": "@owner.guestInfoInterfaces"},
-                "classList.has('is-hidden')": {"<-": "!@owner.guestInfoInterfaces.length"} 
+                "classList.has('is-hidden')": {"<-": "!@owner.guestInfoInterfaces.length"}
             }
         },
         "devices": {
@@ -467,6 +484,10 @@
             <div data-montage-id="cpu"></div>
             <div data-montage-id="memory"></div>
             <div data-montage-id="autostart"></div>
+            <div class="flex-row flex-align--center g-margin-bottom">
+                <div data-montage-id="guestHealthStatusLight" class="g-margin-right--half"></div>
+                <div data-montage-id="guestHealthStatusLabel"></div>
+            </div>
             <div data-montage-id="guestToolsSubstitution">
                 <div data-montage-id="guestToolsStatus" data-arg="unavailable"></div>
                 <div data-montage-id="guestTools" data-arg="available">
