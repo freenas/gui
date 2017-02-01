@@ -73,16 +73,6 @@
                 "options": {"<-": "@owner.LOG_LEVELS"}
             }
         },
-        "syslog": {
-            "prototype": "blue-shark/ui/field-checkbox.reel",
-            "properties": {
-                "element": {"#": "syslog"},
-                "label": "Use syslog only"
-            },
-            "bindings": {
-                "checked": {"<->": "@owner.object.syslog"}
-            }
-        },
         "localMaster": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -264,7 +254,6 @@
         <div data-montage-id="dosCharset"></div>
         <div data-montage-id="unixCharset"></div>
         <div data-montage-id="logLevel"></div>
-        <div data-montage-id="syslog"></div>
         <div data-montage-id="localMaster"></div>
         <div data-montage-id="domainLogons"></div>
         <div data-montage-id="timeServer"></div>
