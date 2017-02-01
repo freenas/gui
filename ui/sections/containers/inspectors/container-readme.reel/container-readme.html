@@ -18,13 +18,22 @@
             "bindings": {
                 "value": {"<-": "@owner.parsedHtml"}
             }
+        },
+        "scrollView": {
+            "prototype": "blue-shark/ui/scrollview.reel",
+            "properties": {
+                "element": {"#": "scrollView"},
+                "overflow": "scrollY"
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="ContainerReadme">
-        <div data-montage-id="readmeHtml"></div>
+        <div data-montage-id="scrollView" class="ContainerReadme-ScrollView">
+            <div data-montage-id="readmeHtml"></div>
+        </div>
     </div>
 </body>
 </html>

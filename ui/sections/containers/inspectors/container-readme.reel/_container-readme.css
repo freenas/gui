@@ -6,3 +6,7 @@
 .ContainerReadme textarea{
     flex: 1;
 }
+
+.ContainerReadme-ScrollView .Scrollview-transform{
+	display: block;
+}
