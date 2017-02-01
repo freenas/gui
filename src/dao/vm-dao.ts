@@ -1,5 +1,5 @@
 import { AbstractDao } from './abstract-dao';
-import {Model} from "../model";
+import {Model} from '../model';
 
 export class VmDao extends AbstractDao {
 
@@ -16,7 +16,7 @@ export class VmDao extends AbstractDao {
     }
 
     public getHardwareCapabilities() {
-        return this.middlewareClient.callRpcMethod("vm.get_hw_vm_capabilities");
+        return this.middlewareClient.callRpcMethod('vm.get_hw_vm_capabilities');
     }
 
     public start(vm: any) {

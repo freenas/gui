@@ -15,6 +15,22 @@
       "valueType": "String"
     }
   },
+  "blueprint_dockerhost_target": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "target",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_dockerhost_config": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "config",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
   "blueprint_dockerhost_state": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -40,6 +56,8 @@
       "propertyBlueprints": [
         {"@": "blueprint_dockerhost_id"},
         {"@": "blueprint_dockerhost_name"},
+        {"@": "blueprint_dockerhost_target"},
+        {"@": "blueprint_dockerhost_config"},
         {"@": "blueprint_dockerhost_state"},
         {"@": "blueprint_dockerhost_status"}
       ]

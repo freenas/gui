@@ -27,6 +27,32 @@ exports.DockerHost = Montage.specialize({
             return this._name;
         }
     },
+    _target: {
+        value: null
+    },
+    target: {
+        set: function (value) {
+            if (this._target !== value) {
+                this._target = value;
+            }
+        },
+        get: function () {
+            return this._target;
+        }
+    },
+    _config: {
+        value: null
+    },
+    config: {
+        set: function (value) {
+            if (this._config !== value) {
+                this._config = value;
+            }
+        },
+        get: function () {
+            return this._config;
+        }
+    },
     _state: {
         value: null
     },
@@ -65,6 +91,14 @@ exports.DockerHost = Montage.specialize({
             valueType: "String"
         }, {
             mandatory: false,
+            name: "target",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "config",
+            valueType: "object"
+        }, {
+            mandatory: false,
             name: "state",
             valueObjectPrototypeName: "DockerHostState",
             valueType: "object"
@@ -81,6 +115,9 @@ exports.DockerHost = Montage.specialize({
             collectionNameExpression: "'Docker Hosts'",
             daoModuleId: "core/dao/docker-host-dao",
             inspectorComponentModule: {
+                id: 'ui/sections/containers/inspectors/docker-host.reel'
+            },
+            creatorComponentModule: {
                 id: 'ui/sections/containers/inspectors/docker-host.reel'
             },
             statusColorMapping: {

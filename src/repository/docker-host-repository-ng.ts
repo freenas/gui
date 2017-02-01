@@ -20,4 +20,9 @@ export class DockerHostRepository extends AbstractModelRepository {
     public listDockerHosts() {
         return this.dockerHostDao.list();
     }
+
+    public getNewDockerHost() {
+        return this.dockerHostDao.getNewInstance();
+    }
+
 }

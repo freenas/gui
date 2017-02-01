@@ -84,6 +84,96 @@ export class DockerRoute extends AbstractRoute {
         });
     }
 
+    public listDockerNetworks(hostId, stack: Array<any>) {
+        let objectType = Model.DockerNetwork,
+            columnIndex = 3,
+            parentContext = stack[columnIndex - 1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/docker-network'
+            };
+        return Promise.all([
+            this.dockerNetworkRepository.listDockerNetworks(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread((networks: Array<any>, uiDescriptor) => {
+            context.object = _.filter(networks, { host: hostId });
+            context.userInterfaceDescriptor = uiDescriptor;
+            context.changeListener = this.eventDispatcherService.addEventListener(ModelEventName[objectType].listChange, (state) => {
+                this.dataObjectChangeService.handleDataChange(networks, state);
+            });
+
+            return this.updateStackWithContext(stack, context);
+        });
+    }
+
+    public getDockerNetwork(hostId, dockerNetworkId, stack: Array<any>) {
+        let objectType = Model.DockerNetwork,
+            columnIndex = 4,
+            parentContext = stack[columnIndex - 1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/_/' + dockerNetworkId
+            };
+
+        return Promise.all([
+            this.dockerNetworkRepository.listDockerNetworks(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread((networks: Array<any>, uiDescriptor) => {
+            context.object = _.find(networks, {id: dockerNetworkId});
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            return this.updateStackWithContext(stack, context);
+        });
+    }
+
+    public createDockerNetwork(hostId, stack: Array<any>) {
+        let objectType = Model.DockerNetwork,
+            columnIndex = 4,
+            parentContext = stack[columnIndex - 1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/create'
+            };
+        return Promise.all([
+            this.dockerNetworkRepository.getNewDockerNetwork(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread((dockerNetwork, uiDescriptor) => {
+            (dockerNetwork as any)._isNewObject = true;
+            (dockerNetwork as any).host = hostId;
+            context.userInterfaceDescriptor = uiDescriptor;
+            context.object = dockerNetwork;
+
+            return this.updateStackWithContext(stack, context);
+        });
+    }
+
+    public createHost(stack: Array<any>) {
+        let objectType = Model.DockerHost,
+            columnIndex = 2,
+            parentContext = stack[columnIndex - 1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/create'
+            };
+        return Promise.all([
+            this.dockerHostRepository.getNewDockerHost(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread((dockerHost: any, uiDescriptor) => {
+            context.object = dockerHost;
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            return this.updateStackWithContext(stack, context);
+        });
+    }
+
     public listImages(stack: Array<any>) {
         let self = this,
             objectType = Model.DockerImage,
@@ -341,74 +431,6 @@ export class DockerRoute extends AbstractRoute {
             (dockerImageReadme as any).text = readme;
             context.object = dockerImageReadme;
             context.userInterfaceDescriptor = uiDescriptor;
-
-            return this.updateStackWithContext(stack, context);
-        });
-    }
-
-    public listDockerNetworks(stack: Array<any>) {
-        let objectType = Model.DockerNetwork,
-            columnIndex = 1,
-            parentContext = stack[columnIndex - 1],
-            context: any = {
-                columnIndex: columnIndex,
-                objectType: objectType,
-                parentContext: parentContext,
-                path: parentContext.path + '/docker-network'
-            };
-        return Promise.all([
-            this.dockerNetworkRepository.listDockerNetworks(),
-            this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread((networks: Array<any>, uiDescriptor) => {
-            context.object = networks;
-            context.userInterfaceDescriptor = uiDescriptor;
-            context.changeListener = this.eventDispatcherService.addEventListener(ModelEventName[objectType].listChange, (state) => {
-                this.dataObjectChangeService.handleDataChange(networks, state);
-            });
-
-            return this.updateStackWithContext(stack, context);
-        });
-    }
-
-    public getDockerNetwork(dockerNetworkId, stack: Array<any>) {
-        let objectType = Model.DockerNetwork,
-            columnIndex = 2,
-            parentContext = stack[columnIndex - 1],
-            context: any = {
-                columnIndex: columnIndex,
-                objectType: objectType,
-                parentContext: parentContext,
-                path: parentContext.path + '/_/' + dockerNetworkId
-            };
-
-        return Promise.all([
-            this.dockerNetworkRepository.listDockerNetworks(),
-            this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread((networks: Array<any>, uiDescriptor) => {
-            context.object = _.find(networks, {id: dockerNetworkId});
-            context.userInterfaceDescriptor = uiDescriptor;
-
-            return this.updateStackWithContext(stack, context);
-        });
-    }
-
-    public createDockerNetwork(stack: Array<any>) {
-        let objectType = Model.DockerNetwork,
-            columnIndex = 2,
-            parentContext = stack[columnIndex - 1],
-            context: any = {
-                columnIndex: columnIndex,
-                objectType: objectType,
-                parentContext: parentContext,
-                path: parentContext.path + '/create'
-            };
-        return Promise.all([
-            this.dockerNetworkRepository.getNewDockerNetwork(),
-            this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread((dockerNetwork, uiDescriptor) => {
-            (dockerNetwork as any)._isNewObject = true;
-            context.userInterfaceDescriptor = uiDescriptor;
-            context.object = dockerNetwork;
 
             return this.updateStackWithContext(stack, context);
         });

@@ -7,12 +7,18 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
     DockerConfigRepository = require("core/repository/docker-config-repository").DockerConfigRepository,
     DockerContainerLogsRepository = require("core/repository/docker-container-logs-repository").DockerContainerLogsRepository,
     DockerContainerBridgeRepository = require("core/repository/docker-container-bridge-repository").DockerContainerBridgeRepository,
+    VmRepository = require("core/repository/vm-repository").VmRepository,
+    BytesService = require("core/service/bytes-service").BytesService,
+    CONSTANTS = require("core/constants"),
     ApplicationContextService = require("core/service/application-context-service").ApplicationContextService,
     MiddlewareClient = require("core/service/middleware-client").MiddlewareClient,
     Model = require("core/model").Model,
     _ = require("lodash");
 
 exports.ContainerSectionService = AbstractSectionService.specialize({
+    DEFAULT_STRING: {
+        value: CONSTANTS.DEFAULT_SELECT_STRING
+    },
 
     init: {
         value: function () {
@@ -25,6 +31,8 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
             this._dockerConfigRepository = DockerConfigRepository.getInstance();
             this._dockerContainerLogsRepository = DockerContainerLogsRepository.getInstance();
             this._dockerContainerBridgeRepository = DockerContainerBridgeRepository.getInstance();
+            this._bytesService = BytesService.instance;
+            this._vmRepository = VmRepository.getInstance();
         }
     },
 
@@ -34,8 +42,7 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
                 this._dockerContainerRepository.getEmptyList(),
                 this._dockerHostRepository.getEmptyList(),
                 this._dockerImageRepository.getEmptyList(),
-                this._dockerCollectionRepository.getEmptyList(),
-                this._dockerNetworkRepository.getEmptyList()
+                this._dockerCollectionRepository.getEmptyList()
             ]).then(function (entries) {
                 return _.assign(entries, {_objectType: Model.DockerContainerSection});
             });
@@ -291,6 +298,70 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         value: function () {
             return this._dockerContainerRepository.generateMacAddress();
         }
-    }
+    },
+
+    listDatastores: {
+        value: function() {
+            return this._vmRepository.listDatastores();
+        }
+    },
+
+    initializeDockerHost: {
+        value: function(dockerHost) {
+            var self = this;
+            if (!dockerHost.status) {
+                dockerHost.status = {};
+                dockerHost.status._objectType = 'DockerHostStatus';
+            }
+            if (dockerHost._isNew) {
+                dockerHost.config = {
+                    ncpus: 1,
+                    memsize: 512
+                };
+            }
+            dockerHost._memory = this._bytesService.convertSizeToString(dockerHost.config.memsize, this._bytesService.UNITS.M);
+        }
+    },
+
+    saveDockerHost: {
+        value: function(dockerHost) {
+            dockerHost.config.memsize = this._bytesService.convertStringToSize(dockerHost._memory, this._bytesService.UNITS.M);
+            dockerHost.target = dockerHost.target === this.DEFAULT_STRING ? null : dockerHost.target;
+            return this._dockerHostRepository.saveDockerHost(dockerHost);
+        }
+    },
+
+    getSerialConsoleUrl: {
+        value: function(dockerHost) {
+            return this._vmRepository.getSerialToken(dockerHost).then(function(token) {
+                return MiddlewareClient.getRootURL('http') + '/serial-console-app/#' + token;
+            });
+        }
+    },
+
+    startDockerHost: {
+        value: function(dockerHost) {
+            return this._vmRepository.startVm(dockerHost);
+        }
+    },
+
+    stopDockerHost: {
+        value: function(dockerHost, force) {
+            return this._vmRepository.stopVm(dockerHost);
+        }
+    },
+
+    killDockerHost: {
+        value: function(dockerHost, force) {
+            return this._vmRepository.stopVm(dockerHost, true);
+        }
+    },
+
+    rebootDockerHost: {
+        value: function(dockerHost) {
+            return this._vmRepository.rebootVm(dockerHost);
+        }
+    },
+
 
 });
