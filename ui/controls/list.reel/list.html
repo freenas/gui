@@ -9,7 +9,6 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "selectedObject": {"<->": "@repetition.selection.0"},
                 "content": {"<-": "@owner.controller.content"}
             }
         },
@@ -33,15 +32,14 @@
             }
         },
         "item": {
-            "prototype": "ui/controls/placeholder.reel",
+            "prototype": "./list-item.reel",
             "properties": {
                 "element": {"#": "item"}
             },
             "bindings": {
-                "moduleId": {"<-": "@owner.listItemModuleId"},
-                "component.index": {"<-": "@repetition:iteration.index"},
+                "index": {"<-": "@repetition:iteration.index"},
                 "object": {"<-": "@repetition:iteration.object"},
-                "component.showSubLabel": {"<-": "@owner.showSubLabel"}
+                "showSubLabel": {"<-": "@owner.showSubLabel"}
             }
         }
     }
