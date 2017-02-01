@@ -2,8 +2,7 @@
  * @module ui/table-row-port.reel
  */
 var Component = require("montage/ui/component").Component,
-    AlertClassId = require("core/model/enumerations/alert-class-id").AlertClassId,
-    AlertSeverity = require("core/model/enumerations/alert-severity").AlertSeverity;
+    AlertService = require("core/service/alert-service").AlertService;
 
 /**
  * @class TableRowPredicate
@@ -26,17 +25,23 @@ exports.TableRowPredicate = Component.specialize({
 
     templateDidLoad: {
         value: function () {
-            this.classValues = AlertClassId.members.map(function (x) {
-                return {
-                    label: x,
-                    value: x
-                };
+            var self = this;
+            this._service = AlertService.instance;
+            this._service.listAlertClasses().then(function (alertClasses) {
+                self.classValues = alertClasses.map(function (x) {
+                    return {
+                        label: x.id,
+                        value: x.id
+                    };
+                });
             });
-            this.severityValues = AlertSeverity.members.map(function (x) {
-                return {
-                    label: x,
-                    value: x
-                };
+            this._service.listAlertSeverities().then(function (alertSeverities) {
+                self.severityValues = alertSeverities.map(function (x) {
+                    return {
+                        label: x,
+                        value: x
+                    };
+                });
             });
         }
     }

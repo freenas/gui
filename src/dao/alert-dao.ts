@@ -10,5 +10,13 @@ export class AlertDao extends AbstractDao {
     public dismiss(alert: any): Promise<any> {
         return this.middlewareClient.callRpcMethod('alert.dismiss', [alert.id]);
     }
+
+    public listAlertClasses(): Promise<Array<any>> {
+    	return this.middlewareClient.callRpcMethod('alert.get_alert_classes');
+    }
+
+    public listAlertSeverities(): Promise<Array<any>> {
+    	return this.middlewareClient.callRpcMethod('alert.get_alert_severities');
+    }
 }
 
