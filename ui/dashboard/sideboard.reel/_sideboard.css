@@ -3,19 +3,14 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    background-color: var(--black);
+    background-color: var(--primary--8);
+    border-left: 1px solid var(--separator-color);
     width: 15em;
     overflow: hidden;
     transition: margin .5s cubic-bezier(.7,0,.3,1);
     will-change: margin;
 
-    &.is-collapsed {
-        margin-right: -11.2em;
-    }
-
-    @nest .drawer-is-open & {
-        margin-right: 0;
-    }
+    &.is-collapsed { margin-right: -11.2em; }
 }
 
 
@@ -28,9 +23,6 @@
 
     @nest .is-collapsed & {
         transform: translateX(4em);
-    }
-    @nest .drawer-is-open & {
-        transform: translateX(0);
     }
 }
 
@@ -47,9 +39,7 @@
     flex-direction: column;
 }
 
-.Sideboard-widgets {
-    flex: 1;
-}
+.Sideboard-widgets { flex: 1; }
 
 .Sideboard-toggleSideboard {
     position: absolute;
@@ -58,7 +48,6 @@
     height: 2em;
     width:  2em;
     border-radius: 4px;
-    background: var(--grey-blue-1);
     padding: .3em;
     outline: none;
     border-color: transparent;
@@ -67,35 +56,25 @@
     opacity: 1;
     transition: transform .5s cubic-bezier(.7,0,.3,1);
     z-index: 1;
-    box-shadow: 0 0 2px 2px rgba(0,0,0,.5);
+    border: 1px solid var(--primary--3);
 
-    @nest .drawer-is-open & {
-        visibility: hidden;
-        opacity: 0;
-    }
-
-    @nest .is-collapsed & {
-        transform: translateX(-4em);
-    }
+    @nest .is-collapsed & { transform: translateX(-4em); }
 
     &:hover {
         color: var(--white);
-        background: color(var(--grey-blue-1) lightness(30%));
+        background-color: var(--primary--4);
     }
 }
 
-/* expands toggle hit area*/
+/* expands toggle hit area - hacky */
 .Sideboard.is-collapsed .Sideboard-toggleSideboard:before {
     position: absolute;
     content: '';
-    top: 0;
-    left: 0;
+    top: -100vh;
+    left: -1rem;
     /* matches width of collapsed sideboard */
     width: 3.7em;
-    bottom: 0;
-}
-
-.Sideboard-toggleSideboard:hover {
+    bottom: -1rem;
 }
 
 .Sideboard .Sideboard-toggleSideboard svg {
