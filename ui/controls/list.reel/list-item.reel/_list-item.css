@@ -11,27 +11,20 @@
     position: relative;
     border-top:     1px solid var(--transparent--lighten);
     border-bottom:  1px solid var(--transparent--lighten);
-    background-color: var(--grey-blue);
+    background-color: var(--primary--6);
     transition: background-color .25s, color .25s, border-color .25s;
 
     &:hover {
-        background-color: color(var(--grey-blue) shade(20%));
-        color: var(--main-text-color);
+        background-color: var(--primary--4);
+        color: var(--white);
     }
-}
 
-/* States ---------------------------------- */
-
-.ListItem.selected {
-    background: var(--color-selected);
-    cursor: default;
-    color: var(--main-text-color);
-    border-color: transparent;
-
-    /* @nest .CascadingListItem:not(:nth-last-child(2)) & {
-        background:     color(var(--color-selected) shade(15%));
-        border-color:   color(var(--color-selected) shade(15%));
-    } */
+    &.selected {
+        background: var(--color-selected);
+        cursor: default;
+        color: var(--white);
+        border-color: transparent;
+    }
 }
 
 .ListItem + .ListItem,
@@ -62,6 +55,8 @@
         color: var(--main-text-color);
     }
 }
+
+/* Icon */
 
 .ListItem-icon > * {
     width:  1.9em;
