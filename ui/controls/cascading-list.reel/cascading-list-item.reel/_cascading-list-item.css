@@ -2,8 +2,8 @@
     display: flex;
     flex-direction: column;
     position: relative;
-    font-family: 'lato';
-    border-right: 1px solid var(--transparent--lighten);
+    border-right: 1px solid var(--separator-color);
+    background-color: var(--primary--7);
 }
 
 .CascadingListItem-header {
@@ -13,10 +13,11 @@
     align-items: center;
     flex-shrink: 0;
     justify-content: space-between;
-    height:  3em;
-    padding: 0 1em;
-    background-color: var(--black);
-    border-bottom: 1px solid var(--grey);
+    height:  calc(3rem - 1px);
+    font-size: 1.25rem;
+    padding: 0 1rem;
+    background-color: var(--primary);
+    border-bottom: 1px solid var(--separator-color);
 
     & button {
         color: var(--white);
@@ -44,7 +45,7 @@
     text-overflow: ellipsis;
     font-size: 1em;
     font-weight: 400;
-    text-shadow: 0 1px var(--shadow-1);
+    letter-spacing: .35px;
 }
 
 .CascadingListItem-content {
