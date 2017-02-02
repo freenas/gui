@@ -82,7 +82,7 @@
             },
             "bindings": {
                 "value": {"<->": "@owner.object._ipAddress.address"},
-                "disabled": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp"},
+                "readonly": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp"},
                 "placeholder": {"<-": "!@owner.object.dhcp ? 'eg. 1.2.3.4' : ''"}
             }
         },
@@ -98,7 +98,7 @@
             },
             "bindings": {
                 "value": {"<->": "@owner.object._ipAddress.netmask"},
-                "disabled": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp"},
+                "readonly": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp"},
                 "placeholder": {"<-": "!@owner.object.dhcp ? 'eg. 255.255.255.0' : ''"}
             }
         },
@@ -121,7 +121,7 @@
             },
             "bindings": {
                 "value": {"<->": "@owner.object._ipv6Address.address"},
-                "disabled": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp || @owner.object.rtadv"},
+                "readonly": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp || @owner.object.rtadv"},
                 "placeholder": {"<-": "!@owner.object.rtadv ? 'eg. fda8:06c3:ce53:a890:0000:0000:0000:0005' : ''"}
             }
         },
@@ -148,7 +148,7 @@
             },
             "bindings": {
                 "value": {"<->": "@owner.object._ipv6Address.netmask"},
-                "disabled": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp || @owner.object.rtadv"},
+                "readonly": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp || @owner.object.rtadv"},
                 "placeholder": {"<-": "!@owner.object.rtadv ? 'eg. 64' : ''"}
             }
         },
