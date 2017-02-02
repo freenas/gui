@@ -10,8 +10,8 @@
 .SectionRoot-overview {
     position: relative;
     max-height: 15em;
+
     @apply --flex-column;
-    background: var(--grey);
 
     &:after {
         position: absolute;
@@ -19,8 +19,8 @@
         bottom: 0;
         left: 0;
         right: 0;
-        height: 1em;
-        background-image: linear-gradient(rgba(47, 50, 51, 0), rgba(47, 50, 51, 1));
+        height: 1.5rem;
+        background-image: linear-gradient( color(var(--primary--7) a(0%)) , var(--primary--7) 90%);
     }
 
     & > :first-child {
