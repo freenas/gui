@@ -29,7 +29,7 @@ export class SystemUiDao extends AbstractDao {
                     )
                 ), methodDescriptor);
             if (update || (args && args.length > 0)) {
-                return this.middlewareClient.submitTask('system.advanced.update', [update]);
+                return this.middlewareClient.submitTask('system.ui.update', [update]);
             }
         });
     }
