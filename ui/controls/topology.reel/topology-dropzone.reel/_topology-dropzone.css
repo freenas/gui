@@ -1,5 +1,4 @@
 .TopologyDropZone {
-    color: var(--transparent--lighten);
     border-radius: 4px;
 
     &:after {
@@ -28,8 +27,8 @@
         left:   0;
         right:  0;
         bottom: 0;
-        border: 1px dashed currentColor;
-        background-image: repeating-linear-gradient(-45deg, color(var(--color-selected) a(20%)), color(var(--color-selected) a(20%)) 1px, transparent 1px, transparent 10px);
+        border: 2px dashed currentColor;
+        background-image: repeating-linear-gradient(-45deg, color(var(--accent) a(70%)), color(var(--accent) a(70%)) 1px, transparent 1px, transparent 10px);
         background-size: 28px 28px;
     }
 
@@ -41,7 +40,7 @@
     }
 
     &.willAcceptDrop:before {
-        border: 1px dashed var(--color-selected);
+        border: 1px dashed var(--accent);
         animation: blink 1s infinite ease;
     }
 
@@ -51,10 +50,10 @@
     }
 
     &.acceptDrop:before {
-        border: 1px dashed var(--color-selected);
-        background-image: repeating-linear-gradient(-45deg, color(var(--color-selected) a(75%)), color(var(--color-selected) a(75%)) 1px, transparent 1px, transparent 10px);
+        border: 1px dashed var(--accent);
+        background-image: repeating-linear-gradient(-45deg, color(var(--accent) a(85%)), color(var(--accent) a(85%)) 1px, transparent 1px, transparent 10px);
         background-size: 28px 28px;
-        background-color: rgba(43,156,216,0.1);
+        background-color: color(var(--accent) a(20%));
     }
 
     &.acceptDrop:after {
