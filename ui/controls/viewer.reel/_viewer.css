@@ -5,10 +5,10 @@
 .Viewer > .Scrollview .Scrollview-transform { display: block; }
 
 .Viewer-header {
-    display: none;
-    flex-shrink: 0;
-    flex-wrap: wrap;
-    background: var(--grey-blue-1);
+    height: 3rem;
+    border-bottom: 1px solid var(--separator-color);
+    background-color: var(--primary);
+    display: flex;
 }
 
 .Viewer-footer { flex-shrink: 0; }
@@ -16,50 +16,25 @@
 /* Title */
 
 .Viewer-title {
+    flex: 1;
     padding: .5em 1em;
     line-height: 2em;
     flex-shrink: 0;
     font-size: 1em;
     overflow: hidden;
+    font-weight: 400;
     white-space: nowrap;
     text-overflow: ellipsis;
-    background-color: var(--black);
-    text-shadow: 0 1px var(--shadow-1);
-    font-weight: 400;
 }
 
 /* Create */
 
 .Viewer-createButton {
+    padding: 0 .5rem;
     display: flex;
     align-items: center;
-    height:         3em;
-    line-height:    3em;
-    padding-left:   1em;
-    position: relative;
     cursor: pointer;
-    overflow: hidden;
-    position: relative;
-    outline: none;
-    background-color: var(--green);
-    color: var(--grey-3);
-    background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,.15));
-    transition: background-color .25s;
-
-    &:hover { background-color: color(var(--green) shade(15%)); }
-
-    & svg {
-        width:  1.4em;
-        height: 1.4em;
-        align-self: center;
-    }
-}
-
-.Viewer-createButton-arrow,
-.Viewer-createButton-plus {
-    display: flex;
-    margin-right: .5em;
-    color: var(--grey-3);
+    color: var(--green);
 }
 
 .Viewer-createButton-plus {
@@ -67,25 +42,20 @@
     width:  1.8em;
     height: 1.8em;
     padding: .25em;
-    border-radius: 1em;
-}
+    border-radius: 50%;
+    transition: background-color .25s;
 
-.Viewer-createButton-label {
-    flex: 1;
-    font-size: 1em;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    text-shadow: 0 1px 1px var(--shadow-1);
-}
+    @nest .Viewer-createButton:hover & {
+        background-color: var(--green);
+        border-color:     var(--green);
+        color: var(--white);
+    }
 
-
-.Viewer-createButton:hover > * { color: var(--white); }
-
-.selected > .Viewer-createButton {
-    background-color: var(--color-selected);
-    cursor: default;
-    color: var(--white);
+    @nest .Viewer-createButton:focus & {
+        background-color: var(--green);
+        border-color:     var(--green);
+        color: var(--white);
+    }
 }
 
 .Viewer-listItem + .Viewer-listItem { border-top: none; }
@@ -98,19 +68,9 @@
     color: var(--white);
 }
 
-/* Empty State */
-.Viewer-emptyState {
-    text-align: center;
-    background-color: var(--grey);
-    @nest .Viewer.has-items & {
-        display: none;
-    }
-}
 
-.Viewer-emptyMessage {
-    display: inline-block;
-    max-width: 15em;
-    padding: 1em 1em;
+.Viewer-emptyPanel {
+    max-width: 14rem;
 }
 
 /* Controls */
@@ -120,7 +80,7 @@
     padding: 0 1em;
     display: flex;
     align-items: center;
-    background: var(--grey);
+    background: var(--primary--4);
 
     & .montage-Slot {
         flex: 1;
