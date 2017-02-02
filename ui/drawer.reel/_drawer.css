@@ -3,7 +3,7 @@
 }
 
 .Drawer {
-    background-color: var(--black);
+    background-color: var(--primary--9);
     user-select: none;
     display: none;
     position: relative;
@@ -14,8 +14,7 @@
         left: 0;
         right: 0;
         top: 0;
-        height: 14.5em;
-        box-shadow: 0 -4px 6px var(--shadow-1);
+        height: 12em;
     }
 }
 
@@ -71,13 +70,13 @@
 
     & svg {
         position: absolute;
-        top: calc(50% - 2.5em);
+        top:  calc(50% - 2.5em);
         left: calc(50% - 2.5em);
         height: 5em;
         width:  5em;
         padding: 1.25em;
         color: var(--main-text-color);
-        background: var(--red);
+        background-color: var(--red);
         border-radius: 50%;
         box-shadow: 0px 0px 3px 4px var(--shadow-1);
     }
@@ -90,7 +89,7 @@
     align-items: center;
     height: var(--drawer-header-height);
     padding: 0 1rem;
-    background-color: var(--grey-blue);
+    background-color: var(--primary--6);
 }
 
 .Drawer-close {
@@ -105,8 +104,6 @@
 .Drawer-title {
     font-size: 1em;
     margin: 0;
-    color: var(--main-text-color);
-    font-weight: 200;
 }
 
 .Drawer-items {
