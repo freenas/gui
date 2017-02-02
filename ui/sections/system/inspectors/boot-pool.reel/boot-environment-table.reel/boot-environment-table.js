@@ -90,16 +90,18 @@ exports.BootEnvironmentTable = Component.specialize({
                     promises.push(rowPromise);
                 }
 
-                Promise.all(promises).then(function(response){
-                    for (i = 0; i < selectedRows.length; i++) {
-                        selectedRows[i].object.promise = null;
+                Promise.all(promises).then(function(taskSubmissions){
+                    var taskPromises = [];
+                    for (i = 0; i < taskSubmissions.length; i++) {
+                        taskPromises.push(taskSubmissions[i].taskPromise);
                     }
-                    for (i = 0; i < response.length; i++) {
-                        response[i].promise = null;
-                    }
+                    Promise.all(taskPromises).then(function(response) {
+                        for (i = 0; i < selectedRows.length; i++) {
+                            selectedRows[i].object.promise = null;
+                        }
+                    });
                 });
             }
-
         }
     },
 

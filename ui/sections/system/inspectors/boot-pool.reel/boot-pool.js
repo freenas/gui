@@ -1,6 +1,8 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
     Promise = require("montage/core/promise").Promise,
+    ModelEventName = require("core/model-event-name").ModelEventName,
+    DataObjectChangeService = require("core/service/data-object-change-service").DataObjectChangeService,
     _ = require('lodash');
     
 exports.BootPool = AbstractInspector.specialize(/** @lends BootPool# */ {
@@ -16,11 +18,22 @@ exports.BootPool = AbstractInspector.specialize(/** @lends BootPool# */ {
                 this._bootEnvironmentService = this.application.bootEnvironmentService;
                 this._systemService = this.application.systemService;
                 this._eventDispatcherService = EventDispatcherService.getInstance();
-                this._subscribeToDiskAllocationUpdates();
+                this._dataObjectChangeService = new DataObjectChangeService();
+                this._subscribeToEventListeners();
             }
 
             this._populateComponentIfNeeded();
         }
+    },
+
+    exitDocument: {
+       value: function() {
+          this._eventDispatcherService.removeEventListener('AvailableDisksChanged', this.availableDisksListener);
+          this._eventDispatcherService.removeEventListener('BootDisksChanged', this.bootDisksListener);
+          this._eventDispatcherService.removeEventListener(ModelEventName.BootEnvironment.listChange, this.bootEnvironmentListener);
+          this.bootEnvironments = null;
+          this.bootVolume = null;
+       }
     },
 
     bootEnvironments: {
@@ -35,16 +48,23 @@ exports.BootPool = AbstractInspector.specialize(/** @lends BootPool# */ {
         value: null
     },
 
-    _subscribeToDiskAllocationUpdates: {
+    _handleBootEnvironmentChange: {
+        value: function(state) {
+            this._dataObjectChangeService.handleDataChange(this.bootEnvironments, state);
+        }
+    },
+
+    _subscribeToEventListeners: {
         value: function() {
             var self = this;
 
-            this._eventDispatcherService.addEventListener('AvailableDisksChanged', function(data) {
+            this.availableDisksListener = this._eventDispatcherService.addEventListener('AvailableDisksChanged', function(data) {
                 self._extractAvailableDisks(data.valueSeq().toJS());
             });
-            this._eventDispatcherService.addEventListener('BootDisksChanged', function(data) {
+            this.bootDisksListener = this._eventDispatcherService.addEventListener('BootDisksChanged', function(data) {
                 self._bootDisks = data.valueSeq().toJS();
             });
+            this.bootEnvironmentListener = this._eventDispatcherService.addEventListener(ModelEventName.BootEnvironment.listChange, this._handleBootEnvironmentChange.bind(this));
         }
     },
 
