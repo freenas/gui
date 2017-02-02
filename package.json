@@ -18,6 +18,7 @@
     "moment-timezone": "^0.5.11",
     "montage": "freenas/montage#9d75a5cced0b80b9370de5e9fe2ef0d45d3dfd8e",
     "montage-data": "montagestudio/montage-data#647f5208fcefbc89c405d1afea205c8184fddeda",
+    "numeral": "^2.0.4",
     "plottable": "~2.7.0",
     "redux": "^3.6.0",
     "systemjs": "^0.19.41",

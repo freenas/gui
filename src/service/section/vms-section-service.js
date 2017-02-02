@@ -10,7 +10,9 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
     VmDeviceVolumeType = require("core/model/enumerations/vm-device-volume-type").VmDeviceVolumeType,
     VmDatastoreNfsVersion = require("core/model/enumerations/vm-datastore-nfs-version").VmDatastoreNfsVersion,
     VmRepository = require("core/repository/vm-repository").VmRepository,
+    VmDatastoreRepository = require("core/repository/VmDatastoreRepository").VmDatastoreRepository,
     VolumeRepository = require("core/repository/volume-repository").VolumeRepository,
+    DiskRepository = require("core/repository/disk-repository").DiskRepository,
     NetworkRepository = require("core/repository/network-repository").NetworkRepository,
     BytesService = require("core/service/bytes-service").BytesService,
     ConsoleService = require("core/service/console-service").ConsoleService,
@@ -119,7 +121,9 @@ exports.VmsSectionService = AbstractSectionService.specialize({
     init: {
         value: function() {
             this._vmRepository = VmRepository.getInstance();
+            this._vmDatastoreRepository = VmDatastoreRepository.getInstance();
             this._volumeRepository = VolumeRepository.getInstance();
+            this._diskRepository = DiskRepository.getInstance();
             this._networkRepository = NetworkRepository.getInstance();
             this._consoleService = ConsoleService.instance;
             this._bytesService = BytesService.instance;
@@ -149,13 +153,31 @@ exports.VmsSectionService = AbstractSectionService.specialize({
 
     loadExtraEntries: {
         value: function() {
-            return Promise.all([this._vmRepository.listDatastores()]);
+            return Promise.all([this._vmDatastoreRepository.list()]);
         }
     },
 
     listVolumes: {
         value: function() {
             return this._volumeRepository.listVolumes();
+        }
+    },
+
+    listDisks: {
+        value: function() {
+            return this._vmDatastoreRepository.listDiskTargetsWithType('DISK');
+        }
+    },
+
+    listBlocksInDatastore: {
+        value: function(datastoreId) {
+            return this._vmDatastoreRepository.listDiskTargetsWithTypeInDatastore('BLOCK', datastoreId)
+        }
+    },
+
+    listFilesInDatastore: {
+        value: function(datastoreId) {
+            return this._vmDatastoreRepository.listDiskTargetsWithTypeInDatastore('FILE', datastoreId)
         }
     },
 

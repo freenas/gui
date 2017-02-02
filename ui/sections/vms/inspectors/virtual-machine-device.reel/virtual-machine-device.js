@@ -21,6 +21,7 @@ exports.VirtualMachineDevice = AbstractInspector.specialize({
                     if (!object.properties) {
                         object.properties = {};
                     }
+                    object.properties._vm = object._vm;
                 }
             }
         }

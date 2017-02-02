@@ -3,7 +3,6 @@ import {Model} from '../model';
 import {Map} from 'immutable';
 import {ModelEventName} from '../model-event-name';
 import {VmDao} from '../dao/vm-dao';
-import {VmDatastoreDao} from '../dao/vm-datastore-dao';
 import {VmConfigDao} from '../dao/vm-config-dao';
 import {VmTemplateDao} from '../dao/vm-template-dao';
 import {VmReadmeDao} from '../dao/vm-readme-dao';
@@ -63,7 +62,6 @@ export class VmRepository extends AbstractRepository {
 
 
     private constructor(private vmDao: VmDao,
-                        private vmDatastoreDao: VmDatastoreDao,
                         private vmConfigDao: VmConfigDao,
                         private vmTemplateDao: VmTemplateDao,
                         private vmReadmeDao: VmReadmeDao,
@@ -84,7 +82,6 @@ export class VmRepository extends AbstractRepository {
         if (!VmRepository.instance) {
             VmRepository.instance = new VmRepository(
                 new VmDao(),
-                new VmDatastoreDao(),
                 new VmConfigDao(),
                 new VmTemplateDao(),
                 new VmReadmeDao(),
@@ -99,10 +96,6 @@ export class VmRepository extends AbstractRepository {
 
     public listVms() {
         return this.vms ? Promise.resolve(this.vms.valueSeq().toJS()) : this.vmDao.list();
-    }
-
-    public listDatastores() {
-        return this.vmDatastores ? Promise.resolve(this.vmDatastores.valueSeq().toJS()) : this.vmDatastoreDao.list();
     }
 
     public getVmSettings() {
@@ -241,26 +234,6 @@ export class VmRepository extends AbstractRepository {
 
     public saveVmSettings(vmSettings: any) {
         return this.vmConfigDao.save(vmSettings.config);
-    }
-
-    public getNewVmDatastoreForType(type) {
-        return this.vmDatastoreDao.getNewInstance().then((datastore) => {
-            datastore.id = uuid.v4();
-            datastore._tmpId = type;
-            datastore.type = type;
-            return VmRepository.setDatastoreDefaultProperties(datastore);
-        });
-    }
-
-    private static setDatastoreDefaultProperties(datastore) {
-        datastore.properties = datastore.properties || {};
-        datastore.properties['%type'] = datastore.properties['%type'] || 'vm-datastore-' + datastore.type.toLowerCase();
-        switch (datastore.type) {
-            case 'NFS':
-                datastore.properties.version = datastore.properties.version || 'NFSV3';
-                break;
-        }
-        return datastore;
     }
 
     protected handleStateChange(name: string, state: any) {
