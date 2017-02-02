@@ -46,11 +46,11 @@ export class DatastoreService {
         });
     }
 
-    public stream(type: string, methodName: string, idPath: string, middlewareCriteria?: Array<any>) {
+    public stream(type: string, methodName: string, idPath: string, minimumItems?: number, middlewareCriteria?: Array<any>) {
         // TODO: count rpc call in order to have the total of object for a type (LIMIT: 2000)
         return this.middlewareClient.callRpcMethod(methodName, middlewareCriteria).then((message) => {
             let streamId = message.id,
-                stream = this.getDefaultStreamObject(type, streamId, idPath);
+                stream = this.getDefaultStreamObject(type, streamId, idPath, minimumItems);
 
             this.store.dispatch({
                 type: ACTIONS.SAVE_STREAM,
@@ -64,7 +64,7 @@ export class DatastoreService {
         });
     }
 
-    private getDefaultStreamObject (type, streamId, idPath) {
+    private getDefaultStreamObject (type, streamId, idPath, minimumItems?: number) {
         return {
             type: type,
             streamId: streamId,
@@ -72,6 +72,7 @@ export class DatastoreService {
             startSequence: 1,
             endSequence: 1,
             lastSequence: 1,
+            minimumItems: minimumItems,
             reachEnd: false,
             data: []
         };
@@ -113,15 +114,22 @@ export class DatastoreService {
                     .set('reachEnd', false)
                     .set('data', data);
 
+        let payload = stream.toJS();
+
         this.store.dispatch({
             type: ACTIONS.SAVE_STREAM,
             meta: {
                 type: message.id
             },
-            payload: stream.toJS()
+            payload: payload
         });
 
-        // FIXME: remove automatic fetching once the ui would have been updated.
+        var minimumItems = stream.get('minimumItems');
+
+        if (typeof minimumItems === 'number' && payload.length >= minimumItems) {
+            return stream;
+        }
+
         return this.getNextSequenceForStream(stream.get('streamId'));
     }
 

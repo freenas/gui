@@ -59,8 +59,8 @@ export class AbstractDao<T extends AbstractDataObject> {
             });
     }
 
-    public stream(): Promise<Map<string, any>> {
-        return this.datastoreService.stream(this.objectType, this.queryMethod, this.idPath);
+    public stream(minimumItems?: number) {
+        return this.datastoreService.stream(this.objectType, this.queryMethod, this.idPath, minimumItems);
     }
 
     public get(): Promise<T> {
