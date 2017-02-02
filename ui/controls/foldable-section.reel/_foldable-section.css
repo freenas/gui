@@ -33,6 +33,7 @@ title
     align-items: baseline;
     color: inherit;
     padding: 0 1em;
+    transition: color .25s ease-in-out;
 
     &:focus:before {
         content: '';
@@ -55,7 +56,7 @@ title
         transition: color .25s ease-in-out;
     }
 
-    &:hover svg { color: var(--white); }
+    &:hover { color: var(--white); }
 }
 
 
@@ -103,7 +104,13 @@ edits internal titles
     padding: 0;
 }
 
-.FoldableSection-contentContainer { padding: 1em 0; }
+.FoldableSection-contentContainer {
+    padding: 1em 0;
+
+    @nest .FoldableSection.is-expanded & {
+        border-bottom: 1px solid var(--primary--3);
+    }
+}
 .FoldableSection-contentContainer > *:last-child,
 .FoldableSection-contentContainer > *:last-child .Field {
     margin-bottom: 0;
