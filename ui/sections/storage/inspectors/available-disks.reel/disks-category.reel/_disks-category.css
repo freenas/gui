@@ -8,8 +8,6 @@
     }
 
     & .Scrollview-transform { display: none;}
-
-    &:last-child .Button { background-color: color(var(--grey-blue-1) l(11%));}
 }
 
 .AvailableDisksCategory-toggle.Button {
@@ -17,8 +15,10 @@
     text-align: left;
     height: 2rem;
     line-height: 2rem;
-    background: var(--grey-blue);
+    background: var(--primary--7);
     cursor: pointer;
+    border-bottom: 1px solid var(--primary--8);
+    color: var(--main-text-color);
 
     & .Button-content {
         display: flex;
@@ -27,7 +27,8 @@
     }
 
     &:hover {
-        background-color: color(var(--grey-blue-1) l(15%));
+        background-color: color(var(--primary--8) shade(3%));
+        color: var(--white);
     }
 
     & svg {
@@ -66,8 +67,8 @@
 }
 
 .AvailableDisksCategory.acceptDrop:before {
-    border-color: var(--blue-lighten-2);
-    background-color: color(var(--blue-lighten-2) a(10%));
+    border-color: var(--accent);
+    background-color: color(var(--accent) a(10%));
 }
 
 .AvailableDisksCategory .GridItem.unhealthy .Grid-icon.LabeledIcon {
