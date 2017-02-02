@@ -1,5 +1,5 @@
 .Topology {
-    border-bottom: 1px solid var(--grey-blue);
+    border-bottom: 1px solid var(--primary--4);
 
     /* log & cache */
     & .flex-row > * {
