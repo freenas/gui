@@ -16,12 +16,17 @@
                 "value": "Edit Dashboard"
             }
         },
+        "drawer": {
+            "prototype": "ui/drawer.reel",
+            "properties": {
+                "element": {"#": "drawer"}
+            }
+        },
         "widgetDropzone": {
             "prototype": "ui/dashboard/widget-dropzone.reel",
             "properties": {
                 "element": {"#": "widget-dropzone"},
-                "widgetsPath": "dashboardContext.widgets",
-                "title": "Dashboard"
+                "widgetsPath": "dashboardContext.widgets"
             }
         }
     }
@@ -32,6 +37,7 @@
         <main>
             <div data-montage-id="widget-dropzone"></div>
         </main>
+        <div data-montage-id="drawer"></div>
         <button data-montage-id="openDrawerButton" class="Dashboard-openDrawerButton"></button>
     </div>
 </body>
