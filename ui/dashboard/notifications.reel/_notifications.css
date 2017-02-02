@@ -9,7 +9,6 @@
     position: relative;
     display: flex;
     align-items: center;
-    background-color: var(--grey);
     padding: .5em;
     border-top-right-radius: 2px;
     border-top-left-radius:  2px;
@@ -19,7 +18,6 @@
     position: relative;
     z-index: 1;
     flex: 1;
-    background-color: var(--main-bg-color);
     transition: transform .5s cubic-bezier(.7,0,.3,1);
 }
 
@@ -33,6 +31,7 @@
     top:  50%;
     transform: translateY(-50%);
     line-height: 1rem;
+
+    &.is-hidden { display: none; }
 }
 
-.Notifications-emptyState.is-hidden { display: none; }
