@@ -1,7 +1,6 @@
 .Calendar {
     flex: 1;
     display: flex;
-    background: var(--main-bg-color);
 }
 
 .Calendar-wrapper {
@@ -17,14 +16,13 @@
 }
 
 .Calendar-events-header {
-    border-bottom: 1px solid var(--transparent--lighten);
+    border-bottom: 1px solid var(--primary);
     flex-shrink: 0;
     padding-bottom: .25em;
 }
 
 .Calendar-events h2 {
     margin: 0;
-    color: var(--grey-2);
 }
 
 .Calendar-eventsList {

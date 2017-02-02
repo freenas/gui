@@ -25,7 +25,6 @@
     }
 
     &.is-today {
-        background: var(--transparent--darken);
         box-shadow: 0 0 8px 2px var(--shadow-1);
 
         @nest .DayView & {

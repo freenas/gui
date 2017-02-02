@@ -4,20 +4,21 @@
     flex: 1;
     position: relative;
     letter-spacing: .5px;
-    color: rgba(255,255,255,.75);
     cursor: pointer;
     font-size: .8em;
     padding: 0 .75em;
+    transition: background-color    .25s ease-in-out,
+                color               .25s ease-in-out;
+
+    &:hover {
+        color: var(--white);
+        background-color: var(--primary);
+    }
 }
 
-.MainNavigationItem:hover {
-    color: rgba(255,255,255, 1);
-    background: rgba(0,0,0,.1);
-}
 
 .MainNavigationItem.selected {
     color: var(--white);
-    text-shadow: 0 1px 0 rgba(0,0,0,.5);
     background-color: var(--color-selected);
 }
 
