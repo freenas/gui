@@ -10,14 +10,13 @@
     left:   0;
     right:  0;
     bottom: 0;
-    background-color: var(--black);
-    background-image: radial-gradient(color(var(--color-selected) a(30%)), color(var(--black) a(50%)) 50%);
-    background-repeat: no-repeat;
-    background-position: center;
+    background-color: var(--primary--9);
     z-index: 1000;
     transition: visibility .75s, opacity .25s .5s;
+}
 
-    @nest .montage-Overlay--visible & { opacity: 1; }
+.montage-Overlay--visible .SignIn {
+    opacity: 1;
 }
 
 .SignIn-content {
@@ -25,32 +24,32 @@
     padding: 2em;
     width: 20em;
     background-size: 310px 195px;
-    background-image: url(../../assets/images/bg.png);
+    background-color: var(--primary--7);
     transform: scale(0);
     border-radius: 4px;
     transition: transform .75s cubic-bezier(.62,-0.45,.93,.81);
     overflow: hidden;
-
-    /* needed to fix background-image bleed on border radius */
-
-    &:before {
-        background-color: rgba(255, 255, 255, .075);
-        position: absolute;
-        content: '';
-        top:    0;
-        left:   0;
-        right:  0;
-        bottom: 0;
-        z-index: -1;
-    }
-
-    /* error state */
-    @nest .SignIn.had-error &           { animation: denied .5s ease-in-out; }
-
-    /* visible state */
-    @nest .montage-Overlay--visible &   { transform: scale(1); }
-
 }
+
+/* needed to fix background-image bleed on border radius */
+
+.SignIn-content:before {
+    position: absolute;
+    content: '';
+    top:    0;
+    left:   0;
+    right:  0;
+    bottom: 0;
+    z-index: -1;
+}
+
+/* error state */
+
+.SignIn.had-error .SignIn-content { animation: denied .5s ease-in-out; }
+
+/* visible state */
+
+.montage-Overlay--visible .SignIn-content { transform: scale(1); }
 
 /* Logo */
 
@@ -84,6 +83,25 @@
         position: relative;
         overflow: hidden;
     }
+}
+
+/* field message */
+
+.field-message {
+    display: none;
+}
+
+/* error states*/
+
+.SignIn.hasError .field-message {
+    color: rgba(255,0,0,.8);
+    display: block;
+    margin-bottom: 1em;
+}
+
+.field.field-hasError input {
+    border: 1px solid rgba(255,0,0,.8);
+    background: rgba(255,0,0,.075);
 }
 
 /* Error Message */
