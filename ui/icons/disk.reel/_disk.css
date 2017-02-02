@@ -27,14 +27,14 @@
 
     &:hover:before { border: 1px solid var(--grey-1); }
 
-    @nest .selected &:before { border: 1px solid var(--color-selected); }
+    @nest .selected &:before { border: 1px solid var(--accent); }
 
     &:active:before { border: 1px solid var(--color-selected); }
 }
 
 .DiskIcon-mediaSize {
-    background-color: var(--blue-lighten-1);
-    color: var(--grey-3);
+    background-color: var(--tertiary--9);
+    color: var(--white);
     font-size: .7em;
     border-bottom-left-radius:  2px;
     border-bottom-right-radius: 2px;
