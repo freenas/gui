@@ -30,7 +30,7 @@ exports.BootPool = AbstractInspector.specialize(/** @lends BootPool# */ {
        value: function() {
           this._eventDispatcherService.removeEventListener('AvailableDisksChanged', this.availableDisksListener);
           this._eventDispatcherService.removeEventListener('BootDisksChanged', this.bootDisksListener);
-          this._eventDispatcherService.removeEventListener(ModelEventName.bootEnvironments.listChange, this.bootEnvironmentListener);
+          this._eventDispatcherService.removeEventListener(ModelEventName.BootEnvironment.listChange, this.bootEnvironmentListener);
           this.bootEnvironments = null;
           this.bootVolume = null;
        }
