@@ -8,6 +8,19 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "hasContent": {"<-": "!!@volumes.content.length"}
+            }
+        },
+        "emptyPanel": {
+            "prototype": "blue-shark/ui/panel.reel",
+            "properties": {
+                "element": {"#": "emptyPanel"},
+                "message": "No attached volumes."
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "@owner.hasContent"}
             }
         },
         "scrollView": {
@@ -41,6 +54,16 @@
             "bindings": {
                 "object": {"<-": "@volumes:iteration.object"}
             }
+        },
+        "content": {
+            "prototype": "montage/ui/component",
+            "properties": {
+                "element": {"#": "content"},
+                "hasTemplate": "false"
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "!@owner.hasContent"}
+            }
         }
     }
     </script>
@@ -48,10 +71,11 @@
 <body>
     <div data-montage-id="owner" class="Overview">
         <div data-montage-id="scrollView">
-            <div>
-                <div class="Overview-content">
+            <div class="g-padding">
+                <div data-montage-id="emptyPanel"></div>
+                <div data-montage-id="content">
                     <div data-montage-id="volumesSectionTitle" class="flush-top"></div>
-                    <div data-montage-id="volumes" class="g-margin-bottom">
+                    <div data-montage-id="volumes">
                         <div data-montage-id="volume"></div>
                     </div>
                 </div>
