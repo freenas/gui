@@ -12,8 +12,6 @@
     left:   0;
     right:  0;
     bottom: 0;
-    background-color: color(var(--black) a(85%));
-    background-image: radial-gradient(color(var(--color-selected) a(20%)), color(var(--black) a(50%)) 50%);
     z-index: 1000;
     transition: opacity .25s .5s;
 }
