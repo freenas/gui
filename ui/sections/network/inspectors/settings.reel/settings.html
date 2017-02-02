@@ -99,11 +99,10 @@
             }
         },
         "dhcp_settings": {
-            "prototype": "ui/controls/foldable-section.reel",
+            "prototype": "ui/controls/inspector-section-title.reel",
             "properties": {
                 "element": {"#": "dhcp_settings"},
-                "title": "DHCP Settings",
-                "isExpanded": true
+                "value": "DHCP Settings"
             }
         },
         "dhcp_assign_gateway": {
@@ -126,12 +125,11 @@
                 "checked": {"<->": "@owner.object.settings.config.dhcp.assign_dns"}
             }
         },
-        "gatewaySettingsSection": {
-            "prototype": "ui/controls/foldable-section.reel",
+        "gateway": {
+            "prototype": "ui/controls/inspector-section-title.reel",
             "properties": {
-                "element": {"#": "gatewaySettingsSection"},
-                "title": "Gateway Settings",
-                "isExpanded": true
+                "element": {"#": "gateway"},
+                "value": "Gateway Settings"
             }
         },
         "gatewayIpv4": {
@@ -238,14 +236,12 @@
         <div data-montage-id="inspector">
             <div data-montage-id="hostname"></div>
             <div data-montage-id="http_proxy"></div>
-            <div data-montage-id="dhcp_settings">
-                <div data-montage-id="dhcp_assign_gateway"></div>
-                <div data-montage-id="dhcp_assign_dns"></div>
-            </div>
-            <div data-montage-id="gatewaySettingsSection">
-                <div data-montage-id="gatewayIpv4"></div>
-                <div data-montage-id="gatewayIpv6"></div>
-            </div>
+            <div data-montage-id="dhcp_settings"></div>
+            <div data-montage-id="dhcp_assign_gateway"></div>
+            <div data-montage-id="dhcp_assign_dns"></div>
+            <div data-montage-id="gateway"></div>
+            <div data-montage-id="gatewayIpv4"></div>
+            <div data-montage-id="gatewayIpv6"></div>
             <div data-montage-id="dns_settings">
                 <div data-montage-id="dns_search"></div>
                 <div data-montage-id="dns_addresses"></div>
