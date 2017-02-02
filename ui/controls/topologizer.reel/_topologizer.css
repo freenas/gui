@@ -3,7 +3,6 @@
     position: relative;
     user-select: none;
     padding: 1em;
-    background: var(--transparent--darken);
 }
 
 .Topologizer-legend {
