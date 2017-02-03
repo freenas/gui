@@ -4,7 +4,7 @@ import {Map} from 'immutable';
 import {AbstractDao} from '../dao/abstract-dao';
 
 export abstract class AbstractModelRepository extends AbstractRepository {
-    private localState: Map<string, Map<string, any>>;
+    protected localState: Map<string, Map<string, any>>;
     private modelEventName: ModelEventName;
 
     protected constructor(protected dao: AbstractDao) {
