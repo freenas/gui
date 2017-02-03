@@ -25,6 +25,10 @@ export class DockerContainerDao extends AbstractDao {
         return this.middlewareClient.submitTask('docker.container.stop', [container.id]);
     }
 
+    public restart(container: any) {
+        return this.middlewareClient.submitTask('docker.container.restart', [container.id]);
+    }
+
     public generateMacAddress() {
         return this.middlewareClient.callRpcMethod("vm.generate_mac");
     }

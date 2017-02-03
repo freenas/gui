@@ -181,6 +181,12 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         }
     },
 
+    restartContainer: {
+        value: function(container) {
+            return this._dockerContainerRepository.restartContainer(container);
+        }
+    },
+
     stopContainer: {
         value: function(container) {
             return this._dockerContainerRepository.stopContainer(container);

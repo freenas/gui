@@ -23,6 +23,17 @@
             }
         },
 
+        "restart": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "restart"},
+                "value": "Restart"
+            },
+            "bindings": {
+                "disabled": {"<-": "!@start.disabled"}
+            }
+        },
+
         "stop": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
@@ -349,6 +360,7 @@
         <div data-montage-id="inspector">
             <div class="g-margin-bottom">
                 <div data-montage-id="start"></div>
+                <div data-montage-id="restart"></div>
                 <div data-montage-id="stop"></div>
                 <div data-montage-id="serialConsole"></div>
                 <div data-montage-id="webUI"></div>

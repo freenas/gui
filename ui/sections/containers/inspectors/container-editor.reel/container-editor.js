@@ -48,6 +48,12 @@ exports.ContainerEditor = AbstractInspector.specialize({
         }
     },
 
+    handleRestartAction: {
+        value: function() {
+            this._sectionService.restartContainer(this.object);
+        }
+    },
+
     handleStartAction: {
         value: function() {
             this._sectionService.startContainer(this.object);
