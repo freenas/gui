@@ -135,7 +135,6 @@ var SignIn = exports.SignIn = Component.specialize({
                 this.application.dataService.loginWithCredentials(this.userName, password).then(function () {
                     self.isLoggedIn = true;
                     self.application.applicationModal.hide(self);
-                    self.application.sessionService.sessionDidOpen(self.userName);
 
                     // Don't keep any track of the password in memory.
                     self.password = self.userName = null;

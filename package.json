@@ -15,6 +15,7 @@
     "lodash": "^4.17.2",
     "maphilight": "~1.2.3",
     "marked": "^0.3.6",
+    "moment": "^2.17.1",
     "moment-timezone": "^0.5.11",
     "montage": "freenas/montage#9d75a5cced0b80b9370de5e9fe2ef0d45d3dfd8e",
     "montage-data": "montagestudio/montage-data#647f5208fcefbc89c405d1afea205c8184fddeda",

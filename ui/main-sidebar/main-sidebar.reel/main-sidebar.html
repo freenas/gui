@@ -46,7 +46,7 @@
                 "element": {"#": "username"}
             },
             "bindings": {
-                "value": {"<-": "@owner.application.sessionService.session.username"}
+                "value": {"<-": "!!@owner.session && @owner.session.username"}
             }
         },
         "logout": {
