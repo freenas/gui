@@ -5,5 +5,5 @@ export interface TreeController {
     parent: Entry;
     root: string;
 
-    open(selectedPath: string);
+    open(selectedPath?: string);
 }

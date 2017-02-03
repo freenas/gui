@@ -10,7 +10,7 @@ export class StaticTreeController implements TreeController {
 
     public entries: Array<Entry>;
 
-    public open(selectedPath: string) {
+    public open(selectedPath?: string) {
         this.parent = {
             name: '/',
             path: '/',
