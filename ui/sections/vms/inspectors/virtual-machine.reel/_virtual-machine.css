@@ -9,3 +9,7 @@
         margin-left: .5em;
     }
 }
+
+.VirtualMachine.has-actions .VirtualMachine-actions {
+    display: flex;
+}
