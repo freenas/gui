@@ -3,6 +3,8 @@ import {ModelEventName} from '../model-event-name';
 
 import * as uuid from 'uuid';
 import * as _ from 'lodash';
+import {LoginInfo} from '../model/LoginInfo';
+import {Events} from '../Events';
 
 export class MiddlewareClient {
     private REQUEST_TIMEOUT = 90000;
@@ -69,10 +71,10 @@ export class MiddlewareClient {
         }).then(() => {
             this.url = MiddlewareClient.getHost();
             this.user = login;
-            this.eventDispatcherService.dispatch('SessionOpened', {
+            this.eventDispatcherService.dispatch(Events.userLoggedIn, ({
                 url: this.url,
-                user: this.user
-            });
+                username: this.user
+            } as LoginInfo));
             this.state = MiddlewareClient.OPEN;
             this.dispatchConnectionStatus();
             return this.state;

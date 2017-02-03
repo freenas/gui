@@ -2,64 +2,79 @@ var Component = require("montage/ui/component").Component,
     SystemService = require("core/service/system-service").SystemService,
     EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
     ModelEventName = require("core/model-event-name.js").ModelEventName,
-    MiddlewareClient = require("core/service/middleware-client").MiddlewareClient;
+    Events = require('core/Events').Events,
+    moment = require('moment'),
+    _ = require('lodash');
 
 exports.CurrentUserSummary = Component.specialize({
+    _intervalTimeInSec: {
+        value: 10
+    },
 
-    dotRegEx: {
-        value: /\./g
+    _updatePerSec: {
+        value: 2
     },
 
     datePattern: {
-        value: "MM/DD/YYYY"
+        value: SystemService.SHORT_DATE_FORMATS[0]
     },
 
     timePattern: {
-        value: "hh:mm:ss A"
+        value: SystemService.MEDIUM_TIME_FORMATS[0]
     },
 
-    _synchronizeClockTimeoutId: {
+    _timeUpdateIntervalId: {
         value: null
     },
 
-    _synchronizeClockIntervalId: {
+    _localUpdatesCount: {
+        value: -1
+    },
+
+    _remoteTimePromise: {
         value: null
     },
 
-    _intervalTime: {
-        value: 10 // sec
-    },
-
-    eventDispatcherService: {
-        get: function() {
-            if (!this._eventDispatcherService) {
-                this._eventDispatcherService = EventDispatcherService.getInstance();
-            }
-            return this._eventDispatcherService;
+    templateDidLoad: {
+        value: function() {
+            this.eventDispatcherService = EventDispatcherService.getInstance();
+            this.systemService = SystemService.getInstance();
+            this.eventDispatcherService.addEventListener(Events.sessionOpened, this._handleOpenedSession.bind(this));
+            this.now = new Date();
+            this._updatePeriod = 1000 / this._updatePerSec;
         }
     },
 
-    _sessionDidOpen: {
-        value: false
+    enterDocument: {
+        value: function () {
+        }
+    },
+
+    exitDocument: {
+        value: function () {
+            if (this._timeUpdateIntervalId) {
+                clearInterval(this._timeUpdateIntervalId);
+                this._timeUpdateIntervalId = null;
+            }
+        }
     },
 
     _loadUserSettings: {
         value: function(user) {
-            if (user.attributes.userSettings) {
+            if (user.attributes.userSettings && _.includes(SystemService.MEDIUM_TIME_FORMATS, user.attributes.userSettings.timeFormatMedium)) {
                 this.datePattern = user.attributes.userSettings.dateFormatShort || this.datePattern;
-                this.timePattern = user.attributes.userSettings.timeFormatLong || this.timePattern;
+                this.timePattern = user.attributes.userSettings.timeFormatMedium || this.timePattern;
             }
         }
     },
 
     _handleOpenedSession: {
-        value: function() {
-            var self = this;
-            this.application.accountsService.findUserWithName(this.middlewareClient.user).then(function(user) {
-                self._loadUserSettings(user);
-                self.userPreferencesEventListener = self.eventDispatcherService.addEventListener(ModelEventName.User.change(user.id), self._handleUserChange.bind(self));
-            });
-            this._sessionDidOpen = true;
+        value: function(session) {
+            this.user = session.user.username;
+            this.url = session.url;
+            this._loadUserSettings(session.user);
+            this._startTimeUpdate();
+            this.eventDispatcherService.addEventListener(ModelEventName.User.change(session.user.id), this._handleUserChange.bind(this));
         }
     },
 
@@ -69,87 +84,26 @@ exports.CurrentUserSummary = Component.specialize({
         }
     },
 
-    templateDidLoad: {
+    _startTimeUpdate: {
         value: function() {
-            this.middlewareClient = MiddlewareClient.getInstance();
-            this.systemService = SystemService.getInstance();
-            this.eventDispatcherService.addEventListener("SessionOpened", this._handleOpenedSession.bind(this));
+            this._timeUpdateIntervalId = setInterval(this._updateTime.bind(this), this._updatePeriod);
         }
     },
 
-    _loadTime: {
+    _updateTime: {
         value: function() {
             var self = this;
-            return this._sessionDidOpen ?
-                self.systemService.getTime().then(function (time) {
-                    return new Date(time.system_time.$date);
-                }) :
-                Promise.resolve(new Date());
-        }
-    },
-
-    enterDocument: {
-        value: function (isFirstTime) {
-            if (isFirstTime) {
-
-                // Bind a function in order to avoid to create several time this function.
-                this._timeChangetimeoutCallBack = (function (initial) {
-                    var self = this;
-                    this._loadTime().then(function (now) {
-                        var seconds = now.getSeconds(),
-                            timeLag = seconds % self._intervalTime;
-
-                        now.setSeconds(seconds + (
-                            initial ? -timeLag : timeLag > self._intervalTime / 2 ? self._intervalTime - timeLag : -timeLag
-                        ));
-                        now.setMilliseconds(0);
-
-                        self.now = now;
+            if (!this._remoteTimePromise) {
+                if (++this._localUpdatesCount % (this._intervalTimeInSec * this._updatePerSec) === 0) {
+                    this._remoteTimePromise = this.systemService.getTime().then(function(time) {
+                        self.now = new Date(time.system_time.$date);
+                        self._remoteTimePromise = null;
+                        self._localUpdatesCount = 0;
                     });
-                }).bind(this);
+                } else {
+                    this.now = moment(this.now).add(this._updatePeriod, 'ms').toDate();
+                }
             }
-            this._synchronizeTime();
-        }
-    },
-
-    exitDocument: {
-        value: function () {
-            if (this._synchronizeClockTimeoutId) {
-                clearTimeout(this._synchronizeClockTimeoutId);
-                this._synchronizeClockTimeoutId = null;
-            }
-
-            if (this._synchronizeClockIntervalId) {
-                clearInterval(this._synchronizeClockIntervalId);
-                this._synchronizeClockIntervalId = null;
-            }
-        }
-    },
-
-    _synchronizeTime: {
-        value: function () {
-            var now = new Date(),
-                timeRemainingBeforeSync = ((this._intervalTime - (now.getSeconds() % this._intervalTime)) * 1000) - now.getMilliseconds();
-
-            this._timeChangetimeoutCallBack(true);
-
-            if (timeRemainingBeforeSync === this._intervalTime * 1000) {
-                this._setIntervalTime();
-
-            } else {
-                var self = this;
-                this._synchronizeClockTimeoutId = setTimeout(function () {
-                    self._timeChangetimeoutCallBack();
-                    self._setIntervalTime();
-                }, timeRemainingBeforeSync);
-            }
-        }
-    },
-
-    _setIntervalTime: {
-        value: function () {
-            this._synchronizeClockIntervalId = setInterval(this._timeChangetimeoutCallBack, this._intervalTime * 1000);
         }
     }
-
 });

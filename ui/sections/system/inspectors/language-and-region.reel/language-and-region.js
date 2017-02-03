@@ -1,4 +1,5 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    SystemService = require('core/service/system-service').SystemService,
     moment = require("moment-timezone"),
     _      = require("lodash");
 
@@ -98,13 +99,13 @@ exports.LanguageAndRegion = AbstractInspector.specialize({
                     self.isLoading = false;
                 });
                 var today = new Date();
-                this.dateFormatShortOptions = this.generateDateFormatConvertedList(today, this.shortDateFormats);
-                this.dateFormatMediumOptions = this.generateDateFormatConvertedList(today, this.mediumDateFormats);
-                this.dateFormatLongOptions = this.generateDateFormatConvertedList(today, this.longDateFormats);
-                this.dateFormatFullOptions = this.generateDateFormatConvertedList(today, this.fullDateFormats);
-                this.timeFormatShortOptions = this.generateDateFormatConvertedList(today, this.shortTimeFormats);
-                this.timeFormatMediumOptions = this.generateDateFormatConvertedList(today, this.mediumTimeFormats);
-                this.timeFormatLongOptions = this.generateDateFormatConvertedList(today, this.longTimeFormats);
+                this.dateFormatShortOptions = this.generateDateFormatConvertedList(today, SystemService.SHORT_DATE_FORMATS);
+                this.dateFormatMediumOptions = this.generateDateFormatConvertedList(today, SystemService.MEDIUM_DATE_FORMATS);
+                this.dateFormatLongOptions = this.generateDateFormatConvertedList(today, SystemService.LONG_DATE_FORMATS);
+                this.dateFormatFullOptions = this.generateDateFormatConvertedList(today, SystemService.FULL_DATE_FORMATS);
+                this.timeFormatShortOptions = this.generateDateFormatConvertedList(today, SystemService.SHORT_TIME_FORMATS);
+                this.timeFormatMediumOptions = this.generateDateFormatConvertedList(today, SystemService.MEDIUM_TIME_FORMATS);
+                this.timeFormatLongOptions = this.generateDateFormatConvertedList(today, SystemService.LONG_TIME_FORMATS);
                 this.firstDayOfWeekOptions = _.map(moment.weekdays(), function(day, index) {
                     return {
                         label: day,

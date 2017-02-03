@@ -1,9 +1,8 @@
-var Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component,
+    EventDispatcherService = require('core/service/event-dispatcher-service').EventDispatcherService,
+    SystemService = require('core/service/system-service').SystemService,
+    Events = require('core/Events').Events;
 
-/**
- * @class MainSidebar
- * @extends Component
- */
 exports.MainSidebar = Component.specialize({
 
     confirmationMessage: {
@@ -31,21 +30,9 @@ exports.MainSidebar = Component.specialize({
 
     templateDidLoad: {
         value: function() {
-            this._systemService = this.application.systemService;
-        }
-    },
-
-    enterDocument: {
-        value: function (isFirstTime) {
-            if (isFirstTime) {
-                if (!this.application.sessionService.session) {
-                    this.application.sessionService.session = {
-                        username: ''
-                    };
-                }
-
-                this.session = this.application.sessionService.session;
-            }
+            this.eventDispatcherService = EventDispatcherService.getInstance();
+            this._systemService = SystemService.getInstance();
+            this.eventDispatcherService.addEventListener(Events.sessionOpened, this._handleSessionOpened.bind(this))
         }
     },
 
@@ -101,6 +88,12 @@ exports.MainSidebar = Component.specialize({
             if (this._confirmationDeferred) {
                 this._confirmationDeferred.resolve(false);
             }
+        }
+    },
+
+    _handleSessionOpened: {
+        value: function(session) {
+            this.session = session;
         }
     },
 
