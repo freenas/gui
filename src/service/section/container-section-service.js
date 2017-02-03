@@ -331,13 +331,6 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         }
     },
 
-    getSerialConsoleUrl: {
-        value: function(dockerHost) {
-            return this._vmRepository.getSerialToken(dockerHost).then(function(token) {
-                return MiddlewareClient.getRootURL('http') + '/serial-console-app/#' + token;
-            });
-        }
-    },
 
     startDockerHost: {
         value: function(dockerHost) {
