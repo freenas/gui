@@ -389,7 +389,9 @@ export class MiddlewareClient {
                         break;
                 }
             } else if (message.namespace === 'events' && message.name === 'event') {
-                this.handleEvent(message);
+                this.handleEvent(message.args.name, message.args);
+            } else if (message.namespace === 'events' && message.name === 'event_burst') {
+                this.handleEventBurst(message.args.events);
             }
         } catch (error) {
             console.warn('[' + url + '] Unable to handle message: -' + event.data + '-');
@@ -422,11 +424,19 @@ export class MiddlewareClient {
         }
     }
 
-    private handleEvent(message: any) {
-        if (_.startsWith(message.args.name, 'entity-subscriber.')) {
-            this.eventDispatcherService.dispatch('middlewareModelChange', message.args.args);
-        } else if (_.startsWith(message.args.name, 'statd.')) {
-            this.eventDispatcherService.dispatch('statsChange', message.args);
+    private handleEvent(name: string, event: any) {
+        if (_.startsWith(name, 'entity-subscriber.')) {
+            this.eventDispatcherService.dispatch('middlewareModelChange', event.args);
+        } else if (_.startsWith(name, 'statd.')) {
+            this.eventDispatcherService.dispatch('statsChange', event);
+        }
+    }
+
+    private handleEventBurst(events: Array<any>) {
+        if (events && events.length > 0) {
+            _.forEach(events, event => {
+                this.handleEvent(event.name, event);
+            });
         }
     }
 
