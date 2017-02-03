@@ -10,6 +10,9 @@
 .SectionRoot-overview {
     position: relative;
     max-height: 15em;
+    /* margin overrides for inspector spacing */
+    margin: -1rem;
+    margin-bottom: 0;
 
     @apply --flex-column;
 

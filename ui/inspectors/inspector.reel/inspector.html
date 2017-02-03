@@ -79,12 +79,23 @@
                 "confirmDeleteMessage": {"<-": "!!@owner.confirmDeleteMessage ? @owner.confirmDeleteMessage : 'Are you sure you want to delete ' + @owner.context.object.path(@owner.context.userInterfaceDescriptor.nameExpression)"},
                 "extraDeleteFlags": {"<-": "@owner.extraDeleteFlags"}
             }
+        },
+        "title": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "title"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.context.object.path(@owner.context.userInterfaceDescriptor.nameExpression)"},
+                "classList.has('is-hidden')": {"<-": "!@owner.hasHeader"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="Inspector">
+        <div data-montage-id="title" class="Inspector-header"></div>
         <div data-montage-id="errorMessage" class="Inspector-error"></div>
         <div class="Inspector-locked">
             <div data-montage-id="lockMessage"></div>
@@ -92,7 +103,7 @@
         <div data-montage-id="confirmationMessage" class="Inspector-confirmationMessage"></div>
         <div data-montage-id="scrollView">
             <div data-montage-id="loading" class="Inspector-loading"></div>
-            <div class="Inspector-body">
+            <div data-montage-id="body" class="Inspector-body">
                 <div data-param="*"></div>
             </div>
             <div data-montage-id="footer" class="Inspector-footer">

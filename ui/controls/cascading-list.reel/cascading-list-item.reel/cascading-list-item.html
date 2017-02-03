@@ -22,25 +22,7 @@
                 }
             ]
         },
-        "title": {
-            "prototype": "blue-shark/ui/text.reel",
-            "properties": {
-                "element": {"#": "title"}
-            },
-            "bindings": {
-                "value": {"<-": "@owner.isCollection ? path(@owner.userInterfaceDescriptor.collectionNameExpression) : @owner.object.path(@owner.userInterfaceDescriptor.nameExpression)"}
-            }
-        },
-        "helpButton": {
-            "prototype": "blue-shark/ui/button.reel",
-            "properties": {
-                "element": {"#": "helpButton"},
-                "value": "Help"
-            },
-            "bindings": {
-                "classList.has('is-visible')": {"<-": "@helpMessage.value"}
-            }
-        },
+
         "content": {
             "prototype": "ui/controls/placeholder.reel",
             "properties": {
@@ -80,14 +62,14 @@
 </head>
 <body>
     <div data-montage-id="owner" class="CascadingListItem">
-        <div class="CascadingListItem-header">
+ <!--        <div class="CascadingListItem-header">
             <div data-montage-id="title" class="CascadingListItem-title"></div>
             <div class="CascadingListItem-controls">
                 <button data-montage-id="helpButton" class="CascadingListItem-controls-help Button--naked Button--icon">
                     <svg><use xlink:href="#i-help"/></svg>
                 </button>
             </div>
-        </div>
+        </div> -->
         <div class="CascadingListItem-help">
             <div data-montage-id="scrollview">
                 <div class="CascadingListItem-help-message">
@@ -100,3 +82,23 @@
     </div>
 </body>
 </html>
+<!--
+        "title": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "title"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.isCollection ? path(@owner.userInterfaceDescriptor.collectionNameExpression) : @owner.object.path(@owner.userInterfaceDescriptor.nameExpression)"}
+            }
+        }, -->
+ <!--            "helpButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "helpButton"},
+                "value": "Help"
+            },
+            "bindings": {
+                "classList.has('is-visible')": {"<-": "@helpMessage.value"}
+            }
+        }, -->

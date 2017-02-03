@@ -1,5 +1,6 @@
 .InspectorOption {
     outline: none;
+    margin: 0 -1rem;
 
     & > * {
         border-top:     1px solid var(--transparent--lighten);

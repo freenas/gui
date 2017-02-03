@@ -47,23 +47,23 @@
                 "overflow": "scrollY"
             }
         },
+        "headerCondition": {
+            "prototype": "montage/ui/component",
+            "properties": {
+                "element": {"#": "headerCondition"},
+                "hasTemplate": false
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "!@title.value.length"}
+            }
+        },
         "title": {
             "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "title"}
             },
             "bindings": {
-                "value": {"<-": "@owner.title ?? @owner.userInterfaceDescriptor.collectionNameExpression.slice(1,-1)"},
-                "classList.has('is-hidden')": {"<-": "!value.length"}
-            }
-        },
-        "headerCondition": {
-            "prototype": "montage/ui/condition.reel",
-            "properties": {
-                "element": {"#": "headerCondition"}
-            },
-            "bindings": {
-                "condition": {"<-": "@owner.displayTitle"}
+                "value": {"<-": "@owner.title ?? @owner.userInterfaceDescriptor.collectionNameExpression.slice(1,-1)"}
             }
         },
         "emptyPanel": {
@@ -101,13 +101,11 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Viewer">
-        <div data-montage-id="headerCondition">
-            <div class="Viewer-header">
-                <div data-montage-id="title" class="Viewer-title"></div>
-                <div data-montage-id="createButton" class="Viewer-createButton">
-                    <div class="Viewer-createButton-plus">
-                        <svg><use xlink:href="#i-plus"/></svg>
-                    </div>
+        <div data-montage-id="headerCondition" class="Viewer-header">
+            <div data-montage-id="title" class="Viewer-title"></div>
+            <div data-montage-id="createButton" class="Viewer-createButton">
+                <div class="Viewer-createButton-plus">
+                    <svg><use xlink:href="#i-plus"/></svg>
                 </div>
             </div>
         </div>

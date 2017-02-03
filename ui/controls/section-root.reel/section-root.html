@@ -22,8 +22,7 @@
             },
             "bindings": {
                 "object": {"<-": "@owner.object.overview"},
-                "moduleId": {"<-": "@owner.object.overview.defined() && 'ui/sections/' + @owner.object.id + '/inspectors/overview.reel'"},
-                "classList.has('hide')": {"<-": "!@owner.object.overview"}
+                "moduleId": {"<-": "@owner.object.overview.defined() && 'ui/sections/' + @owner.object.id + '/inspectors/overview.reel'"}
             }
         },
         "entries": {
@@ -69,17 +68,29 @@
             "bindings": {
                 "value": {"<-": "@owner._disabledMessage"}
             }
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"}
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"},
+                "hasHeader": {"<-": "!!@overview.moduleId"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="SectionRoot">
+        <div data-montage-id="inspector">
         <div data-montage-id="overview" class="SectionRoot-overview"></div>
         <div data-montage-id="entries" class="SectionRoot-entries"></div>
         <div data-montage-id="extraEntries" class="SectionRoot-extraEntries"></div>
         <div data-montage-id="settings"></div>
         <div data-montage-id="disabledMessage" class="SectionRoot-disabledMessage"></div>
+        </div>
     </div>
 </body>
 </html>

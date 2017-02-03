@@ -1,14 +1,19 @@
 .Viewer  {
     min-width: 16em;
+    /* compensates for inspector */
+    @nest .Inspector & {
+        margin: 0 -1em;
+    }
 }
 
 .Viewer > .Scrollview .Scrollview-transform { display: block; }
 
 .Viewer-header {
-    height: 3rem;
+    height: calc(3rem - 1px);
     border-bottom: 1px solid var(--separator-color);
     background-color: var(--primary);
     display: flex;
+    flex-shrink: 0;
 }
 
 .Viewer-footer { flex-shrink: 0; }

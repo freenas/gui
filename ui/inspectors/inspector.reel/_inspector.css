@@ -11,12 +11,30 @@
     &.confirmation-is-visible { position: initial; }
 }
 
+.Inspector-header {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    justify-content: space-between;
+    height:  calc(3rem - 1px);
+    /* font-size: 1.25rem; */
+    padding: 0 1rem;
+    background-color: var(--primary);
+    border-bottom: 1px solid var(--separator-color);
+
+    & button {
+        color: var(--white);
+    }
+}
+
 .Inspector-body {
     margin: 1em;
 
-    & .ListItem {
+    /* & .ListItem {
         margin: 0 -1em;
-    }
+    } */
 }
 
 .Inspector.is-loading .Inspector-body,
