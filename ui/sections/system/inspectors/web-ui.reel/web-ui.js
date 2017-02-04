@@ -25,9 +25,23 @@ exports.WebUi = AbstractInspector.specialize({
         value: null
     },
 
+    timeUnits: {
+        value: null
+    },
+
     _inspectorTemplateDidLoad: {
         value: function() {
             var self = this;
+            var units = ['secs', 'mins', 'hrs'];
+            this.timeUnits = _.map(
+                _.range(0, units.length),
+                function(i) {
+                    return {
+                        label: units[i],
+                        value: Math.pow(60, i)
+                    };
+                }
+            );
             return Promise.all([
                 this.application.systemService.getUi().then(function(uiData) {
                     self.config = uiData;
