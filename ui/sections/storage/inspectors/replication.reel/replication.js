@@ -1,29 +1,38 @@
-/**
- * @module ui/replication.reel
- */
-var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    _ = require('lodash');
 
-/**
- * @class Replication
- * @extends AbstractInspector
- */
-exports.Replication = AbstractInspector.specialize(/** @lends Replication# */ {
+exports.Replication = AbstractInspector.specialize({
+    transferSpeedUnits: {
+        value: null
+    },
+
+    _inspectorTemplateDidLoad: {
+        value: function() {
+            var units = ['B/s', 'KB/s', 'MB/s', 'GB/s', 'TB/s', 'PB/s', 'EB/s', 'ZB/s', 'YB/s'];
+            this.transferSpeedUnits = _.map(
+                _.range(0, units.length),
+                function(i) {
+                    return {
+                        label: units[i],
+                        value: Math.pow(1024, i)
+                    };
+                }
+            );
+            this._calendarService = this.application.calendarService;
+            this._replicationService = this.application.replicationService;
+            this._peeringService = this.application.peeringService;
+
+            return this._peeringService.list().then(function(peers) {
+                self.peers = peers;
+            });
+        }
+    },
 
     enterDocument: {
         value: function(isFirstTime) {
-            var self = this;
-
-            if (isFirstTime) {
-                this._calendarService = this.application.calendarService;
-                this._replicationService = this.application.replicationService;
-                this._peeringService = this.application.peeringService;
-
-                this._peeringService.list().then(function(peers) {
-                    self.peers = peers;
-                    if (peers && peers.length && !self.object.slave) {
-                        self.object.slave = peers[0].id;
-                    }
-                });
+            this.super(isFirstTime);
+            if (this.peers && this.peers.length && !this.object.slave) {
+                this.object.slave = this.peers[0].id;
             }
 
             this._transportOptions = this._replicationService.extractTransportOptions(this.object);
