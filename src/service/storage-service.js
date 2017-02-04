@@ -164,19 +164,6 @@ var StorageService = exports.StorageService = Montage.specialize({
         }
     },
 
-    convertVolumeDatasetSizeProperties: {
-        value: function(dataset) {
-            if (dataset.type === "FILESYSTEM") {
-                dataset.properties.quota.parsed = this.convertSizeStringToBytes(dataset.properties.quota.value);
-                dataset.properties.refquota.parsed = this.convertSizeStringToBytes(dataset.properties.refquota.value);
-                dataset.properties.reservation.parsed = this.convertSizeStringToBytes(dataset.properties.reservation.value);
-                dataset.properties.refreservation.parsed = this.convertSizeStringToBytes(dataset.properties.refreservation.value);
-            } else {
-                dataset.volsize = this.convertSizeStringToBytes(dataset.volsize);
-            }
-        }
-    },
-
     /* First shalt thou identify the Holy Prefix, then shalt thou multiply by a
        power of 1024, no more, no less. 1024 shall be the number thou shalt
        exponentiate, and the number of the exponentiation shall be 1024. 1000

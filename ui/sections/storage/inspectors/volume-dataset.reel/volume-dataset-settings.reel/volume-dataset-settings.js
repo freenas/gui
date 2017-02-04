@@ -1,11 +1,15 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     COMPRESSION_OPTIONS = require("core/model/enumerations/volume-dataset-property-compression-value").VolumeDatasetPropertyCompressionValue,
     DEDUP_OPTIONS = require("core/model/enumerations/volume-dataset-property-dedup-value").VolumeDatasetPropertyDedupValue,
-    VOLBLOCKSIZE_OPTIONS = require("core/model/enumerations/volume-dataset-property-volblocksize-value").VolumeDatasetPropertyVolblocksizeValue;
+    VOLBLOCKSIZE_OPTIONS = require("core/model/enumerations/volume-dataset-property-volblocksize-value").VolumeDatasetPropertyVolblocksizeValue,
+    _ = require("lodash");
 
 var ATIME_OPTIONS = {on: true, off: false};
 
 exports.VolumeDatasetSettings = AbstractInspector.specialize({
+    sizeUnits: {
+        value: null
+    },
 
     volblocksizeDisplayMode: {
         value: null
@@ -73,6 +77,16 @@ exports.VolumeDatasetSettings = AbstractInspector.specialize({
 
     templateDidLoad: {
         value: function() {
+            var units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+            this.sizeUnits = _.map(
+                _.range(0, units.length),
+                function(i) {
+                    return {
+                        label: units[i],
+                        value: Math.pow(1024, i)
+                    };
+                }
+            );
             this.compressionOptions = this._initializePropertyOptions(COMPRESSION_OPTIONS);
             this.dedupOptions = this._initializePropertyOptions(DEDUP_OPTIONS);
             this.atimeOptions = this._initializePropertyOptions(ATIME_OPTIONS);
