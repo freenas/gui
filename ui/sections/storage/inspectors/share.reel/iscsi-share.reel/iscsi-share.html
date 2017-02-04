@@ -16,15 +16,16 @@
         },
 
         "extentSize": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-number-unit.reel",
             "properties": {
                 "element": {"#": "extentSize"},
-                "isMandatory": true,
                 "label": "Size"
             },
             "bindings": {
+                "units": {"<-": "@owner.sizeUnits"},
                 "value": {"<->": "@owner.object.properties.size"},
-                "classList.has('is-hidden')": {"<-": "@owner.object._target_type == 'FILE'"}
+                "isMandatory": {"<-": "@owner.object.target_type != 'FILE'"},
+                "classList.has('hide')": {"<-": "@owner.object.target_type == 'FILE'"}
             }
         },
 
@@ -36,7 +37,7 @@
             },
             "bindings": {
                 "checked": {"<->": "!!@owner.object.properties.refreservation"},
-                "classList.has('is-hidden')": {"<-": "@owner.object._target_type == 'FILE' || !@owner.object._isNew"}
+                "classList.has('is-hidden')": {"<-": "@owner.object.target_type == 'FILE' || !@owner.object._isNew"}
             }
         },
 

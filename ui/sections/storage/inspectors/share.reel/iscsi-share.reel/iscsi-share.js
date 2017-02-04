@@ -3,11 +3,10 @@ var AbstractShareInspector = require("../abstract-share-inspector").AbstractShar
     ShareIscsiBlocksize = require("core/model/enumerations/share-iscsi-blocksize").ShareIscsiBlocksize,
     _ = require("lodash");
 
-/**
- * @class IscsiShare
- * @extends Component
- */
 exports.IscsiShare = AbstractShareInspector.specialize({
+    sizeUnits: {
+        value: null
+    },
 
     _iscsiRpm: {
         value: null
@@ -36,6 +35,16 @@ exports.IscsiShare = AbstractShareInspector.specialize({
 
     templateDidLoad: {
         value: function () {
+            var units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+            this.sizeUnits = _.map(
+                _.range(0, units.length),
+                function(i) {
+                    return {
+                        label: units[i],
+                        value: Math.pow(1024, i)
+                    };
+                }
+            );
             this._sectionService.listNetworkInterfaces().then(function(networkInterfaces) {
                 self.networkInterfacesAliases = networkInterfaces;
             });
@@ -72,7 +81,6 @@ exports.IscsiShare = AbstractShareInspector.specialize({
                 this._object.__extent = this._object.__extent || {};
                 if (!this._object._isNew && !this._isTargetNameSelected) {
                     this._populateIscsiTargets();
-                    this._convertExtentSize();
                 }
             }
         }
@@ -174,14 +182,6 @@ exports.IscsiShare = AbstractShareInspector.specialize({
                     }
                 }
             });
-        }
-    },
-
-    _convertExtentSize: {
-        value: function () {
-            if (this.object.properties && typeof this.object.properties.size === "number") {
-                this.object.properties.size = this.application.bytesService.convertSizeToString(this.object.properties.size, this.application.bytesService.UNITS.B);
-            }
         }
     }
 
