@@ -29,8 +29,8 @@ exports.SerialConsole = AbstractInspector.specialize({
         value: function() {
             var self = this;
             this.serialSpeedOptions = _.concat(
-                [{label: "---", value: "none"}],
-                _.map(SystemAdvancedSerialspeed.members, function(speed) { return { label: speed, value: speed }; })
+                [{label: "---", value: null}],
+                _.map(SystemAdvancedSerialspeed.members, function(speed) { return { label: speed, value: _.toInteger(speed) }; })
             );
             return Promise.all([
                 this._sectionService.getSystemAdvanced(),
