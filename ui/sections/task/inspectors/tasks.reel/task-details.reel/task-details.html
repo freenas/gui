@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="task-details.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "name": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.name"}
+            }
+        },
+        "description": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "description"},
+                "label": "Description"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.description.message"}
+            }
+        },
+        "output": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "output"},
+                "label": "Output"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.output"}
+            }
+        },
+        "error": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "error"},
+                "label": "Error"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.error.message"}
+            }
+        },
+        "parent": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "parent"},
+                "label": "Parent ID"
+            },
+            "bindings": {
+                "value": {"<-": "!!@owner.object.parent ? !!@owner.object.parent : 'none'"}
+            }
+        },
+        "title": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+            "properties": {
+                "element": {"#": "title"},
+                "emptyTitle": "Task Details"
+            },
+            "bindings": {
+                "value": {"<-": "!!@owner.object.id ? 'Task #' + @owner.object.id : emptyTitle"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="TaskDetails">
+        <div data-montage-id="title"></div>
+        <div data-montage-id="name"></div>
+        <div data-montage-id="parent"></div>
+        <div data-montage-id="description"></div>
+        <div data-montage-id="error"></div>
+        <div data-montage-id="output"></div>
+    </div>
+</body>
+</html>
