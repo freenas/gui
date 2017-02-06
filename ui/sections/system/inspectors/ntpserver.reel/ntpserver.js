@@ -1,8 +1,10 @@
-var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    Units = require('core/Units');
 
 exports.Ntpserver = AbstractInspector.specialize({
     _inspectorTemplateDidLoad: {
         value: function() {
+            this.pollUnits = Units.SECONDS;
             this._ntpServerService = this.application.ntpServerService;
         }
     },

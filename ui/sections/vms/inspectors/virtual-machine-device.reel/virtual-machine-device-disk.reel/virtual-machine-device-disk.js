@@ -1,4 +1,5 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    Units = require('core/Units'),
     _ = require('lodash'),
     numeral = require('numeral');
 
@@ -21,16 +22,7 @@ exports.VirtualMachineDeviceDisk = AbstractInspector.specialize({
 
     _inspectorTemplateDidLoad: {
         value: function() {
-            var units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-            this.sizeUnits = _.map(
-                _.range(0, units.length),
-                function(i) {
-                    return {
-                        label: units[i],
-                        value: Math.pow(1024, i)
-                    };
-                }
-            );
+            this.sizeUnits = Units.BYTE_SIZES;
             this.blockModeOptions = this._sectionService.DISK_MODES;
             this.targetTypeOptions = this._sectionService.TARGET_TYPES;
         }

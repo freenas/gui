@@ -1,6 +1,7 @@
 var AbstractShareInspector = require("../abstract-share-inspector").AbstractShareInspector,
     ShareIscsiRpm = require("core/model/enumerations/share-iscsi-rpm").ShareIscsiRpm,
     ShareIscsiBlocksize = require("core/model/enumerations/share-iscsi-blocksize").ShareIscsiBlocksize,
+    Units = require('core/Units'),
     _ = require("lodash");
 
 exports.IscsiShare = AbstractShareInspector.specialize({
@@ -35,16 +36,7 @@ exports.IscsiShare = AbstractShareInspector.specialize({
 
     templateDidLoad: {
         value: function () {
-            var units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-            this.sizeUnits = _.map(
-                _.range(0, units.length),
-                function(i) {
-                    return {
-                        label: units[i],
-                        value: Math.pow(1024, i)
-                    };
-                }
-            );
+            this.sizeUnits = Units.BYTE_SIZES;
             this._sectionService.listNetworkInterfaces().then(function(networkInterfaces) {
                 self.networkInterfacesAliases = networkInterfaces;
             });

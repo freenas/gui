@@ -1,4 +1,5 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    Units = require('core/Units'),
     _ = require('lodash');
 
 exports.Replication = AbstractInspector.specialize({
@@ -8,16 +9,7 @@ exports.Replication = AbstractInspector.specialize({
 
     _inspectorTemplateDidLoad: {
         value: function() {
-            var units = ['B/s', 'KB/s', 'MB/s', 'GB/s', 'TB/s', 'PB/s', 'EB/s', 'ZB/s', 'YB/s'];
-            this.transferSpeedUnits = _.map(
-                _.range(0, units.length),
-                function(i) {
-                    return {
-                        label: units[i],
-                        value: Math.pow(1024, i)
-                    };
-                }
-            );
+            this.transferSpeedUnits = Units.TRANSFER_SPEED;
             this._calendarService = this.application.calendarService;
             this._replicationService = this.application.replicationService;
             this._peeringService = this.application.peeringService;
