@@ -5,7 +5,7 @@ var Validator = require("montage/core/converter/converter").Validator;
 
 exports.EmailValidator = Validator.specialize({
     EMAIL_REGEX: {
-        value: /^\b[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]*[a-zA-Z0-9]\.[a-zA-Z]{2,4}\b$/
+        value: /^\b[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]*[a-zA-Z0-9]\.[a-zA-Z]{2,}\b$/
     },
 
     errorMessage: {

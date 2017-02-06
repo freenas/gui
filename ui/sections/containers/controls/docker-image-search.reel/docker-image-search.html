@@ -49,7 +49,7 @@
                 ]
             },
             "bindings": {
-                "rows": {"<-": "@owner._templates"},
+                "rows": {"<-": "@owner._templates.sorted{name}"},
                 "isLoading": {"<-": "@owner._isSearchingDockerImages"}
             }
         }

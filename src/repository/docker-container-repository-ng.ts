@@ -41,6 +41,10 @@ export class DockerContainerRepository extends AbstractModelRepository {
         return this.dockerContainerDao.start(container);
     }
 
+    public restartContainer(container) {
+        return this.dockerContainerDao.restart(container);
+    }
+
     public stopContainer(container) {
         return this.dockerContainerDao.stop(container);
     }

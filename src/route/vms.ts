@@ -3,18 +3,23 @@ import {Model} from '../model';
 import {VmRepository} from '../repository/vm-repository';
 import {ModelEventName} from '../model-event-name';
 import * as _ from 'lodash';
+import {VmDatastoreRepository} from '../repository/VmDatastoreRepository';
 
 export class VmsRoute extends AbstractRoute {
     private static instance: VmsRoute;
 
-    private constructor(private vmRepository: VmRepository) {
+    private constructor(
+        private vmRepository: VmRepository,
+        private vmDatastoreRepository: VmDatastoreRepository
+    ) {
         super();
     }
 
     public static getInstance() {
         if (!VmsRoute.instance) {
             VmsRoute.instance = new VmsRoute(
-                VmRepository.getInstance()
+                VmRepository.getInstance(),
+                VmDatastoreRepository.getInstance()
             );
         }
         return VmsRoute.instance;
@@ -238,7 +243,7 @@ export class VmsRoute extends AbstractRoute {
                 path: parentContext.path + '/vm-datastore'
             };
         return Promise.all([
-            this.vmRepository.listDatastores(),
+            this.vmDatastoreRepository.list(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(datastores, uiDescriptor) {
             (datastores as any)._objectType = objectType;
@@ -283,7 +288,7 @@ export class VmsRoute extends AbstractRoute {
                 path: parentContext.path + '/create'
             };
         return Promise.all([
-            Promise.all(_.map(_.values(this.vmRepository.DATASTORE_TYPE), (type) => this.vmRepository.getNewVmDatastoreForType(type))),
+            Promise.all(_.map(_.values(this.vmRepository.DATASTORE_TYPE), (type) => this.vmDatastoreRepository.getNewVmDatastoreForType(type))),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(vmdatastores: Array<any>, uiDescriptor) {
             context.object = _.compact(vmdatastores);

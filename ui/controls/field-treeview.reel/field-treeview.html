@@ -43,9 +43,8 @@
             },
             "bindings": {
                 "placeholder": {"<-" : "@owner.placeholder || 'none'"},
-                "disabled": {"<-": "@owner.disabled || @owner.readOnly"},
+                "disabled": {"<-": "@owner.disabled || @owner.readOnly || @owner.isExpanded || !!@owner.isNotTypable"},
                 "value": {"<-": "!@owner.selectedPath ? '' : (@owner.selectedPath + (!!@owner.suffix ? '/' + @owner.suffix : '')).replace(@owner.removePrefix || '', '')"},
-                "disabled": {"<-": "@owner.isExpanded || !!@owner.isNotTypable"},
                 "delegate": {"<-": "@owner.pathInputDelegate"}
             }
         },
@@ -55,7 +54,6 @@
                 "element": {"#": "treeview"}
             },
             "bindings": {
-                "disabled": {"<-": "@owner.disabled"},
                 "controller": {"<-": "@owner.controller"},
                 "isExpanded": {"<->": "@owner.isExpanded"},
                 "selectedPath": {"<->": "@owner.selectedPath"},

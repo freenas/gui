@@ -1,3 +1,5 @@
+import {AbstractRepository} from './abstract-repository-ng';
+import {ModelEventName} from '../model-event-name';
 import {Map} from 'immutable';
 import {AbstractRepository} from './abstract-repository';
 import {ModelEventName} from '../model-event-name';
@@ -6,7 +8,7 @@ import {AbstractDataObject} from '../model/AbstractDataObject';
 import {SubmittedTask} from '../model/SubmittedTask';
 
 export abstract class AbstractModelRepository<T extends AbstractDataObject> extends AbstractRepository<T> {
-    private localState: Map<string, Map<string, any>>;
+    protected localState: Map<string, Map<string, any>>;
     private modelEventName: ModelEventName;
 
     protected constructor(protected dao: AbstractDao<T>) {
@@ -18,7 +20,7 @@ export abstract class AbstractModelRepository<T extends AbstractDataObject> exte
         return this.localState ? Promise.resolve(this.localState.valueSeq().toJS()) : this.dao.list();
     }
 
-    public save(object: T, args: Array<any>): Promise<SubmittedTask> {
+    public save(object: T, args?: Array<any>): Promise<SubmittedTask> {
         return this.dao.save(object, args);
     }
 

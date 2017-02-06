@@ -23,14 +23,14 @@
             }
         },
         "datasetTreeController": {
-            "prototype": "core/controller/dataset-tree-controller",
+            "prototype": "core/controller/tree/dataset-tree-controller",
             "bindings": {
                 "service": {"<-": "@owner.application.dataService"},
                 "root": {"<-": "@owner.object._volume.id"}
             }
         },
         "directoryTreeController": {
-            "prototype": "core/controller/filesystem-tree-controller",
+            "prototype": "core/controller/tree/filesystem-tree-controller",
             "properties": {
                 "canListFiles": false
             },
@@ -40,7 +40,7 @@
             }
         },
         "fileTreeController": {
-            "prototype": "core/controller/filesystem-tree-controller",
+            "prototype": "core/controller/tree/filesystem-tree-controller",
             "properties": {
                 "canListFiles": true
             },

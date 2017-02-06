@@ -7,6 +7,22 @@ var Component = require("montage/ui/component").Component,
  */
 exports.NetworkTraffic = Component.specialize({
 
+    _card: {
+        value: null
+    },
+
+    card: {
+        get: function() {
+            return this._card;
+        },
+        set: function(card) {
+            if (this._card !== card) {
+                this._card = card;
+                this.titleElement.args = { card: card };
+            }
+        }
+    },
+
     enterDocument: {
         value: function () {
             if (!this.interfaces) {

@@ -45,7 +45,7 @@
             },
             "bindings": {
                 "value": {"<-": "!!@owner.controller.parent && @owner.controller.parent.name.length < 10 ? @owner.controller.parent.name : 'Back'"},
-                "disabled": {"<-": "!!!@owner.controller.parent"}
+                "disabled": {"<-": "!@owner.controller.parent"}
             }
         },
         "cancel": {

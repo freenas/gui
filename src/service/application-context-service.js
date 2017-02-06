@@ -3,7 +3,8 @@ var Montage = require("montage").Montage,
     application = require("montage/core/application").application,
     FreeNASService = require("core/service/freenas-service").FreeNASService,
     WidgetService = require("core/service/widget-service").WidgetService,
-    Promise = require("montage/core/promise").Promise;
+    EventDispatcherService = require('core/service/event-dispatcher-service').EventDispatcherService,
+    Events = require('core/Events').Events;
 
 
 var ApplicationContextService = exports.ApplicationContextService = Montage.specialize({
@@ -17,11 +18,6 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
     handleUserLogged: {
         value: function () {
             var self = this;
-
-            // Do we still need this? - hans
-            // window.nativeAddEventListener("beforeunload", function () {
-            //     self.save();
-            // });
         }
     },
 
@@ -59,18 +55,11 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
 
     findCurrentUser: {
         value: function () {
-            var sessionUsername = application.sessionService.session.username,
-                self = this,
+            var self = this,
                 currentUser;
-
-            if (sessionUsername) {
-                if (this._currentUser && this._currentUser.username === sessionUsername) {
-                    return Promise.resolve(this._currentUser);
-                }
-
-                this._currentUser = null;
-
-                return this._accountRepository.findUserWithName(sessionUsername).then(function (user) {
+            return (this._currentUser) ?
+                Promise.resolve(this._currentUser) :
+                this._currentUserPromise.then(function (user) {
                     currentUser = user;
 
                     if (user.attributes && user.attributes.dashboardContext) {
@@ -92,11 +81,8 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
                     currentUser.attributes = applicationContext;
                     self.addPathChangeListener("_currentUser.attributes", self, "_repairApplicationRawContextIfNeeded");
 
-                    return (self._currentUser = currentUser);
+                    return self._currentUser = currentUser;
                 });
-            }
-
-            return Promise.reject("not logged");
         }
     },
 
@@ -108,7 +94,9 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
                     applicationContext.dashboardContext = {};
                     applicationContext.sideBoardContext = {};
                     applicationContext.userSettings = {};
-                    applicationContext.dashboardContext.widgets = [widgets.get("ui/widgets/system-info.reel")];
+                    applicationContext.dashboardContext.widgets = [
+                        widgets.get("ui/widgets/system-info.reel")
+                    ];
                     applicationContext.sideBoardContext.widgets = [
                         widgets.get("ui/widgets/alerts.reel"),
                         widgets.get("ui/widgets/tasks.reel")
@@ -155,6 +143,11 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
                 this._instance._dataService = FreeNASService.instance;
                 this._instance._widgetService = WidgetService.instance;
                 this._instance._accountRepository = AccountRepository.getInstance();
+                this._instance._currentUserPromise = new Promise(function(resolve) {
+                    EventDispatcherService.getInstance().addEventListener(Events.sessionOpened, function(session) {
+                        resolve(session.user);
+                    });
+                });
             }
 
             return this._instance;

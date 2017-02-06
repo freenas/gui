@@ -100,7 +100,7 @@ var SignIn = exports.SignIn = Component.specialize({
             // checks for disconnected hash
             if(location.href.indexOf(";disconnected") > -1) {
                 this.hasError = true;
-                this.errorMessage = "Oops! Your token has been expired. \n Please re-login.";
+                this.errorMessage = "Oops! Your token has expired. \n Please log back in.";
                 location.href = location.href.replace(/;disconnected/g, '');
             }
             this.userNameTextField.focus();
@@ -135,7 +135,6 @@ var SignIn = exports.SignIn = Component.specialize({
                 this.application.dataService.loginWithCredentials(this.userName, password).then(function () {
                     self.isLoggedIn = true;
                     self.application.applicationModal.hide(self);
-                    self.application.sessionService.sessionDidOpen(self.userName);
 
                     // Don't keep any track of the password in memory.
                     self.password = self.userName = null;

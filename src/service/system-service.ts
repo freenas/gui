@@ -2,12 +2,52 @@ import {SystemRepository} from '../repository/system-repository';
 import {MiddlewareClient} from './middleware-client';
 import {BootPoolRepository} from '../repository/boot-pool-repository';
 import {NetworkRepository} from '../repository/network-repository';
-import {DiskRepository} from '../repository/disk-repository';
 
 export class SystemService {
     private static instance: SystemService;
 
     private bootPoolPromise: Promise<any>;
+
+    public static readonly SHORT_DATE_FORMATS = [
+        'MM/DD/YY',
+        'DD/MM/YY',
+        'YY/MM/DD'
+    ];
+
+    public static readonly MEDIUM_DATE_FORMATS = [
+        'MMM, DD YY',
+        'DD MMM YY',
+        'YY MMM DD'
+    ];
+
+    public static readonly LONG_DATE_FORMATS = [
+        'MMMM DD, YYYY',
+        'DD MMMM YYYY',
+        'YYYY MMMM DD'
+    ];
+
+    public static readonly FULL_DATE_FORMATS = [
+        'dddd, MMMM DD, YYYY',
+        'dddd DD MMMM YYYY',
+        'YYYY MMMM DD dddd'
+    ];
+
+    public static readonly SHORT_TIME_FORMATS = [
+        'h:m',
+        'H:m'
+    ];
+
+    public static readonly MEDIUM_TIME_FORMATS = [
+        'hh:mm:ss A',
+        'A hh:mm:ss',
+        'HH:mm:ss'
+    ];
+
+    public static readonly LONG_TIME_FORMATS = [
+        'hh:mm:ss A z',
+        'A hh:mm:ss z',
+        'HH:mm:ss z'
+    ];
 
     private constructor(private systemRepository: SystemRepository,
                         private middlewareClient: MiddlewareClient,
