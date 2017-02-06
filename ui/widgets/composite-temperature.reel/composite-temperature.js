@@ -84,8 +84,8 @@ exports.CompositeTemperature = Component.specialize(/** @lends CompositeTemperat
             var self = this;
 
             this._statService.getTemperatureStats().then(function(stats) {
-                self._aggregateStatsForType(stats, 'CPU');
-                self._aggregateStatsForType(stats, 'Disk');
+                self._aggregateStatsForType(stats.args.fragment, 'CPU');
+                self._aggregateStatsForType(stats.args.fragment, 'Disk');
                 self.chart.finishRendering();
                 self.chart.needsDraw = true;
             });
