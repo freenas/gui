@@ -6,7 +6,8 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "titleElement": {"@": "text"}
             },
             "bindings": {
                 "enabledInterfaces": {"<-": "this.interfaces.filter{enabled}.sorted{id}"},
@@ -25,9 +26,6 @@
             "properties": {
                 "element": {"#": "title"},
                 "value": "Network Traffic - {card}"
-            },
-            "bindings": {
-                "args": {"<-": "{card: @owner.card}"}
             }
         },
         "chart": {
