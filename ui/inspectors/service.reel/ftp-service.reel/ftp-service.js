@@ -1,10 +1,7 @@
-var Component = require("montage/ui/component").Component;
+var AbstractInspector = require('ui/abstract/abstract-inspector').AbstractInspector,
+    Units = require('core/Units');
 
-/**
- * @class FtpService
- * @extends Component
- */
-exports.FtpService = Component.specialize({
+exports.FtpService = AbstractInspector.specialize({
     _handleOnlyAnonChange: {
         value: function() {
             if (!this.object.only_anonymous) {
@@ -18,6 +15,13 @@ exports.FtpService = Component.specialize({
             if (!this.object.only_local) {
                 this.object.only_anonymous = true;
             }
+        }
+    },
+
+    _inspectorTemplateDidLoad: {
+        value: function() {
+            this.timeoutUnits = Units.SECONDS;
+            this.bandwidthUnits = Units.TRANSFER_SPEED;
         }
     },
 
@@ -92,10 +96,10 @@ exports.FtpService = Component.specialize({
     exitDocument: {
         value: function() {
             if (this.getPathChangeDescriptor("object.only_anonymous", this)) {
-                this.removePathChangeListener("object.only_anonymous", this);   
+                this.removePathChangeListener("object.only_anonymous", this);
             }
             if (this.getPathChangeDescriptor("object.only_local", this)) {
-                this.removePathChangeListener("object.only_local", this);   
+                this.removePathChangeListener("object.only_local", this);
             }
             this.filemaskModes = null;
             this.dirmaskModes = null;

@@ -110,28 +110,14 @@
                 "value": {"<->": "@owner.object.login_attempt"}
             }
         },
-        "timeoutValidator": {
-            "prototype": "core/converter/validator/integer-range-validator",
-            "properties": {
-                "floor": 0,
-                "ceiling": 10000,
-                "errorMessage": "Value must be an integer between 0 and 10000"
-            }
-        },
-        "timeoutConverter": {
-            "prototype": "core/converter/string-to-integer-converter",
-            "properties": {
-                "validator": {"@": "timeoutValidator"}
-            }
-        },
         "timeout": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-number-unit.reel",
             "properties": {
                 "element": {"#": "timeout"},
-                "label": "Timeout",
-                "converter": {"@": "timeoutConverter"}
+                "label": "Timeout"
             },
             "bindings": {
+                "units": {"<-": "@owner.timeoutUnits"},
                 "value": {"<->": "@owner.object.timeout"}
             }
         },
@@ -323,60 +309,47 @@
                 "value": {"<->": "@owner.object.passive_ports_max"}
             }
         },
-        "bandwidthValidator": {
-            "prototype": "core/converter/validator/integer-floor-validator",
-            "properties": {
-                "floor": 0,
-                "errorMessage": "Value must be a non-negative integer"
-            }
-        },
-        "bandwidthConverter": {
-            "prototype": "core/converter/string-to-integer-or-null-converter",
-            "properties": {
-                "validator": {"@": "bandwidthValidator"}
-            }
-        },
         "local_up_bandwidth": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-number-unit.reel",
             "properties": {
                 "element": {"#": "local_up_bandwidth"},
-                "label": "Local user upload bandwidth",
-                "converter": {"@": "bandwidthConverter"}
+                "label": "Local user upload bandwidth"
             },
             "bindings": {
+                "units": {"<-": "@owner.bandwidthUnits"},
                 "value": {"<->": "@owner.object.local_up_bandwidth"}
             }
         },
         "local_down_bandwidth": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-number-unit.reel",
             "properties": {
                 "element": {"#": "local_down_bandwidth"},
-                "label": "Local user download bandwidth",
-                "converter": {"@": "bandwidthConverter"}
+                "label": "Local user download bandwidth"
             },
             "bindings": {
+                "units": {"<-": "@owner.bandwidthUnits"},
                 "value": {"<->": "@owner.object.local_down_bandwidth"}
             }
         },
         "anon_up_bandwidth": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-number-unit.reel",
             "properties": {
                 "element": {"#": "anon_up_bandwidth"},
-                "label": "Anonymous user upload bandwidth",
-                "converter": {"@": "bandwidthConverter"}
+                "label": "Anonymous user upload bandwidth"
             },
             "bindings": {
+                "units": {"<-": "@owner.bandwidthUnits"},
                 "value": {"<->": "@owner.object.anon_up_bandwidth"}
             }
         },
         "anon_down_bandwidth": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-number-unit.reel",
             "properties": {
                 "element": {"#": "anon_down_bandwidth"},
-                "label": "Anonymous user download bandwidth",
-                "converter": {"@": "bandwidthConverter"}
+                "label": "Anonymous user download bandwidth"
             },
             "bindings": {
+                "units": {"<-": "@owner.bandwidthUnits"},
                 "value": {"<->": "@owner.object.anon_down_bandwidth"}
             }
         }
