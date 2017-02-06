@@ -1,7 +1,8 @@
 import { AbstractDao } from './abstract-dao';
-import {Model} from "../model";
+import {Model} from '../model';
+import {BootEnvironment} from '../model/BootEnvironment';
 
-export class BootEnvironmentDao extends AbstractDao {
+export class BootEnvironmentDao extends AbstractDao<BootEnvironment> {
 
     public constructor() {
         super(Model.BootEnvironment, {

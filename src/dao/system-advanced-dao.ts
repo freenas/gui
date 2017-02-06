@@ -4,8 +4,9 @@ import {processor as diffProcessor} from '../service/data-processor/diff';
 import {processor as nullProcessor} from '../service/data-processor/null';
 import { processor as taskProcessor } from '../service/data-processor/methodCleaner';
 import {Model} from '../model';
+import {SystemAdvanced} from '../model/SystemAdvanced';
 
-export class SystemAdvancedDao extends AbstractDao {
+export class SystemAdvancedDao extends AbstractDao<SystemAdvanced> {
 
     public constructor() {
         super(Model.SystemAdvanced, {

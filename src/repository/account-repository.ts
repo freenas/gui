@@ -2,7 +2,7 @@ import {UserDao} from '../dao/user-dao';
 import {GroupDao} from '../dao/group-dao';
 import {DirectoryServicesDao} from '../dao/directory-services-dao';
 import {DirectoryserviceConfigDao} from '../dao/directoryservice-config-dao';
-import {AbstractRepository} from './abstract-repository-ng';
+import {AbstractRepository} from './abstract-repository';
 import {DirectoryDao} from '../dao/directory-dao';
 import {Map} from 'immutable';
 import {ModelEventName} from '../model-event-name';

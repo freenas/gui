@@ -1,6 +1,6 @@
 import { DataProcessor } from './data-processor';
 import * as immutable from 'immutable';
-import * as _ from "lodash";
+import * as _ from 'lodash';
 
 class NullProcessor implements DataProcessor {
     public process(object: Object, propertyDescriptors?: Map<string, Object>): Object {

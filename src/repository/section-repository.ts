@@ -1,4 +1,4 @@
-import {AbstractRepository} from './abstract-repository-ng';
+import {AbstractRepository} from './abstract-repository';
 import {SectionDao} from '../dao/section-dao';
 import {SectionSettingsDao} from '../dao/section-settings-dao';
 import * as _ from 'lodash';

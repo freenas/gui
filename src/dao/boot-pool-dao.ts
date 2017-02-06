@@ -1,9 +1,9 @@
 import { AbstractDao } from './abstract-dao';
 
-export class BootPoolDao extends AbstractDao {
+export class BootPoolDao extends AbstractDao<any> {
 
     public constructor() {
-        super({}, {
+        super('BootPoolConfig', {
             typeName: 'BootPoolConfig'
         });
     }

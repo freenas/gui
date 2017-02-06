@@ -1,7 +1,7 @@
 import { DataProcessor } from './data-processor';
 import { DatastoreService } from '../datastore-service';
 import * as _ from 'lodash';
-import {Map, List} from "immutable";
+import {Map, List} from 'immutable';
 
 class DiffProcessor implements DataProcessor {
     private datastoreService: DatastoreService;

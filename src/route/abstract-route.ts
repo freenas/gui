@@ -1,10 +1,19 @@
+// DTM
+declare let require: any;
+
+import * as _ from 'lodash';
+import * as crossroads from 'crossroads';
 import {EventDispatcherService} from '../service/event-dispatcher-service';
 import {ModelDescriptorService} from '../service/model-descriptor-service';
-import * as _ from 'lodash';
 import {ModelEventName} from '../model-event-name';
 import {DataObjectChangeService} from '../service/data-object-change-service';
+import {Model} from '../model';
 
 export abstract class AbstractRoute {
+    protected stack: Array<any>;
+    private static sectionsServices = new Map<string, any>();
+    private static sectionsDescriptorsPromise: Promise<any>;
+
     protected constructor(
         protected eventDispatcherService: EventDispatcherService = EventDispatcherService.getInstance(),
         protected modelDescriptorService: ModelDescriptorService = ModelDescriptorService.getInstance(),
@@ -102,4 +111,121 @@ export abstract class AbstractRoute {
             }
         }
     }
+
+    public restore(stack: Array<any>) {
+        this.stack = stack;
+    }
+
+    public saveState(): Array<any> {
+        let stateSnapshot = [];
+        _.forEach(this.stack, (value, index) => {
+            let context = _.clone(value);
+            if (index > 0) {
+                context.parentcontext = stateSnapshot[index - 1];
+            }
+            stateSnapshot.push(context);
+        });
+        return stateSnapshot;
+    }
+
+    protected enterSection(sectionId: string) {
+        let promise: Promise<Array<any>> = this.stack ?
+            new Promise<Array<any>>((resolve) => {
+                // this.changeHash(_.last(this.stack).path);
+                // hasher.changed.addOnce(this.handleTaskHashChange.bind(this));
+                resolve(this.stack);
+            }) :
+            this.get(sectionId).then((stack) => this.stack = stack);
+        promise.then((stack) => {
+            this.eventDispatcherService.dispatch('sectionChange', stack[0].service);
+            this.eventDispatcherService.dispatch('pathChange', stack);
+        });
+    }
+
+    public get(sectionId: string): Promise<Array<any>> {
+        let self = this,
+            objectType = Model.Section,
+            sectionDescriptor;
+        return this.loadSectionsDescriptors().then((sectionsDescriptors) => {
+            sectionDescriptor = sectionsDescriptors[sectionId];
+            return Promise.resolve(
+                AbstractRoute.sectionsServices.has(sectionDescriptor.id) ?
+                    AbstractRoute.sectionsServices.get(sectionDescriptor.id) :
+                    require.async(sectionDescriptor.service).then(function(module) {
+                        let exports = Object.keys(module);
+                        if (exports.length === 1) {
+                            let clazz = module[exports[0]],
+                                instance = clazz.instance || new clazz(),
+                                instancePromise = instance.instanciationPromise;
+                            AbstractRoute.sectionsServices.set(sectionDescriptor.id, instance);
+                            return instancePromise;
+                        }
+                    }).then(function(service) {
+                        service.sectionGeneration = 'new';
+                        service.section.id = sectionDescriptor.id;
+                        service.section.settings.id = sectionDescriptor.id;
+                        service.section.label = sectionDescriptor.label;
+                        service.section.icon = sectionDescriptor.icon;
+                        return service;
+                    })
+            );
+        }).then((service) => {
+            return Promise.all([
+                service,
+                self.modelDescriptorService.getUiDescriptorForType(objectType)
+            ]).spread(function(service: any, uiDescriptor) {
+                return [
+                    {
+                        object: service.section,
+                        service: service,
+                        userInterfaceDescriptor: uiDescriptor,
+                        columnIndex: 0,
+                        objectType: objectType,
+                        path: '/' + encodeURIComponent(sectionDescriptor.id)
+                    }
+                ];
+            }).caught(function(error) {
+                console.warn(error.message);
+            });
+        });
+    }
+
+    public getOld(sectionId: string) {
+        this.eventDispatcherService.dispatch('oldSectionChange', sectionId);
+    }
+
+    public getSettings(sectionId: string, stack: Array<any>) {
+        let self = this,
+            objectType = Model.SectionSettings,
+            columnIndex = 1,
+            parentContext = stack[columnIndex - 1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/section-settings/_/' + encodeURIComponent(sectionId)
+            };
+        return Promise.all([
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread((uiDescriptor) => {
+            context.object = parentContext.object.settings;
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            return self.updateStackWithContext(stack, context);
+        });
+    }
+
+    private loadSectionsDescriptors(): Promise<any> {
+        if (!AbstractRoute.sectionsDescriptorsPromise) {
+            AbstractRoute.sectionsDescriptorsPromise = Promise.resolve(SystemJS.import('data/sections-descriptors.json'));
+        }
+        return AbstractRoute.sectionsDescriptorsPromise;
+    }
+
+}
+
+export function Route(path: string) {
+    return function(target, propertyKey: string) {
+        crossroads.addRoute(path, (...params) => target[propertyKey].apply(target.constructor.getInstance(), params));
+    };
 }

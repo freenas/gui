@@ -1,6 +1,7 @@
-import {AbstractDao} from "./abstract-dao";import {Model} from '../model';
+import {AbstractDao} from './abstract-dao';import {Model} from '../model';
+import {Ipmi} from '../model/Ipmi';
 
-export class IpmiDao extends AbstractDao {
+export class IpmiDao extends AbstractDao<Ipmi> {
     public constructor() {
         super(Model.Ipmi);
     }

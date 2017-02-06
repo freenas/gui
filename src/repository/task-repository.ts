@@ -1,8 +1,8 @@
-import {AbstractRepository} from "./abstract-repository-ng";
-import {ModelEventName} from "../model-event-name";
-import {Map} from "immutable";
-import {TaskDao} from "../dao/task-dao";
-import {Model} from "../model";
+import {AbstractRepository} from './abstract-repository';
+import {ModelEventName} from '../model-event-name';
+import {Map} from 'immutable';
+import {TaskDao} from '../dao/task-dao';
+import {Model} from '../model';
 import * as _ from 'lodash';
 
 export class TaskRepository extends AbstractRepository {

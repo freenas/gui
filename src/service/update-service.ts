@@ -1,4 +1,4 @@
-import {UpdateRepository} from "../repository/update-repository";
+import {UpdateRepository} from '../repository/update-repository';
 export class UpdateService {
     private static instance: UpdateService;
 

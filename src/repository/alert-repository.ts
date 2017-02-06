@@ -1,10 +1,11 @@
-import {AbstractRepository} from './abstract-repository-ng';
+import {AbstractRepository} from './abstract-repository';
 import {ModelEventName} from '../model-event-name';
 import {Map} from 'immutable';
 import {AlertDao} from '../dao/alert-dao';
 import {Model} from '../model';
+import {Alert} from '../model/Alert';
 
-export class AlertRepository extends AbstractRepository {
+export class AlertRepository extends AbstractRepository<Alert> {
     private static instance: AlertRepository;
 
     private alerts: Map<string, Map<string, any>>;

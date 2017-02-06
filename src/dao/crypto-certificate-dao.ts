@@ -3,8 +3,9 @@ import { processor as taskProcessor } from '../service/data-processor/methodClea
 import { processor as cleaningProcessor } from '../service/data-processor/cleaner';
 import { processor as nullProcessor } from '../service/data-processor/null';
 import {Model} from '../model';
+import {CryptoCertificate} from '../model/CryptoCertificate';
 
-export class CryptoCertificateDao extends AbstractDao {
+export class CryptoCertificateDao extends AbstractDao<CryptoCertificate> {
     public constructor() {
         super(Model.CryptoCertificate, {
         	eventName: 'entity-subscriber.crypto.certificate.changed'

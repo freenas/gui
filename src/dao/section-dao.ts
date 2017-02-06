@@ -1,10 +1,10 @@
-import { AbstractDao } from './abstract-dao';
-import {Model} from "../model";
+import {AbstractDao} from './abstract-dao';
+import {Section} from '../model/Section';
 
-export class SectionDao extends AbstractDao {
+export class SectionDao extends AbstractDao<Section> {
 
     public constructor() {
-        super(Model.Section);
+        super(Section.getClassName());
     }
 
 }

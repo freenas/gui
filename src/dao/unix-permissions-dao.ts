@@ -1,7 +1,8 @@
 import {AbstractDao} from './abstract-dao';
 import {Model} from '../model';
+import {UnixPermissions} from '../model/UnixPermissions';
 
-export class UnixPermissionsDao extends AbstractDao {
+export class UnixPermissionsDao extends AbstractDao<UnixPermissions> {
     public constructor() {
         super(Model.UnixPermissions);
     }

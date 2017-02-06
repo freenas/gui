@@ -1,9 +1,9 @@
 import { AbstractDao } from './abstract-dao';
 
-export class ShellDao extends AbstractDao {
+export class ShellDao extends AbstractDao<any> {
 
     public constructor() {
-        super({});
+        super('Shell');
     }
 
     public list(): Promise<Array<any>> {

@@ -3,6 +3,7 @@ import {ModelEventName} from '../model-event-name';
 
 import * as uuid from 'uuid';
 import * as _ from 'lodash';
+import {SubmittedTask} from '../model/SubmittedTask';
 import {LoginInfo} from '../model/LoginInfo';
 import {Events} from '../Events';
 
@@ -125,7 +126,7 @@ export class MiddlewareClient {
         });
     }
 
-    public submitTask(name: string, args?: Array<any>): Promise<any> {
+    public submitTask(name: string, args?: Array<any>): Promise<SubmittedTask> {
         let self = this,
             temporaryTaskId = uuid.v4();
         this.eventDispatcherService.dispatch('taskSubmitted', temporaryTaskId);
@@ -137,10 +138,7 @@ export class MiddlewareClient {
                     old: temporaryTaskId,
                     new: taskId
                 });
-                return {
-                    taskId: taskId,
-                    taskPromise: self.getTaskPromise(taskId)
-                };
+                return new SubmittedTask(taskId, self.getTaskPromise(taskId));
         });
     }
 
@@ -282,6 +280,7 @@ export class MiddlewareClient {
 
             self.socket.send(JSON.stringify(payload));
             self.handlers.set(payload.id, {
+                payload: payload,
                 resolve: resolve,
                 reject: reject,
                 promise: promise
@@ -294,7 +293,7 @@ export class MiddlewareClient {
                         self.handlers.delete(payload.id);
                     }
                 }
-                console.log(error);
+                console.log(error, payload);
                 throw error;
             });
         });

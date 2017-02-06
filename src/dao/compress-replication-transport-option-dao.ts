@@ -1,7 +1,8 @@
-import {AbstractDao} from "./abstract-dao";
+import {AbstractDao} from './abstract-dao';
 import {Model} from '../model';
+import {CompressReplicationTransportOption} from '../model/CompressReplicationTransportOption';
 
-export class CompressReplicationTransportOptionDao extends AbstractDao {
+export class CompressReplicationTransportOptionDao extends AbstractDao<CompressReplicationTransportOption> {
     public constructor() {
         super(Model.CompressReplicationTransportOption);
     }

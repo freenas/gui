@@ -1,12 +1,12 @@
-import { AbstractRepository } from './abstract-repository-ng';
-import {ModelEventName} from "../model-event-name";
-import {Map, Set} from "immutable";
-import {ReplicationOptionsDao} from "../dao/replication-options-dao";
-import {ReplicationDao} from "../dao/replication-dao";
-import {CompressReplicationTransportOptionDao} from "../dao/compress-replication-transport-option-dao";
-import {EncryptReplicationTransportOptionDao} from "../dao/encrypt-replication-transport-option-dao";
-import {ThrottleReplicationTransportOptionDao} from "../dao/throttle-replication-transport-option-dao";
-import {Model} from "../model";
+import { AbstractRepository } from './abstract-repository';
+import {ModelEventName} from '../model-event-name';
+import {Map, Set} from 'immutable';
+import {ReplicationOptionsDao} from '../dao/replication-options-dao';
+import {ReplicationDao} from '../dao/replication-dao';
+import {CompressReplicationTransportOptionDao} from '../dao/compress-replication-transport-option-dao';
+import {EncryptReplicationTransportOptionDao} from '../dao/encrypt-replication-transport-option-dao';
+import {ThrottleReplicationTransportOptionDao} from '../dao/throttle-replication-transport-option-dao';
+import {Model} from '../model';
 
 export class ReplicationRepository extends AbstractRepository {
     private static instance: ReplicationRepository;
