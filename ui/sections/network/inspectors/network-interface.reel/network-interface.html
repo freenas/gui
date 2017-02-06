@@ -102,6 +102,16 @@
                 "placeholder": {"<-": "!@owner.object.dhcp ? 'eg. 255.255.255.0' : ''"}
             }
         },
+        "v6disabled": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "v6disabled"},
+                "label": "IPv6 Disabled"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.noipv6"}
+            }
+        },
         "ipv6_address_validator": {
             "prototype": "core/converter/validator/ipv6-validator"
         },
@@ -283,6 +293,7 @@
             <div data-montage-id="description"></div>
             <div data-montage-id="address"></div>
             <div data-montage-id="netmask"></div>
+            <div data-montage-id="v6disabled"></div>
             <div data-montage-id="v6address"></div>
             <div data-montage-id="v6netmask"></div>
             <div data-montage-id="dhcp"></div>
