@@ -59,14 +59,36 @@
             }
         },
 
+        "driverSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "driverSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "!!@owner.object._isNew ? 'create' : 'read'"}
+            }
+        },
+
+        "driverReadOnly": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "driverReadOnly"},
+                "label": "Driver"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.driver != 'null' ? @owner.object.driver : 'none'"}
+            }
+        },
+
         "driver": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "driver"},
                 "label": "Driver"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.driver"}
+                "options": {"<-": "[{label: 'bridge', value: 'bridge'}]"},
+                "selectedValue": {"<->": "@owner.object.driver"}
             }
         },
 
@@ -111,7 +133,10 @@
         <div data-montage-id="inspector">
             <div data-montage-id="name"></div>
             <div data-montage-id="host"></div>
-            <div data-montage-id="driver"></div>
+            <div data-montage-id="driverSubstitution">
+                <div data-montage-id="driverReadOnly" data-arg="read"></div>
+                <div data-montage-id="driver" data-arg="create"></div>
+            </div>
             <div data-montage-id="subnet"></div>
             <div data-montage-id="gateway"></div>
             <div data-montage-id="containers"></div>
