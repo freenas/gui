@@ -16,6 +16,14 @@ export abstract class AbstractModelRepository extends AbstractRepository {
         return this.dao.getEmptyList();
     }
 
+    public list() {
+        return this.localState ? this.localState.valueSeq().toJS() : this.dao.list();
+    }
+
+    public save(dataObject: any, args?: any) {
+        return this.dao.save(dataObject, args);
+    }
+
     protected handleStateChange(name: string, state: any) {
         this.localState = this.dispatchModelEvents(this.localState, this.modelEventName, state);
     }

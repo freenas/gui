@@ -8,6 +8,7 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
     DockerContainerLogsRepository = require("core/repository/docker-container-logs-repository").DockerContainerLogsRepository,
     DockerContainerBridgeRepository = require("core/repository/docker-container-bridge-repository").DockerContainerBridgeRepository,
     VmRepository = require("core/repository/vm-repository").VmRepository,
+    VmDatastoreRepository = require("core/repository/VmDatastoreRepository").VmDatastoreRepository,
     BytesService = require("core/service/bytes-service").BytesService,
     CONSTANTS = require("core/constants"),
     ApplicationContextService = require("core/service/application-context-service").ApplicationContextService,
@@ -33,6 +34,7 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
             this._dockerContainerBridgeRepository = DockerContainerBridgeRepository.getInstance();
             this._bytesService = BytesService.instance;
             this._vmRepository = VmRepository.getInstance();
+            this._vmDatastoreRepository = VmDatastoreRepository.getInstance();
         }
     },
 
@@ -308,13 +310,12 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
 
     listDatastores: {
         value: function() {
-            return this._vmRepository.listDatastores();
+            return this._vmDatastoreRepository.list();
         }
     },
 
     initializeDockerHost: {
         value: function(dockerHost) {
-            var self = this;
             if (!dockerHost.status) {
                 dockerHost.status = {};
                 dockerHost.status._objectType = 'DockerHostStatus';
@@ -333,7 +334,7 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         value: function(dockerHost) {
             dockerHost.config.memsize = this._bytesService.convertStringToSize(dockerHost._memory, this._bytesService.UNITS.M);
             dockerHost.target = dockerHost.target === this.DEFAULT_STRING ? null : dockerHost.target;
-            return this._dockerHostRepository.saveDockerHost(dockerHost);
+            return this._dockerHostRepository.save(dockerHost);
         }
     },
 
