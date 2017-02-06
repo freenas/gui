@@ -40,7 +40,7 @@
         left: -2px;
     }
 
-    @nest .InterfaceOverviewItem.is-expanded & svg { transform: rotate(0); }
+    @nest .VolumeOverviewItem.is-expanded & svg { transform: rotate(0); }
 }
 
 .VolumeOverviewItem-name {
