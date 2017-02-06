@@ -220,7 +220,7 @@ exports.ChartLive = Component.specialize({
                     property = datasourceProperties[i];
                     self.chart.setValue(property.key, {
                         x: property.label,
-                        y: self.transformValue(values[0][i])
+                        y: self.transformValue(values && values[0] ? values[0][i] : 0)
                     });
                 }
             }).then(function() {

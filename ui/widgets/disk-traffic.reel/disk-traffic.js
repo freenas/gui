@@ -50,7 +50,7 @@ exports.DiskTraffic = Component.specialize(/** @lends DiskTraffic# */ {
                 if (strA === strB) {
                     return +(a.name.replace(strA, '')) - +(b.name.replace(strB, ''));
                 }
-                return Object.compare(a, b);    
+                return Object.compare(a.name, b.name);
             }).map(function(disk) {
                 return [
                     ['geom_ops_rwd-' + (disk.is_multipath ? 'multipath_' : '') + disk.name, 'read'],
