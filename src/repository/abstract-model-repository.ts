@@ -1,5 +1,3 @@
-import {AbstractRepository} from './abstract-repository-ng';
-import {ModelEventName} from '../model-event-name';
 import {Map} from 'immutable';
 import {AbstractRepository} from './abstract-repository';
 import {ModelEventName} from '../model-event-name';
