@@ -55,8 +55,9 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
 
     findCurrentUser: {
         value: function () {
-            var self = this;
-            return (this._currentUser && this._currentUser.username === sessionUsername) ?
+            var self = this,
+                currentUser;
+            return (this._currentUser) ?
                 Promise.resolve(this._currentUser) :
                 this._currentUserPromise.then(function (user) {
                     currentUser = user;
