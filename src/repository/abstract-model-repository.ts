@@ -4,6 +4,7 @@ import {ModelEventName} from '../model-event-name';
 import {AbstractDao} from '../dao/abstract-dao';
 import {AbstractDataObject} from '../model/AbstractDataObject';
 import {SubmittedTask} from '../model/SubmittedTask';
+import * as _ from 'lodash';
 
 export abstract class AbstractModelRepository<T extends AbstractDataObject> extends AbstractRepository<T> {
     protected localState: Map<string, Map<string, any>>;
@@ -15,7 +16,7 @@ export abstract class AbstractModelRepository<T extends AbstractDataObject> exte
     }
 
     public list(): Promise<Array<T>> {
-        return this.localState ? Promise.resolve(this.localState.valueSeq().toJS()) : this.dao.list();
+        return this.localState ? Promise.resolve((_.assign((this.localState.valueSeq().toJS() as any), {_objectType: this.dao.objectType}) as Array<T>)) : this.dao.list();
     }
 
     public save(object: T, args?: Array<any>): Promise<SubmittedTask> {
