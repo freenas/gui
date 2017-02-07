@@ -1,9 +1,13 @@
 .InspectorOption {
     outline: none;
 
+    @nest .Inspector-body & {
+        margin: 0 -1rem;
+    }
+
     & > * {
-        border-top:     1px solid rgba(255,255,255,.2);
-        border-bottom:  1px solid rgba(255,255,255,.2);
+        border-top:     1px solid var(--transparent--lighten);
+        border-bottom:  1px solid var(--transparent--lighten);
     }
 
     &:only-of-type .ListItem {
@@ -11,7 +15,7 @@
     }
 
     &.selected > * {
-        border-color: #00A7FF;
+        border-color: var(--color-selected);
     }
 }
 

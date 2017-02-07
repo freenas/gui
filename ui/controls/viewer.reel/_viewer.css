@@ -1,14 +1,19 @@
 .Viewer  {
     min-width: 16em;
+    /* compensates for inspector */
+    @nest .Inspector & {
+        margin: 0 -1em;
+    }
 }
 
 .Viewer > .Scrollview .Scrollview-transform { display: block; }
 
 .Viewer-header {
-    display: none;
+    height: calc(3rem - 1px);
+    border-bottom: 1px solid var(--separator-color);
+    background-color: var(--primary);
+    display: flex;
     flex-shrink: 0;
-    flex-wrap: wrap;
-    background: #2A2E33;
 }
 
 .Viewer-footer { flex-shrink: 0; }
@@ -16,51 +21,25 @@
 /* Title */
 
 .Viewer-title {
+    flex: 1;
     padding: .5em 1em;
     line-height: 2em;
     flex-shrink: 0;
     font-size: 1em;
     overflow: hidden;
+    font-weight: 400;
     white-space: nowrap;
     text-overflow: ellipsis;
-    background-color: #0f1213;
-    text-shadow: 0 1px rgba(0,0,0,.2);
-    font-weight: 400;
 }
 
 /* Create */
 
 .Viewer-createButton {
+    padding: 0 .5rem;
     display: flex;
     align-items: center;
-    height:         3em;
-    line-height:    3em;
-    padding-left:   1em;
-    position: relative;
     cursor: pointer;
-    overflow: hidden;
-    position: relative;
-    outline: none;
-    background-color: #1E9440;
-    color: #DFE4E4;
-    background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,.15));
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.2);
-    transition: background-color .25s;
-
-    &:hover { background-color: #0E722B; }
-
-    & svg {
-        width:  1.4em;
-        height: 1.4em;
-        align-self: center;
-    }
-}
-
-.Viewer-createButton-arrow,
-.Viewer-createButton-plus {
-    display: flex;
-    margin-right: .5em;
-    color: #ddd;
+    color: var(--green);
 }
 
 .Viewer-createButton-plus {
@@ -68,50 +47,35 @@
     width:  1.8em;
     height: 1.8em;
     padding: .25em;
-    border-radius: 1em;
-}
+    border-radius: 50%;
+    transition: background-color .25s;
 
-.Viewer-createButton-label {
-    flex: 1;
-    font-size: 1em;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    text-shadow: 0 1px 1px rgba(0,0,0,.3);
-}
+    @nest .Viewer-createButton:hover & {
+        background-color: var(--green);
+        border-color:     var(--green);
+        color: var(--white);
+    }
 
-
-.Viewer-createButton:hover > * { color: #FFF; }
-
-.selected > .Viewer-createButton {
-    background: #2B9CD8;
-    cursor: default;
-    color: white;
+    @nest .Viewer-createButton:focus & {
+        background-color: var(--green);
+        border-color:     var(--green);
+        color: var(--white);
+    }
 }
 
 .Viewer-listItem + .Viewer-listItem { border-top: none; }
 
-.Viewer-listItem:hover { background: #fafafa; }
+.Viewer-listItem:hover { background-color: var(--grey-3); }
 
 .Viewer-listItem.selected {
-    background: #1a82eb;
+    background: var(--color-selected);
     cursor: default;
-    color: white;
+    color: var(--white);
 }
 
-/* Empty State */
-.Viewer-emptyState {
-    text-align: center;
-    background-color: rgba(47, 50, 51, 1);
-    @nest .Viewer.has-items & {
-        display: none;
-    }
-}
 
-.Viewer-emptyMessage {
-    display: inline-block;
-    max-width: 15em;
-    padding: 1em 1em;
+.Viewer-emptyPanel {
+    max-width: 14rem;
 }
 
 /* Controls */
@@ -121,7 +85,7 @@
     padding: 0 1em;
     display: flex;
     align-items: center;
-    background: #404040;
+    background: var(--primary--4);
 
     & .montage-Slot {
         flex: 1;

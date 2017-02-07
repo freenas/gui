@@ -1,5 +1,5 @@
 .DisconnectionModal-content {
-    background: #16171A;
+    background: var(--main-bg-color);
     text-align: center;
     padding: 1em 2em 4em 2em;
     border-radius: 4px;

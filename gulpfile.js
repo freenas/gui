@@ -23,8 +23,11 @@ var tsProject = ts.createProject('tsconfig.json'),
     processors = [
         styleLint({
             config: {
-                "extends": "stylelint-config-standard",
+                "extends": "stylelint-config-standard"
             },
+            plugins: [
+                "stylelint-declaration-strict-value"
+            ],
             rules: {
                 "number-leading-zero": null,
                 "custom-property-empty-line-before": null,
@@ -33,7 +36,11 @@ var tsProject = ts.createProject('tsconfig.json'),
                     ignore: ["value"]
                 }],
                 "value-no-vendor-prefix": true,
-                "property-no-vendor-prefix": true
+                "property-no-vendor-prefix": true,
+                "scale-unlimited/declaration-strict-value": [
+                    ["/color/", "box-shadow", "border", "background"],
+                    {"ignoreKeywords": ["inherit", "currentColor", "transparent", "none"]}
+                ]
             }
         }),
         postcssImport,

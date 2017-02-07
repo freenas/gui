@@ -1,13 +1,13 @@
 .InterfaceIcon {
     position: relative;
     line-height: 0;
-    color: red;
+    color: var(--red);
 }
 
 .InterfaceIcon svg {
-    color: #ccc;
+    color: var(--grey-2);
 }
 
 .Grid-icon.selected .InterfaceIcon svg {
-    color: #2B9CD8;
+    color: var(--color-selected);
 }

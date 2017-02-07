@@ -1,10 +1,9 @@
 .MainSidebar {
     display: flex;
     flex-direction: column;
-    border-right: 2px solid #0F1213;
-    background-color: rgba(43, 156, 216, 1);
+    border-right: 1px solid var(--separator-color);
+    background-color: var(--primary--6);
     background-size: 310px 195px;
-    background-image: url(../../../assets/images/bg.png);
     width: 9rem;
 }
 
@@ -70,7 +69,7 @@
 .MainSidebar-globalActions-button {
     position: relative;
     z-index: 1;
-    background: #0F1213;
+    background: var(--primary--9);
     display: flex;
     padding: .5em;
     cursor: pointer;
@@ -97,7 +96,7 @@
     bottom: 0;
     list-style: none;
     margin: 0;
-    background: #242628;
+    background: var(--grey-blue);
     z-index: 1;
 
     &:active {
@@ -121,7 +120,7 @@
         transition: background-color .15s ease-in-out;
 
         &:hover {
-            background: color(#242628 l(19%));
+            background: color(var(--grey-blue) l(19%));
         }
     }
 
@@ -129,7 +128,7 @@
         width: 100%;
         text-align: left;
         padding: .5em;
-        color: #e6e6e6;
+        color: var(--main-text-color);
         font-size: 1em;
         font-weight: 200;
         font-family: inherit;
@@ -141,7 +140,7 @@
     display: none;
     position: absolute;
     bottom: 0;
-    background: #0F1213;
+    background: var(--black);
     padding: .5rem;
     z-index: 1;
 
@@ -151,7 +150,7 @@
 
     & .MainSidebar-confirmation-message {
         margin-bottom: 1em;
-        color: #fff;
+        color: var(--white);
     }
 
     & .Button {

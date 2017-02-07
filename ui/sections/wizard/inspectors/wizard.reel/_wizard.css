@@ -8,6 +8,12 @@
     @apply --flex-column;
 }
 
+/* Remove Inspector Header */
+
+.Wizard .Inspector-header {
+    display: none;
+}
+
 /* inspector edits */
 
 .Wizard .VolumeCreator .Inspector   { margin: 0; }
@@ -15,8 +21,8 @@
 
 .Wizard-header {
     position: relative;
-    background: #0B1E29;
-    color: #fff;
+    background-color: var(--primary);
+    color: var(--white);
 
     & .wrapper {
         margin: 0 auto;
@@ -32,7 +38,7 @@
 
 .Wizard-content {
     @apply --flex-column;
-    background: #2f3233;
+    background-color: var(--primary--7);
 
     & .stepPlaceholder {
         margin: 0 auto;
@@ -46,7 +52,7 @@
 
 .Wizard-footer {
     flex: 1;
-    background: #16171a;
+    background: var(--main-bg-color);
 }
 
 /* controls */

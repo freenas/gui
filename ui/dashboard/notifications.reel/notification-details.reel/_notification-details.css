@@ -1,5 +1,5 @@
 .Notification-details {
-    background: #242628;
+    background: var(--primary);
     font-size: .8em;
 }
 
@@ -17,7 +17,7 @@
 
 .Notification-details-title {
     display: block;
-    color: #939E9F;
+    color: var(--grey-1);
     font-weight: bold;
 
     &:not(:empty) { margin: .5rem; }

@@ -40,22 +40,21 @@
                 "classList.has('hide')": {"<-": "@owner.hideCreateButton || !@owner.hasCreateEditor"}
             }
         },
-
-        "createLabel": {
-            "prototype": "blue-shark/ui/text.reel",
-            "properties": {
-                "element": {"#": "createLabel"}
-            },
-            "bindings": {
-                "value": {"<-": "@owner.createLabel || 'Create'"}
-            }
-        },
-
         "scrollView": {
             "prototype": "blue-shark/ui/scrollview.reel",
             "properties": {
                 "element": {"#": "scrollView"},
                 "overflow": "scrollY"
+            }
+        },
+        "headerCondition": {
+            "prototype": "montage/ui/component",
+            "properties": {
+                "element": {"#": "headerCondition"},
+                "hasTemplate": false
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "!@title.value.length"}
             }
         },
         "title": {
@@ -64,26 +63,17 @@
                 "element": {"#": "title"}
             },
             "bindings": {
-                "value": {"<-": "@owner.title ?? @owner.userInterfaceDescriptor.collectionNameExpression.slice(1,-1)"},
-                "classList.has('is-hidden')": {"<-": "!value.length"}
+                "value": {"<-": "@owner.title ?? @owner.userInterfaceDescriptor.collectionNameExpression.slice(1,-1)"}
             }
         },
-        "headerCondition": {
-            "prototype": "montage/ui/condition.reel",
+        "emptyPanel": {
+            "prototype": "blue-shark/ui/panel.reel",
             "properties": {
-                "element": {"#": "headerCondition"}
+                "element": {"#": "emptyPanel"}
             },
             "bindings": {
-                "condition": {"<-": "@owner.displayTitle"}
-            }
-        },
-        "emptyMessage": {
-            "prototype": "blue-shark/ui/text.reel",
-            "properties": {
-                "element": {"#": "emptyMessage"}
-            },
-            "bindings": {
-                "value": {"<-": "!!@owner.emptyMessage ? @owner.emptyMessage : 'There are currently no items in ' + @title.value"}
+                "message": {"<-": "!!@owner.emptyMessage ? @owner.emptyMessage : 'There are currently no items in ' + @title.value"},
+                "classList.has('is-hidden')": {"<-": "@owner.hasItems"}
             }
         },
         "viewerControls": {
@@ -111,29 +101,23 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Viewer">
-        <div data-montage-id="headerCondition">
+        <div data-montage-id="headerCondition" class="Viewer-header">
             <div data-montage-id="title" class="Viewer-title"></div>
+            <div data-montage-id="createButton" class="Viewer-createButton">
+                <div class="Viewer-createButton-plus">
+                    <svg><use xlink:href="#i-plus"/></svg>
+                </div>
+            </div>
         </div>
         <div data-montage-id="viewerControls" class="Viewer-controls">
             <div data-montage-id="controls"></div>
         </div>
         <div data-montage-id="scrollView">
-            <div class="content">
-                <div class="Viewer-emptyState">
-                    <div data-montage-id="emptyMessage" class="Viewer-emptyMessage"></div>
-                </div>
+            <div class="Viewer-content">
+                <div data-montage-id="emptyPanel" class="Viewer-emptyPanel g-margin"></div>
                 <div data-montage-id="list" class="Viewer-list"></div>
             </div>
             <div class="Viewer-footer">
-                <div data-montage-id="createButton" class="Viewer-createButton">
-                    <div class="Viewer-createButton-plus">
-                        <svg><use xlink:href="#i-plus"/></svg>
-                    </div>
-                    <span data-montage-id="createLabel" class="Viewer-createButton-label"></span>
-                    <div class="Viewer-createButton-arrow">
-                        <svg><use xlink:href="#i-arrow"/></svg>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

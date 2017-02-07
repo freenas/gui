@@ -22,4 +22,4 @@
 
 .Disk .is-exported .FieldText-text  { color: var(--orange); }
 .Disk .has-failed  .FieldText-text  { color: var(--red);    }
-.Disk .is-offline  .FieldText-text  { color: #E0003A;       }
+.Disk .is-offline  .FieldText-text  { color: var(--red);       }

@@ -3,46 +3,31 @@
     cursor: pointer;
     display: none;
     align-items: center;
+
+    &.is-selected   { background-color: var(--color-selected); }
+    &.is-displayed  { display: flex; }
+    &.is-disabled   { opacity: 0.5; }
+    &:hover         { background: var(--transparent--lighten); }
 }
 
-.CalendarListItem.is-displayed {
-    display: flex;
-}
+.CalendarListItem span { display: inline-block; }
 
-.CalendarListItem:hover {
-    background: rgba(255,255,255,.1);
-}
-
-.CalendarListItem.is-disabled {
-    opacity: 0.5;
-}
-
-.CalendarListItem span {
-    display: inline-block;
-}
-
-.CalendarListItem.is-textual-schedule .CalendarListItem-time {
-    font-size: smaller;
-}
+.CalendarListItem.is-textual-schedule .CalendarListItem-time { font-size: smaller; }
 
 .CalendarListItem-time {
     width: 4.5rem;
     text-align: right;
     margin-right: .5rem;
     font-weight: 400;
-    color: #666;
+    color: var(--grey-1);
+
+    @nest .CalendarListItem.is-selected &           { color: var(--white); }
+    @nest .CalendarListItem.is-textual-schedule &   { font-size: smaller; }
 }
 
 .CalendarListItem-title {
-    color: #B1BCBE;
-}
+    color: var(--grey-2);
 
-.CalendarListItem.is-selected {
-    background-color: #2B9CD8;
-}
-
-.CalendarListItem.is-selected .CalendarListItem-title,
-.CalendarListItem.is-selected .CalendarListItem-time {
-    color: #FFF;
+    @nest .CalendarListItem.is-selected & { color: var(--white); }
 }
 

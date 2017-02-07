@@ -10,8 +10,11 @@
 .SectionRoot-overview {
     position: relative;
     max-height: 15em;
+    /* margin overrides for inspector spacing */
+    margin: -1rem;
+    margin-bottom: 0;
+
     @apply --flex-column;
-    background: #2f3233;
 
     &:after {
         position: absolute;
@@ -19,8 +22,8 @@
         bottom: 0;
         left: 0;
         right: 0;
-        height: 1em;
-        background-image: linear-gradient(rgba(47, 50, 51, 0), rgba(47, 50, 51, 1));
+        height: 1.5rem;
+        background-image: linear-gradient( color(var(--primary--7) a(0%)) , var(--primary--7) 90%);
     }
 
     & > :first-child {
@@ -37,9 +40,9 @@
 }
 
 .SectionRoot-title {
-    color: #fff;
+    color: var(--white);
     padding: .5em 1em;
-    background: purple;
+    background-color: var(--purple);
     font-weight: 400;
     margin: 0;
 }
@@ -68,5 +71,5 @@
     position: absolute;
     top: 50%;
     text-align: center;
-    color: #fff;
+    color: var(--white);
 }

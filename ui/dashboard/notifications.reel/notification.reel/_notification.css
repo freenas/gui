@@ -1,9 +1,9 @@
 .Notification {
     position: relative;
-    background-color: rgba(0,0,0,.1);
+    background-color: var(--primary--7);
 
     & .Notification-placeholder > div:first-child {
-        border-bottom:  2px solid rgba(255,255,255,.05);
+        border-bottom:  2px solid var(--primary--6);
     }
 }
 
@@ -22,14 +22,14 @@
                 background-color .25s ease-in-out;
 
     &:hover {
-        background-color: rgba(255,255,255,.1);
+        background-color: var(--primary--6);
         cursor: pointer;
-        color: #fff;
+        color: var(--white);
     }
 
     @nest .Notification.is-expanded & {
-        background-color: var(--blue);
-        color: #fff;
+        background-color: var(--primary--4);
+        color: var(--white);
     }
 }
 
@@ -92,7 +92,7 @@
 }
 
 .Notification-expand svg { transform: rotate(90deg); }
-.Notification-expand:hover svg { color: #fff; }
+.Notification-expand:hover svg { color: var(--white); }
 
 .Notification.is-expanded .Notification-expand svg { transform: rotate(270deg);  }
 
@@ -100,8 +100,8 @@
 .Notification-close { position: relative; z-index: 1;}
 .Notification-close #i-close-bg { fill: transparent; }
 
-.Notification-close:hover #i-close-bg      { fill: #E0003A; stroke: #E0003A;}
-.Notification-close:hover #i-close-symbol  { fill: #fff; }
+.Notification-close:hover #i-close-bg      { fill: var(--red); stroke: var(--red);}
+.Notification-close:hover #i-close-symbol  { fill: var(--white); }
 
 /* Details Hide/Show */
 

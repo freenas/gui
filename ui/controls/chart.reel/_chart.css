@@ -9,7 +9,7 @@
     flex: 1;
 }
 
-.Chart svg text { fill: #E0E5E5 !important; }
+.Chart svg text { fill: var(--grey-3) !important; }
 
 .Chart svg g.tick line { opacity: 0.25 !important; }
 
@@ -21,7 +21,7 @@
     margin-left: -1.5em;
     width:  3em;
     height: 3em;
-    color: #0C5688;
+    color: var(--color-selected);
 }
 
 .Chart.is-spinner-shown .Chart-svg,
@@ -35,7 +35,7 @@
 }
 
 .Chart .plottable .legend .background-fill {
-    fill: #000000;
+    fill: var(--black);
     opacity: 0.25;
 }
 
@@ -45,7 +45,7 @@
 
 .Chart .plottable .legend-entry.is-disabled path {
     fill: none;
-    stroke: #939E9F;
+    stroke: var(--grey-1);
     stroke-width: 1px;
 }
 

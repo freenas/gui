@@ -3,10 +3,11 @@
 }
 
 .Support-header {
-    background: #2F3233;
-    padding: 1em;
+    background: var(--primary--4);
+    padding: 1rem;
+    padding-bottom: 0;
 }
 
 .Support-header a {
-    color: #2B9CD8;
+    color: var(--blue-lighten-2);
 }

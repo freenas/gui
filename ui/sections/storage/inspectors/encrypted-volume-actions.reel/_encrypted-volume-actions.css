@@ -1,23 +1,6 @@
-.EncryptedVolumeActions .section {
-    display: none;
-}
-
-.EncryptedVolumeActions.unlock .unlockSection {
-    display: block;
-}
-
-.EncryptedVolumeActions.lock .lockSection {
-    display: block;
-}
-
-.EncryptedVolumeActions.rekey .rekeySection {
-    display: block;
-}
-
-.EncryptedVolumeActions.backup .backupSection {
-    display: block;
-}
-
-.EncryptedVolumeActions.restore .restoreSection {
-    display: block;
-}
+.EncryptedVolumeActions .section                    { display: none; }
+.EncryptedVolumeActions.unlock .unlockSection       { display: block; }
+.EncryptedVolumeActions.lock .lockSection           { display: block; }
+.EncryptedVolumeActions.rekey .rekeySection         { display: block; }
+.EncryptedVolumeActions.backup .backupSection       { display: block; }
+.EncryptedVolumeActions.restore .restoreSection     { display: block; }

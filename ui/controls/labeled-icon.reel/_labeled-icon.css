@@ -20,12 +20,12 @@
 /* States */
 
 .selected.LabeledIcon .LabeledIcon-label {
-    background: #2B9CD8;
+    background: var(--blue-lighten-2);
     border-radius: 4px;
 }
 
 .selected.LabeledIcon .LabeledIcon-image > * {
-    background: rgba(255,255,255,.1);
+    background: var(--transparent--lighten);
     border-radius: 4px;
 }
 
