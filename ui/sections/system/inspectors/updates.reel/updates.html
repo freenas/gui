@@ -105,14 +105,14 @@
             }
         },
         "changelog": {
-            "prototype": "blue-shark/ui/scrollable-list.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "changelog"},
                 "height": 8
             },
             "bindings": {
                 "classList.has('hide')": {"<-": "@owner.info.changelog.length == 0"},
-                "content": {"<-": "@owner.info.changelog.map{{value: this}}"}
+                "content": {"<-": "@owner.parsedHtml"}
             }
         },
         "operationsTableLabel": {
