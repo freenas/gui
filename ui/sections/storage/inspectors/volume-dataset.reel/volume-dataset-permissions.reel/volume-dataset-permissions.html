@@ -16,6 +16,9 @@
                 "title": "Permissions"
             }
         },
+        "permissionsTypeConverter": {
+            "prototype": "core/converter/select-option-converter"
+        },
         "usersOptionsConverter": {
             "prototype": "core/converter/select-option-converter",
             "properties": {
@@ -28,6 +31,18 @@
             "properties": {
                 "labelPropertyName": "name",
                 "valuePropertyName": "name"
+            }
+        },
+        "permissionsType": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "permissionsType"},
+                "label": "Permissions Type",
+                "converter": {"@": "permissionsTypeConverter"}
+            },
+            "bindings": {
+                "options": {"<-": "@owner._permissionsTypeOptions"},
+                "selectedValue": {"<->": "@owner.object.permissions_type"}
             }
         },
         "ownerUser": {
@@ -90,6 +105,7 @@
 <body>
     <div data-montage-id="owner" class="VolumeDatasetPermissions">
         <div data-montage-id="permissionsSection">
+            <div data-montage-id="permissionsType"></div>
             <div data-montage-id="ownerUser"></div>
             <div data-montage-id="ownerGroup"></div>
             <div data-montage-id="permissions"></div>
