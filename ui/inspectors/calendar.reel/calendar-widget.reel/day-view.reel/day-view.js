@@ -63,7 +63,7 @@ exports.DayView = Component.specialize({
                 month = this._today.getMonth(),
                 date = this._today.getDate(),
                 today = new Date(),
-                dayDate = new Date(year, month, date);
+                dayDate = new Date(year, month, date),
                 displayedDay = {
                     year:   dayDate.getFullYear(),
                     month:  dayDate.getMonth(),
@@ -74,8 +74,8 @@ exports.DayView = Component.specialize({
                         (dayDate.getDate() === today.getDate()) &&
                         (dayDate.getFullYear() === today.getFullYear()) &&
                         (dayDate.getMonth() === today.getMonth())
-                }
-            self.application.sectionService.getTasksScheduleOnDay(displayedDay).then(function(tasks){
+                };
+            this.application.sectionService.getTasksScheduleOnDay(displayedDay).then(function(tasks){
                 displayedDay.events = tasks;
             });
             this.displayedDay = displayedDay;

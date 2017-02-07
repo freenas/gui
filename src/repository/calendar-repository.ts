@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 import {ModelEventName} from '../model-event-name';
 import {Map} from 'immutable';
 import {Model} from '../model';
+import {CalendarTask} from '../model/CalendarTask';
 
 export class CalendarRepository extends AbstractRepository {
     private static instance: CalendarRepository;
@@ -653,7 +654,7 @@ export class CalendarRepository extends AbstractRepository {
             part;
         for (let i = 0, length = parts.length; i < length; i++) {
             part = parts[i];
-            if (part === '*' || part === value) {
+            if (part === '*' || part === _.toString(value)) {
                 return true;
             } else if (part.indexOf('/') !== -1) {
                 let period = +part.split('/')[1];
@@ -665,7 +666,7 @@ export class CalendarRepository extends AbstractRepository {
     }
 
     private static getIntegerSeries(start, end) {
-        return _.times(end-start, (x) => ({ label: x, value: x, index: x }));
+        return _.times(end - start, (x) => ({ label: x, value: x, index: x }));
     }
 
     private refreshTasksSchedule() {
