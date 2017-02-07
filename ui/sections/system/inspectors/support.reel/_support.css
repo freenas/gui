@@ -3,8 +3,9 @@
 }
 
 .Support-header {
-    background: var(--grey);
-    padding: 1em;
+    background: var(--primary--4);
+    padding: 1rem;
+    padding-bottom: 0;
 }
 
 .Support-header a {

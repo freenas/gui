@@ -8,6 +8,12 @@
     @apply --flex-column;
 }
 
+/* Remove Inspector Header */
+
+.Wizard .Inspector-header {
+    display: none;
+}
+
 /* inspector edits */
 
 .Wizard .VolumeCreator .Inspector   { margin: 0; }
@@ -15,7 +21,7 @@
 
 .Wizard-header {
     position: relative;
-    background: var(--blue-darken-2);
+    background-color: var(--primary);
     color: var(--white);
 
     & .wrapper {
@@ -32,7 +38,7 @@
 
 .Wizard-content {
     @apply --flex-column;
-    background: var(--grey);
+    background-color: var(--primary--7);
 
     & .stepPlaceholder {
         margin: 0 auto;
