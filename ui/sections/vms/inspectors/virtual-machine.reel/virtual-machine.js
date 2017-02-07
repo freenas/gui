@@ -233,7 +233,7 @@ exports.VirtualMachine = AbstractInspector.specialize({
 
     _handleChange: {
         value: function(state) {
-            this._sectionService.mergeVm(this.object, state.toJS());
+            _.assign(this.object, state.toJS());
         }
     }
 

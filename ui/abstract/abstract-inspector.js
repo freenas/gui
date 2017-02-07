@@ -52,12 +52,14 @@ exports.AbstractInspector = AbstractComponentActionDelegate.specialize({
             this.datastoreService = DatastoreService.getInstance();
             if (typeof this._inspectorTemplateDidLoad === 'function') {
                 var self = this;
+                this.isLoading = true;
                 this._canDrawGate.setField(this.constructor.ABSTRACT_DRAW_GATE_FIELD, false);
                 var templateDidLoadPromise = this._inspectorTemplateDidLoad();
                 if (!Promise.is(templateDidLoadPromise)) {
                     templateDidLoadPromise = Promise.resolve(templateDidLoadPromise);
                 }
                 templateDidLoadPromise.then(function() {
+                    self.isLoading = false;
                     self._canDrawGate.setField(self.constructor.ABSTRACT_DRAW_GATE_FIELD, true);
                 });
             }

@@ -43,15 +43,14 @@ export class RoutingService {
                         private systemRoute: SystemRoute,
                         private serviceRoute: ServicesRoute,
                         private peeringRoute: PeeringRoute,
-                        private vmsRoute: VmsRoute,
                         private networkRoute: NetworkRoute,
-                        accountsRoute: AccountsRoute,
                         private dockerRoute: DockerRoute,
                         private replicationRoute: ReplicationRoute) {
         this.currentStacks = new Map<string, Array<any>>();
         this.taskStacks = immutable.Map<number|string, Array<any>>();
         this.sectionRouters = new Map<string, any>()
-            .set('accounts', AccountsRoute.getInstance());
+            .set('accounts', AccountsRoute.getInstance())
+            .set('vms', VmsRoute.getInstance());
 
         this.eventDispatcherService.addEventListener('taskSubmitted', this.handleTaskSubmitted.bind(this));
         this.eventDispatcherService.addEventListener('taskCreated', this.handleTaskCreated.bind(this));
@@ -76,9 +75,7 @@ export class RoutingService {
                 SystemRoute.getInstance(),
                 ServicesRoute.getInstance(),
                 PeeringRoute.getInstance(),
-                VmsRoute.getInstance(),
                 NetworkRoute.getInstance(),
-                AccountsRoute.getInstance(),
                 DockerRoute.getInstance(),
                 ReplicationRoute.getInstance()
             );
@@ -192,7 +189,6 @@ export class RoutingService {
         this.loadConsoleRoutes();
         this.loadCalendarRoutes();
         this.loadPeeringRoutes();
-        this.loadVmsRoutes();
         this.loadContainersRoutes();
         this.loadWizardRoutes();
     }
@@ -268,60 +264,6 @@ export class RoutingService {
             (containerId) => this.dockerRoute.getReadme(this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/section-settings',
             () => this.dockerRoute.getSettings());
-    }
-
-    private loadVmsRoutes() {
-        crossroads.addRoute('/vms', () => this.loadSection('vms'));
-        crossroads.addRoute('/vms/vm/_/{vmId}',
-            (vmId) => this.vmsRoute.get(vmId, this.currentStacks.get('vms')));
-        crossroads.addRoute('/vms/vm/_/{vmId}/readme',
-            () => this.vmsRoute.getReadme(this.currentStacks.get('vms')));
-        crossroads.addRoute('/vms/vm/_/{vmId}/devices',
-            () => this.vmsRoute.listDevices(this.currentStacks.get('vms')));
-        crossroads.addRoute('/vms/vm/_/{vmId}/devices/create',
-            () => this.vmsRoute.selectNewDeviceType(this.currentStacks.get('vms')));
-        crossroads.addRoute('/vms/vm/_/{vmId}/devices/create/{type}',
-            (vmId, type) => this.vmsRoute.createDevice(type, this.currentStacks.get('vms')));
-        crossroads.addRoute('/vms/vm/_/{vmId}/devices/vm-device/_/{deviceId}',
-            (vmId, deviceId) => this.vmsRoute.getDevice(deviceId, this.currentStacks.get('vms')));
-        crossroads.addRoute('/vms/vm/_/{vmId}/volumes',
-            () => this.vmsRoute.listVolumes(this.currentStacks.get('vms')));
-        crossroads.addRoute('/vms/vm/_/{vmId}/volumes/create',
-            () => this.vmsRoute.createVolume(this.currentStacks.get('vms')));
-        crossroads.addRoute('/vms/vm/_/{vmId}/volumes/vm-volume/_/{volumeId}',
-            (vmId, volumeId) => this.vmsRoute.getVolume(volumeId, this.currentStacks.get('vms')));
-        crossroads.addRoute('/vms/create',
-            () => this.vmsRoute.create(this.currentStacks.get('vms')));
-        crossroads.addRoute('/vms/create/readme',
-            () => this.vmsRoute.getReadme(this.currentStacks.get('vms')));
-        crossroads.addRoute('/vms/create/devices',
-            () => this.vmsRoute.listDevices(this.currentStacks.get('vms')));
-        crossroads.addRoute('/vms/create/devices/create',
-            () => this.vmsRoute.selectNewDeviceType(this.currentStacks.get('vms')));
-        crossroads.addRoute('/vms/create/devices/create/{type}',
-            (type) => this.vmsRoute.createDevice(type, this.currentStacks.get('vms')));
-        crossroads.addRoute('/vms/create/devices/vm-device/_/{deviceId}',
-            (deviceId) => this.vmsRoute.getDevice(deviceId, this.currentStacks.get('vms')));
-        crossroads.addRoute('/vms/create/volumes',
-            () => this.vmsRoute.listVolumes(this.currentStacks.get('vms')));
-        crossroads.addRoute('/vms/create/volumes/create',
-            () => this.vmsRoute.createVolume(this.currentStacks.get('vms')));
-        crossroads.addRoute('/vms/create/volumes/vm-volume/_/{volumeId}',
-            (volumeId) => this.vmsRoute.getVolume(volumeId, this.currentStacks.get('vms')));
-        crossroads.addRoute('/vms/vm-datastore',
-            () => this.vmsRoute.listDatastores(this.currentStacks.get('vms')));
-        crossroads.addRoute('/vms/vm-datastore/_/{datastoreId}',
-            (datastoreId) => this.vmsRoute.getDatastore(datastoreId, this.currentStacks.get('vms')));
-        crossroads.addRoute('/vms/vm-datastore/create',
-            () => this.vmsRoute.selectNewDatastoreType(this.currentStacks.get('vms')));
-        crossroads.addRoute('/vms/vm-datastore/create/{type}',
-            (type) => this.vmsRoute.createDatastore(type, this.currentStacks.get('vms')));
-        crossroads.addRoute('/vms/vm/_/{vmId}/clones',
-            (vmId) => this.vmsRoute.listClones(vmId, this.currentStacks.get('vms')));
-        crossroads.addRoute('/vms/vm/_/{vmId}/clones/vm/_/{cloneId}',
-            (vmId, cloneId) => this.vmsRoute.getClone(cloneId, this.currentStacks.get('vms')));
-        crossroads.addRoute('/vms/vm/_/{vmId}/clones/create',
-            (vmId) => this.vmsRoute.createClone(vmId, this.currentStacks.get('vms')));
     }
 
     private loadPeeringRoutes() {

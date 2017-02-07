@@ -139,14 +139,14 @@ exports.VmsSectionService = AbstractSectionService.specialize({
             return this._vmRepository.listVms().then(function(entries) {
                 return _.assign(_.sortBy(entries, 'name' ), { _objectType: 'Vm' });
             }).then(function(entries) {
-                return Promise.all(_.map(entries, function(entry) {
-                    return Promise.all([self.categorizeDevices(entry)]).then(function() {
+                return Promise.all(
+                    _.map(entries, function(entry) {
                         entry._hasGraphicDevice = _.get(entry, 'devices').some(function (x) {
                             return x.type === self._vmRepository.DEVICE_TYPE.GRAPHICS;
                         });
                         return entry;
-                    });
-                }));
+                    })
+                );
             });
         }
     },
@@ -199,14 +199,6 @@ exports.VmsSectionService = AbstractSectionService.specialize({
         }
     },
 
-    categorizeDevices: {
-        value: function(vm, newDevices) {
-            newDevices = newDevices || vm.devices;
-            vm._nonVolumeDevices = this._mergeDevices(vm._nonVolumeDevices || [], _.reject(newDevices, { type: this._vmRepository.DEVICE_TYPE.VOLUME }));
-            vm._volumeDevices = this._mergeDevices(vm._volumeDevices || [], _.filter(newDevices, { type: this._vmRepository.DEVICE_TYPE.VOLUME }));
-        }
-    },
-
     addDevicesToVm: {
         value: function(vm, devices) {
             var device;
@@ -216,7 +208,6 @@ exports.VmsSectionService = AbstractSectionService.specialize({
                     vm.devices.push(device);
                 }
             }
-            this.categorizeDevices(vm);
         }
     },
 
@@ -237,7 +228,6 @@ exports.VmsSectionService = AbstractSectionService.specialize({
                         vm.devices.splice(deviceIndex, 1);
                     }
                 }
-                this.categorizeDevices(vm);
             }
         }
     },
@@ -295,7 +285,6 @@ exports.VmsSectionService = AbstractSectionService.specialize({
                 this.setReadmeOnVm(vm)
             ]).spread(function(devices) {
                 vm.devices = devices;
-                self.categorizeDevices(vm);
                 return vm;
             });
         }
@@ -425,22 +414,6 @@ exports.VmsSectionService = AbstractSectionService.specialize({
         }
     },
 
-    mergeVm: {
-        value: function(vm, newVm) {
-            var self = this;
-            _.assignWith(vm, newVm, function(oldValue, newValue, key, oldVm) {
-                if (key === 'devices') {
-                    var devices = self._mergeDevices(oldValue || [], newValue || []);
-                    self.categorizeDevices(oldVm);
-                    return devices;
-                } else {
-                    return newValue;
-                }
-            });
-
-        }
-    },
-
     cloneVmToName: {
         value: function (vmId, name) {
             return this._vmRepository.cloneVmToName(vmId, name);
@@ -452,14 +425,6 @@ exports.VmsSectionService = AbstractSectionService.specialize({
             if (!vm.devices) {
                 vm.devices = [];
                 vm.devices._objectType = 'VmDevice';
-            }
-            if (!vm._nonVolumeDevices) {
-                vm._nonVolumeDevices = [];
-                vm._nonVolumeDevices._objectType = 'VmDevice';
-            }
-            if (!vm._volumeDevices) {
-                vm._volumeDevices = [];
-                vm._volumeDevices._objectType = 'VmVolume';
             }
         }
     },
@@ -512,10 +477,10 @@ exports.VmsSectionService = AbstractSectionService.specialize({
                 // DTM
                 var entry = _.find(self.entries, {id: _.get(vm, 'id')});
                 if (entry) {
+                    _.assign(entry, vm);
                     entry._hasGraphicDevice = _.get(vm, 'devices').some(function (x) {
                         return x.type === self._vmRepository.DEVICE_TYPE.GRAPHICS;
                     });
-                    self.mergeVm(entry, vm);
                 } else {
                     entry = _.assign(vm, {_objectType: Model.Vm});
                     entry._hasGraphicDevice = _.get(vm, 'devices').some(function (x) {
@@ -532,34 +497,6 @@ exports.VmsSectionService = AbstractSectionService.specialize({
                     }
                 }
             }
-        }
-    },
-
-    _mergeDevices: {
-        value: function(oldDevices, newDevices) {
-            var self = this;
-            _.forEach(newDevices, function(newDevice) {
-                // DTM
-                var oldDevice = _.find(oldDevices, {name: newDevice.name});
-                if (oldDevice) {
-                    _.assign(oldDevice, _.omit(newDevice, ['name', 'id']));
-                } else {
-                    oldDevices.push(_.assign(
-                        newDevice,
-                        {
-                            _objectType: newDevice.type === self._vmRepository.DEVICE_TYPE.VOLUME ? Model.VmVolume : Model.VmDevice,
-                            id: uuid.v4()
-                        }
-                    ));
-                }
-            });
-            // DTM
-            for (var i = oldDevices.length - 1; i >= 0; i--) {
-                if (!_.find(newDevices, { id: oldDevices[i].id })) {
-                    oldDevices.splice(i, 1);
-                }
-            }
-            return oldDevices;
         }
     }
 });
