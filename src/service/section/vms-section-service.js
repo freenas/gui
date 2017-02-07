@@ -280,7 +280,6 @@ exports.VmsSectionService = AbstractSectionService.specialize({
             var self = this;
             vm.config = Object.clone(template.config);
             vm.config.readme = template.template.readme;
-            this._setMemoryOnVm(vm);
             vm.guest_type = template.guest_type;
             vm.template = Object.clone(template.template);
 
@@ -402,7 +401,6 @@ exports.VmsSectionService = AbstractSectionService.specialize({
             if (vm._isNew) {
                 self._initializeNewVm(vm);
             }
-            self._setMemoryOnVm(vm);
             vm._bootDevice = vm.config.boot_device;
         }
     },
@@ -471,12 +469,6 @@ exports.VmsSectionService = AbstractSectionService.specialize({
             vm.config.ncpus = 1;
             vm.config.memsize = 512;
             vm.template = {};
-        }
-    },
-
-    _setMemoryOnVm: {
-        value: function(vm) {
-            vm._memory = this._bytesService.convertSizeToString(vm.config.memsize, this._bytesService.UNITS.M);
         }
     },
 

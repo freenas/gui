@@ -237,30 +237,15 @@
                 "value": {"<->": "@owner.object.config.ncpus"}
             }
         },
-        "memoryValidator": {
-            "prototype": "core/converter/validator/minimum-bytes-validator",
-            "properties": {
-                "allowDecimal": false,
-                "errorMessage": "Memory must be a positive integer size at least 1MiB.",
-                "minPrefix": "M",
-                "minValue": 1
-            }
-        },
-        "memoryConverter": {
-            "prototype": "core/converter/validation-only-converter",
-            "properties": {
-                "validator": {"@": "memoryValidator"}
-            }
-        },
         "memory": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-number-unit.reel",
             "properties": {
                 "element": {"#": "memory"},
-                "label": "Memory",
-                "converter": {"@": "memoryConverter"}
+                "label": "Memory"
             },
             "bindings": {
-                "value": {"<->": "@owner.object._memory"}
+                "units": {"<-": "@owner.memoryUnits"},
+                "value": {"<->": "@owner.object.config.memsize"}
             }
         },
         "autostart": {
