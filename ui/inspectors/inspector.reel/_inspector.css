@@ -31,10 +31,6 @@
 
 .Inspector-body {
     margin: 1em;
-
-    /* & .ListItem {
-        margin: 0 -1em;
-    } */
 }
 
 .Inspector.is-loading .Inspector-body,
