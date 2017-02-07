@@ -11,7 +11,11 @@ var Component = require("montage/ui/component").Component,
 exports.ContainerReadme = Component.specialize({
     enterDocument: {
         value: function() {
-            this.parsedHtml = marked(this.object.text);
+            if (this.object && this.object.text) {
+                this.parsedHtml = marked(this.object.text);
+            } else {
+                this.parsedHtml = marked('# Please select a template');
+            }
         }
     }	
 });
