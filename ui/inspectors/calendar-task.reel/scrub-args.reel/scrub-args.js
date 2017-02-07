@@ -1,17 +1,10 @@
-/**
- * @module ui/scrub-args.reel
- */
-var Component = require("montage/ui/component").Component;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
-/**
- * @class ScrubArgs
- * @extends Component
- */
-exports.ScrubArgs = Component.specialize(/** @lends ScrubArgs# */ {
-    templateDidLoad: {
+exports.ScrubArgs = AbstractInspector.specialize({
+    _inspectorTemplateDidLoad: {
         value: function() {
             var self = this;
-            this.application.storageService.listVolumes().then(function(volumes) {
+            this._sectionService.listVolumes().then(function(volumes) {
                 self.volumes = volumes;
             });
         }
@@ -19,7 +12,7 @@ exports.ScrubArgs = Component.specialize(/** @lends ScrubArgs# */ {
 
     enterDocument: {
         value: function(isFirstTime) {
-
+            this.super(isFirstTime);
             if (!this.object || this.object.length != 1) {
                 this.object = ['---'];
                 this.object.length = 1;

@@ -1,7 +1,8 @@
 /**
  * @module ui/container-creator.reel
  */
-var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    RoutingService = require("core/service/routing-service").RoutingService;
 
 /**
  * @class ContainerCreator
@@ -14,30 +15,11 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
             var self = this;
 
             this._environment = {};
+            this._routingService = RoutingService.getInstance();
 
             return this._sectionService.listDockerHosts().then(function (hostDockers) {
                 self._hostDockers = hostDockers;
             });
-        }
-    },
-
-    _context: {
-        value: null
-    },
-
-    context: {
-        set: function (context) {
-            if (this._context !== context) {
-                if (context) {
-                    context.object = context.object.modelObject;
-                    this._context = context;
-                } else {
-                    this._context = null;
-                }
-            }
-        },
-        get: function () {
-            return this._context;
         }
     },
 
@@ -49,7 +31,7 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
         set: function (object) {
             if (this._object !== object) {
                 if (object) {
-                    this._object = object.modelObject;
+                    this._object = object;
                     this._collection = object.dockerCollection;
                 } else {
                     this._object = this._collection = null;
@@ -62,10 +44,15 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
     },
 
     enterDocument: {
-        value: function (firsTime) {
-            this.super();
+        value: function (isFirstTime) {
+            this.super(isFirstTime);
             var self = this;
             this._reset();
+
+            if (isFirstTime) {
+                this.addPathChangeListener("object.image", this, "handleSelectedImageChange");
+                this.addEventListener("action", this);
+            }
 
             if (!this._loadDataPromise) {
                 this.isLoading = true;
@@ -83,6 +70,24 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
                 this._sectionService.getNewDockerContainerBridge().then(function(bridge) {
                     self.object.bridge = bridge;
                 });
+            }
+        }
+    },
+
+    handleGenerateAction: {
+        value: function () {
+            var self = this;
+            this._sectionService.generateMacAddress().then(function(macAddress) {
+                self.object.bridge.macaddress = macAddress;
+            });
+        }
+    },
+
+    handleSelectedImageChange: {
+        value: function (value) {
+            if (false) {
+                //FIXME: Pierre how to check current path.
+                this._routingService.navigate(this.context.path);
             }
         }
     },
@@ -159,14 +164,30 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
             }
 
             if (volumesValues && volumesValues.length) {
-                this.object.volumes = volumesValues.filter(function (entry) {
-                    return entry.host_path && entry.container_path;
-                });
+                this.object.volumes = this._extractValidVolumes(volumesValues);
             }
 
             return this._sectionService.saveContainer(this.object).then(function () {
                 self._reset();
             });
+        }
+    },
+
+    _extractValidVolumes: {
+        value: function(values) {
+            var volumes = [],
+                entry;
+
+            for (var i = values.length - 1; i >= 0; i--) {
+                entry = values[i];
+
+                if (entry.host_path && entry.container_path) {
+                    delete entry.isLocked;
+                    volumes.push(entry);
+                }
+            }
+
+            return volumes;
         }
     },
 

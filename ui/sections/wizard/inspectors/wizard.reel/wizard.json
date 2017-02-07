@@ -1,0 +1,30 @@
+{
+    "steps": [
+        {
+            "id": "systemGeneral",
+            "objectType": "SystemGeneral"
+        },
+        {
+            "id": "volume",
+            "objectType": "Volume"
+        },
+        {
+            "id": "directoryServices",
+            "objectType": "DirectoryServices"
+        },
+        {
+            "id": "user",
+            "objectType": "User",
+            "parent": "volume"
+        },
+        {
+            "id": "share",
+            "objectType": "Share",
+            "parent": "volume"
+        },
+        {
+            "id": "mail",
+            "objectType": "Mail"
+        }
+    ]
+}

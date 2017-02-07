@@ -1,19 +1,13 @@
-/**
- * @module ui/scrub-args.reel
- */
-var Component = require("montage/ui/component").Component,
-    DiskSelftestType = require('core/model/enumerations/disk-selftest-type').DiskSelftestType;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    DiskSelftestType = require('core/model/enumerations/disk-selftest-type').DiskSelftestType,
+    _ = require("lodash");
 
-/**
- * @class SmartArgs
- * @extends Component
- */
-exports.SmartArgs = Component.specialize(/** @lends SmartArgs# */ {
-    templateDidLoad: {
+exports.SmartArgs = AbstractInspector.specialize({
+    _inspectorTemplateDidLoad: {
         value: function() {
             var self = this;
-            this.application.storageService.listDisks().then(function(disks) {
-                self.disks = disks;
+            this._sectionService.listDisks().then(function(disks) {
+                self.disks = _.sortBy(_.filter(disks, { online: true }), 'path');
             });
             this.testTypes = DiskSelftestType.members.map(function(x) {
                 return {

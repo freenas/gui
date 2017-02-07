@@ -38,10 +38,10 @@
             }
         },
         "datasetTreeController": {
-            "prototype": "core/controller/dataset-tree-controller",
+            "prototype": "core/controller/tree/dataset-tree-controller",
             "bindings": {
                 "service": {"<-": "@owner.application.dataService"},
-                "root": {"<-": "@owner.volume.id"}
+                "root": {"<-": "@owner.object._volume.id"}
             }
         },
         "nameSubstitution": {
@@ -55,10 +55,10 @@
         },
         "id": {
             "prototype": "blue-shark/ui/field-text-input.reel",
-             "properties": {
+            "properties": {
                 "element": {"#": "nameInput"},
                 "label": "Name"
-             },
+            },
              "bindings": {
                 "value": {"<->": "@owner.name"}
             }
@@ -68,7 +68,8 @@
             "properties": {
                 "element": {"#": "pathSelector"},
                 "controller": {"@": "datasetTreeController"},
-                "label": "Path"
+                "label": "Path",
+                "allowPathInput": true
             },
             "bindings": {
                 "selectedPath": {"<->": "@owner.path"},
@@ -119,23 +120,20 @@
                 "condition": {"<-": "!@owner.object._isNew"}
             }
         },
+        "replicate": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "replicate"},
+                "name": "Replicate",
+                "path": "replication"
+            }
+        },
         "snapshots": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
-                "element": {"#": "snapshots"}
-            },
-            "bindings": {
-                "object": {"<-": "@owner.snapshots.filter{dataset == @owner.object.id}"},
-                "objectType": {"<-": "@owner.snapshotType"}
-            }
-        },
-        "typeCondition": {
-            "prototype": "montage/ui/condition.reel",
-            "properties": {
-                "element": {"#": "typeCondition"}
-            },
-            "bindings": {
-                "condition": {"<-": "@owner.object.type == 'FILESYSTEM'"}
+                "element": {"#": "snapshots"},
+                "objectType": "VolumeSnapshot",
+                "name": "Snapshots"
             }
         },
         "permissions": {
@@ -144,18 +142,19 @@
                 "element": {"#": "permissions"}
             },
             "bindings": {
-                "object": {"<->": "@owner.object"}
+                "object": {"<->": "@owner.object"},
+                "classList.has('hide')": {"<-": "@owner.object.type != 'FILESYSTEM'"}
             }
         },
         "vmwareSnapshots": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
                 "element": {"#": "vmwareSnapshots"},
-                "label": "VMWare Snapshots"
+                "name": "VMware Snapshots",
+                "objectType": "VmwareDataset"
             },
             "bindings": {
-                "object": {"<-": "@owner.vmwareDatasets.filter{dataset == @owner.object.id}"},
-                "objectType": {"<-": "@owner.vmwareDatasetType"}
+                "object": {"<-": "@owner.vmwareDatasets.filter{dataset == @owner.object.id}"}
             }
         }
     }
@@ -173,10 +172,9 @@
             </div>
             <div data-montage-id="typeSelector"></div>
             <div data-montage-id="settings"></div>
-            <div data-montage-id="typeCondition">
-                <div data-montage-id="permissions"></div>
-            </div>
+            <div data-montage-id="permissions"></div>
             <div data-montage-id="createdCondition">
+                <div data-montage-id="replicate"></div>
                 <div data-montage-id="snapshots"></div>
                 <div data-montage-id="vmwareSnapshots"></div>
             </div>

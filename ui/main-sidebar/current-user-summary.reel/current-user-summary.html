@@ -10,59 +10,58 @@
                 "element": {"#": "owner"}
             }
         },
-        "dateConverter": {
-            "prototype": "montage/core/converter/date-converter",
-            "properties": {
-                "pattern": "M/d/yy"
-            }
-        },
-        "timeConverter": {
-            "prototype": "montage/core/converter/date-converter",
-            "properties": {
-                "pattern": "T"
-            }
-        },
         "hostStatus": {
             "prototype": "ui/controls/traffic-light.reel",
             "properties": {
                 "element": {"#": "hostStatus"},
                 "colorMapping": {
-                    "CONNECTED": "green",
+                    "OPEN": "green",
                     "CONNECTING": "yellow",
-                    "DISCONNECTED": "red"
+                    "CLOSED": "red"
                 }
             },
             "bindings": {
-                "value": {"<-": "@owner.application.dataService.backendBridge.connectionStatus"}
+                "value": {"<-": "@owner.middlewareClient.state"}
             }
         },
         "host": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
-                "element": {"#": "host"}
+                "element": {"#": "host"},
+                "disableTranslation": true
             },
             "bindings": {
-                "value": {"<-": "@owner.application.sessionService.session.host.replace(@owner.dotRegEx, '. ')"}
+                "value": {"<-": "@owner.url"}
+            }
+        },
+        "user": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "user"},
+                "disableTranslation": true
+            },
+            "bindings": {
+                "value": {"<-": "@owner.user"}
             }
         },
         "date": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
-                "element": {"#": "date"},
-                "converter": {"@": "dateConverter"}
+                "element": {"#": "date"}
             },
             "bindings": {
-                "value": {"<-": "@owner.now"}
+                "args": {"<-": "!!@owner.now && {now: @owner.now}"},
+                "value": {"<-": "'{now, ' + @owner.datePattern + '}'"}
             }
         },
         "time": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
-                "element": {"#": "time"},
-                "converter": {"@": "timeConverter"}
+                "element": {"#": "time"}
             },
             "bindings": {
-                "value": {"<-": "@owner.now"}
+                "args": {"<-": "!!@owner.now && {now: @owner.now}"},
+                "value": {"<-": "'{now, ' + @owner.timePattern + '}'"}
             }
         }
     }
@@ -71,6 +70,7 @@
 <body>
     <div data-montage-id="owner" class="CurrentUserSummary">
         <div data-montage-id="hostStatus" class="CurrentUserSummary-hostStatus"></div>
+        <div data-montage-id="user" class="CurrentUserSummary-user"></div>
         <div data-montage-id="host" class="CurrentUserSummary-host"></div>
         <div class="CurrentUserSummary-time">
             <div data-montage-id="date"></div>

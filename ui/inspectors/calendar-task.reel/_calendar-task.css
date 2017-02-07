@@ -12,7 +12,8 @@
     line-height: 1.25em !important;
 }
 
-/* .CalendarTask .InspectorOption .ListItem {
-    border-bottom-color: transparent !important;
-} */
+/* FIXME - hacky fix for width issue */
+.CalendarTask .ScrollviewContent:first-of-type {
+    min-width: 0;
+}
 

@@ -17,7 +17,7 @@
             }
         },
         "errorMessage": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "errorMessage"}
             },
@@ -42,7 +42,7 @@
             }
         },
         "lockMessage": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "lockMessage"}
             },
@@ -60,7 +60,7 @@
                 "canDelete": {"<-": "!!@owner.canDelete && @owner.object.id.defined()"},
                 "canRevert": {"<-": "!!@owner.canRevert"},
                 "canSave": {"<-": "!!@owner.canSave"},
-                "isSaveDisabled": {"<-": "@owner.isSaveDisabled || @owner.validationController.missingProperties.length > 0"}
+                "isSaveDisabled": {"<-": "@owner.isSaveDisabled || @owner.validationController.hasMissingProperties"}
             },
             "listeners": [
                 {

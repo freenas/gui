@@ -1,8 +1,4 @@
-/**
- * @module ui/topology.reel
- */
 var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model,
     AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate;
 
 
@@ -13,10 +9,6 @@ var CLASS_NAMES_FOR_MODES = {
     };
 
 
-/**
- * @class Topology
- * @extends Component
- */
 var Topology = exports.Topology = Component.specialize({
 
     _topologyService: {
@@ -109,15 +101,14 @@ var Topology = exports.Topology = Component.specialize({
                             disk = detail.disk,
                             self = this;
 
-                        //Fixme: getDataObject needs to return a promise
-                        self.application.dataService.getNewInstanceForType(Model.ZfsVdev).then(function (vDev) {
+                        self._sectionService.getNewZfsVdev().then(function (vDev) {
                             self.removeDiskFromTopologyCollection(disk, collectionSource);
-                            
-                            self._sectionService.markDiskAsReserved(disk);
+
+                            self._sectionService.markDiskAsReserved(disk.path);
 
                             //here: disk can be a model disk or ZfsVdev
                             vDev.children = [
-                                disk.constructor.Type === Model.ZfsVdev ? disk : self._topologyService.diskToVdev(disk)
+                                self._sectionService.getVdevFromDisk(disk)
                             ];
 
                             collectionTarget.push(vDev);
@@ -150,12 +141,9 @@ var Topology = exports.Topology = Component.specialize({
                             self = this;
 
                         this.removeDiskFromTopologyCollection(disk, collectionSource);
-                        self._sectionService.markDiskAsReserved(disk);
+                        self._sectionService.markDiskAsReserved(disk.path);
 
-                        detail.vDevTarget.children.push(
-                            disk.constructor.Type === Model.ZfsVdev ?
-                            disk : this._topologyService.diskToVdev(disk)
-                        );
+                        detail.vDevTarget.children.push(self._sectionService.getVdevFromDisk(disk));
                     } else {
                         console.warn("bug -> unknown dropzone : " + dropZoneId);
                     }
@@ -181,7 +169,7 @@ var Topology = exports.Topology = Component.specialize({
 
                     for (var i = 0, length = vDevChildren.length; i < length; i++) {
                         if (vDevChildren[i]._disk) {
-                            this._sectionService.markDiskAsAvailable(vDevChildren[i]._disk, !vDev._isNew);
+                            this._sectionService.markDiskAsNonReserved(vDevChildren[i]._disk.path);
                             vDevChildren[i]._disk.volume = null;
                         }
                     }
@@ -207,17 +195,15 @@ var Topology = exports.Topology = Component.specialize({
         value: function (disk, topologyCollection) {
             if (topologyCollection) {
                 /* the argument disk can be vdev or disk here */
-                var ZfsVdevType = Model.ZfsVdev,
-                    ii, ll, vDev, vDevDisks, vDevDisk,
-                    promise;
+                var ii, ll, vDev, vDevDisks, vDevDisk;
 
-                this._sectionService.markDiskAsAvailable(disk);
+                this._sectionService.markDiskAsNonReserved(disk.path);
 
                 loop1:
                     for (var i = 0, l = topologyCollection.length; i < l; i++) {
                         vDev = topologyCollection[i];
 
-                        if (vDev.constructor.Type === ZfsVdevType && vDev.children && vDev.children.length > 0) {
+                        if (this._sectionService.isVdev(vDev) && vDev.children && vDev.children.length > 0) {
                             vDevDisks = vDev.children;
 
                             for (ii = 0, ll = vDevDisks.length; ii < ll ; ii++) {

@@ -1,5 +1,5 @@
 /**
- * @module ui/inspectors/system-section.reel/alert.reel//alert-filter.reel
+ * @module ui/sections/system/inspectors/alert.reel/alert-filter.reel
  */
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 

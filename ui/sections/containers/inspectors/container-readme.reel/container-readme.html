@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--fixme: need a readme component-->
+    <link rel="stylesheet" type="text/css" href="container-readme.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "readmeHtml": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "readmeHtml"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.parsedHtml"}
+            }
+        },
+        "scrollView": {
+            "prototype": "blue-shark/ui/scrollview.reel",
+            "properties": {
+                "element": {"#": "scrollView"},
+                "overflow": "scrollY"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="ContainerReadme">
+        <div data-montage-id="scrollView" class="ContainerReadme-ScrollView">
+            <div data-montage-id="readmeHtml"></div>
+        </div>
+    </div>
+</body>
+</html>

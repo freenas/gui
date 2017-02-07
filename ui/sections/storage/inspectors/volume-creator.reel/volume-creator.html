@@ -102,7 +102,7 @@
                 "element": {"#": "topologizer"}
             },
             "bindings": {
-                "topology": {"<-": "@owner.object.topology"},
+                "topology": {"<->": "@owner.object.topology"},
                 "disks": {"<-": "@owner.availableDisks"},
                 "controller": {"<-": "@owner._sectionService"}
             }
@@ -126,7 +126,8 @@
                 "topology": {"@": "topology"}
             },
             "bindings": {
-                "disks": {"<-": "@owner.availableDisks.filter{isAvailable && !isReserved}"}
+                "disks": {"<-": "@owner.availableDisks"},
+                "locked": {"<-": "!!@topologizer.lockDisks"}
             }
         }
     }

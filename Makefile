@@ -25,12 +25,17 @@
 #
 
 sync:
-.if defined(host)
+	@[ ! -z "${host}" ] || echo "host variable not set"; exit 1
 	rsync -avl \
 		--delete \
 		--exclude '.git' \
 		--exclude '.idea' \
 		--exclude 'nas_ports' . ${host}:/usr/local/www/gui/
-.else
-.error Error: Undefined host variable
-.endif
+
+clean:
+	rm -f node_modules
+	npm cache clean
+
+install:
+	sudo npm install npm@2 -g
+	npm install

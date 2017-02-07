@@ -1,5 +1,7 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Model = require("core/model/model").Model;
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
+    ModelEventName = require("core/model-event-name").ModelEventName,
+    DataObjectChangeService = require("core/service/data-object-change-service").DataObjectChangeService;
 
 
 exports.Tunables = AbstractInspector.specialize({
@@ -7,30 +9,30 @@ exports.Tunables = AbstractInspector.specialize({
     _inspectorTemplateDidLoad: {
         value: function (){
             var self = this;
-            return this.application.dataService.fetchData(Model.Tunable).then(function (tunables) {
+            this._eventDispatcherService = EventDispatcherService.getInstance();
+            this._dataObjectChangeService = new DataObjectChangeService();
+            return this._sectionService.listTunables().then(function (tunables) {
                 self.tunables = tunables;
             });
         }
     },
 
     enterDocument: {
-        value: function(isFirsttime) {
-            this.super();
-            if (isFirsttime) {
-                this.addPathChangeListener("viewer.selectedObject", this, "_handleSelectedEntryChange");
-            }
+        value: function (isFirstTime) {
+            this.super(isFirstTime);
+            this._changeListener = this._eventDispatcherService.addEventListener(ModelEventName.Tunable.listChange, this._handleListChange.bind(this));
         }
     },
 
     exitDocument: {
-        value: function() {
-            this.viewer.selectedObject = null;
+        value: function () {
+            this._eventDispatcherService.removeEventListener(ModelEventName.Tunable.listChange, this._changeListener);
         }
     },
 
-    _handleSelectedEntryChange: {
-        value: function(value) {
-            this.selectedObject = value;
+    _handleListChange: {
+        value: function (state) {
+            this._dataObjectChangeService.handleDataChange(this.tunables, state);
         }
     }
 });

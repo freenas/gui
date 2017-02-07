@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="container-editor.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "validationController": {"@": "validationController"},
+                "inspector": {"@": "inspector"}
+            }
+        },
+
+        "start": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "start"},
+                "value": "Start"
+            },
+            "bindings": {
+                "disabled": {"<-": "@owner.object.running"}
+            }
+        },
+
+        "restart": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "restart"},
+                "value": "Restart"
+            },
+            "bindings": {
+                "disabled": {"<-": "!@start.disabled"}
+            }
+        },
+
+        "stop": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "stop"},
+                "value": "Stop"
+            },
+            "bindings": {
+                "disabled": {"<-": "!@start.disabled"}
+            }
+        },
+
+        "serialConsole": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "serialConsole"},
+                "value": "Console"
+            },
+            "bindings": {
+                "disabled": {"<-": "@stop.disabled"}
+            }
+        },
+
+        "webUI": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "webUI"},
+                "value": "Web UI"
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "!@owner.object.web_ui_url"},
+                "disabled": {"<-": "@stop.disabled"}
+            }
+        },
+
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
+            }
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "validationController": {"@": "validationController"},
+                "canSave": false,
+                "canRevert": false,
+                "canDelete": true,
+                "controller": {"@": "owner"}
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"}
+            }
+        },
+
+        "name": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Names"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.names.join(' ')"}
+            }
+        },
+
+        "version": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "version"},
+                "label": "Version"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.version"}
+            }
+        },
+
+        "image": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "image"},
+                "label": "Image"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.image"}
+            }
+        },
+
+        "memoryLimit": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "memoryLimit"},
+                "label": "Memory Limit"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.memory_limit"},
+                "classList.has('is-hidden')": {"<-": "!@owner.object.memory_limit.defined()"}
+            }
+        },
+
+        "hostname": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "hostname"},
+                "label": "Hostname"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.hostname"}
+            }
+        },
+
+        "host": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "host"},
+                "label": "Host"
+            },
+            "bindings": {
+                "value": {"<-": "@owner._dockerHosts.filter{id == @owner.object.host}.one().name"}
+            }
+        },
+
+        "exposePorts": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "exposePorts"},
+                "label": "Expose Ports",
+                "disabled": true
+            },
+            "bindings": {
+                "checked": {"<-": "!!@owner.object.expose_ports"}
+            }
+        },
+
+        "command": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "command"},
+                "label": "Command"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.command.join(' ')"},
+                "classList.has('is-hidden')": {"<-": "!@owner.object.command.length"}
+            }
+        },
+
+        "environment": {
+            "prototype": "blue-shark/ui/tables/table-read-only.reel",
+            "properties": {
+                "element": {"#": "environment"},
+                "label": "Environments",
+                "columns":  [
+                    {
+                        "value": "variable",
+                        "path": "variable"
+                    },
+                    {
+                        "value": "value",
+                        "path": "value"
+                    }
+                ]
+            },
+            "bindings": {
+                "rows": {"<-": "@owner.environments"},
+                "classList.has('is-hidden')": {"<-": "!@owner.object.environment.length"}
+            }
+        },
+
+        "ports": {
+            "prototype": "blue-shark/ui/tables/table-read-only.reel",
+            "properties": {
+                "element": {"#": "ports"},
+                "label": "Ports",
+                "columns":  [
+                    {
+                        "value": "Host Port",
+                        "path": "host_port"
+                    },
+                    {
+                        "value": "Container Port",
+                        "path": "container_port"
+                    },
+                    {
+                        "value": "protocol",
+                        "path": "protocol"
+                    }
+                ]
+            },
+            "bindings": {
+                "rows": {"<-": "@owner.object.ports"},
+                "classList.has('is-hidden')": {"<-": "!@owner.object.ports.length"}
+            }
+        },
+
+        "volumes": {
+            "prototype": "blue-shark/ui/tables/table-read-only.reel",
+            "properties": {
+                "element": {"#": "volumes"},
+                "label": "Volumes",
+                "columns":  [
+                    {
+                        "value": "Host Path",
+                        "path": "host_path"
+                    },
+                    {
+                        "value": "Container Path",
+                        "path": "container_path"
+                    },
+                    {
+                        "value": "Read Only",
+                        "path": "readonly ? 'yes' : 'no'"
+                    }
+                ]
+            },
+            "bindings": {
+                "rows": {"<-": "@owner.object.volumes"},
+                "classList.has('is-hidden')": {"<-": "!@owner.object.volumes.length"}
+            }
+        },
+
+        "autostart": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "autostart"},
+                "label": "Start at Boot",
+                "disabled": true
+            },
+            "bindings": {
+                "checked": {"<-": "@owner.object.autostart"}
+            }
+        },
+
+        "interactive": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "interactive"},
+                "label": "Interactive",
+                "disabled": true
+            },
+            "bindings": {
+                "checked": {"<-": "@owner.object.interactive"}
+            }
+        },
+
+        "privileged": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "privileged"},
+                "label": "Privileged",
+                "disabled": true
+            },
+            "bindings": {
+                "checked": {"<-": "@owner.object.privileged"}
+            }
+        },
+
+        "bridged": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "bridged"},
+                "label": "Bridged",
+                "disabled": true
+            },
+            "bindings": {
+                "checked": {"<-": "@owner.object.bridge.enable"}
+            }
+        },
+
+        "bridgeAddress": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "bridgeAddress"},
+                "label": "IP address",
+                "disabled": true
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.bridge.address"},
+                "classList.has('is-hidden')": {"<-": "!@owner.object.bridge.enable && !!@owner.object.bridge.address"}
+            }
+        },
+
+        "bridgeMacAddress": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "bridgeMacAddress"},
+                "label": "MAC address",
+                "disabled": true
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.bridge.macaddress"},
+                "classList.has('is-hidden')": {"<-": "!@owner.object.bridge.enable && !!@owner.object.bridge.macaddress"}
+            }
+        },
+
+        "logs": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "logs"},
+                "name": "Logs"
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"},
+                "object": {"<-": "@owner._dockerContainerLogs"},
+                "classList.has('is-hidden')": {"<-": "@owner.object.interactive"}
+            }
+        },
+
+        "readme": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "readme"},
+                "objectType": "VmReadme",
+                "name": "Readme",
+                "path": "readme"
+            }
+        }
+
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="ContainerEditor">
+        <div data-montage-id="inspector">
+            <div class="g-margin-bottom">
+                <div data-montage-id="start"></div>
+                <div data-montage-id="restart"></div>
+                <div data-montage-id="stop"></div>
+                <div data-montage-id="serialConsole"></div>
+                <div data-montage-id="webUI"></div>
+            </div>
+
+            <div data-montage-id="image"></div>
+            <div data-montage-id="name"></div>
+            <div data-montage-id="version"></div>
+            <div data-montage-id="host"></div>
+            <div data-montage-id="hostname"></div>
+            <div data-montage-id="memoryLimit"></div>
+            <div data-montage-id="environment" class="g-margin-bottom">
+                <div></div>
+            </div>
+            <div data-montage-id="ports" class="g-margin-bottom">
+                <div></div>
+            </div>
+            <div data-montage-id="exposePorts"></div>
+            <div data-montage-id="volumes" class="g-margin-bottom">
+                <div></div>
+            </div>
+            <div data-montage-id="command"></div>
+            <div data-montage-id="autostart"></div>
+            <div data-montage-id="interactive"></div>
+            <div data-montage-id="privileged"></div>
+            <div data-montage-id="bridged"></div>
+            <div data-montage-id="bridgeAddress"></div>
+            <div data-montage-id="bridgeMacAddress"></div>
+            <div data-montage-id="logs"></div>
+            <div data-montage-id="readme"></div>
+        </div>
+    </div>
+</body>
+</html>

@@ -2,7 +2,6 @@
     position: relative;
     text-align: center;
     user-select: none;
-    -webkit-user-select: none;
     cursor: grab;
     min-width: 3.5em;
     text-shadow: 0 1px 1px rgba(0,0,0,.2);
@@ -30,26 +29,26 @@
     color: #fff;
 }
 
-.TaskCategory.is-displayed .TaskCategory-name { color: #E0E5E5; }
+.TaskCategory.is-displayed .TaskCategory-name                                       { color: #E0E5E5; }
 
-.TaskCategory.type-rsync_copy                                        { color: #D95B1B; border-color: currentColor; }
-.TaskCategory.type-rsync_copy.is-displayed .TaskCategory-name        { background-color: #D95B1B; }
+.TaskCategory.type-rsync_copy                                                       { color: #D95B1B; border-color: currentColor; }
+.TaskCategory.type-rsync_copy.is-displayed .TaskCategory-name                       { background-color: #D95B1B; }
 
-.TaskCategory.type-volume_scrub                                             { color: #093A51; }
-.TaskCategory.type-volume_scrub.is-displayed .TaskCategory-name             { background-color: #093A51; }
+.TaskCategory.type-volume_scrub                                                     { color: #093A51; }
+.TaskCategory.type-volume_scrub.is-displayed .TaskCategory-name                     { background-color: #093A51; }
 
 .TaskCategory.type-replication_replicate_dataset                                    { color: #008C84; }
 .TaskCategory.type-replication_replicate_dataset.is-displayed .TaskCategory-name    { background-color: #008C84; }
 
-.TaskCategory.type-disk_parallel_test                                   { color: #990F82; }
-.TaskCategory.type-disk_parallel_test.is-displayed .TaskCategory-name   { background-color: #990F82; }
+.TaskCategory.type-disk_parallel_test                                               { color: #990F82; }
+.TaskCategory.type-disk_parallel_test.is-displayed .TaskCategory-name               { background-color: #990F82; }
 
-.TaskCategory.type-update_checkfetch                                    { color: #C4A412; }
-.TaskCategory.type-update_checkfetch.is-displayed .TaskCategory-name    { background-color: #C4A412; }
+.TaskCategory.type-update_checkfetch                                                { color: #C4A412; }
+.TaskCategory.type-update_checkfetch.is-displayed .TaskCategory-name                { background-color: #C4A412; }
 
-.TaskCategory.type-volume_snapshot_dataset                                  { color: #6D2A2A; }
-.TaskCategory.type-volume_snapshot_dataset.is-displayed .TaskCategory-name  { background-color: #6D2A2A; }
+.TaskCategory.type-volume_snapshot_dataset                                          { color: #6D2A2A; }
+.TaskCategory.type-volume_snapshot_dataset.is-displayed .TaskCategory-name          { background-color: #6D2A2A; }
 
-.TaskCategory.type-calendar_task_command                                    { color: grey; }
-.TaskCategory.type-calendar_task_command.is-displayed .TaskCategory-name    { background-color: grey; }
+.TaskCategory.type-calendar_task_command                                            { color: grey; }
+.TaskCategory.type-calendar_task_command.is-displayed .TaskCategory-name            { background-color: grey; }
 

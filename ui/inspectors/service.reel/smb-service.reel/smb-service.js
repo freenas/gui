@@ -1,11 +1,7 @@
-var Component = require("montage/ui/component").Component,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     Model = require("core/model/model").Model;
 
-/**
- * @class SmbService
- * @extends Component
- */
-exports.SmbService = Component.specialize({
+exports.SmbService = AbstractInspector.specialize({
 
     //Fixme: should probably an enum from the middleware.
     LOG_LEVELS: {
@@ -82,7 +78,9 @@ exports.SmbService = Component.specialize({
 
     templateDidLoad: {
         value: function () {
-            this.networkInterfacesAliases = this.application.networkInterfacesSevice.networkInterfacesAliases;
+            this._sectionService.listNetworkInterfaces().then(function(networkInterfaces) {
+                self.networkInterfacesAliases = networkInterfaces;
+            });
             this._fetchUsers();
         }
     },

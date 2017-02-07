@@ -13,7 +13,8 @@
         "widget": {
             "prototype": "ui/dashboard/widgets/widget.reel",
             "properties": {
-                "element": {"#": "widget"}
+                "element": {"#": "widget"},
+                "title": "Memory Allocation"
             }
         },
         "chart": {
@@ -26,7 +27,7 @@
                 "isTimeSeries": true,
                 "graphType": "stacked",
                 "useGuideline": true,
-                "source": "memory",
+                "datasources": ["memory"],
                 "metrics": [
                     "memory-active",
                     "memory-inactive",
@@ -46,10 +47,7 @@
 <body>
     <div data-montage-id="owner">
         <div data-montage-id="widget">
-            <div data-arg="widget-title">
-                <svg><use xlink:href="#i-lineChart"/></svg>
-                Memory Allocation
-            </div>
+            <svg data-arg="widget-icon"><use xlink:href="#i-lineChart"/></svg>
             <div data-arg="widget-content">
                 <div data-montage-id="chart-live"></div>
             </div>

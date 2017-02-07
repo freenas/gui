@@ -2,7 +2,7 @@
 <html>
 <head>
     <title></title>
-    <link rel="stylesheet" type="text/css" href="web-ui.css">
+
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -98,7 +98,7 @@
             }
         },
         "httpPortConverter": {
-            "prototype": "core/converter/string-to-integer-converter",
+            "prototype": "core/converter/string-to-integer-or-null-converter",
             "properties": {
                 "validator": {"@": "httpPortValidator"}
             }
@@ -140,7 +140,7 @@
                 "converter": {"@": "certificatesConverter"}
             },
             "bindings": {
-                "options": {"<-": "@owner.certificates"},
+                "options": {"<-": "[{name: '-'}].concat(@owner.certificates)"},
                 "selectedValue": {"<->": "@owner.config.webui_https_certificate"}
             }
         },

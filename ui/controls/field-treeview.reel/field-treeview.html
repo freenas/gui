@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
     <link rel="stylesheet" type="text/css" href="field-treeview.css">
     <script type="text/montage-serialization">
     {
@@ -12,6 +11,7 @@
             },
             "bindings": {
                 "displayedPath": {"<-": "@pathInput.value"},
+                "inspector.isSaveDisabled": {"<-": "!!@owner.isExpanded"},
                 "classList.has('is-expanded')": {"<-": "@owner.isExpanded"}
             },
             "listeners": [
@@ -42,9 +42,9 @@
                 "element": {"#": "pathInput"}
             },
             "bindings": {
-                "disabled": {"<-": "@owner.disabled || @owner.readOnly"},
-                "value": {"<-": "!@owner.selectedPath ? 'none' : (@owner.selectedPath + (!!@owner.suffix ? '/' + @owner.suffix : '')).replace(@owner.removePrefix || '', '')"},
-                "disabled": {"<-": "@owner.isExpanded || !!@owner.isNotTypable"},
+                "placeholder": {"<-" : "@owner.placeholder || 'none'"},
+                "disabled": {"<-": "@owner.disabled || @owner.readOnly || @owner.isExpanded || !!@owner.isNotTypable"},
+                "value": {"<-": "!@owner.selectedPath ? '' : (@owner.selectedPath + (!!@owner.suffix ? '/' + @owner.suffix : '')).replace(@owner.removePrefix || '', '')"},
                 "delegate": {"<-": "@owner.pathInputDelegate"}
             }
         },
@@ -54,7 +54,6 @@
                 "element": {"#": "treeview"}
             },
             "bindings": {
-                "disabled": {"<-": "@owner.disabled"},
                 "controller": {"<-": "@owner.controller"},
                 "isExpanded": {"<->": "@owner.isExpanded"},
                 "selectedPath": {"<->": "@owner.selectedPath"},

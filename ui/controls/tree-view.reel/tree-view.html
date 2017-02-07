@@ -17,7 +17,7 @@
             }
         },
         "currentNodeName": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "currentNodeName"}
             },
@@ -32,6 +32,7 @@
                 "element": {"#": "currentNode"}
             },
             "bindings": {
+                "isExpanded": {"<-": "@owner.isExpanded"},
                 "controller": {"<-": "@owner.controller"},
                 "selectedPath": {"<->": "@owner.selectedPath"},
                 "selectedNode": {"<->": "@owner.selectedNode"}
@@ -44,7 +45,7 @@
             },
             "bindings": {
                 "value": {"<-": "!!@owner.controller.parent && @owner.controller.parent.name.length < 10 ? @owner.controller.parent.name : 'Back'"},
-                "disabled": {"<-": "!!!@owner.controller.parent"}
+                "disabled": {"<-": "!@owner.controller.parent"}
             }
         },
         "cancel": {

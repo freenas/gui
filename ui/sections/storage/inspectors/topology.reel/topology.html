@@ -19,11 +19,7 @@
             }
         },
         "validationController": {
-            "prototype": "core/controller/validation-controller",
-            "properties": {
-                "fields": {
-                }
-            }
+            "prototype": "core/controller/validation-controller"
         },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
@@ -58,7 +54,7 @@
                 "topology": {"@": "topology"}
             },
             "bindings": {
-                "disks": {"<-": "@owner.disks.filter{(isAvailable || isTemporaryAvailable) && !isReserved}"},
+                "disks": {"<-": "@owner.availableDisks"},
                 "object": {"<-": "@owner.topologyProxy"}
             }
         }

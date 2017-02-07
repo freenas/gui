@@ -23,11 +23,7 @@
             ]
         },
         "validationController": {
-            "prototype": "core/controller/validation-controller",
-            "properties": {
-                "fields": {
-                }
-            }
+            "prototype": "core/controller/validation-controller"
         },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
@@ -83,6 +79,23 @@
                 "valuePropertyName": "name"
             }
         },
+        "guestHealthStatusLight": {
+            "prototype": "ui/controls/traffic-light.reel",
+            "properties": {
+                "element": {"#": "guestHealthStatusLight"},
+                "colorMapping": {"HEALTHY" : "green", "DYING": "yellow", "DEAD" : "red", "UNKNOWN": "grey"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.status ? @owner.object.status.health : 'UNKNOWN'"}
+            }
+        },
+        "guestHealthStatusLabel": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "guestHealthStatusLabel"},
+                "value": "Guest Health"
+            }
+        },
         "vmTemplateSubstitution": {
             "prototype": "montage/ui/substitution.reel",
             "properties": {
@@ -111,6 +124,17 @@
             "bindings": {
                 "selectedValue": {"<->": "@owner.object._selectedTemplate"},
                 "options": {"<-": "[{label: @owner.DEFAULT_STRING, value: null}].concat(@owner.templates).sorted{label}"}
+            }
+        },
+        "parent": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "parent"},
+                "label": "Parent"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object._parent.name"},
+                "classList.has('is-hidden')": {"<-": "@owner.object._isNew || !@owner.object.parent"}
             }
         },
         "bootloader": {
@@ -148,28 +172,21 @@
                 "options": {"<-": "@owner.guestTypeOptions.sorted{label}"}
             }
         },
-        "volumeOptionConverter": {
-            "prototype": "core/converter/select-option-converter",
-            "properties": {
-                "labelPropertyName": "id",
-                "valuePropertyName": "id"
-            }
-        },
-        "volumeSubstitution": {
+        "datastoreSubstitution": {
             "prototype": "montage/ui/substitution.reel",
             "properties": {
-                "element": {"#": "volumeSubstitution"}
+                "element": {"#": "datastoreSubstitution"}
             },
             "bindings": {
                 "switchValue": {"<-": "@owner.editMode"}
             }
         },
-        "volumeDisplay": {
+        "datastoreDisplay": {
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
-                "element": {"#": "volumeDisplay"},
+                "element": {"#": "datastoreDisplay"},
                 "validationPath": "target",
-                "label": "Volume"
+                "label": "Datastore"
             },
             "bindings": {
                 "value": {"<-": "@owner.object.target"}
@@ -179,12 +196,11 @@
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "target"},
-                "label": "Volume",
-                "converter": {"@": "volumeOptionConverter"}
+                "label": "Datastore"
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.object.target"},
-                "options": {"<-": "[{id: @owner.DEFAULT_STRING}].concat(@owner.volumes)"}
+                "options": {"<-": "[{label: @owner.DEFAULT_STRING, value: null}].concat(@owner.volumes.map{{label: id, value: id}})"}
             }
         },
         "description": {
@@ -260,33 +276,128 @@
         "readme": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
-                "element": {"#": "readme"}
+                "element": {"#": "readme"},
+                "objectType": "VmReadme",
+                "name": "Readme",
+                "path": "readme"
+            }
+        },
+        "guestToolsSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "guestToolsSubstitution"}
             },
             "bindings": {
-                "context": {"<-": "@owner.context"},
-                "object": {"<-": "@owner.object._readme"}
+                "switchValue": {"<-": "!@owner.object.status.vm_tools_available ? 'unavailable' : 'available'"},
+                "classList.has('is-hidden')": {"<-": "@owner.object._isNew"}
+            }
+        },
+        "guestTools": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "guestTools"},
+                "title": "Guest tools",
+                "isExpanded": false
+            }
+        },
+        "guestInfoRefresh": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "guestInfoRefresh"},
+                "value": "Refresh guest info"
+            },
+            "bindings": {
+                "disabled": {"<-": "!@owner.object.status.vm_tools_available"}
+            }
+        },
+        "guestToolsStatus": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "label": "Guest tools",
+                "element": {"#": "guestToolsStatus"}
+            },
+            "bindings": {
+                "value": {"<-": "!@owner.object.status.vm_tools_available ? 'Not detected' : 'Available'"}
+            }
+        },
+        "guestInfoLoadAvg": {
+            "prototype": "blue-shark/ui/tables/table-read-only.reel",
+            "properties": {
+                "element": {"#": "guestInfoLoadAvg"},
+                "label": "Guest load averages",
+                "columns":  [
+                    {
+                        "value": "1 Minute",
+                        "path": "onemin"
+                    },
+                    {
+                        "value": "5 Minutes",
+                        "path": "fivemin"
+                    },
+                    {
+                        "value": "10 Minutes",
+                        "path": "tenmin"
+                    }
+                ]
+            },
+            "bindings": {
+                "rows": {"<-": "@owner.guestInfoLoadAvg"},
+                "classList.has('is-hidden')": {"<-": "!@owner.guestInfoLoadAvg.length"}
+            }
+        },
+        "guestInfoInterfaces": {
+            "prototype": "blue-shark/ui/tables/table-read-only.reel",
+            "properties": {
+                "element": {"#": "guestInfoInterfaces"},
+                "label": "Guest network interfaces",
+                "columns":  [
+                    {
+                        "value": "Interface",
+                        "path": "interface"
+                    },
+                    {
+                        "value": "Type",
+                        "path": "type"
+                    },
+                    {
+                        "value": "Address",
+                        "path": "address"
+                    }
+                ]
+            },
+            "bindings": {
+                "rows": {"<-": "@owner.guestInfoInterfaces"},
+                "classList.has('is-hidden')": {"<-": "!@owner.guestInfoInterfaces.length"}
             }
         },
         "devices": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
                 "element": {"#": "devices"},
-                "name": "Devices"
-            },
-            "bindings": {
-                "context": {"<-": "@owner.context"},
-                "object": {"<-": "@owner.object._nonVolumeDevices"}
+                "name": "Devices",
+                "objectType": "VmDevice",
+                "path": "devices"
             }
         },
         "volumeDevices": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
                 "element": {"#": "volumeDevices"},
-                "name": "Volumes"
+                "name": "Volumes",
+                "objectType": "VmVolume",
+                "path": "volumes"
+            }
+        },
+        "clones": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "clones"},
+                "name": "Clones",
+                "objectType": "Vm",
+                "path": "clones"
             },
             "bindings": {
-                "context": {"<-": "@owner.context"},
-                "object": {"<-": "@owner.object._volumeDevices"}
+                "classList.has('hide')": {"<-": "!!@owner.object.parent"}
             }
         },
         "start": {
@@ -319,15 +430,6 @@
                 "disabled": {"<-": "@owner.object.status.state == 'STOPPED'"}
             }
         },
-        "webvncConsoleCondition": {
-            "prototype": "montage/ui/condition.reel",
-            "properties": {
-                "element": {"#": "webvncConsoleCondition"}
-            },
-            "bindings": {
-                "condition": {"<-": "@owner.object.devices.some{type == 'GRAPHICS'}"}
-            }
-        },
         "webvncConsole": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
@@ -335,6 +437,7 @@
                 "value": "VGA Console"
             },
             "bindings": {
+                "classList.has('hide')": {"<-": "!@owner.object._hasGraphicDevice"},
                 "disabled": {"<-": "@owner.object.status.state == 'STOPPED'"}
             }
         },
@@ -359,9 +462,7 @@
                 <div data-montage-id="stop"></div>
                 <div data-montage-id="reboot"></div>
                 <div data-montage-id="serialConsole"></div>
-                <div data-montage-id="webvncConsoleCondition">
-                    <div data-montage-id="webvncConsole"></div>
-                </div>
+                <div data-montage-id="webvncConsole"></div>
             </div>
             <div data-montage-id="stateCondition">
                 <div data-montage-id="state"></div>
@@ -371,9 +472,10 @@
                 <div data-montage-id="vmTemplateEdit" data-arg="edit"></div>
                 <div data-montage-id="vmTemplateDisplay" data-arg="display"></div>
             </div>
-            <div data-montage-id="volumeSubstitution">
+            <div data-montage-id="parent"></div>
+            <div data-montage-id="datastoreSubstitution">
                 <div data-montage-id="target" data-arg="edit"></div>
-                <div data-montage-id="volumeDisplay" data-arg="display"></div>
+                <div data-montage-id="datastoreDisplay" data-arg="display"></div>
             </div>
             <div data-montage-id="bootloader"></div>
             <div data-montage-id="bootDevice"></div>
@@ -382,9 +484,22 @@
             <div data-montage-id="cpu"></div>
             <div data-montage-id="memory"></div>
             <div data-montage-id="autostart"></div>
+            <div class="flex-row flex-align--center g-margin-bottom">
+                <div data-montage-id="guestHealthStatusLight" class="g-margin-right--half"></div>
+                <div data-montage-id="guestHealthStatusLabel"></div>
+            </div>
+            <div data-montage-id="guestToolsSubstitution">
+                <div data-montage-id="guestToolsStatus" data-arg="unavailable"></div>
+                <div data-montage-id="guestTools" data-arg="available">
+                    <div data-montage-id="guestInfoRefresh" class="g-margin-bottom"></div>
+                    <div data-montage-id="guestInfoLoadAvg" class="g-margin-bottom"></div>
+                    <div data-montage-id="guestInfoInterfaces" class="g-margin-bottom"></div>
+                </div>
+            </div>
             <div data-montage-id="readme"></div>
             <div data-montage-id="devices"></div>
             <div data-montage-id="volumeDevices"></div>
+            <div data-montage-id="clones"></div>
         </div>
     </div>
 </body>

@@ -1,47 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="directory-services.css">
+
     <script type="text/montage-serialization">
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "_windbindTable": {"@": "windbind"},
+                "_freeipaTable": {"@": "freeipa"},
+                "_ldapTable": {"@": "ldap"},
+                "_nisTable": {"@": "nis"}
+            },
+            "bindings": {
+                "object.__directoryServices": {"<-": "[].concat(@windbind.values, @freeipa.values, @ldap.values, @nis.values)"}
             }
         },
 
-        "options": {
-            "prototype": "blue-shark/ui/field-select.reel",
+        "windbind": {
+            "prototype": "./table-active-directory.reel",
             "properties": {
-                "element": {"#": "select"},
-                "label": "Directory Service"
+                "element": {"#": "windbind"}
             },
             "bindings": {
-                "options": {"<-": "@owner.directoryServices.map{{label: label, value: this}}"},
-                "selectedValue": {"<-": "@owner.directoryServices.0"}
+                "_sectionService": {"<-": "@owner._sectionService"}
             }
         },
 
-        "name": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+        "freeipa": {
+            "prototype": "./table-freeipa.reel",
             "properties": {
-                "element": {"#": "name"},
-                "label": "Name",
-                "placeholder": "e.g. Tech AD"
+                "element": {"#": "freeipa"}
             },
             "bindings": {
-                "value": {"<->": "@options.selectedValue.name"}
+                "_sectionService": {"<-": "@owner._sectionService"}
             }
         },
 
-        "content": {
-            "prototype": "ui/controls/placeholder.reel",
+        "ldap": {
+            "prototype": "./table-ldap.reel",
             "properties": {
-                "element": {"#": "content"}
+                "element": {"#": "ldap"}
             },
             "bindings": {
-                "moduleId": {"<-": "'ui/inspectors/directory-services.reel/' + @options.selectedValue.type + '-service.reel'"},
-                "object": {"<-": "@options.selectedValue"}
+                "_sectionService": {"<-": "@owner._sectionService"}
+            }
+        },
+
+        "nis": {
+            "prototype": "./table-nis.reel",
+            "properties": {
+                "element": {"#": "nis"}
+            },
+            "bindings": {
+                "_sectionService": {"<-": "@owner._sectionService"}
             }
         }
     }
@@ -49,9 +61,10 @@
 </head>
 <body>
     <div data-montage-id="owner" class="DirectoryServices-wizard">
-        <div data-montage-id="select"></div>
-        <div data-montage-id="name"></div>
-        <div data-montage-id="content"></div>
+        <div data-montage-id="windbind" class="g-margin-bottom"></div>
+        <div data-montage-id="freeipa" class="g-margin-bottom"></div>
+        <div data-montage-id="ldap" class="g-margin-bottom"></div>
+        <div data-montage-id="nis" class="g-margin-bottom"></div>
     </div>
 </body>
 </html>

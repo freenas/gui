@@ -4,27 +4,89 @@
 }
 
 .Wizard {
-    max-width: 45em;
-    padding: 1em;
-    display: flex;
     flex: 1;
-    flex-direction: column;
-}
-
-.Wizard .Inspector-body { margin: 0; }
-
-.Wizard-header {
-    position: relative;
-}
-
-.Wizard-counter {
-    position: absolute;
-    right: 0;
-    bottom: .25em;
+    @apply --flex-column;
 }
 
 /* inspector edits */
 
-.Wizard .VolumeCreator .Inspector {
-    margin: 0;
+.Wizard .VolumeCreator .Inspector   { margin: 0; }
+.Wizard .Inspector-body             { margin: 0; }
+
+.Wizard-header {
+    position: relative;
+    background: #0B1E29;
+    color: #fff;
+
+    & .wrapper {
+        margin: 0 auto;
+        max-width: 50em;
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+
+    }
+}
+
+.Wizard-header-title { font-size: 1.25em; }
+
+.Wizard-content {
+    @apply --flex-column;
+    background: #2f3233;
+
+    & .stepPlaceholder {
+        margin: 0 auto;
+        max-width: 50em;
+    }
+
+    & .Scrollview-transform {
+        display: block;
+    }
+}
+
+.Wizard-footer {
+    flex: 1;
+    background: #16171a;
+}
+
+/* controls */
+
+.Wizard-controls {
+    margin: 0 auto;
+    max-width: 50em;
+}
+
+.Wizard-controls > div {
+    flex: 1;
+
+    & button + button { margin-left: .5em; }
+}
+
+.Wizard-controls-previous {
+    padding-left: .5em !important;
+    & svg {
+        height: 1em;
+        transform: rotate(180deg);
+        margin-right: 0 !important;
+    }
+}
+
+.Wizard-controls-next  {
+    display: flex;
+    justify-content: center;
+    padding-right: .5em !important;
+
+    & .Button-content {
+        display: flex;
+        align-items: center;
+    }
+
+
+    & svg {
+        width: 1em;
+        height: 1em;
+        order: 1;
+        margin-right: 0 !important;
+        margin-left: .25em;
+    }
 }

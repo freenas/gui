@@ -41,33 +41,57 @@
             }
         },
         "username": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "username"}
             },
             "bindings": {
-                "value": {"<-": "@owner.application.sessionService.session.username"}
-            }
-        },
-        "reboot": {
-            "prototype": "montage/ui/button.reel",
-            "properties": {
-                "element": {"#": "reboot"},
-                "label": "Reboot"
-            }
-        },
-        "shutdown": {
-            "prototype": "montage/ui/button.reel",
-            "properties": {
-                "element": {"#": "shutdown"},
-                "label": "Shutdown"
+                "value": {"<-": "!!@owner.session && @owner.session.username"}
             }
         },
         "logout": {
-            "prototype": "montage/ui/button.reel",
+            "prototype": "blue-shark/ui/button.reel",
             "properties": {
                 "element": {"#": "logout"},
-                "label": "Logout"
+                "value": "Logout",
+                "hasTemplate": false
+            }
+        },
+        "logoutLabel": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "logoutLabel"},
+                "value": "Logout"
+            }
+        },
+        "reboot": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "reboot"},
+                "value": "Reboot",
+                "hasTemplate": false
+            }
+        },
+        "rebootLabel": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "rebootLabel"},
+                "value": "Reboot"
+            }
+        },
+        "shutdown": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "shutdown"},
+                "value": "Shutdown",
+                "hasTemplate": false
+            }
+        },
+        "shutdownLabel": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "shutdownLabel"},
+                "value": "Shutdown"
             }
         },
         "globalActionsButton": {
@@ -77,7 +101,7 @@
             }
         },
         "confirmationMessage": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "confirmationMessage"}
             },
@@ -118,9 +142,9 @@
                 <svg><use xlink:href="#i-power"/></svg>
             </div>
             <ul class="MainSidebar-globalActions-options">
-                <li><button data-montage-id="logout"></button></li>
-                <li><button data-montage-id="reboot"></button></li>
-                <li><button data-montage-id="shutdown"></button></li>
+                <li><button data-montage-id="logout"><span data-montage-id="logoutLabel"></span></button></li>
+                <li><button data-montage-id="reboot"><span data-montage-id="rebootLabel"></span></button></li>
+                <li><button data-montage-id="shutdown"><span data-montage-id="shutdownLabel"></span></button></li>
             </ul>
             <div class="MainSidebar-confirmation">
                 <div data-montage-id="confirmationMessage" class="MainSidebar-confirmation-message"></div>

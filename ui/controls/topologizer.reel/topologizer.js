@@ -1,4 +1,5 @@
 var Component = require("montage/ui/component").Component,
+    TopologyProfile = require("core/service/topology-service").TopologyProfile,
     TranslateComposer = require("montage/composer/translate-composer").TranslateComposer;
 
 /**
@@ -21,7 +22,7 @@ exports.Topologizer = Component.specialize({
 
     profile: {
         get: function() {
-            return this._profile
+            return this._profile;
         },
         set: function(profile) {
             if (this._profile != profile) {
@@ -74,7 +75,6 @@ exports.Topologizer = Component.specialize({
     enterDocument: {
         value: function(isFirstTime) {
             if (isFirstTime) {
-
                 if (!this.constructor.cssTransform) {// check for transform support
                     if("webkitTransform" in this._element.style) {
                         this.constructor.cssTransform = "webkitTransform";
@@ -189,18 +189,18 @@ exports.Topologizer = Component.specialize({
             var startPosition = this._translateComposer.pointerStartEventPosition,
                 triangleElementBoundingRect = this.triangleElement.getBoundingClientRect();
 
-            this._targePosition = {
+            this.controller.clearReservedDisks();
+
+            this._targetPosition = {
                 x: startPosition.pageX - triangleElementBoundingRect.left,
                 y: startPosition.pageY - triangleElementBoundingRect.top
             };
+            this._translateComposer.translateX = this._targetPosition.x;
 
-            this._translateComposer.translateX = this._targePosition.x;
-            this._translateComposer.translateY = this._targePosition.y;
-
+            this._translateComposer.translateY = this._targetPosition.y;
             this._translateComposer.addEventListener("translate", this, false);
-            this._translateComposer.addEventListener("translateEnd", this, false);
 
-            this.controller.clearReservedDisks(true);
+            this._translateComposer.addEventListener("translateEnd", this, false);
             this.profile = "";
             this.needsDraw = true;
 
@@ -209,8 +209,8 @@ exports.Topologizer = Component.specialize({
 
     handleTranslate: {
         value: function (event) {
-            this._targePosition.x = event.translateX;
-            this._targePosition.y = event.translateY;
+            this._targetPosition.x = event.translateX;
+            this._targetPosition.y = event.translateY;
 
             this._isMoving = true;
             this.needsDraw = true;
@@ -222,7 +222,7 @@ exports.Topologizer = Component.specialize({
             this._isMoving = false;
 
             this.needsDraw = true;
-            
+
             this._translateComposer.removeEventListener("translate", this, false);
             this._translateComposer.removeEventListener("translateEnd", this, false);
         }
@@ -239,7 +239,7 @@ exports.Topologizer = Component.specialize({
 
     draw: {
         value: function () {
-            if (this._targePosition) {
+            if (this._targetPosition) {
                 if (this._isMoving || this.profileHasChanged) {
                     //fixme: @joshua hacky
                     if (!this.handleElement.style.left) {
@@ -248,31 +248,51 @@ exports.Topologizer = Component.specialize({
                     }
 
                     this.profileHasChanged = false;
-                    this.handlePosition = this._targePosition;
+                    this.handlePosition = this._targetPosition;
                     this._positionHandle();
-                } 
+                }
                 if (!this._isMoving) {
                     var previousBarycentricValues = this._previousBarycentricValues,
                         barycentricValues = this.barycentricValues;
 
-                    if (!previousBarycentricValues || 
+                    this.lockDisks = false;
+
+                    if (!previousBarycentricValues ||
                         !this._areBarycentricValuesEqual(previousBarycentricValues, barycentricValues)) {
-                            var self = this;
-                            this.lockDisks = true;
-                            this.controller.generateTopology(
-                                this.topology, 
-                                this.disks, 
-                                barycentricValues[0], 
-                                barycentricValues[1], 
-                                barycentricValues[2]
-                            ).then(function(results) {
-                                self.priorities = results.priorities;
+
+                        var self = this;
+
+                        this.controller.clearReservedDisks();
+                        this.controller.listAvailableDisks().then(function(availableDisks) {
+                            return Promise.all([
+                                self.controller.getVdevRecommendation(
+                                    barycentricValues[0],
+                                    barycentricValues[1],
+                                    barycentricValues[2]
+                                ),
+                                self.controller.generateTopology(
+                                    availableDisks,
+                                    new TopologyProfile(
+                                        barycentricValues[0],
+                                        barycentricValues[1],
+                                        barycentricValues[2]
+                                    )
+                                )
+                            ]).then(function (data) {
+                                var recommendation = data[0],
+                                    topology = data[1];
+
+                                self.priorities = recommendation.priorities;
+                                self.topology = topology;
                             });
-                        }
+                        });
+                    }
 
                     this._previousBarycentricValues = barycentricValues;
+                } else {
+                    this.lockDisks = true;
                 }
-                
+
             }
         }
     },
@@ -306,25 +326,25 @@ exports.Topologizer = Component.specialize({
         value: function() {
             switch (this._profile) {
                 case 'MEDIA':
-                    this._targePosition = {
+                    this._targetPosition = {
                         x: 110,
                         y: 95
                     };
                     break;
                 case 'VIRTUALIZATION':
-                    this._targePosition = {
+                    this._targetPosition = {
                         x: 55,
                         y: 0
                     };
                     break;
                 case 'BACKUP':
-                    this._targePosition = {
+                    this._targetPosition = {
                         x: 0,
                         y: 95
                     };
                     break;
                 case 'OPTIMAL':
-                    this._targePosition = {
+                    this._targetPosition = {
                         x: 55,
                         y: 62.5
                     };

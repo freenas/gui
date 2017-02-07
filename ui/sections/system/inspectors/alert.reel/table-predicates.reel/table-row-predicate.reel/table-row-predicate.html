@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="table-row-predicate.css">
+
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -26,6 +26,7 @@
                 ]
             },
             "bindings": {
+                "disabled": {"<-": "@owner.object._disabled"},
                 "selectedValue": {"<->": "@owner.object.property"}
             }
         },
@@ -138,20 +139,12 @@
     <div data-montage-id="owner" class="TableRowPredicate Table-cells">
         <div><div data-montage-id="property"></div></div>
         <div data-montage-id="operatorSubstitution">
-            <div data-arg="class">
-                <div><div data-montage-id="classOperators"></div></div>
-            </div>
-            <div data-arg="severity">
-                <div><div data-montage-id="severityOperators"></div></div>
-            </div>
+            <div data-arg="class" data-montage-id="classOperators"></div>
+            <div data-arg="severity" data-montage-id="severityOperators"></div>
         </div>
         <div data-montage-id="valueSubstitution">
-            <div data-arg="class">
-                <div><div data-montage-id="classValues" class="Select-value"></div></div>
-            </div>
-            <div data-arg="severity">
-                <div><div data-montage-id="severityValues" class="Select-value"></div></div>
-            </div>
+            <div data-arg="class" data-montage-id="classValues" class="Select-value"></div>
+            <div data-arg="severity" data-montage-id="severityValues" class="Select-value"></div>
         </div>
     </div>
 </body>

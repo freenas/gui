@@ -1,10 +1,5 @@
-var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    NetworkSectionService = require("core/service/section/network-section-service").NetworkSectionService;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
-/**
- * @class NetworkInterface
- * @extends Component
- */
 exports.NetworkInterface = AbstractInspector.specialize({
     isAddressSourceDhcp: {
         value: null
@@ -65,7 +60,7 @@ exports.NetworkInterface = AbstractInspector.specialize({
         value: function() {
             var self = this;
             return this.inspector.revert().then(function() {
-                self.object.type = self.interfaceType;
+                self._sectionService.initializeInterface(self.object);
             });
         }
     }

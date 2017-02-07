@@ -16,16 +16,16 @@
 
     &:hover {
         background-color: #33373B;
-        color: #FFF;
+        color: var(--main-text-color);
     }
 }
 
 /* States ---------------------------------- */
 
-.selected .ListItem {
+.ListItem.selected {
     background: #2B9CD8;
     cursor: default;
-    color: #fff;
+    color: var(--main-text-color);
 
     @nest .CascadingListItem:not(:nth-last-child(2)) & {
         background:     color(#2B9CD8 blackness(35%));
@@ -55,7 +55,11 @@
     font-size: .75em;
     white-space: nowrap;
     text-overflow: ellipsis;
-    color: #666;
+    color: var(--grey-1);
+
+    @nest .ListItem.selected & {
+        color: var(--main-text-color);
+    }
 }
 
 .ListItem-icon > * {
@@ -67,11 +71,11 @@
     transition: color .25s;
 
     @nest .ListItem:hover & {
-        color: #fff;
+        color: var(--main-text-color);
     }
 
     @nest .ListItem.selected & {
-        color: #fff;
+        color: var(--main-text-color);
     }
 }
 
@@ -94,5 +98,5 @@
 
 .ListItem-status {
     font-size: .6em;
-    margin-right: .5rem;
+    margin-right: 1rem;
 }

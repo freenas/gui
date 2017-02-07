@@ -1,7 +1,5 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     Model = require("core/model/model").Model,
-    FileSystemController = require("core/controller/filesystem-tree-controller").FilesystemTreeController,
-    DataSetTreeController = require("core/controller/dataset-tree-controller").DatasetTreeController,
     application = require("montage/core/application").application,
     ShareService = require("core/service/share-service").ShareService;
 
@@ -111,7 +109,6 @@ exports.Share = AbstractInspector.specialize({
 
                 this._object = object;
 
-                // trigger content change
                 this.dispatchOwnPropertyChange("possibleTargetTypes", this.possibleTargetTypes);
             }
         }
@@ -131,7 +128,6 @@ exports.Share = AbstractInspector.specialize({
                     this._openTreeController();
                 }
 
-                // triggers icon update
                 this.dispatchOwnPropertyChange("iconModuleId", this.iconModuleId);
             }
         },
@@ -159,14 +155,16 @@ exports.Share = AbstractInspector.specialize({
             }
 
             if (this.object) {
-                this.volume = this._getCurrentVolume();
                 this.targetType = this.object.target_type;
 
                 //todo: block draw
+                this.isLoading = true;
                 this._shareService.populateShareObjectIfNeeded(this.object).then(function() {
                     if (self._object._isNew) {
+                        self.object.target_path = self.object._volume.id;
                         self._openTreeController();
                     }
+                    self.isLoading = false;
                 });
             }
         }
@@ -174,7 +172,6 @@ exports.Share = AbstractInspector.specialize({
 
     save: {
         value: function() {
-            var self = this;
             this._object.target_path = this.targetTreeview.pathInput.value;
             if (this.object._isNew) {
                 this.isPathReadOnly = true;
@@ -196,19 +193,6 @@ exports.Share = AbstractInspector.specialize({
         }
     },
 
-    _getCurrentVolume: {
-        value: function() {
-            if (this.context) {
-                var currentSelection = this.application.selectionService.getCurrentSelection();
-                for (var i = currentSelection.length - 1; i >= 0; i--) {
-                    if (currentSelection[i].constructor.Type == Model.Volume) {
-                        return currentSelection[i];
-                    }
-                }
-            }
-        }
-    },
-
     revert: {
         value: function() {
             var self = this,
@@ -219,16 +203,16 @@ exports.Share = AbstractInspector.specialize({
             } else {
                 switch (this._object.type) {
                     case this.application.shareService.constructor.SHARE_TYPES.SMB:
-                        promise = shareService.createSmbShare(this._object.volume);
+                        promise = shareService.createSmbShare(this._object._volume);
                         break;
                     case this.application.shareService.constructor.SHARE_TYPES.NFS:
-                        promise = shareService.createNfsShare(this._object.volume);
+                        promise = shareService.createNfsShare(this._object._volume);
                         break;
                     case this.application.shareService.constructor.SHARE_TYPES.AFP:
-                        promise = shareService.createAfpShare(this._object.volume);
+                        promise = shareService.createAfpShare(this._object._volume);
                         break;
                     case this.application.shareService.constructor.SHARE_TYPES.ISCSI:
-                        promise = shareService.createIscsiShare(this._object.volume);
+                        promise = shareService.createIscsiShare(this._object._volume);
                         break;
                 }
                 return promise.then(function(share) {

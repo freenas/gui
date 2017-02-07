@@ -1,22 +1,8 @@
-/**
- * @module ui/wizard.reel
- */
-var Component = require("montage/ui/component").Component,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     WizardSectionService = require("core/service/section/wizard-section-service").WizardSectionService,
-    wizardDescriptor = require("./wizard.mjson");
+    wizardDescriptor = require("./wizard.json");
 
-/**
- * @class Wizard
- * @extends Component
- */
-exports.Wizard = Component.specialize(/** @lends Wizard# */ {
-
-    //TODO: remove when account will have been migrated to the new architecture.
-    _sectionService: {
-        get: function () {
-            return WizardSectionService.instance;
-        }
-    },
+exports.Wizard = AbstractInspector.specialize(/** @lends Wizard# */ {
 
     _currentIndex: {
         value: -1
@@ -53,8 +39,8 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
 
     enterDocument: {
         value: function (isFirstTime) {
+            this._forceSectionService(WizardSectionService.instance);
             if (isFirstTime) {
-                this.application.selectionService.saveSelection(this.application.section, [{}]);
                 this.addEventListener("action", this);
             }
 
@@ -64,7 +50,7 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
 
             this._sectionService.buildStepsWizardWithDescriptor(wizardDescriptor).then(function (steps) {
                 self.steps = steps;
-                self.handleNextAction();
+                self._next();
                 self._isLoading = false;
             });
         }
@@ -78,6 +64,7 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
 
     handleNextAction: {
         value: function () {
+            this.steps[this._currentIndex].isSkipped = false;
             this._next();
         }
     },
@@ -119,6 +106,7 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
                     if (candidateStep.parent) {
                         if (!this._isStepSkipped(candidateStep.parent)) {
                             this._selectStep(candidateStep);
+                            break;
                         }
                     } else {
                         this._selectStep(candidateStep);
@@ -138,19 +126,18 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
                     if (candidateStep.parent) {
                         if (!this._isStepSkipped(candidateStep.parent)) {
                             this._selectStep(candidateStep);
-                            candidateStep.isSkipped = false;
                             break;
                         } else {
                             candidateStep.isSkipped = true;
                         }
                     } else {
                         this._selectStep(candidateStep);
-                        candidateStep.isSkipped = false;
                         break;
                     }
                 }
             } else if (this._currentIndex === -1) {
                 this._currentObject = this.steps[(this._currentIndex = 0)].object;
+                this._currentUiDescriptor = this.steps[0].uiDescriptor;
             }
         }
     },
@@ -159,7 +146,9 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
         value: function (step) {
             this._context.isNextStepDisabled = false;
             this._currentObject = step.object;
+            this._currentUiDescriptor = step.uiDescriptor;
             this._context.sectionService = step.service;
+            this._context.previousStep = this._currentIndex > 0 ? this.steps[this._currentIndex - 1] : null;
         }
     },
 
@@ -184,6 +173,7 @@ exports.Wizard = Component.specialize(/** @lends Wizard# */ {
     _resetData: {
         value: function () {
             this._currentObject = null;
+            this._currentUiDescriptor = null;
             this._currentIndex = -1;
             this._context = {};
             this._canSkip = true;

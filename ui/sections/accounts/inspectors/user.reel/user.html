@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="user.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "validationController": {"@": "validationController"},
+                "treeController": {"@": "filesystemTreeController"},
+                "inspector": {"@": "inspector"},
+                "extraDeleteFlags": [
+                    {"label": "Delete user's home directory?",
+                     "value": "delete_homedir",
+                     "checked": false},
+                    {"label": "Delete user's group?",
+                     "value": "delete_own_group",
+                     "checked": false}
+                ]
+            }
+        },
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                    "uid": {"@": "uidEdit"}
+                }
+            }
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "controller": {"@": "owner"},
+                "validationController": {"@": "validationController"}
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"},
+                "canDelete": {"<-": "!@owner.object.builtin || !@owner.object.origin.read_only"},
+                "canRevert": {"<-": "(@owner.object.uid == 0) || !@owner.object.builtin || !@owner.object.origin.read_only"},
+                "canSave": {"<-": "(@owner.object.uid == 0) || !@owner.object.builtin || !@owner.object.origin.read_only"},
+                "extraDeleteFlags": {"<-": "@owner.extraDeleteFlags"}
+            }
+        },
+        "filesystemTreeController": {
+            "prototype": "core/controller/tree/filesystem-tree-controller",
+            "properties": {
+                "canListFiles": false,
+                "root": "/mnt"
+            },
+            "bindings": {
+                "service": {"<-": "@owner.application.filesystemService"}
+            }
+        },
+        "uidValidator": {
+            "prototype": "core/converter/validator/unix-account-id-validator"
+        },
+        "uidNameSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "uidNameSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "!!@owner.object.builtin || !!@owner.object.origin.read_only ? 'system' : 'luser'"}
+            }
+        },
+        "systemUserSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "systemUserSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.userType"}
+            }
+        },
+        "uidEdit": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "uidEdit"},
+                "label": "User ID",
+                "validationPath": "uid",
+                "validator": {"@": "uidValidator"},
+                "errorMessage": "User ID must be between 0 and 4294967295",
+                "helpMessage": "User.uid"
+            },
+            "bindings": {
+                "value": {"<->": "+@owner.object.uid"}
+            }
+        },
+        "uidDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "uidDisplay"},
+                "label": "User ID"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.uid"}
+            }
+        },
+        "username": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "usernameEdit"},
+                "validationPath": "username",
+                "label": "Username"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.username"}
+            }
+        },
+        "usernameDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "usernameDisplay"},
+                "label": "Username"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.username"}
+            }
+        },
+        "password": {
+            "prototype": "blue-shark/ui/field-password.reel",
+            "properties": {
+                "element": {"#": "password"},
+                "validationPath": "password",
+                "label": "Password",
+                "placeholder1": "enter password",
+                "placeholder2": "confirm password",
+                "errorMessage": "Passwords don't match"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.password"},
+                "editEnabled": {"<-": "!!@owner.object._isNew"}
+            }
+        },
+        "fullNameEdit": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "fullNameEdit"},
+                "label": "Display Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.full_name"}
+            }
+        },
+        "fullNameDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "fullNameDisplay"},
+                "validationPath": "full_name",
+                "label": "Display Name"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.full_name"}
+            }
+        },
+        "emailValidator": {
+            "prototype": "core/converter/validator/email-validator",
+            "properties": {
+                "errorMessage": "Invalid email address"
+            }
+        },
+        "emailConverter": {
+            "prototype": "core/converter/string-or-null-validation-converter",
+            "properties": {
+                "validator": {"@": "emailValidator"}
+            }
+        },
+        "emailEdit": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "emailEdit"},
+                "label": "Email",
+                "converter": {"@": "emailConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.email"}
+            }
+        },
+        "emailDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "emailDisplay"},
+                "label": "Email"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.email"}
+            }
+        },
+        "groupSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "groupSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.object.uid == 0 ? 'root' : 'luser'"}
+            }
+        },
+        "groupOptionConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "valuePropertyName": "id",
+                "labelPropertyName": "name"
+            }
+        },
+        "groupEdit": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "groupEdit"},
+                "validationPath": "group",
+                "converter": {"@": "groupOptionConverter"},
+                "label": "Primary Group"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.group"},
+                "options": {"<-": "[{id: null, name: ' - ', builtin: false}].concat(@owner.groupOptions).sorted{builtin + name}"}
+            }
+        },
+        "groupDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "groupDisplay"},
+                "label": "Primary Group"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.groupOptions.filter{id == @owner.object.group}.name"}
+            }
+        },
+        "groupDisplayRoot": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "groupDisplayRoot"},
+                "label": "Primary Group"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.groupOptions.filter{id == @owner.object.group}.name"}
+            }
+        },
+        "additionalGroupsValidator": {
+            "prototype": "./[AdditionalGroupsValidator]",
+            "bindings": {
+                "groupOptions": {"<-": "@owner.groupOptions"}
+            }
+        },
+        "additionalGroupsConverter": {
+            "prototype": "./[AdditionalGroupsConverter]",
+            "properties": {
+                "validator": {"@": "additionalGroupsValidator"}
+            },
+            "bindings": {
+                "groupOptions": {"<-": "@owner.groupOptions"}
+            }
+        },
+        "groupsCondition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "groupsCondition"}
+            },
+            "bindings": {
+                "condition": {"<-": "@owner.object.uid != 0"}
+            }
+        },
+        "groupsSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "groupsSection"},
+                "title": "Additional Groups"
+            }
+        },
+        "groups": {
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "properties": {
+                "element": {"#": "groups"},
+                "label": "Additional Groups",
+                "labelPath": "name",
+                "placeholder": "Select a group",
+                "validationPath": "groups",
+                "converter": {"@": "additionalGroupsConverter"}
+            },
+            "bindings": {
+                "options": {"<-": "@owner.groupOptions.filter{id != @owner.object.group}.sorted{builtin + name}"},
+                "values": {"<->": "@owner.additionalGroups"},
+                "enabled": {"<-": "@groupsSection.isExpanded"}
+            }
+        },
+        "homeSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "homeSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.object.uid == 0 ? 'root' : 'luser'"}
+            }
+        },
+        "homeEdit": {
+            "prototype": "ui/controls/field-treeview.reel",
+            "properties": {
+                "element": {"#": "homeEdit"},
+                "controller": {"@": "filesystemTreeController"},
+                "validationPath": "home",
+                "label": "Home Directory"
+            },
+            "bindings": {
+                "selectedPath": {"<->": "@owner.object.home"},
+                "suffix": {"<-": "@owner.object._isNew ? @owner.object.username : ''"},
+                "classList.has('hide')": {"<-": "@owner.useEmptyHomedir"}
+            }
+        },
+        "homeDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "homeDisplay"},
+                "label": "Home Directory"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.home"}
+            }
+        },
+        "homeDisplayRoot": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "homeDisplayRoot"},
+                "label": "Home Directory"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.home"}
+            }
+        },
+        "shellConverter": {
+            "prototype": "core/converter/select-option-converter"
+        },
+        "shellSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "shellSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.object.uid == 0 ? 'root' : 'luser'"}
+            }
+        },
+        "shellEdit": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "shellEdit"},
+                "label": "Shell",
+                "validationPath": "shell",
+                "converter": {"@": "shellConverter"}
+            },
+            "bindings": {
+                "options": {"<-": "@owner.shellOptions"},
+                "selectedValue": {"<->": "@owner.object.shell"}
+            }
+        },
+        "shellDisplayRoot": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "shellDisplayRoot"},
+                "label": "Shell"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.shell"}
+            }
+        },
+        "shellDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "shellDisplay"},
+                "label": "Shell"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.shell"}
+            }
+        },
+        "sshpubkeyEdit": {
+            "prototype": "blue-shark/ui/field-text-area.reel",
+            "properties": {
+                "element": {"#": "sshpubkeyEdit"},
+                "validationPath": "sshpubkey",
+                "label": "SSH Public Key"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.sshpubkey"}
+            }
+        },
+        "sshpubkeyDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "sshpubkeyDisplay"},
+                "label": "SSH Public Key"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.sshpubkey"}
+            }
+        },
+        "passwordDisabledEdit": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "passwordDisabledEdit"},
+                "validationPath": "password_disabled",
+                "label": "Disable Password"
+            },
+            "bindings": {
+                "checked": {"<->": "!!@owner.object.password_disabled"}
+            }
+        },
+        "passwordDisabledDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "passwordDisabledDisplay"},
+                "label": "Password Disabled"
+            },
+            "bindings": {
+                "value": {"<-": "!!@owner.object.password_disabled ? 'Yes' : 'No'"}
+            }
+        },
+        "lockedSudoCondition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "lockedSudoCondition"}
+            },
+            "bindings": {
+                "condition": {"<-": "@owner.object.uid != 0"}
+            }
+        },
+        "lockedEdit": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "lockedEdit"},
+                "validationPath": "locked",
+                "label": "Lock Account"
+            },
+            "bindings": {
+                "checked": {"<->": "!!@owner.object.locked"}
+            }
+        },
+        "lockedDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "lockedDisplay"},
+                "label": "Account Locked"
+            },
+            "bindings": {
+                "value": {"<-": "!!@owner.object.locked ? 'Yes' : 'No'"}
+            }
+        },
+        "sudoEdit": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "sudoEdit"},
+                "validationPath": "sudo",
+                "label": "Superuser"
+            },
+            "bindings": {
+                "checked": {"<->": "!!@owner.object.sudo"}
+            }
+        },
+        "sudoDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "sudoDisplay"},
+                "label": "Superuser"
+            },
+            "bindings": {
+                "value": {"<-": "!!@owner.object.sudo ? 'Yes' : 'No'"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="User">
+        <div data-montage-id="inspector">
+            <div data-montage-id="uidNameSubstitution">
+                <div data-arg="luser">
+                    <div data-montage-id="uidEdit"></div>
+                    <div data-montage-id="usernameEdit"></div>
+                </div>
+                <div data-arg="system">
+                    <div data-montage-id="uidDisplay"></div>
+                    <div data-montage-id="usernameDisplay"></div>
+                </div>
+            </div>
+            <div data-montage-id="systemUserSubstitution">
+                <div data-arg="user">
+                    <div data-montage-id="password"></div>
+                    <div data-montage-id="fullNameEdit"></div>
+                    <div data-montage-id="groupSubstitution">
+                        <div data-montage-id="groupEdit" data-arg="luser"></div>
+                        <div data-montage-id="groupDisplayRoot" data-arg="root"></div>
+                    </div>
+                    <div data-montage-id="groupsCondition">
+                        <div data-montage-id="groupsSection">
+                            <div data-montage-id="groups"></div>
+                        </div>
+                    </div>
+                    <div data-montage-id="homeSubstitution">
+                        <div data-montage-id="homeEdit" data-arg="luser"></div>
+                        <div data-montage-id="homeDisplayRoot" data-arg="root"></div>
+                    </div>
+                    <div data-montage-id="shellSubstitution">
+                        <div data-montage-id="shellEdit" data-arg="luser"></div>
+                        <div data-montage-id="shellDisplayRoot" data-arg="root"></div>
+                    </div>
+                    <div data-montage-id="emailEdit"></div>
+                    <div data-montage-id="sshpubkeyEdit"></div>
+                    <div data-montage-id="passwordDisabledEdit"></div>
+                    <div data-montage-id="lockedSudoCondition">
+                        <div data-montage-id="lockedEdit"></div>
+                        <div data-montage-id="sudoEdit"></div>
+                    </div>
+                </div>
+                <div data-arg="system">
+                    <div data-montage-id="fullNameDisplay"></div>
+                    <div data-montage-id="groupDisplay"></div>
+                    <div data-montage-id="homeDisplay"></div>
+                    <div data-montage-id="shellDisplay"></div>
+                    <div data-montage-id="emailDisplay"></div>
+                    <div data-montage-id="sshpubkeyDisplay"></div>
+                    <div data-montage-id="passwordDisabledDisplay"></div>
+                    <div data-montage-id="lockedDisplay"></div>
+                    <div data-montage-id="sudoDisplay"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

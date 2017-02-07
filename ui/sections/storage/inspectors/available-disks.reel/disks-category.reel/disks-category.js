@@ -1,5 +1,6 @@
 var AbstractDropZoneComponent = require("blue-shark/core/drag-drop/abstract-dropzone-component").AbstractDropZoneComponent,
-    Topology = require("ui/controls/topology.reel").Topology;
+    Topology = require("ui/controls/topology.reel").Topology,
+    _ = require('lodash');
 
 /**
  * @class DisksCategory
@@ -59,7 +60,7 @@ exports.DisksCategory = AbstractDropZoneComponent.specialize({
 
     gridItemDidEnter: {
         value: function(gridItem) {
-            if (gridItem.object.getPath('status.smart_info.smart_status') === 'FAIL') {
+            if (_.get(gridItem.object, 'status.smart_info.smart_status') === 'FAIL') {
                 gridItem.classList.add('unhealthy');
             } else {
                 gridItem.classList.remove('unhealthy');

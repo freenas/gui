@@ -16,12 +16,18 @@
             "prototype": "../main-sidebar/main-sidebar.reel",
             "properties": {
                 "element": {"#": "mainSidebar"}
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "@owner.connectionState != 'OPEN'"}
             }
         },
         "sideboard": {
             "prototype": "../dashboard/sideboard.reel",
             "properties": {
                 "element": {"#": "sideboard"}
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "@owner.connectionState != 'OPEN'"}
             }
         },
         "substitution": {
@@ -39,28 +45,10 @@
                 "element": {"#": "dashboard"}
             }
         },
-        "accounts": {
-            "prototype": "../accounts/accounts.reel",
+        "task": {
+            "prototype": "ui/sections/task/inspectors/tasks.reel",
             "properties": {
-                "element": {"#": "accounts"}
-            }
-        },
-        "hardware": {
-            "prototype": "../hardware/hardware.reel",
-            "properties": {
-                "element": {"#": "hardware"}
-            }
-        },
-        "settings": {
-            "prototype": "../settings/settings.reel",
-            "properties": {
-                "element": {"#": "settings"}
-            }
-        },
-        "services": {
-            "prototype": "../services/services.reel",
-            "properties": {
-                "element": {"#": "services"}
+                "element": {"#": "task"}
             }
         },
         "console": {
@@ -69,22 +57,10 @@
                 "element": {"#": "console"}
             }
         },
-        "peering": {
-            "prototype": "ui/sections/peering/peering.reel",
-            "properties": {
-                "element": {"#": "peering"}
-            }
-        },
         "calendar": {
             "prototype": "../calendar/calendar.reel",
             "properties": {
                 "element": {"#": "calendar"}
-            }
-        },
-        "preferences": {
-            "prototype": "../preferences/preferences.reel",
-            "properties": {
-                "element": {"#": "preferences"}
             }
         },
         "wizard": {
@@ -94,7 +70,7 @@
             }
         },
         "modal": {
-            "prototype": "../controls/modal.reel",
+            "prototype": "blue-shark/ui/modal.reel",
             "properties": {
                 "element": {"#": "modal"}
             }
@@ -103,6 +79,9 @@
             "prototype": "ui/disconnection-modal.reel",
             "properties": {
                 "element": {"#": "disconnectionModal"}
+            },
+            "bindings": {
+                "connectionState": {"<-": "@owner.middlewareClient.state"}
             }
         },
         "icons": {
@@ -123,7 +102,7 @@
                 "element": {"#": "cascadingList"}
             },
             "bindings": {
-                "root": {"<-": "@owner.sectionService.section"}
+                "stack": {"<-": "@owner.stack"}
             }
         },
         "migrationSubstitution": {
@@ -132,7 +111,37 @@
                 "element": {"#": "migrationSubstitution"}
             },
             "bindings": {
-                "switchValue": {"<-": "@owner.sectionGeneration"}
+                "switchValue": {"<-": "@owner.sectionGeneration"},
+                "classList.has('is-hidden')": {"<-": "!@signIn.isLoggedIn"}
+            }
+        },
+        "confirmationModal": {
+            "prototype": "blue-shark/ui/confirmation-modal.reel",
+            "properties": {
+                "element": {"#": "confirmationModal"}
+            },
+            "bindings": {
+                "isShown": {"<-": "@owner.application.confirmationModal.isShown"},
+                "message": {"<-": "@owner.application.confirmationModal.message"},
+                "title": {"<-": "@owner.application.confirmationModal.title"},
+                "buttonLabelFalse": {"<-": "@owner.application.confirmationModal.buttonLabelFalse"},
+                "buttonLabelTrue": {"<-": "@owner.application.confirmationModal.buttonLabelTrue"},
+                "deferred": {"<-": "@owner.application.confirmationModal.deferred"}
+            }
+        },
+        "signInModal": {
+            "prototype": "blue-shark/ui/modal.reel",
+            "properties": {
+                "element": {"#": "signInModal"}
+            },
+            "bindings": {
+                "classList.has('montage-Overlay--visible')": {"<-": "!@signIn.isLoggedIn"}
+            }
+        },
+        "signIn": {
+            "prototype": "ui/sign-in.reel",
+            "properties": {
+                "element": {"#": "signIn"}
             }
         }
     }
@@ -147,17 +156,9 @@
                 <div data-montage-id="migrationSubstitution" class="Main-content">
                     <div data-arg="old" data-montage-id="substitution" class="Main-substitution">
                         <div data-arg="dashboard" data-montage-id="dashboard"></div>
-                        <div data-arg="accounts" data-montage-id="accounts"></div>
-                        <div data-arg="network" data-montage-id="network"></div>
-                        <div data-arg="hardware" data-montage-id="hardware"></div>
-                        <div data-arg="settings" data-montage-id="settings"></div>
-                        <div data-arg="services" data-montage-id="services"></div>
                         <div data-arg="console" data-montage-id="console"></div>
-                        <div data-arg="peering" data-montage-id="peering"></div>
+                        <div data-arg="task" data-montage-id="task"></div>
                         <div data-arg="calendar" data-montage-id="calendar"></div>
-                        <div data-arg="virtualization" data-montage-id="virtualization"></div>
-                        <div data-arg="preferences" data-montage-id="preferences"></div>
-                        <div data-arg="containers" data-montage-id="containers"></div>
                         <div data-arg="wizard" data-montage-id="wizard"></div>
                     </div>
                     <div data-arg="new" class="Main-cascadingListWrapper">
@@ -168,8 +169,12 @@
             </div>
                 <div data-montage-id="drawer"></div>
         </main>
+        <div data-montage-id="signInModal" class="SignInModal">
+            <div data-montage-id="signIn"></div>
+        </div>
         <div data-montage-id="modal" class="Main-modal"></div>
         <div data-montage-id="disconnectionModal"></div>
+        <div data-montage-id="confirmationModal"></div>
     </div>
 </body>
 </html>

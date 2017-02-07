@@ -2,7 +2,6 @@
 <html>
 <head>
     <title></title>
-    <link rel="stylesheet" type="text/css" href="volume-importer.css">
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -24,7 +23,7 @@
             "properties": {
                 "element": {"#": "detachedVolumes"},
                 "title": "Detached volumes",
-                "displayTitle": true
+                "emptyMessage": "There are no available volumes to import."
             },
             "bindings": {
                 "object": {"<-": "@owner.detachedVolumes"}
@@ -41,71 +40,8 @@
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
                 "element": {"#": "encrypted"},
-                "name": "Encrypted volume"
-            },
-            "bindings": {
-                "object": {"<-": "@owner.encryptedVolumeImporter"}
-            }
-        },
-        "importableDisks": {
-            "prototype": "blue-shark/ui/field-select.reel",
-            "properties": {
-                "element": {"#": "importableDisks"},
-                "label": "Import media"
-            },
-            "bindings": {
-                "selectedValue": {"<->": "@owner.importDisk"},
-                "options": {"<-": "@owner.importableDiskOptions"}
-            }
-        },
-        "filesystemTreeController": {
-            "prototype": "core/controller/filesystem-tree-controller",
-            "properties": {
-                "canListFiles": false,
-                "root": "/mnt"
-            },
-            "bindings": {
-                "service": {"<-": "@owner.application.filesystemService"}
-            }
-        },
-        "mapMediaPath": {
-            "prototype": "ui/controls/field-treeview.reel",
-            "properties": {
-                "element": {"#": "mapMediaPath"},
-                "controller": {"@": "filesystemTreeController"},
-                "validationPath": "mapMediaPath",
-                "label": "Directory"
-            },
-            "bindings": {
-                "selectedPath": {"<->": "@owner.importPath"}
-            }
-        },
-        "refreshMedia": {
-            "prototype": "blue-shark/ui/button.reel",
-            "properties": {
-                "element": {"#": "refreshMedia"},
-                "value": "Scan media"
-            }
-        },
-        "mediaFsType": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
-            "properties": {
-                "element": {"#": "mediaFsType"},
-                "label": "Media filesystem type",
-                "placeholder": "e.g. msdosfs, leave empty to autodetect"
-            },
-            "bindings": {
-                "value": {"<->": "@owner.importFsType"}
-            }
-        },
-        "importMedia": {
-            "prototype": "blue-shark/ui/button.reel",
-            "properties": {
-                "element": {"#": "importMedia"},
-                "value": "Import media"
-            },
-            "bindings": {
-                "disabled": {"<-": "!@owner.importDisk || !@owner.importPath"}
+                "name": "Import encrypted volume",
+                "path": "encrypted"
             }
         }
     }
@@ -113,14 +49,13 @@
 </head>
 <body>
     <div data-montage-id="owner" class="VolumeImporter">
-        <div data-montage-id="detachedVolumes"></div>
-        <div data-montage-id="refresh" class="g-margin"></div>
+        <div class="VolumeImporter-detachedVolumes">
+            <div data-montage-id="detachedVolumes"></div>
+            <div class="bg-c--grey flex-row flex-justifyContent--center flush-top">
+                <div data-montage-id="refresh" class="g-margin-v"></div>
+            </div>
+        </div>
         <div data-montage-id="encrypted"></div>
-        <div data-montage-id="importableDisks"></div>
-        <div data-montage-id="mapMediaPath"></div>
-        <div data-montage-id="mediaFsType"></div>
-        <div data-montage-id="refreshMedia"></div>
-        <div data-montage-id="importMedia"></div>
     </div>
 </body>
 </html>

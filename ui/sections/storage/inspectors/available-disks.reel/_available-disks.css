@@ -1,9 +1,7 @@
 .AvailableDisks {
     position: relative;
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    outline: 1px solid red;
+    @apply --flex-column;
 }
 
 .AvailableDisks-header {
@@ -18,9 +16,7 @@
 }
 
 .AvailableDisks-category {
-    /* flex: 1; */
-    display: flex;
-    flex-direction: column;
+    @apply --flex-column;
 }
 
 

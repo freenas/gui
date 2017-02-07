@@ -31,11 +31,17 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
 
     _toggleSection: {
         value: function(event) {
-            if(!this.expanded) {
+            if(!this.isExpanded) {
                 this.sectionContent.style.display = "block";
             }
             this.isExpanded = !this.isExpanded;
             event.stopPropagation();
+        }
+    },
+
+    templateDidLoad: {
+        value: function () {
+            this._mutationObserver = new MutationObserver(this.handleMutations.bind(this));
         }
     },
 
@@ -44,7 +50,6 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
             AbstractComponentActionDelegate.prototype.enterDocument.call(this, isFirstTime);
 
             if (isFirstTime) {
-                this._mutationObserver = new MutationObserver(this.handleMutations.bind(this));
                 this.element.addEventListener("transitionend", this, false);
             }
 
@@ -53,6 +58,10 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
                 childList: true,
                 attributes: true
             });
+
+            if (this.isExpanded) {
+                this.sectionContent.style.display = "block";
+            }
         }
     },
 
@@ -69,10 +78,19 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
     prepareForActivationEvents: {
         value: function() {
             KeyComposer.createKey(this, "enter", "enter").addEventListener("keyPress", this);
+            KeyComposer.createKey(this, "space", "space").addEventListener("keyPress", this);
         }
     },
 
     handleEnterKeyPress: {
+        value: function(event) {
+            if(document.activeElement == this.expandButton) {
+                this._toggleSection(event);
+            }
+        }
+    },
+
+    handleSpaceKeyPress: {
         value: function(event) {
             if(document.activeElement == this.expandButton) {
                 this._toggleSection(event);
@@ -92,7 +110,6 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
             if (event.type === "attributes" && event.attributeName !== "style") {
                 return void 0;
             }
-
             this.needsDraw = true;
         }
     },

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="table-editable-header.css">
+
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -16,7 +16,7 @@
                 "element": {"#": "addButton"}
             },
             "bindings": {
-                "disabled": {"<-": "@owner.table.isAddingNewEntry"}
+                "disabled": {"<-": "!!@owner.addButtonDisabled || @owner.table.isAddingNewEntry"}
             }
         },
 

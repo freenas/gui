@@ -1,13 +1,11 @@
-var Component = require("montage/ui/component").Component,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     COMPRESSION_OPTIONS = require("core/model/enumerations/volume-dataset-property-compression-value").VolumeDatasetPropertyCompressionValue,
     DEDUP_OPTIONS = require("core/model/enumerations/volume-dataset-property-dedup-value").VolumeDatasetPropertyDedupValue,
     VOLBLOCKSIZE_OPTIONS = require("core/model/enumerations/volume-dataset-property-volblocksize-value").VolumeDatasetPropertyVolblocksizeValue;
 
-var ATIME_OPTIONS = {on: true, off: false, null: null},
-    DEFAULT_OPTION = { label: "Default", value: "none"},
-    INHERIT_OPTION = { label: "Inherit", value: "none"};
+var ATIME_OPTIONS = {on: true, off: false};
 
-exports.VolumeDatasetSettings = Component.specialize({
+exports.VolumeDatasetSettings = AbstractInspector.specialize({
 
     volblocksizeDisplayMode: {
         value: null
@@ -75,7 +73,6 @@ exports.VolumeDatasetSettings = Component.specialize({
 
     templateDidLoad: {
         value: function() {
-
             this.compressionOptions = this._initializePropertyOptions(COMPRESSION_OPTIONS);
             this.dedupOptions = this._initializePropertyOptions(DEDUP_OPTIONS);
             this.atimeOptions = this._initializePropertyOptions(ATIME_OPTIONS);
@@ -86,12 +83,11 @@ exports.VolumeDatasetSettings = Component.specialize({
     enterDocument: {
         value: function() {
             this._isLoaded = false;
-            this.isRootDataset = this.application.storageService.isRootDataset(this.object);
-            var label = this.isRootDataset ? "Default": "Inherit";
-            this._replaceLabel(this.compressionOptions, label);
-            this._replaceLabel(this.dedupOptions, label);
-            this._replaceLabel(this.atimeOptions, label);
-            if ( this.object.properties) {
+            this.isRootDataset = this._sectionService.isRootDataset(this.object);
+            this._replaceLabel(this.compressionOptions, this._getDefaultLabelForProperty('compression'));
+            this._replaceLabel(this.dedupOptions, this._getDefaultLabelForProperty('dedup'));
+            this._replaceLabel(this.atimeOptions, this._getDefaultLabelForProperty('atime'));
+            if (this.object.properties) {
                 this.compression = (!this.object.properties.compression || this._isInheritedProperty(this.object.properties.compression)) ? "none": this.object.properties.compression.parsed;
                 this.dedup = (!this.object.properties.dedup || this._isInheritedProperty(this.object.properties.dedup)) ? "none": this.object.properties.dedup.parsed;
                 this.atime = (!this.object.properties.atime || this._isInheritedProperty(this.object.properties.atime)) ? "none": this.object.properties.atime.parsed;
@@ -110,6 +106,17 @@ exports.VolumeDatasetSettings = Component.specialize({
         }
     },
 
+    _getDefaultLabelForProperty: {
+        value: function(property) {
+            if (this.isRootDataset) {
+                return "Default";
+            } else if (this.object.properties && this.object.properties[property] && this._isInheritedProperty(this.object.properties[property])) {
+                return "Inherited (" + this.object.properties[property].parsed + ")";
+            }
+            return "Inherited";
+        }
+    },
+
     _replaceLabel: {
         value: function(list, label) {
             var entry;
@@ -117,9 +124,13 @@ exports.VolumeDatasetSettings = Component.specialize({
                 entry = list[i];
                 if (entry.value === "none") {
                     entry.label = label;
-                    break;
+                    return;
                 }
             }
+            list.unshift({
+                label: label,
+                value: "none"
+            });
         }
     },
 

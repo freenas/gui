@@ -4,6 +4,45 @@
 var Component = require("montage/ui/component").Component,
     Plottable = window.Plottable;
 
+
+//FIXME: Workaround we should go away from pottable.js asap.
+var MouseSuperConstructor = Plottable.Dispatchers.Mouse,
+    staticKeys = Object.keys(MouseSuperConstructor),
+    Mouse = Plottable.Dispatchers.Mouse = function Mouse(svg) {
+        var _this = this;
+        Plottable.Dispatcher.call(this);
+        this._translator = Plottable.Utils.ClientToSVGTranslator.getTranslator(svg);
+        this._lastMousePosition = { x: -1, y: -1 };
+        this._eventToProcessingFunction[Mouse._MOUSEDOWN_EVENT_NAME] =
+            function (e) { return _this._measureAndDispatch(e, Mouse._MOUSEDOWN_EVENT_NAME); };
+        this._eventToProcessingFunction[Mouse._MOUSEUP_EVENT_NAME] =
+            function (e) { return _this._measureAndDispatch(e, Mouse._MOUSEUP_EVENT_NAME, "page"); };
+        this._eventToProcessingFunction[Mouse._WHEEL_EVENT_NAME] =
+            function (e) { return _this._measureAndDispatch(e, Mouse._WHEEL_EVENT_NAME); };
+        this._eventToProcessingFunction[Mouse._DBLCLICK_EVENT_NAME] =
+            function (e) { return _this._measureAndDispatch(e, Mouse._DBLCLICK_EVENT_NAME); };
+    };
+
+staticKeys.forEach(function(key) {
+    Mouse[key] = MouseSuperConstructor[key];
+});
+
+Mouse.prototype = MouseSuperConstructor.prototype;
+
+Mouse.getDispatcher = function (elem) {
+    var svg = Plottable.Utils.DOM.boundingSVG(elem);
+    var dispatcher = svg[Mouse._DISPATCHER_KEY];
+    if (dispatcher == null) {
+        dispatcher = new Mouse(svg);
+        svg[Mouse._DISPATCHER_KEY] = dispatcher;
+    }
+    return dispatcher;
+};
+
+Plottable.Scales.Category.prototype.stepWidth = function () {
+    return this._rescaleBand(this._d3Scale.rangeBand() * (1 + this.innerPadding())) || 1;
+};
+
 /**
  * @class Chart
  * @extends Component
@@ -24,7 +63,7 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
                 ]
             },
             showLegend: {
-                defaultValue: false
+                defaultValue: true
             },
             showControls: {
                 defaultValue: false
@@ -61,6 +100,9 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
             },
             isTimeSeries: {
                 defaultValue: false
+            },
+            enableInteractions: {
+                defaultValue: true
             }
         }
     },
@@ -177,9 +219,8 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
 
     enterDocument: {
         value: function(isFirstTime) {
-            var self = this;
-            this.isSpinnerShown = true;
             if (isFirstTime) {
+                this.isSpinnerShown = true;
                 this._setupX();
                 this._setupY();
                 this._setupLegend();
@@ -192,9 +233,6 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
 
     exitDocument: {
         value: function () {
-            this._plot.datasets([]);
-            this._seriesList = [];
-            this._datasets = {};
             window.removeEventListener("resize", this._redrawChart.bind(this));
         }
     },
@@ -259,6 +297,7 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
             this._colorScale = new Plottable.Scales.Color('20');
             this._legend = new Plottable.Components.Legend(this._colorScale);
             this._legend.maxEntriesPerRow(Infinity);
+            !this._getOptionValue('showLegend') && this._legend.addClass('hide');
         }
     },
 
@@ -291,38 +330,45 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
     _setupInteraction: {
         value: function() {
             var self = this;
-            new Plottable.Interactions.Click()
-                .attachTo(this._legend)
-                .onClick(function(p) {
-                    var entity = self._legend.entitiesAt(p)[0];
-                    if (entity !== undefined) {
-                        var series = self._seriesList.filter(function(x) { return x.key === entity.datum; })[0];
-                        if (series) {
-                            series.disabled = !series.disabled;
-                            self.needsDraw = true;
+
+            if (this._getOptionValue('enableInteractions')) {
+                new Plottable.Interactions.Click()
+                    .attachTo(this._legend)
+                    .onClick(function(p) {
+                        var entity = self._legend.entitiesAt(p)[0];
+                        if (entity !== undefined) {
+                            var series = self._seriesList.filter(function(x) { return x.key === entity.datum; })[0];
+                            if (series) {
+                                series.disabled = !series.disabled;
+                                self.needsDraw = true;
+                            }
                         }
-                    }
-                });
+                    });
+            }
         }
     },
 
     _refresh: {
         value: function() {
-            var series, key, metadata,
-                i, length;
-            if (this._seriesList.length <= Object.keys(this._datasets).length) {
-                var datasets = [];
-                this._alignEventsTime();
-                for (i = 0, length = this._seriesList.length; i < length; i++) {
-                    series = this._seriesList[i];
-                    key = series.key;
-                    if (!series.disabled && this._datasets[key]) {
-                        datasets.push(this._datasets[key]);
+            if (this._inDocument) {
+                var series, key, metadata, i, length;
+
+                if (this._seriesList.length <= Object.keys(this._datasets).length) {
+                    var datasets = [];
+                    this._alignEventsTime();
+
+                    for (i = 0, length = this._seriesList.length; i < length; i++) {
+                        series = this._seriesList[i];
+                        key = series.key;
+                        if (!series.disabled && this._datasets[key]) {
+                            datasets.push(this._datasets[key]);
+                        }
                     }
+
+                    this._datasets = {};
+                    this._plot.datasets(datasets);
+                    this.needsDraw = true;
                 }
-                this._datasets = {};
-                this._plot.datasets(datasets);
-                this.needsDraw = true;
             }
         }
     },

@@ -1,7 +1,26 @@
 {
     "compilerOptions": {
         "target": "es5",
-        "lib": ["es6"]
+        "lib": [
+            "es6",
+            "dom"
+        ],
+        "typeRoots": [
+            "./typings/modules",
+            "./typings/globals"
+        ],
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "sourceMap": true,
+        "allowJs": true,
+        "outDir": "core"
     },
-    "exclude": ["**/node_modules"]
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "**/node_modules"
+    ]
 }

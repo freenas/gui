@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "isFooterHidden": true
+            }
+        },
+        "taskIdValidator": {
+            "prototype": "core/converter/validator/integer-validator",
+            "properties": {
+                "floor": 1,
+                "errorMessage": "Port must be an integer"
+            }
+        },
+        "taskIdConverter": {
+            "prototype": "core/converter/string-to-integer-or-null-converter",
+            "properties": {
+                "validator": {"@": "taskIdValidator"}
+            }
+        },
+        "id": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "id"},
+                "label": "id",
+                "converter" : {"@": "taskIdConverter"},
+                "placeholder": "e.g. 15"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.filter.id"}
+            }
+        },
+        "name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Type",
+                "placeholder": "e.g. volume.delete"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.filter.name"}
+            }
+        },
+        "state": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "state"},
+                "label": "Status"
+            },
+            "bindings": {
+                "options": {"<-": "[{label: '-', value: null}].concat(@owner.stateOptions)"},
+                "selectedValue": {"<->": "@owner.filter.state"}
+            }
+        },
+        "dateRagne": {
+            "prototype": "blue-shark/ui/field.reel",
+            "properties": {
+                "element": {"#": "dateRange"},
+                "label": "Date Range"
+            }
+        },
+        "started_after": {
+            "prototype": "blue-shark/ui/date.reel",
+            "properties": {
+                "element": {"#": "started_after"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.filter.started_after"}
+            }
+        },
+        "finished_at": {
+            "prototype": "blue-shark/ui/date.reel",
+            "properties": {
+                "element": {"#": "finished_at"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.filter.finished_at"}
+            }
+        },
+        "apply": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "apply"},
+                "value": "Apply Filters"
+            }
+        },
+        "clear": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "clear"},
+                "value": "Clear Filters"
+            }
+        },
+        "table": {
+            "prototype": "ui/sections/task/controls/table-task.reel",
+            "properties": {
+                "element": {"#": "table"}
+            },
+            "bindings": {
+                "rows": {"<-": "@owner.tasks"}
+            }
+        },
+        "filtersTitle": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+            "properties": {
+                "element": {"#": "filtersTitle"},
+                "value": "Filter Tasks"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="TasksInspector">
+        <div data-montage-id="inspector">
+            <div>
+                <div data-montage-id="filtersTitle" class="flush-top"></div>
+                <div class="TasksInspector-filters g-margin-bottom--double col-1">
+                    <div data-montage-id="id"></div>
+                    <div data-montage-id="name"></div>
+                    <div data-montage-id="state"></div>
+                    <div data-montage-id="dateRange" class="TasksInspector-filters-dateRange">
+                        <div class="flex-row flex-align--center g-margin-bottom--half">
+                            <span class="TasksInspector-filters-dateRange-inputLabel">from:</span>
+                            <div data-montage-id="started_after"></div>
+                        </div>
+                        <div class="flex-row flex-align--center">
+                            <span class="TasksInspector-filters-dateRange-inputLabel">to:</span>
+                            <div data-montage-id="finished_at"></div>
+                        </div>
+                    </div>
+                    <div class="flex-row">
+                        <button data-montage-id="apply"></button>
+                        <button data-montage-id="clear" class="g-margin-left--half"></button>
+                    </div>
+                </div>
+                <div data-montage-id="table"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

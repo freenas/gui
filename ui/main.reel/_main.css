@@ -1,17 +1,20 @@
 .Main {
     flex: 1;
     display: flex;
+    min-height: 0;
 }
 
 .Main > main {
     flex: 1;
     display: flex;
     flex-direction: column;
+    min-height: 0;
 }
 
 .Main-wrapper {
     flex: 1;
     display: flex;
+    min-height: 0;
 }
 
 .Main-content {
@@ -43,3 +46,7 @@
         url(../../assets/images/bg.png);
 }
 
+.SignInModal.montage-Overlay--visible {
+    opacity: 1;
+    visibility: visible;
+}

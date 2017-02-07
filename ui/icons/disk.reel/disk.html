@@ -11,14 +11,18 @@
                 "condition": false
             },
             "bindings": {
-                "disk": {"<-": "@owner.object ? @owner.object._disk.defined() ? @owner.object._disk : @owner.object : null"}
+                "disk": {"<-": "@owner.object ? @owner.object._disk.defined() ? @owner.object._disk : @owner.object : null"},
+                "isOffline": {"<-": "@owner.object._disk.defined() && @owner.object.status && @owner.object.status != 'ONLINE'" },
+                "isDetached": {"<-": "@owner.disk._allocation.defined() && @owner.disk._allocation.type == 'EXPORTED_VOLUME'"},
+                "classList.has('is-unavailable')": {"<-": "isOffline || isDetached"},
+                "smartFail": {"<-": "@owner.disk.status.smart_info.smart_status != 'PASS'" }
             }
         },
         "bytesConverter": {
             "object": "./[defaultBytesConverter]"
         },
         "mediaSize": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "mediaSize"},
                 "converter": {"@": "bytesConverter"}
@@ -36,24 +40,54 @@
                 "switchValue": {"<-": "!!@owner.disk.status.is_ssd ? 'ssd' : 'hdd'"}
             }
         },
-        "warningConditional": {
-            "prototype": "montage/ui/condition.reel",
+        "smartStatus": {
+            "prototype": "montage/ui/substitution.reel",
             "properties": {
-                "element": {"#": "warningConditional"}
+                "element": {"#": "smartStatus"}
             },
             "bindings": {
-                "condition": {"<-": "@owner.disk._allocation.defined()"}
+                "classList.has('hide')": {"<-": "!@owner.smartFail"},
+                "switchValue": {"<-": "@owner.disk.status.smart_info.smart_status == 'FAIL' ? 'fail' : 'warn'"}
             }
-        }
+        },
+        "diskState": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "diskState"}
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "!@owner.isOffline && !@owner.isDetached"},
+                "switchValue": {"<-": "@owner.isOffline ? 'offline' : 'exported'"}
+            }
+        },
+        "offline": {
+           "prototype": "blue-shark/ui/text.reel",
+           "properties": {
+               "element": {"#": "offline"},
+               "value": "Offline"
+           }
+        },
+        "exported": {
+           "prototype": "blue-shark/ui/text.reel",
+           "properties": {
+               "element": {"#": "exported"},
+               "value": "Exported"
+           }
+       }
     }
     </script>
 </head>
 <body>
 <div data-montage-id="owner" class="DiskIcon">
-    <div data-montage-id="warningConditional" class="DiskIcon-warningIcon">
-        <svg><use xlink:href="#i-alert-circle"/></svg>
+    <div data-montage-id="smartStatus" class="DiskIcon-smartStatus">
+        <svg data-arg="warn"><use xlink:href="#i-alert"/></svg>
+        <div data-arg="fail" class="smartStatus-fail"><svg><use xlink:href="#i-alert"/></svg></div>
     </div>
-    <div data-montage-id="substitution">
+    <div data-montage-id="diskState" class="DiskIcon-states">
+        <div data-arg="offline" data-montage-id="offline" class="DiskIcon-state DiskIcon-state-offline"></div>
+        <div data-arg="exported" data-montage-id="exported" class="DiskIcon-state"></div>
+    </div>
+    <div data-montage-id="substitution" class="DiskIcon-img">
         <img data-arg="hdd" src="./hdd.svg" alt="HDD Icon">
         <img data-arg="ssd" src="./ssd.svg" alt="SSD Icon">
     </div>
@@ -61,3 +95,4 @@
 </div>
 </body>
 </html>
+

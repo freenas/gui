@@ -1,13 +1,5 @@
-/**
- * @module ui/volume-dataset.reel
- */
-var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Model = require("core/model/model").Model;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
-/**
- * @class VolumeDataset
- * @extends Component
- */
 exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# */ {
 
     TYPE_OPTIONS: {
@@ -76,12 +68,11 @@ exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# *
     _inspectorTemplateDidLoad: {
         value:function() {
             var self = this;
-            this.snapshotType = this._sectionService.VOLUME_SNAPSHOT_TYPE;
-            this._sectionService.listVolumeSnapshots().then(function(snapshots) {
+            return Promise.all([
+                this._sectionService.listSnapshots(),
+                this._sectionService.listVmwareDatasets()
+            ]).spread(function(snapshots, vmwareDatasets) {
                 self.snapshots = snapshots;
-            });
-            this.vmwareDatasetType = this._sectionService.VMWARE_DATASET_TYPE;
-            this._sectionService.listVmwareDatasets().then(function(vmwareDatasets) {
                 self.vmwareDatasets = vmwareDatasets;
             });
         }
@@ -90,16 +81,14 @@ exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# *
     enterDocument: {
         value: function(isFirstTime) {
             this.super();
-            this.volume = this._getCurrentVolume();
 
             if (this.object._isNew) {
                 this.object.type = "FILESYSTEM";
-                this.object.volume = this.path = this.volume.id;
+                this.object.volume = this.path = this.object._volume.id;
                 this.name = null;
                 this.treeController.open();
             }
-            var storageService = this.application.storageService;
-            storageService.initializeDatasetProperties(this.object);
+            this._sectionService.initializeDatasetProperties(this.object);
 
             if (isFirstTime) {
                 this.addPathChangeListener('object.type', this, '_handleExtraValidation');
@@ -123,19 +112,6 @@ exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# *
         }
     },
 
-    _getCurrentVolume: {
-        value: function() {
-            if (this.context) {
-                var currentSelection = this.application.selectionService.getCurrentSelection();
-                for (var i = this.context.columnIndex - 1; i >= 0; i--) {
-                    if (currentSelection[i].constructor.Type == Model.Volume) {
-                        return currentSelection[i];
-                    }
-                }
-            }
-        }
-    },
-
     save: {
         value: function() {
             if (this.object.type === "FILESYSTEM") {
@@ -143,7 +119,7 @@ exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# *
             } else if (this.object.type === "VOLUME") {
                 this.object.permissions = undefined;
             }
-            this.application.storageService.convertVolumeDatasetSizeProperties(this.object);
+            this._sectionService.convertVolumeDatasetSizeProperties(this.object);
 
             return this.inspector.save.apply(this.inspector, this.object._recursive ? [this.object._recursive] : []);
         }

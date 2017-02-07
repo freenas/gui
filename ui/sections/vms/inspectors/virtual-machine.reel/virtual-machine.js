@@ -1,9 +1,8 @@
-var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
+    ModelEventName = require("core/model-event-name").ModelEventName;
+    _ = require("lodash");
 
-/**
- * @class VirtualMachine
- * @extends Component
- */
 exports.VirtualMachine = AbstractInspector.specialize({
     editMode: {
         value: null
@@ -24,13 +23,46 @@ exports.VirtualMachine = AbstractInspector.specialize({
         }
     },
 
+    guestInfoLoadAvg: {
+        value: []
+    },
+
+    guestInfoInterfaces: {
+        value: []
+    },
+
     _inspectorTemplateDidLoad: {
         value: function() {
-            var self = this;
             this.DEFAULT_STRING = this._sectionService.DEFAULT_STRING;
             this.guestTypeOptions = this._sectionService.GUEST_TYPES;
             this.bootloaderOptions = this._sectionService.BOOTLOADERS;
+            this._eventDispatcherService = EventDispatcherService.getInstance();
             return this._dependenciesLoadingPromise = this._load();
+        }
+    },
+
+    _getGuestInfo: {
+        value: function() {
+            var self = this;
+            this._sectionService.getGuestInfo(self.object).then(function(guestInfo) {
+                if (guestInfo.load_avg) {
+                    self.guestInfoLoadAvg = [{
+                                                onemin: guestInfo.load_avg[0],
+                                                fivemin: guestInfo.load_avg[1],
+                                                tenmin: guestInfo.load_avg[2]
+                                            }];
+                    self.guestInfoInterfaces = _.map(
+                    _.reject(_.toPairs(guestInfo.interfaces), {0: 'lo'}),
+                    function (value, key)  {
+                        return _.map(_.reject(value[1].aliases, {af: 'LINK'}),
+                        function(alias) {
+                            return {
+                                interface: value[0], type: alias.af, address: alias.address
+                            };
+                        });
+                    })[0];
+                }
+            });
         }
     },
 
@@ -47,19 +79,17 @@ exports.VirtualMachine = AbstractInspector.specialize({
             this.editMode = this.object._isNew ? "edit" : "display";
 
             Promise.all(loadingPromises).then(function() {
-                return self._sectionService.initializeVm(self.object);
-            }).then(function() {
+                self._sectionService.initializeVm(self.object);
                 self.addPathChangeListener("object._bootDevice", self, "_handleBootDeviceChange");
                 self.addPathChangeListener("object._selectedTemplate", self, "_handleTemplateChange");
-                self._cancelDevicesListener = self.addRangeAtPathChangeListener("object.devices", self, "_handleDevicesChange");
-                self._cancelVolumeDevicesListener = self.addRangeAtPathChangeListener("object._volumeDevices", self, "_handleCategorizedDevicesChange");
-                self._cancelNonVolumeDevicesListener = self.addRangeAtPathChangeListener("object._nonVolumeDevices", self, "_handleCategorizedDevicesChange");
+                self._getGuestInfo();
                 self._finishLoading();
             });
 
+            this._changeListener = this._eventDispatcherService.addEventListener(ModelEventName.Vm.change(this.object.id), this._handleChange.bind(this));
+
             if (isFirstTime) {
                 this.object._isShutdownRequested = false;
-                this.addPathChangeListener("object.status.state", this, "_handleStateChange");
             }
         }
     },
@@ -67,24 +97,17 @@ exports.VirtualMachine = AbstractInspector.specialize({
     exitDocument: {
         value: function() {
             this.super();
+            this._eventDispatcherService.removeEventListener(ModelEventName.Vm.change(this.object.id), this._changeListener);
+
             if (this.getPathChangeDescriptor('object._bootDevice', this)) {
                 this.removePathChangeListener('object._bootDevice', this);
             }
             if (this.getPathChangeDescriptor('object._selectedTemplate', this)) {
                 this.removePathChangeListener('object._selectedTemplate', this);
             }
-            if (typeof this._cancelDevicesListener === 'function') {
-                this._cancelDevicesListener();
-                this._cancelDevicesListener = null;
-            }
-            if (typeof this._cancelVolumeDevicesListener === 'function') {
-                this._cancelVolumeDevicesListener();
-                this._cancelVolumeDevicesListener = null;
-            }
-            if (typeof this._cancelNonVolumeDevicesListener === 'function') {
-                this._cancelNonVolumeDevicesListener();
-                this._cancelNonVolumeDevicesListener = null;
-            }
+            this.hasVmTools = false;
+            this.guestInfoLoadAvg = [];
+            this.guestInfoInterfaces = [];
         }
     },
 
@@ -98,7 +121,6 @@ exports.VirtualMachine = AbstractInspector.specialize({
 
     save: {
         value: function() {
-            var self = this;
             return this._sectionService.saveVm(this.object);
         }
     },
@@ -125,8 +147,8 @@ exports.VirtualMachine = AbstractInspector.specialize({
     handleSerialConsoleAction: {
         value: function() {
             var self = this;
-            this._sectionService.getSerialConsoleForVm(this.object).then(function(serialConsole) {
-                window.open(serialConsole, self.object.name + " Serial Console");
+            this._sectionService.getSerialConsoleUrl(this.object).then(function(serialConsoleUrl) {
+                window.open(serialConsoleUrl, self.object.name + " Serial Console");
             });
         }
     },
@@ -134,9 +156,15 @@ exports.VirtualMachine = AbstractInspector.specialize({
     handleWebvncConsoleAction: {
         value: function() {
             var self = this;
-            this._sectionService.getVncConsoleForVm(this.object).then(function(vncConsole) {
+            this._sectionService.getWebVncConsoleUrl(this.object).then(function(vncConsole) {
                 window.open(vncConsole, self.object.name + " VM Console");
             });
+        }
+    },
+
+    handleGuestInfoRefreshAction: {
+        value: function() {
+            this._getGuestInfo();
         }
     },
 
@@ -151,24 +179,7 @@ exports.VirtualMachine = AbstractInspector.specialize({
     _handleBootDeviceChange: {
         value: function() {
             if (this._inDocument && this.object.config && this.object.config.boot_device !== this.object._bootDevice) {
-               this.object.config.boot_device = this.object._bootDevice; 
-            }
-        }
-    },
-
-    _handleCategorizedDevicesChange: {
-        value: function(addedDevices, removedDevices) {
-            this._sectionService.addDevicesToVm(this.object, addedDevices);
-            this._sectionService.removeDevicesFromVm(this.object, removedDevices);
-        }
-    },
-
-    _handleDevicesChange: {
-        value: function(addedDevices, removedDevices) {
-            this._sectionService.categorizeDevices(this.object, addedDevices, removedDevices);
-            var oldBootDevice = this.object._bootDevice;
-            if (this._sectionService.updateBootDevices(this.object) && this.object.config) {
-                this.object._bootDevice = oldBootDevice;
+               this.object.config.boot_device = this.object._bootDevice;
             }
         }
     },
@@ -218,7 +229,14 @@ exports.VirtualMachine = AbstractInspector.specialize({
             this.isLoading = false;
             this._canDrawGate.setField(this.constructor.DRAW_GATE_FIELD, true);
         }
+    },
+
+    _handleChange: {
+        value: function(state) {
+            this._sectionService.mergeVm(this.object, state.toJS());
+        }
     }
+
 }, {
     DRAW_GATE_FIELD: {
         value: "vmLoaded"

@@ -9,11 +9,14 @@
             "properties": {
                 "element": {"#": "owner"},
                 "icon": {"#": "icon"}
+            },
+            "bindings": {
+                "classList.has('selected')": {"<-": "@owner.isSelected"}
             }
         },
 
         "label": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "label"}
             },

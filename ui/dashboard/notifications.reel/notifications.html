@@ -17,7 +17,7 @@
                 "isSelectionEnabled": true
             },
             "bindings": {
-                "content": {"<-": "@owner.notificationCenter.notifications.filter{(!data.defined() || (data.active && !data.dismissed)) && type == @owner.type && !taskReport.parent.defined()}"}
+                "content": {"<-": "@owner.notifications"}
             }
         },
         "item": {
@@ -37,7 +37,7 @@
             }
         },
         "emptyState": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "emptyState"}
             },

@@ -9,7 +9,7 @@
                 "CA_INTERNAL": "ui/icons/certificates/ca.reel",
                 "CA_INTERMEDIATE": "ui/icons/certificates/ca.reel"
             },
-            "iconValueExpression": "type",
+            "iconValueExpression": "!_isNew && type",
             "collectionNameExpression": "'Certificates'",
             "inspectorComponentModule": {"%": "ui/sections/system/inspectors/crypto-certificate.reel"},
             "creatorComponentModule": {"%": "ui/sections/system/inspectors/crypto-certificate-creator.reel"},

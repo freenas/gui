@@ -1,89 +1,109 @@
-var Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component,
+    SystemService = require("core/service/system-service").SystemService,
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
+    ModelEventName = require("core/model-event-name.js").ModelEventName,
+    Events = require('core/Events').Events,
+    moment = require('moment'),
+    _ = require('lodash');
 
-/**
- * @class CurrentUserSummary
- * @extends Component
- */
 exports.CurrentUserSummary = Component.specialize({
-
-    dotRegEx: {
-        value: /\./g
+    _intervalTimeInSec: {
+        value: 10
     },
 
-    _synchronizeClockTimeoutId: {
+    _updatePerSec: {
+        value: 2
+    },
+
+    datePattern: {
+        value: SystemService.SHORT_DATE_FORMATS[0]
+    },
+
+    timePattern: {
+        value: SystemService.MEDIUM_TIME_FORMATS[0]
+    },
+
+    _timeUpdateIntervalId: {
         value: null
     },
 
-    _synchronizeClockIntervalId: {
+    _localUpdatesCount: {
+        value: -1
+    },
+
+    _remoteTimePromise: {
         value: null
     },
 
-    _intervalTime: {
-        value: 10 // sec
+    templateDidLoad: {
+        value: function() {
+            this.eventDispatcherService = EventDispatcherService.getInstance();
+            this.systemService = SystemService.getInstance();
+            this.eventDispatcherService.addEventListener(Events.sessionOpened, this._handleOpenedSession.bind(this));
+            this.now = new Date();
+            this._updatePeriod = 1000 / this._updatePerSec;
+        }
     },
 
     enterDocument: {
-        value: function (isFirstTime) {
-            if (isFirstTime) {
-
-                // Bind a function in order to avoid to create several time this function.
-                this._timeChangetimeoutCallBack = (function (initial) {
-                    var now = new Date(),
-                        seconds = now.getSeconds(),
-                        timeLag = seconds % this._intervalTime ;
-
-                    now.setSeconds(seconds + (
-                            initial ? -timeLag : timeLag > this._intervalTime / 2 ? this._intervalTime - timeLag : -timeLag
-                        ));
-                    now.setMilliseconds(0);
-
-                    this.now = now.getTime();
-
-                }).bind(this);
-            }
-            this._synchronizeTime();
+        value: function () {
         }
     },
 
     exitDocument: {
         value: function () {
-            if (this._synchronizeClockTimeoutId) {
-                clearTimeout(this._synchronizeClockTimeoutId);
-                this._synchronizeClockTimeoutId = null;
-            }
-
-            if (this._synchronizeClockIntervalId) {
-                clearInterval(this._synchronizeClockIntervalId);
-                this._synchronizeClockIntervalId = null;
+            if (this._timeUpdateIntervalId) {
+                clearInterval(this._timeUpdateIntervalId);
+                this._timeUpdateIntervalId = null;
             }
         }
     },
 
-    _synchronizeTime: {
-        value: function () {
-            var now = new Date(),
-                timeRemainingBeforeSync = ((this._intervalTime - (now.getSeconds() % this._intervalTime)) * 1000) - now.getMilliseconds();
-
-            //Set initial time.
-            this._timeChangetimeoutCallBack(true);
-
-            if (timeRemainingBeforeSync === this._intervalTime * 1000) { // clock already synchronized with the interval set.
-                this._setIntervalTime();
-
-            } else { // need to be synchronized.
-                var self = this;
-                this._synchronizeClockTimeoutId = setTimeout(function () {
-                    self._timeChangetimeoutCallBack();
-                    self._setIntervalTime();
-                }, timeRemainingBeforeSync);
+    _loadUserSettings: {
+        value: function(user) {
+            if (user.attributes.userSettings && _.includes(SystemService.MEDIUM_TIME_FORMATS, user.attributes.userSettings.timeFormatMedium)) {
+                this.datePattern = user.attributes.userSettings.dateFormatShort || this.datePattern;
+                this.timePattern = user.attributes.userSettings.timeFormatMedium || this.timePattern;
             }
         }
     },
 
-    _setIntervalTime: {
-        value: function () {
-            this._synchronizeClockIntervalId = setInterval(this._timeChangetimeoutCallBack, this._intervalTime * 1000);
+    _handleOpenedSession: {
+        value: function(session) {
+            this.user = session.user.username;
+            this.url = session.url;
+            this._loadUserSettings(session.user);
+            this._startTimeUpdate();
+            this.eventDispatcherService.addEventListener(ModelEventName.User.change(session.user.id), this._handleUserChange.bind(this));
+        }
+    },
+
+    _handleUserChange: {
+        value: function(user) {
+            this._loadUserSettings(user.toJS());
+        }
+    },
+
+    _startTimeUpdate: {
+        value: function() {
+            this._timeUpdateIntervalId = setInterval(this._updateTime.bind(this), this._updatePeriod);
+        }
+    },
+
+    _updateTime: {
+        value: function() {
+            var self = this;
+            if (!this._remoteTimePromise) {
+                if (++this._localUpdatesCount % (this._intervalTimeInSec * this._updatePerSec) === 0) {
+                    this._remoteTimePromise = this.systemService.getTime().then(function(time) {
+                        self.now = new Date(time.system_time.$date);
+                        self._remoteTimePromise = null;
+                        self._localUpdatesCount = 0;
+                    });
+                } else {
+                    this.now = moment(this.now).add(this._updatePeriod, 'ms').toDate();
+                }
+            }
         }
     }
-
 });

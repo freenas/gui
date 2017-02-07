@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="docker-image.css">
+
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -12,14 +12,6 @@
                 "_availableHosts": {"<-": "@owner._dockerHosts.filter{!@owner.object.hosts.has(id)}"}
             }
         },
-
-        "dateConverter": {
-            "prototype": "montage/core/converter/date-converter",
-            "properties": {
-                "pattern": "MM/dd/yyyy hh:mm:ss tt"
-            }
-        },
-
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
@@ -76,10 +68,10 @@
             "properties": {
                 "element": {"#": "createdAt"},
                 "label": "Created At",
-                "converter": {"@": "dateConverter"}
+                "value": "{date, MM/DD/YYYY HH:mm:ss}"
             },
             "bindings": {
-                "value": {"<-": "@owner.createdAtDate"}
+                "args": {"<-": "@owner.createdAtDate"}
             }
         },
 

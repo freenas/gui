@@ -12,6 +12,13 @@ exports.VirtualMachineDeviceNic = AbstractInspector.specialize({
                 self._canDrawGate.setField(self.constructor.DRAW_GATE_FIELD, true);
             });
         }
+    },
+    enterDocument: {
+        value: function() {
+            if (!this.object.bridge) {
+                this.object.bridge = 'default';
+            }
+        }
     }
 }, {
     DRAW_GATE_FIELD: {

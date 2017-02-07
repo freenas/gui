@@ -1,0 +1,12 @@
+.ContainerReadme{
+    padding:1em !Important;
+    min-width:20em !Important;
+}
+
+.ContainerReadme textarea{
+    flex: 1;
+}
+
+.ContainerReadme-ScrollView .Scrollview-transform{
+	display: block;
+}

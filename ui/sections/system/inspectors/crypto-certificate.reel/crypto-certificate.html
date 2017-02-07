@@ -2,7 +2,7 @@
 <html>
 <head>
     <title></title>
-    <link rel="stylesheet" type="text/css" href="crypto-certificate.css">
+
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -75,6 +75,20 @@
                 "context": {"<-": "@owner.context"},
                 "object": {"<-": "@owner.object"}
             }
+        },
+        "export": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "export"},
+                "value": "Export Certificate"
+            }
+        },
+        "noOperation": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+            "properties": {
+                "element": {"#": "noOperation"},
+                "value": "Certificate Settings"
+            }
         }
     }
     </script>
@@ -82,6 +96,8 @@
 <body>
     <div data-montage-id="owner" class="CryptoCertificate">
         <div data-montage-id="inspector">
+            <div data-montage-id="export" id="export"></div>
+            <div data-montage-id="noOperation" class="Updates-noOperation"></div>
             <div data-montage-id="name"></div>
             <div data-montage-id="nameDisplay"></div>
             <div data-montage-id="certificateActionPlaceHolder"></div>

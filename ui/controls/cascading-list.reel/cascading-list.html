@@ -18,7 +18,7 @@
                 "element": {"#": "repetition"}
             },
             "bindings": {
-                "content": {"<-": "@owner._stack"}
+                "content": {"<-": "@owner.stack"}
             }
         },
         "item": {
@@ -35,7 +35,8 @@
             "prototype": "blue-shark/ui/scrollview.reel",
             "properties": {
                 "element": {"#": "horizontalScroll"},
-                "overflow": "scrollX"
+                "overflow": "scrollX",
+                "minHeight": true
             }
         }
     }

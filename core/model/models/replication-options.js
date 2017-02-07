@@ -140,5 +140,13 @@ exports.ReplicationOptions = Montage.specialize({
             name: "remote_dataset",
             valueType: "String"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            inspectorComponentModule: {
+                id: 'ui/sections/storage/inspectors/replication-creator.reel'
+            },
+            nameExpression: "'Replicate'"
+        }
     }
 });

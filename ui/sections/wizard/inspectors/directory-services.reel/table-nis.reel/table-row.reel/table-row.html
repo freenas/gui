@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+        "name": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "placeholder": "e.g. name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.name"}
+            }
+        },
+
+       "domain": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "domain"},
+                "placeholder": "e.g. example.com"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.parameters.domain"}
+            }
+        },
+
+        "server": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "server"},
+                "placeholder": "e.g. nis.example.com"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.parameters.server"}
+            }
+        }
+
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="TableRow Table-cells">
+        <div><div data-montage-id="name"></div></div>
+        <div><div data-montage-id="domain"></div></div>
+        <div><div data-montage-id="server"></div></div>
+    </div>
+</body>
+</html>

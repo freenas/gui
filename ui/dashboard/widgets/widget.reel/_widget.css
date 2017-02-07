@@ -12,10 +12,6 @@
     box-shadow: 0px 0px 2px 2px rgba(43,156,216,0);
     transition: box-shadow .25s ease-in-out;
 
-    & > * {
-        user-select: none;
-    }
-
     @nest .drawer-is-open &:hover {
         box-shadow: 0px 0px 2px 2px rgba(43,156,216,1);
     }
@@ -40,6 +36,22 @@
     @nest .flip & {
         background-color: #0C5688;
     }
+}
+
+.Widget-header.Own {
+    display: flex;
+}
+
+.Widget-header.Injected {
+    display: none;
+}
+
+.is-title-injected .Widget-header.Own {
+    display: none;
+}
+
+.is-title-injected .Widget-header.Injected {
+    display: flex;
 }
 
 .Widget-content {
@@ -78,9 +90,10 @@
 }
 
 .Widget-content-front {
-    display: flex;
     flex: 1;
+    display: flex;
     flex-direction: column;
+    min-height: 0;
 
     & .Scrollview-transform {
         flex: none;
@@ -95,16 +108,16 @@
 }
 
 .Widget-flipper {
-    display: flex;
     flex: 1;
-    flex-direction: column;
+    @apply --flex-column;
 }
 
 .Widget-front,
 .Widget-back {
-    display: flex;
     flex: 1;
+    display: flex;
     flex-direction: column;
+    min-height: 0;
 }
 
 .Widget.flip .Widget-back,
@@ -134,8 +147,8 @@
     & .Widget-header { width: 100%; }
 
     & .Widget-footer {
-        /* spaces buttons out */
-        & * {
+
+        & .Button {
             margin-left: .5em;
         }
     }

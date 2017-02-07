@@ -9,36 +9,36 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "classList.has('has-warning')": {"<-": "@owner.object.data.severity == 'WARNING'"},
-                "classList.has('has-info')": {"<-": "@owner.object.data.severity == 'INFO'"},
-                "classList.has('has-critical')": {"<-": "@owner.object.data.severity == 'CRITICAL'"}
+                "classList.has('has-warning')": {"<-": "@owner.object.severity == 'WARNING'"},
+                "classList.has('has-info')": {"<-": "@owner.object.severity == 'INFO'"},
+                "classList.has('has-critical')": {"<-": "@owner.object.severity == 'CRITICAL'"}
             }
         },
         "jobId": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "jobId"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.type + ' #' + @owner.object.jobId"}
+                "value": {"<-": "@owner.object.type + ' #' + @owner.object.idd"}
             }
         },
         "taskName": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "taskName"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.taskName"}
+                "value": {"<-": "@owner.object.title"}
             }
         },
         "description": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "description"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.data.description"}
+                "value": {"<-": "@owner.object.description"}
             }
         }
     }

@@ -30,7 +30,7 @@
             ]
         },
         "displayedPeriodLabel": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "displayedPeriodLabel"}
             },
@@ -104,7 +104,8 @@
                 "displayedPeriodLabel": {"<->": "@owner.displayedPeriodLabel"},
                 "taskCategories": {"<-": "@owner.taskCategories.filter{checked}"},
                 "selectedTask": {"<->":"@owner.selectedTask"},
-                "selectedDay": {"<->":"@owner.selectedDay"}
+                "selectedDay": {"<->":"@owner.selectedDay"},
+                "firstDayOfWeek": {"<-": "@owner.object._firstDayOfWeek"}
             }
         },
         "weekView": {
@@ -117,7 +118,9 @@
                 "events": {"<-": "@owner.tasks"},
                 "taskCategories": {"<-": "@owner.taskCategories.filter{checked}"},
                 "selectedTask": {"<->":"@owner.selectedTask"},
-                "selectedDay": {"<->":"@owner.selectedDay"}
+                "selectedDay": {"<->":"@owner.selectedDay"},
+                "gmtOffset": {"<-": "@owner.object._gmtOffset"},
+                "firstDayOfWeek": {"<-": "@owner.object._firstDayOfWeek"}
             }
         },
         "dayView": {
@@ -130,7 +133,8 @@
                 "events": {"<-": "@owner.tasks"},
                 "taskCategories": {"<-": "@owner.taskCategories.filter{checked}"},
                 "selectedTask": {"<->":"@owner.selectedTask"},
-                "selectedDay": {"<->":"@owner.selectedDay"}
+                "selectedDay": {"<->":"@owner.selectedDay"},
+                "gmtOffset": {"<-": "@owner.object._gmtOffset"}
             }
         },
         "taskFilter": {
@@ -142,11 +146,11 @@
                 "options": {"<-": "@owner.taskCategories"}
             }
         },
-        "createTask": {
-            "prototype": "blue-shark/ui/button.reel",
+        "dragLabel": {
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
-                "element": {"#": "createTask"},
-                "value": "Create Task"
+                "element": {"#": "dragLabel"},
+                "value": "Drag to create"
             }
         }
     }
@@ -170,17 +174,14 @@
                 </div>
                 <div data-montage-id="viewTabs" class="Calendar-viewTabs"></div>
             </div>
-            <div class="flex-row flex-spaceBetween flex-alignItems--center">
+            <div class="flex-row flex-spaceBetween flex-align--center">
                 <div class="flex-row">
-                    <span>Drag to create</span>
+                    <span data-montage-id="dragLabel"></span>
                     <div data-montage-id="taskCategories" class="CalendarWidget-taskCategories g-margin-left--half">
                         <div data-montage-id="taskCategory" class="CalendarWidget-taskCategory"></div>
                     </div>
                 </div>
-                <div data-montage-id="taskFilter"></div>
-                <button data-montage-id="createTask" class="Button--create is-hidden">
-                    <svg><use xlink:href="#i-circle-plus"/></svg>
-                </button>
+                <div data-montage-id="taskFilter" class="g-margin-left--half"></div>
             </div>
 
         </header>

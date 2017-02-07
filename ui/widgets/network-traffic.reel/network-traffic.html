@@ -6,7 +6,8 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "titleElement": {"@": "text"}
             },
             "bindings": {
                 "enabledInterfaces": {"<-": "this.interfaces.filter{enabled}.sorted{id}"},
@@ -21,12 +22,10 @@
             }
         },
         "text": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
-                "element": {"#": "title"}
-            },
-            "bindings": {
-                "value": {"<-": "'Network Traffic - ' + @owner.card"}
+                "element": {"#": "title"},
+                "value": "Network Traffic - {card}"
             }
         },
         "chart": {
@@ -47,7 +46,7 @@
                 "delegate": {"@": "owner"}
             },
             "bindings": {
-                "source": {"<-": "'interface-' + @owner.card"}
+                "datasources": {"<-": "['interface-' + @owner.card]"}
             }
         },
         "selectOptionsConverter": {

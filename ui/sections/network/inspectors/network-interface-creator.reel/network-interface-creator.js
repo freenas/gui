@@ -54,7 +54,7 @@ exports.NetworkInterfaceCreator = AbstractInspector.specialize({
         value: function(type) {
             var self = this,
                 newInterface;
-            return this._dataService.getNewInstanceForType(Model.NetworkInterface).then(function(networkInterface) {
+            return this._sectionService.getNewNetworkInterface().then(function(networkInterface) {
                 newInterface = networkInterface;
                 newInterface.type = type.toUpperCase();
                 newInterface._isNewObject = true;

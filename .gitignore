@@ -4,6 +4,9 @@
 ### PyCharm ###
 .idea
 
+### Visual Studio Code ###
+.vscode
+
 ### OSX ###
 .DS_Store
 .AppleDouble
@@ -33,7 +36,6 @@ $RECYCLE.BIN/
 
 
 ### PROJECT SETTINGS ###
-
 *.pyc
 *.swp
 *.mo
@@ -60,5 +62,22 @@ customSystem.js
 *.info/**/node_modules
 
 # Exclude builds
-
 builds/
+
+*.js.map
+bin/
+
+core/*.js
+core/backend/
+core/components/
+core/controller/
+core/converter/
+core/dao/
+core/reducers/
+core/repository/
+core/route/
+core/service/
+core/model/enumerations/
+core/model/[A-Z]*.js
+ui/**/*.css
+!ui/**/_*.css

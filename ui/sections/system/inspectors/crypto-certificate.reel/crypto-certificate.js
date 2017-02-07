@@ -1,27 +1,34 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Model = require("core/model/model").Model,
-    CryptoCertificateType = require("core/model/enumerations/crypto-certificate-type").CryptoCertificateType,
-    CryptoCertificateDigestalgorithm = require("core/model/enumerations/crypto-certificate-digestalgorithm").CryptoCertificateDigestalgorithm;
+    _ = require("lodash");
 
 exports.CryptoCertificate = AbstractInspector.specialize({
     enterDocument: {
         value: function () {
             this.super();
             if (!this.object._action && !this.object._isNew) {
-                this.object._action = 'creation';
+                this.object._action = this._sectionService.CREATION;
             }
         }
     },
+
     save: {
         value: function () {
-            if (this.certificateComponent && typeof this.certificateComponent.save === 'function') {
+            if (_.isFunction(this.certificateComponent.save)) {
                 this.certificateComponent.save();
             }
-            if (this.object._action === 'import') {
-                this.application.cryptoCertificateService.import(this.object);
-            } else {
-                this.inspector.save();
-            }
+            return this._sectionService.saveCertificate(this.object);
+        }
+    },
+
+    handleExportAction: {
+        value: function () {
+            var self = this;
+            this.application.systemService.getCertificateFileAddress(this.object.id, this.object.name + ".tar.gz").then(function (certificateObject) {
+                var downloadLink = document.createElement("a");
+                    downloadLink.href = certificateObject.link;
+                    downloadLink.download = "FreeNAS10" + "-" + "debug.tar.gz";
+                    downloadLink.click();
+            })
         }
     }
 });

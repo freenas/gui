@@ -5,10 +5,11 @@
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "collectionNameExpression": "'Shares'",
             "inspectorComponentModule": {"%": "ui/sections/storage/inspectors/share.reel"},
-            "creatorComponentModule": {"%": "ui/sections/storage/inspectors/share-creator.reel"},
+            "creatorComponentModule": {"%": "ui/sections/storage/inspectors/share.reel"},
             "wizardComponentModuleId": "ui/sections/wizard/inspectors/share.reel",
             "wizardTitle": "Create a share",
-            "nameExpression": "!!id ? !!name ? name : id : !!type ? 'New ' + type.toUpperCase() + ' share' : 'Choose a share type'"
+            "nameExpression": "!!id ? !!name ? name : id : !!type ? 'New ' + type.toUpperCase() + ' share' : 'Choose a share type'",
+            "newIdPath": "type"
         }
     }
 }

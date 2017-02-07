@@ -76,7 +76,7 @@ exports.SystemSection = Montage.specialize({
             },
             collectionNameExpression: "'System Section'",
             inspectorComponentModule: {
-                id: 'ui/inspectors/system-section.reel'
+                id: 'ui/sections/system/inspectors/system-section.reel'
             },
             nameExpression: "label",
             sortExpression: "order"

@@ -39,29 +39,12 @@
       "valueType": "String"
     }
   },
-  "blueprint_serviceups_email_notify": {
+  "blueprint_serviceups_propagate_alerts": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "email_notify",
+      "name": "propagate_alerts",
       "blueprint": {"@": "root"},
       "valueType": "boolean"
-    }
-  },
-  "blueprint_serviceups_email_recipients": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "email_recipients",
-      "blueprint": {"@": "root"},
-      "valueType": "array",
-      "valueObjectPrototypeName": "Email"
-    }
-  },
-  "blueprint_serviceups_email_subject": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "email_subject",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
     }
   },
   "blueprint_serviceups_enable": {
@@ -97,10 +80,10 @@
       "valueType": "String"
     }
   },
-  "blueprint_serviceups_monitor_remote": {
+  "blueprint_serviceups_allow_remote_connections": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "monitor_remote",
+      "name": "allow_remote_connections",
       "blueprint": {"@": "root"},
       "valueType": "boolean"
     }
@@ -174,14 +157,12 @@
         {"@": "blueprint_serviceups_description"},
         {"@": "blueprint_serviceups_driver"},
         {"@": "blueprint_serviceups_driver_port"},
-        {"@": "blueprint_serviceups_email_notify"},
-        {"@": "blueprint_serviceups_email_recipients"},
-        {"@": "blueprint_serviceups_email_subject"},
+        {"@": "blueprint_serviceups_propagate_alerts"},
         {"@": "blueprint_serviceups_enable"},
         {"@": "blueprint_serviceups_identifier"},
         {"@": "blueprint_serviceups_mode"},
         {"@": "blueprint_serviceups_monitor_password"},
-        {"@": "blueprint_serviceups_monitor_remote"},
+        {"@": "blueprint_serviceups_allow_remote_connections"},
         {"@": "blueprint_serviceups_monitor_user"},
         {"@": "blueprint_serviceups_powerdown"},
         {"@": "blueprint_serviceups_remote_host"},

@@ -16,36 +16,31 @@
             },
             "bindings": {
                 "classList.has('has-error')": {"<-": "@owner.object.state == 'FAILED'"},
-                "classList.has('has-warning')": {"<-": "@owner.object.taskReport.warnings.length > 0"},
-                "classList.has('has-success')": {"<-": "@owner.object.state == 'FINISHED'"}
+                "classList.has('has-warning')": {"<-": "@owner.object.warnings.length > 0"},
+                "classList.has('has-success')": {"<-": "@owner.object.state == 'FINISHED'"},
+                "classList.has('is-expired')": {"<-": "@owner.isExpired"},
+                "classList.has('hide')": {"<-": "@owner.isHidden"}
             }
         },
         "taskSummary": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "taskSummary"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.taskReport.description.message"},
-                "classList.has('hide')": {"<-": "!@owner.object.taskReport.description"}
-            }
-        },
-        "converter": {
-            "prototype": "montage/core/converter/date-converter",
-            "properties": {
-                "pattern": "HH:mm:ss"
+                "value": {"<-": "@owner.object.description.format.string"},
+                "args": {"<-": "@owner.object.description.format.args"},
+                "classList.has('hide')": {"<-": "!@owner.object.description"}
             }
         },
         "timestamp": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
-                "element": {"#": "timestamp"}
+                "element": {"#": "timestamp"},
+                "value": "{date, HH:mm:ss}"
             },
             "bindings": {
-                "value": {
-                    "<-": "@owner.object.startedTime",
-                    "converter": {"@": "converter"}
-                }
+                "args": {"<-": "@owner.object.startDate && {date: @owner.object.startDate}"}
             }
         },
         "progress": {
@@ -54,8 +49,7 @@
                 "element": {"#": "progress"}
             },
             "bindings": {
-                "percentageComplete": {"<-": "@owner.object.progress"},
-                "classList.has('hide')": {"<-": "@owner.object.type != 'TASK'"},
+                "percentageComplete": {"<-": "@owner.object.progress.percentage"},
                 "status": {"<-": "@owner.statusMap[@owner.object.state]"}
             }
         },
@@ -90,9 +84,7 @@
                 </div>
             </div>
             <div class="Notification-actions">
-                <div data-montage-id="expandButton" class="Notification-expand">
-                    <svg><use xlink:href="#i-arrow"/></svg>
-                </div>
+                <div data-montage-id="expandButton" class="Notification-expand"></div>
             </div>
         </div>
         <div data-montage-id="details" class="Notification-details"></div>

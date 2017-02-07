@@ -1,14 +1,9 @@
-/**
- * @module ui/language-and-region.reel
- */
-var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    SystemService = require('core/service/system-service').SystemService,
+    moment = require("moment-timezone"),
+    _      = require("lodash");
 
-/**
- * @class LanguageAndRegion
- * @extends Component
- */
-exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# */ {
+exports.LanguageAndRegion = AbstractInspector.specialize({
     timezoneOptions: {
         value: null
     },
@@ -19,63 +14,62 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
 
     shortDateFormats: {
         value: [
-            "M/d/yy",
-            "d/M/yy",
-            "yy/M/d"
+            "MM/DD/YY",
+            "DD/MM/YY",
+            "YY/MM/DD"
         ]
     },
 
     mediumDateFormats: {
         value: [
-            "MM/dd/yy",
-            "dd/MM/yy",
-            "yy/MM/dd"
+            "MMM, DD YY",
+            "DD MMM YY",
+            "YY MMM DD"
         ]
     },
 
     longDateFormats: {
         value: [
-            "MMMM/dd/yyyy",
-            "dd/MMMM/yyyy",
-            "yyyy/MMMM/dd"
+            "MMMM DD, YYYY",
+            "DD MMMM YYYY",
+            "YYYY MMMM DD"
         ]
     },
 
     fullDateFormats: {
         value: [
-            "dddd, MMMM/dd/yyyy",
-            "dddd, dd/MMMM/yyyy",
-            "yyyy/MMMM/dd, dddd"
+            "dddd, MMMM DD, YYYY",
+            "dddd DD MMMM YYYY",
+            "YYYY MMMM DD dddd"
         ]
     },
 
     shortTimeFormats: {
         value: [
             "h:m",
-            "m:h"
+            "H:m"
         ]
     },
 
     mediumTimeFormats: {
         value: [
-            "hh:mm:ss",
-            "mm:hh:ss",
-            "ss:mm:hh"
+            "hh:mm:ss A",
+            "A hh:mm:ss",
+            "HH:mm:ss"
         ]
     },
 
     longTimeFormats: {
         value: [
-            "hh:mm:ss tt",
-            "mm:hh:ss tt",
-            "ss:mm:hh tt"
+            "hh:mm:ss A z",
+            "A hh:mm:ss z",
+            "HH:mm:ss z"
         ]
     },
 
     enterDocument: {
         value: function(isFirstTime) {
-            var self = this,
-                loadingPromises = [];
+            var self = this;
             this.application.applicationContextService.findCurrentUser().then(function (user) {
                 self.user = user;
                 if (!user.attributes.userSettings) {
@@ -86,35 +80,38 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
             if (isFirstTime) {
                 this._dataService = this.application.dataService;
                 this.isLoading = true;
-                loadingPromises.push(
-                    this.application.systemGeneralService.getTimezoneOptions().then(function(timezoneOptions) {
-                        self.timezoneOptions = [];
-                        for(var i=0; i<timezoneOptions.length; i++) {
-                            self.timezoneOptions.push({label: timezoneOptions[i], value: timezoneOptions[i]});
-                        }
+                Promise.all([
+                    this._sectionService.getTimezoneOptions().then(function(timezoneOptions) {
+                        self.timezoneOptions = timezoneOptions.map(function(x) {
+                            return {label: x, value: x};
+                        });
                     }),
-                    this.application.systemGeneralService.getKeymapOptions().then(function(keymapsData) {
-                        self.keymapsOptions = [];
-                        for(var i=0; i<keymapsData.length; i++) {
-                            self.keymapsOptions.push({label: keymapsData[i][1], value: keymapsData[i][0]});
-                        }
+                    this._sectionService.getKeymapOptions().then(function(keymapsData) {
+                        self.keymapsOptions = keymapsData.map(function(x) {
+                            return {label: x[1], value: x[0]};
+                        });
                     }),
-                    this.application.systemGeneralService.getSystemGeneral().then(function(generalData) {
-                        self.generalData = generalData;
+                    this._sectionService.getSystemGeneral().then(function(systemGeneral) {
+                        self.generalData = systemGeneral;
                         self._snapshotDataObjectsIfNecessary();
                     })
-                );
-                Promise.all(loadingPromises).then(function() {
-                    this.isLoading = false;
+                ]).then(function() {
+                    self.isLoading = false;
                 });
                 var today = new Date();
-                this.dateFormatShortOptions = this.generateDateFormatConvertedList(today, this.shortDateFormats);
-                this.dateFormatMediumOptions = this.generateDateFormatConvertedList(today, this.mediumDateFormats);
-                this.dateFormatLongOptions = this.generateDateFormatConvertedList(today, this.longDateFormats);
-                this.dateFormatFullOptions = this.generateDateFormatConvertedList(today, this.fullDateFormats);
-                this.timeFormatShortOptions = this.generateDateFormatConvertedList(today, this.shortTimeFormats);
-                this.timeFormatMediumOptions = this.generateDateFormatConvertedList(today, this.mediumTimeFormats);
-                this.timeFormatLongOptions = this.generateDateFormatConvertedList(today, this.longTimeFormats);
+                this.dateFormatShortOptions = this.generateDateFormatConvertedList(today, SystemService.SHORT_DATE_FORMATS);
+                this.dateFormatMediumOptions = this.generateDateFormatConvertedList(today, SystemService.MEDIUM_DATE_FORMATS);
+                this.dateFormatLongOptions = this.generateDateFormatConvertedList(today, SystemService.LONG_DATE_FORMATS);
+                this.dateFormatFullOptions = this.generateDateFormatConvertedList(today, SystemService.FULL_DATE_FORMATS);
+                this.timeFormatShortOptions = this.generateDateFormatConvertedList(today, SystemService.SHORT_TIME_FORMATS);
+                this.timeFormatMediumOptions = this.generateDateFormatConvertedList(today, SystemService.MEDIUM_TIME_FORMATS);
+                this.timeFormatLongOptions = this.generateDateFormatConvertedList(today, SystemService.LONG_TIME_FORMATS);
+                this.firstDayOfWeekOptions = _.map(moment.weekdays(), function(day, index) {
+                    return {
+                        label: day,
+                        value: index
+                    };
+                });
             }
         }
     },
@@ -123,8 +120,8 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
         value: function(today, dateOptionList) {
             var formattedDateList = [];
             for (var i = 0,length = dateOptionList.length; i < length; i++) {
-                this.dateConverter.pattern = dateOptionList[i];
-                formattedDateList.push({label: "'" + this.dateConverter.convert(today) + "'", value: dateOptionList[i]});
+                var pattern = dateOptionList[i];
+                formattedDateList.push({label: "'" + moment(today).format(pattern) + "'", value: pattern});
             }
             return formattedDateList;
         }
@@ -139,6 +136,7 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
             userSettings.dateFormatMedium = userSettings.dateFormatMedium || this.mediumDateFormats[0];
             userSettings.dateFormatLong = userSettings.dateFormatLong || this.longDateFormats[0];
             userSettings.dateFormatFull = userSettings.dateFormatFull || this.fullDateFormats[0];
+            userSettings.firstDayOfWeek = userSettings.firstDayOfWeek || 0;
         }
     },
 
@@ -146,7 +144,7 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
         value: function() {
             return Promise.all([
                 this.application.applicationContextService.save(),
-                this.application.systemGeneralService.saveGeneralData(this.generalData)
+                this.application.systemService.saveGeneral(this.generalData)
             ]);
         }
     },
@@ -162,10 +160,10 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
     _snapshotDataObjectsIfNecessary: {
         value: function() {
             if (!this._generalData) {
-                this._generalData = this._dataService.clone(this.generalData);
+                this._generalData = _.cloneDeep(this.generalData);
             }
             if (!this._user) {
-                this._userSettings = this._dataService.clone(this.user.attributes.userSettings);
+                this._userSettings = _.cloneDeep(this.user.attributes.userSettings);
             }
         }
     }

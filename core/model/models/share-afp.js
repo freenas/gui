@@ -260,6 +260,19 @@ exports.ShareAfp = Montage.specialize({
         get: function () {
             return this._zero_dev_numbers;
         }
+    },
+    _smb_compatible: {
+        value: null
+    },
+    smb_compatible: {
+        set: function (value) {
+            if (this._smb_compatible !== value) {
+                this._smb_compatible = value;
+            }
+        },
+        get: function () {
+            return this._smb_compatible;
+        }
     }
 }, {
     propertyBlueprints: {
@@ -344,6 +357,10 @@ exports.ShareAfp = Montage.specialize({
         }, {
             mandatory: false,
             name: "zero_dev_numbers",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "smb_compatible",
             valueType: "boolean"
         }]
     }

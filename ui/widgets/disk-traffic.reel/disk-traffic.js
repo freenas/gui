@@ -14,7 +14,9 @@ exports.DiskTraffic = Component.specialize(/** @lends DiskTraffic# */ {
             if (!this.disks) {
                 var self = this;
                 this.application.dataService.fetchData(Model.Disk).then(function(disks) {
-                    self.disks = disks;
+                    self.disks = disks.filter(function(disk) {
+                        return !!disk.online;
+                    });
                     self._refreshChart();
                 });
             }
@@ -41,13 +43,21 @@ exports.DiskTraffic = Component.specialize(/** @lends DiskTraffic# */ {
 
     _refreshChart: {
         value: function() {
-            this.chart.metrics = this.disks.map(function(disk) {
+            this.chart.metrics = this.disks.sort(function(a, b) {
+                var strA = a.name.replace(/\d+$/, ''),
+                    strB = b.name.replace(/\d+$/, '');
+
+                if (strA === strB) {
+                    return +(a.name.replace(strA, '')) - +(b.name.replace(strB, ''));
+                }
+                return Object.compare(a.name, b.name);
+            }).map(function(disk) {
                 return [
                     ['geom_ops_rwd-' + (disk.is_multipath ? 'multipath_' : '') + disk.name, 'read'],
                     ['geom_ops_rwd-' + (disk.is_multipath ? 'multipath_' : '') + disk.name, 'write']
                 ];
             }).flatten();
-            this.chart.sources = ['geom_stat'];
+            this.chart.datasources = ['geom_stat'];
         }
     }
 });

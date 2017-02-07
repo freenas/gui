@@ -403,7 +403,7 @@ exports.User = Montage.specialize({
     userInterfaceDescriptor: {
         value: {
             inspectorComponentModule: {
-                id: 'ui/inspectors/user.reel'
+                id: 'ui/sections/accounts/inspectors/user.reel'
             },
             iconComponentModule: {
                 id: 'ui/icons/user.reel'
@@ -413,11 +413,11 @@ exports.User = Montage.specialize({
             },
             collectionNameExpression: "'Users'",
             creatorComponentModule: {
-                id: 'ui/inspectors/user.reel'
+                id: 'ui/sections/accounts/inspectors/user.reel'
             },
             nameExpression: "id.defined() ? username : 'Create a user'",
             listControlsComponentModule: {
-                id: 'ui/accounts/accounts-list-options.reel'
+                id: 'ui/sections/accounts/inspectors/accounts-list-options.reel'
             },
             subLabelExpression: "origin.domain",
             wizardComponentModuleId: "ui/sections/wizard/inspectors/user.reel",

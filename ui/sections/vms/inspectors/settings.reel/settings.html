@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="settings.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "validationController": {"@": "validationController"},
+                "inspector": {"@": "inspector"}
+            }
+        },
+        "validationController": {
+            "prototype": "core/controller/validation-controller"
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "validationController": {"@": "validationController"},
+                "canSave": true,
+                "canRevert": true,
+                "controller": {"@": "owner"}
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"}
+            }
+        },
+        "ipv4_address_validator": {
+            "prototype": "core/converter/validator/ipv4-with-netmask-validator"
+        },
+        "network.nat": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "network.nat"},
+                "label": "NAT Network",
+                "validator": {"@": "ipv4_address_validator"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.settings.config.network.nat"}
+            }
+        },
+        "network.management": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "network.management"},
+                "label": "Management Network",
+                "validator": {"@": "ipv4_address_validator"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.settings.config.network.management"}
+            }
+        },
+        "additional_templates": {
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "properties": {
+                "element": {"#": "additional_templates"},
+                "label": "Additional Template Repositories",
+                "labelPath": "this",
+                "isDraggable": true,
+                "inputTitle": "Add Template Repository",
+                "valuesTitle": "Added Template Repositories",
+                "emptyMessage": "No template repositories added :("
+            },
+            "bindings": {
+                "values": {"<->": "@owner.additional_templates"},
+                "placeholder": {"<-": "@owner.additional_templates ? 'eg. https://github.com/my/repo' : ''"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Settings">
+        <div data-montage-id="inspector">
+            <div data-montage-id="network.nat"></div>
+            <div data-montage-id="network.management"></div>
+            <div data-montage-id="additional_templates"></div>
+        </div>
+    </div>
+</body>
+</html>

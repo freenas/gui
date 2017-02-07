@@ -1,0 +1,9 @@
+.Container {
+    min-width: 38rem;
+}
+
+.Container-inspector {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}

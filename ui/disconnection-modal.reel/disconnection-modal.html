@@ -8,18 +8,15 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
-            },
-            "bindings": {
-                "isConnected": {"<-": "@owner.application.dataService.backendBridge.connectionStatus"}
             }
         },
         "modal": {
-            "prototype": "ui/controls/modal.reel",
+            "prototype": "blue-shark/ui/modal.reel",
             "properties": {
                 "element": {"#": "modal"}
             },
             "bindings": {
-                "classList.has('montage-Overlay--visible')": {"<-": "@owner.isConnected != 'CONNECTED'"}
+                "classList.has('montage-Overlay--visible')": {"<-": "@owner.connectionState == 'CLOSED'"}
             }
         }
     }

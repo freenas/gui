@@ -20,7 +20,7 @@
             }
         },
         "label": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "label"}
             },
@@ -29,7 +29,7 @@
             }
         },
         "subLabel": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "subLabel"}
             },
@@ -44,7 +44,7 @@
                 "element": {"#": "iconImagePlaceholder"}
             },
             "bindings": {
-                "moduleId": {"<-": "@owner.userInterfaceDescriptor.iconValueExpression.defined() && !!@owner.userInterfaceDescriptor.iconValueMapping[@owner.object.path(@owner.userInterfaceDescriptor.iconValueExpression)] ? @owner.userInterfaceDescriptor.iconValueMapping[@owner.object.path(@owner.userInterfaceDescriptor.iconValueExpression)] : @owner.userInterfaceDescriptor.iconComponentModule.id"},
+                "moduleId": {"<-": "@owner.userInterfaceDescriptor.iconValueExpression.defined() && !!@owner.userInterfaceDescriptor.iconValueMapping[@owner.object.path(@owner.userInterfaceDescriptor.iconValueExpression)] ? @owner.userInterfaceDescriptor.iconValueMapping[@owner.object.path(@owner.userInterfaceDescriptor.iconValueExpression)] : @owner.userInterfaceDescriptor.iconComponentModule.id || @owner.userInterfaceDescriptor.iconComponentModule['%']"},
                 "object": {"<-": "@owner.object"}
             }
         }

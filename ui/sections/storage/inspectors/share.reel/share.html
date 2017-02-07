@@ -16,21 +16,21 @@
                     "DIRECTORY":    {"@": "directoryTreeController"},
                     "FILE":         {"@": "fileTreeController"}
                 },
-                "targetTreeview": {"@": "target"}
+                "targetTreeview": {"@": "target_path"}
             },
             "bindings": {
-                "volumePath": {"<-": "'/mnt/' + @owner.volume.id"}
+                "volumePath": {"<-": "'/mnt/' + @owner.object._volume.id"}
             }
         },
         "datasetTreeController": {
-            "prototype": "core/controller/dataset-tree-controller",
+            "prototype": "core/controller/tree/dataset-tree-controller",
             "bindings": {
                 "service": {"<-": "@owner.application.dataService"},
-                "root": {"<-": "@owner.volume.id"}
+                "root": {"<-": "@owner.object._volume.id"}
             }
         },
         "directoryTreeController": {
-            "prototype": "core/controller/filesystem-tree-controller",
+            "prototype": "core/controller/tree/filesystem-tree-controller",
             "properties": {
                 "canListFiles": false
             },
@@ -40,7 +40,7 @@
             }
         },
         "fileTreeController": {
-            "prototype": "core/controller/filesystem-tree-controller",
+            "prototype": "core/controller/tree/filesystem-tree-controller",
             "properties": {
                 "canListFiles": true
             },
@@ -50,11 +50,7 @@
             }
         },
         "validationController": {
-            "prototype": "core/controller/validation-controller",
-            "properties": {
-                "fields": {
-                }
-            }
+            "prototype": "core/controller/validation-controller"
         },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
@@ -68,7 +64,8 @@
             "bindings": {
                 "canDelete": {"<-": "!@owner.object._isNew"},
                 "isSaveDisabled": {"<-": "(@owner.targetType == 'ZVOL' && !@owner.object.properties.size)"},
-                "context": {"<-": "@owner.context"}
+                "context": {"<-": "@owner.context"},
+                "isLoading": {"<-": "@owner.isLoading"}
             }
         },
         "overview": {
@@ -122,14 +119,15 @@
                 "value": {"<->": "@owner.object.description"}
             }
         },
-        "target": {
+        "target_path": {
             "prototype": "ui/controls/field-treeview.reel",
             "properties": {
-                "element": {"#": "target"},
-                "validationPath": "target_path"
+                "element": {"#": "target_path"},
+                "validationPath": "target_path",
+                "allowPathInput": true
             },
             "bindings": {
-                "selectedPath": {"<->": "@owner.object._selected_path"},
+                "selectedPath": {"<->": "@owner.object.target_path"},
                 "label": {"<-": "@owner.targetType != 'DATASET' || @owner.targetType != 'ZVOL' ? 'Target' : 'Create target'"},
                 "readOnly": {"<-": "@owner.isPathReadOnly"},
                 "suffix": {"<-": "(@owner.targetType == 'DATASET' || @owner.targetType == 'ZVOL') && !@owner.isPathReadOnly ? @name.value || '' : ''"},
@@ -182,7 +180,7 @@
             <div data-montage-id="enabled" class="wizard-is-hidden"></div>
             <div data-montage-id="serviceEnabled" class="wizard-is-hidden"></div>
             <div data-montage-id="name"></div>
-            <div data-montage-id="target" class="wizard-is-hidden"></div>
+            <div data-montage-id="target_path" class="wizard-is-hidden"></div>
             <div data-montage-id="description" class="wizard-is-hidden"></div>
             <div data-montage-id="shareTypePlaceHolder"></div>
         </div>

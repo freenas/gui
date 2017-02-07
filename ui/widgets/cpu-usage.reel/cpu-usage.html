@@ -12,7 +12,8 @@
         "widget": {
             "prototype": "ui/dashboard/widgets/widget.reel",
             "properties": {
-                "element": {"#": "widget"}
+                "element": {"#": "widget"},
+                "title": "CPU Usage"
             }
         },
         "chart": {
@@ -25,7 +26,7 @@
                 "graphType": "stacked",
                 "yFormat": "%",
                 "useGuideline": true,
-                "source": "aggregation-cpu-sum",
+                "datasources": ["aggregation-cpu-sum"],
                 "metrics": [
                     "cpu-user",
                     "cpu-system"
@@ -40,10 +41,7 @@
 <body>
     <div data-montage-id="owner" class="CpuUsage">
         <div data-montage-id="widget">
-            <div data-arg="widget-title">
-                <svg><use xlink:href="#i-lineChart"/></svg>
-                CPU usage
-            </div>
+            <svg data-arg="widget-icon"><use xlink:href="#i-lineChart"/></svg>
             <div data-arg="widget-content">
                 <div data-montage-id="chart-live"></div>
             </div>

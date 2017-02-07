@@ -1,23 +1,32 @@
-/**
- * @module ui/inspector.reel
- */
 var Component = require("montage/ui/component").Component,
-    CascadingList = require("ui/controls/cascading-list.reel").CascadingList,
-    Model = require("core/model/model").Model,
     Promise = require("montage/core/promise").Promise,
-    FastSet = require("collections/fast-set");
+    ModelDescriptorService = require("core/service/model-descriptor-service").ModelDescriptorService,
+    CascadingList = require("ui/controls/cascading-list.reel").CascadingList,
+    RoutingService = require("core/service/routing-service").RoutingService,
+    _ = require("lodash");
 
-/**
- * @class Inspector
- * @extends Component
- */
-exports.Inspector = Component.specialize(/** @lends Inspector# */ {
+exports.Inspector = Component.specialize({
     confirmDeleteMessage: {
         value: null
     },
 
     isSaveDisabled: {
         value: false
+    },
+
+    parentCascadingListItem: {
+        get: function () {
+            return this._parentCascadingListItem ||
+                (this._parentCascadingListItem = CascadingList.findCascadingListItemContextWithComponent(this));
+        }
+    },
+
+    templateDidLoad: {
+        value: function() {
+            this.super();
+            this._routingService = RoutingService.getInstance();
+            this._modelDescriptorService = ModelDescriptorService.getInstance();
+        }
     },
 
     enterDocument: {
@@ -55,8 +64,7 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                 }
             } else if (this.object) {
                 this.object.__isLocked = true;
-                this.clearObjectSelection();
-                promise = this.application.dataService.deleteDataObject(this.object).catch(this._logError);
+                promise = this.delete().catch(this._logError);
                 promise.then(function(){
                     self.object.__isLocked = false;
                 });
@@ -66,9 +74,13 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                 console.warn('NOT IMPLEMENTED: delete() on unknown controller.');
             }
 
+            promise = Promise.is(promise) ? promise : Promise.resolve(promise);
             if (event) {
                 event.stopPropagation();
             }
+            promise.then(function() {
+                self.clearObjectSelection();
+            });
 
             this.isConfirmationVisible = false;
         }
@@ -81,17 +93,13 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
     },
 
     delete: {
-        value: function () {
+        value: function() {
+            var self = this,
+                args = _.toArray(arguments);
             this.object.__isLocked = true;
-            if (arguments && arguments.length > 0) {
-                var args = [this.object];
-                for (var i = 0, length = arguments.length; i < length; i++) {
-                    args.push(arguments[i]);
-                }
-                return this.application.dataService.deleteDataObject.apply(this.application.dataService, args).catch(this._logError);
-            }else {
-                return this.application.dataService.deleteDataObject(this.object).catch(this._logError);
-            }
+            return this._getObjectDao(this.object).then(function(dao) {
+                return dao.delete(self.object, args);
+            });
         }
     },
 
@@ -105,7 +113,7 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                     promise.catch(this._logError);
                 }
             } else if (this.object) {
-                promise = this.revert();
+                this.revert(this.object);
             } else if (this.controller) {
                 console.warn('NOT IMPLEMENTED: revert() on ', this.controller.templateModuleId);
             } else {
@@ -120,12 +128,9 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
             var self = this,
                 promise;
 
+            var isCreationInspector = this._isCreationInspector();
             if (this.controller && typeof this.controller.save === 'function') {
                 promise = this.controller.save();
-
-                if (Promise.is(promise)) {
-                    promise.catch(this._logError);
-                }
             } else if (this.object) {
                 promise = this.save();
             } else if (this.controller) {
@@ -134,42 +139,47 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                 console.warn('NOT IMPLEMENTED: save() on unknown controller.');
             }
 
-            if (this._isCreationInspector()) {
+            if (isCreationInspector) {
                 this.object.__isLocked = true;
-                this.clearObjectSelection();
             }
 
+            promise = Promise.is(promise) ? promise : Promise.resolve(promise);
             event.stopPropagation();
+
+            return promise
+                .catch(this._logError)
+                .then(function(task) {
+                    if (isCreationInspector) {
+                        self.clearObjectSelection();
+                    }
+                    return task;
+                });
         }
     },
 
     save: {
         value: function() {
-            if (arguments && arguments.length > 0) {
-                var args = [this.object];
-                for (var i = 0, length = arguments.length; i < length; i++) {
-                    args.push(arguments[i]);
-                }
-                return this.application.dataService.saveDataObject.apply(this.application.dataService, args).catch(this._logError);
-            }else {
-                return this.application.dataService.saveDataObject(this.object).catch(this._logError);
-            }
+            var self = this;
+            return (function(object, args) {
+                return self._getObjectDao(object).then(function(dao) {
+                    return dao.save(object, _.values(args));
+                });
+            })(this.object, arguments);
         }
     },
 
     clearObjectSelection: {
         value: function() {
-            var viewer = this._findParentViewer();
-            if (viewer) {
-                viewer.cascadingListItem.selectedObject = null;
-            }
+            var parentPath = this.parentCascadingListItem.data.parentContext.path;
+            return this._routingService.navigate(parentPath, true);
         }
     },
+
 
     _findParentViewer: {
         value: function() {
             var result,
-                cascadingListItems = this.context.cascadingListItem.cascadingList._stack,
+                cascadingListItems = this.context.cascadingListItem.cascadingList.stack,
                 cascadingListItem;
             for (var i = cascadingListItems.length -1; i >= 0; i--) {
                 cascadingListItem = cascadingListItems[i];
@@ -185,18 +195,21 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
     revert: {
         value: function() {
             var self = this;
-            return this.application.dataService.restoreSnapshotVersion(this.object).then(function(object) {
-                if (self.object._isNew) {
-                    self.object = object;
-                }
-                return self.object;
+            return this._getObjectDao(this.object).then(function(dao) {
+                return dao.revert(self.object);
             });
+        }
+    },
+
+    _getObjectDao: {
+        value: function(object) {
+            return this._modelDescriptorService.getDaoForObject(object);
         }
     },
 
     _isCreationInspector: {
         value: function() {
-            return !!this.object._isNew;
+            return this.object && !!this.object._isNew;
         }
     },
 

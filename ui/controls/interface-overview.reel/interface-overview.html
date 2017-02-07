@@ -16,12 +16,12 @@
                 "element": {"#": "interfaceIcon"}
             },
             "bindings": {
-                "moduleId": {"<-": "@owner.userInterfaceDescriptor.iconComponentModule.id"},
+                "moduleId": {"<-": "@owner.userInterfaceDescriptor.iconComponentModule.id || @owner.userInterfaceDescriptor.iconComponentModule['%']"},
                 "object": {"<-": "@owner.object"}
             }
         },
         "media_type": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "media_type"}
             },
@@ -30,7 +30,7 @@
             }
         },
         "name": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "name"}
             },

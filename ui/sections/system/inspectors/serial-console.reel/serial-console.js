@@ -1,15 +1,8 @@
-/**
- * @module ui/serial-console.reel
- */
-var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model,
-    SystemAdvancedSerialspeed = require("core/model/enumerations/system-advanced-serialspeed").SystemAdvancedSerialspeed;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    SystemAdvancedSerialspeed = require("core/model/enumerations/system-advanced-serialspeed").SystemAdvancedSerialspeed,
+    _ = require("lodash");
 
-/**
- * @class SerialConsole
- * @extends Component
- */
-exports.SerialConsole = Component.specialize(/** @lends SerialConsole# */ {
+exports.SerialConsole = AbstractInspector.specialize({
 
     consoleData: {
         value: null
@@ -32,45 +25,28 @@ exports.SerialConsole = Component.specialize(/** @lends SerialConsole# */ {
         value: null
     },
 
-    enterDocument: {
-        value: function(isFirstTime) {
-            var self = this,
-                speed = SystemAdvancedSerialspeed,
-                loadingPromises = [];
-            if (isFirstTime){
-                this._dataService = this.application.dataService;
-                this.isLoading = true;
-                this.serialSpeedOptions = [];
-                for(var i=0; i<speed.members.length; i++){
-                    this.serialSpeedOptions.push({label: speed.members[i], value: speed[speed.members[i]]});
-                }
-                this.serialSpeedOptions.unshift({label: "---", value: "none"});
-                loadingPromises.push(
-                    this.application.systemAdvancedService.getSystemAdvanced().then(function(systemAdvanced) {
-                        self.object = systemAdvanced;
-                    }),
-                    this.application.systemGeneralService.getSystemGeneral().then(function(generalData) {
-                        self.generalData = generalData;
-                    }),
-                    this.application.systemDeviceService.getSerialPorts().then(function(serialPorts) {
-                        self.serialPortOptions = [];
-                        for(var i=0; i<serialPorts.length; i++) {
-                            self.serialPortOptions.push({label: serialPorts[i].name, value: serialPorts[i].name});
-                        }
-                        self.serialPortOptions.unshift({label:"---", value: "none"});
-                    }),
-                    this.application.systemGeneralService.getKeymapOptions().then(function(keymapsData) {
-                        self.keymapsOptions = [];
-                        for(var i=0; i<keymapsData.length; i++) {
-                            self.keymapsOptions.push({label: keymapsData[i][1], value: keymapsData[i][0]});
-                        }
-                    })
+    _inspectorTemplateDidLoad: {
+        value: function() {
+            var self = this;
+            this.serialSpeedOptions = _.concat(
+                [{label: "---", value: null}],
+                _.map(SystemAdvancedSerialspeed.members, function(speed) { return { label: speed, value: _.toInteger(speed) }; })
+            );
+            return Promise.all([
+                this._sectionService.getSystemAdvanced(),
+                this._sectionService.getSystemGeneral(),
+                this._sectionService.listDevicesWithClass('serial_port'),
+                this._sectionService.getKeymapOptions()
+            ]).spread(function(systemAdvanced, systemGeneral, serialPorts, keymaps) {
+                self.object = systemAdvanced;
+                self.generalData = systemGeneral;
+                self.serialPortOptions = _.concat(
+                    [{label:"---", value: "none"}],
+                    _.map(serialPorts, function(port) { return {label: port.name, value: port.name}; })
                 );
-                Promise.all(loadingPromises).then(function() {
-                    self._snapshotDataObjectsIfNecessary();
-                    this.isLoading = false;
-                });
-            }
+                self.keymapsOptions = _.map(keymaps, function(keymap) { return {label: keymap[1], value: keymap[0]}; });
+                self._snapshotDataObjectsIfNecessary();
+            });
         }
     },
 
@@ -78,8 +54,8 @@ exports.SerialConsole = Component.specialize(/** @lends SerialConsole# */ {
         value: function() {
             var savingPromises = [];
             savingPromises.push(
-                this.application.systemGeneralService.saveGeneralData(this.generalData),
-                this.application.systemAdvancedService.saveAdvanceData(this.object)
+                this._sectionService.saveSystemGeneral(this.generalData),
+                this._sectionService.saveSystemAdvanced(this.object)
             );
             return Promise.all(savingPromises);
         }
@@ -98,10 +74,10 @@ exports.SerialConsole = Component.specialize(/** @lends SerialConsole# */ {
     _snapshotDataObjectsIfNecessary: {
         value: function() {
             if (!this._generalData) {
-                this._generalData = this._dataService.clone(this.generalData);
+                this._generalData = _.cloneDeep(this.generalData);
             }
             if (!this._object) {
-                this._object = this._dataService.clone(this.object);
+                this._object = _.cloneDeep(this.object);
             }
         }
     }

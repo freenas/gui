@@ -1,6 +1,6 @@
 .InspectorSectionTitle {
     position: relative;
-    margin: 1.5em 0 1em;
+    margin: 2em 0 1em;
     line-height: 1.5em;
     text-align: left;
     color: #fff;
@@ -21,11 +21,13 @@
 .InspectorSectionTitle-title {
     position: relative;
     font-weight: 400;
-    margin-bottom: .2rem;
 }
 
 .InspectorSectionTitle-subtitle {
     position: relative;
     font-weight: 200;
     color: #B1BCBE;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

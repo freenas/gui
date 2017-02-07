@@ -10,4 +10,6 @@
     }
 }
 
-.VirtualMachine.has-actions .VirtualMachine-actions { display: flex; }
+.VirtualMachine.has-actions .VirtualMachine-actions {
+    display: flex;
+}

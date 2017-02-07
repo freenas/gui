@@ -133,11 +133,11 @@ exports.VmwareDataset = Montage.specialize({
             collectionInspectorComponentModule: {
                 "id": "ui/controls/viewer.reel"
             },
-            collectionNameExpression: "'VMWare Snapshots'",
+            collectionNameExpression: "'VMware Snapshots'",
             creatorComponentModule: {
                 "id": "ui/sections/storage/inspectors/vmware-snapshot.reel"
             },
-            nameExpression: "!!_isNew ? 'Add a VMWare Snapshot' : name",
+            nameExpression: "!!_isNew ? 'Add a VMware Snapshot' : name",
             sortExpression: "name"
         }
     }

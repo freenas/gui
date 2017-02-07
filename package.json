@@ -1,24 +1,47 @@
 {
   "name": "freenas-10-gui",
-  "version": "0.3.0",
+  "version": "10.0.0-BETA2",
   "dependencies": {
-    "blue-shark": "freenas/blue-shark#95c48ab1fbb282e81b8c5320945631d6032af666",
+    "blue-shark": "freenas/blue-shark",
+    "bytes": "^2.4.0",
+    "change-case": "^3.0.0",
     "collections": "montagejs/collections#90210529c7b01ed373b65d4a60409f5edd36a93a",
+    "crossroads": "^0.12.2",
     "d3": "^3.5.17",
     "digit": "montagejs/digit",
     "frb": "montagejs/frb#66ba657ae8e7ada7658df3beb6e924c500b7259c",
-    "montage": "montagejs/montage#d8936b90fafb3a1d9bc01ff8924208513418b408",
+    "hasher": "^1.2.0",
+    "immutable": "^3.8.1",
+    "lodash": "^4.17.2",
+    "maphilight": "~1.2.3",
+    "marked": "^0.3.6",
+    "moment": "^2.17.1",
+    "moment-timezone": "^0.5.11",
+    "montage": "freenas/montage#9d75a5cced0b80b9370de5e9fe2ef0d45d3dfd8e",
     "montage-data": "montagestudio/montage-data#647f5208fcefbc89c405d1afea205c8184fddeda",
-    "plottable": "~2.2.0",
+    "numeral": "^2.0.4",
+    "plottable": "~2.7.0",
+    "redux": "^3.6.0",
+    "systemjs": "^0.19.41",
+    "systemjs-plugin-json": "^0.2.2",
+    "uuid": "^3.0.1",
     "validators": "~0.3.1",
-    "xterm": "^1.0.0",
-    "maphilight": "~1.2.3"
+    "xterm": "^1.0.0"
+  },
+  "redirects": {
+    "redux": "redux/dist/redux.min.js",
+    "bytes": "bytes/index.js",
+    "bluebird": "node_modules/montage/node_modules/bluebird/js/browser/bluebird.min.js",
+    "uuid": "bin/vendors/uuid/index.js"
   },
   "devDependencies": {
     "browser-sync": "^2.13.0",
     "commander": "~2.9.0",
     "cssnano": "^3.7.1",
+    "del": "^2.2.2",
+    "git-rev-sync": "^1.8.0",
     "gulp": "^3.9.1",
+    "gulp-file": "^0.3.0",
     "gulp-header": "^1.8.5",
     "gulp-newer": "^1.2.0",
     "gulp-postcss": "^6.1.1",
@@ -35,32 +58,17 @@
     "progress": "~1.1.8",
     "prompt": "~0.3.0",
     "rimraf": "~2.5.2",
-    "typescript": "^2.0.10",
+    "stylelint": "^7.6.0",
+    "tslint": "^4.2.0",
+    "typescript": "^2.1.0",
+    "vinyl-named": "^1.1.0",
+    "webpack": "^2.2.0-rc.4",
+    "webpack-stream": "^3.2.0",
     "ws": "~1.1.1"
   },
-  "exclude": [
-    "run-tests.html",
-    "test",
-    "tools",
-    "nas_ports"
-  ],
-  "bundle": [
-    "ui/main.reel"
-  ],
-  "shard": 3,
   "scripts": {
-    "update-montage-data-cache": "node ./tools/cli/update-montage-data-cache.js",
-    "clean-montage-data-cache": "node ./tools/cli/clean-montage-data-cache.js",
-    "generate-descriptors": "node ./tools/cli/generate.js descriptors -t ./core/model/descriptors",
-    "generate-model": "node ./tools/cli/generate.js model ./core/model/descriptors/ -p ./core/model/descriptors -t ./core/model",
-    "generate-enumerations": "node ./tools/cli/generate.js enumerations -t ./core/model/enumerations",
-    "generate-services": "node ./tools/cli/generate.js services -t ./core/model",
-    "generate-events": "node ./tools/cli/generate-events.js -t ./core/model",
-    "build": "node ./tools/build.js",
-    "warnings": "node ./tools/cli/generate.js descriptors -w --no-save",
-    "create-inspector": "minit create:component --extends-name AbstractInspector --extends-module-id ui/abstract/abstract-inspector -n",
-    "create-dao": "minit create:module --extends-name AbstractDao --extends-module-id core/dao/abstract-dao -d core/dao -n",
-    "create-repository": "minit create:module --extends-name AbstractRepository --extends-module-id core/repository/abstract-repository -d core/repository -n",
-    "create-section-service": "minit create:module --extends-name AbstractSectionService --extends-module-id core/service/section/abstract-section-service -d core/service/section -n"
+    "serve": "gulp serve",
+    "build": "gulp build",
+    "clean": "gulp clean"
   }
 }

@@ -2,7 +2,7 @@
     "root": {
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
-            "inspectorComponentModule": {"%": "ui/controls/section.reel/section-root.reel"},
+            "inspectorComponentModule": {"%": "ui/controls/section-root.reel"},
             "nameExpression": "label",
             "sortExpression": "order"
         }

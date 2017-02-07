@@ -8,6 +8,9 @@
             "properties": {
                 "element": {"#": "owner"},
                 "notifications": {"@": "notifications"}
+            },
+            "bindings": {
+                "displayedAlerts": {"<-": "@owner.alerts.filter{active && !dismissed}.sorted{id}.reversed()"}
             }
         },
         "widget": {
@@ -16,12 +19,23 @@
                 "element": {"#": "widget"}
             }
         },
+        "title": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "title"},
+                "value": "Alerts"
+            }
+        },
+
         "notifications": {
             "prototype": "ui/dashboard/notifications.reel",
             "properties": {
                 "element": {"#": "notifications"},
                 "type": "ALERT",
                 "emptyText": "No Alerts Reported"
+            },
+            "bindings": {
+                "notifications": {"<-": "@owner.displayedAlerts"}
             }
         },
         "clear": {
@@ -42,7 +56,7 @@
         <div data-montage-id="widget">
             <div data-arg="widget-title">
                 <svg data-montage-id="icon" class="Notifications-icon"><use xlink:href="#i-alert"/></svg>
-                <div data-montage-id="title" class="Notifications-title">Alerts</div>
+                <div data-montage-id="title" class="Notifications-title"></div>
                 <button data-montage-id="clear" class="Notifications-clear"></button>
             </div>
             <div data-arg="widget-content" data-montage-id="notifications"></div>

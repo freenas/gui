@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="table-port.css">
+
     <script type="text/montage-serialization">
     {
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "inspector.isSaveDisabled": {"<-": "@table.isAddingNewEntry"}
             }
         },
 

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+        "domain": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "domain"},
+                "label": "NIS domain name",
+                "placeholder": "e.g. example.com"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.parameters.domain"}
+            }
+        },
+
+        "server": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "server"},
+                "label": "Server Address",
+                "placeholder": "e.g. nis.example.com"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.parameters.server"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="NisService">
+        <div data-montage-id="domain"></div>
+        <div data-montage-id="server"></div>
+    </div>
+</body>
+</html>

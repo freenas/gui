@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "filesystemTreeController": {
+            "prototype": "core/controller/tree/filesystem-tree-controller",
+            "properties": {
+                "canListFiles": false,
+                "root": "/mnt"
+            },
+            "bindings": {
+                "service": {"<-": "@owner.application.filesystemService"}
+            }
+        },
+        "mapMediaPath": {
+            "prototype": "ui/controls/field-treeview.reel",
+            "properties": {
+                "element": {"#": "mapMediaPath"},
+                "controller": {"@": "filesystemTreeController"},
+                "validationPath": "mapMediaPath",
+                "label": "Directory"
+            },
+            "bindings": {
+                "selectedPath": {"<->": "@owner.importPath"}
+            }
+        },
+        "refreshMedia": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "refreshMedia"},
+                "value": "Scan media"
+            }
+        },
+        "mediaFsType": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "mediaFsType"},
+                "label": "Media filesystem type",
+                "placeholder": "e.g. msdosfs, leave empty to autodetect"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.importFsType"}
+            }
+        },
+        "importMedia": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "importMedia"},
+                "value": "Import"
+            },
+            "bindings": {
+                "disabled": {"<-": "!@owner.importDisk || !@owner.importPath"}
+            }
+        },
+        "importableDisks": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "importableDisks"},
+                "label": "Media"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.importDisk"},
+                "options": {"<-": "@owner.importableDiskOptions"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="VolumeMediaImporter g-margin">
+        <div data-montage-id="importableDisks"></div>
+        <div class="flex-row flex-justifyContent--end g-margin-bottom--double g-margin-top--subtract-half">
+            <div data-montage-id="refreshMedia"></div>
+        </div>
+        <div data-montage-id="mapMediaPath"></div>
+        <div data-montage-id="mediaFsType"></div>
+        <div class="flex-row flex-justifyContent--end">
+            <div data-montage-id="importMedia" class="Button--primary"></div>
+        </div>
+    </div>
+</body>
+</html>

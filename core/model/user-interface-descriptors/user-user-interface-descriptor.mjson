@@ -2,13 +2,13 @@
     "root": {
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
-            "inspectorComponentModule": {"%": "ui/inspectors/user.reel"},
+            "inspectorComponentModule": {"%": "ui/sections/accounts/inspectors/user.reel"},
             "iconComponentModule": {"%": "ui/icons/user.reel"},
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "collectionNameExpression": "'Users'",
-            "creatorComponentModule": {"%": "ui/inspectors/user.reel"},
+            "creatorComponentModule": {"%": "ui/sections/accounts/inspectors/user.reel"},
             "nameExpression": "id.defined() ? username : 'Create a user'",
-            "listControlsComponentModule": {"%": "ui/accounts/accounts-list-options.reel"},
+            "listControlsComponentModule": {"%": "ui/sections/accounts/inspectors/accounts-list-options.reel"},
             "subLabelExpression": "origin.domain",
             "wizardComponentModuleId": "ui/sections/wizard/inspectors/user.reel",
             "wizardTitle": "Create a user"

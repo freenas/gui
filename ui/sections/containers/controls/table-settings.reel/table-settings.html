@@ -2,12 +2,15 @@
 <html>
 <head>
     <title></title>
-    <link rel="stylesheet" type="text/css" href="table-settings.css">
+
     <script type="text/montage-serialization">
     {
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "inspector.isSaveDisabled": {"<-": "@table.isAddingNewEntry"}
             }
         },
 

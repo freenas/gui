@@ -9,43 +9,44 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "classList.has('has-warning')": {"<-": "@owner.object.data.severity == 'WARNING'"},
-                "classList.has('has-info')": {"<-": "@owner.object.data.severity == 'INFO'"},
-                "classList.has('has-critical')": {"<-": "@owner.object.data.severity == 'CRITICAL'"}
-            }
-        },
-        "converter": {
-            "prototype": "montage/core/converter/date-converter",
-            "properties": {
-                "pattern": "HH:mm:ss"
-            }
+                "classList.has('has-warning')": {"<-": "@owner.object.severity == 'WARNING'"},
+                "classList.has('has-info')": {"<-": "@owner.object.severity == 'INFO'"},
+                "classList.has('has-critical')": {"<-": "@owner.object.severity == 'CRITICAL'"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
         },
         "summary": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "summary"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.taskName"},
-                "classList.has('hide')": {"<-": "!@owner.object.taskName"}
+                "value": {"<-": "@owner.object.title"},
+                "classList.has('hide')": {"<-": "!@owner.object.title"}
             }
         },
         "timestamp": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
-                "element": {"#": "timestamp"}
+                "element": {"#": "timestamp"},
+                "value": "{date, HH:mm:ss}"
             },
             "bindings": {
-                "value": {
-                    "<-": "@owner.object.startedTime",
-                    "converter": {"@": "converter"}
-                }
+                "args": {"<-": "@owner.object.date && {date: @owner.object.date}"}
             }
         },
         "dismissButton": {
             "prototype": "montage/ui/button.reel",
             "properties": {
                 "element": {"#": "dismissButton"}
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "@owner.object._dismissing"}
             }
         },
         "expandButton": {
@@ -78,9 +79,7 @@
                 </div>
             </div>
             <div class="Notification-actions">
-                <div data-montage-id="expandButton" class="Notification-expand">
-                    <svg><use xlink:href="#i-arrow"/></svg>
-                </div>
+                <div data-montage-id="expandButton" class="Notification-expand"></div>
                 <div data-montage-id="dismissButton" class="Notification-close">
                     <svg id="i-close" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <title>close</title><g fill="none" fill-rule="evenodd"><circle id="i-close-bg" stroke="#979797" fill="#D8D8D8" cx="12" cy="12" r="10"/><path id="i-close-symbol" d="M11.293 12l-3.89-3.89-.353-.353.707-.707.354.354 3.89 3.89 3.89-3.89.353-.354.707.707-.354.354-3.89 3.89 3.89 3.89.354.353-.707.707-.354-.354-3.89-3.89-3.89 3.89-.353.354-.707-.707.354-.354 3.89-3.89z" fill="#979797"/></g>

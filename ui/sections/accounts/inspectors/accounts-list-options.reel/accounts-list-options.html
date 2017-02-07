@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "showSubLabel": false
+            }
+        },
+        "label": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "label"},
+                "value": "Show domains"
+            }
+        },
+        "checkbox": {
+            "prototype": "blue-shark/ui/toggle-switch.reel",
+            "properties": {
+                "element": {"#": "checkbox"},
+                "label": "show domain names"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.showSubLabel"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="UserListOptions flex-row flex-spaceBetween flex-align--center">
+        <span data-montage-id="label"></span>
+        <div data-montage-id="checkbox" class="Checkbox--light"></div>
+    </div>
+</body>
+</html>

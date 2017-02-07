@@ -2,7 +2,7 @@
 <html>
 <head>
     <title></title>
-    <link rel="stylesheet" type="text/css" href="mail.css">
+
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -47,7 +47,7 @@
             }
         },
         "outgoingPortConverter": {
-            "prototype": "core/converter/string-to-integer-converter",
+            "prototype": "core/converter/string-to-integer-or-null-converter",
             "properties": {
                 "validator": {"@": "outgoingPortValidator"}
             }

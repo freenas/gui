@@ -1,35 +1,39 @@
-/**
- * @module ui/boot-pool.reel
- */
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Bindings = require("montage/core/core").Bindings,
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
     Promise = require("montage/core/promise").Promise,
-    NotificationCenterModule = require("core/backend/notification-center");
-
-/**
- * @class BootPool
- * @extends Component
- */
+    ModelEventName = require("core/model-event-name").ModelEventName,
+    DataObjectChangeService = require("core/service/data-object-change-service").DataObjectChangeService,
+    _ = require('lodash');
+    
 exports.BootPool = AbstractInspector.specialize(/** @lends BootPool# */ {
 
-    _scrubTaskId: {
+    _blockingTaskId: {
         value: 0
     },
 
     enterDocument: {
         value: function (isFirstTime) {
-            var self = this;
 
             if (isFirstTime) {
                 this._bootEnvironmentService = this.application.bootEnvironmentService;
-                this._notificationCenter = NotificationCenterModule.defaultNotificationCenter;
-
-                this._notificationCenter.startListenToChangesOnModelTypeIfNeeded("BootPool").then(function() {
-                    self._notificationCenter.addEventListener('modelChange', self);
-                });
+                this._systemService = this.application.systemService;
+                this._eventDispatcherService = EventDispatcherService.getInstance();
+                this._dataObjectChangeService = new DataObjectChangeService();
+                this._subscribeToEventListeners();
             }
+
             this._populateComponentIfNeeded();
         }
+    },
+
+    exitDocument: {
+       value: function() {
+          this._eventDispatcherService.removeEventListener('AvailableDisksChanged', this.availableDisksListener);
+          this._eventDispatcherService.removeEventListener('BootDisksChanged', this.bootDisksListener);
+          this._eventDispatcherService.removeEventListener(ModelEventName.BootEnvironment.listChange, this.bootEnvironmentListener);
+          this.bootEnvironments = null;
+          this.bootVolume = null;
+       }
     },
 
     bootEnvironments: {
@@ -44,16 +48,65 @@ exports.BootPool = AbstractInspector.specialize(/** @lends BootPool# */ {
         value: null
     },
 
+    _handleBootEnvironmentChange: {
+        value: function(state) {
+            this._dataObjectChangeService.handleDataChange(this.bootEnvironments, state);
+        }
+    },
+
+    _subscribeToEventListeners: {
+        value: function() {
+            var self = this;
+
+            this.availableDisksListener = this._eventDispatcherService.addEventListener('AvailableDisksChanged', function(data) {
+                self._extractAvailableDisks(data.valueSeq().toJS());
+            });
+            this.bootDisksListener = this._eventDispatcherService.addEventListener('BootDisksChanged', function(data) {
+                self._bootDisks = data.valueSeq().toJS();
+            });
+            this.bootEnvironmentListener = this._eventDispatcherService.addEventListener(ModelEventName.BootEnvironment.listChange, this._handleBootEnvironmentChange.bind(this));
+        }
+    },
+
+    _extractAvailableDisks: {
+        value: function(disks) {
+            var self = this;
+
+            this._availableDisks = _(disks)
+                .filter(function(disk) {
+                    return disk.mediasize >= (self.bootVolume ? self.bootVolume.properties.size.rawvalue : 0);
+                })
+                .sortBy('name')
+                .value();
+        }
+    },
+
     _populateComponentIfNeeded: {
         value: function () {
             if (!this._populatingPromise && (!this.bootEnvironments || !this.bootVolume)) {
                 this._populatingPromise = Promise.all([
-                        this._bootEnvironmentService.list(),
-                        this._bootEnvironmentService.getBootVolumeConfig()
+                    this._bootEnvironmentService.list(),
+                    this._bootEnvironmentService.getBootVolumeConfig(),
+                    this._sectionService.listDisks()
                 ]).bind(this).then(function (data) {
                     this.bootEnvironments = data[0];
                     this.bootVolume = data[1];
+                    this._bootDisks = this._sectionService.listBootDisks();
+                    this._extractAvailableDisks(this._sectionService.listAvailableDisks());
                     this._populatingPromise = null;
+                });
+            }
+        }
+    },
+
+    _blockUiTillTaskCompletion: {
+        value: function(task) {
+            var self = this;
+
+            if (task) {
+                this._blockingTaskId = task.taskId;
+                task.taskPromise.then(function() {
+                    self._blockingTaskId = 0;
                 });
             }
         }
@@ -61,24 +114,8 @@ exports.BootPool = AbstractInspector.specialize(/** @lends BootPool# */ {
 
     handleScrubAction: {
         value: function() {
-            var self = this;
-
-            this._bootEnvironmentService.scrubBootPool().then(function(taskId) {
-                if (taskId) {
-                    self._scrubTaskId = taskId;
-                    self._notificationCenter.addEventListener("taskDone", self);
-                }
-            });
-        }
-    },
-
-    handleTaskDone: {
-        value: function(event) {
-            var taskId = event.detail.jobId;
-            if (this._scrubTaskId === event.detail.jobId) {
-                this._scrubTaskId = 0;
-                this._notificationCenter.removeEventListener("taskDone", self);
-            }
+            return this._bootEnvironmentService.scrubBootPool()
+                .then(this._blockUiTillTaskCompletion.bind(this));
         }
     },
 
@@ -91,6 +128,13 @@ exports.BootPool = AbstractInspector.specialize(/** @lends BootPool# */ {
             if (modelType === 'BootPool') {
                 this.bootVolume = data[0];
             }
+        }
+    },
+
+    didRequestAddDisk: {
+        value: function(newDisk, oldDisk) {
+            return this._systemService.addDiskToBootPool(newDisk, oldDisk)
+                .then(this._blockUiTillTaskCompletion.bind(this));
         }
     }
 

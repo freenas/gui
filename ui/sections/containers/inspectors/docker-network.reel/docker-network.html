@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "_availablesDockers": {"<-": "@owner._dockerHosts.map{{label: name, value: id}}"}
+            }
+        },
+
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
+            }
+        },
+
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "controller": {"@": "owner"},
+                "validationController": {"@": "validationController"}
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"},
+                "canDelete": {"<-": "!@owner.object._isNew"},
+                "canSave": {"<-": "@owner.object._isNew"},
+                "canRevert": {"<-": "!@owner.object._isNew && @inspector.canSave"},
+                "classList.has('has-loading-spinner')": {"<-": "@owner.isLoading"}
+            }
+        },
+
+        "name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.name"}
+            }
+        },
+
+        "host": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "host"},
+                "label": "Host"
+            },
+            "bindings": {
+                "options": {"<-": "[{label: '---', value: null}].concat(@owner._availablesDockers)"},
+                "selectedValue": {"<->": "@owner.object.host"}
+            }
+        },
+
+        "driver": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "driver"},
+                "label": "Driver"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.driver"}
+            }
+        },
+
+        "subnet": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "subnet"},
+                "label": "Subnet"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.subnet"}
+            }
+        },
+
+        "gateway": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "gateway"},
+                "label": "Gateway"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.gateway"}
+            }
+        },
+
+        "containers": {
+            "prototype": "blue-shark/ui/field-select-multiple.reel",
+            "properties": {
+                "element": {"#": "containers"},
+                "label": "Containers"
+            },
+            "bindings": {
+                "options": {"<-": "@owner._dockerContainers.filter{host == @host.selectedValue}.map{{ label: name, value: id }}"},
+                "selectedValues": {"<->": "@owner.object.containers"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="DockerNetwork">
+        <div data-montage-id="inspector">
+            <div data-montage-id="name"></div>
+            <div data-montage-id="host"></div>
+            <div data-montage-id="driver"></div>
+            <div data-montage-id="subnet"></div>
+            <div data-montage-id="gateway"></div>
+            <div data-montage-id="containers"></div>
+        </div>
+    </div>
+</body>
+</html>

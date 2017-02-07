@@ -1,0 +1,9 @@
+.Volume-volumeCreator .Topology .Topology-spare,
+.Volume-volumeCreator .Topology .Topology-cache,
+.Volume-volumeCreator .Topology .Topology-log,
+.Volume-volumeCreator .Topologizer-graph,
+.Volume-volumeCreator .InspectorFooter,
+.Volume-volumeCreator .FieldCheckbox,
+.Volume-volumeCreator .VolumeCreator-sidebar {
+    display: none !important;
+}

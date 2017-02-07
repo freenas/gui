@@ -1,12 +1,17 @@
-var Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component,
+    ModelDescriptorService = require("core/service/model-descriptor-service").ModelDescriptorService;
 
 var DEFAULT_LIST_ITEM_MODULE_ID = 'ui/controls/list.reel/list-item.reel';
 
-/**
- * @class List
- * @extends Component
- */
 exports.List = Component.specialize({
+    modelDescriptorService: {
+        get: function() {
+            if (!this._modelDescriptorService) {
+                this._modelDescriptorService = ModelDescriptorService.getInstance();
+            }
+            return this._modelDescriptorService;
+        }
+    },
 
     _content: {
         value: null
@@ -20,11 +25,11 @@ exports.List = Component.specialize({
                 if (content) {
                     var self = this;
 
-                    this.application.delegate.userInterfaceDescriptorForObject(content).then(function (UIDescriptor) {
+                    this.modelDescriptorService.getUiDescriptorForObject(content).then(function (UIDescriptor) {
                         var collectionItemComponentModule = UIDescriptor ? UIDescriptor.collectionItemComponentModule : null;
 
                         self.listItemModuleId = collectionItemComponentModule ?
-                            collectionItemComponentModule.id : DEFAULT_LIST_ITEM_MODULE_ID;
+                            (collectionItemComponentModule.id || collectionItemComponentModule['%']) : DEFAULT_LIST_ITEM_MODULE_ID;
 
 
                     }).catch(function (error) {

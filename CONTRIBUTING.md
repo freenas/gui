@@ -37,15 +37,14 @@ To make sure you have all the necessary global dev dependencies for developing
 the FreeNAS 10 GUI, run:
 
     npm install
-    sudo npm install -g minit
 
 from the root of where you cloned the GUI repo first.
 
 Once you have the environment bootstrapped, just for now do the following:
 
-    1. minit serve &
-       This will start the stand-alone web server so you can connect your web browser to localhost:8083 (see next step)
-    2. Add `#;host=<MIDDLEWARE_HOSTNAME>:<MIDDLEWARE_PORT>` to the URL minit gives you, e.g. `http://localhost:8083/#;host=freenas.local`
+    1. npm run-script serve &
+       This will start the stand-alone web server so you can connect your web browser to localhost:3000 (see next step)
+    2. Add `#?host=<MIDDLEWARE_HOSTNAME>:<MIDDLEWARE_PORT>` to the URL gulp gives you, e.g. `http://localhost:3000/#?host=freenas.local`
 
 In the example above, you have obviously already installed a copy of FreeNAS 10 on a machine called "freenas.local", which is the default mDNS name that FreeNAS gives itself - edit that to suit your actual configuration as necessary.
 
@@ -55,9 +54,7 @@ If you don't have a FreeNAS 10 instance already running, go to http://download.f
 
 ###This is required to edit css files!
 
-FreeNAS 10 Development environment also comes with [Gulp](http://gulpjs.com/) and [PostCSS](https://github.com/postcss/postcss) with [CSSNext](http://cssnext.io/features/). 
-
-To run simply type `gulp` and a browser-sync server will load.
+FreeNAS 10 Development environment uses [PostCSS](https://github.com/postcss/postcss) with [CSSNext](http://cssnext.io/features/). 
 
 Make all css changes to documents labeled `_nameOfFile.css` These files get compiled by PostCSS and create a minified version `nameOfFile.css` in which the program will use.
 

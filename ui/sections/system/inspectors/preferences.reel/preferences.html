@@ -2,7 +2,7 @@
 <html>
 <head>
     <title></title>
-    <link rel="stylesheet" type="text/css" href="preferences.css">
+
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -141,14 +141,13 @@
             }
         },
         "uploadConfig": {
-            "prototype": "blue-shark/ui/field-file-upload.reel",
+            "prototype": "blue-shark/ui/field-file-input.reel",
             "properties": {
                 "element": {"#": "uploadConfig"},
-                "label": "Upload Config File",
-                "resultType": "file"
+                "label": "Upload Config File"
             },
             "bindings": {
-                 "data": {"<->": "@owner.configFile"}
+                "file": {"<->": "@owner.configFile"}
             }
         },
         "applyConfig": {
@@ -156,6 +155,9 @@
             "properties": {
                 "element": {"#": "applyConfig"},
                 "value": "Apply Config File"
+            },
+            "bindings": {
+                "disabled": {"<-": "!@owner.configFile"}
             }
         },
         "factoryRestore": {
@@ -173,8 +175,10 @@
         <div data-montage-id="inspector">
             <div data-montage-id="downloadConfig" class="g-margin-bottom--half" id="saveConfig"></div>
             <div data-montage-id="uploadConfig" class="g-margin-bottom--half"></div>
-            <div data-montage-id="applyConfig" class="g-margin-bottom--half"></div>
-            <div data-montage-id="factoryRestore" ></div>
+            <div class="g-margin-bottom">
+                <div data-montage-id="applyConfig"></div>
+                <div data-montage-id="factoryRestore" ></div>
+            </div>
             <div data-montage-id="noOperation" class="Updates-noOperation"></div>
             <div data-montage-id="hostname"></div>
             <div data-montage-id="description"></div>

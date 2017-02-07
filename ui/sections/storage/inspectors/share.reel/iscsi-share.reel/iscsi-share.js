@@ -1,7 +1,7 @@
 var AbstractShareInspector = require("../abstract-share-inspector").AbstractShareInspector,
     ShareIscsiRpm = require("core/model/enumerations/share-iscsi-rpm").ShareIscsiRpm,
     ShareIscsiBlocksize = require("core/model/enumerations/share-iscsi-blocksize").ShareIscsiBlocksize,
-    Model = require("core/model/model").Model;
+    _ = require("lodash");
 
 /**
  * @class IscsiShare
@@ -25,13 +25,20 @@ exports.IscsiShare = AbstractShareInspector.specialize({
 
     iscsiBlocksize: {
         get: function () {
-            return this._iscsiBlocksize || (this._iscsiBlocksize = ShareIscsiBlocksize.members);
+            return this._iscsiBlocksize || (this._iscsiBlocksize = _.map(ShareIscsiBlocksize.members, function(value) {
+                return {
+                    value: +value,
+                    label: value
+                }
+            }));
         }
     },
 
     templateDidLoad: {
         value: function () {
-            this.networkInterfacesAliases = this.application.networkInterfacesSevice.networkInterfacesAliases;
+            this._sectionService.listNetworkInterfaces().then(function(networkInterfaces) {
+                self.networkInterfacesAliases = networkInterfaces;
+            });
             this._targetName = { label: null, value: null };
             this.targetNames = [];
 
@@ -51,6 +58,26 @@ exports.IscsiShare = AbstractShareInspector.specialize({
         value: null
     },
 
+    _object: {
+        value: null
+    },
+
+    object: {
+        get: function() {
+            return this._object;
+        },
+        set: function(object) {
+            if (this._object !== object) {
+                this._object = object;
+                this._object.__extent = this._object.__extent || {};
+                if (!this._object._isNew && !this._isTargetNameSelected) {
+                    this._populateIscsiTargets();
+                    this._convertExtentSize();
+                }
+            }
+        }
+    },
+
     enterDocument: {
         value: function (isFirstTime) {
             if (isFirstTime) {
@@ -59,10 +86,6 @@ exports.IscsiShare = AbstractShareInspector.specialize({
 
             if (this.object._isNew) {
                 this._resetTargetName();
-                this.object.properties.block_size = "512";
-            } else if (!this.object._isNew && !this._isTargetNameSelected) {
-                this._populateIscsiTargets();
-                this._convertExtentSize();
             }
         }
     },
@@ -97,8 +120,8 @@ exports.IscsiShare = AbstractShareInspector.specialize({
 
     _findServiceIscsi: {
         value: function() {
-            return this.application.dataService.fetchData(Model.ServiceIscsi).then(function (serviceIscsiCollection) {
-                return serviceIscsiCollection[0];
+            return this._sectionService.listServices().then(function (services) {
+                return Promise.resolve(_.find(services, {name: 'iscsi'}).config);
             });
         }
     },
@@ -114,7 +137,7 @@ exports.IscsiShare = AbstractShareInspector.specialize({
 
     _isTargetNameSelected: {
         get: function () {
-            return !!this._targetName.label && !!this._targetName.value;
+            return !!this._targetName && !!this._targetName.label && !!this._targetName.value;
         }
     },
 
@@ -137,7 +160,8 @@ exports.IscsiShare = AbstractShareInspector.specialize({
                                 if (shareIscsiTargetExtent.name === self.object.name) {
                                     // Populate __extent property of the share object.
                                     // Not the best place for doing that.
-                                    self.object.__extent = { id: shareIscsiTarget.id, lun: shareIscsiTargetExtent.number };
+                                    self.object.__extent.id = shareIscsiTarget.id;
+                                    self.object.__extent.lun = shareIscsiTargetExtent.number;
 
                                     self._targetName.value = self._targetName.label = shareIscsiTarget.id;
                                     self.targetNames.push(self._targetName);

@@ -1,0 +1,11 @@
+.DockerHost-actions {
+    display: none;
+    margin-bottom: 1em;
+
+    /* adds spacing for buttons */
+    & > *:not(:first-child) {
+        margin-left: .5em;
+    }
+}
+
+.DockerHost.has-actions .DockerHost-actions { display: flex; }

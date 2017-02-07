@@ -1,14 +1,13 @@
-var AuthorizationPanel = require("montage-data/ui/authorization-panel.reel").AuthorizationPanel,
-    Model = require("core/model/model").Model,
+var Component = require("montage/ui/component").Component,
     currentEnvironment = require("montage/core/environment").currentEnvironment,
     KeyComposer = require("montage/composer/key-composer").KeyComposer;
 
 
-/**
- * @class SignIn
- * @extends Component
- */
-var SignIn = exports.SignIn = AuthorizationPanel.specialize({
+var SignIn = exports.SignIn = Component.specialize({
+
+    _isFirstTransitionEnd: {
+        value: true
+    },
 
     userName: {
         value: void 0
@@ -96,12 +95,13 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
         value: function (isFirstTime) {
             this.addEventListener("action", this, false);
             this._keyComposer.addEventListener("keyPress", this, false);
+            this.element.addEventListener("transitionend", this, false);
 
             // checks for disconnected hash
-            if(window.location.href.indexOf(";disconnected") > -1) {
+            if(location.href.indexOf(";disconnected") > -1) {
                 this.hasError = true;
-                this.errorMessage = "Oops! Your token has been expired. \n Please re-login.";
-                history.pushState('', document.title, window.location.href.replace(/;disconnected/g, ''));
+                this.errorMessage = "Oops! Your token has expired. \n Please log back in.";
+                location.href = location.href.replace(/;disconnected/g, '');
             }
             this.userNameTextField.focus();
         }
@@ -132,9 +132,9 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
                 this.hadError = false;
                 var password = this.password || "";
 
-                this.dataService.loginWithCredentials(this.userName, password).then(function (authorization) {
-                    self.authorizationManagerPanel.approveAuthorization(authorization);
-                    self.application.sessionService.sessionDidOpen(self.userName);
+                this.application.dataService.loginWithCredentials(this.userName, password).then(function () {
+                    self.isLoggedIn = true;
+                    self.application.applicationModal.hide(self);
 
                     // Don't keep any track of the password in memory.
                     self.password = self.userName = null;
@@ -158,6 +158,17 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
 
                     self.isAuthenticating = false;
                 });
+            }
+        }
+    },
+
+    handleTransitionend: {
+        value: function (e) {
+            if(this.isLoggedIn && e.target == this.element && e.propertyName == 'opacity') {
+                this.element.style.display = 'none';
+            } else if (this._isFirstTransitionEnd) {
+                this._isFirstTransitionEnd = false;
+                this.userNameTextField.focus();
             }
         }
     },

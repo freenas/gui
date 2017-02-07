@@ -2,7 +2,7 @@
 <html>
 <head>
     <title></title>
-    <link rel="stylesheet" type="text/css" href="crypto-certificate-creation.css">
+
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -37,7 +37,7 @@
                 "converter": {"@": "optionsConverter"}
             },
             "bindings": {
-                "options" : {"<-": "[{name:'---'}].concat(@owner.certificates.filter{type=='CA_INTERNAL' || type=='CA_INTERMEDIATE'})"},
+                "options" : {"<-": "[{name:@owner.SELF_SIGNED}].concat(@owner.certificates.filter{type=='CA_INTERNAL' || type=='CA_INTERMEDIATE' || type=='CA_EXISTING' })"},
                 "selectedValue": {"<->": "@owner.object.signing_ca_name"}
             }
         },
@@ -89,7 +89,7 @@
             }
         },
         "numberConverter": {
-            "prototype": "core/converter/string-to-integer-converter",
+            "prototype": "core/converter/string-to-integer-or-null-converter",
             "properties": {
                 "validator": {"@": "lifeTimeConverterValidator"}
             }

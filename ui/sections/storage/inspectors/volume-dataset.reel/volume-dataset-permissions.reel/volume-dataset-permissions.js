@@ -1,7 +1,7 @@
 /**
  * @module ui/volume-dataset-permissions.reel
  */
-var Component = require("montage/ui/component").Component,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     Model = require("core/model/model").Model,
     UnixPermissionsConverter = require("core/converter/unix-permissions-converter").UnixPermissionsConverter;
 
@@ -9,7 +9,7 @@ var Component = require("montage/ui/component").Component,
  * @class VolumeDatasetPermissions
  * @extends Component
  */
-exports.VolumeDatasetPermissions = Component.specialize(/** @lends VolumeDatasetPermissions# */ {
+exports.VolumeDatasetPermissions = AbstractInspector.specialize(/** @lends VolumeDatasetPermissions# */ {
 
     users: {
         value: null
@@ -45,7 +45,7 @@ exports.VolumeDatasetPermissions = Component.specialize(/** @lends VolumeDataset
                 this._object = object;
 
                 if (object) {
-                    this._ensureDefaultPermissionsAreSet();
+                    this._sectionService.ensureDefaultPermissionsAreSetOnDataset(this._object);
                 }
             }
         }
@@ -58,7 +58,7 @@ exports.VolumeDatasetPermissions = Component.specialize(/** @lends VolumeDataset
     _fetchGroupsPromise: {
         value: null
     },
-    
+
     templateDidLoad: {
         value: function () {
             //Preload data before entering in the dom, in order to avoid graphic glitches
@@ -71,21 +71,6 @@ exports.VolumeDatasetPermissions = Component.specialize(/** @lends VolumeDataset
         value: function () {
             this._loadUsersIfNeeded();
             this._loadGroupsIfNeeded();
-            this._ensureDefaultPermissionsAreSet();
-        }
-    },
-
-    _ensureDefaultPermissionsAreSet: {
-        value: function () {
-            var self = this;
-
-            return this.application.storageService.ensureDefaultPermissionsAreSet(this._object)
-                .then(function() {
-                    // Set default permissions when creating datasets
-                    if (self._object._isNew) {
-                        self._object.permissions.modes = self.permissionsConverter.revert('775');
-                    }
-                });
         }
     },
 

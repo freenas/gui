@@ -2,7 +2,6 @@
 <html>
 <head>
     <title></title>
-    <link rel="stylesheet" type="text/css" href="cpu-temperature.css">
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -13,14 +12,8 @@
         "widget": {
             "prototype": "ui/dashboard/widgets/widget.reel",
             "properties": {
-                "element": {"#": "widget"}
-            }
-        },
-        "text": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "title"},
-                "value": "CPU Temperature"
+                "element": {"#": "widget"},
+                "title": "CPU Temperature"
             }
         },
         "chart": {
@@ -28,17 +21,18 @@
             "properties": {
                 "element": {"#": "chart-live"},
                 "yLabel": "C",
-                "yFormat": "1.2s",
+                "yFormat": "3r",
                 "graphType": "stackedBar",
                 "xAxisLable": -90,
                 "isTimeSeries": false,
+                "showLegend": false,
                 "metrics": [
                     "temperature"
                 ],
                 "delegate": {"@": "owner"}
             },
             "bindings": {
-                "sources": {"<-": "@owner._cpus"}
+                "datasources": {"<-": "@owner._cpus"}
             }
         }
     }
@@ -47,10 +41,7 @@
 <body>
     <div data-montage-id="owner" class="CpuTemperature">
         <div data-montage-id="widget">
-            <div data-arg="widget-title">
-                <svg><use xlink:href="#i-barChart"/></svg>
-                <div data-montage-id="title"></div>
-            </div>
+            <svg data-arg="widget-icon"><use xlink:href="#i-barChart"/></svg>
             <div data-arg="widget-content">
                 <div data-montage-id="chart-live"></div>
             </div>

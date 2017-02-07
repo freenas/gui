@@ -1,12 +1,5 @@
-/**
- * @module ui/docker-image-pull.reel
- */
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
-/**
- * @class DockerImagePull
- * @extends AbstractInspector
- */
 exports.DockerImagePull = AbstractInspector.specialize(/** @lends DockerImagePull# */ {
 
     templateDidLoad: {

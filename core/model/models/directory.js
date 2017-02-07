@@ -162,7 +162,7 @@ exports.Directory = Montage.specialize({
     userInterfaceDescriptor: {
         value: {
             inspectorComponentModule: {
-                id: 'ui/inspectors/directory-services.reel/directory-service.reel'
+                id: 'ui/sections/accounts/inspectors/directory-services.reel/directory-service.reel'
             },
             nameExpression: "label",
             statusColorMapping: {

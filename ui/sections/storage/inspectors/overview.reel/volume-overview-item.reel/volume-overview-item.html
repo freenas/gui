@@ -23,22 +23,22 @@
             "prototype": "montage/core/converter/bytes-converter"
         },
         "name": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "name"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.path(@owner.object.Type.constructor.userInterfaceDescriptor.nameExpression)"}
+                "value": {"<-": "@owner.object.path(@owner.userInterfaceDescriptor.nameExpression)"}
             }
         },
         "size": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "size"},
                 "converter": {"@": "bytesConverter"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object._properties.size.parsed"}
+                "value": {"<-": "@owner.object.properties.size.parsed"}
             }
         },
         "totalDetail": {
@@ -49,7 +49,7 @@
                 "label": "Total"
             },
             "bindings": {
-                "value": {"<-": "@owner.object._properties.size.parsed"}
+                "value": {"<-": "@owner.object.properties.size.parsed"}
             }
         },
         "usedDetail": {
@@ -60,7 +60,7 @@
                 "label": "Used"
             },
             "bindings": {
-                "value": {"<-": "@owner.object._properties.allocated.parsed"}
+                "value": {"<-": "@owner.object.properties.allocated.parsed"}
             }
         },
         "availableDetail": {
@@ -71,7 +71,7 @@
                 "label": "Free"
             },
             "bindings": {
-                "value": {"<-": "@owner.object._properties.free.parsed"}
+                "value": {"<-": "@owner.object.properties.free.parsed"}
             }
         },
         "status": {
@@ -96,14 +96,14 @@
 <body>
     <div data-montage-id="owner" class="VolumeOverviewItem">
         <div class="VolumeOverviewItem-overview">
-            <div data-montage-id="status" class="VolumeOverviewItem-status"></div>
-            <div data-montage-id="name" class="VolumeOverviewItem-name"></div>
-            <div data-montage-id="size" class="VolumeOverviewItem-size"></div>
             <div data-montage-id="toggle" class="VolumeOverviewItem-toggle">
                 <svg><use xlink:href="#i-triangle-down"/></svg>
             </div>
+            <div data-montage-id="status" class="VolumeOverviewItem-status"></div>
+            <div data-montage-id="name" class="VolumeOverviewItem-name"></div>
+            <div data-montage-id="size" class="VolumeOverviewItem-size"></div>
         </div>
-        <div class="VolumeOverviewItem-details">
+        <div class="VolumeOverviewItem-details g-margin-top--half">
             <div data-montage-id="totalDetail"></div>
             <div data-montage-id="usedDetail"></div>
             <div data-montage-id="availableDetail"></div>

@@ -22,7 +22,7 @@
             }
         },
         "hour": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "hour"}
             },
@@ -52,6 +52,15 @@
                 "selectedTask": {"<->": "@owner.selectedTask"}
             }
         },
+        "GMT": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "GMT"}
+            },
+            "bindings": {
+                "value": {"<-": "'GMT' + @owner.gmtOffset"}
+            }
+        },
         "scrollview": {
             "prototype": "blue-shark/ui/scrollview.reel",
             "properties": {
@@ -66,7 +75,9 @@
     <div data-montage-id="owner" class="DayView">
 
         <header class="CalendarWidget-view-header">
-            <div class="CalendarWidget-view-column--axis"></div>
+            <div class="CalendarWidget-view-column--axis">
+                <span data-montage-id="GMT" class="CalendarWidget-view-timezone small"></span>
+            </div>
             <div class="CalendarWidget-view-days">
                 <div data-montage-id="dayHeader" class="CalendarWidget-view-day"></div>
             </div>

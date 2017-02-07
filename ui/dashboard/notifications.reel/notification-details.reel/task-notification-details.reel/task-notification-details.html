@@ -10,34 +10,56 @@
             },
             "bindings": {
                 "classList.has('has-error')": {"<-": "!!@owner.object.errorMessage"},
-                "classList.has('has-warning')": {"<-": "@owner.object.taskReport.warnings.length > 0"}
+                "classList.has('has-warning')": {"<-": "@owner.object.warnings.length > 0"}
             }
         },
         "jobId": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
-                "element": {"#": "jobId"}
+                "element": {"#": "jobId"},
+                "value": "Task #{id}"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.type + ' #' + @owner.object.jobId"}
+                "args": {"<-": "{id: @owner.object.id}"}
+            }
+        },
+        "taskNameLabel": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "taskNameLabel"},
+                "value": "Task Name"
             }
         },
         "taskName": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "taskName"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.taskName"}
+                "value": {"<-": "@owner.object.name"}
+            }
+        },
+        "stateLabel": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "stateLabel"},
+                "value": "State"
             }
         },
         "state": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "state"}
             },
             "bindings": {
                 "value": {"<-": "@owner.object.state"}
+            }
+        },
+        "descriptionLabel": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "descriptionLabel"},
+                "value": "Description"
             }
         },
         "errorCondition": {
@@ -46,16 +68,16 @@
                 "element": {"#": "errorCondition"}
             },
             "bindings": {
-                "condition": {"<-": "!!@owner.object.errorMessage || @owner.object.taskReport.warnings.length > 0"}
+                "condition": {"<-": "!!@owner.object.error || @owner.object.warnings.length > 0"}
             }
         },
         "errorMessage": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "errorMessage"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.errorMessage"}
+                "value": {"<-": "@owner.object.error.message"}
             }
         },
         "warnings": {
@@ -64,11 +86,11 @@
                 "element": {"#": "warnings"}
             },
             "bindings": {
-                "content": {"<-": "@owner.object.taskReport.warnings"}
+                "content": {"<-": "@owner.object.warnings"}
             }
         },
         "warning": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
                 "element": {"#": "warning"}
             },
@@ -96,16 +118,16 @@
             <button data-montage-id="retryButton" class="Button--primary Button--small"></button>
         </header>
         <main>
-            <h4>Description:</h4>
+            <h4 data-montage-id="descriptionLabel"></h4>
             <div data-montage-id="errorCondition" class="Notification-details-messages">
                 <p data-montage-id="errorMessage" class="Notification-details-errorMessage"></p>
                 <div data-montage-id="warnings">
                     <p data-montage-id="warning" class="Notification-details-warning"></p>
                 </div>
             </div>
-            <h4>Task Name:</h4>
+            <h4 data-montage-id="taskNameLabel"></h4>
             <p data-montage-id="taskName"></p>
-            <h4>State:</h4>
+            <h4 data-montage-id="stateLabel"></h4>
             <p data-montage-id="state"></p>
         </main>
     </div>

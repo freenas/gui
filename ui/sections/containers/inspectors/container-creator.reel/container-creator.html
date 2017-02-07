@@ -18,9 +18,13 @@
             },
             "bindings": {
                 "currentTemplate": {"<-": "@image.selectedValue.presets"},
+                "currentStaticVolumes": {"<-": "@owner.currentTemplate.static_volumes.map{{ host_path: host_path, container_path: container_path, readonly: readonly, isLocked: true }}"},
+                "currentTemplateVolumes": {"<-": "@owner.currentStaticVolumes.concat(@owner.currentTemplate.volumes)"},
                 "object.image": {"<-": "@image.selectedValue.name"},
                 "_availablesDockers": {"<-": "@owner._hostDockers.map{{label: name, value: id}}"},
                 "object.interactive": {"<-": "@owner.currentTemplate.interactive"},
+                "object.autostart": {"<-": "@owner.currentTemplate.autostart"},
+                "object.privileged": {"<-": "@owner.currentTemplate.privileged"},
                 "object.expose_ports": {"<-": "!!@owner.currentTemplate.expose_ports"},
                 "object.names": {"<-": "@names.value.split(' ')"}
             }
@@ -169,6 +173,7 @@
                 "element": {"#": "settingsTable"}
             },
             "bindings": {
+                "inspector": {"<-": "@inspector"},
                 "values": {"<-": "@owner.currentTemplate.settings.map{{ variable: id, value: value, description: description, optional: optional }}"}
             }
         },
@@ -177,6 +182,9 @@
             "prototype": "ui/sections/containers/controls/table-environment.reel",
             "properties": {
                 "element": {"#": "environmentsTable"}
+            },
+            "bindings": {
+                "inspector": {"<-": "@inspector"}
             }
         },
 
@@ -186,6 +194,7 @@
                 "element": {"#": "portsTable"}
             },
             "bindings": {
+                "inspector": {"<-": "@inspector"},
                 "values": {"<-": "@owner.currentTemplate.ports.map{{ host_port: host_port, container_port: container_port, protocol: protocol }}"}
             }
         },
@@ -196,7 +205,8 @@
                 "element": {"#": "volumesTable"}
             },
             "bindings": {
-                "values": {"<-": "@owner.currentTemplate.volumes.map{{ host_path: host_path, container_path: container_path, readonly: readonly }}"}
+                "inspector": {"<-": "@inspector"},
+                "values": {"<-": "@owner.currentTemplateVolumes.map{{ host_path: host_path, container_path: container_path, readonly: readonly , isLocked: isLocked }}"}
             }
         },
 
@@ -208,6 +218,17 @@
             },
             "bindings": {
                 "checked": {"<->": "@owner.object.interactive"}
+            }
+        },
+
+         "privileged": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "privileged"},
+                "label": "Privileged"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.privileged"}
             }
         },
 
@@ -230,6 +251,31 @@
             },
             "bindings": {
                 "value": {"<->": "@owner.object.bridge.address"},
+                "disabled": {"<-": "@bridgeDHCP.checked"},
+                "classList.has('hide')": {"<-": "!@owner.object.bridge.enable"}
+            }
+        },
+
+        "bridgeDHCP": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "bridgeDHCP"},
+                "label": "DHCP"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.bridge.dhcp"},
+                "classList.has('hide')": {"<-": "!@owner.object.bridge.enable"}
+            }
+        },
+
+        "bridgeMacAddress": {
+            "prototype": "ui/controls/field-mac-address.reel",
+            "properties": {
+                "element": {"#": "bridgeMacAddress"},
+                "label": "MAC address"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.bridge.macaddress"},
                 "classList.has('hide')": {"<-": "!@owner.object.bridge.enable"}
             }
         },
@@ -243,6 +289,19 @@
             "bindings": {
                 "checked": {"<->": "@owner.object.autostart"}
             }
+        },
+
+        "readme": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "readme"},
+                "objectType": "VmReadme",
+                "name": "Readme",
+                "path": "readme"
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "!@owner.object.image"}
+            }
         }
 
     }
@@ -251,22 +310,26 @@
 <body>
     <div data-montage-id="owner" class="ContainerCreator">
         <div data-montage-id="inspector">
-            <div data-montage-id="image" class="g-margin-bottom--double"></div>
+            <div data-montage-id="image" class="g-margin-bottom"></div>
             <div data-montage-id="name"></div>
             <div data-montage-id="dockerHost"></div>
+            <div data-montage-id="readme"></div>
 
             <div data-montage-id="advancedSection">
                 <div data-montage-id="hostname"></div>
                 <div data-montage-id="host"></div>
                 <div data-montage-id="memoryLimit"></div>
-                <div data-montage-id="settingsTable" class="g-margin-bottom--double"></div>
-                <div data-montage-id="environmentsTable" class="g-margin-bottom--double"></div>
+                <div data-montage-id="settingsTable" class="g-margin-bottom"></div>
+                <div data-montage-id="environmentsTable" class="g-margin-bottom"></div>
                 <div data-montage-id="portsTable" class="g-margin-bottom"></div>
-                <div data-montage-id="exposePorts" class="g-margin-bottom--double"></div>
-                <div data-montage-id="volumesTable" class="g-margin-bottom--double"></div>
+                <div data-montage-id="exposePorts" class="g-margin-bottom"></div>
+                <div data-montage-id="volumesTable" class="g-margin-bottom"></div>
                 <div data-montage-id="interactive"></div>
+                <div data-montage-id="privileged"></div>
                 <div data-montage-id="bridged"></div>
+                <div data-montage-id="bridgeDHCP"></div>
                 <div data-montage-id="bridgeAddress"></div>
+                <div data-montage-id="bridgeMacAddress"></div>
                 <div data-montage-id="command"></div>
                 <div data-montage-id="autostart"></div>
             </div>

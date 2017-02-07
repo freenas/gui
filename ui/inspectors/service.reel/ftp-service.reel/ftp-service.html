@@ -156,7 +156,7 @@
             }
         },
         "filesystemTreeController": {
-            "prototype": "core/controller/filesystem-tree-controller",
+            "prototype": "core/controller/tree/filesystem-tree-controller",
             "properties": {
                 "canListFiles": false,
                 "root": "/mnt"
@@ -238,6 +238,147 @@
             "bindings": {
                 "value": {"<->": "@owner.object.masquerade_address"}
             }
+        },
+        "advancedSettings": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "advancedSettings"},
+                "title": "Advanced Settings",
+                "isExpanded": false
+            }
+        },
+        "fxp": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "fxp"},
+                "label": "Enable FXP protocol"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.fxp"}
+            }
+        },
+        "filemask": {
+            "prototype": "ui/controls/unixPermissions.reel",
+            "properties": {
+                "element": {"#": "filemask"},
+                "title": "File creation mask"
+            },
+            "bindings": {
+                "modes": {"<->": "@owner.filemaskModes"}
+            }
+        },
+        "dirmask": {
+            "prototype": "ui/controls/unixPermissions.reel",
+            "properties": {
+                "element": {"#": "dirmask"},
+                "title": "Directory creation mask"
+            },
+            "bindings": {
+                "modes": {"<->": "@owner.dirmaskModes"}
+            }
+        },
+        "ident": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "ident"},
+                "label": "Require IDENT Authentication"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.ident"}
+            }
+        },
+        "passivePortValidator": {
+            "prototype": "core/converter/validator/integer-range-validator",
+            "properties": {
+                "floor": 1024,
+                "ceiling": 65535,
+                "errorMessage": "Value must be an integer between 1024 and 65535 or empty for any port"
+            }
+        },
+        "passivePortConverter": {
+            "prototype": "core/converter/string-to-integer-or-null-converter",
+            "properties": {
+                "validator": {"@": "passivePortValidator"}
+            }
+        },
+        "passive_ports_min": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "passive_ports_min"},
+                "label": "Minimum Passive Port",
+                "converter": {"@": "passivePortConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.passive_ports_min"}
+            }
+        },
+        "passive_ports_max": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "passive_ports_max"},
+                "label": "Maximum Passive Port",
+                "converter": {"@": "passivePortConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.passive_ports_max"}
+            }
+        },
+        "bandwidthValidator": {
+            "prototype": "core/converter/validator/integer-floor-validator",
+            "properties": {
+                "floor": 0,
+                "errorMessage": "Value must be a non-negative integer"
+            }
+        },
+        "bandwidthConverter": {
+            "prototype": "core/converter/string-to-integer-or-null-converter",
+            "properties": {
+                "validator": {"@": "bandwidthValidator"}
+            }
+        },
+        "local_up_bandwidth": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "local_up_bandwidth"},
+                "label": "Local user upload bandwidth",
+                "converter": {"@": "bandwidthConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.local_up_bandwidth"}
+            }
+        },
+        "local_down_bandwidth": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "local_down_bandwidth"},
+                "label": "Local user download bandwidth",
+                "converter": {"@": "bandwidthConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.local_down_bandwidth"}
+            }
+        },
+        "anon_up_bandwidth": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "anon_up_bandwidth"},
+                "label": "Anonymous user upload bandwidth",
+                "converter": {"@": "bandwidthConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.anon_up_bandwidth"}
+            }
+        },
+        "anon_down_bandwidth": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "anon_down_bandwidth"},
+                "label": "Anonymous user download bandwidth",
+                "converter": {"@": "bandwidthConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.anon_down_bandwidth"}
+            }
         }
     }
     </script>
@@ -258,6 +399,18 @@
         <div data-montage-id="chroot"></div>
         <div data-montage-id="reverse_dns"></div>
         <div data-montage-id="masquerade_address"></div>
+        <div data-montage-id="advancedSettings">
+          <div data-montage-id="fxp"></div>
+          <div data-montage-id="filemask"></div>
+          <div data-montage-id="dirmask"></div>
+          <div data-montage-id="ident"></div>
+          <div data-montage-id="passive_ports_min"></div>
+          <div data-montage-id="passive_ports_max"></div>
+          <div data-montage-id="local_up_bandwidth"></div>
+          <div data-montage-id="local_down_bandwidth"></div>
+          <div data-montage-id="anon_up_bandwidth"></div>
+          <div data-montage-id="anon_down_bandwidth"></div>
+        </div>
     </div>
 </body>
 </html>

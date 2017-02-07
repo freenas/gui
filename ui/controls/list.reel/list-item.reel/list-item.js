@@ -1,10 +1,15 @@
-var Component = require("montage/ui/component").Component;
+var Button = require("montage/ui/button.reel").Button,
+    RoutingService = require("core/service/routing-service").RoutingService,
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
+    CascadingList = require("ui/controls/cascading-list.reel").CascadingList,
+    _ = require("lodash");
 
-/**
- * @class ListItem
- * @extends Component
- */
-exports.ListItem = Component.specialize({
+exports.ListItem = Button.specialize({
+
+    hasTemplate: {
+        value: true
+    },
+
     _object: {
         value: null
     },
@@ -23,39 +28,114 @@ exports.ListItem = Component.specialize({
         }
     },
 
-    enterDocument: {
+    parentCascadingListItem: {
+        get: function () {
+            return this._parentCascadingListItem ||
+                (this._parentCascadingListItem = CascadingList.findCascadingListItemContextWithComponent(this));
+        }
+    },
+
+    templateDidLoad: {
         value: function() {
-            if (this.object) {
-                var self = this;
-                this._canDrawGate.setField(this.constructor.CAN_DRAW_FIELD, false);
-                this._loadUserInterfaceDescriptor().then(function() {
-                    self._canDrawGate.setField(self.constructor.CAN_DRAW_FIELD, true);
-                });   
+            this.eventDispatcherService = EventDispatcherService.getInstance();
+            this.routingService = RoutingService.getInstance();
+        }
+    },
+
+    enterDocument: {
+        value: function(isFirstTime) {
+            if (isFirstTime) {
+                this.addPathChangeListener('path', this, '_handlePathChange');
+                this.addPathChangeListener('property', this, '_handlePathChange');
+                this.addPathChangeListener('object', this, '_handlePathChange');
+            }
+            this._handlePathChange();
+            this.navigationListener = this.eventDispatcherService.addEventListener('hashChange', this._handleNavigation.bind(this));
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            this._path = '';
+            this.eventDispatcherService.removeEventListener('hashChange', this.navigationListener);
+            this.classList.remove("selected");
+            this.element.classList.remove("selected");
+        }
+    },
+
+    _handleNavigation: {
+        value: function(newPath) {
+            if (this._path) {
+                var pathLength = this._path.length;
+                if (_.startsWith(newPath, this._path) && (newPath.length === pathLength || newPath[pathLength] === '/')) {
+                    this.classList.add("selected");
+                    this.element.classList.add("selected");
+                } else {
+                    this.classList.remove("selected");
+                    this.element.classList.remove("selected");
+                }
+            }
+        }
+    },
+
+    _handlePathChange: {
+        value: function() {
+            if (this.parentCascadingListItem) {
+                var parentPath = this.parentCascadingListItem.data.path,
+                    parentLast = _.last(_.split(parentPath, '/')),
+                    itemPath =  this.path || this.property || _.kebabCase(this.objectType) ||
+                        (this.object ? this.routingService.getURLFromObject(this.object) : '');
+                if (parentLast === 'create' && this.object) {
+                    this._path = parentPath + '/' + (this.object._tmpId || this.object.id);
+                } else {
+                    if (parentLast === _.head(_.split(itemPath, '/'))) {
+                        itemPath = _.join(_.drop(_.split(itemPath, '/')), '/');
+                    }
+                    this._path =  parentPath + '/' + itemPath;
+                }
             }
         }
     },
 
     _loadUserInterfaceDescriptor: {
         value: function() {
-            var self = this;
-            this.isCollection = Array.isArray(this.object);
+            if (this.object) {
+                var self = this,
+                    promise;
+                this.isCollection = Array.isArray(this.object);
 
-            var hasType = this.object.Type || this.isCollection && this.object._meta_data;
-            if (!hasType && this.objectType) {
-                if (this.isCollection) {
-                    this.object._meta_data = {
-                        collectionModelType: this.objectType
-                    };
-                } else {
-                    this.object.Type = this.objectType;
+                promise = this.application.modelDescriptorService.getUiDescriptorForType(this.objectType || this.object._objectType);
+
+                if (promise) {
+                    return promise.then(function(uiDescriptor) {
+                        self.userInterfaceDescriptor = uiDescriptor;
+                    });
                 }
-                hasType = true;
+            } else {
+                return Promise.resolve();
             }
-            if (hasType) {
-                return this.application.delegate.userInterfaceDescriptorForObject(this.object).then(function (userInterfaceDescriptor) {
-                    self.userInterfaceDescriptor = userInterfaceDescriptor;
-                });
+        }
+    },
+
+    handlePathChange: {
+        value: function() {
+            if (this.selectionKey && this.parentCascadingListItem && this.parentCascadingListItem.selectedKey === this.selectionKey ) {
+                this.classList.add("selected");
+                this.element.classList.add("selected");
+            } else {
+                this.classList.remove("selected");
+                this.element.classList.remove("selected");
             }
+        }
+    },
+
+    handlePress: {
+        value: function () {
+            this.active = false;
+            this.routingService.navigate(this._path);
+            this.classList.add("selected");
+            this.element.classList.add("selected");
+            this._removeEventListeners();
         }
     }
 }, {

@@ -1,10 +1,6 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Model = require("core/model/model").Model;
+    Model = require("core/model").Model;
 
-/**
- * @class VirtualMachineDevice
- * @extends Component
- */
 exports.VirtualMachineDevice = AbstractInspector.specialize({
 
     _object: {
@@ -19,12 +15,13 @@ exports.VirtualMachineDevice = AbstractInspector.specialize({
             if (this._object !== object) {
                 this._object = object;
                 if (object) {
-                    if (object.Type === Model.VmVolume) {
+                    if (object._objectType === Model.VmVolume) {
                         object.type = 'VOLUME'
                     }
                     if (!object.properties) {
                         object.properties = {};
                     }
+                    object.properties._vm = object._vm;
                 }
             }
         }
@@ -33,26 +30,21 @@ exports.VirtualMachineDevice = AbstractInspector.specialize({
     enterDocument: {
         value: function() {
             this.super();
-
-
             if (this.object._isNew) {
                 this._sectionService.initializeNewDevice(this.object);
             }
-            this._vm = this.context.parentContext.parentContext.object;
-            this._parentColumn = this.context.parentContext.cascadingListItem;
         }
     },
 
     save: {
         value: function() {
-            this._sectionService.addNewDeviceToVm(this._vm, this.object);
-            this._parentColumn.selectedObject = null;
+            this._sectionService.addNewDeviceToVm(this.object._vm, this.object);
         }
     },
 
     delete: {
         value: function() {
-            this._sectionService.removeDeviceFromVm(this._vm, this.object);
+            this._sectionService.removeDeviceFromVm(this.object._vm, this.object);
         }
     }
 });

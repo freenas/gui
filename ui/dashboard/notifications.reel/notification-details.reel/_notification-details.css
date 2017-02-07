@@ -13,17 +13,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: .5rem .5rem;
 }
 
 .Notification-details-title {
     display: block;
     color: #939E9F;
     font-weight: bold;
+
+    &:not(:empty) { margin: .5rem; }
 }
 
 .Notification-details header button { align-self: center; }
 
-.Notification-details-errorMessage {
-    word-break: break-word;
-}
+.Notification-details-errorMessage { word-break: break-word; }

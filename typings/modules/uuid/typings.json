@@ -1,0 +1,10 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/Tapad/typed-uuid/124824d2b96c1fed11b26bd4c2667e21d886bf44/typings.json",
+    "raw": "registry:npm/uuid#3.0.1+20161206160008",
+    "main": "index.d.ts",
+    "version": "3.0.1",
+    "name": "uuid"
+  }
+}

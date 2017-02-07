@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+        "usersOptionsConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "labelPropertyName": "username",
+                "valuePropertyName": "username"
+            }
+        },
+
+        "name": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "placeholder": "e.g. name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.name"}
+            }
+        },
+
+       "allowGuest": {
+            "prototype": "blue-shark/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "allowGuest"}
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.properties.guest_ok"}
+            }
+        },
+
+        "ownerUser": {
+            "prototype": "blue-shark/ui/select.reel",
+            "properties": {
+                "element": {"#": "ownerUser"},
+                "converter": {"@": "usersOptionsConverter"}
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.permissions.user"},
+                "options": {"<-": "@owner.users.sorted{builtin + username}"}
+            }
+        }
+
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="TableRow Table-cells">
+        <div><div data-montage-id="name"></div></div>
+        <div><div data-montage-id="allowGuest"></div></div>
+        <div><div data-montage-id="ownerUser"></div></div>
+    </div>
+</body>
+</html>

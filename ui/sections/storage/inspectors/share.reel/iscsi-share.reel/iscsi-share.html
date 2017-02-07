@@ -28,6 +28,18 @@
             }
         },
 
+        "refreservation": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "refreservation"},
+                "label": "Pre-allocate disk space"
+            },
+            "bindings": {
+                "checked": {"<->": "!!@owner.object.properties.refreservation"},
+                "classList.has('is-hidden')": {"<-": "@owner.object._target_type == 'FILE' || !@owner.object._isNew"}
+            }
+        },
+
         "extentLogicalBlockSize": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
@@ -135,6 +147,7 @@
 <body>
     <div data-montage-id="owner" class="IScsiShare">
         <div data-montage-id="extentSize"></div>
+        <div data-montage-id="refreservation"></div>
         <div data-montage-id="extentLogicalBlockSize"></div>
 
         <div data-montage-id="advancedSection">

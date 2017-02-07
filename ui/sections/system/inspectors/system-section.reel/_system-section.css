@@ -1,0 +1,14 @@
+.SystemSection-substitution {
+    flex: 1;
+    @apply --flex-column;
+}
+
+.SystemSection-substitution > div:first-child {
+    display: flex;
+    @apply --flex-column;
+
+    & .Scrollview-transform {
+        display: block;
+    }
+}
+
