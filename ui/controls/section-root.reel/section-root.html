@@ -45,7 +45,7 @@
             },
             "bindings": {
                 "object": {"<-": "@owner.object.extraEntries"},
-                "classList.has('hide')": {"<-": "!@owner.object.extraEntries"}
+                "classList.has('is-hidden')": {"<-": "!@owner.object.extraEntries"}
             }
         },
         "settings": {
@@ -57,7 +57,7 @@
                 "objectType": "SectionSettings"
             },
             "bindings": {
-                "classList.has('hide')": {"<-": "!@owner.object.settings.settings"}
+                "classList.has('is-hidden')": {"<-": "!@owner.object.settings.settings"}
             }
         },
         "disabledMessage": {
@@ -68,7 +68,7 @@
             "bindings": {
                 "value": {"<-": "@owner._disabledMessage"}
             }
-        },
+        }
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
@@ -76,7 +76,7 @@
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
-                "hasHeader": {"<-": "!!@overview.moduleId"}
+                "hideHeader": {"<-": "!@owner.object.overview"}
             }
         }
     }
@@ -85,11 +85,11 @@
 <body>
     <div data-montage-id="owner" class="SectionRoot">
         <div data-montage-id="inspector">
-        <div data-montage-id="overview" class="SectionRoot-overview"></div>
-        <div data-montage-id="entries" class="SectionRoot-entries"></div>
-        <div data-montage-id="extraEntries" class="SectionRoot-extraEntries"></div>
-        <div data-montage-id="settings"></div>
-        <div data-montage-id="disabledMessage" class="SectionRoot-disabledMessage"></div>
+            <div data-montage-id="overview" class="SectionRoot-overview"></div>
+            <div data-montage-id="entries" class="SectionRoot-entries"></div>
+            <div data-montage-id="extraEntries" class="SectionRoot-extraEntries"></div>
+            <div data-montage-id="settings"></div>
+            <div data-montage-id="disabledMessage" class="SectionRoot-disabledMessage"></div>
         </div>
     </div>
 </body>
