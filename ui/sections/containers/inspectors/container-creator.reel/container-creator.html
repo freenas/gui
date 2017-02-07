@@ -302,6 +302,18 @@
             "bindings": {
                 "classList.has('hide')": {"<-": "!@owner.object.image"}
             }
+        },
+
+        "networks": {
+            "prototype": "blue-shark/ui/field-select-multiple.reel",
+            "properties": {
+                "element": {"#": "networks"},
+                "label": "Networks"
+            },
+            "bindings": {
+                "options": {"<-": "@owner._networks.map{{ label: name, value: id }}"},
+                "selectedValues": {"<->": "@owner.object.networks"}
+            }
         }
 
     }
@@ -332,6 +344,7 @@
                 <div data-montage-id="bridgeMacAddress"></div>
                 <div data-montage-id="command"></div>
                 <div data-montage-id="autostart"></div>
+                <div data-montage-id="networks"></div>
             </div>
         </div>
     </div>
