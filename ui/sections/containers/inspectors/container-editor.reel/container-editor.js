@@ -2,20 +2,18 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
 
 exports.ContainerEditor = AbstractInspector.specialize({
 
-    templateDidLoad: {
+    _inspectorTemplateDidLoad: {
         value: function () {
-            var self = this,
-                blockGateKey = this.constructor.DATA_GATE_BLOCK_KEY;
-
-            this._canDrawGate.setField(blockGateKey, false);
+            var self = this;
 
             Promise.all([
                 this._sectionService.listDockerHosts(),
+                this._sectionService.listDockerNetworks(),
                 this._sectionService.getNewDockerContainerLogs()
-            ]).then(function (data) {
-                self._dockerHosts = data[0];
-                self._dockerContainerLogs = data[1];
-                self._canDrawGate.setField(blockGateKey, true);
+            ]).spread(function (hosts, networks, logs) {
+                self._dockerHosts = hosts;
+                self._dockerContainerLogs = logs;
+                self._networks = networks;
             });
         }
     },
@@ -99,12 +97,6 @@ exports.ContainerEditor = AbstractInspector.specialize({
                 });
             }
         }
-    }
-
-}, {
-
-    DATA_GATE_BLOCK_KEY: {
-        value: "dataLoaded"
     }
 
 });
