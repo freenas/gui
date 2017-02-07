@@ -54,12 +54,13 @@
             }
         },
         "healthCheck":{
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-number-unit.reel",
             "properties": {
                 "element": {"#": "healthCheck"},
                 "label": "Health Check Interval"
             },
             "bindings": {
+                "units": {"<-": "@owner.intervalUnits"},
                 "value": {"<-": "@owner.object.health_check_interval"}
             }
         }
