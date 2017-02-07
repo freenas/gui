@@ -12,6 +12,9 @@
     display: flex;
     align-items: center;
     background: var(--primary--8);
+    margin: -1rem;
+    margin-bottom: 0;
+
 }
 
 /* Icon */
@@ -33,6 +36,7 @@
 }
 
 .Volume-allocationBar {
+    margin-left:   -1rem;
+    margin-right: -1rem;
     height: 1rem !Important;
-    width: 100%;
 }
