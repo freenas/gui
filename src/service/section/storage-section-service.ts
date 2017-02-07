@@ -354,6 +354,10 @@ export class StorageSectionService extends AbstractSectionService {
         });
     }
 
+    public importShares(volumeId: string) {
+        return this.volumeRepository.importShares(volumeId);
+    }
+
     private handleDisksChange(disks: Map<string, Map<string, any>>) {
     }
 

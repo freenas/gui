@@ -237,6 +237,10 @@ export class VolumeRepository extends AbstractRepository {
             .then(() => this.findDetachedVolumes());
     }
 
+    public importShares(volumeId) {
+        return this.volumeDao.importShares(volumeId);
+    }
+
     public updateVolumeTopology(volume: any, topology: any) {
         volume.topology = this.cleanupTopology(topology);
 
