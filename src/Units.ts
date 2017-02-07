@@ -21,6 +21,9 @@ export {BYTE_SIZES};
 const MEGABYTE_SIZES = makeList(['MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'], kb);
 export {MEGABYTE_SIZES};
 
+const GIGABYTE_SIZES = makeList(['GB', 'TB', 'PB', 'EB', 'ZB', 'YB'], kb);
+export {GIGABYTE_SIZES};
+
 const TRANSFER_SPEED = makeList(['B/s', 'KB/s', 'MB/s', 'GB/s', 'TB/s', 'PB/s', 'EB/s', 'ZB/s', 'YB/s'], kb);
 export {TRANSFER_SPEED};
 
