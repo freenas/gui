@@ -1,10 +1,11 @@
 import { AbstractDao } from './abstract-dao';
-import {Model} from "../model";
+import {Volume} from '../model/Volume';
+import {ZfsVdev} from '../model/ZfsVdev';
 
-export class VolumeDao extends AbstractDao {
+export class VolumeDao extends AbstractDao<Volume> {
 
     public constructor() {
-        super(Model.Volume);
+        super(Volume.getClassName());
     }
 
     public getDisksAllocation(diskIds: Array<string>): Promise<Array<Object>> {
@@ -15,23 +16,23 @@ export class VolumeDao extends AbstractDao {
         return this.middlewareClient.callRpcMethod('volume.get_available_disks');
     }
 
-    public export(volume: any) {
+    public export(volume: Volume) {
         return this.middlewareClient.submitTask('volume.export', [volume.id]);
     }
 
-    public lock(volume: any) {
+    public lock(volume: Volume) {
         return this.middlewareClient.submitTask('volume.lock', [volume.id]);
     }
 
-    public unlock(volume: any, password?: string) {
+    public unlock(volume: Volume, password?: string) {
         return this.middlewareClient.submitTask('volume.unlock', [volume.id, password]);
     }
 
-    public rekey(volume: any, key: boolean, password?: string) {
-        return this.middlewareClient.submitTask('volume.rekey', [volume.id, !!key, password])
+    public rekey(volume: Volume, key: boolean, password?: string) {
+        return this.middlewareClient.submitTask('volume.rekey', [volume.id, !!key, password]);
     }
 
-    public getVolumeKey(volume: any) {
+    public getVolumeKey(volume: Volume) {
         return this.middlewareClient.submitTaskWithDownload('volume.keys.backup', [volume.id, 'key_' + volume.id]);
     }
 
@@ -48,11 +49,11 @@ export class VolumeDao extends AbstractDao {
         ]);
     }
 
-    public scrub(volume: any) {
+    public scrub(volume: Volume) {
         return this.middlewareClient.submitTask('volume.scrub', [volume.id]);
     }
 
-    public upgrade(volume: any) {
+    public upgrade(volume: Volume) {
         return this.middlewareClient.submitTask('volume.upgrade', [volume.id]);
     }
 
@@ -64,11 +65,11 @@ export class VolumeDao extends AbstractDao {
         return this.middlewareClient.submitTask('volume.import_disk', [disk, path, fsType]);
     }
 
-    public offlineVdev(volumeId: string, vdev: any) {
+    public offlineVdev(volumeId: string, vdev: ZfsVdev) {
         return this.middlewareClient.submitTask('zfs.pool.offline_disk', [volumeId, vdev.guid]);
     }
 
-    public onlineVdev(volumeId: string, vdev: any) {
+    public onlineVdev(volumeId: string, vdev: ZfsVdev) {
         return this.middlewareClient.submitTask('zfs.pool.online_disk', [volumeId, vdev.guid]);
     }
 

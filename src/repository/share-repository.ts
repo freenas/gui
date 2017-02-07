@@ -1,4 +1,4 @@
-import { AbstractRepository } from './abstract-repository-ng';
+import { AbstractRepository } from './abstract-repository';
 import { ShareDao } from '../dao/share-dao';
 import {ModelEventName} from '../model-event-name';
 import {Map} from 'immutable';

@@ -2,8 +2,9 @@ import {EventDispatcherService} from '../service/event-dispatcher-service';
 import {ModelEventName} from '../model-event-name';
 import {Map} from 'immutable';
 import {ModelDescriptorService} from '../service/model-descriptor-service';
+import {AbstractDataObject} from '../model/AbstractDataObject';
 
-export abstract class AbstractRepository {
+export abstract class AbstractRepository<T extends AbstractDataObject> {
     protected previousState: Map<string, Map<string, Map<string, any>>>;
     protected readonly eventDispatcherService = EventDispatcherService.getInstance();
     protected readonly modelDescriptorService =  ModelDescriptorService.getInstance();

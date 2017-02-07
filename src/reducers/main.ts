@@ -22,7 +22,7 @@ export function dispatchAction(previousState, action) {
     previousState = previousState;
 
     if (!previousState) {
-        previousState = (immutable.Map<string, any>()).set("streams", immutable.Map<string, any>());
+        previousState = (immutable.Map<string, any>()).set('streams', immutable.Map<string, any>());
     }
 
     if (ACTIONS_MAPPING.has(action.type)) {

@@ -7,8 +7,10 @@ import { processor as nullProcessor } from '../service/data-processor/null';
 import * as _ from 'lodash';
 import {ModelDescriptorService} from '../service/model-descriptor-service';
 import {Map as iMap, List} from 'immutable';
+import {AbstractDataObject} from '../model/AbstractDataObject';
+import {SubmittedTask} from '../model/SubmittedTask';
 
-export class AbstractDao {
+export class AbstractDao<T extends AbstractDataObject> {
     protected middlewareClient: MiddlewareClient;
     protected datastoreService: DatastoreService;
     protected modelDescriptorService: ModelDescriptorService;
@@ -28,7 +30,7 @@ export class AbstractDao {
     private idPath: string;
     private isRegistered = false;
 
-    public constructor(objectType: any, config?: any) {
+    public constructor(objectType: string, config?: any) {
         config = config || {};
         this.objectType = config.typeName || objectType;
         this.middlewareName = config.middlewareName || _.kebabCase(objectType);
@@ -45,7 +47,7 @@ export class AbstractDao {
         this.taskDescriptorsPromise = new Map<string, Promise<any>>();
     }
 
-    public list(): Promise<Array<any>> {
+    public list(): Promise<Array<T>> {
         return (this.listPromise && !this.preventQueryCaching) ?
             this.listPromise :
             this.listPromise = this.stream().then((stream) => {
@@ -57,15 +59,15 @@ export class AbstractDao {
             });
     }
 
-    public stream() {
+    public stream(): Promise<Map<string, any>> {
         return this.datastoreService.stream(this.objectType, this.queryMethod, this.idPath);
     }
 
-    public get(): Promise<any> {
+    public get(): Promise<T> {
         return this.query().then((x) => x[0]);
     }
 
-    public findSingleEntry(criteria: any, params?: any): Promise<any> {
+    public findSingleEntry(criteria: any, params?: any): Promise<T> {
         params = params || {};
         params.single = true;
         return this.query(criteria, params).then(function(results) {
@@ -89,7 +91,7 @@ export class AbstractDao {
         }
     }
 
-    public save(object: any, args?: Array<any>): Promise<any> {
+    public save(object: T, args?: Array<any>): Promise<SubmittedTask> {
         return object._isNew ? this.create(object, args) : this.update(object, args);
     }
 
@@ -98,7 +100,7 @@ export class AbstractDao {
         return this.middlewareClient.submitTask(this.deleteMethod, _.concat([object.id], args));
     }
 
-    public getNewInstance(): Promise<any> {
+    public getNewInstance(): Promise<T> {
         let self = this;
         return Promise.resolve(new Object({
             _isNew: true,

@@ -63,41 +63,5 @@ exports.NetworkInterface = AbstractInspector.specialize({
                 self._sectionService.initializeInterface(self.object);
             });
         }
-    },
-
-    _handleInspectorExit: {
-        value: function() {
-            var defaults = [['name']],
-                ignored = ['media', 'vlan', 'aliases.*.broadcast'],
-                self = this;
-
-            if (this.hasObjectChanged(defaults, ignored)) {
-                var resolve, reject,
-                    promise = new Promise(function(_resolve, _reject) {
-                        resolve = _resolve;
-                        reject = _reject;
-                    });
-                this.application.confirmationModal = {
-                    isShown: true,
-                    title: 'You have unsaved changes!',
-                    message: 'Would you like to save your recent changes?',
-                    buttonLabelFalse: "Don't Save",
-                    buttonLabelTrue: 'Review Changes',
-                    deferred: {
-                        resolve: resolve,
-                        reject: reject,
-                        promise: promise
-                    }
-                };
-                return promise.then(function(result){
-                    if (result) {
-                        return true;
-                    } else {
-                        self.revert();
-                        return false;
-                    }
-                });
-            }
-        }
     }
 });

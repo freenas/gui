@@ -1,7 +1,8 @@
-import {AbstractDao} from "./abstract-dao";
+import {AbstractDao} from './abstract-dao';
 import {Model} from '../model';
+import {ThrottleReplicationTransportOption} from '../model/ThrottleReplicationTransportOption';
 
-export class ThrottleReplicationTransportOptionDao extends AbstractDao {
+export class ThrottleReplicationTransportOptionDao extends AbstractDao<ThrottleReplicationTransportOption> {
     public constructor() {
         super(Model.ThrottleReplicationTransportOption);
     }

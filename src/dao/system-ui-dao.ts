@@ -4,8 +4,9 @@ import { processor as cleaningProcessor } from '../service/data-processor/cleane
 import { processor as diffProcessor } from '../service/data-processor/diff';
 import { processor as nullProcessor } from '../service/data-processor/null';
 import { processor as taskProcessor } from '../service/data-processor/methodCleaner';
+import {SystemUi} from '../model/SystemUi';
 
-export class SystemUiDao extends AbstractDao {
+export class SystemUiDao extends AbstractDao<SystemUi> {
     public constructor() {
         super(Model.SystemUi, {
             queryMethod: 'system.ui.get_config'

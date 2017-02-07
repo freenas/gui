@@ -1,8 +1,9 @@
 import { AbstractDao } from './abstract-dao';
 import * as systemSections from '../../data/system-sections.json';
-import {Model} from "../model";
+import {Model} from '../model';
+import {SystemSection} from '../model/SystemSection';
 
-export class SystemSectionDao extends AbstractDao {
+export class SystemSectionDao extends AbstractDao<SystemSection> {
 
     public constructor() {
         super(Model.SystemSection);

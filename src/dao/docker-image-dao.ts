@@ -1,7 +1,8 @@
 import {AbstractDao} from './abstract-dao';
 import {Model} from '../model';
+import {DockerImage} from '../model/DockerImage';
 
-export class DockerImageDao extends AbstractDao {
+export class DockerImageDao extends AbstractDao<DockerImage> {
     public constructor() {
         super(Model.DockerImage, {
             eventName: 'entity-subscriber.docker.image.changed',

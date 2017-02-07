@@ -1,5 +1,5 @@
-import {AlertRepository} from "../repository/alert-repository";
-import {TaskRepository} from "../repository/task-repository";
+import {AlertRepository} from '../repository/alert-repository';
+import {TaskRepository} from '../repository/task-repository';
 
 export class DashboardService {
     private static instance: DashboardService;

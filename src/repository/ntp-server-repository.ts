@@ -1,8 +1,8 @@
-import { AbstractRepository } from './abstract-repository-ng';
+import { AbstractRepository } from './abstract-repository';
 import { NtpServerDao } from '../dao/ntp-server-dao';
-import {Map} from "immutable";
-import {ModelEventName} from "../model-event-name";
-import {Model} from "../model";
+import {Map} from 'immutable';
+import {ModelEventName} from '../model-event-name';
+import {Model} from '../model';
 
 export class NtpServerRepository extends AbstractRepository {
     private static instance: NtpServerRepository;

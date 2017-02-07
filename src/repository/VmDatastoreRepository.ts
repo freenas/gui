@@ -1,8 +1,9 @@
 import * as uuid from 'uuid';
 import {AbstractModelRepository} from './abstract-model-repository';
 import {VmDatastoreDao} from '../dao/vm-datastore-dao';
+import {VmDatastore} from '../model/VmDatastore';
 
-export class VmDatastoreRepository extends AbstractModelRepository {
+export class VmDatastoreRepository extends AbstractModelRepository<VmDatastore> {
     private static instance: VmDatastoreRepository;
 
     private constructor(private vmDatastoreDao: VmDatastoreDao) {
@@ -16,10 +17,6 @@ export class VmDatastoreRepository extends AbstractModelRepository {
         return VmDatastoreRepository.instance;
     }
 
-    public list(): Promise<any> {
-        return this.localState ? this.localState.valueSeq().toJS() : this.vmDatastoreDao.list();
-    }
-
     public listDiskTargetsWithType(type: string): Promise<any> {
         return this.vmDatastoreDao.listDiskTargetsWithType(type);
     }
@@ -28,7 +25,7 @@ export class VmDatastoreRepository extends AbstractModelRepository {
         return this.vmDatastoreDao.listDiskTargetsWithType(type, datastoreId);
     }
 
-    public getNewVmDatastoreForType(type) {
+    public getNewVmDatastoreForType(type: string) {
         return this.vmDatastoreDao.getNewInstance().then((datastore) => {
             datastore.id = uuid.v4();
             datastore._tmpId = type;

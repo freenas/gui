@@ -1,7 +1,8 @@
 import { AbstractDao } from './abstract-dao';
 import {Model} from '../model';
+import {DockerContainer} from '../model/DockerContainer';
 
-export class DockerContainerDao extends AbstractDao {
+export class DockerContainerDao extends AbstractDao<DockerContainer> {
 
     public constructor() {
         super(Model.DockerContainer, {
@@ -17,11 +18,11 @@ export class DockerContainerDao extends AbstractDao {
         return this.middlewareClient.callRpcMethod('docker.container.request_serial_console', [containerId]);
     }
 
-    public start(container: any) {
+    public start(container: DockerContainer) {
         return this.middlewareClient.submitTask('docker.container.start', [container.id]);
     }
 
-    public stop(container: any) {
+    public stop(container: DockerContainer) {
         return this.middlewareClient.submitTask('docker.container.stop', [container.id]);
     }
 
@@ -30,6 +31,6 @@ export class DockerContainerDao extends AbstractDao {
     }
 
     public generateMacAddress() {
-        return this.middlewareClient.callRpcMethod("vm.generate_mac");
+        return this.middlewareClient.callRpcMethod('vm.generate_mac');
     }
 }

@@ -10,20 +10,6 @@
                 "element": {"#": "owner"}
             }
         },
-        "hostStatus": {
-            "prototype": "ui/controls/traffic-light.reel",
-            "properties": {
-                "element": {"#": "hostStatus"},
-                "colorMapping": {
-                    "OPEN": "green",
-                    "CONNECTING": "yellow",
-                    "CLOSED": "red"
-                }
-            },
-            "bindings": {
-                "value": {"<-": "@owner.middlewareClient.state"}
-            }
-        },
         "host": {
             "prototype": "blue-shark/ui/text.reel",
             "properties": {
@@ -69,7 +55,6 @@
 </head>
 <body>
     <div data-montage-id="owner" class="CurrentUserSummary">
-        <div data-montage-id="hostStatus" class="CurrentUserSummary-hostStatus"></div>
         <div data-montage-id="user" class="CurrentUserSummary-user"></div>
         <div data-montage-id="host" class="CurrentUserSummary-host"></div>
         <div class="CurrentUserSummary-time">

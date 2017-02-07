@@ -1,4 +1,4 @@
-import { AbstractRepository } from './abstract-repository-ng';
+import { AbstractRepository } from './abstract-repository';
 import { ShellDao } from '../dao/shell-dao';
 
 export class ShellRepository extends AbstractRepository {

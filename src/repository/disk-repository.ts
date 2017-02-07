@@ -1,4 +1,4 @@
-import { AbstractRepository } from './abstract-repository-ng';
+import { AbstractRepository } from './abstract-repository';
 import { DiskDao } from '../dao/disk-dao';
 import immutable = require('immutable');
 import {Model} from '../model';

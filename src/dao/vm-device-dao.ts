@@ -2,8 +2,9 @@ import {AbstractDao} from './abstract-dao';
 import {Model} from '../model';
 import * as _ from 'lodash';
 import * as uuid from 'uuid';
+import {VmDevice} from '../model/VmDevice';
 
-export class VmDeviceDao extends AbstractDao {
+export class VmDeviceDao extends AbstractDao<VmDevice> {
     public constructor() {
         super(Model.VmDevice);
     }

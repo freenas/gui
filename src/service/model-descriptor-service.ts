@@ -53,7 +53,7 @@ export class ModelDescriptorService {
         }
     }
 
-    public getDaoForObject(object: Object): Promise<AbstractDao> {
+    public getDaoForObject(object: Object): Promise<any> {
         let type = this.getObjectType(object),
             result;
         if (type) {
@@ -62,7 +62,7 @@ export class ModelDescriptorService {
         return result;
     }
 
-    public getDaoForType(type: string): Promise<AbstractDao> {
+    public getDaoForType(type: string): Promise<any> {
         let daoPath = this.DAO_PREFIX + _.kebabCase(type) + this.DAO_SUFFIX;
         if (!this.daoCache.has(type)) {
             this.daoCache.set(type,

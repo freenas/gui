@@ -1,7 +1,8 @@
 import {AbstractDao} from './abstract-dao';
 import {Model} from '../model';
+import {VmClone} from '../model/VmClone';
 
-export class VmCloneDao extends AbstractDao {
+export class VmCloneDao extends AbstractDao<VmClone> {
     public constructor() {
         super(Model.VmClone);
     }

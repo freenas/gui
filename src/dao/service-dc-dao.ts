@@ -1,7 +1,8 @@
 import { AbstractDao } from './abstract-dao';
-import {Model} from "../model";
+import {Model} from '../model';
+import {ServiceDc} from '../model/ServiceDc';
 
-export class ServiceDcDao extends AbstractDao {
+export class ServiceDcDao extends AbstractDao<ServiceDc> {
     public constructor() {
         super(Model.ServiceDc, {queryMethod: 'service.dc.get_config'});
     }

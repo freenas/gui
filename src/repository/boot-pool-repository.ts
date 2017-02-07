@@ -1,9 +1,9 @@
-import {AbstractRepository} from "./abstract-repository-ng";
-import {BootPoolDao} from "../dao/boot-pool-dao";
-import {BootEnvironmentDao} from "../dao/boot-environment-dao";
-import {Map} from "immutable";
-import {Model} from "../model";
-import {ModelEventName} from "../model-event-name";
+import {AbstractRepository} from './abstract-repository';
+import {BootPoolDao} from '../dao/boot-pool-dao';
+import {BootEnvironmentDao} from '../dao/boot-environment-dao';
+import {Map} from 'immutable';
+import {Model} from '../model';
+import {ModelEventName} from '../model-event-name';
 
 export class BootPoolRepository extends AbstractRepository{
     private static instance: BootPoolRepository;

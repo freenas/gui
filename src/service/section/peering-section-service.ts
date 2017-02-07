@@ -1,7 +1,7 @@
-import {AbstractSectionService} from "./abstract-section-service-ng";
-import {PeerRepository} from "../../repository/peer-repository";
-import {ModelEventName} from "../../model-event-name";
-import {Map} from "immutable";
+import {AbstractSectionService} from './abstract-section-service-ng';
+import {PeerRepository} from '../../repository/peer-repository';
+import {ModelEventName} from '../../model-event-name';
+import {Map} from 'immutable';
 
 export class PeeringSectionService extends AbstractSectionService {
     private peerRepository: PeerRepository;

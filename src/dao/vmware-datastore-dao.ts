@@ -1,8 +1,9 @@
 import { AbstractDao } from './abstract-dao';
 import * as _ from 'lodash';
 import {Model} from '../model';
+import {VmwareDatastore} from '../model/VmwareDatastore';
 
-export class VmwareDatastoreDao extends AbstractDao {
+export class VmwareDatastoreDao extends AbstractDao<VmwareDatastore> {
 
     public constructor() {
         super(Model.VmwareDatastore);

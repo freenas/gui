@@ -1,4 +1,4 @@
-import {AbstractRepository} from './abstract-repository-ng';
+import {AbstractRepository} from './abstract-repository';
 import {ServiceDao} from '../dao/service-dao';
 import {ServicesCategoryDao} from '../dao/services-category-dao';
 import {ServiceDyndnsDao} from '../dao/service-dyndns-dao';
