@@ -17,8 +17,12 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
             this._environment = {};
             this._routingService = RoutingService.getInstance();
 
-            return this._sectionService.listDockerHosts().then(function (hostDockers) {
+            return Promise.all([
+                this._sectionService.listDockerHosts(),
+                this._sectionService.listDockerNetworks()
+            ]).spread(function (hostDockers, networks) {
                 self._hostDockers = hostDockers;
+                self._networks = networks;
             });
         }
     },
