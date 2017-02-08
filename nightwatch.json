@@ -1,0 +1,22 @@
+{
+    "src_folders": [
+        "tests/e2e/tests"
+    ],
+    "output_folder": "tests/e2e/reports",
+    "custom_commands_path": "tests/e2e/commands",
+    "page_objects_path": "tests/e2e/pages",
+    "custom_assertions_path": "",
+    "globals_path": "tests/e2e/globals.js",
+    "test_settings": {
+        "default": {
+            "filter": "*/index.js",
+            "launch_url": "http://pch-mini.local/",
+            "selenium_port": 4444,
+            "selenium_host": "localhost",
+            "silent": true,
+            "desiredCapabilities": {
+                "browserName": "chrome"
+            }
+        }
+    }
+}

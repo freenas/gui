@@ -155,4 +155,6 @@ gulp.task('clean', function () {
     });
 });
 
+gulp.task('test-e2e', require('./gulp-tasks/test-e2e')(gulp));
+
 gulp.task('default', ['serve']);
