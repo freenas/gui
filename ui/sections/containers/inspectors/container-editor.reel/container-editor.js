@@ -6,7 +6,7 @@ exports.ContainerEditor = AbstractInspector.specialize({
         value: function () {
             var self = this;
 
-            Promise.all([
+            return Promise.all([
                 this._sectionService.listDockerHosts(),
                 this._sectionService.listDockerNetworks(),
                 this._sectionService.getNewDockerContainerLogs()
