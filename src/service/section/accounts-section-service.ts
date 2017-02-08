@@ -120,45 +120,57 @@ export class AccountsSectionService extends AbstractSectionService {
             system,
             directoryServices
         ];
-        (this.entries as any)._objectType = 'AccountCategory';
-        self.accountRepository.loadUsers();
-        self.accountRepository.loadGroups();
-        self.accountRepository.getNewDirectoryServices();
-        return Promise.resolve(this.entries);
+        return this.entriesPromise = Promise.all([
+            self.accountRepository.getUserEmptyList(),
+            self.accountRepository.getGroupEmptyList(),
+            self.accountRepository.getAccountSystemEmptyList(),
+            self.accountRepository.getDirectoryServicesEmptyList()
+        ]).spread(function (
+            users: Array<any>,
+            groups: Array<any>,
+            system: Array<any>,
+            directoryServices: Array<any>
+        ) {
+            (users as any)._order = 0;
+            (groups as any)._order = 1;
+            (system as any)._order = 2;
+            (directoryServices as any)._order = 3;
+            let entries = [
+                users,
+                groups,
+                system,
+                directoryServices
+            ];
+            (entries as any)._objectType = 'AccountCategory';
+
+            return entries;
+        });
     }
 
     protected loadExtraEntries() {
-        return undefined;
-    }
-
-    protected loadOverview() {
-        this.overview = this.overview || {};
-        return this.overview;
+        return void 0;
     }
 
     protected loadSettings() {
-        return undefined;
+        return void 0;
+    }
+
+    protected loadOverview() {
+        return void 0;
+    }
+
+    public getNextSequenceForStream (streamId) {
+        return this.accountRepository.getNextSequenceForStream(streamId);
     }
 
     private handleUsersChange(state: Map<string, Map<string, any>>) {
         this.updateCategory((this.entries[0] as Array<any>), 'User', (state.valueSeq().filter((x) => !x.get('builtin')) as Iterable.Indexed<Map<string, any>>));
         this.updateCategory((this.entries[2] as Array<any>), 'User', (state.valueSeq().filter((x) => x.get('builtin')) as Iterable.Indexed<Map<string, any>>));
-        this.updateOverview(this.entries);
     }
 
     private handleGroupsChange(state: Map<string, Map<string, any>>) {
         this.updateCategory((this.entries[1] as Array<any>), 'Group', (state.valueSeq().filter((x) => !x.get('builtin')) as Iterable.Indexed<Map<string, any>>));
         this.updateCategory((this.entries[2] as Array<any>), 'Group', (state.valueSeq().filter((x) => x.get('builtin')) as Iterable.Indexed<Map<string, any>>));
-        this.updateOverview(this.entries);
-    }
-
-    private updateOverview(entries: Array<any>) {
-        this.overview = this.overview || {};
-        (this.overview as any).users = entries[0];
-        (this.overview as any).groups = entries[1];
-        (this.overview as any).system = entries[2];
-        (this.overview as any).directories = entries[3];
-        this.eventDispatcherService.dispatch('accountsOverviewChange', this.overview);
     }
 
     private updateCategory(entries: Array<any>, objectType: string, state: Iterable.Indexed<Map<string, any>>) {

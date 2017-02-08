@@ -1,13 +1,68 @@
-var Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component,
+    Immutable = require('immutable');
 
 exports.List = Component.specialize({
 
     enterDocument: {
         value: function () {
-            this._needsComputeViewPortHeight = true;
+            if (this.object && this.object._stream && this.object._stream.get('partial')) {
+                this._stream = this.object._stream;
+                this._needsComputeViewPortHeight = true;
+            }
 
             if (this.selectedObject && this.controller.selection[0] !== this.selectedObject) {
                 this.dispatchOwnPropertyChange("selectedObject", this.selectedObject);
+            }
+        }
+    },
+
+    fetchMinimumItems: {
+        value: function (minimumItems) {
+            if (this.object.length < minimumItems) {
+                var self = this;
+
+                return this.fetchData().then(function (stream) {
+                    if (!stream.get('reachEnd') && self.object.length < minimumItems) {
+                        return self.fetchMinimumItems(minimumItems);
+                    }
+                });
+            }
+
+            return Promise.resolve(this._stream);
+        }
+    },
+
+    fetchData: {
+        value: function () {
+            var self = this,
+                promise;
+
+            if (!this._stream.get('reachEnd')) {
+                this.isLoadingData = true;
+
+                //FIXME???
+                promise = this.application.sectionService.getNextSequenceForStream(
+                    this._stream.get('streamId')
+                ).then(function (stream) {
+                    self.object = stream.get('data').toJS();
+                    self._stream = stream;
+
+                    return stream;
+                });
+            } else {
+                promise = Promise.resolve(this._stream);
+            }
+
+            return promise.finally(function () {
+                self.isLoadingData = false;
+            });
+        }
+    },
+
+    scrollViewWillReachEnd: {
+        value: function () {
+            if (!this.isLoadingData) {
+                this.fetchData();
             }
         }
     },
@@ -29,6 +84,8 @@ exports.List = Component.specialize({
                         listBoundaries = this.element.getBoundingClientRect(),
                         viewPortHeight = documentBoundaries.height - listBoundaries.top,
                         minimunContentLength = Math.ceil(viewPortHeight / listItemBoundaries.height) + 5;
+
+                     this.fetchMinimumItems(minimunContentLength);
                 }
 
                 this.element.removeChild(dummyListItem);

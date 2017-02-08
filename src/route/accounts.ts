@@ -121,6 +121,7 @@ export class AccountsRoute extends AbstractRoute {
                 sort = 'name';
             let filteredGroups = _.sortBy(_.filter(groups, filter), sort);
             (filteredGroups as any)._objectType = objectType;
+            (filteredGroups as any)._stream = (groups as any)._stream;
             context.object = filteredGroups;
             context.userInterfaceDescriptor = uiDescriptor;
             context.changeListener = self.eventDispatcherService.addEventListener(ModelEventName[objectType].listChange, function(state) {

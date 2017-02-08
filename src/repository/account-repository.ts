@@ -1,6 +1,7 @@
 import {UserDao} from '../dao/user-dao';
 import {GroupDao} from '../dao/group-dao';
 import {DirectoryServicesDao} from '../dao/directory-services-dao';
+import {AccountSystemDao} from '../dao/account-systems-dao';
 import {DirectoryserviceConfigDao} from '../dao/directoryservice-config-dao';
 import {AbstractRepository} from './abstract-repository';
 import {DirectoryDao} from '../dao/directory-dao';
@@ -26,7 +27,8 @@ export class AccountRepository extends AbstractRepository {
                         private groupDao: GroupDao,
                         private directoryServiceDao: DirectoryServicesDao,
                         private directoryserviceConfigDao: DirectoryserviceConfigDao,
-                        private directoryDao: DirectoryDao) {
+                        private directoryDao: DirectoryDao,
+                        private accountSystemDao: AccountSystemDao) {
         super([
             Model.User,
             Model.Group,
@@ -41,7 +43,8 @@ export class AccountRepository extends AbstractRepository {
                 new GroupDao(),
                 new DirectoryServicesDao(),
                 new DirectoryserviceConfigDao(),
-                new DirectoryDao()
+                new DirectoryDao(),
+                new AccountSystemDao()
             );
         }
         return AccountRepository.instance;
@@ -59,6 +62,27 @@ export class AccountRepository extends AbstractRepository {
         return this.users ? Promise.resolve(this.users.toSet().toJS()) : this.userDao.list();
     }
 
+    public getUserEmptyList() {
+        return this.userDao.getEmptyList();
+    }
+
+    public getGroupEmptyList() {
+        return this.groupDao.getEmptyList();
+    }
+
+    public getDirectoryServicesEmptyList() {
+        return this.directoryServiceDao.getEmptyList();
+    }
+
+    public getAccountSystemEmptyList() {
+        return this.accountSystemDao.getEmptyList();
+    }
+
+    //FIXME:
+    public getNextSequenceForStream (streamId) {
+        return this.groupDao.getNextSequenceForStream(streamId);
+    }
+
     public findUserWithName(name: string): Promise<Object> {
         return this.userDao.findSingleEntry({username: name});
     }
@@ -68,7 +92,7 @@ export class AccountRepository extends AbstractRepository {
     }
 
     public listGroups(): Promise<Array<Object>> {
-        return this.groups ? Promise.resolve(this.groups.toSet().toJS()) : this.groupDao.list();
+        return this.groups ? Promise.resolve(this.groups.toSet().toJS()) : this.groupDao.list(true);
     }
 
     public getNextUid() {

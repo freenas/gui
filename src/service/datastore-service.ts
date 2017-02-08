@@ -46,11 +46,11 @@ export class DatastoreService {
         });
     }
 
-    public stream(type: string, methodName: string, idPath: string, minimumItems?: number, middlewareCriteria?: Array<any>) {
+    public stream(type: string, methodName: string, idPath: string, partial: boolean, middlewareCriteria?: Array<any>) {
         // TODO: count rpc call in order to have the total of object for a type (LIMIT: 2000)
         return this.middlewareClient.callRpcMethod(methodName, middlewareCriteria).then((message) => {
             let streamId = message.id,
-                stream = this.getDefaultStreamObject(type, streamId, idPath, minimumItems);
+                stream = this.getDefaultStreamObject(type, streamId, idPath, partial);
 
             this.store.dispatch({
                 type: ACTIONS.SAVE_STREAM,
@@ -64,7 +64,7 @@ export class DatastoreService {
         });
     }
 
-    private getDefaultStreamObject (type, streamId, idPath, minimumItems?: number) {
+    private getDefaultStreamObject (type, streamId, idPath, partial) {
         return {
             type: type,
             streamId: streamId,
@@ -72,7 +72,7 @@ export class DatastoreService {
             startSequence: 1,
             endSequence: 1,
             lastSequence: 1,
-            minimumItems: minimumItems,
+            partial: partial,
             reachEnd: false,
             data: []
         };
@@ -114,20 +114,16 @@ export class DatastoreService {
                     .set('reachEnd', false)
                     .set('data', data);
 
-        let payload = stream.toJS();
-
         this.store.dispatch({
             type: ACTIONS.SAVE_STREAM,
             meta: {
                 type: message.id
             },
-            payload: payload
+            payload: stream.toJS()
         });
 
-        var minimumItems = stream.get('minimumItems');
-
-        if (typeof minimumItems === 'number' && payload.length >= minimumItems) {
-            return stream;
+        if (stream.get('partial')) {
+            return this.getState().get('streams').get(stream.get('streamId'));
         }
 
         return this.getNextSequenceForStream(stream.get('streamId'));
