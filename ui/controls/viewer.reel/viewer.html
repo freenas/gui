@@ -54,7 +54,7 @@
                 "hasTemplate": false
             },
             "bindings": {
-                "classList.has('is-hidden')": {"<-": "!@title.value.length"}
+                "classList.has('is-hidden')": {"<-": "!!@owner.hideTitle || !@title.value.length"}
             }
         },
         "title": {
