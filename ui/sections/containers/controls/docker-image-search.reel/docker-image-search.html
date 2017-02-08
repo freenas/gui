@@ -52,6 +52,16 @@
                 "rows": {"<-": "@owner._templates.sorted{label}"},
                 "isLoading": {"<-": "@owner._isSearchingDockerImages"}
             }
+        },
+
+        "message": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "message"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.message"}
+            }
         }
     }
     </script>
@@ -61,6 +71,7 @@
         <div data-montage-id="collection"></div>
         <div data-montage-id="image" class="DockerImageSearch-table"></div>
         <div data-montage-id="searching"></div>
+        <div data-montage-id="message" class="DockerImageSearch-message"></div>
     </div>
 </body>
 </html>

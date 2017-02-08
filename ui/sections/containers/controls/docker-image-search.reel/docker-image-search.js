@@ -14,6 +14,7 @@ exports.DockerImageSearch = Component.specialize(/** @lends DockerImageSearch# *
             this._templates = null;
             this.selectedValue = null;
             this.collection = null;
+            this.errorMessage = null;
         }
     },
 
@@ -30,6 +31,12 @@ exports.DockerImageSearch = Component.specialize(/** @lends DockerImageSearch# *
                         template.label = template.name.replace(collectionPrefix, "");
                         return template;
                     });
+                }).catch(function (error) {
+                    self.message = error.message || error;
+                }).finally(function () {
+                    if (!self.message && !self._templates.length) {
+                        self.message = "no docker images";
+                    }
 
                     self._isSearchingDockerImages = false;
                 });
