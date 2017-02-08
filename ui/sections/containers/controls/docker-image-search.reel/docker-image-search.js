@@ -32,7 +32,13 @@ exports.DockerImageSearch = Component.specialize(/** @lends DockerImageSearch# *
 
                 self._searchPromise = promise = self._sectionService.getDockerImagesWithCollection(collection).then(function (templates) {
                     if (promise === self._searchPromise && self._isSearchingDockerImages) {
-                        self._templates = templates;
+                        var collectionPrefix = collection.collection + "/";
+
+                        self._templates = templates.map(function (template) {
+                            template.label = template.name.replace(collectionPrefix, "");
+                            return template;
+                        });
+
                         self._searchPromise = null;
                         self._isSearchingDockerImages = false;
                     }
