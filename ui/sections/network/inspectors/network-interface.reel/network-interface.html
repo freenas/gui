@@ -162,6 +162,17 @@
                 "placeholder": {"<-": "!@owner.object.rtadv ? 'eg. 64' : ''"}
             }
         },
+        "linkAddress": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "linkAddress"},
+                "label": "MAC Address"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.status.link_address"},
+                "classList.has('hide')": {"<-": "@owner.object._isNew"}
+            }
+        },
         "dhcp": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -296,6 +307,7 @@
             <div data-montage-id="v6disabled"></div>
             <div data-montage-id="v6address"></div>
             <div data-montage-id="v6netmask"></div>
+            <div data-montage-id="linkAddress"></div>
             <div data-montage-id="dhcp"></div>
             <div data-montage-id="rtadv"></div>
             <div data-montage-id="mtu"></div>
