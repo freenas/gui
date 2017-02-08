@@ -402,7 +402,8 @@ export class DockerRoute extends AbstractRoute {
             this.dockerCollectionRepository.listDockerCollections(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread((container: any, collections, uiDescriptor) => {
-            container.dockerCollection = _.find(collections, {id: collectionId});
+            context.dockerCollection = _.find(collections, {id: collectionId});
+            context.dockerImagesPromise = this.dockerCollectionRepository.getDockerImagesWithCollection(context.dockerCollection);
             container._isNewObject = true;
 
             context.userInterfaceDescriptor = uiDescriptor;
