@@ -86,7 +86,7 @@
                 "element": {"#": "title"}
             },
             "bindings": {
-                "value": {"<-": "@owner.context.object.path(@owner.context.userInterfaceDescriptor.nameExpression)"},
+                "value": {"<-": "(!!@owner.title && @owner.title.length > 0) ? @owner.title : @owner.context.object.path(@owner.context.userInterfaceDescriptor.nameExpression)"},
                 "classList.has('is-hidden')": {"<-": "@owner.hideHeader"}
             }
         }
