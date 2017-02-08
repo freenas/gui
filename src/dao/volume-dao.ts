@@ -72,6 +72,10 @@ export class VolumeDao extends AbstractDao<Volume> {
     public onlineVdev(volumeId: string, vdev: ZfsVdev) {
         return this.middlewareClient.submitTask('zfs.pool.online_disk', [volumeId, vdev.guid]);
     }
+
+    public importShares(volumeId: string) {
+        return this.middlewareClient.submitTask('volume.autoimport', [volumeId, 'shares']);
+    }
 }
 
 

@@ -1,6 +1,39 @@
 var AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate;
 
 exports.FieldTreeview = AbstractComponentActionDelegate.specialize({
+
+    _selectedPath: {
+        value: null
+    },
+
+    selectedPath: {
+        get: function() {
+            return this._selectedPath;
+        },
+        set: function(selectedPath) {
+            if (this._selectedPath !== selectedPath) {
+                this._selectedPath = selectedPath;
+                this._ignoreSuffix = false;
+            }
+        }
+    },
+
+    _suffix: {
+        value: null
+    },
+
+    suffix: {
+        get: function() {
+            return this._suffix;
+        },
+        set: function(suffix) {
+            if (this._suffix !== suffix) {
+                this._suffix = suffix;
+                this._ignoreSuffix = false;
+            }
+        }
+    },
+
     enterDocument: {
         value: function () {
             this.super();
@@ -41,13 +74,15 @@ exports.FieldTreeview = AbstractComponentActionDelegate.specialize({
 
                 if (normalizedPath.endsWith(suffix)) {
                     normalizedPath = normalizedPath.slice(0, -suffix.length);
+                } else {
+                    this._ignoreSuffix = true;
                 }
 
                 while (normalizedPath.endsWith('/')) {
                     normalizedPath = normalizedPath.slice(0, -1);
                 }
 
-                this.selectedPath = normalizedPath;
+                this._selectedPath = normalizedPath;
                 this.dispatchOwnPropertyChange("selectedPath", this.selectedPath);
             }
         }

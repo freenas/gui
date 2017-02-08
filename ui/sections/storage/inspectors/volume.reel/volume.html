@@ -161,6 +161,16 @@
                 "classList.has('hide')": {"<-": "!!@owner.upgraded"}
             }
         },
+        "importShares": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "importShares"},
+                "value": "Import Shares"
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "!!@owner.upgraded"}
+            }
+        },
         "capacityLabel": {
             "prototype": "blue-shark/ui/text.reel",
             "properties": {
@@ -192,6 +202,7 @@
                 <div data-montage-id="export"></div>
                 <div data-montage-id="scrub"></div>
                 <div data-montage-id="upgrade"></div>
+                <div data-montage-id="importShares"></div>
             </div>
         </div>
     </div>
