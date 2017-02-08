@@ -35,12 +35,13 @@
         },
 
         "space": {
-            "prototype": "../size-cell.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
-                "element": {"#": "space"}
+                "element": {"#": "space"},
+                "value": "{value, 0 b}"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.space"}
+                "args": {"<-": "!!@owner.object.space ? {value: @owner.object.space} : {value: 0}"}
             }
         },
 

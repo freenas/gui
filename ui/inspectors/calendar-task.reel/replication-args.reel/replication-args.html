@@ -91,12 +91,13 @@
             }
         },
         "throttle": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-number-unit.reel",
             "properties": {
                 "element": {"#": "throttle"},
-                "label": "Throttling (B/s)"
+                "label": "Throttling"
             },
             "bindings": {
+                "units": {"<-": "@owner.throttleUnits"},
                 "value": {"<->": "@owner.throttle"}
             }
         },

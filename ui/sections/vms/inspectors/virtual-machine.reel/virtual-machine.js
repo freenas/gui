@@ -1,6 +1,7 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
-    ModelEventName = require("core/model-event-name").ModelEventName;
+    ModelEventName = require("core/model-event-name").ModelEventName,
+    Units = require('core/Units'),
     _ = require("lodash");
 
 exports.VirtualMachine = AbstractInspector.specialize({
@@ -33,6 +34,7 @@ exports.VirtualMachine = AbstractInspector.specialize({
 
     _inspectorTemplateDidLoad: {
         value: function() {
+            this.memoryUnits = Units.MEGABYTE_SIZES;
             this.DEFAULT_STRING = this._sectionService.DEFAULT_STRING;
             this.guestTypeOptions = this._sectionService.GUEST_TYPES;
             this.bootloaderOptions = this._sectionService.BOOTLOADERS;

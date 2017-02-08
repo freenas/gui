@@ -1,13 +1,12 @@
-/**
- * @module ui/sections/peering/inspectors/peer.reel
- */
-var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    Units = require('core/Units');
 
-/**
- * @class Peer
- * @extends Component
- */
 exports.Peer = AbstractInspector.specialize(/** @lends Peer# */ {
+    _inspectorTemplateDidLoad: {
+        value: function() {
+            this.intervalUnits = Units.SECONDS;
+        }
+    },
 
     enterDocument: {
         value: function () {

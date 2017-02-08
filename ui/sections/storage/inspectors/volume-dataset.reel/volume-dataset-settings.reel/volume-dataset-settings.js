@@ -1,11 +1,16 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     COMPRESSION_OPTIONS = require("core/model/enumerations/volume-dataset-property-compression-value").VolumeDatasetPropertyCompressionValue,
     DEDUP_OPTIONS = require("core/model/enumerations/volume-dataset-property-dedup-value").VolumeDatasetPropertyDedupValue,
-    VOLBLOCKSIZE_OPTIONS = require("core/model/enumerations/volume-dataset-property-volblocksize-value").VolumeDatasetPropertyVolblocksizeValue;
+    VOLBLOCKSIZE_OPTIONS = require("core/model/enumerations/volume-dataset-property-volblocksize-value").VolumeDatasetPropertyVolblocksizeValue,
+    Units = require('core/Units'),
+    _ = require("lodash");
 
 var ATIME_OPTIONS = {on: true, off: false};
 
 exports.VolumeDatasetSettings = AbstractInspector.specialize({
+    sizeUnits: {
+        value: null
+    },
 
     volblocksizeDisplayMode: {
         value: null
@@ -73,6 +78,7 @@ exports.VolumeDatasetSettings = AbstractInspector.specialize({
 
     templateDidLoad: {
         value: function() {
+            this.sizeUnits = Units.BYTE_SIZES;
             this.compressionOptions = this._initializePropertyOptions(COMPRESSION_OPTIONS);
             this.dedupOptions = this._initializePropertyOptions(DEDUP_OPTIONS);
             this.atimeOptions = this._initializePropertyOptions(ATIME_OPTIONS);

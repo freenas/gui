@@ -91,55 +91,27 @@
                 "checked": {"<->": "@owner.object.prefer"}
             }
         },
-        "minpollValidator": {
-            "prototype": "core/converter/validator/integer-range-validator",
-            "properties": {
-                "floor": 4,
-                "ceiling": 17,
-                "errorMessage": "Value must be an integer between 4 and 17"
-            }
-        },
-        "minpollConverter": {
-            "prototype": "core/converter/string-to-integer-or-null-converter",
-            "properties": {
-                "validator": {"@": "minpollValidator"}
-            }
-        },
         "minpoll": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-number-unit.reel",
             "properties": {
                 "element": {"#": "minpoll"},
                 "label": "Minimum Poll",
-                "placeholder": "e.g. 6",
-                "converter": {"@": "minpollConverter"}
+                "placeholder": "e.g. 6"
             },
             "bindings": {
+                "units": {"<-": "@owner.pollUnits"},
                 "value": {"<->": "@owner.object.minpoll"}
             }
         },
-        "maxpollValidator": {
-            "prototype": "core/converter/validator/integer-range-validator",
-            "properties": {
-                "floor": 4,
-                "ceiling": 17,
-                "errorMessage": "Value must be an integer between 4 and 17"
-            }
-        },
-        "maxpollConverter": {
-            "prototype": "core/converter/string-to-integer-or-null-converter",
-            "properties": {
-                "validator": {"@": "maxpollValidator"}
-            }
-        },
         "maxpoll": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-number-unit.reel",
             "properties": {
                 "element": {"#": "maxpoll"},
                 "label": "Maximum Poll",
-                "placeholder": "e.g. 10",
-                "converter": {"@": "maxpollConverter"}
+                "placeholder": "e.g. 10"
             },
             "bindings": {
+                "units": {"<-": "@owner.pollUnits"},
                 "value": {"<->": "@owner.object.maxpoll"}
             }
         }

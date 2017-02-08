@@ -1,7 +1,6 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    Units = require('core/Units');
     _ = require("lodash");
-    NotificationCenterModule = require("core/backend/notification-center"),
-    Model = require("core/model/model").Model;
 
 exports.WebUi = AbstractInspector.specialize({
 
@@ -25,9 +24,14 @@ exports.WebUi = AbstractInspector.specialize({
         value: null
     },
 
+    timeUnits: {
+        value: null
+    },
+
     _inspectorTemplateDidLoad: {
         value: function() {
             var self = this;
+            this.timeUnits = Units.SECONDS;
             return Promise.all([
                 this.application.systemService.getUi().then(function(uiData) {
                     self.config = uiData;

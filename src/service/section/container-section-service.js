@@ -9,7 +9,6 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
     DockerContainerBridgeRepository = require("core/repository/docker-container-bridge-repository").DockerContainerBridgeRepository,
     VmRepository = require("core/repository/vm-repository").VmRepository,
     VmDatastoreRepository = require("core/repository/VmDatastoreRepository").VmDatastoreRepository,
-    BytesService = require("core/service/bytes-service").BytesService,
     CONSTANTS = require("core/constants"),
     ApplicationContextService = require("core/service/application-context-service").ApplicationContextService,
     MiddlewareClient = require("core/service/middleware-client").MiddlewareClient,
@@ -32,7 +31,6 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
             this._dockerConfigRepository = DockerConfigRepository.getInstance();
             this._dockerContainerLogsRepository = DockerContainerLogsRepository.getInstance();
             this._dockerContainerBridgeRepository = DockerContainerBridgeRepository.getInstance();
-            this._bytesService = BytesService.instance;
             this._vmRepository = VmRepository.getInstance();
             this._vmDatastoreRepository = VmDatastoreRepository.getInstance();
         }
@@ -323,16 +321,14 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
             if (dockerHost._isNew) {
                 dockerHost.config = {
                     ncpus: 1,
-                    memsize: 512
+                    memsize: 2048
                 };
             }
-            dockerHost._memory = this._bytesService.convertSizeToString(dockerHost.config.memsize, this._bytesService.UNITS.M);
         }
     },
 
     saveDockerHost: {
         value: function(dockerHost) {
-            dockerHost.config.memsize = this._bytesService.convertStringToSize(dockerHost._memory, this._bytesService.UNITS.M);
             dockerHost.target = dockerHost.target === this.DEFAULT_STRING ? null : dockerHost.target;
             return this._dockerHostRepository.save(dockerHost);
         }

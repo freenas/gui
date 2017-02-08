@@ -1,19 +1,14 @@
-/**
- * @module ui/container-creator.reel
- */
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    Units = require('core/Units'),
     RoutingService = require("core/service/routing-service").RoutingService;
 
-/**
- * @class ContainerCreator
- * @extends Component
- */
-exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCreator# */ {
+exports.ContainerCreator = AbstractInspector.specialize({
 
     _inspectorTemplateDidLoad: {
         value: function () {
             var self = this;
 
+            this.memoryUnits = Units.MEGABYTE_SIZES;
             this._environment = {};
             this._routingService = RoutingService.getInstance();
 
