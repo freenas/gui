@@ -194,6 +194,8 @@ export class NetworkSectionService extends AbstractSectionService {
             }
             networkInterface.aliases = aliases.concat(networkInterface._otherAliases);
             this.splitAliasesOnInterface(networkInterface);
+        } else {
+            delete networkInterface.aliases;
         }
     }
 
