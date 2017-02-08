@@ -53,7 +53,7 @@ export class AbstractDao<T extends AbstractDataObject> {
             this.listPromise = this.stream(partial);
     }
 
-    public stream(partial: boolean = false) {
+    public stream(partial: boolean = false): Promise<Array<T>> {
         return this.datastoreService.stream(
             this.objectType,
             this.queryMethod,
@@ -65,6 +65,7 @@ export class AbstractDao<T extends AbstractDataObject> {
             dataArray._objectType = this.objectType;
 
             //FIXME!!
+            //DTM montage
             dataArray._stream = stream;
 
             return dataArray;
