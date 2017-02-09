@@ -21,31 +21,31 @@ var ShareService = exports.ShareService = Montage.specialize({
 
     createSmbShare: {
         value: function (volume) {
-            return this._createNewShare(this.constructor.SHARE_TYPES.SMB, volume);
+            return this._createNewShare(this.constructor.SHARE_TYPES.Smb, volume);
         }
     },
 
     createAfpShare: {
         value: function (volume) {
-            return this._createNewShare(this.constructor.SHARE_TYPES.AFP, volume);
+            return this._createNewShare(this.constructor.SHARE_TYPES.Afp, volume);
         }
     },
 
     createNfsShare: {
         value: function (volume) {
-            return this._createNewShare(this.constructor.SHARE_TYPES.NFS, volume);
+            return this._createNewShare(this.constructor.SHARE_TYPES.Nfs, volume);
         }
     },
 
     createIscsiShare: {
         value: function (volume) {
-            return this._createNewShare(this.constructor.SHARE_TYPES.ISCSI, volume);
+            return this._createNewShare(this.constructor.SHARE_TYPES.Iscsi, volume);
         }
     },
 
     createWebdavShare: {
         value: function (volume) {
-            return this._createNewShare(this.constructor.SHARE_TYPES.WEBDAV, volume);
+            return this._createNewShare(this.constructor.SHARE_TYPES.Webdav, volume);
         }
     },
 
@@ -57,7 +57,7 @@ var ShareService = exports.ShareService = Montage.specialize({
                 var shareTypes = this.constructor.SHARE_TYPES;
 
                 shareObject.properties = {};
-                shareObject.properties["%type"] = 'share-' + shareObject.type;
+                shareObject.properties["%type"] = 'Share' + shareObject.type;
                 populatedSharePromise = Promise.all([
                     this.shareRepository.getNewPermissions(),
                     this.shareRepository.getNewUnixPermissions()
