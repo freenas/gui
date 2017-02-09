@@ -23,6 +23,7 @@
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
+                "controller": {"@": "owner"},
                 "validationController": {"@": "validationController"},
                 "canSave": true,
                 "canRevert": true
@@ -66,6 +67,7 @@
             "properties": {
                 "element": {"#": "netmask"},
                 "label": "Netmask",
+                "placeholder": "255.255.255.0",
                 "converter": {"@": "ipv4_netmask_converter"}
             },
             "bindings": {

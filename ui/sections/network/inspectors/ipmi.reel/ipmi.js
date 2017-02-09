@@ -9,21 +9,12 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
  */
 exports.Ipmi = AbstractInspector.specialize(/** @lends Ipmi# */ {
 
-    _object: {
-        value: null
-    },
-
-    object: {
-        set: function (ipmiConfig) {
-            if ( ipmiConfig ) {
-                this._object = ipmiConfig;
-            } else {
-                this._object = null;
+    save: {
+        value: function() {
+            if (this.object && !this.object.dhcp && !!this.object.address) {
+                this.object.netmask = this.object.netmask || 24;
             }
-        },
-
-        get: function () {
-            return this._object;
+            return this.inspector.save();
         }
     }
 });
