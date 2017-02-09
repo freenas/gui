@@ -9,6 +9,9 @@ export class NetworkSectionService extends AbstractSectionService {
 
     public readonly INTERFACE_TYPES = NetworkRepository.INTERFACE_TYPES;
 
+    public readonly IPV4_DEFAULT_NETMASK = 24;
+    public readonly IPV6_DEFAULT_NETMASK = 64;
+
     private networkRepository: NetworkRepository;
     private systemRepository: SystemRepository;
 
@@ -184,12 +187,14 @@ export class NetworkSectionService extends AbstractSectionService {
         let aliases = [];
 
         if (!networkInterface.dhcp) {
-            if (typeof networkInterface._ipAddress === 'object' && !!networkInterface._ipAddress.address && !!networkInterface._ipAddress.netmask) {
+            if (networkInterface._ipAddress && typeof networkInterface._ipAddress === 'object' && !!networkInterface._ipAddress.address) {
                 networkInterface._ipAddress.type = NetworkInterfaceAliasType.INET;
+                networkInterface._ipAddress.netmask = networkInterface._ipAddress.netmask || this.IPV4_DEFAULT_NETMASK;
                 aliases.push(networkInterface._ipAddress);
             }
-            if (typeof networkInterface._ipv6Address === 'object' && !!networkInterface._ipv6Address.address && !!networkInterface._ipv6Address.netmask) {
+            if (networkInterface._ipv6Address && typeof networkInterface._ipv6Address === 'object' && !!networkInterface._ipv6Address.address) {
                 networkInterface._ipv6Address.type = NetworkInterfaceAliasType.INET6;
+                networkInterface._ipv6Address.netmask = networkInterface._ipv6Address.netmask || this.IPV6_DEFAULT_NETMASK;
                 aliases.push(networkInterface._ipv6Address);
             }
             networkInterface.aliases = aliases.concat(networkInterface._otherAliases);
