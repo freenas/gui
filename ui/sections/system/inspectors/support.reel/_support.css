@@ -4,8 +4,10 @@
 
 .Support-header {
     background: var(--primary--4);
+    margin: -1rem;
+    margin-bottom: 1rem;
     padding: 1rem;
-    padding-bottom: 0;
+    padding-bottom: .5rem;
 }
 
 .Support-header a {
