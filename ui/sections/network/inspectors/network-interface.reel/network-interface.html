@@ -99,7 +99,7 @@
             "bindings": {
                 "value": {"<->": "@owner.object._ipAddress.netmask"},
                 "readonly": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp"},
-                "placeholder": {"<-": "!@owner.object.dhcp ? 'eg. 255.255.255.0' : ''"}
+                "placeholder": {"<-": "!@owner.object.dhcp ? '255.255.255.0' : ''"}
             }
         },
         "v6disabled": {
@@ -159,7 +159,7 @@
             "bindings": {
                 "value": {"<->": "@owner.object._ipv6Address.netmask"},
                 "readonly": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp || @owner.object.rtadv"},
-                "placeholder": {"<-": "!@owner.object.rtadv ? 'eg. 64' : ''"}
+                "placeholder": {"<-": "!@owner.object.rtadv ? '64' : ''"}
             }
         },
         "linkAddress": {
