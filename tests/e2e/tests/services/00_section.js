@@ -1,5 +1,5 @@
 module.exports = {
-    'Storage': function(browser) {
+    'Services': function(browser) {
         browser
             .refresh()
             .url(browser.launchUrl)
@@ -8,10 +8,10 @@ module.exports = {
             .setValue('input[data-montage-id=password]', 'root')
             .press('button[data-montage-id=submit].SignIn-submit')
             .waitForElementVisible('div.SystemInfo', 5000)
-            .press('div.MainNavigationItem-storage')
-            .waitForElementVisible('.CascadingListItem:nth-child(1) div.SectionRoot', 5000)
+            .press('div.MainNavigationItem-services')
+            .waitForElementVisible('.CascadingListItem:nth-child(1) div.SectionRoot', 10000)
             .pause(250);
 
-        browser.expect.element('div.SectionRoot .Inspector-header').text.to.equal('Storage');
+        browser.expect.element('div.SectionRoot-entries .Viewer-title').text.to.equal('Services Categories');
     }
 };

@@ -1,6 +1,7 @@
 module.exports = {
     'Network': function(browser) {
         browser
+            .refresh()
             .url(browser.launchUrl)
             .waitForElementVisible('div[data-montage-id=signIn].SignIn', 10000)
             .setValue('input[data-montage-id=userName]', 'root')
