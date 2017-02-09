@@ -107,12 +107,11 @@
         "changelog": {
             "prototype": "blue-shark/ui/text.reel",
             "properties": {
-                "element": {"#": "changelog"},
-                "height": 8
+                "element": {"#": "changelog"}
             },
             "bindings": {
                 "classList.has('hide')": {"<-": "@owner.info.changelog.length == 0"},
-                "content": {"<-": "@owner.parsedHtml"}
+                "value": {"<-": "@owner.parsedHtml"}
             }
         },
         "operationsTableLabel": {
