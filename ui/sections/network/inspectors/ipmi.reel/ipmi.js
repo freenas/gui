@@ -12,7 +12,7 @@ exports.Ipmi = AbstractInspector.specialize(/** @lends Ipmi# */ {
     save: {
         value: function() {
             if (this.object && !this.object.dhcp && !!this.object.address) {
-                this.object.netmask = this.object.netmask || 24;
+                this.object.netmask = this.object.netmask || this._sectionService.IPV4_DEFAULT_NETMASK;
             }
             return this.inspector.save();
         }
