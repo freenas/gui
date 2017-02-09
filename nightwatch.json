@@ -9,7 +9,7 @@
     "globals_path": "tests/e2e/globals.js",
     "test_settings": {
         "default": {
-            "filter": "*/index.js",
+            "filter": "index.js",
             "launch_url": "http://localhost:3000/#!/?host=pch-mini.local",
             "selenium_port": 4444,
             "selenium_host": "localhost",
