@@ -20,7 +20,7 @@ exports.SmartArgs = AbstractInspector.specialize({
 
     enterDocument: {
         value: function() {
-            if (!this.object || this.object.length != 2) {
+            if (!this.object || this.object.length != 2 || !Array.isArray(this.object[0])) {
                 this.object = [[], null];
                 this.object.length = 2;
             }

@@ -20,6 +20,14 @@
             ]
         },
 
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "title": "Directory services"
+            }
+        },
+
         "scrollView": {
             "prototype": "blue-shark/ui/scrollview.reel",
             "properties": {
@@ -102,18 +110,20 @@
 </head>
 <body>
     <div data-montage-id="owner" class="DirectoryServices">
-        <div data-montage-id="scrollView" class="DirectoryServices-body">
-            <div data-montage-id="directoryServices"></div>
-        </div>
-        <div class="DirectoryServices-searchorderContainer">
-            <div data-montage-id="ntpServers"></div>
-            <div class="flex-row flex-justifyContent--end g-margin-bottom g-margin-top--subtract-half">
-                <div data-montage-id="ntpSyncNow"></div>
+        <div data-montage-id="inspector">
+            <div data-montage-id="scrollView" class="DirectoryServices-body">
+                <div data-montage-id="directoryServices"></div>
             </div>
-            <div data-montage-id="searchOrder" class="DirectoryServices-searchorder"></div>
-            <div class="DirectoryServices-buttons">
-                <div data-montage-id="revert"></div>
-                <div data-montage-id="save" class="Button--primary"></div>
+            <div class="DirectoryServices-searchorderContainer">
+                <div data-montage-id="ntpServers"></div>
+                <div class="flex-row flex-justifyContent--end g-margin-bottom g-margin-top--subtract-half">
+                    <div data-montage-id="ntpSyncNow"></div>
+                </div>
+                <div data-montage-id="searchOrder" class="DirectoryServices-searchorder"></div>
+                <div class="DirectoryServices-buttons">
+                    <div data-montage-id="revert"></div>
+                    <div data-montage-id="save" class="Button--primary"></div>
+                </div>
             </div>
         </div>
     </div>

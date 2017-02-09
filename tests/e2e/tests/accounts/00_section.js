@@ -1,18 +1,16 @@
 module.exports = {
-    'Storage': function(browser) {
+    'Accounts': function(browser) {
         browser
-            .resizeWindow(1440, 900)
-            .setWindowPosition(0, 0)
             .url(browser.launchUrl)
             .waitForElementVisible('div[data-montage-id=signIn].SignIn', 10000)
             .setValue('input[data-montage-id=userName]', 'root')
             .setValue('input[data-montage-id=password]', 'root')
             .press('button[data-montage-id=submit].SignIn-submit')
             .waitForElementVisible('div.SystemInfo', 5000)
-            .press('div.MainNavigationItem-storage')
+            .press('div.MainNavigationItem-accounts')
             .waitForElementVisible('.CascadingListItem:nth-child(1) div.SectionRoot', 5000)
             .pause(250);
 
-        browser.expect.element('div.SectionRoot .Inspector-header').text.to.equal('Storage');
+        browser.expect.element('div.SectionRoot .Inspector-header').text.to.equal('Accounts');
     }
 };

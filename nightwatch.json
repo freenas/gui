@@ -15,7 +15,14 @@
             "selenium_host": "localhost",
             "silent": true,
             "desiredCapabilities": {
-                "browserName": "chrome"
+                "browserName": "chrome",
+                "javascriptEnabled": true,
+                "acceptSslCerts": true,
+                "chromeOptions": {
+                    "args": [
+                        "--window-size=1440,900"
+                    ]
+                }
             }
         }
     }
