@@ -143,6 +143,7 @@ export class AccountsSectionService extends AbstractSectionService {
                 directoryServices
             ];
             (entries as any)._objectType = 'AccountCategory';
+            self.entriesTitle = 'Accounts';
 
             return entries;
         });
