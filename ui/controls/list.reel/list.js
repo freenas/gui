@@ -7,7 +7,10 @@ exports.List = Component.specialize({
         value: function () {
             if (this.object && this.object._stream && this.object._stream.get('partial')) {
                 this._stream = this.object._stream;
-                this._needsComputeViewPortHeight = true;
+
+                if (!this._stream.get("reachEnd") && this._stream.get("endSequence") === 1) {
+                    this._needsComputeViewPortHeight = true;
+                }
             }
 
             if (this.selectedObject && this.controller.selection[0] !== this.selectedObject) {
@@ -22,9 +25,11 @@ exports.List = Component.specialize({
                 var self = this;
 
                 return this.fetchData().then(function (stream) {
-                    if (!stream.get('reachEnd') && self.object.length < minimumItems) {
+                    if (stream && !stream.get('reachEnd')) {
                         return self.fetchMinimumItems(minimumItems);
                     }
+
+                    return self._stream;
                 });
             }
 
@@ -45,8 +50,11 @@ exports.List = Component.specialize({
                     this._stream.get('streamId')
                 ).then(function (stream) {
                     self._stream = stream;
+                    //Workaround: Montage bug enterdocument twice...
+                    self.object._stream = stream;
 
                     return stream;
+
                 });
             } else {
                 promise = Promise.resolve(this._stream);
@@ -82,7 +90,7 @@ exports.List = Component.specialize({
                         listItemBoundaries = dummyListItem.getBoundingClientRect(),
                         listBoundaries = this.element.getBoundingClientRect(),
                         viewPortHeight = documentBoundaries.height - listBoundaries.top,
-                        minimunContentLength = Math.ceil(viewPortHeight / listItemBoundaries.height) + 5;
+                        minimunContentLength = Math.ceil(viewPortHeight / listItemBoundaries.height);
 
                      this.fetchMinimumItems(minimunContentLength);
                 }
