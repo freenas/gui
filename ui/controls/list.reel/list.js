@@ -5,8 +5,8 @@ exports.List = Component.specialize({
 
     enterDocument: {
         value: function () {
-            if (this.object && this.object._stream && this.object._stream.get('partial')) {
-                this._stream = this.object._stream;
+            if (this.content && this.content._stream && this.content._stream.get('partial')) {
+                this._stream = this.content._stream;
 
                 if (!this._stream.get("reachEnd") && this._stream.get("endSequence") === 1) {
                     this._needsComputeViewPortHeight = true;
@@ -17,7 +17,7 @@ exports.List = Component.specialize({
 
     fetchMinimumItems: {
         value: function (minimumItems) {
-            if (this.object.length < minimumItems) {
+            if (this.content.length < minimumItems) {
                 var self = this;
 
                 return this.fetchData().then(function (stream) {
@@ -48,7 +48,7 @@ exports.List = Component.specialize({
                     if (self._stream.get("streamId") === stream.get("streamId")) {
                         self._stream = stream;
                         //Workaround: Montage bug enterdocument twice...
-                        self.object._stream = stream;
+                        self.content._stream = stream;
                     }
 
                     return stream;

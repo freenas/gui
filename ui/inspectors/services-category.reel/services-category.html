@@ -13,23 +13,15 @@
                 "selectedObject": {"<->": "@services.selectedObject"}
             }
         },
-        "controller": {
-            "prototype": "montage/core/range-controller",
-            "properties": {
-                "sortPath": "config.type"
-            },
-            "bindings": {
-                "content": {"<-": "@owner.categoryServices"}
-            }
-        },
         "services": {
             "prototype": "ui/controls/list.reel",
             "properties": {
                 "element": {"#": "services"},
-                "controller": {"@": "controller"}
+                "sortPath": "config.type"
             },
             "bindings": {
-                "isLoading": {"<-": "!@owner.categoryServices || @owner.categoryServices.length == 0"}
+                "isLoading": {"<-": "!@owner.categoryServices || @owner.categoryServices.length == 0"},
+                "content": {"<-": "@owner.categoryServices"}
             }
         },
         "inspector": {
