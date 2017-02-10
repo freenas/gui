@@ -11,7 +11,8 @@ module.exports = function(gulp) {
         var seleniumConfig = {
             // check for more recent versions of selenium here:
             // https://selenium-release.storage.googleapis.com/index.html
-            version: '3.0.1',
+            // 2.39.0 is the latest one to support java 7 (installed by default on most linux distros)
+            version: '2.39.0',
             baseURL: 'https://selenium-release.storage.googleapis.com',
             drivers: {
                 chrome: {

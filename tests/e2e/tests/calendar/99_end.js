@@ -1,5 +1,5 @@
 module.exports = {
-    'End of test': ''+function(browser) {
+    '99 - End of test': ''+function(browser) {
         browser
             .pause(250)
             .end();

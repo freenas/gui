@@ -1,5 +1,5 @@
 module.exports = {
-    '00 - Login': function (browser) {
+    '00 - Login': function(browser) {
         browser
             .refresh()
             .url(browser.launchUrl)
@@ -8,10 +8,5 @@ module.exports = {
             .setValue('input[data-montage-id=password]', 'root')
             .press('button[data-montage-id=submit].SignIn-submit')
             .waitForElementVisible('div.SystemInfo', 5000);
-    },
-    '99 - End of test': function(browser) {
-        browser
-            .pause(250)
-            .end();
     }
 };
