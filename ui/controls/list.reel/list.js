@@ -25,7 +25,7 @@ exports.List = Component.specialize({
                 var self = this;
 
                 return this.fetchData().then(function (stream) {
-                    if (stream && !stream.get('reachEnd')) {
+                    if (self._stream.get("streamId") === stream.get("streamId") && !stream.get('reachEnd')) {
                         return self.fetchMinimumItems(minimumItems);
                     }
 
@@ -49,9 +49,11 @@ exports.List = Component.specialize({
                 promise = this.application.sectionService.getNextSequenceForStream(
                     this._stream.get('streamId')
                 ).then(function (stream) {
-                    self._stream = stream;
-                    //Workaround: Montage bug enterdocument twice...
-                    self.object._stream = stream;
+                    if (self._stream.get("streamId") === stream.get("streamId")) {
+                        self._stream = stream;
+                        //Workaround: Montage bug enterdocument twice...
+                        self.object._stream = stream;
+                    }
 
                     return stream;
 
