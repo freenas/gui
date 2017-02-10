@@ -12,10 +12,6 @@ exports.List = Component.specialize({
                     this._needsComputeViewPortHeight = true;
                 }
             }
-
-            if (this.selectedObject && this.controller.selection[0] !== this.selectedObject) {
-                this.dispatchOwnPropertyChange("selectedObject", this.selectedObject);
-            }
         }
     },
 
