@@ -88,7 +88,6 @@ export class AbstractDao<T extends AbstractDataObject> {
         });
     }
 
-    // TODO: need support for streamming responses.
     public find(criteria?: any, params?: any): Promise<any> {
         criteria = criteria || {};
         params = params || {};
