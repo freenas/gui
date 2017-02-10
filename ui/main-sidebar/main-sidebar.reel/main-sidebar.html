@@ -40,15 +40,6 @@
                 "classList.has('is-flipped')": {"<-": "@owner.isFlipped"}
             }
         },
-        "username": {
-            "prototype": "blue-shark/ui/text.reel",
-            "properties": {
-                "element": {"#": "username"}
-            },
-            "bindings": {
-                "value": {"<-": "!!@owner.session && @owner.session.username"}
-            }
-        },
         "logout": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
@@ -94,12 +85,6 @@
                 "value": "Shutdown"
             }
         },
-        "globalActionsButton": {
-            "prototype": "montage/ui/button.reel",
-            "properties": {
-                "element": {"#": "globalActionsButton"}
-            }
-        },
         "confirmationMessage": {
             "prototype": "blue-shark/ui/text.reel",
             "properties": {
@@ -137,8 +122,7 @@
         <div data-montage-id="navigation" class="MainSidebar-navigation"></div>
         <div data-montage-id="userSummary" class="MainSidebar-userSummary"></div>
         <div class="MainSidebar-globalActions">
-            <div data-montage-id="globalActionsButton" class="MainSidebar-globalActions-button" tabindex="0">
-                <span data-montage-id="username" class="MainSidebar-user"></span>
+            <div class="MainSidebar-globalActions-button" tabindex="0">
                 <svg><use xlink:href="#i-power"/></svg>
             </div>
             <ul class="MainSidebar-globalActions-options">

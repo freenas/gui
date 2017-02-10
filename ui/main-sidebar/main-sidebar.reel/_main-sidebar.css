@@ -69,10 +69,22 @@
 .MainSidebar-globalActions-button {
     position: relative;
     z-index: 1;
-    background: var(--primary--9);
+    background-color: var(--primary--9);
+    width: 100%;
     display: flex;
+    justify-content: center;
     padding: .5em;
     cursor: pointer;
+    transition: background-color .25s ease-in-out;
+    outline: none;
+
+    &:hover {
+        background-color: var(--primary--8);
+
+        & svg {
+            color: var(--white);
+        }
+    }
 
     &:focus + .MainSidebar-globalActions-options {
         display: block;
@@ -96,7 +108,7 @@
     bottom: 0;
     list-style: none;
     margin: 0;
-    background: var(--grey-blue);
+    background-color: var(--primary--4);
     z-index: 1;
 
     &:active {
@@ -120,7 +132,11 @@
         transition: background-color .15s ease-in-out;
 
         &:hover {
-            background: color(var(--grey-blue) l(19%));
+            background: var(--primary);
+
+            & button {
+                color: var(--white);
+            }
         }
     }
 
@@ -140,7 +156,7 @@
     display: none;
     position: absolute;
     bottom: 0;
-    background: var(--black);
+    background: var(--primary--8);
     padding: .5rem;
     z-index: 1;
 
