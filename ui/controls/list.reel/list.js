@@ -59,7 +59,7 @@ exports.List = Component.specialize({
         }
     },
 
-    scrollViewWillReachEnd: {
+    scrollViewReachBottomY: {
         value: function () {
             if (!this.isLoadingData) {
                 this.fetchData();
