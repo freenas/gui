@@ -178,8 +178,6 @@ export class RoutingService {
     private loadRoutes() {
         crossroads.addRoute('/_/retry/{taskId}',
             (taskId) => this.restoreTask(taskId));
-        crossroads.addRoute('/{sectionId}/settings',
-            (sectionId) => this.sectionRoute.getSettings(sectionId, this.currentStacks.get(sectionId)));
 
         this.loadDashboardRoutes();
         this.loadStorageRoutes();
@@ -208,6 +206,8 @@ export class RoutingService {
 
     private loadNetworkRoutes() {
         crossroads.addRoute('/network', () => this.loadSection('network'));
+        crossroads.addRoute('/network/settings',
+            (sectionId) => this.sectionRoute.getSettings('network', this.currentStacks.get('network')));
         crossroads.addRoute('/network/network-interface/_/{interfaceId}',
             (interfaceId) => this.networkRoute.get(interfaceId, this.currentStacks.get('network')));
         crossroads.addRoute('/network/ipmi',
@@ -222,6 +222,8 @@ export class RoutingService {
 
     private loadContainersRoutes() {
         crossroads.addRoute('/containers', () => this.loadSection('containers'));
+        crossroads.addRoute('/containers/settings',
+            (sectionId) => this.sectionRoute.getSettings('containers', this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/docker-host',
             () => this.dockerRoute.listHosts(this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/docker-host/create',

@@ -130,11 +130,7 @@ export abstract class AbstractRoute {
 
     protected enterSection(sectionId: string) {
         let promise: Promise<Array<any>> = this.stack ?
-            new Promise<Array<any>>((resolve) => {
-                // this.changeHash(_.last(this.stack).path);
-                // hasher.changed.addOnce(this.handleTaskHashChange.bind(this));
-                resolve(this.stack);
-            }) :
+            new Promise<Array<any>>(resolve => resolve(this.stack)) :
             this.get(sectionId).then((stack) => this.stack = stack);
         promise.then((stack) => {
             this.eventDispatcherService.dispatch('sectionChange', stack[0].service);
@@ -194,16 +190,23 @@ export abstract class AbstractRoute {
         this.eventDispatcherService.dispatch('oldSectionChange', sectionId);
     }
 
-    public getSettings(sectionId: string, stack: Array<any>) {
+    private loadSectionsDescriptors(): Promise<any> {
+        if (!AbstractRoute.sectionsDescriptorsPromise) {
+            AbstractRoute.sectionsDescriptorsPromise = Promise.resolve(SystemJS.import('data/sections-descriptors.json'));
+        }
+        return AbstractRoute.sectionsDescriptorsPromise;
+    }
+
+    public loadSettings(sectionId: string) {
         let self = this,
             objectType = Model.SectionSettings,
             columnIndex = 1,
-            parentContext = stack[columnIndex - 1],
+            parentContext = this.stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: parentContext,
-                path: parentContext.path + '/section-settings/_/' + encodeURIComponent(sectionId)
+                path: parentContext.path + '/settings/_/' + encodeURIComponent(sectionId)
             };
         return Promise.all([
             this.modelDescriptorService.getUiDescriptorForType(objectType)
@@ -211,15 +214,8 @@ export abstract class AbstractRoute {
             context.object = parentContext.object.settings;
             context.userInterfaceDescriptor = uiDescriptor;
 
-            return self.updateStackWithContext(stack, context);
+            return self.updateStackWithContext(this.stack, context);
         });
-    }
-
-    private loadSectionsDescriptors(): Promise<any> {
-        if (!AbstractRoute.sectionsDescriptorsPromise) {
-            AbstractRoute.sectionsDescriptorsPromise = Promise.resolve(SystemJS.import('data/sections-descriptors.json'));
-        }
-        return AbstractRoute.sectionsDescriptorsPromise;
     }
 
 }

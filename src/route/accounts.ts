@@ -26,13 +26,6 @@ export class AccountsRoute extends AbstractRoute {
     @Route('/accounts')
     public loadSection() {
         this.enterSection('accounts');
-/*
-        this.get('accounts').then(stack => {
-            this.stack = stack;
-            this.eventDispatcherService.dispatch('sectionChange', stack[0].service);
-            this.eventDispatcherService.dispatch('pathChange', stack);
-        });
-*/
     }
 
     @Route('/accounts/user')

@@ -31,6 +31,11 @@ export class VmsRoute extends AbstractRoute {
         this.enterSection('vms');
     }
 
+    @Route('/vms/settings')
+    public getSettings() {
+        this.loadSettings()
+    }
+
     @Route('/vms/vm/_/{vmId}')
     public getVm(vmId: string) {
         let columnIndex = 1;
