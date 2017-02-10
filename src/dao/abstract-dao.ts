@@ -50,26 +50,22 @@ export class AbstractDao<T extends AbstractDataObject> {
     public list(partial: boolean = false): Promise<Array<T>> {
         return (this.listPromise && !this.preventQueryCaching) ?
             this.listPromise :
-            this.listPromise = this.stream(partial);
+            this.listPromise = this.stream(partial).then((stream) => {
+                this.register();
+                let dataArray = stream.get('data').toJS();
+                dataArray._objectType = this.objectType;
+
+                return dataArray;
+            });
     }
 
-    public stream(partial: boolean = false): Promise<Array<T>> {
+    public stream(partial: boolean = false): Promise<Map<string, any>> {
         return this.datastoreService.stream(
             this.objectType,
             this.queryMethod,
             this.idPath,
             partial
-        ).then((stream) => {
-            this.register();
-            let dataArray = stream.get('data').toJS();
-            dataArray._objectType = this.objectType;
-
-            //FIXME!!
-            //DTM montage
-            dataArray._stream = stream;
-
-            return dataArray;
-        });
+        );
     }
 
     public getNextSequenceForStream (streamId) {
