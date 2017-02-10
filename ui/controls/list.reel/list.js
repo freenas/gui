@@ -44,7 +44,6 @@ exports.List = Component.specialize({
                 promise = this.application.sectionService.getNextSequenceForStream(
                     this._stream.get('streamId')
                 ).then(function (stream) {
-                    self.object = stream.get('data').toJS();
                     self._stream = stream;
 
                     return stream;
