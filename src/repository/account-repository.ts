@@ -78,7 +78,7 @@ export class AccountRepository extends AbstractRepository {
         return this.accountSystemDao.getEmptyList();
     }
 
-    //need discution.
+    //need discussion
     public getNextSequenceForStream (streamId) {
         return this.groupDao.getNextSequenceForStream(streamId);
     }
