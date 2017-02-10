@@ -3,11 +3,15 @@ var fs = require('fs'),
 
 var steps = {};
 _.forEach(
-    _.initial(_.sortBy(fs.readdirSync(__dirname))),
-    function(stepFile) {
-        var step = require('./' + stepFile);
-
-        _.assign(steps, step);
+    _.sortBy(fs.readdirSync(__dirname)),
+    function(section) {
+        console.log(section);
+        if (section.indexOf('.js') === -1) {
+            var sectionSteps = require('./' + section);
+            _.forEach(sectionSteps, function(value, key) {
+                steps[section + ' / ' + key] = value;
+            });
+        }
     }
 );
 
