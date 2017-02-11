@@ -23,6 +23,16 @@
             ]
         },
 
+        "loading": {
+            "prototype": "ui/controls/spinner.reel",
+            "properties": {
+                "element": {"#": "loading"}
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "!@content.isLoadingComponent"}
+            }
+        },
+
         "content": {
             "prototype": "ui/controls/placeholder.reel",
             "properties": {
@@ -70,6 +80,7 @@
                 </div>
             </div>
         </div>
+        <div data-montage-id="loading" class="CascadingListItem-spinner"></div>
         <div data-montage-id="content" class="CascadingListItem-content"></div>
     </div>
 </body>

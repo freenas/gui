@@ -171,7 +171,7 @@ export class AccountsSectionService extends AbstractSectionService {
             } else {
                 entry = user.toJS();
                 (entry as any)._objectType = objectType;
-                entries.push(entry)
+                entries.push(entry);
             }
         });
         for (let i = entries.length - 1; i >= 0; i--) {

@@ -10,7 +10,7 @@
             },
             "bindings": {
                 "object": {"<-": "@owner.context.object"},
-                "classList.has('is-loading')": {"<-": "@owner.isLoading"},
+                "classList.has('is-loading')": {"<-": "@owner.isLoading || @owner.controller.isLoading"},
                 "classList.has('is-locked')": {"<-": "!!@owner.object.__isLocked"},
                 "classList.has('confirmation-is-visible')": {"<-": "@owner.isConfirmationVisible"},
                 "classList.has('has-error')": {"<-": "!!@owner.validationController.errorMessage"}

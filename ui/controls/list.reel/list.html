@@ -13,6 +13,15 @@
                 "content": {"<-": "@owner.controller.content"}
             }
         },
+        "loading": {
+            "prototype": "ui/controls/spinner.reel",
+            "properties": {
+                "element": {"#": "loading"}
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "!@owner.isLoading"}
+            }
+        },
         "repetition": {
             "prototype": "montage/ui/repetition.reel",
             "properties": {
@@ -40,6 +49,7 @@
 </head>
 <body>
     <div data-montage-id="owner" class="List">
+        <div data-montage-id="loading" class="List-spinner"></div>
         <div data-montage-id="repetition">
             <div data-montage-id="item" class="List-item"></div>
         </div>

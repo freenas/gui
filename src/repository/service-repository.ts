@@ -9,8 +9,10 @@ import {RsyncdModuleDao} from '../dao/rsyncd-module-dao';
 import {Map} from 'immutable';
 import {ModelEventName} from '../model-event-name';
 import {Model} from '../model';
+import {Service} from '../model/Service';
+import {ServicesCategory} from '../model/ServicesCategory';
 
-export class ServiceRepository extends AbstractRepository {
+export class ServiceRepository extends AbstractRepository<Service> {
     private static instance: ServiceRepository;
     private rsyncdModules: Map<string, Map<string, any>>;
     private services: Map<string, Map<string, any>>;
@@ -42,7 +44,7 @@ export class ServiceRepository extends AbstractRepository {
     }
 
     public listServices(): Promise<Array<any>> {
-        return this.serviceDao.list();
+        return this.services ? Promise.resolve(this.services.valueSeq().toJS()) : this.serviceDao.list();
     }
 
     public saveService(service: any) {
@@ -62,44 +64,47 @@ export class ServiceRepository extends AbstractRepository {
     }
 
     public listServicesCategories(): Promise<Array<any>> {
-        let self = this;
-        return this.listServices().then(function (services) {
-            return Promise.all([
-                self.getServicesCategory('Sharing', services, [
-                    'smb',
-                    'nfs',
-                    'afp',
-                    'webdav',
-                    'iscsi'
-                ]),
-                self.getServicesCategory('Management', services, [
-                    'sshd',
-                    'smartd',
-                    'dyndns',
-                    'snmp',
-                    'lldp',
-                    'ups',
-                    'dc'
-                ]),
-                self.getServicesCategory('File Transfer', services, [
-                    'ftp',
-                    'rsyncd',
-                    'tftpd'
-                ])
-            ]);
-        }).then(function(categories) {
-            (categories as any)._objectType = 'ServicesCategory';
-            return categories;
+        let self = this,
+            services = [],
+            categories = [];
+        (categories as any)._objectType = Model.ServicesCategory;
+        this.listServices().then(_services => {
+            _.forEach(_services, service => services.push(service));
+        });
+        return Promise.all([
+            self.getServicesCategory('Sharing', services, [
+                'smb',
+                'nfs',
+                'afp',
+                'webdav',
+                'iscsi'
+            ]),
+            self.getServicesCategory('Management', services, [
+                'sshd',
+                'smartd',
+                'dyndns',
+                'snmp',
+                'lldp',
+                'ups',
+                'dc'
+            ]),
+            self.getServicesCategory('File Transfer', services, [
+                'ftp',
+                'rsyncd',
+                'tftpd'
+            ])
+        ]).then(function(_categories) {
+            return categories = _categories;
         });
     }
 
     private getServicesCategory(name: string, services: Array<any>, selectedIds: Array<string>): Promise<any> {
-        return this.servicesCategoryDao.getNewInstance().then(function(category) {
+        return this.servicesCategoryDao.getNewInstance().then(function(category: ServicesCategory) {
             category._isNew = false;
             category.id = _.kebabCase(name);
             category.name = name;
             category.services = services;
-            category.types = selectedIds.map(function(x) { return 'service-' + x; });
+            category.types = _.map(selectedIds, x => 'service-' + x);
             return category;
         });
     }

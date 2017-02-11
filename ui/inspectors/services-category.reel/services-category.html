@@ -27,6 +27,9 @@
             "properties": {
                 "element": {"#": "services"},
                 "controller": {"@": "controller"}
+            },
+            "bindings": {
+                "isLoading": {"<-": "!@owner.categoryServices || @owner.categoryServices.length == 0"}
             }
         },
         "inspector": {
