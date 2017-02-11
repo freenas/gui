@@ -1,12 +1,12 @@
+import {Map} from 'immutable';
 import { AbstractRepository } from './abstract-repository';
 import { DiskDao } from '../dao/disk-dao';
-import immutable = require('immutable');
 import {Model} from '../model';
 import {ModelEventName} from '../model-event-name';
 import {DatastoreService} from '../service/datastore-service';
-import {Map} from 'immutable';
+import {Disk} from '../model/Disk';
 
-export class DiskRepository extends AbstractRepository {
+export class DiskRepository extends AbstractRepository<Disk> {
     private static instance: DiskRepository;
     private disks: Map<string, Map<string, any>>;
     private availableDisks: Map<string, Map<string, any>>;
@@ -90,18 +90,22 @@ export class DiskRepository extends AbstractRepository {
     }
 
     private getAvailableDisks(disks: Map<string, Map<string, any>>, diskUsage: Map<string, Map<string, string>>): Map<string, Map<string, any>> {
-        return Map<string, Map<string, any>>(
-            disks.filter((disk) =>  disk.get('online') &&
-                                    !this.isDiskUsed(disk, diskUsage.get('attached')) &&
-                                    !this.isDiskUsed(disk, diskUsage.get('boot')) &&
-                                    !this.isDiskUsed(disk, diskUsage.get('reserved')))
-        );
+        return disks ?
+            Map<string, Map<string, any>>(
+                disks.filter((disk) =>  disk.get('online') &&
+                                        !this.isDiskUsed(disk, diskUsage.get('attached')) &&
+                                        !this.isDiskUsed(disk, diskUsage.get('boot')) &&
+                                        !this.isDiskUsed(disk, diskUsage.get('reserved')))
+            ) :
+            Map<string, Map<string, any>>();
     }
 
     private getBootDisks(disks: Map<string, Map<string, any>>, diskUsage: Map<string, Map<string, string>>): Map<string, Map<string, any>> {
-        return Map<string, Map<string, any>>(
-            disks.filter((disk) => this.isDiskUsed(disk, diskUsage.get('boot')))
-        );
+        return disks ?
+            Map<string, Map<string, any>>(
+                disks.filter((disk) => this.isDiskUsed(disk, diskUsage.get('boot')))
+            ) :
+            Map<string, Map<string, any>>();
     }
 
     private isDiskUsed(disk: any, diskUsage: Map<string, string>) {

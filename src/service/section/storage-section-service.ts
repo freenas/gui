@@ -16,6 +16,7 @@ import {NetworkRepository} from '../../repository/network-repository';
 import {ServiceRepository} from '../../repository/service-repository';
 import {Map} from 'immutable';
 import * as _ from 'lodash';
+import {SubmittedTask} from '../../model/SubmittedTask';
 
 export class StorageSectionService extends AbstractSectionService {
     private shareRepository: ShareRepository;
@@ -240,7 +241,7 @@ export class StorageSectionService extends AbstractSectionService {
         return this.diskRepository.getDiskAllocation(disk);
     }
 
-    public createVolume(volume: any): Promise<void> {
+    public createVolume(volume: any): Promise<SubmittedTask> {
         let password = volume._password && volume._password.length > 0 ? volume._password : null;
         volume.password_encrypted = !!password;
         return this.volumeRepository.createVolume(volume, password);
