@@ -84,7 +84,9 @@ exports.VirtualMachine = AbstractInspector.specialize({
                 self._sectionService.initializeVm(self.object);
                 self.addPathChangeListener("object._bootDevice", self, "_handleBootDeviceChange");
                 self.addPathChangeListener("object._selectedTemplate", self, "_handleTemplateChange");
-                self._getGuestInfo();
+                if (!self.object._isNew) {
+                    self._getGuestInfo();
+                }
                 self._finishLoading();
             });
 
