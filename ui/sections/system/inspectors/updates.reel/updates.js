@@ -1,6 +1,7 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     UpdateService = require("core/service/update-service").UpdateService,
     Promise = require("montage/core/promise").Promise,
+    marked = require('marked'),
     _ = require("lodash");
 
 exports.Updates = AbstractInspector.specialize({
@@ -31,6 +32,7 @@ exports.Updates = AbstractInspector.specialize({
                 }).then(function() {
                     self._updateService.getInfo().then(function(info) {
                         self.info = info;
+                        self.parsedHtml = marked(_.join(self.info.changelog, "\n"));
                     });
                 });
             }
