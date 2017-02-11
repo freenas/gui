@@ -9,20 +9,6 @@ var Component = require("montage/ui/component").Component,
  * @extends Component
  */
 exports.TableRowPredicate = Component.specialize({
-
-    classOperators: {
-        value: [
-                    {
-                        "label": "'=='",
-                        "value": "=="
-                    },
-                    {
-                        "label": "'!='",
-                        "value": "!="
-                    }
-                ]
-    },
-
     templateDidLoad: {
         value: function () {
             var self = this;
@@ -32,14 +18,6 @@ exports.TableRowPredicate = Component.specialize({
                     return {
                         label: x.id,
                         value: x.id
-                    };
-                });
-            });
-            this._service.listAlertSeverities().then(function (alertSeverities) {
-                self.severityValues = alertSeverities.map(function (x) {
-                    return {
-                        label: x,
-                        value: x
                     };
                 });
             });
