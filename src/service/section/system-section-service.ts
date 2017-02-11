@@ -10,6 +10,7 @@ import {ShareRepository} from '../../repository/share-repository';
 import {PeerRepository} from '../../repository/peer-repository';
 import {ReplicationRepository} from '../../repository/replication-repository';
 import {DiskRepository} from '../../repository/disk-repository';
+import {AlertFilterRepository} from '../../repository/alert-filter-repository';
 import {BootPoolRepository} from '../../repository/boot-pool-repository';
 import {ModelEventName} from '../../model-event-name';
 import {DataObjectChangeService} from '../data-object-change-service';
@@ -31,6 +32,7 @@ export class SystemSectionService extends AbstractSectionService {
     private replicationRepository: ReplicationRepository;
     private diskRepository: DiskRepository;
     private bootPoolRepository: BootPoolRepository;
+    private alertFilterRepository: AlertFilterRepository;
     private bootEnvironments: Array<any> = [];
     private dataObjectChangeService: DataObjectChangeService;
     private initialDiskAllocationPromise: Promise<any>;
@@ -53,6 +55,7 @@ export class SystemSectionService extends AbstractSectionService {
         this.diskRepository = DiskRepository.getInstance();
         this.bootPoolRepository = BootPoolRepository.getInstance();
         this.dataObjectChangeService = new DataObjectChangeService();
+        this.alertFilterRepository = AlertFilterRepository.getInstance();
 
         this.eventDispatcherService.addEventListener(
             ModelEventName.BootEnvironment.listChange,
@@ -199,6 +202,12 @@ export class SystemSectionService extends AbstractSectionService {
         return this.systemRepository.getDevices(deviceClass);
     }
 
+    public listAlertFilters() {
+        return this.alertFilterRepository.listAlertFilters();
+    }
+    public saveAlertFilters(alertFilters: Array<AlertFilter>){
+        return _.map(alertFilters, alertFilter => this.alertFilterRepository.save(alertFilter));
+    }
     protected loadExtraEntries() {
         return undefined;
     }
