@@ -286,6 +286,17 @@ export class VmsRoute extends AbstractRoute {
 
     @Route('/vms/vm-datastore')
     public listDatastores() {
+        let columnIndex = 1;
+        return this.loadListInColumn(
+            this.stack,
+            columnIndex,
+            columnIndex - 1,
+            '/vm-datastore',
+            Model.VmDatastore,
+            this.vmDatastoreRepository.list()
+        );
+
+/*
         let objectType = Model.VmDatastore,
             columnIndex = 1,
             parentContext = this.stack[columnIndex - 1],
@@ -305,6 +316,7 @@ export class VmsRoute extends AbstractRoute {
 
             return this.updateStackWithContext(this.stack, context);
         });
+*/
     }
 
     @Route('/vms/vm-datastore/_/{datastoreId}')

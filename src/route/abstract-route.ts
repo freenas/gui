@@ -67,6 +67,7 @@ export abstract class AbstractRoute {
     }
 
     protected loadListInColumn(stack: any, columnIndex: number, previousColumnIndex: number, pathSuffix: any, objectType: any, dataPromise: Promise<Array<any>>, options?: any): Promise<Array<any>> {
+        options = options || {};
         let parentContext = stack[previousColumnIndex],
             context: any = {
                 columnIndex: columnIndex,
@@ -131,14 +132,14 @@ export abstract class AbstractRoute {
     protected enterSection(sectionId: string) {
         let promise: Promise<Array<any>> = this.stack ?
             new Promise<Array<any>>(resolve => resolve(this.stack)) :
-            this.get(sectionId).then((stack) => this.stack = stack);
-        promise.then((stack) => {
+            this.getStackForSection(sectionId).then(stack => this.stack = stack);
+        promise.then(stack => {
             this.eventDispatcherService.dispatch('sectionChange', stack[0].service);
             this.eventDispatcherService.dispatch('pathChange', stack);
         });
     }
 
-    public get(sectionId: string): Promise<Array<any>> {
+    public getStackForSection(sectionId: string): Promise<Array<any>> {
         let self = this,
             objectType = Model.Section,
             sectionDescriptor;

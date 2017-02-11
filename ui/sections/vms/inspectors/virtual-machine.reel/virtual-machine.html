@@ -200,7 +200,7 @@
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.object.target"},
-                "options": {"<-": "[{label: @owner.DEFAULT_STRING, value: null}].concat(@owner.volumes.map{{label: id, value: id}})"}
+                "options": {"<-": "[{label: @owner.DEFAULT_STRING, value: null}].concat(@owner.datastores.map{{label: name + ' (' + type + ')', value: id}})"}
             }
         },
         "description": {

@@ -5,7 +5,9 @@ import * as _ from 'lodash';
 
 export class VmDatastoreDao extends AbstractDao<VmDatastore> {
     public constructor() {
-        super(Model.VmDatastore);
+        super(Model.VmDatastore, {
+            eventName: 'entity-subscriber.vm.datastore.changed'
+        });
     }
 
     public listDiskTargetsWithType(type: string, datastoreId?: string): Promise<any> {

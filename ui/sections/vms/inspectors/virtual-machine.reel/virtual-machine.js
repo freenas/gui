@@ -204,8 +204,8 @@ exports.VirtualMachine = AbstractInspector.specialize({
         value: function() {
             var self = this;
             return Promise.all([
-                this._sectionService.listVolumes().then(function(volumes) {
-                    self.volumes = volumes;
+                this._sectionService.listDatastores().then(function(datastores) {
+                    self.datastores = datastores;
                 }),
                 this._sectionService.listTemplates().then(function(templates) {
                     self.templates = templates.map(function(x) {

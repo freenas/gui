@@ -169,6 +169,12 @@ exports.VmsSectionService = AbstractSectionService.specialize({
         }
     },
 
+    listDatastores: {
+        value: function() {
+            return this._vmDatastoreRepository.list();
+        }
+    },
+
     listBlocksInDatastore: {
         value: function(datastoreId) {
             return this._vmDatastoreRepository.listDiskTargetsWithTypeInDatastore('BLOCK', datastoreId)
