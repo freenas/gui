@@ -64,6 +64,8 @@ customSystem.js
 # Exclude builds
 builds/
 
+tests/e2e/reports/
+
 *.js.map
 bin/
 

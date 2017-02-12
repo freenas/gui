@@ -39,22 +39,22 @@
             }
         },
         "previous": {
-            "prototype": "montage/ui/button.reel",
+            "prototype": "blue-shark/ui/button.reel",
             "properties": {
                 "element": {"#": "previous"}
             }
         },
         "next": {
-            "prototype": "montage/ui/button.reel",
+            "prototype": "blue-shark/ui/button.reel",
             "properties": {
                 "element": {"#": "next"}
             }
         },
         "today": {
-            "prototype": "montage/ui/button.reel",
+            "prototype": "blue-shark/ui/button.reel",
             "properties": {
                 "element": {"#": "today"},
-                "label": "Today"
+                "value": "Today"
             }
         },
         "taskCategories": {
@@ -162,10 +162,10 @@
             <div class="Calendar-navigation">
                 <button data-montage-id="today" class="CalendarWidget-todayButton"></button>
                 <div class="Calendar-navigation-buttons">
-                    <button data-montage-id="previous" class="Calendar-navigation-button CalendarWidget-previousMonthButton">
+                    <button data-montage-id="previous" class="Calendar-navigation-button CalendarWidget-previousMonthButton Button--icon">
                         <svg><use xlink:href="#i-arrow"/></svg>
                     </button>
-                    <button data-montage-id="next" class="Calendar-navigation-button CalendarWidget-nextMonthButton">
+                    <button data-montage-id="next" class="Calendar-navigation-button CalendarWidget-nextMonthButton Button--icon">
                         <svg><use xlink:href="#i-arrow"/></svg>
                     </button>
                 </div>

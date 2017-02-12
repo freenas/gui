@@ -161,6 +161,16 @@
                 "classList.has('hide')": {"<-": "!!@owner.upgraded"}
             }
         },
+        "importShares": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "importShares"},
+                "value": "Import Shares"
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "!!@owner.upgraded"}
+            }
+        },
         "capacityLabel": {
             "prototype": "blue-shark/ui/text.reel",
             "properties": {
@@ -173,16 +183,16 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Volume">
-        <div class="Volume-header">
-            <div data-montage-id="volumeIcon" class="Volume-header-icon"></div>
-            <div class="Volume-header-info">
-                <div data-montage-id="size" class="Volume-header-diskSize"></div>
-                <small data-montage-id="capacityLabel" class="flush-bottom"></small>
-            </div>
-        </div>
-        <div data-montage-id="allocationBar" class="Volume-allocationBar"></div>
         <div data-montage-id="inspector">
-            <div data-montage-id="shares" class="g-margin-top--subtract"></div>
+            <div class="Volume-header">
+                <div data-montage-id="volumeIcon" class="Volume-header-icon"></div>
+                <div class="Volume-header-info">
+                    <div data-montage-id="size" class="Volume-header-diskSize"></div>
+                    <small data-montage-id="capacityLabel" class="flush-bottom"></small>
+                </div>
+            </div>
+            <div data-montage-id="allocationBar" class="Volume-allocationBar"></div>
+            <div data-montage-id="shares"></div>
             <div data-montage-id="snapshots"></div>
             <div data-montage-id="topology"></div>
             <div data-montage-id="datasets"></div>
@@ -192,6 +202,7 @@
                 <div data-montage-id="export"></div>
                 <div data-montage-id="scrub"></div>
                 <div data-montage-id="upgrade"></div>
+                <div data-montage-id="importShares"></div>
             </div>
         </div>
     </div>

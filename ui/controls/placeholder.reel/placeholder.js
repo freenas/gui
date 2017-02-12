@@ -129,7 +129,7 @@ exports.Placeholder = Slot.specialize({
                     userInterfaceDescriptor = this.context ? this.context.userInterfaceDescriptor : null;
 
                 this.content = null;
-                this._isLoadingComponent = true;
+                this.isLoadingComponent = true;
                 this._needsLoadComponent = false;
 
                 promises.push(this._getComponentModule(moduleId));
@@ -147,7 +147,6 @@ exports.Placeholder = Slot.specialize({
                     }
 
                     self.component = component;
-                    self._isLoadingComponent = false;
                     component.object = self.object;
                     component.context = self.context;
                     self.content = component;
@@ -155,6 +154,7 @@ exports.Placeholder = Slot.specialize({
                     var oldEnterDocument = self.component.enterDocument;
 
                     self.component.enterDocument = function (isFirstTime) {
+                        self.isLoadingComponent = false;
                         self._dispatchPlaceholderContentLoaded();
 
                         if (this.enterDocument = oldEnterDocument) {

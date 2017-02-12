@@ -1,22 +1,17 @@
-/*FIXME: @joshua*/
 .DetachedVolume .ImportButton {
     display: inline-block !important;
 }
-/*FIXME: @joshua*/
 
-/* $fix - should this be a component */
 .DetachedVolume-header {
     height: 4.5em;
     display: flex;
-    background: #DFE4E4;
-    color: #181A1D;
     justify-content: center;
     align-items: center;
+    background: var(--grey-3);
+    color:      var(--grey-blue);
 }
 
-.DetachedVolume-header {
-    display: none;
-}
+.DetachedVolume-header { display: none; }
 
 /* Icon */
 
@@ -29,9 +24,6 @@
 .DetachedVolume-header-icon img { width:  100%; }
 
 /* Info */
-
-.DetachedVolume-header-info {}
-
 
 .DetachedVolume-header-diskSize {
     font-size: 1.5em;

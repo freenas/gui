@@ -1,14 +1,7 @@
-/**
- * @module ui/scrub-args.reel
- */
 var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+    Units = require('core/Units');
 
-/**
- * @class ReplicationArgs
- * @extends Component
- */
-exports.ReplicationArgs = Component.specialize(/** @lends ReplicationArgs# */ {
+exports.ReplicationArgs = Component.specialize({
     compress: {
         value: null
     },
@@ -24,6 +17,7 @@ exports.ReplicationArgs = Component.specialize(/** @lends ReplicationArgs# */ {
     templateDidLoad: {
         value: function() {
             var self = this;
+            this.throttleUnits = Units.TRANSFER_SPEED;
             this.peersPromise = this.application.peeringService.list().then(function(peers) {
                 return self.peers = peers;
             });
@@ -39,7 +33,7 @@ exports.ReplicationArgs = Component.specialize(/** @lends ReplicationArgs# */ {
             if (!this.object || this.object.length != 4) {
                 argsInitializationPromise = this.peersPromise.then(function() {
                     var replicationOptions = {};
-                    
+
                     if (self.peers.length > 0) {
                         replicationOptions.peer = self.peers[0].id;
                     }

@@ -82,7 +82,7 @@ export class SectionRoute extends AbstractRoute {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: parentContext,
-                path: parentContext.path + '/section-settings/_/' + encodeURIComponent(sectionId)
+                path: parentContext.path + '/settings/_/' + encodeURIComponent(sectionId)
             };
         return Promise.all([
             this.modelDescriptorService.getUiDescriptorForType(objectType)

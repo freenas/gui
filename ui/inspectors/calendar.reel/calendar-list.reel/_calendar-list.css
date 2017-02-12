@@ -21,10 +21,10 @@
 
 .CalendarList-emptyState-content {
     display: inline-block;
-    border: 1px solid #bb8e00;
+    border: 1px solid var(--yellow-orange);
     padding: .45em 1em .55em;
     border-radius: 4px;
     margin-top: 1em;
-    color: #fff;
+    color: var(--white);
 }
 

@@ -13,16 +13,6 @@
                 "selectedObject": {"<->": "@services.selectedObject"}
             }
         },
-        "overview": {
-            "prototype": "./services-category-overview.reel",
-            "properties": {
-                "element": {"#": "overview"}
-            },
-            "bindings": {
-                "object": {"<-": "@owner.object"},
-                "services": {"<-": "@owner.categoryServices"}
-            }
-        },
         "controller": {
             "prototype": "montage/core/range-controller",
             "properties": {
@@ -37,24 +27,28 @@
             "properties": {
                 "element": {"#": "services"},
                 "controller": {"@": "controller"}
+            },
+            "bindings": {
+                "isLoading": {"<-": "!@owner.categoryServices || @owner.categoryServices.length == 0"}
             }
         },
-        "scrollview": {
-            "prototype": "blue-shark/ui/scrollview.reel",
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
             "properties": {
-                "element": {"#": "scrollview"},
-                "hasFixedFooter": false,
-                "overflow": "scrollY"
+                "element": {"#": "inspector"},
+                "hasFixedFooter": false
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"}
             }
         }
     }
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="Share">
-        <div data-montage-id="overview"></div>
-        <div data-montage-id="scrollview">
-            <div data-montage-id="services"></div>
+    <div data-montage-id="owner" class="ServicesCategory">
+        <div data-montage-id="inspector">
+            <div data-montage-id="services" class="g-margin--subtract"></div>
         </div>
     </div>
 </body>

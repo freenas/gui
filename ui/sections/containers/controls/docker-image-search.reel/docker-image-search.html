@@ -36,7 +36,7 @@
                 "columns":  [
                     {
                         "value": "name",
-                        "path": "name"
+                        "path": "label"
                     },
                     {
                         "value": "description",
@@ -49,7 +49,7 @@
                 ]
             },
             "bindings": {
-                "rows": {"<-": "@owner._templates.sorted{name}"},
+                "rows": {"<-": "@owner._templates.sorted{label}"},
                 "isLoading": {"<-": "@owner._isSearchingDockerImages"}
             }
         }

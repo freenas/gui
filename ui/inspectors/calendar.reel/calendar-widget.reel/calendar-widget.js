@@ -26,7 +26,7 @@ exports.CalendarWidget = Component.specialize({
 
     enterDocument: {
         value: function() {
-            this.currentView = "month";
+            this.currentView = "day";
         }
     },
 

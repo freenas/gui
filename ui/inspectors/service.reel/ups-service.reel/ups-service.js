@@ -1,11 +1,13 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     ServiceUpsShutdownmode = require("core/model/enumerations/service-ups-shutdownmode").ServiceUpsShutdownmode,
-    ServiceUpsMode = require("core/model/enumerations/service-ups-mode").ServiceUpsMode;
+    ServiceUpsMode = require("core/model/enumerations/service-ups-mode").ServiceUpsMode,
+    Units = require('core/Units');
 
 exports.UpsService = AbstractInspector.specialize({
-    templateDidLoad: {
+    _inspectorTemplateDidLoad: {
         value: function () {
             var self = this;
+            this.timerUnits = Units.SECONDS;
             this.modeOptions = ServiceUpsMode.members.map(function (x) {
                 return {
                     label: x,
@@ -18,7 +20,7 @@ exports.UpsService = AbstractInspector.specialize({
                     value: x
                 };
             });
-            Promise.all([
+            return Promise.all([
                 this.application.powerManagementService.listDrivers(),
                 this.application.powerManagementService.listUsbDevices()
             ]).spread(function(drivers, usbDevices) {

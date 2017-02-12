@@ -24,7 +24,7 @@ export class VmRepository extends AbstractRepository<Vm> {
     private vmGuestInfo: Map<string, Map<string, any>>;
     private vmConfig: Map<string, any>;
 
-    public readonly DEVICE_TYPE = VmDeviceType;
+    public readonly DEVICE_TYPE: VmDeviceType = (_.omit(VmDeviceType, '_montage_metadata') as VmDeviceType);
 
     public DATASTORE_TYPE = {
         NFS: 'nfs'

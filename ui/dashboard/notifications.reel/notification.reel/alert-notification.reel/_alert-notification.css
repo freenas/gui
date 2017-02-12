@@ -10,6 +10,6 @@
 
 /* alert Levels */
 
-.AlertNotification.has-info:before     { background-color: #BB8E00; }
-.AlertNotification.has-warning:before  { background-color: #D95B1B; }
-.AlertNotification.has-critical:before { background-color: #E0003A; }
+.AlertNotification.has-info:before     { background-color: var(--yellow-orange); }
+.AlertNotification.has-warning:before  { background-color: var(--orange); }
+.AlertNotification.has-critical:before { background-color: var(--red); }

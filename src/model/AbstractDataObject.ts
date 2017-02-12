@@ -2,6 +2,7 @@ export abstract class AbstractDataObject {
     public id: string;
     public _isNew: boolean;
     public _objectType: string;
+    public _tmpId: string;
 
     private static className: string;
     private static eventNames: ModelEventName;

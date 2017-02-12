@@ -85,31 +85,14 @@
             }
         },
 
-        "memoryValidator": {
-            "prototype": "core/converter/validator/minimum-bytes-validator",
-            "properties": {
-                "allowDecimal": false,
-                "errorMessage": "Memory must be a positive integer size at least 1MiB.",
-                "minPrefix": "M",
-                "minValue": 1
-            }
-        },
-
-        "memoryConverter": {
-            "prototype": "core/converter/string-to-integer-or-null-converter",
-            "properties": {
-                "validator": {"@": "memoryValidator"}
-            }
-        },
-
         "memoryLimit": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-number-unit.reel",
             "properties": {
                 "element": {"#": "memoryLimit"},
-                "converter": {"@": "memoryConverter"},
                 "label": "Memory Limit"
             },
             "bindings": {
+                "units": {"<-": "@owner.memoryUnits"},
                 "value": {"<->": "@owner.object.memory_limit"}
             }
         },
@@ -152,7 +135,8 @@
                 "label": "Expose Ports"
             },
             "bindings": {
-                "checked": {"<->": "!!@owner.object.expose_ports"}
+                "checked": {"<->": "!!@owner.object.expose_ports"},
+                "disabled": {"<-": "@owner.currentTemplate.immutable.has('expose_ports')"}
             }
         },
 
@@ -163,7 +147,8 @@
                 "label": "Command"
             },
             "bindings": {
-                "value": {"<-": "@owner.currentTemplate.command.join(' ')"}
+                "value": {"<-": "@owner.currentTemplate.command.join(' ')"},
+                "disabled": {"<-": "@owner.currentTemplate.immutable.has('command')"}
             }
         },
 
@@ -195,7 +180,8 @@
             },
             "bindings": {
                 "inspector": {"<-": "@inspector"},
-                "values": {"<-": "@owner.currentTemplate.ports.map{{ host_port: host_port, container_port: container_port, protocol: protocol }}"}
+                "values": {"<-": "@owner.currentTemplate.ports.map{{ host_port: host_port, container_port: container_port, protocol: protocol }}"},
+                "disabled": {"<-": "@owner.currentTemplate.immutable.has('ports')"}
             }
         },
 
@@ -217,7 +203,8 @@
                 "label": "Interactive"
             },
             "bindings": {
-                "checked": {"<->": "@owner.object.interactive"}
+                "checked": {"<->": "@owner.object.interactive"},
+                "disabled": {"<-": "@owner.currentTemplate.immutable.has('interactive')"}
             }
         },
 
@@ -228,7 +215,8 @@
                 "label": "Privileged"
             },
             "bindings": {
-                "checked": {"<->": "@owner.object.privileged"}
+                "checked": {"<->": "@owner.object.privileged"},
+                "disabled": {"<-": "@owner.currentTemplate.immutable.has('privileged')"}
             }
         },
 
@@ -239,7 +227,8 @@
                 "label": "Bridged"
             },
             "bindings": {
-                "checked": {"<->": "@owner.object.bridge.enable"}
+                "checked": {"<->": "@owner.object.bridge.enable"},
+                "disabled": {"<-": "@owner.currentTemplate.immutable.has('bridge.enable')"}
             }
         },
 
@@ -264,7 +253,8 @@
             },
             "bindings": {
                 "checked": {"<->": "@owner.object.bridge.dhcp"},
-                "classList.has('hide')": {"<-": "!@owner.object.bridge.enable"}
+                "classList.has('hide')": {"<-": "!@owner.object.bridge.enable"},
+                "disabled": {"<-": "@owner.currentTemplate.immutable.has('bridge.dhcp')"}
             }
         },
 
@@ -287,7 +277,8 @@
                 "label": "Start at Boot"
             },
             "bindings": {
-                "checked": {"<->": "@owner.object.autostart"}
+                "checked": {"<->": "@owner.object.autostart"},
+                "disabled": {"<-": "@owner.currentTemplate.immutable.has('autostart')"}
             }
         },
 
@@ -301,6 +292,18 @@
             },
             "bindings": {
                 "classList.has('hide')": {"<-": "!@owner.object.image"}
+            }
+        },
+
+        "networks": {
+            "prototype": "blue-shark/ui/field-select-multiple.reel",
+            "properties": {
+                "element": {"#": "networks"},
+                "label": "Networks"
+            },
+            "bindings": {
+                "options": {"<-": "@owner._networks.map{{ label: name, value: id }}"},
+                "selectedValues": {"<->": "@owner.object.networks"}
             }
         }
 
@@ -332,6 +335,7 @@
                 <div data-montage-id="bridgeMacAddress"></div>
                 <div data-montage-id="command"></div>
                 <div data-montage-id="autostart"></div>
+                <div data-montage-id="networks"></div>
             </div>
         </div>
     </div>

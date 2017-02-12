@@ -4,15 +4,10 @@
     @apply --flex-column;
 }
 
-.AvailableDisks-header {
-    height: 4em;
-    padding: .75em 1em;
-    background-color: rgba(255,255,255,.1);
-    color: #B1BCBE;
-
-    & p {
-        margin-bottom: 0;
-    }
+.AvailableDisks-header.Panel {
+    margin: .5rem;
+    width: auto;
+    display: flex;
 }
 
 .AvailableDisks-category {
@@ -23,7 +18,7 @@
 /* edits to remove offsets for lack of padding*/
 
 .AvailableDisks .FoldableSection {
-    margin: 0;
+    margin:  0;
     padding: 0;
 
     & .InspectorSectionTitle-text {

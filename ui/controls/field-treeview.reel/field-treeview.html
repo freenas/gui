@@ -44,7 +44,7 @@
             "bindings": {
                 "placeholder": {"<-" : "@owner.placeholder || 'none'"},
                 "disabled": {"<-": "@owner.disabled || @owner.readOnly || @owner.isExpanded || !!@owner.isNotTypable"},
-                "value": {"<-": "!@owner.selectedPath ? '' : (@owner.selectedPath + (!!@owner.suffix ? '/' + @owner.suffix : '')).replace(@owner.removePrefix || '', '')"},
+                "value": {"<-": "!@owner.selectedPath ? '' : (@owner.selectedPath + (!@owner._ignoreSuffix && !!@owner.suffix ? '/' + @owner.suffix : '')).replace(@owner.removePrefix || '', '')"},
                 "delegate": {"<-": "@owner.pathInputDelegate"}
             }
         },

@@ -1,6 +1,6 @@
 .ScrollviewFooterWrapper .InspectorFooter {
-    background: #242628;
-    border-top: 1px solid rgba(255,255,255,.2);
+    background: var(--primary--7);
+    border-top: 1px solid var(--transparent--lighten);
 }
 
 .InspectorFooter {

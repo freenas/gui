@@ -128,13 +128,13 @@
             }
         },
         "shutdown_timer": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-number-unit.reel",
             "properties": {
                 "element": {"#": "shutdown_timer"},
-                "label": "Shutdown Timer",
-                "converter": {"@": "upsTimerConverter"}
+                "label": "Shutdown Timer"
             },
             "bindings": {
+                "units": {"<-": "@owner.timerUnits"},
                 "value": {"<->": "@owner.object.shutdown_timer"}
             }
         },

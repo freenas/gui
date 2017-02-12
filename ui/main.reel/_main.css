@@ -21,12 +21,6 @@
     flex: 1;
     display: flex;
     background-size: cover;
-    background-image:
-        radial-gradient(
-            circle farthest-corner at center -5%,
-            rgba(255, 255, 255, .1),
-            rgba(0, 0, 0, .1)
-        );
 }
 
 .Main-substitution,
@@ -35,15 +29,8 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-    background-color: #15171B;
+    background-color: var(--primary--9);
     background-size: cover, 310px 310px;
-    background-image:
-        radial-gradient(
-            circle farthest-corner at center -5%,
-            rgba(255, 255, 255, .1),
-            rgba(0, 0, 0, .05)
-        ),
-        url(../../assets/images/bg.png);
 }
 
 .SignInModal.montage-Overlay--visible {

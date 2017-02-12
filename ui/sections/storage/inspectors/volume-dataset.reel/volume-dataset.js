@@ -119,7 +119,6 @@ exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# *
             } else if (this.object.type === "VOLUME") {
                 this.object.permissions = undefined;
             }
-            this._sectionService.convertVolumeDatasetSizeProperties(this.object);
 
             return this.inspector.save.apply(this.inspector, this.object._recursive ? [this.object._recursive] : []);
         }

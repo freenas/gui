@@ -1,6 +1,7 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
-    ModelEventName = require("core/model-event-name").ModelEventName;
+    ModelEventName = require("core/model-event-name").ModelEventName,
+    Units = require('core/Units'),
     _ = require("lodash");
 
 exports.VirtualMachine = AbstractInspector.specialize({
@@ -33,6 +34,7 @@ exports.VirtualMachine = AbstractInspector.specialize({
 
     _inspectorTemplateDidLoad: {
         value: function() {
+            this.memoryUnits = Units.MEGABYTE_SIZES;
             this.DEFAULT_STRING = this._sectionService.DEFAULT_STRING;
             this.guestTypeOptions = this._sectionService.GUEST_TYPES;
             this.bootloaderOptions = this._sectionService.BOOTLOADERS;
@@ -82,7 +84,9 @@ exports.VirtualMachine = AbstractInspector.specialize({
                 self._sectionService.initializeVm(self.object);
                 self.addPathChangeListener("object._bootDevice", self, "_handleBootDeviceChange");
                 self.addPathChangeListener("object._selectedTemplate", self, "_handleTemplateChange");
-                self._getGuestInfo();
+                if (!self.object._isNew) {
+                    self._getGuestInfo();
+                }
                 self._finishLoading();
             });
 
@@ -202,8 +206,8 @@ exports.VirtualMachine = AbstractInspector.specialize({
         value: function() {
             var self = this;
             return Promise.all([
-                this._sectionService.listVolumes().then(function(volumes) {
-                    self.volumes = volumes;
+                this._sectionService.listDatastores().then(function(datastores) {
+                    self.datastores = datastores;
                 }),
                 this._sectionService.listTemplates().then(function(templates) {
                     self.templates = templates.map(function(x) {
@@ -233,7 +237,7 @@ exports.VirtualMachine = AbstractInspector.specialize({
 
     _handleChange: {
         value: function(state) {
-            this._sectionService.mergeVm(this.object, state.toJS());
+            _.assign(this.object, state.toJS());
         }
     }
 

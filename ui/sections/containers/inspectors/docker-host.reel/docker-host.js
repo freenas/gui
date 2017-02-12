@@ -1,13 +1,13 @@
-/**
- * @module ui/docker-host.reel
- */
-var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    Units = require('core/Units');
 
-/**
- * @class DockerHost
- * @extends Component
- */
 exports.DockerHost = AbstractInspector.specialize({
+    _inspectorTemplateDidLoad: {
+        value: function() {
+            this.memoryUnits = Units.MEGABYTE_SIZES;
+        }
+    },
+
     enterDocument: {
         value: function(isFirstTime) {
             var self = this;

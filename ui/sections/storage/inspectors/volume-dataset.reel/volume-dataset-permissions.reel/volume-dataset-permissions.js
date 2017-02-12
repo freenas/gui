@@ -3,7 +3,8 @@
  */
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     Model = require("core/model/model").Model,
-    UnixPermissionsConverter = require("core/converter/unix-permissions-converter").UnixPermissionsConverter;
+    UnixPermissionsConverter = require("core/converter/unix-permissions-converter").UnixPermissionsConverter,
+    VolumeDatasetPermissionstype = require('core/model/enumerations/volume-dataset-permissionstype').VolumeDatasetPermissionstype;
 
 /**
  * @class VolumeDatasetPermissions
@@ -64,6 +65,7 @@ exports.VolumeDatasetPermissions = AbstractInspector.specialize(/** @lends Volum
             //Preload data before entering in the dom, in order to avoid graphic glitches
             this._loadUsersIfNeeded();
             this._loadGroupsIfNeeded();
+            this._permissionsTypeOptions = VolumeDatasetPermissionstype.members;
         }
     },
 

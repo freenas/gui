@@ -3,19 +3,22 @@ import { saveObject } from './save-object';
 import { deleteObject } from './delete-object';
 import { importObjects } from './import-objects';
 import { saveStream } from './save-stream';
+import { renameObject } from './rename-object';
 
 export const ACTIONS =  {
     SAVE_OBJECT: 'SAVE_OBJECT',
     SAVE_STREAM: 'SAVE_STREAM',
     DELETE_OBJECT: 'DELETE_OBJECT',
-    IMPORT_OBJECTS: 'IMPORT_OBJECTS'
+    IMPORT_OBJECTS: 'IMPORT_OBJECTS',
+    RENAME_OBJECT: 'RENAME_OBJECT'
 };
 
 const ACTIONS_MAPPING: immutable.Map<string, Function> = immutable.Map<string, Function>({
     SAVE_OBJECT: saveObject,
     SAVE_STREAM: saveStream,
     DELETE_OBJECT: deleteObject,
-    IMPORT_OBJECTS: importObjects
+    IMPORT_OBJECTS: importObjects,
+    RENAME_OBJECT: renameObject
 });
 
 export function dispatchAction(previousState, action) {

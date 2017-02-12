@@ -52,59 +52,52 @@
                 "selectedValue": {"<->": "@owner.atime"}
             }
         },
-        "sizeConverter": {
-            "prototype": "core/converter/validation-only-converter"
-        },
         "quota": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-number-unit.reel",
             "properties": {
                 "element": {"#": "quota"},
-                "label": "Quota",
-                "converter": {"@": "sizeConverter"},
-                "placeholder": "eg. 100GB"
+                "label": "Quota"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.properties.quota.value"},
-                "enabled": {"<-": "@advancedSection.isExpanded"}
+                "units": {"<-": "@owner.sizeUnits"},
+                "value": {"<->": "@owner.object.properties.quota.parsed"},
+                "disabled": {"<-": "!@advancedSection.isExpanded"}
             }
         },
         "refquota": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-number-unit.reel",
             "properties": {
                 "element": {"#": "refquota"},
-                "label": "Refquota",
-                "converter": {"@": "sizeConverter"},
-                "placeholder": "eg. 100GB"
+                "label": "Refquota"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.properties.refquota.value"},
-                "enabled": {"<-": "@advancedSection.isExpanded"}
+                "units": {"<-": "@owner.sizeUnits"},
+                "value": {"<->": "@owner.object.properties.refquota.parsed"},
+                "disabled": {"<-": "!@advancedSection.isExpanded"}
             }
         },
         "reservation": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-number-unit.reel",
             "properties": {
                 "element": {"#": "reservation"},
-                "label": "Reservation",
-                "converter": {"@": "sizeConverter"},
-                "placeholder": "eg. 100GB"
+                "label": "Reservation"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.properties.reservation.value"},
-                "enabled": {"<-": "@advancedSection.isExpanded"}
+                "units": {"<-": "@owner.sizeUnits"},
+                "value": {"<->": "@owner.object.properties.reservation.parsed"},
+                "disabled": {"<-": "!@advancedSection.isExpanded"}
             }
         },
         "refreservation": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-number-unit.reel",
             "properties": {
                 "element": {"#": "refreservation"},
-                "label": "Refreservation",
-                "converter": {"@": "sizeConverter"},
-                "placeholder": "eg. 100GB"
+                "label": "Refreservation"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.properties.refreservation.value"},
-                "enabled": {"<-": "@advancedSection.isExpanded"}
+                "units": {"<-": "@owner.sizeUnits"},
+                "value": {"<->": "@owner.object.properties.refreservation.parsed"},
+                "disabled": {"<-": "!@advancedSection.isExpanded"}
             }
         },
         "advancedSection": {
@@ -118,13 +111,13 @@
             }
         },
         "volsize": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-number-unit.reel",
             "properties": {
                 "element": {"#": "volsize"},
-                "label": "Size",
-                "converter": {"@": "sizeConverter"}
+                "label": "Size"
             },
             "bindings": {
+                "units": {"<-": "@owner.sizeUnits"},
                 "value": {"<->": "@owner.object.volsize"}
             }
         },
@@ -149,12 +142,15 @@
             }
         },
         "volblocksizeDisplay": {
-            "prototype": "blue-shark/ui/field-text.reel",
+            "prototype": "blue-shark/ui/field-number-unit.reel",
             "properties": {
                 "element": {"#": "volblocksizeDisplay"},
-                "label": "Block Size"
+                "label": "Block Size",
+                "isReadOnly": true,
+                "readOnlyFormat": "0 b"
             },
             "bindings": {
+                "units": {"<-": "@owner.sizeUnits"},
                 "value": {"<-": "@owner.object.properties.volblocksize.parsed"}
             }
         },

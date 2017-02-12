@@ -1,6 +1,6 @@
 .CronJob {
     width: 22em !important;
-    background-color: #2F3233;
+    background-color: var(--grey);
 }
 
 .CronJob .ScrollviewContent {

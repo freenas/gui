@@ -9,6 +9,6 @@
 .LabeledIcon-title {
 
     @nest .selected & {
-        color: #fff;
+        color: var(--white);
     }
 }

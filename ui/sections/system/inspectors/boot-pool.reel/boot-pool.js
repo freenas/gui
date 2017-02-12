@@ -4,21 +4,27 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
     ModelEventName = require("core/model-event-name").ModelEventName,
     DataObjectChangeService = require("core/service/data-object-change-service").DataObjectChangeService,
     _ = require('lodash');
-    
+
 exports.BootPool = AbstractInspector.specialize(/** @lends BootPool# */ {
 
     _blockingTaskId: {
         value: 0
     },
 
+    _inspectorTemplateDidLoad: {
+        value: function() {
+            this._bootEnvironmentService = this.application.bootEnvironmentService;
+            this._systemService = this.application.systemService;
+            this._eventDispatcherService = EventDispatcherService.getInstance();
+            this._dataObjectChangeService = new DataObjectChangeService();
+            return this._populateComponentIfNeeded();
+        }
+    },
+
     enterDocument: {
         value: function (isFirstTime) {
 
             if (isFirstTime) {
-                this._bootEnvironmentService = this.application.bootEnvironmentService;
-                this._systemService = this.application.systemService;
-                this._eventDispatcherService = EventDispatcherService.getInstance();
-                this._dataObjectChangeService = new DataObjectChangeService();
                 this._subscribeToEventListeners();
             }
 
@@ -84,7 +90,7 @@ exports.BootPool = AbstractInspector.specialize(/** @lends BootPool# */ {
     _populateComponentIfNeeded: {
         value: function () {
             if (!this._populatingPromise && (!this.bootEnvironments || !this.bootVolume)) {
-                this._populatingPromise = Promise.all([
+                return this._populatingPromise = Promise.all([
                     this._bootEnvironmentService.list(),
                     this._bootEnvironmentService.getBootVolumeConfig(),
                     this._sectionService.listDisks()
@@ -93,7 +99,7 @@ exports.BootPool = AbstractInspector.specialize(/** @lends BootPool# */ {
                     this.bootVolume = data[1];
                     this._bootDisks = this._sectionService.listBootDisks();
                     this._extractAvailableDisks(this._sectionService.listAvailableDisks());
-                    this._populatingPromise = null;
+                    return this._populatingPromise = null;
                 });
             }
         }

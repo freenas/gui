@@ -2,7 +2,7 @@
     "root": {
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
-            "nameExpression": "'Pull a Image'",
+            "nameExpression": "'Pull an image'",
             "inspectorComponentModule": {"%": "ui/sections/containers/inspectors/docker-image-pull.reel"}
         }
     }

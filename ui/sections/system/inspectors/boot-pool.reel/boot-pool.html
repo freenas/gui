@@ -55,10 +55,10 @@
             "properties": {
                 "element": {"#": "bootVolumeSize"},
                 "label": "Capacity",
-                "converter": {"@": "bytesSizeConverter"}
+                "value": "{value, 0 b}"
             },
             "bindings": {
-                "value": {"<-": "@owner.bootVolume.properties.size.rawvalue"}
+                "args": {"<-": "!!@owner.bootVolume.properties.size.parsed ? {value: @owner.bootVolume.properties.size.parsed} : {value: 0}"}
             }
         },
         "bootVolumeUsed": {
@@ -66,10 +66,10 @@
             "properties": {
                 "element": {"#": "bootVolumeUsed"},
                 "label": "Space Used",
-                "converter": {"@": "bytesSizeConverter"}
+                "value": "{value, 0 b}"
             },
             "bindings": {
-                "value": {"<-": "@owner.bootVolume.properties.allocated.rawvalue"}
+                "args": {"<-": "!!@owner.bootVolume.properties.allocated.parsed ? {value: @owner.bootVolume.properties.allocated.parsed} : {value: 0}"}
             }
         },
         "bootVolumeCapacityUsed": {

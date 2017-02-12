@@ -34,12 +34,13 @@
         },
 
         "capacity": {
-            "prototype": "../size-cell.reel",
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
-                "element": {"#": "capacity"}
+                "element": {"#": "capacity"},
+                "value": "{value, 0 b}"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.mediasize"},
+                "args": {"<-": "!!@owner.object.mediasize ? {value: @owner.object.mediasize} : {value: 0}"},
                 "classList.has('hide')": {"<-": "!@owner.selectedPath"}
             }
         },

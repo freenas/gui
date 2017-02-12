@@ -16,6 +16,13 @@
                 "selectedSsd": {"<->": "@ssdsCategory.selectedDisk.0"}
             }
         },
+        "info": {
+            "prototype": "blue-shark/ui/panel.reel",
+            "properties": {
+                "element": {"#": "info"},
+                "message": "Drag disks to the left to add"
+            }
+        },
         "hddsCategory": {
             "prototype": "./disks-category.reel",
             "properties": {
@@ -47,22 +54,13 @@
                 "controller": {"<-": "@owner.controller"},
                 "isExpanded": {"<-": "!@owner.locked && disks.length > 0"}
             }
-        },
-        "label": {
-            "prototype": "blue-shark/ui/text.reel",
-            "properties": {
-                "element": {"#": "label"},
-                "value": "Drag disks to areas on the left"
-            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="AvailableDisks">
-        <div class="AvailableDisks-header">
-            <p data-montage-id="label"></p>
-        </div>
+        <div data-montage-id="info" class="AvailableDisks-header"></div>
         <div data-montage-id="hddsCategory" class="AvailableDisks-category"></div>
         <div data-montage-id="ssdsCategory" class="AvailableDisks-category"></div>
     </div>

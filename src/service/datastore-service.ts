@@ -192,6 +192,17 @@ export class DatastoreService {
         });
     }
 
+    public rename(type, oldId: string, newId: string) {
+        this.store.dispatch({
+            type: ACTIONS.RENAME_OBJECT,
+            meta: {
+                type: type,
+                id: oldId
+            },
+            payload: newId
+        });
+    }
+
     public getState(): Map<string, Map<string, Map<string, any>>> {
         return this.store.getState();
     }
@@ -201,19 +212,31 @@ export class DatastoreService {
             ids = args.ids,
             entities = args.entities,
             operation = args.operation;
-        if (operation === 'create' || operation === 'update') {
-            let id, entity;
-            for (let i = 0; i < ids.length; i++) {
-                id = ids[i];
-                entity = entities[i];
-                if (entity) {
-                    this.save(type, id, entity);
+        switch (operation) {
+            case 'create':
+            case 'update':
+                let id, entity;
+                for (let i = 0; i < ids.length; i++) {
+                    id = ids[i];
+                    entity = entities[i];
+                    if (entity) {
+                        this.save(type, id, entity);
+                    }
                 }
-            }
-        } else if (operation === 'delete') {
-            for (let id of ids) {
-                this.delete(type, id);
-            }
+                break;
+            case 'delete':
+                for (let id of ids) {
+                    this.delete(type, id);
+                }
+                break;
+            case 'rename':
+                for (let id of ids) {
+                    this.rename(type, id[0], id[1]);
+                }
+                break;
+            default:
+                console.log('Unknown operation: "' + operation + '"');
+                break;
         }
     }
 

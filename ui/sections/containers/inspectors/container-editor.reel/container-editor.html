@@ -329,6 +329,19 @@
             }
         },
 
+        "networks": {
+            "prototype": "blue-shark/ui/field-select-multiple.reel",
+            "properties": {
+                "element": {"#": "networks"},
+                "label": "Networks",
+                "disabled": true
+            },
+            "bindings": {
+                "options": {"<-": "@owner._networks.filter{@owner.object.networks.has(id)}.map{{ label: name, value: id }}"},
+                "classList.has('is-hidden')": {"<-": "!@owner.object.networks || @owner.object.networks.length == 0"}
+            }
+        },
+
         "logs": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
@@ -389,6 +402,7 @@
             <div data-montage-id="bridged"></div>
             <div data-montage-id="bridgeAddress"></div>
             <div data-montage-id="bridgeMacAddress"></div>
+            <div data-montage-id="networks"></div>
             <div data-montage-id="logs"></div>
             <div data-montage-id="readme"></div>
         </div>

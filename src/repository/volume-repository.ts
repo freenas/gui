@@ -46,6 +46,7 @@ import {VolumeDatasetPropertyDedup} from '../model/VolumeDatasetPropertyDedup';
 import {VolumeDatasetPropertyCompression} from '../model/VolumeDatasetPropertyCompression';
 import {VolumeDatasetPropertyVolblocksize} from '../model/VolumeDatasetPropertyVolblocksize';
 import {VolumeProvidersPresence} from '../model/enumerations/VolumeProvidersPresence';
+import {SubmittedTask} from '../model/SubmittedTask';
 
 export class VolumeRepository extends AbstractRepository<Volume> {
     private static instance: VolumeRepository;
@@ -172,7 +173,7 @@ export class VolumeRepository extends AbstractRepository<Volume> {
         return this.volumeVdevRecommendationsDao.get();
     }
 
-    public createVolume(volume: any, password?: string): Promise<void> {
+    public createVolume(volume: any, password?: string): Promise<SubmittedTask> {
         volume.topology = this.cleanupTopology(volume.topology);
         return this.volumeDao.save(volume, [password]);
     }
@@ -253,6 +254,10 @@ export class VolumeRepository extends AbstractRepository<Volume> {
         return this.volumeDao.importDisk(disk, path, fsType)
             .then((task) => task.taskPromise)
             .then(() => this.findDetachedVolumes());
+    }
+
+    public importShares(volumeId) {
+        return this.volumeDao.importShares(volumeId);
     }
 
     public updateVolumeTopology(volume: Volume, topology: ZfsTopology) {

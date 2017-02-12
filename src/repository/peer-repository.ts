@@ -15,7 +15,7 @@ export class PeerRepository extends AbstractRepository {
             label: 'Freenas',
             credentials: {
                 objectType: 'FreenasCredentials',
-                type: 'freenas-credentials'
+                type: 'FreenasCredentials'
             }
         },
         SSH: {
@@ -23,7 +23,7 @@ export class PeerRepository extends AbstractRepository {
             label: 'ssh',
             credentials: {
                 objectType: 'SshCredentials',
-                type: 'ssh-credentials'
+                type: 'SshCredentials'
             }
         },
         VMWARE: {
@@ -31,7 +31,7 @@ export class PeerRepository extends AbstractRepository {
             label: 'VMware',
             credentials: {
                 objectType: 'VmwareCredentials',
-                type: 'vmware-credentials'
+                type: 'VmwareCredentials'
             }
         },
         AMAZON_S3: {
@@ -39,7 +39,7 @@ export class PeerRepository extends AbstractRepository {
             label: 'Amazon S3',
             credentials: {
                 objectType: 'AmazonS3Credentials',
-                type: 'amazon-s3-credentials'
+                type: 'AmazonS3Credentials'
             }
         }
     };

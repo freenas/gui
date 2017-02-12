@@ -1,13 +1,13 @@
 var AbstractShareInspector = require("../abstract-share-inspector").AbstractShareInspector,
     ShareIscsiRpm = require("core/model/enumerations/share-iscsi-rpm").ShareIscsiRpm,
     ShareIscsiBlocksize = require("core/model/enumerations/share-iscsi-blocksize").ShareIscsiBlocksize,
+    Units = require('core/Units'),
     _ = require("lodash");
 
-/**
- * @class IscsiShare
- * @extends Component
- */
 exports.IscsiShare = AbstractShareInspector.specialize({
+    sizeUnits: {
+        value: null
+    },
 
     _iscsiRpm: {
         value: null
@@ -36,6 +36,7 @@ exports.IscsiShare = AbstractShareInspector.specialize({
 
     templateDidLoad: {
         value: function () {
+            this.sizeUnits = Units.BYTE_SIZES;
             this._sectionService.listNetworkInterfaces().then(function(networkInterfaces) {
                 self.networkInterfacesAliases = networkInterfaces;
             });
@@ -72,7 +73,6 @@ exports.IscsiShare = AbstractShareInspector.specialize({
                 this._object.__extent = this._object.__extent || {};
                 if (!this._object._isNew && !this._isTargetNameSelected) {
                     this._populateIscsiTargets();
-                    this._convertExtentSize();
                 }
             }
         }
@@ -174,14 +174,6 @@ exports.IscsiShare = AbstractShareInspector.specialize({
                     }
                 }
             });
-        }
-    },
-
-    _convertExtentSize: {
-        value: function () {
-            if (this.object.properties && typeof this.object.properties.size === "number") {
-                this.object.properties.size = this.application.bytesService.convertSizeToString(this.object.properties.size, this.application.bytesService.UNITS.B);
-            }
         }
     }
 

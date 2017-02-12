@@ -1,10 +1,8 @@
-.List {}
-
 .List-item + .List-item > * {
     border-top-color: transparent;
 }
 
-.List-options {
-    height: 2em;
-    background: red;
+.List-spinner {
+    height: 4rem;
+    margin: 2rem 0;
 }

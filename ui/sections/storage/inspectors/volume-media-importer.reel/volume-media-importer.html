@@ -9,6 +9,16 @@
                 "element": {"#": "owner"}
             }
         },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "canDelete": false,
+                "canRevert": false,
+                "canSave": false,
+                "title": "Import media in volume"
+            }
+        },
         "filesystemTreeController": {
             "prototype": "core/controller/tree/filesystem-tree-controller",
             "properties": {
@@ -74,15 +84,17 @@
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="VolumeMediaImporter g-margin">
-        <div data-montage-id="importableDisks"></div>
-        <div class="flex-row flex-justifyContent--end g-margin-bottom--double g-margin-top--subtract-half">
-            <div data-montage-id="refreshMedia"></div>
-        </div>
-        <div data-montage-id="mapMediaPath"></div>
-        <div data-montage-id="mediaFsType"></div>
-        <div class="flex-row flex-justifyContent--end">
-            <div data-montage-id="importMedia" class="Button--primary"></div>
+    <div data-montage-id="owner" class="VolumeMediaImporter">
+        <div data-montage-id="inspector">
+            <div data-montage-id="importableDisks"></div>
+            <div class="flex-row flex-justifyContent--end g-margin-bottom--double g-margin-top--subtract-half">
+                <div data-montage-id="refreshMedia"></div>
+            </div>
+            <div data-montage-id="mapMediaPath"></div>
+            <div data-montage-id="mediaFsType"></div>
+            <div class="flex-row flex-justifyContent--end">
+                <div data-montage-id="importMedia" class="Button--primary"></div>
+            </div>
         </div>
     </div>
 </body>

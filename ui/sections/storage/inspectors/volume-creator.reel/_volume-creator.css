@@ -36,9 +36,9 @@
     right: 0;
     /* magic number tied to inspector margin */
     width: 12.3em;
-    background-color: #2F3233;
+    background-color: var(--primary--6);
     overflow: hidden;
-    border-left: 2px solid #232629;
+    border-left: 2px solid var(--primary);
 }
 
 .VolumeCreator .FieldPassword-input {

@@ -38,17 +38,17 @@
     position: absolute;
     width:  2rem;
     height: 2rem;
-    background: #E0003A;
+    background: var(--red);
     border-radius: 50%;
     padding: .5rem;
-    color: #fff;
-    box-shadow: 0 2px 2px 1px rgba(0,0,0,.3);
+    color: var(--white);
+    box-shadow: 0 2px 2px 1px var(--shadow-1);
     visibility: hidden;
     transform: scale(0);
     transition: transform .25s ease-in-out, visibility .25s ease-in-out;
 
     &:hover {
-        background: color(#E0003A lightness(40%));
+        background: color(var(--red) lightness(40%));
     }
 
     @nest .Main.drawer-is-open & {

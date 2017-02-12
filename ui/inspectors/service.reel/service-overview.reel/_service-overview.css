@@ -2,7 +2,7 @@
     display: flex;
     margin-top: 0;
     margin-bottom: 1em;
-    border-bottom: 1px solid rgba(255,255,255,.15);
+    border-bottom: 1px solid var(--transparent--lighten);
 }
 
 .ServiceOverview-icon {
@@ -14,7 +14,7 @@
 }
 
 .ServiceOverview-icon svg {
-    color: #ccc;
+    color: var(--grey-2);
     width: 100%;
 }
 

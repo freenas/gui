@@ -5,18 +5,18 @@
     margin: -1em;
     margin-bottom: 1em;
     padding: 1em;
-    border-bottom: 1px solid rgba(255,255,255,.15);
-    background: #232629;
-    color: #e6e6e6;
+    border-bottom: 1px solid var(--transparent--lighten);
+    background-color: var(--grey-blue);
+    color: var(--main-text-color);
 }
 
 .ShareOverview-iconContainer {
-    text-align: center;
-    margin-right: 1em;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-align: center;
+    margin-right: 1em;
 }
 
 .ShareOverview-icon {

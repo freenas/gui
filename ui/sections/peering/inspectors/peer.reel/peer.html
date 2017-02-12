@@ -8,8 +8,8 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
-                "inspector": {"@": "inspector"}
-
+                "inspector": {"@": "inspector"},
+                "credentials": {"@": "credentials"}
             },
             "listeners": [
                 {
@@ -40,7 +40,8 @@
             "bindings": {
                 "context": {"<-": "@owner.context"},
                 "isConfirmationVisible": {"<-": "@owner.isConfirmationVisible"},
-                "confirmationMessage": {"<-": "'Are you sure you want to delete ' + @owner.object.var + '?'"}
+                "confirmationMessage": {"<-": "'Are you sure you want to delete ' + @owner.object.var + '?'"},
+                "isSaveDisabled": {"<-": "@owner.credentials.component.shouldDisableSave.defined() && @owner.credentials.component.shouldDisableSave"}
             }
         },
         "credentials": {
@@ -54,12 +55,13 @@
             }
         },
         "healthCheck":{
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-number-unit.reel",
             "properties": {
                 "element": {"#": "healthCheck"},
                 "label": "Health Check Interval"
             },
             "bindings": {
+                "units": {"<-": "@owner.intervalUnits"},
                 "value": {"<-": "@owner.object.health_check_interval"}
             }
         }

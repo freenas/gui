@@ -82,7 +82,7 @@
             },
             "bindings": {
                 "value": {"<->": "@owner.object._ipAddress.address"},
-                "disabled": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp"},
+                "readonly": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp"},
                 "placeholder": {"<-": "!@owner.object.dhcp ? 'eg. 1.2.3.4' : ''"}
             }
         },
@@ -98,8 +98,18 @@
             },
             "bindings": {
                 "value": {"<->": "@owner.object._ipAddress.netmask"},
-                "disabled": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp"},
-                "placeholder": {"<-": "!@owner.object.dhcp ? 'eg. 255.255.255.0' : ''"}
+                "readonly": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp"},
+                "placeholder": {"<-": "!@owner.object.dhcp ? '255.255.255.0' : ''"}
+            }
+        },
+        "v6disabled": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "v6disabled"},
+                "label": "IPv6 Disabled"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.noipv6"}
             }
         },
         "ipv6_address_validator": {
@@ -121,7 +131,7 @@
             },
             "bindings": {
                 "value": {"<->": "@owner.object._ipv6Address.address"},
-                "disabled": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp || @owner.object.rtadv"},
+                "readonly": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp || @owner.object.rtadv"},
                 "placeholder": {"<-": "!@owner.object.rtadv ? 'eg. fda8:06c3:ce53:a890:0000:0000:0000:0005' : ''"}
             }
         },
@@ -148,8 +158,19 @@
             },
             "bindings": {
                 "value": {"<->": "@owner.object._ipv6Address.netmask"},
-                "disabled": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp || @owner.object.rtadv"},
-                "placeholder": {"<-": "!@owner.object.rtadv ? 'eg. 64' : ''"}
+                "readonly": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp || @owner.object.rtadv"},
+                "placeholder": {"<-": "!@owner.object.rtadv ? '64' : ''"}
+            }
+        },
+        "linkAddress": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "linkAddress"},
+                "label": "MAC Address"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.status.link_address"},
+                "classList.has('hide')": {"<-": "@owner.object._isNew"}
             }
         },
         "dhcp": {
@@ -283,8 +304,10 @@
             <div data-montage-id="description"></div>
             <div data-montage-id="address"></div>
             <div data-montage-id="netmask"></div>
+            <div data-montage-id="v6disabled"></div>
             <div data-montage-id="v6address"></div>
             <div data-montage-id="v6netmask"></div>
+            <div data-montage-id="linkAddress"></div>
             <div data-montage-id="dhcp"></div>
             <div data-montage-id="rtadv"></div>
             <div data-montage-id="mtu"></div>

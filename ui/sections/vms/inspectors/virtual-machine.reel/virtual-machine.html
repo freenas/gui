@@ -86,7 +86,8 @@
                 "colorMapping": {"HEALTHY" : "green", "DYING": "yellow", "DEAD" : "red", "UNKNOWN": "grey"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.status ? @owner.object.status.health : 'UNKNOWN'"}
+                "value": {"<-": "@owner.object.status ? @owner.object.status.health : 'UNKNOWN'"},
+                "isHidden": {"<-": "@owner.object._isNew"} 
             }
         },
         "guestHealthStatusLabel": {
@@ -94,6 +95,9 @@
             "properties": {
                 "element": {"#": "guestHealthStatusLabel"},
                 "value": "Guest Health"
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "@owner.object._isNew"}
             }
         },
         "vmTemplateSubstitution": {
@@ -200,7 +204,7 @@
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.object.target"},
-                "options": {"<-": "[{label: @owner.DEFAULT_STRING, value: null}].concat(@owner.volumes.map{{label: id, value: id}})"}
+                "options": {"<-": "[{label: @owner.DEFAULT_STRING, value: null}].concat(@owner.datastores.map{{label: name + ' (' + type + ')', value: id}})"}
             }
         },
         "description": {
@@ -237,30 +241,15 @@
                 "value": {"<->": "@owner.object.config.ncpus"}
             }
         },
-        "memoryValidator": {
-            "prototype": "core/converter/validator/minimum-bytes-validator",
-            "properties": {
-                "allowDecimal": false,
-                "errorMessage": "Memory must be a positive integer size at least 1MiB.",
-                "minPrefix": "M",
-                "minValue": 1
-            }
-        },
-        "memoryConverter": {
-            "prototype": "core/converter/validation-only-converter",
-            "properties": {
-                "validator": {"@": "memoryValidator"}
-            }
-        },
         "memory": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-number-unit.reel",
             "properties": {
                 "element": {"#": "memory"},
-                "label": "Memory",
-                "converter": {"@": "memoryConverter"}
+                "label": "Memory"
             },
             "bindings": {
-                "value": {"<->": "@owner.object._memory"}
+                "units": {"<-": "@owner.memoryUnits"},
+                "value": {"<->": "@owner.object.config.memsize"}
             }
         },
         "autostart": {
@@ -397,7 +386,7 @@
                 "path": "clones"
             },
             "bindings": {
-                "classList.has('hide')": {"<-": "!!@owner.object.parent"}
+                "classList.has('hide')": {"<-": "!!@owner.object.parent || @owner.object._isNew"}
             }
         },
         "start": {

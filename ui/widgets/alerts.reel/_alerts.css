@@ -2,7 +2,7 @@
     & .Widget { height: 19rem;}
 }
 
-.Notifications-icon { color: #2F3233 !important; }
+.Notifications-icon { color: var(--grey) !important; }
 
 .Notifications-title { flex: 1; }
 
@@ -13,6 +13,6 @@
     padding: .5em 0;
 
     &:hover {
-        color: color(#929E9F lightness(80%));
+        color: color(var(--grey-1) lightness(80%));
     }
 }

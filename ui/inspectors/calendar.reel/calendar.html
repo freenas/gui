@@ -44,11 +44,13 @@
                 "value": {"<-": "'GMT' + @owner.object._gmtOffset"}
             }
         },
-        "scrollview": {
-            "prototype": "blue-shark/ui/scrollview.reel",
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
             "properties": {
-                "element": {"#": "scrollview"},
-                "overflow": "scrollY"
+                "element": {"#": "inspector"}
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"}
             }
         }
     }
@@ -56,7 +58,7 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Calendar">
-        <div data-montage-id="scrollview" class="Calendar-scrollview">
+        <div data-montage-id="inspector">
             <div class="Calendar-wrapper">
                 <div data-montage-id="calendarWidget" class="Calendar-calendarWidget"></div>
                 <div class="Calendar-events">

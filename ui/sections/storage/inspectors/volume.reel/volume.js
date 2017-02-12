@@ -146,5 +146,11 @@ exports.Volume = AbstractInspector.specialize({
         value: function () {
             this._sectionService.upgradeVolume(this.object);
         }
+    },
+
+    handleImportSharesAction: {
+        value: function () {
+            this._sectionService.importShares(this.object._stableId);
+        }
     }
 });

@@ -101,41 +101,30 @@ export class AccountsSectionService extends AbstractSectionService {
     }
 
     protected loadEntries() {
-        let self = this;
+        let self = this,
+            users = [],
+            groups = [],
+            system = [],
+            directoryServices = {};
+        (users as any)._objectType = 'User';
+        (users as any)._order = 0;
+        (groups as any)._objectType = 'Group';
+        (groups as any)._order = 1;
+        (system as any)._objectType = 'AccountSystem';
+        (system as any)._order = 2;
+        (directoryServices as any)._objectType = 'DirectoryServices';
+        (directoryServices as any)._order = 3;
         this.entries = [
-            [],
-            [],
-            [],
-            []
+            users,
+            groups,
+            system,
+            directoryServices
         ];
-        return this.entriesPromise = Promise.all([
-            self.accountRepository.loadUsers(),
-            self.accountRepository.loadGroups(),
-            self.accountRepository.getNewDirectoryServices(),
-        ]).spread(function (allUsers: Array<any>, allGroups: Array<any>, directoryServices: any) {
-            let users = allUsers.filter((x) => !x.builtin),
-                groups = allGroups.filter((x) => !x.builtin),
-                system = allUsers.filter((x) => x.builtin).concat(allGroups.filter((x) => x.builtin));
-            (users as any)._objectType = 'User';
-            (users as any)._order = 0;
-            (groups as any)._objectType = 'Group';
-            (groups as any)._order = 1;
-            (system as any)._objectType = 'AccountSystem';
-            (system as any)._order = 2;
-            directoryServices._objectType = 'DirectoryServices';
-            directoryServices._order = 3;
-            let entries = [
-                users,
-                groups,
-                system,
-                directoryServices
-            ];
-            (entries as any)._objectType = 'AccountCategory';
-            self.entriesTitle = 'Accounts';
-
-            self.updateOverview(entries);
-            return entries;
-        });
+        (this.entries as any)._objectType = 'AccountCategory';
+        self.accountRepository.loadUsers();
+        self.accountRepository.loadGroups();
+        self.accountRepository.getNewDirectoryServices();
+        return Promise.resolve(this.entries);
     }
 
     protected loadExtraEntries() {
@@ -182,7 +171,7 @@ export class AccountsSectionService extends AbstractSectionService {
             } else {
                 entry = user.toJS();
                 (entry as any)._objectType = objectType;
-                entries.push(entry)
+                entries.push(entry);
             }
         });
         for (let i = entries.length - 1; i >= 0; i--) {

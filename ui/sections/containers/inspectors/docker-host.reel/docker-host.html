@@ -85,32 +85,15 @@
             }
         },
 
-        "memoryValidator": {
-            "prototype": "core/converter/validator/minimum-bytes-validator",
-            "properties": {
-                "allowDecimal": false,
-                "errorMessage": "Memory must be a positive integer size at least 1MiB.",
-                "minPrefix": "M",
-                "minValue": 1
-            }
-        },
-
-        "memoryConverter": {
-            "prototype": "core/converter/validation-only-converter",
-            "properties": {
-                "validator": {"@": "memoryValidator"}
-            }
-        },
-
         "memory": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-number-unit.reel",
             "properties": {
                 "element": {"#": "memory"},
-                "label": "Memory",
-                "converter": {"@": "memoryConverter"}
+                "label": "Memory"
             },
             "bindings": {
-                "value": {"<->": "@owner.object._memory"}
+                "units": {"<-": "@owner.memoryUnits"},
+                "value": {"<->": "@owner.object.config.memsize"}
             }
         },
 
@@ -218,11 +201,11 @@
             }
         },
 
-        "kill": {
+        "shutdown": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
-                "element": {"#": "kill"},
-                "value": "Kill"
+                "element": {"#": "shutdown"},
+                "value": "Shutdown"
             },
             "bindings": {
                 "disabled": {"<-": "@owner.object.state == 'DOWN'"}
@@ -262,8 +245,8 @@
                     <div data-montage-id="start" data-arg="DOWN"></div>
                     <div data-montage-id="stop" data-arg="UP"></div>
                 </span>
+                <div data-montage-id="shutdown"></div>
                 <div data-montage-id="reboot"></div>
-                <div data-montage-id="kill"></div>
                 <div data-montage-id="serialConsole"></div>
             </div>
             <div data-montage-id="name"></div>
