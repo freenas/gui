@@ -4,6 +4,9 @@ import {SystemRepository} from '../../repository/system-repository';
 import {NetworkInterfaceAliasType} from '../../model/enumerations/NetworkInterfaceAliasType';
 import {NetworkInterfaceType} from '../../model/enumerations/NetworkInterfaceType';
 import * as _ from 'lodash';
+import {NetworkInterfaceRepository} from '../../repository/NetworkInterfaceRepository';
+import {ModelEventName} from '../../model-event-name';
+import {Map} from 'immutable';
 
 export class NetworkSectionService extends AbstractSectionService {
 
@@ -13,17 +16,22 @@ export class NetworkSectionService extends AbstractSectionService {
     public readonly IPV6_DEFAULT_NETMASK = 64;
 
     private networkRepository: NetworkRepository;
+    private networkInterfaceRepository: NetworkInterfaceRepository;
     private systemRepository: SystemRepository;
 
     private ipmiServicesPromise: Promise<any>;
 
     protected init() {
         this.networkRepository = NetworkRepository.getInstance();
+        this.networkInterfaceRepository = NetworkInterfaceRepository.getInstance();
         this.systemRepository = SystemRepository.getInstance();
     }
 
     protected loadEntries() {
-        return this.networkRepository.listNetworkInterfaces();
+        return this.networkInterfaceRepository.list().then(entries => {
+            this.eventDispatcherService.addEventListener(ModelEventName.NetworkInterface.listChange, this.handleEntriesChange.bind(this));
+            return entries;
+        });
     }
 
     protected loadExtraEntries() {
@@ -66,7 +74,7 @@ export class NetworkSectionService extends AbstractSectionService {
     }
 
     public getNewInterfaceWithType(interfaceType: any) {
-        return this.networkRepository.getNewInterfaceWithType(interfaceType);
+        return this.networkInterfaceRepository.getNewInterfaceWithType(interfaceType);
     }
 
     public initializeInterface(networkInterface: any) {
@@ -101,7 +109,7 @@ export class NetworkSectionService extends AbstractSectionService {
     }
 
     public getNewNetworkInterface() {
-        return this.networkRepository.getNewNetworkInterface();
+        return this.networkInterfaceRepository.getNewInstance();
     }
 
     public handleDhcpChangeOnInterface(networkInterface: any) {
@@ -120,7 +128,7 @@ export class NetworkSectionService extends AbstractSectionService {
         if (networkInterface.type === NetworkInterfaceType.VLAN) {
             this.cleanupVlanInterface(networkInterface);
         }
-        return this.networkRepository.saveNetworkInterface(networkInterface);
+        return this.networkInterfaceRepository.save(networkInterface);
     }
 
     public loadStaticRoutes() {
@@ -156,21 +164,9 @@ export class NetworkSectionService extends AbstractSectionService {
     }
 
     public renewLease() {
-        let self = this,
-            promises, i,
-            networkInterface;
-
-        return this.networkRepository.listNetworkInterfaces().then(interfaces => {
-            promises = [];
-
-            for (i = 0; i < interfaces.length; i++) {
-                networkInterface = interfaces[i];
-                if (networkInterface.dhcp) {
-                    promises.push(networkInterface.services.renew(networkInterface.id));
-                }
-            }
-
-            return Promise.all(promises);
+        return this.networkInterfaceRepository.list().then(interfaces => {
+            return Promise.all(
+                _.compact(_.map(interfaces, nic => nic.dhcp ? this.networkInterfaceRepository.renew(nic) : null)));
         });
     }
 
@@ -233,4 +229,7 @@ export class NetworkSectionService extends AbstractSectionService {
         return this.networkRepository.isIpmiLoaded();
     }
 
+    private handleEntriesChange(state: Map<string, Map<string, any>>) {
+        this.dataObjectChangeService.handleDataChange(this.entries, state);
+    }
 }

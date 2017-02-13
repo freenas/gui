@@ -2,18 +2,23 @@ import * as _ from 'lodash';
 import {NetworkRepository} from '../repository/network-repository';
 import {AbstractRoute} from './abstract-route';
 import {Model} from '../model';
+import {NetworkInterfaceRepository} from '../repository/NetworkInterfaceRepository';
 
 export class NetworkRoute extends AbstractRoute {
     private static instance: NetworkRoute;
 
-    private constructor(private networkRepository: NetworkRepository) {
+    private constructor(
+        private networkRepository: NetworkRepository,
+        private networkInterfaceRepository: NetworkInterfaceRepository
+    ) {
         super();
     }
 
     public static getInstance() {
         if (!NetworkRoute.instance) {
             NetworkRoute.instance = new NetworkRoute(
-                NetworkRepository.getInstance()
+                NetworkRepository.getInstance(),
+                NetworkInterfaceRepository.getInstance()
             );
         }
         return NetworkRoute.instance;
@@ -54,7 +59,7 @@ export class NetworkRoute extends AbstractRoute {
                 path: parentContext.path + '/create'
             };
         return Promise.all([
-            Promise.map(_.values(NetworkRepository.INTERFACE_TYPES), type => this.networkRepository.getNewInterfaceWithType(type)),
+            Promise.map(_.values(NetworkRepository.INTERFACE_TYPES), type => this.networkInterfaceRepository.getNewInterfaceWithType(type)),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(interfaces: any, uiDescriptor) {
             interfaces._objectType = objectType;

@@ -1,9 +1,11 @@
 import {SectionRepository} from '../../repository/section-repository';
 import {EventDispatcherService} from '../event-dispatcher-service';
+import {DataObjectChangeService} from '../data-object-change-service';
 
 export abstract class AbstractSectionService {
     private static readonly sectionRepository: SectionRepository = SectionRepository.getInstance();
     protected eventDispatcherService: EventDispatcherService;
+    protected dataObjectChangeService: DataObjectChangeService;
     public instanciationPromise: Promise<AbstractSectionService>;
     public section: any;
     public entries: Array<any>;
@@ -11,6 +13,7 @@ export abstract class AbstractSectionService {
     public overview: any;
 
     public constructor() {
+        this.dataObjectChangeService = new DataObjectChangeService();
         this.eventDispatcherService = EventDispatcherService.getInstance();
         let self = this,
             initReturn = this.init();

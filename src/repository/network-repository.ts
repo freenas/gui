@@ -77,6 +77,7 @@ export class NetworkRepository extends AbstractRepository {
         return this.networkInterfaceDao.getNewInstance();
     }
 
+/*
     public getNewInterfaceWithType(interfaceType) {
         return Promise.all([
             this.networkInterfaceDao.getNewInstance(),
@@ -94,6 +95,7 @@ export class NetworkRepository extends AbstractRepository {
         });
     }
 
+*/
     public listNetworkStaticRoutes() {
         return this.networkRouteDao.list();
     }
