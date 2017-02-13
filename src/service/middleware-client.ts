@@ -11,8 +11,10 @@ export class MiddlewareClient {
     private REQUEST_TIMEOUT = 90000;
 
     private static readonly FILE_READER_DONE = 2;
+    private static readonly BUFSIZE = 1048576;
     private static readonly WEBSOCKET_CLOSE_NORMAL = 1000;
     private static readonly UNKNOWN_CONNECTION_STATUS = 99;
+
 
     private static readonly CONNECTING = 'CONNECTING';
     private static readonly OPEN = 'OPEN';
@@ -199,22 +201,20 @@ export class MiddlewareClient {
     }
 
     private sendFileWithToken(file: File, token: string) {
-        let self = this,
-            connection = new WebSocket(MiddlewareClient.getRootURL('ws') + '/dispatcher/file'),
-            BUFSIZE = 1024;
+        let connection = new WebSocket(MiddlewareClient.getRootURL('ws') + '/dispatcher/file');
 
         connection.onopen = function () {
-            let filePos = 0;
             connection.send(JSON.stringify({token: token}));
-
-
-            while (filePos + BUFSIZE <= file.size) {
-                self.sendChunkOnConnection(connection, file, filePos, filePos + BUFSIZE);
-                filePos = filePos + BUFSIZE;
-            }
-
-            if (filePos < file.size) {
-                self.sendChunkOnConnection(connection, file, filePos, file.size);
+        };
+        connection.onmessage = (event) => {
+            let message = JSON.parse(event.data),
+                filePos = 0;
+            if (message.status === "ok") {
+                console.log("Fileconnection authenticated for upload");
+                this.sendChunkOnConnection(
+                    connection, file, filePos, filePos + MiddlewareClient.BUFSIZE
+                );
+                connection.onmessage = (event) => this.handleMessage(event, this.url);
             }
         };
     }
@@ -224,15 +224,25 @@ export class MiddlewareClient {
         stop = stop || file.size;
         let reader = new FileReader();
 
-        reader.onloadend = function (event) {
-            let target = event.target;
+        if (stop > file.size) {
+            stop = file.size;
+        }
 
-            if ((target as any).readyState === MiddlewareClient.FILE_READER_DONE) {
-                connection.send((target as any).result);
+        reader.onloadend = (event: any) => {
+            let target: any = event.target;
 
-                if (stop === file.size) {
-                    connection.send('');
-                }
+            if (target.readyState === MiddlewareClient.FILE_READER_DONE) {
+                connection.send(target.result);
+
+                if ( stop == file.size ) {
+                    connection.send(JSON.stringify({'done': true}));
+                } else if ( stop + MiddlewareClient.BUFSIZE < file.size ) {
+                    this.sendChunkOnConnection(
+                        connection, file, stop, stop + MiddlewareClient.BUFSIZE
+                    );
+                } else {
+                    this.sendChunkOnConnection(connection, file, stop, file.size);
+                };
             }
         };
 
