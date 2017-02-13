@@ -19,7 +19,7 @@ exports.DockerImageSearch = Component.specialize(/** @lends DockerImageSearch# *
     },
 
     dockerImagesPromise: {
-        set (promise) {
+        set: (promise) {
             if (promise && Promise.is(promise)) {
                 var self = this;
                 this._isSearchingDockerImages = true;
