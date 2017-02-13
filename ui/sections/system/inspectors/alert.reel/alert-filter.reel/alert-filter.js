@@ -30,14 +30,14 @@ exports.AlertFilter = AbstractInspector.specialize(/** @lends AlertFilter# */ {
 
     exitDocument: {
         value: function() {
-            this._eventDispatcherService.removeEventListener(ModelEventName.AlertFilter.listChange, this.availableCertsEventListener);
+            this._eventDispatcherService.removeEventListener(ModelEventName.AlertFilter.listChange, this.alertFiltersEventListener);
         }
     },
 
     enterDocument: {
         value: function (isFirstTime){
             this.super(isFirstTime);
-            this.availableCertsEventListener = this._eventDispatcherService.addEventListener(ModelEventName.CryptoCertificate.listChange, this._handleChange.bind(this));
+            this.alertFiltersEventListener = this._eventDispatcherService.addEventListener(ModelEventName.AlertFilter.listChange, this._handleChange.bind(this));
         }
     }
 });
