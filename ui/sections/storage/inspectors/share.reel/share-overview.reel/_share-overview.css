@@ -1,6 +1,9 @@
 .ShareOverview {
     height: 5rem;
     display: flex;
+    flex-shrink: 0;
+    margin-top: 0;
+    padding-bottom: 1em;
     margin: -1em;
     margin-bottom: 1em;
     padding: 1em;
