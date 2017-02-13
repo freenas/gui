@@ -33,10 +33,6 @@
         padding: 1rem;
         padding-bottom: 0;
     }
-
-    & .ListItem {
-        margin: 0 -1em;
-    }
 }
 
 
