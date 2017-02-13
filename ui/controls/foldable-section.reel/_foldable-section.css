@@ -1,7 +1,6 @@
 .FoldableSection {
     overflow: hidden;
     position: relative;
-    margin: 0 -1em;
     margin-bottom: 1em;
 
     &:focus {
@@ -89,7 +88,6 @@ title
 .FoldableSection-content {
     display: none;
     transition: height .3s ease-in-out;
-    padding: 0 1em;
 }
 
 /*

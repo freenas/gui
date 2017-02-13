@@ -156,7 +156,7 @@ exports.CascadingListItem = Component.specialize({
                 if (!this.content._element.clientWidth) {
                     this.needsDraw = true;
                 } else {
-                    this.cascadingList.scrollView.scrollIntoView(false);
+                    this.cascadingList.scrollView.scrollIntoView(this.element);
                     this.needToScrollIntoView = false;
                 }
             }

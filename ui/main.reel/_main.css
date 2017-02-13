@@ -20,17 +20,14 @@
 .Main-content {
     flex: 1;
     display: flex;
-    background-size: cover;
 }
 
-.Main-substitution,
-.Main-cascadingListWrapper {
+.Main-substitution {
     position: relative;
     display: flex;
     flex-direction: column;
     flex: 1;
     background-color: var(--primary--9);
-    background-size: cover, 310px 310px;
 }
 
 .SignInModal.montage-Overlay--visible {

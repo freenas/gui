@@ -1,6 +1,7 @@
 .CascadingListItem {
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
     position: relative;
     border-right: 1px solid var(--separator-color);
     background-color: var(--primary--7);
@@ -14,7 +15,6 @@
     flex-shrink: 0;
     justify-content: space-between;
     height:  calc(3rem - 1px);
-    /* font-size: 1.25rem; */
     padding: 0 1rem;
     background-color: var(--primary);
     border-bottom: 1px solid var(--separator-color);
@@ -68,7 +68,7 @@
 /* Help */
 
 .CascadingListItem-help {
-    display: flex;
+    display: none;
     flex-direction: column;
     height: 0;
     background-color: color(var(--blue) a(5%));

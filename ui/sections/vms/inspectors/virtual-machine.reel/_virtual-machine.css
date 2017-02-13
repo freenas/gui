@@ -3,6 +3,7 @@
 .VirtualMachine-actions {
     display: none;
     margin-bottom: 1em;
+    flex-shrink: 0;
 
     /* adds spacing for buttons */
     & > *:not(:first-child) {
@@ -10,6 +11,4 @@
     }
 }
 
-.VirtualMachine.has-actions .VirtualMachine-actions {
-    display: flex;
-}
+.VirtualMachine.has-actions .VirtualMachine-actions { display: flex; }

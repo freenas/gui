@@ -44,13 +44,6 @@
                 "context": {"<-": "@owner.data"}
             }
         },
-        "scrollview": {
-            "prototype": "blue-shark/ui/scrollview.reel",
-            "properties": {
-                "element": {"#": "scrollview"},
-                "overflow": "scrollY"
-            }
-        },
         "helpLabel": {
             "prototype": "blue-shark/ui/text.reel",
             "properties": {
@@ -73,11 +66,9 @@
 <body>
     <div data-montage-id="owner" class="CascadingListItem">
         <div class="CascadingListItem-help">
-            <div data-montage-id="scrollview">
-                <div class="CascadingListItem-help-message">
-                    <h5 data-montage-id="helpLabel"></h5>
-                    <div data-montage-id="helpMessage"></div>
-                </div>
+            <div class="CascadingListItem-help-message">
+                <h5 data-montage-id="helpLabel"></h5>
+                <div data-montage-id="helpMessage"></div>
             </div>
         </div>
         <div data-montage-id="loading" class="CascadingListItem-spinner"></div>
