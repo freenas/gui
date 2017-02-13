@@ -1,5 +1,6 @@
 .CascadingList {
     display: flex;
+    min-width: 0;
 }
 
 .CascadingList-repetition {
