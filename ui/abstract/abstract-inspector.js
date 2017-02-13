@@ -62,6 +62,8 @@ exports.AbstractInspector = AbstractComponentActionDelegate.specialize({
                     self.isLoading = false;
                     self._canDrawGate.setField(self.constructor.ABSTRACT_DRAW_GATE_FIELD, true);
                 });
+            } else {
+                this.isLoading = false;
             }
         }
     },

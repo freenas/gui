@@ -14,6 +14,7 @@ exports.Debug = Component.specialize({
                 this.application.systemService.getAdvanced().then(function(consoleData) {
                     self.object = consoleData;
                     self._snapshotDataObjectsIfNecessary();
+                    self.isLoading = false;
                 });
             }
         }
