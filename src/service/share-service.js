@@ -39,7 +39,7 @@ var ShareService = exports.ShareService = Montage.specialize({
 
     createIscsiShare: {
         value: function (volume) {
-            return this._createNewShare(this.constructor.SHARE_TYPES.ISCSI, volume);
+            return this._createNewShare(this.constructor.SHARE_TYPES.AFP, volume);
         }
     },
 
@@ -57,7 +57,7 @@ var ShareService = exports.ShareService = Montage.specialize({
                 var shareTypes = this.constructor.SHARE_TYPES;
 
                 shareObject.properties = {};
-                shareObject.properties["%type"] = 'share-' + shareObject.type;
+                shareObject.properties["%type"] = 'Share' + shareObject.type;
                 populatedSharePromise = Promise.all([
                     this.shareRepository.getNewPermissions(),
                     this.shareRepository.getNewUnixPermissions()
@@ -250,11 +250,11 @@ var ShareService = exports.ShareService = Montage.specialize({
     //FIXME: could probably be an enum
     SHARE_TYPES: {
         value: {
-            AFP: "afp",
-            SMB: "smb",
-            NFS: "nfs",
-            ISCSI: "iscsi",
-            WEBDAV: "webdav"
+            AFP: "Afp",
+            SMB: "Smb",
+            NFS: "Nfs",
+            ISCSI: "Iscsi",
+            WEBDAV: "Webdav"
         }
     },
 
