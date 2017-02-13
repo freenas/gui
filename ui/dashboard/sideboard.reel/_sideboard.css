@@ -3,6 +3,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
     background-color: var(--primary--8);
     border-left: 1px solid var(--separator-color);
     width: 15em;
