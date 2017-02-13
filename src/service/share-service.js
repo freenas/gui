@@ -21,31 +21,31 @@ var ShareService = exports.ShareService = Montage.specialize({
 
     createSmbShare: {
         value: function (volume) {
-            return this._createNewShare(this.constructor.SHARE_TYPES.Smb, volume);
+            return this._createNewShare(this.constructor.SHARE_TYPES.SMB, volume);
         }
     },
 
     createAfpShare: {
         value: function (volume) {
-            return this._createNewShare(this.constructor.SHARE_TYPES.Afp, volume);
+            return this._createNewShare(this.constructor.SHARE_TYPES.AFP, volume);
         }
     },
 
     createNfsShare: {
         value: function (volume) {
-            return this._createNewShare(this.constructor.SHARE_TYPES.Nfs, volume);
+            return this._createNewShare(this.constructor.SHARE_TYPES.NFS, volume);
         }
     },
 
     createIscsiShare: {
         value: function (volume) {
-            return this._createNewShare(this.constructor.SHARE_TYPES.Iscsi, volume);
+            return this._createNewShare(this.constructor.SHARE_TYPES.AFP, volume);
         }
     },
 
     createWebdavShare: {
         value: function (volume) {
-            return this._createNewShare(this.constructor.SHARE_TYPES.Webdav, volume);
+            return this._createNewShare(this.constructor.SHARE_TYPES.WEBDAV, volume);
         }
     },
 
@@ -250,11 +250,11 @@ var ShareService = exports.ShareService = Montage.specialize({
     //FIXME: could probably be an enum
     SHARE_TYPES: {
         value: {
-            AFP: "afp",
-            SMB: "smb",
-            NFS: "nfs",
-            ISCSI: "iscsi",
-            WEBDAV: "webdav"
+            AFP: "Afp",
+            SMB: "Smb",
+            NFS: "Nfs",
+            ISCSI: "Iscsi",
+            WEBDAV: "Webdav"
         }
     },
 
