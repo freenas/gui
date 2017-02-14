@@ -133,23 +133,23 @@ exports.VmsSectionService = AbstractSectionService.specialize({
 
     loadEntries: {
         value: function() {
-            var self = this;
-            this.entries = [];
-            this.entries._objectType = 'Vm';
-            return this._vmRepository.listVms().then(function(entries) {
-                return _.assign(_.sortBy(entries, 'name' ), { _objectType: 'Vm' });
-            }).then(function(entries) {
-                return Promise.all(
-                    _.map(entries, function(entry) {
-                        entry._hasGraphicDevice = _.get(entry, 'devices').some(function (x) {
-                            return x.type === self._vmRepository.DEVICE_TYPE.GRAPHICS;
-                        });
-                        return entry;
-                    })
-                );
+            return this._vmRepository.listVms().then((entries) => {
+                return _.sortBy(entries, 'name' );
+            }).then((entries)  => {
+                return Promise.all(_.map(entries, (entry) => {
+                    entry._hasGraphicDevice = _.get(entry, 'devices').some((x) => {
+                        return x.type === this._vmRepository.DEVICE_TYPE.GRAPHICS;
+                    });
+                    return entry;
+                }));
+            }).then((entries) => {
+                entries._objectType = 'Vm';
+                this.entries = entries;
+                return entries;
             });
         }
     },
+
 
     loadExtraEntries: {
         value: function() {
@@ -470,6 +470,7 @@ exports.VmsSectionService = AbstractSectionService.specialize({
             var self = this;
             if (!this.entries) {
                 this.entries = [];
+                this._objectType = 'Vm';
             }
             _.forEach(vms.toJS(), function(vm) {
                 // DTM
