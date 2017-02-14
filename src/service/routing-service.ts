@@ -393,6 +393,8 @@ export class RoutingService {
             (volumeId) => this.replicationRoute.create(volumeId, this.currentStacks.get('storage')), 1);
         crossroads.addRoute('/storage/volume/_/{volumeId}/replication/_/{replicationId*}',
             (volumeId, replicationId) => this.replicationRoute.get(replicationId, this.currentStacks.get('storage')), 1);
+        crossroads.addRoute('/storage/volume/_/{volumeId}/encrypted-volume-actions',
+            (volumeId) => this.volumeRoute.getEncryptedVolumeActions(volumeId, this.currentStacks.get('storage')));
     }
 
     private loadSection(sectionId: string) {
