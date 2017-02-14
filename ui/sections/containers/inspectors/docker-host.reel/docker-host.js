@@ -36,7 +36,7 @@ exports.DockerHost = AbstractInspector.specialize({
         }
     },
 
-    handleKillAction: {
+    handleShutdownAction: {
         value: function() {
             this._sectionService.killDockerHost(this.object);
         }
@@ -51,7 +51,7 @@ exports.DockerHost = AbstractInspector.specialize({
     handleSerialConsoleAction: {
         value: function() {
             var self = this;
-            this._sectionService.getSerialConsoleUrl(this.object).then(function(serialConsoleUrl) {
+            this._sectionService.getSerialConsoleUrlForDockerHost(this.object).then(function(serialConsoleUrl) {
                 window.open(serialConsoleUrl, self.object.name + " Serial Console");
             });
         }
