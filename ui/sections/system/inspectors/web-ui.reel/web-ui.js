@@ -1,4 +1,7 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
+    DataObjectChangeService = require("core/service/data-object-change-service").DataObjectChangeService,
+    ModelEventName = require("core/model-event-name").ModelEventName,
     Units = require('core/Units');
     _ = require("lodash");
 
@@ -28,17 +31,24 @@ exports.WebUi = AbstractInspector.specialize({
         value: null
     },
 
+    _handleChange: {
+        value: function(state) {
+            this._dataObjectChangeService.handleDataChange(this.certificates, state);
+            // DTM
+            this.dispatchOwnPropertyChange('certificates', this.certificates);
+        }
+    },
+
     _inspectorTemplateDidLoad: {
         value: function() {
             var self = this;
+            this._eventDispatcherService = EventDispatcherService.getInstance();
+            this._dataObjectChangeService = new DataObjectChangeService();          
             this.timeUnits = Units.SECONDS;
             return Promise.all([
                 this.application.systemService.getUi().then(function(uiData) {
                     self.config = uiData;
                     self._snapshotDataObjectsIfNecessary();
-                }),
-                this._sectionService.listCertificates().then(function (certificates) {
-                    self.certificates = certificates.filter(self._isCertificate);
                 }),
                 this.application.systemService.getMyIps().then(function(ipData){
                     for (var i = 0; i < ipData.length; i++) {
@@ -97,6 +107,23 @@ exports.WebUi = AbstractInspector.specialize({
                     window.location.href = url;
                 }
             }
+        }
+    },
+
+    enterDocument: {
+        value: function (isFirstTime){
+            this.super(isFirstTime);
+            var self = this;
+            this._sectionService.listCertificates().then(function (certificates) {
+                self.certificates = certificates.filter(self._isCertificate);
+            });
+            this.availableCertsEventListener = this._eventDispatcherService.addEventListener(ModelEventName.CryptoCertificate.listChange, this._handleChange.bind(this));
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            this._eventDispatcherService.removeEventListener(ModelEventName.CryptoCertificate.listChange, this.availableCertsEventListener);
         }
     },
 
