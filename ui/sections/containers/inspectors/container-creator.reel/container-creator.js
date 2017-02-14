@@ -31,9 +31,8 @@ exports.ContainerCreator = AbstractInspector.specialize({
             if (this._object !== object) {
                 if (object) {
                     this._object = object;
-                    this._collection = object.dockerCollection;
                 } else {
-                    this._object = this._collection = null;
+                    this._object = null;
                 }
             }
         },

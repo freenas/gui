@@ -18,3 +18,7 @@
 .DockerImageSearch-table .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(3) {
     max-width: 5em;
 }
+
+.DockerImageSearch-message {
+    text-align: center;
+}

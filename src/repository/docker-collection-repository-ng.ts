@@ -1,5 +1,6 @@
 import {AbstractModelRepository} from './abstract-model-repository';
 import {DockerCollectionDao} from '../dao/docker-collection-dao';
+import * as _ from 'lodash';
 
 export class DockerCollectionRepository extends AbstractModelRepository {
     private static instance: DockerCollectionRepository;
@@ -22,7 +23,11 @@ export class DockerCollectionRepository extends AbstractModelRepository {
     }
 
     public getDockerImagesWithCollection(collection: any) {
-        return this.dockerCollectionDao.getImages(collection);
+        return this.dockerCollectionDao.getImages(collection).then(function (templates) {
+            return _.filter(templates, (template) => {
+                return _.startsWith((template as any).name, collection.name) ? template : false;
+            });
+        });
     }
 
     public listDockerCollections() {

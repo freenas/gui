@@ -60,8 +60,8 @@
                 "element": {"#": "image"}
             },
             "bindings": {
-                "_sectionService": {"<-": "@owner._sectionService"},
-                "collection": {"<-": "@owner._collection"}
+                "dockerImagesPromise": {"<-": "@owner.context.dockerImagesPromise"},
+                "collection": {"<-": "@owner.context.dockerCollection"}
             }
         },
 
