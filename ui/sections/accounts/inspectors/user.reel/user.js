@@ -1,5 +1,6 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     Model = require("core/model/model").Model,
+    _ = require("lodash"),
     Promise = require("montage/core/promise").Promise,
     Converter = require("montage/core/converter/converter").Converter,
     Validator = require("montage/core/converter/converter").Validator;
@@ -177,14 +178,14 @@ exports.User = AbstractInspector.specialize({
 exports.AdditionalGroupsConverter = Converter.specialize({
     convert: {
         value: function (groupId) {
-            return this.groupOptions.find(function(x){ return x.id === groupId; });
+            return _.find(this.groupOptions, function(x) { return x.id === groupId; });
         }
     },
 
     revert: {
         value: function (name) {
-            var newGroupValue = this.groupOptions.find(function(x) { return x.name === name; });
-            return newGroupValue ? newGroupValue.id : null;
+            var newGroupValue = _.find(this.groupOptions, function(x) { return x.name === name; });
+            return newGroupValue ? newGroupValue : null;
         }
     }
 });
@@ -192,7 +193,7 @@ exports.AdditionalGroupsConverter = Converter.specialize({
 exports.AdditionalGroupsValidator = Validator.specialize({
     validate: {
         value: function (name) {
-            return !!this.groupOptions.find(function(x) { return x.name === name; });
+            return !!_.find(this.groupOptions, function(x) { return x.name === name; });
         }
     }
 });
