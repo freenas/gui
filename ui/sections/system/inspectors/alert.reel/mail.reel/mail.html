@@ -128,21 +128,6 @@
                 "value": {"<->": "@owner.object.pass"}
             }
         },
-        "to": {
-            "prototype": "blue-shark/ui/field-multiple-select.reel",
-            "properties": {
-                "element": {"#": "to"},
-                "label": "Recipient List",
-                "labelPath": "this",
-                "isDraggable": true,
-                "inputTitle": "Add a recipient",
-                "valuesTitle": "Recipients"
-            },
-            "bindings": {
-                "values": {"<->": "@owner.object.to"},
-                "placeholder": {"<-": "!@owner.object.webui_listen ? 'eg. foo@example.com' : ''"}
-            }
-        },
         "sendTestMail": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
@@ -200,7 +185,6 @@
                 <div data-montage-id="encryption"></div>
                 <div data-montage-id="username"></div>
                 <div data-montage-id="password"></div>
-                <div data-montage-id="to"></div>
             </div>
             <div data-montage-id="testEmail" class="testEmail">
                 <div data-montage-id="send_to"></div>
