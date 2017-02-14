@@ -9,143 +9,46 @@
                 "element": {"#": "owner"}
             }
         },
-        "property": {
-            "prototype": "blue-shark/ui/select.reel",
-            "properties": {
-                "element": {"#": "property"},
-                "placeholder": "Select a type",
-                "options": [
-                    {
-                        "label": "Class",
-                        "value": "class"
-                    },
-                    {
-                        "label": "Severity",
-                        "value": "severity"
-                    }
-                ]
-            },
-            "bindings": {
-                "disabled": {"<-": "@owner.object._disabled"},
-                "selectedValue": {"<->": "@owner.object.property"}
-            }
-        },
-        "operatorSubstitution": {
-            "prototype": "montage/ui/substitution.reel",
-            "properties": {
-                "element": {"#": "operatorSubstitution"}
-            },
-            "bindings": {
-                "switchValue": {"<-": "@owner.object.property"}
-            }
-        },
-        "classOperators": {
-            "prototype": "blue-shark/ui/select.reel",
-            "properties": {
-                "element": {"#": "classOperators"},
-                "placeholder": "Select an operator",
-                "options": [
-                    {
-                        "label": "-",
-                        "value": null
-                    },
-                    {
-                        "label": "'=='",
-                        "value": "=="
-                    },
-                    {
-                        "label": "'!='",
-                        "value": "!="
-                    }
-                ]
-            },
-            "bindings": {
-                "selectedValue": {"<->": "@owner.object.operator"}
-            }
-        },
-        "severityOperators": {
-            "prototype": "blue-shark/ui/select.reel",
-            "properties": {
-                "element": {"#": "severityOperators"},
-                "placeholder": "Select an operator",
-                "options": [
-                    {
-                        "label": "-",
-                        "value": null
-                    },
-                    {
-                        "label": "equal",
-                        "value": "=="
-                    },
-                    {
-                        "label": "not equal",
-                        "value": "!="
-                    },
-                    {
-                        "label": "'>='",
-                        "value": ">="
-                    },
-                    {
-                        "label": "'<='",
-                        "value": "<="
-                    },
-                    {
-                        "label": "'>'",
-                        "value": ">"
-                    },
-                    {
-                        "label": "'<'",
-                        "value": "<"
-                    }
-                ]
-            },
-            "bindings": {
-                "selectedValue": {"<->": "@owner.object.operator"}
-            }
-        },
-        "valueSubstitution": {
-            "prototype": "montage/ui/substitution.reel",
-            "properties": {
-                "element": {"#": "valueSubstitution"}
-            },
-            "bindings": {
-                "switchValue": {"<-": "@owner.object.property"}
-            }
-        },
         "classValues": {
             "prototype": "blue-shark/ui/select.reel",
             "properties": {
                 "element": {"#": "classValues"}
             },
             "bindings": {
-                "options" : {"<-": "[{label:'ALL', value: null}].concat(@owner.classValues)"},
-                "selectedValue": {"<->": "@owner.object.value"}
+                "options" : {"<-": "@owner.classValues"},
+                "selectedValue": {"<->": "@owner.object.class"}
             }
         },
-        "severityValues": {
-            "prototype": "blue-shark/ui/select.reel",
+        "emitter": {
+            "prototype": "blue-shark/ui/text.reel",
             "properties": {
-                "element": {"#": "severityValues"}
+                "element": {"#": "emitter"},
+                "value": "Send Email"
+            }
+        },
+        "sendTo": {
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "properties": {
+                "element": {"#": "addresses"},
+                "label": "To",
+                "labelPath": "this",
+                "isDraggable": true,
+                "inputTitle": "Add a recipient",
+                "valuesTitle": "Recipients",
+                "placeholder": "eg. foo@example.com"
             },
             "bindings": {
-                "options" : {"<-": "[{label:'ALL', value: null}].concat(@owner.severityValues)"},
-                "selectedValue": {"<->": "@owner.object.value"}
-            }
+                "values": {"<->": "@owner.object.parameters.addresses"}
+            }        
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="TableRowPredicate Table-cells">
-        <div><div data-montage-id="property"></div></div>
-        <div data-montage-id="operatorSubstitution">
-            <div data-arg="class" data-montage-id="classOperators"></div>
-            <div data-arg="severity" data-montage-id="severityOperators"></div>
-        </div>
-        <div data-montage-id="valueSubstitution">
-            <div data-arg="class" data-montage-id="classValues" class="Select-value"></div>
-            <div data-arg="severity" data-montage-id="severityValues" class="Select-value"></div>
-        </div>
+        <div><div data-montage-id="classValues"></div></div>
+        <div data-montage-id="emitter"></div>
+        <div data-montage-id="addresses" class="Select-value"></div>
     </div>
 </body>
 </html>

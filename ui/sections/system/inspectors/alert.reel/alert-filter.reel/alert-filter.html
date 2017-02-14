@@ -29,18 +29,7 @@
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
-                "canSave": {"<-": "@owner.object.id != ''"},
                 "isLoading": {"<-": "@owner.isLoading"}
-            }
-        },
-        "id": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
-            "properties": {
-                "element": {"#": "id"},
-                "label": "Name"
-            },
-            "bindings": {
-                "value": {"<->": "@owner.object.id"}
             }
         },
         "table": {
@@ -49,32 +38,7 @@
                 "element": {"#": "table"}
             },
             "bindings": {
-                "rows": {"<->": "@owner.object.predicates"}
-            }
-        },
-        "send_to": {
-            "prototype": "blue-shark/ui/field-multiple-select.reel",
-            "properties": {
-                "element": {"#": "addresses"},
-                "label": "Send to",
-                "labelPath": "this",
-                "isDraggable": true,
-                "inputTitle": "Add a recipient",
-                "valuesTitle": "Recipients",
-                "placeholder": "eg. foo@example.com"
-            },
-            "bindings": {
-                "values": {"<->": "@owner.object.parameters.addresses"}
-            }
-        },
-        "info": {
-            "prototype": "blue-shark/ui/text.reel",
-            "properties": {
-                "element": {"#": "info"},
-                "value": "Alerts will only send when all predicates are true."
-            },
-            "bindings": {
-                "classList.has('hide')" : {"<-": "!@table.rows || @table.rows.length == 0"}
+                "rows": {"<->": "@owner.alertFilters"}
             }
         }
     }
@@ -83,10 +47,7 @@
 <body>
     <div data-montage-id="owner" class="AlertFilter">
         <div data-montage-id="inspector">
-            <div data-montage-id="id"></div>
             <div data-montage-id="table"></div>
-            <div data-montage-id="info" class="g-margin-bottom"></div>
-            <div data-montage-id="addresses"></div>
         </div>
     </div>
 </body>

@@ -31,9 +31,9 @@ exports.Certificates = AbstractInspector.specialize({
     },
 
     enterDocument: {
-        value: function(isFirsttime) {
-            this.super();
-            if (isFirsttime) {
+        value: function(isFirstTime) {
+            this.super(isFirstTime);
+            if (isFirstTime) {
                 this.addPathChangeListener("viewer.selectedObject", this, "_handleSelectedEntryChange");
             }
             this.availableCertsEventListener = this._eventDispatcherService.addEventListener(ModelEventName.CryptoCertificate.listChange, this._handleChange.bind(this));

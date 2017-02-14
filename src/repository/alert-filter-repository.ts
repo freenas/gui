@@ -29,7 +29,11 @@ export class AlertFilterRepository extends AbstractRepository<AlertFilter> {
     }
 
     public listAlertFilters() {
-        return this.alertFilters ? this.alertFilters.valueSeq().toJS() : this.alertFilterDao.list();
+        return this.alertFilters ? Promise.resolve(this.alertFilters.valueSeq().toJS()) : this.alertFilterDao.list();
+    }
+
+    public save(alertFilter: AlertFilter) {
+        return this.alertFilterDao.save(alertFilter);
     }
 
     protected handleStateChange(name: string, state: any) {

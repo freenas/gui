@@ -5,10 +5,14 @@ exports.TablePredicates = Component.specialize({
     tableWillUseNewEntry: {
         value: function () {
             return {
-                property: "class",
-                operator: null,
-                value: null,
-                _disabled: false
+                _isNew: true,
+                index: null,
+                class: null,
+                emitter: 'EMAIL',
+                parameters: {
+                    "%type": 'AlertEmitterEmail',
+                    "addresses": []
+                }
             }
         }
     }
