@@ -122,12 +122,14 @@ var ShareService = exports.ShareService = Montage.specialize({
         value: function (shareObject, isServiceEnabled) {
             var saveSharePromise;
 
+            // Clear up permissions
             if (shareObject.permissions) {
                 if (shareObject.permissions.modes && (shareObject.permissions_type !== 'PERM' || shareObject.target_type !== 'DATASET')) {
                     delete shareObject.permissions.modes;
                 }
                 delete shareObject.permissions.acls;
             }
+            delete shareObject.permissions_type;
 
             //FIXME: workaround for the SELECT component. Future dead code.
             if (shareObject.type === this.constructor.SHARE_TYPES.NFS) {
