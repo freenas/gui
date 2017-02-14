@@ -167,6 +167,15 @@
                 "value": {"<-": "@owner.targetType"},
                 "classList.has('hide')": {"<-": "!!@owner.object._isNew"}
             }
+        },
+        "permissions": {
+            "prototype": "./share-permissions.reel",
+            "properties": {
+                "element": {"#": "permissions"}
+            },
+            "bindings": {
+                "object": {"<->": "@owner.object"}
+            }
         }
     }
     </script>
@@ -183,6 +192,7 @@
             <div data-montage-id="target_path" class="wizard-is-hidden"></div>
             <div data-montage-id="description" class="wizard-is-hidden"></div>
             <div data-montage-id="shareTypePlaceHolder"></div>
+            <div data-montage-id="permissions"></div>
         </div>
     </div>
 </body>
