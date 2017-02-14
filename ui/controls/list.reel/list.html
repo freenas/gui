@@ -40,15 +40,14 @@
                 "showSubLabel": {"<-": "@owner.showSubLabel"}
             }
         },
-
         "loading": {
-            "prototype": "blue-shark/ui/text.reel",
+            "prototype": "blue-shark/ui/loading-message.reel",
             "properties": {
                 "element": {"#": "loading"},
-                "value": "loading data..."
+                "loadingMessage": "fetching data..."
             },
             "bindings": {
-                "classList.has('hide')": {"<-": "!@owner.isLoadingData"}
+                "isLoading": {"<-": "@owner.isLoadingData"}
             }
         }
     }
