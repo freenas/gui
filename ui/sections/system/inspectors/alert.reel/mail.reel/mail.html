@@ -128,6 +128,21 @@
                 "value": {"<->": "@owner.object.pass"}
             }
         },
+        "to": {
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "properties": {
+                "element": {"#": "to"},
+                "label": "Recipient List",
+                "labelPath": "this",
+                "isDraggable": true,
+                "inputTitle": "Add a recipient",
+                "valuesTitle": "Recipients"
+            },
+            "bindings": {
+                "values": {"<->": "@owner.object.to"},
+                "placeholder": {"<-": "!@owner.object.webui_listen ? 'eg. foo@example.com' : ''"}
+            }
+        },
         "sendTestMail": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
@@ -150,17 +165,25 @@
                 "placeholder": {"<-": "!@owner.object.webui_listen ? 'eg. foo@example.com' : ''"}
             }
         },
-        "emailRecipient": {
-            "prototype": "ui/controls/inspector-section-title.reel",
-            "properties": {
-                "element": {"#": "emailRecipient"},
-                "value": "Email Recipient"
-            }
-        },
         "testField": {
             "prototype": "blue-shark/ui/field.reel",
             "properties": {
                 "element": {"#": "testField"}
+            }
+        },
+        "emailSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "emailSection"},
+                "isExpanded": true,
+                "title": "Setup Email Emitter"
+            }
+        },
+        "testEmail": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "testEmail"},
+                "title": "Send Test Email"
             }
         }
     }
@@ -169,17 +192,21 @@
 <body>
     <div data-montage-id="owner" class="Mail">
         <div data-montage-id="inspector">
-            <div data-montage-id="from"></div>
-            <div data-montage-id="outgoing_server"></div>
-            <div data-montage-id="outgoing_port"></div>
-            <div data-montage-id="useSMTPAuth"></div>
-            <div data-montage-id="encryption"></div>
-            <div data-montage-id="username"></div>
-            <div data-montage-id="password"></div>
-            <div data-montage-id="emailRecipient"></div>
-            <div data-montage-id="send_to"></div>
-            <div data-montage-id="testField" class="g-margin-top--subtract">
-                <div data-montage-id="sendTestMail" class="Button--block"></div>
+            <div data-montage-id="emailSection" class="emailSection">
+                <div data-montage-id="from"></div>
+                <div data-montage-id="outgoing_server"></div>
+                <div data-montage-id="outgoing_port"></div>
+                <div data-montage-id="useSMTPAuth"></div>
+                <div data-montage-id="encryption"></div>
+                <div data-montage-id="username"></div>
+                <div data-montage-id="password"></div>
+                <div data-montage-id="to"></div>
+            </div>
+            <div data-montage-id="testEmail" class="testEmail">
+                <div data-montage-id="send_to"></div>
+                <div data-montage-id="testField" class="g-margin-top--subtract">
+                    <div data-montage-id="sendTestMail" class="Button--block"></div>
+                </div>
             </div>
         </div>
     </div>
