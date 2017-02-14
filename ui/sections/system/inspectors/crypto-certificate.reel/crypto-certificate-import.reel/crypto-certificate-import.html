@@ -8,6 +8,9 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "isSaveDisabled": {"<-": "(!@owner.certificateFile || !@owner.privateKeyFile)"}
             }
         },
         "certificate": {
