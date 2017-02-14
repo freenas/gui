@@ -1,12 +1,19 @@
-.ContainerReadme{
-    padding:1em !Important;
-    min-width:20em !Important;
+.ContainerReadme {
+    width:25rem !Important;
+
+    & img {
+        max-width: 100%;
+    }
+
+    & a {
+        color: var(--accent);
+
+        &:hover {
+            color: color(var(--accent) tint(25%));
+        }
+    }
 }
 
-.ContainerReadme textarea{
-    flex: 1;
-}
+.ContainerReadme textarea { flex: 1;}
 
-.ContainerReadme-ScrollView .Scrollview-transform{
-	display: block;
-}
+.ContainerReadme-ScrollView .Scrollview-transform { display: block; }
