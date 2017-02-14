@@ -153,7 +153,13 @@ export class AbstractDao<T extends AbstractDataObject> {
             );
             if (update || (args && args.length > 0)) {
                 let payload = _.concat(object._stableId ? [object._stableId, update] : [update], args);
-                return this.middlewareClient.submitTask(this.updateMethod, payload);
+                return this.middlewareClient.submitTask(this.updateMethod, payload).then(submittedTask => {
+                    this.datastoreService.saveOverlay(this.objectType, object._stableId, submittedTask.taskId, _.assign(update, {_isLocked: true}));
+                    submittedTask.taskPromise.then(() => {
+                        this.datastoreService.deleteOverlay(this.objectType, object._stableId, submittedTask.taskId);
+                    });
+                    return submittedTask;
+                });
             }
         });
     }
@@ -174,7 +180,10 @@ export class AbstractDao<T extends AbstractDataObject> {
                 methodDescriptor
             );
             if (newObject) {
-                return this.middlewareClient.submitTask(this.createMethod, _.concat([newObject], args));
+                return this.middlewareClient.submitTask(this.createMethod, _.concat([newObject], args)).then(submittedTask => {
+                    this.datastoreService.saveOverlay(this.objectType, object._stableId, submittedTask.taskId, newObject);
+                    return submittedTask;
+                });
             }
         });
     }

@@ -10,7 +10,7 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "classList.has('has-loading-spinner')": {"<-": "!!@owner._blockingTaskId"}
+                "classList.has('has-loading-spinner')": {"<-": "!!@owner._isLocked"}
             },
             "listeners": [
                 {
@@ -124,7 +124,8 @@
                 "contentMaxHeight": 8
             },
             "bindings": {
-                "rows": {"<-": "@owner.bootEnvironments.filter{active || onReboot}"}
+                "rows": {"<-": "@owner.bootEnvironments.filter{active || onReboot}"},
+                "service": {"<-": "@owner._sectionService"}
             }
         },
         "inactiveEnvironmentTable": {
@@ -135,7 +136,8 @@
                 "contentMaxHeight": 20
             },
             "bindings": {
-                "rows": {"<-": "@owner.bootEnvironments.filter{!active && !onReboot}"}
+                "rows": {"<-": "@owner.bootEnvironments.filter{!active && !onReboot}"},
+                "service": {"<-": "@owner._sectionService"}
             }
         },
         "bootVolumeTopologySection": {

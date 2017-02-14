@@ -6,6 +6,7 @@ import {AbstractDataObject} from '../model/AbstractDataObject';
 
 export abstract class AbstractRepository<T extends AbstractDataObject> {
     protected previousState: Map<string, Map<string, Map<string, any>>>;
+    protected previousOverlay: Map<string, Map<string, Map<string, any>>>;
     protected readonly eventDispatcherService = EventDispatcherService.getInstance();
     protected readonly modelDescriptorService =  ModelDescriptorService.getInstance();
 
@@ -25,27 +26,31 @@ export abstract class AbstractRepository<T extends AbstractDataObject> {
 
     private dispatchStateChange(name: string, state: any) {
         if (state.has(name)) {
-            if (!this.previousState || this.previousState.get(name) !== state.get(name)) {
+            let hasStateChanged = !this.previousState || this.previousState.get(name) !== state.get(name),
+                hasOverlayChanged = state.has('overlay') && (!this.previousOverlay || this.previousOverlay.get(name) !== state.get('overlay').get(name));
+            if (hasStateChanged || hasOverlayChanged) {
                 this.previousState = state;
-                this.handleStateChange(name, state.get(name));
+                this.previousOverlay = state.get('overlay');
+                this.handleStateChange(name, state.get(name), this.previousOverlay && this.previousOverlay.get(name));
             }
         }
     }
 
-    protected dispatchModelEvents(repositoryEntries: Map<string, Map<string, any>>, modelEventName: ModelEventName, state: any) {
+    protected dispatchModelEvents(repositoryEntries: Map<string, Map<string, any>>, modelEventName: ModelEventName, state: Map<string, Map<string, any>>, overlay?: Map<string, Map<string, any>>) {
         let self = this,
             hasListContentChanged = false;
         this.eventDispatcherService.dispatch(modelEventName.listChange, state);
-        state.forEach(function(stateEntry, id){
+        state.forEach(function(stateEntry, id) {
+            let overlaidEntry = (overlay && overlay.has(id)) ? stateEntry.mergeDeep(overlay.get(id)) : stateEntry;
             if (!repositoryEntries || !repositoryEntries.has(id)) {
-                self.eventDispatcherService.dispatch(modelEventName.add(id), stateEntry);
+                self.eventDispatcherService.dispatch(modelEventName.add(id), overlaidEntry);
                 hasListContentChanged = true;
             } else if (repositoryEntries.get(id) !== stateEntry) {
-                self.eventDispatcherService.dispatch(modelEventName.change(id), stateEntry);
+                self.eventDispatcherService.dispatch(modelEventName.change(id), overlaidEntry);
             }
         });
         if (repositoryEntries) {
-            repositoryEntries.forEach(function(repositoryEntry, id){
+            repositoryEntries.forEach(function(repositoryEntry, id) {
                 if (!state.has(id) || state.get(id) !== repositoryEntry) {
                     self.eventDispatcherService.dispatch(modelEventName.remove(id), repositoryEntry);
                     hasListContentChanged = true;
@@ -66,6 +71,6 @@ export abstract class AbstractRepository<T extends AbstractDataObject> {
         return stateEntry;
     }
 
-    protected abstract handleStateChange(name: string, state: any);
+    protected abstract handleStateChange(name: string, state: Map<string, Map<string, any>>, overlay?: Map<string, Map<string, any>>);
     protected abstract handleEvent(name: string, data: any);
 }

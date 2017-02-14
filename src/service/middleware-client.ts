@@ -165,15 +165,21 @@ export class MiddlewareClient {
     }
 
     private getTaskPromise(taskId: any): Promise<any> {
-        let self = this;
-        return new Promise(function (resolve, reject) {
-            let eventListener = self.eventDispatcherService.addEventListener(ModelEventName.Task.change(taskId), function (task) {
-                if (task.get('state') === 'FINISHED') {
-                    resolve(task.get('result'));
-                    self.eventDispatcherService.removeEventListener(ModelEventName.Task.change(taskId), eventListener);
-                } else if (task.get('state') === 'FAILED') {
-                    reject(task.get('error').toJS());
-                    self.eventDispatcherService.removeEventListener(ModelEventName.Task.change(taskId), eventListener);
+        return new Promise((resolve, reject) => {
+            let eventListener = this.eventDispatcherService.addEventListener(ModelEventName.Task.change(taskId), task => {
+                switch (task.get('state')) {
+                    case 'FINISHED':
+                        resolve(task.get('result'));
+                        this.eventDispatcherService.removeEventListener(ModelEventName.Task.change(taskId), eventListener);
+                        break;
+                    case 'FAILED':
+                        reject(task.get('error').toJS());
+                        this.eventDispatcherService.removeEventListener(ModelEventName.Task.change(taskId), eventListener);
+                        break;
+                    case 'ABORTED':
+                        reject('Aborted');
+                        this.eventDispatcherService.removeEventListener(ModelEventName.Task.change(taskId), eventListener);
+                        break;
                 }
             });
         });

@@ -10,8 +10,14 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "classList.has('has-loading-spinner')": {"<-": "!!@owner.object.promise"}
-            }
+                "classList.has('has-loading-spinner')": {"<-": "!!@owner.object._isLocked"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
         },
 
         "name": {
@@ -30,7 +36,7 @@
                 "element": {"#": "active"}
             },
             "bindings": {
-                "value": {"<-": "(@owner.object.active ? 'Current' : 'Inactive') + (@owner.object.onReboot ? ', Next Reboot' : '')"}
+                "value": {"<-": "(@owner.object.active ? 'Current' : 'Inactive') + (!!@owner.object.on_reboot ? ', Next Reboot' : '')"}
             }
         },
 

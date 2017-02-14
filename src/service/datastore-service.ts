@@ -203,6 +203,29 @@ export class DatastoreService {
         });
     }
 
+    public saveOverlay(type: string, id: any, taskId: number, payload: any) {
+        this.store.dispatch({
+            type: ACTIONS.SAVE_OVERLAY,
+            meta: {
+                type: type,
+                id: id,
+                taskId: taskId
+            },
+            payload: payload
+        });
+    }
+
+    public deleteOverlay(type: string, id: any, taskId: number) {
+        this.store.dispatch({
+            type: ACTIONS.DELETE_OVERLAY,
+            meta: {
+                type: type,
+                id: id,
+                taskId: taskId
+            }
+        });
+    }
+
     public getState(): Map<string, Map<string, Map<string, any>>> {
         return this.store.getState();
     }
