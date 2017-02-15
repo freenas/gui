@@ -9,6 +9,6 @@ export class VmGuestInfoDao extends AbstractDao<VmGuestInfo> {
     }
 
     public getGuestInfo(vm: any): Promise<any> {
-        return this.middlewareClient.callRpcMethod('vm.get_guest_info', [vm.id]).then((guestInfo) => _.assign(guestInfo, {_objectType: Model.VmGuestInfo}));
+        return this.middlewareClient.callRpcMethod('vm.get_guest_info', [vm.id]).then((guestInfo) => _.assign(guestInfo, {_objectType: Model.VmGuestInfo})).catch((e) => {return null});
     }
 }

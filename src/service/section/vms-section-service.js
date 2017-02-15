@@ -135,13 +135,6 @@ exports.VmsSectionService = AbstractSectionService.specialize({
         value: function() {
             return this._vmRepository.listVms().then((entries) => {
                 return _.sortBy(entries, 'name' );
-            }).then((entries)  => {
-                return Promise.all(_.map(entries, (entry) => {
-                    entry._hasGraphicDevice = _.get(entry, 'devices').some((x) => {
-                        return x.type === this._vmRepository.DEVICE_TYPE.GRAPHICS;
-                    });
-                    return entry;
-                }));
             }).then((entries) => {
                 entries._objectType = 'Vm';
                 this.entries = entries;
@@ -149,7 +142,6 @@ exports.VmsSectionService = AbstractSectionService.specialize({
             });
         }
     },
-
 
     loadExtraEntries: {
         value: function() {

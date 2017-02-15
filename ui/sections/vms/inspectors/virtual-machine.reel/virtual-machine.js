@@ -47,22 +47,24 @@ exports.VirtualMachine = AbstractInspector.specialize({
         value: function() {
             var self = this;
             this._sectionService.getGuestInfo(self.object).then(function(guestInfo) {
-                if (guestInfo.load_avg) {
-                    self.guestInfoLoadAvg = [{
-                                                onemin: guestInfo.load_avg[0],
-                                                fivemin: guestInfo.load_avg[1],
-                                                tenmin: guestInfo.load_avg[2]
-                                            }];
-                    self.guestInfoInterfaces = _.map(
-                    _.reject(_.toPairs(guestInfo.interfaces), {0: 'lo'}),
-                    function (value, key)  {
-                        return _.map(_.reject(value[1].aliases, {af: 'LINK'}),
-                        function(alias) {
-                            return {
-                                interface: value[0], type: alias.af, address: alias.address
-                            };
-                        });
-                    })[0];
+                if (guestInfo) {
+                    if (guestInfo.load_avg) {
+                        self.guestInfoLoadAvg = [{
+                                                    onemin: guestInfo.load_avg[0],
+                                                    fivemin: guestInfo.load_avg[1],
+                                                    tenmin: guestInfo.load_avg[2]
+                                                }];
+                        self.guestInfoInterfaces = _.map(
+                        _.reject(_.toPairs(guestInfo.interfaces), {0: 'lo'}),
+                        function (value, key)  {
+                            return _.map(_.reject(value[1].aliases, {af: 'LINK'}),
+                            function(alias) {
+                                return {
+                                    interface: value[0], type: alias.af, address: alias.address
+                                };
+                            });
+                        })[0];
+                    }
                 }
             });
         }
