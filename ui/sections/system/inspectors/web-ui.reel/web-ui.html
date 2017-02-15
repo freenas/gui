@@ -140,7 +140,7 @@
                 "converter": {"@": "certificatesConverter"}
             },
             "bindings": {
-                "options": {"<-": "[{name: '-'}].concat(@owner.certificates)"},
+                "options": {"<-": "[{name: '-', id: null}].concat(@owner.certificates)"},
                 "selectedValue": {"<->": "@owner.config.webui_https_certificate"}
             }
         },
