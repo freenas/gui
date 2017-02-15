@@ -39,7 +39,7 @@ const Model = {
     Ipmi: 'Ipmi' as 'Ipmi',
     KerberosKeytab: 'KerberosKeytab' as 'KerberosKeytab',
     KerberosRealm: 'KerberosRealm' as 'KerberosRealm',
-    Mail: 'Mail' as 'Mail',
+    AlertEmitterEmail: 'AlertEmitterEmail' as 'AlertEmitterEmail',
     NetworkConfig: 'NetworkConfig' as 'NetworkConfig',
     NetworkHost: 'NetworkHost' as 'NetworkHost',
     NetworkInterface: 'NetworkInterface' as 'NetworkInterface',

@@ -13,7 +13,7 @@ var MailService = exports.MailService = Montage.specialize({
 
     sendTestMail: {
         value: function (mailMessage,mailObject) {
-            return Model.populateObjectPrototypeForType(Model.Mail).then(function(Mail){
+            return Model.populateObjectPrototypeForType(Model.AlertEmitterEmail).then(function(Mail){
                 return Mail.constructor.services.send(mailMessage,mailObject);
             });
         }
@@ -24,7 +24,7 @@ var MailService = exports.MailService = Montage.specialize({
             var mailData = {},
                 loadingPromises = [];
             loadingPromises.push(
-                this._dataService.fetchData(Model.Mail).then(function(Mail) {
+                this._dataService.fetchData(Model.AlertEmitterEmail).then(function(Mail) {
                     mailData.mail = Mail[0];
                 })
             );
