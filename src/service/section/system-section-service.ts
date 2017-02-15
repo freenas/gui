@@ -12,6 +12,7 @@ import {ReplicationRepository} from '../../repository/replication-repository';
 import {DiskRepository} from '../../repository/disk-repository';
 import {AlertFilterRepository} from '../../repository/alert-filter-repository';
 import {BootPoolRepository} from '../../repository/boot-pool-repository';
+import {PushBulletRepository} from '../../repository/push-bullet-repository';
 import {ModelEventName} from '../../model-event-name';
 import {DataObjectChangeService} from '../data-object-change-service';
 import * as Immutable from 'immutable';
@@ -36,6 +37,7 @@ export class SystemSectionService extends AbstractSectionService {
     private bootEnvironments: Array<any> = [];
     private dataObjectChangeService: DataObjectChangeService;
     private initialDiskAllocationPromise: Promise<any>;
+    private pushBulletRepository: PushBulletRepository;
 
     public readonly SELF_SIGNED = CryptoCertificateRepository.SELF_SIGNED;
     public readonly CREATION = CryptoCertificateRepository.CREATION;
@@ -56,6 +58,7 @@ export class SystemSectionService extends AbstractSectionService {
         this.bootPoolRepository = BootPoolRepository.getInstance();
         this.dataObjectChangeService = new DataObjectChangeService();
         this.alertFilterRepository = AlertFilterRepository.getInstance();
+        this.pushBulletRepository = PushBulletRepository.getInstance();
 
         this.eventDispatcherService.addEventListener(
             ModelEventName.BootEnvironment.listChange,
