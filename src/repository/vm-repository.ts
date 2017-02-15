@@ -96,7 +96,16 @@ export class VmRepository extends AbstractRepository<Vm> {
     }
 
     public listVms() {
-        return this.vms ? Promise.resolve(this.vms.valueSeq().toJS()) : this.vmDao.list();
+        var self = this;
+        let promise = this.vms ? Promise.resolve(this.vms.valueSeq().toJS()) : this.vmDao.list();
+        return promise.then((vms) => {
+            for (let vm of vms) {
+                vm._hasGraphicDevice = _.get(vm, 'devices').some(function (x) {
+                    return x.type === self.DEVICE_TYPE.GRAPHICS;
+                });
+            }
+            return vms;
+        });
     }
 
     public getVmSettings() {
