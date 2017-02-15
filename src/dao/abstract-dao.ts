@@ -47,10 +47,10 @@ export class AbstractDao<T extends AbstractDataObject> {
         this.taskDescriptorsPromise = new Map<string, Promise<any>>();
     }
 
-    public list(): Promise<Array<T>> {
+    public list(partial: boolean = false): Promise<Array<T>> {
         return (this.listPromise && !this.preventQueryCaching) ?
             this.listPromise :
-            this.listPromise = this.stream().then((stream) => {
+            this.listPromise = this.stream(partial).then((stream) => {
                 this.register();
                 let dataArray = stream.get('data').toJS();
                 dataArray._objectType = this.objectType;
@@ -59,8 +59,17 @@ export class AbstractDao<T extends AbstractDataObject> {
             });
     }
 
-    public stream(): Promise<Map<string, any>> {
-        return this.datastoreService.stream(this.objectType, this.queryMethod, this.idPath);
+    public stream(partial: boolean = false): Promise<Map<string, any>> {
+        return this.datastoreService.stream(
+            this.objectType,
+            this.queryMethod,
+            this.idPath,
+            partial
+        );
+    }
+
+    public getNextSequenceForStream (streamId) {
+        return this.datastoreService.getNextSequenceForStream(streamId);
     }
 
     public get(): Promise<T> {
@@ -75,7 +84,6 @@ export class AbstractDao<T extends AbstractDataObject> {
         });
     }
 
-    // TODO: need support for streamming responses.
     public find(criteria?: any, params?: any): Promise<any> {
         criteria = criteria || {};
         params = params || {};

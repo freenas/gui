@@ -46,11 +46,11 @@ export class DatastoreService {
         });
     }
 
-    public stream(type: string, methodName: string, idPath: string, middlewareCriteria?: Array<any>) {
+    public stream(type: string, methodName: string, idPath: string, partial: boolean, middlewareCriteria?: Array<any>) {
         // TODO: count rpc call in order to have the total of object for a type (LIMIT: 2000)
         return this.middlewareClient.callRpcMethod(methodName, middlewareCriteria).then((message) => {
             let streamId = message.id,
-                stream = this.getDefaultStreamObject(type, streamId, idPath);
+                stream = this.getDefaultStreamObject(type, streamId, idPath, partial);
 
             this.store.dispatch({
                 type: ACTIONS.SAVE_STREAM,
@@ -64,7 +64,7 @@ export class DatastoreService {
         });
     }
 
-    private getDefaultStreamObject (type, streamId, idPath) {
+    private getDefaultStreamObject (type, streamId, idPath, partial) {
         return {
             type: type,
             streamId: streamId,
@@ -72,6 +72,7 @@ export class DatastoreService {
             startSequence: 1,
             endSequence: 1,
             lastSequence: 1,
+            partial: partial,
             reachEnd: false,
             data: []
         };
@@ -121,7 +122,10 @@ export class DatastoreService {
             payload: stream.toJS()
         });
 
-        // FIXME: remove automatic fetching once the ui would have been updated.
+        if (stream.get('partial')) {
+            return this.getState().get('streams').get(stream.get('streamId'));
+        }
+
         return this.getNextSequenceForStream(stream.get('streamId'));
     }
 

@@ -9,24 +9,17 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "selectedObject": {"<->": "@list.selectedObject"},
                 "hasItems": {"<-": "@owner.object.length > 0"},
                 "classList.has('has-items')": {"<-": "@owner.hasItems"}
-            }
-        },
-        "controller": {
-            "prototype": "montage/core/range-controller",
-            "bindings": {
-                "content": {"<-": "@owner.object"}
             }
         },
         "list": {
             "prototype": "ui/controls/list.reel",
             "properties": {
-                "element": {"#": "list"},
-                "controller": {"@": "controller"}
+                "element": {"#": "list"}
             },
             "bindings": {
+                "content": {"<-": "@owner.object"},
                 "showSubLabel": {"<-": "@owner.showSubLabel ?? @owner.userInterfaceDescriptor.subLabelExpression.defined()"}
             }
         },
@@ -44,6 +37,7 @@
             "prototype": "blue-shark/ui/scrollview.reel",
             "properties": {
                 "element": {"#": "scrollView"},
+                "controller": {"@": "list"},
                 "overflow": "scrollY"
             }
         },

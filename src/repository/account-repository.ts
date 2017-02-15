@@ -1,12 +1,14 @@
 import {UserDao} from '../dao/user-dao';
 import {GroupDao} from '../dao/group-dao';
 import {DirectoryServicesDao} from '../dao/directory-services-dao';
+import {AccountSystemDao} from '../dao/account-systems-dao';
 import {DirectoryserviceConfigDao} from '../dao/directoryservice-config-dao';
 import {AbstractRepository} from './abstract-repository';
 import {DirectoryDao} from '../dao/directory-dao';
 import {Map} from 'immutable';
 import {ModelEventName} from '../model-event-name';
 import {Model} from '../model';
+import {DatastoreService} from '../service/datastore-service';
 
 export class AccountRepository extends AbstractRepository {
     private static instance: AccountRepository;
@@ -14,6 +16,8 @@ export class AccountRepository extends AbstractRepository {
     private users: Map<string, Map<string, any>>;
     private groups: Map<string, Map<string, any>>;
     private directories: Map<string, Map<string, any>>;
+    private groupsStreamId: string;
+    private usersStreamId: string;
 
     public static readonly DIRECTORY_TYPES_LABELS = {
         winbind: 'Active Directory',
@@ -24,9 +28,11 @@ export class AccountRepository extends AbstractRepository {
 
     private constructor(private userDao: UserDao,
                         private groupDao: GroupDao,
+                        private datastoreService: DatastoreService,
                         private directoryServiceDao: DirectoryServicesDao,
                         private directoryserviceConfigDao: DirectoryserviceConfigDao,
-                        private directoryDao: DirectoryDao) {
+                        private directoryDao: DirectoryDao,
+                        private accountSystemDao: AccountSystemDao) {
         super([
             Model.User,
             Model.Group,
@@ -39,9 +45,11 @@ export class AccountRepository extends AbstractRepository {
             AccountRepository.instance = new AccountRepository(
                 new UserDao(),
                 new GroupDao(),
+                DatastoreService.getInstance(),
                 new DirectoryServicesDao(),
                 new DirectoryserviceConfigDao(),
-                new DirectoryDao()
+                new DirectoryDao(),
+                new AccountSystemDao()
             );
         }
         return AccountRepository.instance;
@@ -59,6 +67,53 @@ export class AccountRepository extends AbstractRepository {
         return this.users ? Promise.resolve(this.users.toSet().toJS()) : this.userDao.list();
     }
 
+     public streamUsers(): Promise<Array<Object>> {
+        let promise;
+
+        if (this.usersStreamId) {
+            promise = Promise.resolve(
+                this.datastoreService.getState().get("streams").get(this.usersStreamId)
+            );
+        } else {
+            promise = this.userDao.stream(true);
+        }
+
+        return promise.then((stream) => {
+            let dataArray = stream.get('data').toJS();
+
+            //TODO: register to events add/remove
+            this.usersStreamId = stream.get('streamId');
+            dataArray._objectType = this.userDao.objectType;
+
+            //FIXME!!
+            //DTM montage
+            dataArray._stream = stream;
+
+            return dataArray;
+        });
+    }
+
+    public getUserEmptyList() {
+        return this.userDao.getEmptyList();
+    }
+
+    public getGroupEmptyList() {
+        return this.groupDao.getEmptyList();
+    }
+
+    public getDirectoryServicesEmptyList() {
+        return this.directoryServiceDao.getEmptyList();
+    }
+
+    public getAccountSystemEmptyList() {
+        return this.accountSystemDao.getEmptyList();
+    }
+
+    //need discussion
+    public getNextSequenceForStream (streamId) {
+        return this.groupDao.getNextSequenceForStream(streamId);
+    }
+
     public findUserWithName(name: string): Promise<Object> {
         return this.userDao.findSingleEntry({username: name});
     }
@@ -69,6 +124,33 @@ export class AccountRepository extends AbstractRepository {
 
     public listGroups(): Promise<Array<Object>> {
         return this.groups ? Promise.resolve(this.groups.toSet().toJS()) : this.groupDao.list();
+    }
+
+    //TODO: ask only ids? (improvements)
+    public streamGroups(): Promise<Array<Object>> {
+        let promise;
+
+        if (this.groupsStreamId) {
+            promise = Promise.resolve(
+                this.datastoreService.getState().get("streams").get(this.groupsStreamId)
+            );
+        } else {
+            promise = this.groupDao.stream(true);
+        }
+
+        return promise.then((stream) => {
+            let dataArray = stream.get('data').toJS();
+
+            //TODO: register to events add/remove
+            this.groupsStreamId = stream.get('streamId');
+            dataArray._objectType = this.groupDao.objectType;
+
+            //FIXME!!
+            //DTM montage
+            dataArray._stream = stream;
+
+            return dataArray;
+        });
     }
 
     public getNextUid() {
