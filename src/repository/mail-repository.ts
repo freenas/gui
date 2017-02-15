@@ -1,27 +1,27 @@
-import {MailDao} from '../dao/mail-dao';
+import {AlertEmitterEmailDao} from '../dao/AlertEmitterEmailDao';
 
 export class MailRepository {
     private static instance: MailRepository;
 
     private constructor(
-        private mailDao: MailDao
+        private alertEmitterEmailDao: AlertEmitterEmailDao
     ) {}
 
     public static getInstance() {
         if (!MailRepository.instance) {
             MailRepository.instance = new MailRepository(
-                new MailDao()
+                new AlertEmitterEmailDao()
             );
         }
         return MailRepository.instance;
     }
 
     public getConfig(): Promise<any> {
-        return this.mailDao.get();
+        return this.alertEmitterEmailDao.get();
     }
 
     public saveConfig(config) {
-        return this.mailDao.save(config);
+        return this.alertEmitterEmailDao.save(config);
     }
 }
 

@@ -38,7 +38,7 @@ export class ModelEventName {
     public static Ipmi = new ModelEventName(Model.Ipmi);
     public static KerberosKeytab = new ModelEventName(Model.KerberosKeytab);
     public static KerberosRealm = new ModelEventName(Model.KerberosRealm);
-    public static Mail = new ModelEventName(Model.Mail);
+    public static Mail = new ModelEventName(Model.AlertEmitterEmail);
     public static NetworkConfig = new ModelEventName(Model.NetworkConfig);
     public static NetworkHost = new ModelEventName(Model.NetworkHost);
     public static NetworkInterface = new ModelEventName(Model.NetworkInterface);
