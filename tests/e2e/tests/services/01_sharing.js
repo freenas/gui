@@ -2,7 +2,8 @@ module.exports = {
     'Sharing': function(browser) {
         browser
             .press('.CascadingListItem:nth-child(1) .SectionRoot-entries .List-item:nth-child(1)')
-            .waitForElementVisible('.CascadingListItem:nth-child(2) div.ServicesCategory');
+            .waitForElementVisible('.CascadingListItem:nth-child(2) div.ServicesCategory')
+            .waitForElementVisible('.CascadingListItem:nth-child(2) div.ServicesCategory .List-item:nth-child(1)', 5000);
         browser.expect.element('.CascadingListItem:nth-child(2) div.ServicesCategory .Inspector-header').text.to.equal('Sharing').before(5000);
     },
     'Sharing - AFP': function(browser) {

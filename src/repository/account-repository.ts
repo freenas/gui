@@ -9,6 +9,7 @@ import {Map} from 'immutable';
 import {ModelEventName} from '../model-event-name';
 import {Model} from '../model';
 import {DatastoreService} from '../service/datastore-service';
+import * as _ from 'lodash';
 
 export class AccountRepository extends AbstractRepository {
     private static instance: AccountRepository;
@@ -174,7 +175,13 @@ export class AccountRepository extends AbstractRepository {
     }
 
     public listDirectories(): Promise<Array<any>> {
-        return this.directories ? Promise.resolve(this.directories.valueSeq().toJS()) : this.directoryDao.list();
+        let promise = this.directories ? Promise.resolve(this.directories.valueSeq().toJS()) : this.directoryDao.list();
+        return promise.then(directories => {
+            _.forEach(directories, directory => {
+                directory.label = AccountRepository.DIRECTORY_TYPES_LABELS[directory.type];
+            });
+            return directories;
+        });
     }
 
     public getNewDirectoryForType(type: string) {

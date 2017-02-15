@@ -45,6 +45,6 @@ module.exports = {
             .press('.CascadingListItem:nth-child(2) div.ServicesCategory .List-item:nth-child(6)')
             .waitForElementVisible('.CascadingListItem:nth-child(3) div.Service');
         browser.expect.element('.CascadingListItem:nth-child(3) div.Service .Inspector-header').text.to.equal('UPS').before(5000);
-        browser.expect.element('.CascadingListItem:nth-child(3) div.Service div.Ups').to.be.present.before(1000);
+        browser.expect.element('.CascadingListItem:nth-child(3) div.Service div.Ups').to.be.present.before(10000);
     }
 };

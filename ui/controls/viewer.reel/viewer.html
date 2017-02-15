@@ -57,7 +57,7 @@
                 "element": {"#": "title"}
             },
             "bindings": {
-                "value": {"<-": "@owner.title ?? @owner.userInterfaceDescriptor.collectionNameExpression.slice(1,-1)"}
+                "value": {"<-": "@owner.title ?? !!@owner.userInterfaceDescriptor.collectionNameExpression ? @owner.userInterfaceDescriptor.collectionNameExpression.slice(1,-1) : ''"}
             }
         },
         "emptyPanel": {
