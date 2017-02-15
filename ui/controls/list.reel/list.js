@@ -66,7 +66,7 @@ exports.List = Component.specialize({
 
     scrollViewReachBottomY: {
         value: function () {
-            if (!this.isLoadingData) {
+            if (!this.isLoadingData && this._stream) {
                 this.fetchData();
             }
         }
