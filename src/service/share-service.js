@@ -103,19 +103,14 @@ var ShareService = exports.ShareService = Montage.specialize({
 
     ensureDefaultPermissionsAreSet: {
         value: function(share) {
+            share.permissions_type = share.permissions_type || this.constructor.DEFAULT_PERM_TYPES[share.type.toLowerCase()];
             if (!share.permissions || !share.permissions.user || !share.permissions.group) {
+                var self = this;
                 var permissionsPromise = share.permissions ?
                     Promise.resolve(share.permissions) : this.shareRepository.getNewPermissions();
 
                 return permissionsPromise.then(function (permissions) {
-                    if (!permissions.user) {
-                        permissions.user = 'root';
-                    }
-                    if (!permissions.group) {
-                        permissions.group = 'wheel';
-                    }
-
-                    share.permissions = permissions;
+                    share.permissions = _.defaults(permissions, self.constructor.DEFAULT_PERMISSIONS);
                     return share;
                 });
             }
@@ -126,6 +121,16 @@ var ShareService = exports.ShareService = Montage.specialize({
     save: {
         value: function (shareObject, isServiceEnabled) {
             var saveSharePromise;
+
+            // Clear up permissions
+            if (shareObject.permissions) {
+                if (shareObject.permissions.modes && (shareObject.permissions_type !== 'PERM' || shareObject.target_type !== 'DATASET')) {
+                    delete shareObject.permissions.modes;
+                }
+                delete shareObject.permissions.acls;
+            }
+            delete shareObject.permissions_type;
+
             //FIXME: workaround for the SELECT component. Future dead code.
             if (shareObject.type === this.constructor.SHARE_TYPES.NFS) {
                 saveSharePromise = this._saveNfsShareObject(shareObject, isServiceEnabled);
@@ -258,11 +263,45 @@ var ShareService = exports.ShareService = Montage.specialize({
         }
     },
 
+    DEFAULT_PERM_TYPES: {
+        value: {
+            afp: 'PERM',
+            smb: 'ACL',
+            nfs: 'PERM',
+            iscsi: 'NONE',
+            webdav: 'PERM'
+        }
+    },
+
     TARGET_TYPES: {
         get: function () {
             return ShareTargettype;
         }
     },
+
+    DEFAULT_PERMISSIONS: {
+        value: {
+            user: 'root',
+            group: 'wheel',
+            modes: {
+                user: {
+                    read: true,
+                    write: true,
+                    execute: true
+                },
+                group: {
+                    read: true,
+                    write: true,
+                    execute: true
+                },
+                others: {
+                    read: true,
+                    write: false,
+                    execute: true
+                },
+            }
+        }
+    };
 
     instance: {
         get: function() {

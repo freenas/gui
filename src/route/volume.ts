@@ -155,5 +155,17 @@ export class VolumeRoute extends AbstractRoute {
             this.volumeRepository.getEncryptedVolumeImporterInstance()
         );
     }
+
+    public getEncryptedVolumeActions(volumeId: string, stack: Array<any>) {
+        let columnIndex = 2;
+        return this.loadObjectInColumn(
+            stack,
+            columnIndex,
+            columnIndex - 1,
+            '/encrypted-volume-actions',
+            Model.EncryptedVolumeActions,
+            this.volumeRepository.getEncryptedVolumeActionsForVolume(volumeId)
+        );
+    }
 }
 

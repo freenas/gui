@@ -161,6 +161,16 @@ export class VolumeRepository extends AbstractRepository<Volume> {
         return this.encryptedVolumeActionsDao.getNewInstance();
     }
 
+    public getEncryptedVolumeActionsForVolume(volumeId: string): Promise<EncryptedVolumeActions> {
+        return Promise.all([
+            this.encryptedVolumeActionsDao.getNewInstance(),
+            this.listVolumes()
+        ]).spread((encryptedVolumeActions, volumes) => {
+            encryptedVolumeActions.volume = _.find(volumes, {id: volumeId});
+            return encryptedVolumeActions;
+        });
+    }
+
     public initializeDisksAllocations(diskIds: Array<string>): void {
         this.volumeDao.getDisksAllocation(diskIds).then(
             (allocations) => _.forIn(allocations,
