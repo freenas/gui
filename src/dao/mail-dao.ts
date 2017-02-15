@@ -6,8 +6,8 @@ export class MailDao extends AbstractDao<Mail> {
 
     public constructor() {
         super(Model.Mail, {
-            queryMethod: 'mail.get_config',
-            createMethod: 'mail.update'
+            queryMethod: 'alert.emitter.mail.get_config',
+            createMethod: 'alert.emitter.mail.update'
         });
     }
 
