@@ -150,12 +150,6 @@
                 "placeholder": {"<-": "!@owner.object.webui_listen ? 'eg. foo@example.com' : ''"}
             }
         },
-        "testField": {
-            "prototype": "blue-shark/ui/field.reel",
-            "properties": {
-                "element": {"#": "testField"}
-            }
-        },
         "emailSection": {
             "prototype": "ui/controls/foldable-section.reel",
             "properties": {
@@ -164,11 +158,22 @@
                 "title": "Setup Email Emitter"
             }
         },
-        "testEmail": {
+        "apikey": {
+            "prototype": "blue-shark/ui/field-text-area.reel",
+            "properties": {
+                "element": {"#": "apikey"},
+                "label": "PushBullet API Key"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.pushbullet.api_key"}
+            }
+        },
+        "pushBulletSection": {
             "prototype": "ui/controls/foldable-section.reel",
             "properties": {
-                "element": {"#": "testEmail"},
-                "title": "Send Test Email"
+                "element": {"#": "pushBulletSection"},
+                "isExpanded": true,
+                "title": "Setup PushBullet Emitter"
             }
         }
     }
@@ -185,12 +190,11 @@
                 <div data-montage-id="encryption"></div>
                 <div data-montage-id="username"></div>
                 <div data-montage-id="password"></div>
-            </div>
-            <div data-montage-id="testEmail" class="testEmail">
                 <div data-montage-id="send_to"></div>
-                <div data-montage-id="testField" class="g-margin-top--subtract">
-                    <div data-montage-id="sendTestMail" class="Button--block"></div>
-                </div>
+                <div data-montage-id="sendTestMail" class="Button--block"></div>
+            </div>
+            <div data-montage-id="pushBulletSection" class="pushBulletSection">
+                <div data-montage-id="apikey"></div>
             </div>
         </div>
     </div>
