@@ -41,7 +41,8 @@
             "bindings": {
                 "context": {"<-": "@owner.context"},
                 "isConfirmationVisible": {"<-": "@owner.isConfirmationVisible"},
-                "confirmationMessage": {"<-": "'Are you sure you want to delete ' + @owner.object.var + '?'"}
+                "confirmationMessage": {"<-": "'Are you sure you want to delete ' + @owner.object.var + '?'"},
+                "isSaveDisabled": {"<-": "@certificateActionPlaceHolder.component.isSaveDisabled"}
             }
         },
         "name": {
