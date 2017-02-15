@@ -31,6 +31,7 @@ exports.ContainerCreator = AbstractInspector.specialize({
             if (this._object !== object) {
                 if (object) {
                     this._object = object;
+                    this._object.primary_network_mode = this.constructor.DEFAULT_PRIMARY_NETWORK;
                 } else {
                     this._object = null;
                 }
@@ -165,6 +166,12 @@ exports.ContainerCreator = AbstractInspector.specialize({
                 this.object.volumes = this._extractValidVolumes(volumesValues);
             }
 
+            if (this.object.primary_network_mode !== this.constructor.PRIMARY_NETWORK_MODE_BRIDGED) {
+                this.object.bridge.address = null;
+                this.object.bridge.macaddress = null;
+                this.object.bridge.dhcp = false;
+            }
+
             return this._sectionService.saveContainer(this.object).then(function () {
                 self._reset();
             });
@@ -207,8 +214,21 @@ exports.ContainerCreator = AbstractInspector.specialize({
 
 }, {
 
-    DATA_GATE_BLOCK_KEY: {
-        value: "dataLoaded"
+    primaryNetWorkModes: {
+        value: [
+            {label: 'Bridged', value: 'BRIDGED'},
+            {label: 'NAT', value: 'NAT'},
+            {label: 'Host', value: 'HOST'},
+            {label: 'None', value: 'NONE'}
+        ]
+    },
+
+    DEFAULT_PRIMARY_NETWORK: {
+        value: 'NAT'
+    },
+
+     PRIMARY_NETWORK_MODE_BRIDGED: {
+        value: 'BRIDGED'
     }
 
 });
