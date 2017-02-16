@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "filter": true
+            },
+            "bindings": {
+                "filteredContent": {"<-": "@owner.content.filter{!hidden}"}
+            }
+        },
+        "label": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "label"},
+                "value": "Filter hidden"
+            }
+        },
+        "checkbox": {
+            "prototype": "blue-shark/ui/toggle-switch.reel",
+            "properties": {
+                "element": {"#": "checkbox"},
+                "label": "filter hidden"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.filter"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="VolumeDatasetOptions flex-row flex-spaceBetween flex-align--center">
+        <span data-montage-id="label"></span>
+        <div data-montage-id="checkbox" class="Checkbox--light"></div>
+    </div>
+</body>
+</html>

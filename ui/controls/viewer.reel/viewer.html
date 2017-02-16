@@ -19,7 +19,7 @@
                 "element": {"#": "list"}
             },
             "bindings": {
-                "content": {"<-": "@owner.object"},
+                "content": {"<-": "!!@owner.controlFilter ? @controls.component.filteredContent : @owner.object"},
                 "showSubLabel": {"<-": "@owner.showSubLabel ?? @owner.userInterfaceDescriptor.subLabelExpression.defined()"}
             }
         },
@@ -87,7 +87,9 @@
             },
             "bindings": {
                 "moduleId": {"<-": "@owner.userInterfaceDescriptor.listControlsComponentModule.id || @owner.userInterfaceDescriptor.listControlsComponentModule['%']"},
-                "component.showSubLabel": {"<->": "@owner.showSubLabel"}
+                "component.showSubLabel": {"<->": "@owner.showSubLabel"},
+                "component.filter": {"<->": "@owner.controlFilter"},
+                "component.content": {"<-": "@owner.object"}
             }
         }
     }
