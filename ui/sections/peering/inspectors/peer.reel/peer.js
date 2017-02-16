@@ -13,6 +13,9 @@ exports.Peer = AbstractInspector.specialize(/** @lends Peer# */ {
             if (!this.object._action && !this.object._isNew) {
                 this.object._action = 'creation';
             }
+            if (this.object._isNew) {
+                this.object.health_check_interval = 60;
+            }
         }
     },
 

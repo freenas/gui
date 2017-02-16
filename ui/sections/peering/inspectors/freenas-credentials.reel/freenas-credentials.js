@@ -8,4 +8,11 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.FreenasCredentials = Component.specialize(/** @lends FreenasCredentials# */ {
+    enterDocument: {
+        value: function() {
+            if (this.object._isNew) {
+                this.object.credentials.port = 22;
+            }
+        }
+    }
 });
