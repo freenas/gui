@@ -112,8 +112,8 @@ export class SystemSectionService extends AbstractSectionService {
         return this.ntpServerRepository.listNtpServers();
     }
 
-    public saveNtpServer(ntpServer) {
-        return this.ntpServerRepository.saveNtpServer(ntpServer);
+    public saveNtpServer(ntpServer, force) {
+        return this.ntpServerRepository.saveNtpServer(ntpServer, force);
     }
 
     public listVms() {
