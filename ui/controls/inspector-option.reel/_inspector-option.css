@@ -1,5 +1,4 @@
 .InspectorOption {
-    outline: none;
 
     @nest .Inspector-body & {
         margin: 0 -1rem;
@@ -18,7 +17,6 @@
         border-color: var(--color-selected);
     }
 }
-
 
 .InspectorOption + .InspectorOption > *,
 .InspectorOption:first-child > * {
