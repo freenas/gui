@@ -1,5 +1,4 @@
 .Viewer  {
-    min-width: 16em;
     /* compensates for inspector */
     @nest .Inspector & {
         margin: 0 -1em;
