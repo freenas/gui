@@ -31,5 +31,9 @@ export class VmDao extends AbstractDao<Vm> {
     public reboot(vm: any) {
         return this.middlewareClient.submitTask('vm.reboot', [vm.id]);
     }
+
+    public flushTemplateCache() {
+        return this.middlewareClient.submitTask('vm.cache.flush');
+    }
 }
 
