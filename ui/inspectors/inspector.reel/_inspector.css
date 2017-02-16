@@ -3,7 +3,6 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    min-width: 15em;
     overflow: hidden;
 
     &.confirmation-is-visible { position: initial; }
@@ -26,14 +25,28 @@
     }
 }
 
+/* Controls Inspector Padding */
+
 .Inspector-body {
     display: flex;
+    min-height: 0;
 
-    &-scrollview {
+    & .Scroller-content {
         padding: 1rem;
         padding-bottom: 0;
     }
+
+    @nest .SectionRoot & .Scroller-content {
+        padding: 0;
+    }
 }
+
+.Inspector-body-scrollview {
+    padding: 1rem;
+    padding-bottom: 0;
+}
+
+/* Browser with Scrollers */
 
 
 .Inspector.is-loading .Inspector-body,

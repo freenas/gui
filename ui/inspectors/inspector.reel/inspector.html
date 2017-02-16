@@ -6,7 +6,8 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "scrollView": {"#": "scrollView"}
             },
             "bindings": {
                 "object": {"<-": "@owner.context.object"},
@@ -31,9 +32,6 @@
             "properties": {
                 "element": {"#": "scrollView"},
                 "overflow": "scrollY"
-            },
-            "bindings": {
-                "delegate": {"<-": "@owner.scrollViewDelegate"}
             }
         },
         "loading": {
@@ -57,10 +55,10 @@
                 "element": {"#": "footer"}
             },
             "bindings": {
-                "isHidden": {"<-": "!!@owner.isFooterHidden"},
                 "canDelete": {"<-": "!!@owner.canDelete && @owner.object.id.defined()"},
                 "canRevert": {"<-": "!!@owner.canRevert"},
                 "canSave": {"<-": "!!@owner.canSave"},
+                "isHidden": {"<-": "!!@owner.isFooterHidden || (!canSave && !canRevert && !canDelete)"},
                 "isSaveDisabled": {"<-": "@owner.isSaveDisabled || @owner.validationController.hasMissingProperties"}
             },
             "listeners": [
