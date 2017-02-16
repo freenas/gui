@@ -90,6 +90,22 @@
             }
         },
 
+        "networkSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "networkSection"},
+                "title": "Network Settings"
+            }
+        },
+
+        "advancedSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "advancedSection"},
+                "title": "Advanced"
+            }
+        },
+
         "name": {
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
@@ -130,8 +146,7 @@
                 "label": "Memory Limit"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.memory_limit"},
-                "classList.has('is-hidden')": {"<-": "!@owner.object.memory_limit.defined()"}
+                "value": {"<-": "@owner.object.memory_limit"}
             }
         },
 
@@ -176,8 +191,7 @@
                 "label": "Command"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.command.join(' ')"},
-                "classList.has('is-hidden')": {"<-": "!@owner.object.command.length"}
+                "value": {"<-": "@owner.object.command.join(' ')"}
             }
         },
 
@@ -198,8 +212,7 @@
                 ]
             },
             "bindings": {
-                "rows": {"<-": "@owner.environments"},
-                "classList.has('is-hidden')": {"<-": "!@owner.object.environment.length"}
+                "rows": {"<-": "@owner.environments"}
             }
         },
 
@@ -224,8 +237,7 @@
                 ]
             },
             "bindings": {
-                "rows": {"<-": "@owner.object.ports"},
-                "classList.has('is-hidden')": {"<-": "!@owner.object.ports.length"}
+                "rows": {"<-": "@owner.object.ports"}
             }
         },
 
@@ -250,8 +262,7 @@
                 ]
             },
             "bindings": {
-                "rows": {"<-": "@owner.object.volumes"},
-                "classList.has('is-hidden')": {"<-": "!@owner.object.volumes.length"}
+                "rows": {"<-": "@owner.object.volumes"}
             }
         },
 
@@ -291,18 +302,6 @@
             }
         },
 
-        "bridged": {
-            "prototype": "blue-shark/ui/field-checkbox.reel",
-            "properties": {
-                "element": {"#": "bridged"},
-                "label": "Bridged",
-                "disabled": true
-            },
-            "bindings": {
-                "checked": {"<-": "@owner.object.bridge.enable"}
-            }
-        },
-
         "bridgeAddress": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
@@ -337,8 +336,7 @@
                 "disabled": true
             },
             "bindings": {
-                "options": {"<-": "@owner._networks.filter{@owner.object.networks.has(id)}.map{{ label: name, value: id }}"},
-                "classList.has('is-hidden')": {"<-": "!@owner.object.networks || @owner.object.networks.length == 0"}
+                "options": {"<-": "@owner._networks.filter{@owner.object.networks.has(id)}.map{{ label: name, value: id }}"}
             }
         },
 
@@ -383,26 +381,35 @@
             <div data-montage-id="name"></div>
             <div data-montage-id="version"></div>
             <div data-montage-id="host"></div>
-            <div data-montage-id="hostname"></div>
-            <div data-montage-id="memoryLimit"></div>
-            <div data-montage-id="environment" class="g-margin-bottom">
-                <div></div>
-            </div>
+
+            <div data-montage-id="exposePorts"></div>
             <div data-montage-id="ports" class="g-margin-bottom">
                 <div></div>
             </div>
-            <div data-montage-id="exposePorts"></div>
             <div data-montage-id="volumes" class="g-margin-bottom">
                 <div></div>
             </div>
-            <div data-montage-id="command"></div>
-            <div data-montage-id="autostart"></div>
+            <div data-montage-id="environment" class="g-margin-bottom">
+                <div></div>
+            </div>
             <div data-montage-id="interactive"></div>
             <div data-montage-id="privileged"></div>
-            <div data-montage-id="bridged"></div>
-            <div data-montage-id="bridgeAddress"></div>
-            <div data-montage-id="bridgeMacAddress"></div>
-            <div data-montage-id="networks"></div>
+            <div data-montage-id="autostart"></div>
+            <div data-montage-id="command"></div>
+
+            <div data-montage-id="networkSection">
+                <div data-montage-id="primaryNetworkMode"></div>
+                <div data-montage-id="bridgeDHCP"></div>
+                <div data-montage-id="bridgeAddress"></div>
+                <div data-montage-id="bridgeMacAddress"></div>
+                <div data-montage-id="networks"></div>
+            </div>
+
+            <div data-montage-id="advancedSection">
+                <div data-montage-id="hostname"></div>
+                <div data-montage-id="memoryLimit"></div>
+            </div>
+
             <div data-montage-id="logs"></div>
             <div data-montage-id="readme"></div>
         </div>
