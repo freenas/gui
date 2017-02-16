@@ -96,7 +96,8 @@
             },
             "bindings": {
                 "checked": {"<->": "!!@owner.serviceEnabled"},
-                "label": {"<-": "'Enable ' + @owner.object.type.toUpperCase() + ' Service'"}
+                "label": {"<-": "'Enable ' + @owner.object.type.toUpperCase() + ' Service'"},
+                "isLoading": {"<-": "@owner.isServiceLoading"}
             }
         },
         "name": {
