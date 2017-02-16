@@ -135,7 +135,6 @@ exports.CascadingListItem = Component.specialize({
         }
     },
 
-
     dismiss: {
         value: function () {
             if (this._inDocument) {
@@ -156,7 +155,7 @@ exports.CascadingListItem = Component.specialize({
                 if (!this.content._element.clientWidth) {
                     this.needsDraw = true;
                 } else {
-                    this.cascadingList.scrollView.scrollIntoView(this.element);
+                    this.element.scrollIntoView({behavior: 'smooth'});
                     this.needToScrollIntoView = false;
                 }
             }

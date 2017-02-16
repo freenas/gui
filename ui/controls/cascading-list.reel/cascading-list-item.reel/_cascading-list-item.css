@@ -5,6 +5,7 @@
     position: relative;
     border-right: 1px solid var(--separator-color);
     background-color: var(--primary--7);
+    min-width: 16rem;
 }
 
 .CascadingListItem-header {
@@ -61,7 +62,6 @@
         display: flex;
         min-height: 0;
         flex-direction: column;
-        min-width: 16em;
     }
 }
 
