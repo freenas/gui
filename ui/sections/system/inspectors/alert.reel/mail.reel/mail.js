@@ -1,7 +1,8 @@
 /**
  * @module ui/mail.reel
  */
-var Component = require("montage/ui/component").Component,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    Component = require("montage/ui/component").Component,
     Model = require("core/model/model").Model,
     MailEncryptionType = require("core/model/enumerations/mail-encryption-type").MailEncryptionType;
 
@@ -9,8 +10,7 @@ var Component = require("montage/ui/component").Component,
  * @class Mail
  * @extends Component
  */
-exports.Mail = Component.specialize(/** @lends Mail# */ {
-
+exports.Mail = AbstractInspector.specialize(/** @lends Mail# */ {
 
     handleSendTestMailAction: {
         value: function() {
@@ -39,9 +39,13 @@ exports.Mail = Component.specialize(/** @lends Mail# */ {
             if(isFirstTime) {
                 this.isLoading = true;
                 this.encryptionOptions = [];
+                this.pushbullet = {};
                 for (var i = 0; i < MailEncryptionType.members.length; i++) {
                     this.encryptionOptions.push({label: MailEncryptionType.members[i], value: MailEncryptionType[MailEncryptionType.members[i]]});
                 };
+                this._sectionService.getAlertEmitterPushBulletConfig().then(function (pushbullet) {
+                    self.pushbullet = pushbullet;
+                });
                 self.isLoading = false;
             }
         }
@@ -49,7 +53,10 @@ exports.Mail = Component.specialize(/** @lends Mail# */ {
 
     save: {
         value: function() {
-            return this.application.mailService.saveMailData(this.object);
+            return Promise.all([
+                this.application.mailService.saveMailData(this.object),
+                this._sectionService.saveAlertEmitterPushBulletConfig(this.pushbullet)
+            ]);
         }
     },
 
