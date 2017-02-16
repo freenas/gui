@@ -31,7 +31,6 @@ title
     display: flex;
     align-items: baseline;
     color: inherit;
-    padding: 0 1em;
     transition: color .25s ease-in-out;
 
     &:focus:before {
@@ -81,7 +80,6 @@ title
     /* removes underline */
     &:before { display: none;}
 }
-
 
 /* content */
 
