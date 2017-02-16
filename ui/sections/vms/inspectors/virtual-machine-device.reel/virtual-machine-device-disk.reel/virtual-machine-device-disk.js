@@ -32,7 +32,7 @@ exports.VirtualMachineDeviceDisk = AbstractInspector.specialize({
         value: function(isFirstTime) {
             this.super(isFirstTime);
             var self = this;
-            this.isLoading = true;
+            this.object._isLoading = true;
             Promise.all([
                 this._sectionService.listDisks(),
                 this._sectionService.listBlocksInDatastore(this.object._vm.target),
@@ -41,50 +41,43 @@ exports.VirtualMachineDeviceDisk = AbstractInspector.specialize({
                 self.diskOptions = _.concat(
                     [{label: '-', value: null}],
                     _.sortBy(
-                        _.map(
-                            disks,
-                            function(disk) {
-                                return {
-                                    label: disk.description + ' (' + numeral(disk.size).format('0 b') + ')',
-                                    value: disk
-                                };
-                            }
-                        ),
+                        _.map(disks, function(disk) {
+                            return {
+                                label: disk.description + ' (' + numeral(disk.size).format('0 b') + ')',
+                                value: disk
+                            };
+                        }),
                         'label'
                     )
                 );
                 self.blockOptions = _.sortBy(
-                    _.map(
-                        blocks,
-                        function(block) {
-                            return {
-                                name: block.path + ' ' + block.description,
-                                path: block.path,
-                                children: []
-                            };
-                        }
-                    ),
+                    _.map(blocks, function(block) {
+                        return {
+                            name: block.path + ' ' + block.description,
+                            path: block.path,
+                            children: []
+                        };
+                    }),
                     'name'
                 );
                 self.fileOptions = _.sortBy(
-                    _.map(
-                        files,
-                        function(file) {
-                            return {
-                                name: file.path + ' ' + file.description,
-                                path: file.path,
-                                children: []
-                            };
-                        }
-                    ),
+                    _.map(files, function(file) {
+                        return {
+                            name: file.path + ' ' + file.description,
+                            path: file.path,
+                            children: []
+                        };
+                    }),
                     'name'
                 );
                 if (isFirstTime) {
-                    var target_path = self.object.target_path;
+                    var target_path = self.object.target_path,
+                        size = self.object.size;
                     self.addPathChangeListener('object._disk', self, '_handleTargetChange');
                     self.addPathChangeListener('object._target_path', self, '_handleTargetChange');
                     self.addPathChangeListener('object.target_type', self, '_handleTypeChange');
                     self.object._target_path = target_path;
+                    self.object.size = self.object.size || size;
                 }
                 if (self.object.type === 'DISK') {
                     self.object._disk = self.object.target_path;
@@ -94,7 +87,7 @@ exports.VirtualMachineDeviceDisk = AbstractInspector.specialize({
                 if (self.treeController) {
                     self.treeController.open(self.object.target_path);
                 }
-                self.isLoading = false;
+                self.object._isLoading = false;
             });
         }
     },
@@ -111,20 +104,22 @@ exports.VirtualMachineDeviceDisk = AbstractInspector.specialize({
 
     _handleTargetChange: {
         value: function(target) {
-            if (this.object.target_type === 'DISK') {
-                if (target) {
-                    this.object.target_path = target.path;
-                    this.object.size = target.size;
+            if (this._inDocument) {
+                if (this.object.target_type === 'DISK') {
+                    if (target) {
+                        this.object.target_path = target.path;
+                        this.object.size = target.size;
+                    } else {
+                        this.object.target_path = null;
+                        this.object.size = null;
+                    }
                 } else {
-                    this.object.target_path = null;
                     this.object.size = null;
-                }
-            } else {
-                this.object.size = null;
-                if (target) {
-                    this.object.target_path = target;
-                } else {
-                    this.object.target_path = null;
+                    if (target) {
+                        this.object.target_path = target;
+                    } else {
+                        this.object.target_path = null;
+                    }
                 }
             }
         }

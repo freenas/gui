@@ -41,7 +41,7 @@ exports.Mail = Component.specialize(/** @lends Mail# */ {
                 this.encryptionOptions = [];
                 for (var i = 0; i < MailEncryptionType.members.length; i++) {
                     this.encryptionOptions.push({label: MailEncryptionType.members[i], value: MailEncryptionType[MailEncryptionType.members[i]]});
-                };
+                }
                 self.isLoading = false;
             }
         }

@@ -158,13 +158,13 @@ exports.Share = AbstractInspector.specialize({
                 this.targetType = this.object.target_type;
 
                 //todo: block draw
-                this.isLoading = true;
+                this.isDataLoading = true;
                 this._shareService.populateShareObjectIfNeeded(this.object).then(function() {
                     if (self._object._isNew) {
                         self.object.target_path = self.object._volume.id;
                         self._openTreeController();
                     }
-                    self.isLoading = false;
+                    self.isDataLoading = false;
                 });
             }
         }
@@ -258,9 +258,12 @@ exports.Share = AbstractInspector.specialize({
 
     _getService: {
         value: function(object) {
-            var serviceName = 'service-' + object.type;
+            var self = this,
+                serviceName = 'service-' + object.type;
+            this.isServiceLoading = true;
             return this.application.dataService.fetchData(Model.Service).then(function(services) {
                 return services.filter(function (x) { return x.config && x.config.type == serviceName; })[0];
+                self.isServiceLoading = false;
             });
         }
     },
