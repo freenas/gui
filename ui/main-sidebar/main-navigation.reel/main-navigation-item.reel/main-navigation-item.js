@@ -26,7 +26,11 @@ exports.MainNavigationItem = Button.specialize({
 
     handlePress: {
         value: function() {
-            this.routingService.navigate(this.path);
+            if(this.isSelected) {
+                this.routingService.navigate(this.path, true);
+            } else {
+                this.routingService.navigate(this.path);
+            }
         }
     },
 
