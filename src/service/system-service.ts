@@ -156,10 +156,11 @@ export class SystemService {
     }
 
     public addDiskToBootPool(newDisk: any, oldDisk?: string) {
-        if (!oldDisk) {
+        if (oldDisk) {
+            return this.middlewareClient.submitTask('boot.disk.replace', [oldDisk.path, newDisk.path]);
+        } else {
             return this.middlewareClient.submitTask('boot.disk.attach', [newDisk.path]);
         }
-        return Promise.resolve();
     }
 
     public getCertificateFileAddress(id: string, certTarFileName: string) {
