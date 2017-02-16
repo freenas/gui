@@ -10,6 +10,6 @@ module.exports = {
             .press('.CascadingListItem:nth-child(3) .Viewer-createButton')
             .waitForElementVisible('.CascadingListItem:nth-child(4) div.VirtualMachineDevice');
         browser.expect.element('.CascadingListItem:nth-child(4) div.VirtualMachineDevice .Inspector-header').text.to.equal('New Volume');
-        browser.expect.element('.CascadingListItem:nth-child(4) div.VirtualMachineDevice div.VirtualMachineDeviceVolume').to.be.present.before(1000);
+        browser.expect.element('.CascadingListItem:nth-child(4) div.VirtualMachineDevice div.VirtualMachineDeviceVolume').to.be.present.before(5000);
     }
 };
