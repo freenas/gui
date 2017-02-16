@@ -1,13 +1,12 @@
 .AvailableDisksCategory {
     position: relative;
 
+    /* toggle disks */
     &.is-expanded {
-        flex: 1;
-
-        & .Scrollview-transform { display: block; }
+        & .Scroller { display: block; }
     }
 
-    & .Scrollview-transform { display: none;}
+    & .Scroller { display: none;}
 }
 
 .AvailableDisksCategory-toggle.Button {
@@ -55,7 +54,9 @@
     border: 1px dashed transparent;
 }
 
-.AvailableDisksCategory-grid { padding: .5em; }
+.AvailableDisksCategory-grid {
+    padding: .5em;
+}
 
 .AvailableDisksCategory.willAcceptDrop:before {
     animation-direction: normal;
