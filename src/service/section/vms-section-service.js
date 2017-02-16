@@ -368,7 +368,6 @@ exports.VmsSectionService = AbstractSectionService.specialize({
 
     saveVm: {
         value: function(vm) {
-            vm.config.memsize = this._bytesService.convertStringToSize(vm._memory, this._bytesService.UNITS.M);
             vm.target = vm.target === this.DEFAULT_STRING ? null : vm.target;
             vm.config.readme = vm._readme.text;
             return this._vmRepository.saveVm(vm);
