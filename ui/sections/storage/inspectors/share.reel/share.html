@@ -19,7 +19,8 @@
                 "targetTreeview": {"@": "target_path"}
             },
             "bindings": {
-                "volumePath": {"<-": "'/mnt/' + @owner.object._volume.id"}
+                "volumePath": {"<-": "'/mnt/' + @owner.object._volume.id"},
+                "isLoading": {"<-": "@owner.isDataLoading || @shareTypePlaceHolder.isLoadingComponent"}
             }
         },
         "datasetTreeController": {

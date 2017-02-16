@@ -133,11 +133,12 @@ exports.VmsSectionService = AbstractSectionService.specialize({
 
     loadEntries: {
         value: function() {
-            return this._vmRepository.listVms().then((entries) => {
+            var self = this;
+            return this._vmRepository.listVms().then(function(entries) {
                 return _.sortBy(entries, 'name' );
-            }).then((entries) => {
+            }).then(function(entries) {
                 entries._objectType = 'Vm';
-                this.entries = entries;
+                self.entries = entries;
                 return entries;
             });
         }
@@ -169,13 +170,13 @@ exports.VmsSectionService = AbstractSectionService.specialize({
 
     listBlocksInDatastore: {
         value: function(datastoreId) {
-            return this._vmDatastoreRepository.listDiskTargetsWithTypeInDatastore('BLOCK', datastoreId)
+            return this._vmDatastoreRepository.listDiskTargetsWithTypeForVm('BLOCK', datastoreId)
         }
     },
 
     listFilesInDatastore: {
         value: function(datastoreId) {
-            return this._vmDatastoreRepository.listDiskTargetsWithTypeInDatastore('FILE', datastoreId)
+            return this._vmDatastoreRepository.listDiskTargetsWithTypeForVm('FILE', datastoreId)
         }
     },
 

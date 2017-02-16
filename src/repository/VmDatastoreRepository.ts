@@ -21,7 +21,7 @@ export class VmDatastoreRepository extends AbstractModelRepository<VmDatastore> 
         return this.vmDatastoreDao.listDiskTargetsWithType(type);
     }
 
-    public listDiskTargetsWithTypeInDatastore(type: string, datastoreId: string) {
+    public listDiskTargetsWithTypeForVm(type: string, datastoreId: string) {
         return this.vmDatastoreDao.listDiskTargetsWithType(type, datastoreId);
     }
 
