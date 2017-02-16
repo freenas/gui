@@ -49,7 +49,6 @@ exports.ContainerCreator = AbstractInspector.specialize({
             this._reset();
 
             if (isFirstTime) {
-                this.addPathChangeListener("object.image", this, "handleSelectedImageChange");
                 this.addEventListener("action", this);
             }
 
@@ -79,15 +78,6 @@ exports.ContainerCreator = AbstractInspector.specialize({
             this._sectionService.generateMacAddress().then(function(macAddress) {
                 self.object.bridge.macaddress = macAddress;
             });
-        }
-    },
-
-    handleSelectedImageChange: {
-        value: function (value) {
-            if (false) {
-                //FIXME: Pierre how to check current path.
-                this._routingService.navigate(this.context.path);
-            }
         }
     },
 

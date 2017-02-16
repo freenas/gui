@@ -430,6 +430,7 @@ export class DockerRoute extends AbstractRoute {
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread((dockerImageReadme, readme, uiDescriptor) => {
             (dockerImageReadme as any).text = readme;
+            (dockerImageReadme as any).imageName = imageName;
             context.object = dockerImageReadme;
             context.userInterfaceDescriptor = uiDescriptor;
 
