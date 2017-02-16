@@ -40,6 +40,7 @@ const Model = {
     KerberosKeytab: 'KerberosKeytab' as 'KerberosKeytab',
     KerberosRealm: 'KerberosRealm' as 'KerberosRealm',
     AlertEmitterEmail: 'AlertEmitterEmail' as 'AlertEmitterEmail',
+    AlertEmitterPushBullet: 'AlertEmitterPushBullet' as 'AlertEmitterPushBullet',
     NetworkConfig: 'NetworkConfig' as 'NetworkConfig',
     NetworkHost: 'NetworkHost' as 'NetworkHost',
     NetworkInterface: 'NetworkInterface' as 'NetworkInterface',
