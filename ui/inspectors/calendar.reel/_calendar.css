@@ -1,13 +1,11 @@
-.Calendar {
-    flex: 1;
+.Calendar .Inspector-body-scrollview {
     display: flex;
+    flex-direction: column;
 }
 
 .Calendar-wrapper {
     flex: 1;
     @apply --flex-column;
-    padding: 1em;
-    padding-bottom: 0;
 }
 
 .Calendar-events {
@@ -21,25 +19,11 @@
     padding-bottom: .25em;
 }
 
-.Calendar-events h2 {
-    margin: 0;
-}
+.Calendar-events h2 { margin: 0; }
 
 .Calendar-eventsList {
     flex: 1;
     position: relative;
     min-height: 0;
-}
-
-/*
-
-Media Queries
-
-*/
-
-@media (min-width: 95em) {
-    .Calendar {
-        width: 71rem;
-    }
 }
 
