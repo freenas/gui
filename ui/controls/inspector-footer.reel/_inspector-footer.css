@@ -4,6 +4,7 @@
 }
 
 .InspectorFooter {
+    border-top: 1px solid var(--separator-color);
     padding: 1rem;
     display: flex;
     flex-shrink: 0;
