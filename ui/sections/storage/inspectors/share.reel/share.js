@@ -264,7 +264,6 @@ exports.Share = AbstractInspector.specialize({
             return this.application.dataService.fetchData(Model.Service).then(function(services) {
                 self.isServiceLoading = false;
                 return services.filter(function (x) { return x.config && x.config.type == serviceName; })[0];
-                self.isServiceLoading = false;
             });
         }
     },
