@@ -61,7 +61,8 @@
             },
             "bindings": {
                 "moduleId": {"<-": "@owner.moduleRoot + 'virtual-machine-device-' + @owner.object.type.toLowerCase() + '.reel'"},
-                "object": {"<-": "@owner.object.properties"}
+                "object": {"<-": "@owner.object.properties"},
+                "component.isNew": {"<-": "@owner.object._isNew"}
             }
         }
     }

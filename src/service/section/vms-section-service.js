@@ -204,6 +204,7 @@ exports.VmsSectionService = AbstractSectionService.specialize({
             for (var i = 0, length = devices.length; i < length; i++) {
                 device = devices[i];
                 if (vm.devices.indexOf(device) === -1) {
+                    device._isNew = false;
                     vm.devices.push(device);
                 }
             }

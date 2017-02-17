@@ -87,6 +87,10 @@ exports.VirtualMachineDeviceDisk = AbstractInspector.specialize({
                 if (self.treeController) {
                     self.treeController.open(self.object.target_path);
                 }
+                if (self.isNew) {
+                    self.object.target_type = 'BLOCK';
+                    self.object.size = self.object.size || 8 * Math.pow(1024, 3);
+                }
                 self.object._isLoading = false;
             });
         }
