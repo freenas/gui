@@ -12,7 +12,7 @@ import {ReplicationRepository} from '../../repository/replication-repository';
 import {DiskRepository} from '../../repository/disk-repository';
 import {AlertFilterRepository} from '../../repository/alert-filter-repository';
 import {BootPoolRepository} from '../../repository/boot-pool-repository';
-import {AlertEmitterPushBulletRepository} from '../../repository/push-bullet-repository';
+import {AlertEmitterPushBulletRepository} from '../../repository/alert-emitter-push-bullet-repository';
 import {ModelEventName} from '../../model-event-name';
 import * as Immutable from 'immutable';
 import * as _ from 'lodash';
