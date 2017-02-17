@@ -1,9 +1,5 @@
 var Slot = require("montage/ui/slot.reel").Slot;
 
-/**
- * @class Placeholder
- * @extends Slot
- */
 exports.Placeholder = Slot.specialize({
 
     constructor: {
@@ -34,6 +30,11 @@ exports.Placeholder = Slot.specialize({
             if (this._moduleId !== value) {
                 this._moduleId = value;
                 if (typeof value === "string" && value.length) {
+                    this._needsLoadComponent = true;
+                    this.needsDraw = true;
+                } else {
+                    this.component = null;
+                    this.content = null;
                     this._needsLoadComponent = true;
                     this.needsDraw = true;
                 }
@@ -90,7 +91,7 @@ exports.Placeholder = Slot.specialize({
         value: function(isFirstTime) {
             Slot.prototype.enterDocument.call(this, isFirstTime);
             if (this.component) {
-                if ( this.component.templateModuleId.indexOf(this._moduleId) != 0) {
+                if (this.component.templateModuleId.indexOf(this._moduleId) != 0) {
                     this.removeChildComponent(this.component);
                     this._needChildRemoval = true;
                     this.needsDraw = true;
@@ -160,7 +161,7 @@ exports.Placeholder = Slot.specialize({
                         if (this.enterDocument = oldEnterDocument) {
                             this.enterDocument(isFirstTime);
                         }
-                    }
+                    };
                 });
             } else if (!this.content && this._componentsMap.has(moduleId)) {
                 this.content = this._componentsMap.get(moduleId);
