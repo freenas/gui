@@ -82,6 +82,9 @@
             "properties": {
                 "element": {"#": "export"},
                 "value": "Export Certificate"
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "!!@certificateActionPlaceHolder.component.object._isNew"}
             }
         },
         "noOperation": {
