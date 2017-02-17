@@ -4,6 +4,7 @@
         "properties": {
             "inspectorComponentModule": {"%": "ui/sections/storage/inspectors/volume-dataset.reel"},
             "creatorComponentModule": {"%": "ui/sections/storage/inspectors/volume-dataset.reel"},
+            "listControlsComponentModule": {"%": "ui/sections/storage/controls/volume-dataset-options.reel"},
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "collectionNameExpression": "'Datasets'",
             "nameExpression": "name",
