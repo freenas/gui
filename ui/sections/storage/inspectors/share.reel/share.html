@@ -19,7 +19,8 @@
                 "targetTreeview": {"@": "target_path"}
             },
             "bindings": {
-                "volumePath": {"<-": "'/mnt/' + @owner.object._volume.id"}
+                "volumePath": {"<-": "'/mnt/' + @owner.object._volume.id"},
+                "isLoading": {"<-": "@owner.isDataLoading || @shareTypePlaceHolder.isLoadingComponent"}
             }
         },
         "datasetTreeController": {
@@ -95,7 +96,8 @@
             },
             "bindings": {
                 "checked": {"<->": "!!@owner.serviceEnabled"},
-                "label": {"<-": "'Enable ' + @owner.object.type.toUpperCase() + ' Service'"}
+                "label": {"<-": "'Enable ' + @owner.object.type.toUpperCase() + ' Service'"},
+                "isLoading": {"<-": "@owner.isServiceLoading"}
             }
         },
         "name": {
@@ -167,6 +169,16 @@
                 "value": {"<-": "@owner.targetType"},
                 "classList.has('hide')": {"<-": "!!@owner.object._isNew"}
             }
+        },
+        "permissions": {
+            "prototype": "./share-permissions.reel",
+            "properties": {
+                "element": {"#": "permissions"}
+            },
+            "bindings": {
+                "object": {"<->": "@owner.object"},
+                "classList.has('hide')": {"<-": "@owner.object.type == 'iscsi'"}
+            }
         }
     }
     </script>
@@ -183,6 +195,7 @@
             <div data-montage-id="target_path" class="wizard-is-hidden"></div>
             <div data-montage-id="description" class="wizard-is-hidden"></div>
             <div data-montage-id="shareTypePlaceHolder"></div>
+            <div data-montage-id="permissions"></div>
         </div>
     </div>
 </body>

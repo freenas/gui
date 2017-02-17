@@ -16,39 +16,73 @@
             },
             "bindings": {
                 "options" : {"<-": "@owner.classValues"},
-                "selectedValue": {"<->": "@owner.object.class"}
+                "selectedValue": {"<->": "@owner.object.clazz"}
             }
         },
         "emitter": {
-            "prototype": "blue-shark/ui/text.reel",
+            "prototype": "blue-shark/ui/select.reel",
             "properties": {
-                "element": {"#": "emitter"},
-                "value": "Send Email"
+                "element": {"#": "emitter"}
+            },
+            "bindings": {
+                "options" : {"<-": "@owner.alertEmitters"},
+                "selectedValue": {"<->": "@owner.object.emitter"}
             }
         },
         "sendTo": {
-            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "prototype": "blue-shark/ui/multiple-select.reel",
             "properties": {
                 "element": {"#": "addresses"},
                 "label": "To",
                 "labelPath": "this",
-                "isDraggable": true,
                 "inputTitle": "Add a recipient",
                 "valuesTitle": "Recipients",
-                "placeholder": "eg. foo@example.com"
+                "placeholder": "eg. foo@example.com",
+                "emptyMessage": "no emails added",
+                "hideTitle": true,
+                "valuesHeight": 4
             },
             "bindings": {
                 "values": {"<->": "@owner.object.parameters.addresses"}
-            }        
+            }
+        },
+        "substitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "substitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.object.emitter"}
+            }
+        },     
+        "pushBulletField": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "pushBulletField"},
+                "value": "Default PushBullet Account"
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="TableRowPredicate Table-cells">
-        <div><div data-montage-id="classValues"></div></div>
+        <div>
+            <div data-montage-id="classValues"></div>
+        </div>
         <div data-montage-id="emitter"></div>
-        <div data-montage-id="addresses" class="Select-value"></div>
+        <div data-montage-id="substitution">
+            <div data-arg="email">
+                <div>
+                    <div data-montage-id="addresses" class="Select-value flush-bottom"></div>
+                </div>
+            </div>
+            <div data-arg="pushbullet">
+                <div>
+                    <div data-montage-id="pushBulletField" class="Select-value flush-bottom"></div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

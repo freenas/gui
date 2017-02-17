@@ -19,11 +19,14 @@
                 "value": {"<-": "@owner.parsedHtml"}
             }
         },
-        "scrollView": {
-            "prototype": "blue-shark/ui/scrollview.reel",
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
             "properties": {
-                "element": {"#": "scrollView"},
-                "overflow": "scrollY"
+                "element": {"#": "inspector"},
+                "isFooterHidden": true
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"}
             }
         }
     }
@@ -31,7 +34,7 @@
 </head>
 <body>
     <div data-montage-id="owner" class="ContainerReadme">
-        <div data-montage-id="scrollView" class="ContainerReadme-ScrollView">
+        <div data-montage-id="inspector">
             <div data-montage-id="readmeHtml"></div>
         </div>
     </div>

@@ -49,27 +49,12 @@ exports.TaskNotification = Component.specialize({
         }
     },
 
-    handleTransitionend: {
-        value: function() {
-            if (this.isExpired) {
-                this.isHidden = true;
-                this.element.removeEventListener('transitionend', this);
-            }
-        }
-    },
-
     _handleChange: {
         value: function(state) {
             _.assign(this.object, state.toJS());
             if (this.object.state === 'FINISHED' || this.object.state === 'FAILED' || this.object.state === 'ABORTED') {
                 var self = this;
                 this.object.progress.percentage = 100;
-                if (this.object.state === 'FINISHED') {
-                    setTimeout(function() {
-                        self.element.addEventListener('transitionend', self);
-                        self.isExpired = true;
-                    }, 10000);
-                }
                 this._unregisterUpdates();
             }
         }

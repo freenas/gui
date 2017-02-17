@@ -36,18 +36,13 @@
             }
         },
 
-        "controller": {
-            "prototype": "montage/core/range-controller",
-            "bindings": {
-                "content": {"<-": "@owner.directoryServices"}
-            }
-        },
-
         "directoryServices": {
             "prototype": "ui/controls/list.reel",
             "properties": {
-                "element": {"#": "directoryServices"},
-                "controller": {"@": "controller"}
+                "element": {"#": "directoryServices"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.directoryServices"}
             }
         },
 

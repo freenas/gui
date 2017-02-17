@@ -11,6 +11,9 @@
                 "inspector": {"@": "inspector"},
                 "credentials": {"@": "credentials"}
             },
+            "bindings": {
+                "isLoading": {"<-": "@credentials.isLoadingComponent"}
+            },
             "listeners": [
                 {
                     "type": "action",

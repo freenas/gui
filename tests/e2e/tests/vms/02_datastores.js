@@ -16,6 +16,6 @@ module.exports = {
             .press('.CascadingListItem:nth-child(3) .List-item:nth-child(1)')
             .waitForElementVisible('.CascadingListItem:nth-child(3) div.VirtualMachineDatastore');
         browser.expect.element('.CascadingListItem:nth-child(3) div.VirtualMachineDatastore .Inspector-header').text.to.equal('New NFS Datastore');
-        browser.expect.element('.CascadingListItem:nth-child(3) div.VirtualMachineDatastore div.VirtualMachineDatastoreNfs').to.be.present.before(1000);
+        browser.expect.element('.CascadingListItem:nth-child(3) div.VirtualMachineDatastore div.VirtualMachineDatastoreNfs').to.be.present.before(5000);
     }
 };

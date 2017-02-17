@@ -108,15 +108,11 @@
             }
         },
         "v3_privacy_passphrase": {
-            "prototype": "blue-shark/ui/field-password.reel",
+            "prototype": "blue-shark/ui/field-password-input.reel",
             "properties": {
                 "element": {"#": "v3_privacy_passphrase"},
-                "validationPath": "v3_privacy_passphrase",
                 "label": "Privacy Passphrase",
-                "placeholder1": "enter passphrase",
-                "placeholder2": "confirm passphrase",
-                "errorMessage": "Passphrases don't match",
-                "resetLabel": "Set Passphrase"
+                "placeholder": "enter passphrase"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.v3_privacy_passphrase"}

@@ -172,7 +172,7 @@ export class SystemRoute extends AbstractRoute {
 
     public getAlertSettings(stack: Array<any>) {
         let self = this,
-            objectType = Model.Mail,
+            objectType = Model.AlertEmitterEmail,
             columnIndex = 2,
             parentContext = stack[columnIndex - 1],
             context: any = {

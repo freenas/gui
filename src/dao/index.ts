@@ -37,7 +37,7 @@ export {ImportableDiskDao} from './importable-disk-dao';
 export {IpmiDao} from './ipmi-dao';
 export {KerberosKeytabDao} from './kerberos-keytab-dao';
 export {KerberosRealmDao} from './kerberos-realm-dao';
-export {MailDao} from './mail-dao';
+export {AlertEmitterEmailDao} from './AlertEmitterEmailDao';
 export {NetworkConfigDao} from './network-config-dao';
 export {NetworkHostDao} from './network-host-dao';
 export {NetworkInterfaceBridgePropertiesDao} from './network-interface-bridge-properties-dao';

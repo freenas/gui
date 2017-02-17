@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "permissionsSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "permissionsSection"},
+                "title": "Permissions"
+            }
+        },
+        "permissionsTypeConverter": {
+            "prototype": "core/converter/select-option-converter"
+        },
+        "usersOptionsConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "labelPropertyName": "username",
+                "valuePropertyName": "username"
+            }
+        },
+        "groupsOptionsConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "labelPropertyName": "name",
+                "valuePropertyName": "name"
+            }
+        },
+        "permissionsType": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "permissionsType"},
+                "label": "Permissions Type"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.permissions_type"}
+            }
+        },
+        "ownerUser": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "ownerUser"},
+                "label": "Owner user",
+                "converter": {"@": "usersOptionsConverter"}
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.permissions.user"},
+                "options": {"<-": "@owner.users.sorted{builtin + username}"}
+            }
+        },
+        "ownerGroup": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "ownerGroup"},
+                "label": "Owner group",
+                "converter": {"@": "groupsOptionsConverter"}
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.permissions.group"},
+                "options": {"<-": "@owner.groups.sorted{builtin + name}"}
+            }
+        },
+        "modes": {
+            "prototype": "ui/controls/unixPermissions.reel",
+            "properties": {
+                "element": {"#": "permissions"}
+            },
+            "bindings": {
+                "modes": {"<->": "@owner.object.permissions.modes"},
+                "classList.has('hide')": {"<-": "@owner.object.permissions_type != 'PERM' || @owner.object.target_type != 'DATASET'"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="SharePermissions">
+        <div data-montage-id="permissionsSection">
+            <div data-montage-id="permissionsType"></div>
+            <div data-montage-id="ownerUser"></div>
+            <div data-montage-id="ownerGroup"></div>
+            <div data-montage-id="permissions"></div>
+        </div>
+    </div>
+</body>
+</html>

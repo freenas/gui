@@ -134,19 +134,12 @@ exports.VmsSectionService = AbstractSectionService.specialize({
     loadEntries: {
         value: function() {
             var self = this;
-            this.entries = [];
-            this.entries._objectType = 'Vm';
             return this._vmRepository.listVms().then(function(entries) {
-                return _.assign(_.sortBy(entries, 'name' ), { _objectType: 'Vm' });
+                return _.sortBy(entries, 'name' );
             }).then(function(entries) {
-                return Promise.all(
-                    _.map(entries, function(entry) {
-                        entry._hasGraphicDevice = _.get(entry, 'devices').some(function (x) {
-                            return x.type === self._vmRepository.DEVICE_TYPE.GRAPHICS;
-                        });
-                        return entry;
-                    })
-                );
+                entries._objectType = 'Vm';
+                self.entries = entries;
+                return entries;
             });
         }
     },
@@ -177,13 +170,13 @@ exports.VmsSectionService = AbstractSectionService.specialize({
 
     listBlocksInDatastore: {
         value: function(datastoreId) {
-            return this._vmDatastoreRepository.listDiskTargetsWithTypeInDatastore('BLOCK', datastoreId)
+            return this._vmDatastoreRepository.listDiskTargetsWithTypeForVm('BLOCK', datastoreId)
         }
     },
 
     listFilesInDatastore: {
         value: function(datastoreId) {
-            return this._vmDatastoreRepository.listDiskTargetsWithTypeInDatastore('FILE', datastoreId)
+            return this._vmDatastoreRepository.listDiskTargetsWithTypeForVm('FILE', datastoreId)
         }
     },
 
@@ -374,9 +367,14 @@ exports.VmsSectionService = AbstractSectionService.specialize({
         }
     },
 
+    flushTemplateCache: {
+        value: function() {
+            return this._vmRepository.flushTemplateCache();
+        }
+    },
+
     saveVm: {
         value: function(vm) {
-            vm.config.memsize = this._bytesService.convertStringToSize(vm._memory, this._bytesService.UNITS.M);
             vm.target = vm.target === this.DEFAULT_STRING ? null : vm.target;
             vm.config.readme = vm._readme.text;
             return this._vmRepository.saveVm(vm);
@@ -470,6 +468,7 @@ exports.VmsSectionService = AbstractSectionService.specialize({
             var self = this;
             if (!this.entries) {
                 this.entries = [];
+                this._objectType = 'Vm';
             }
             _.forEach(vms.toJS(), function(vm) {
                 // DTM

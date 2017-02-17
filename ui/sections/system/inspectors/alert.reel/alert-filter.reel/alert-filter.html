@@ -2,7 +2,7 @@
 <html>
 <head>
     <title></title>
-
+    <link rel="stylesheet" href="alert-filter.css">
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -25,7 +25,8 @@
                 "validationController": {"@": "validationController"},
                 "canDelete": true,
                 "canSave": true,
-                "canRevert": true
+                "canRevert": true,
+                "title": "Alerts & Reporting"
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
@@ -47,7 +48,7 @@
 <body>
     <div data-montage-id="owner" class="AlertFilter">
         <div data-montage-id="inspector">
-            <div data-montage-id="table"></div>
+            <div data-montage-id="table" class="AlertFilter-table"></div>
         </div>
     </div>
 </body>

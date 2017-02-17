@@ -41,13 +41,14 @@ export class AccountsRoute extends AbstractRoute {
                 path: parentContext.path + '/user'
             };
         return Promise.all([
-            this.accountRepository.listUsers(),
+            this.accountRepository.streamUsers(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread((users: Array<any>, uiDescriptor) => {
             let filter = {builtin: false},
                 sort = 'username';
             let filteredUsers = _.sortBy(_.filter(users, filter), sort);
             (filteredUsers as any)._objectType = objectType;
+            (filteredUsers as any)._stream = (users as any)._stream;
             context.object = filteredUsers;
             context.userInterfaceDescriptor = uiDescriptor;
             context.changeListener = self.eventDispatcherService.addEventListener(ModelEventName[objectType].listChange, function(state) {
@@ -114,13 +115,14 @@ export class AccountsRoute extends AbstractRoute {
                 path: parentContext.path + '/group'
             };
         return Promise.all([
-            this.accountRepository.listGroups(),
+            this.accountRepository.streamGroups(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread((groups: Array<any>, uiDescriptor) => {
             let filter = {builtin: false},
                 sort = 'name';
             let filteredGroups = _.sortBy(_.filter(groups, filter), sort);
             (filteredGroups as any)._objectType = objectType;
+            (filteredGroups as any)._stream = (groups as any)._stream;
             context.object = filteredGroups;
             context.userInterfaceDescriptor = uiDescriptor;
             context.changeListener = self.eventDispatcherService.addEventListener(ModelEventName[objectType].listChange, function(state) {

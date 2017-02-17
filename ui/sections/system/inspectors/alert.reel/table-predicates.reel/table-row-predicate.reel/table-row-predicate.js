@@ -21,6 +21,14 @@ exports.TableRowPredicate = Component.specialize({
                     };
                 });
             });
+            this._service.listAlertEmitters().then(function (alertEmitters) {
+                self.alertEmitters = alertEmitters.args.fragment.map(function (x) {
+                    return {
+                        label: x.name,
+                        value: x.name
+                    }
+                })
+            })
         }
     }
 });

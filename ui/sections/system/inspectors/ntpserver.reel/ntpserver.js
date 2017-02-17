@@ -9,9 +9,19 @@ exports.Ntpserver = AbstractInspector.specialize({
         }
     },
 
+    enterDocument: {
+        value: function() {
+            this.force = false;
+            if (this.object._isNew) {
+                this.object.minpoll = 6;
+                this.object.maxpoll = 10;
+            }
+        }
+    },
+
     save: {
         value: function() {
-            return this._sectionService.saveNtpServer(this.object);
+            return this._sectionService.saveNtpServer(this.object, this.force);
         }
     },
 

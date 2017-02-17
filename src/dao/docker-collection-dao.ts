@@ -10,7 +10,7 @@ export class DockerCollectionDao extends AbstractDao<DockerCollection> {
     }
 
     public getImages(collection: DockerCollection) {
-        return this.datastoreService.stream(Model.DockerCollectionImage, 'docker.collection.get_entries', 'name', [collection.id]).then((stream) => {
+        return this.datastoreService.stream(Model.DockerCollectionImage, 'docker.collection.get_entries', 'name', false, [collection.id]).then((stream) => {
             let dataArray = stream.get('data').toJS();
             dataArray._objectType = Model.DockerCollectionImage;
 

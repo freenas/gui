@@ -97,6 +97,14 @@
             }
         },
 
+        "networkSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "networkSection"},
+                "title": "Network Settings"
+            }
+        },
+
         "advancedSection": {
             "prototype": "ui/controls/foldable-section.reel",
             "properties": {
@@ -113,18 +121,6 @@
             },
             "bindings": {
                 "value": {"<->": "@owner.object.hostname"}
-            }
-        },
-
-        "host": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
-            "properties": {
-                "element": {"#": "host"},
-                "label": "Host"
-            },
-            "bindings": {
-                "value": {"<->": "@owner.object.host"},
-                "classList.has('hide')": {"<-": "true"}
             }
         },
 
@@ -220,15 +216,16 @@
             }
         },
 
-        "bridged": {
-            "prototype": "blue-shark/ui/field-checkbox.reel",
+        "primaryNetworkMode": {
+            "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
-                "element": {"#": "bridged"},
-                "label": "Bridged"
+                "element": {"#": "primaryNetworkMode"},
+                "label": "Primary Network Mode"
             },
             "bindings": {
-                "checked": {"<->": "@owner.object.bridge.enable"},
-                "disabled": {"<-": "@owner.currentTemplate.immutable.has('bridge.enable')"}
+                "options": {"<-": "@owner.constructor.primaryNetWorkModes"},
+                "selectedValue": {"<->": "@owner.object.primary_network_mode"},
+                "disabled": {"<-": "@owner.currentTemplate.immutable.has('primary_network_mode')"}
             }
         },
 
@@ -241,7 +238,7 @@
             "bindings": {
                 "value": {"<->": "@owner.object.bridge.address"},
                 "disabled": {"<-": "@bridgeDHCP.checked"},
-                "classList.has('hide')": {"<-": "!@owner.object.bridge.enable"}
+                "classList.has('hide')": {"<-": "@owner.object.primary_network_mode != 'BRIDGED'"}
             }
         },
 
@@ -253,7 +250,7 @@
             },
             "bindings": {
                 "checked": {"<->": "@owner.object.bridge.dhcp"},
-                "classList.has('hide')": {"<-": "!@owner.object.bridge.enable"},
+                "classList.has('hide')": {"<-": "@owner.object.primary_network_mode != 'BRIDGED'"},
                 "disabled": {"<-": "@owner.currentTemplate.immutable.has('bridge.dhcp')"}
             }
         },
@@ -266,7 +263,7 @@
             },
             "bindings": {
                 "value": {"<->": "@owner.object.bridge.macaddress"},
-                "classList.has('hide')": {"<-": "!@owner.object.bridge.enable"}
+                "classList.has('hide')": {"<-": "@owner.object.primary_network_mode != 'BRIDGED'"}
             }
         },
 
@@ -314,28 +311,30 @@
     <div data-montage-id="owner" class="ContainerCreator">
         <div data-montage-id="inspector">
             <div data-montage-id="image" class="g-margin-bottom"></div>
+            <div data-montage-id="readme" class="g-margin-bottom"></div>
             <div data-montage-id="name"></div>
             <div data-montage-id="dockerHost"></div>
-            <div data-montage-id="readme" class="g-margin-bottom"></div>
+            <div data-montage-id="settingsTable" class="g-margin-bottom"></div>
+            <div data-montage-id="exposePorts" class="g-margin-bottom"></div>
+            <div data-montage-id="portsTable" class="g-margin-bottom"></div>
+            <div data-montage-id="volumesTable" class="g-margin-bottom"></div>
+            <div data-montage-id="environmentsTable" class="g-margin-bottom"></div>
+            <div data-montage-id="interactive"></div>
+            <div data-montage-id="privileged"></div>
+            <div data-montage-id="autostart"></div>
+            <div data-montage-id="command"></div>
 
-            <div data-montage-id="advancedSection">
-                <div data-montage-id="hostname"></div>
-                <div data-montage-id="host"></div>
-                <div data-montage-id="memoryLimit"></div>
-                <div data-montage-id="settingsTable" class="g-margin-bottom"></div>
-                <div data-montage-id="environmentsTable" class="g-margin-bottom"></div>
-                <div data-montage-id="portsTable" class="g-margin-bottom"></div>
-                <div data-montage-id="exposePorts" class="g-margin-bottom"></div>
-                <div data-montage-id="volumesTable" class="g-margin-bottom"></div>
-                <div data-montage-id="interactive"></div>
-                <div data-montage-id="privileged"></div>
-                <div data-montage-id="bridged"></div>
+            <div data-montage-id="networkSection">
+                <div data-montage-id="primaryNetworkMode"></div>
                 <div data-montage-id="bridgeDHCP"></div>
                 <div data-montage-id="bridgeAddress"></div>
                 <div data-montage-id="bridgeMacAddress"></div>
-                <div data-montage-id="command"></div>
-                <div data-montage-id="autostart"></div>
                 <div data-montage-id="networks"></div>
+            </div>
+
+            <div data-montage-id="advancedSection">
+                <div data-montage-id="hostname"></div>
+                <div data-montage-id="memoryLimit"></div>
             </div>
         </div>
     </div>

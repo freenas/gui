@@ -9,6 +9,7 @@ exports.Replication = AbstractInspector.specialize({
 
     _inspectorTemplateDidLoad: {
         value: function() {
+            var self = this;
             this.transferSpeedUnits = Units.TRANSFER_SPEED;
             this._calendarService = this.application.calendarService;
             this._replicationService = this.application.replicationService;

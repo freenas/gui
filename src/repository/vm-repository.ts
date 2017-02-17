@@ -96,7 +96,16 @@ export class VmRepository extends AbstractRepository<Vm> {
     }
 
     public listVms() {
-        return this.vms ? Promise.resolve(this.vms.valueSeq().toJS()) : this.vmDao.list();
+        var self = this;
+        let promise = this.vms ? Promise.resolve(this.vms.valueSeq().toJS()) : this.vmDao.list();
+        return promise.then((vms) => {
+            for (let vm of vms) {
+                vm._hasGraphicDevice = _.get(vm, 'devices').some(function (x) {
+                    return x.type === self.DEVICE_TYPE.GRAPHICS;
+                });
+            }
+            return vms;
+        });
     }
 
     public getVmSettings() {
@@ -162,6 +171,10 @@ export class VmRepository extends AbstractRepository<Vm> {
         }));
     }
 
+    public flushTemplateCache() {
+        return this.vmDao.flushTemplateCache();
+    }
+
     public static initializeNewVmDevice(device: any) {
         if (device.type === VmDeviceType.VOLUME) {
             device.properties.type = VmDeviceVolumeType.VT9P;
@@ -172,7 +185,7 @@ export class VmRepository extends AbstractRepository<Vm> {
         return this.vmDao.start(vm);
     }
 
-    public stopVm(vm: any, force: boolean) {
+    public stopVm(vm: any, force: boolean = false) {
         return this.vmDao.stop(vm, force);
     }
 

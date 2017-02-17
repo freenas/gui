@@ -12,6 +12,7 @@ import {ReplicationRepository} from '../../repository/replication-repository';
 import {DiskRepository} from '../../repository/disk-repository';
 import {AlertFilterRepository} from '../../repository/alert-filter-repository';
 import {BootPoolRepository} from '../../repository/boot-pool-repository';
+import {AlertEmitterPushBulletRepository} from '../../repository/push-bullet-repository';
 import {ModelEventName} from '../../model-event-name';
 import * as Immutable from 'immutable';
 import * as _ from 'lodash';
@@ -37,6 +38,7 @@ export class SystemSectionService extends AbstractSectionService {
     private alertFilterRepository: AlertFilterRepository;
     private bootEnvironments: Array<any> = [];
     private initialDiskAllocationPromise: Promise<any>;
+    private alertEmitterPushBulletRepository: AlertEmitterPushBulletRepository;
 
     public readonly SELF_SIGNED = CryptoCertificateRepository.SELF_SIGNED;
     public readonly CREATION = CryptoCertificateRepository.CREATION;
@@ -56,6 +58,7 @@ export class SystemSectionService extends AbstractSectionService {
         this.diskRepository = DiskRepository.getInstance();
         this.bootPoolRepository = BootPoolRepository.getInstance();
         this.alertFilterRepository = AlertFilterRepository.getInstance();
+        this.alertEmitterPushBulletRepository = AlertEmitterPushBulletRepository.getInstance();
 
 
         this.eventDispatcherService.addEventListener(
@@ -108,8 +111,8 @@ export class SystemSectionService extends AbstractSectionService {
         return this.ntpServerRepository.listNtpServers();
     }
 
-    public saveNtpServer(ntpServer) {
-        return this.ntpServerRepository.saveNtpServer(ntpServer);
+    public saveNtpServer(ntpServer, force) {
+        return this.ntpServerRepository.saveNtpServer(ntpServer, force);
     }
 
     public listVms() {
@@ -170,6 +173,14 @@ export class SystemSectionService extends AbstractSectionService {
 
     public scrubBootPool(): Promise<SubmittedTask> {
         return this.bootPoolRepository.scrubBootPool();
+    }
+
+    public getAlertEmitterPushBulletConfig () {
+        return this.alertEmitterPushBulletRepository.getConfig();
+    }
+
+    public saveAlertEmitterPushBulletConfig (pushBulletConfig: any): SubmittedTask {
+        return this.alertEmitterPushBulletRepository.saveConfig(pushBulletConfig);
     }
 
     public saveCertificate(certificate: any) {

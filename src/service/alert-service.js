@@ -21,6 +21,12 @@ exports.AlertService = Montage.specialize({
             return this._alertRepository.listAlertClasses();
         }
     },
+    
+    listAlertEmitters: {
+        value: function () {
+            return this._alertRepository.listAlertEmitters();
+        }
+    },
 
     listAlertSeverities: {
         value: function () {

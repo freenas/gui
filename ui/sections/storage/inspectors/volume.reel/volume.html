@@ -34,7 +34,8 @@
                 "converter": {"@": "bytesConverter"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.properties.size.parsed"}
+                "value": {"<-": "@owner.object.properties.size.parsed"},
+                "classList.has('hide')": {"<-": "@owner.object.status == 'LOCKED'"}
             }
         },
         "validationController": {
@@ -134,7 +135,8 @@
             "bindings": {
                 "totalSize": {"<-": "@owner.object.properties.size.parsed"},
                 "usedSize": {"<-": "@owner.object.properties.allocated.parsed"},
-                "available": {"<-": "@owner.object.properties.free.parsed"}
+                "available": {"<-": "@owner.object.properties.free.parsed"},
+                "classList.has('hide')": {"<-": "@owner.object.status == 'LOCKED'"}
             }
         },
         "scrub": {
@@ -142,6 +144,9 @@
             "properties": {
                 "element": {"#": "scrub"},
                 "value": "Scrub"
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "@owner.object.status == 'LOCKED'"}
             }
         },
         "export": {
@@ -149,6 +154,9 @@
             "properties": {
                 "element": {"#": "export"},
                 "value": "Detach"
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "@owner.object.status == 'LOCKED'"}
             }
         },
         "upgrade": {
@@ -158,7 +166,7 @@
                 "value": "Upgrade"
             },
             "bindings": {
-                "classList.has('hide')": {"<-": "!!@owner.upgraded"}
+                "classList.has('hide')": {"<-": "!!@owner.upgraded || @owner.object.status == 'LOCKED'"}
             }
         },
         "importShares": {
@@ -168,14 +176,16 @@
                 "value": "Import Shares"
             },
             "bindings": {
-                "classList.has('hide')": {"<-": "!!@owner.upgraded"}
+                "classList.has('hide')": {"<-": "!!@owner.upgraded || @owner.object.status == 'LOCKED'"}
             }
         },
         "capacityLabel": {
             "prototype": "blue-shark/ui/text.reel",
             "properties": {
-                "element": {"#": "capacityLabel"},
-                "value": "Capacity"
+                "element": {"#": "capacityLabel"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.status == 'LOCKED' ? 'Locked' : 'Capacity'"}
             }
         }
     }

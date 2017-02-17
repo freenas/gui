@@ -3,7 +3,7 @@ module.exports = {
         browser
             .press('div.SectionRoot-extraEntries .List-item:nth-child(1)')
             .waitForElementVisible('.CascadingListItem:nth-child(2) div.VolumeImporter');
-        browser.expect.element('.CascadingListItem:nth-child(2) div.VolumeImporter .Viewer-title').text.to.equal('Detached volumes');
+        browser.expect.element('.CascadingListItem:nth-child(2) div.VolumeImporter .Viewer-title').text.to.equal('Volumes');
     },
     'Import encrypted volume': function(browser) {
         browser

@@ -40,6 +40,7 @@ exports.Mail = AbstractInspector.specialize(/** @lends Mail# */ {
     revert: {
         value: function() {
             this.object = this._object;
+            this.pushbullet = this._pushbullet;
         }
     },
 
@@ -47,6 +48,9 @@ exports.Mail = AbstractInspector.specialize(/** @lends Mail# */ {
         value: function() {
             if (!this._object) {
                 this._object = _.cloneDeep(this.object);
+            }
+            if (!this._pushbullet) {
+                this._pushbullet = _.cloneDeep(this.pushbullet);
             }
         }
     }
