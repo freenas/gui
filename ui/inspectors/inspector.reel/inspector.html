@@ -12,7 +12,8 @@
                 "object": {"<-": "@owner.context.object"},
                 "classList.has('is-loading')": {"<-": "@owner.isLoading || @owner.controller.isLoading"},
                 "classList.has('is-locked')": {"<-": "!!@owner.object.__isLocked"},
-                "classList.has('confirmation-is-visible')": {"<-": "@owner.isConfirmationVisible"},
+                "classList.has('delete-confirmation-is-visible')": {"<-": "@owner.isDeleteConfirmationVisible"},
+                "classList.has('save-confirmation-is-visible')": {"<-": "@owner.isSaveConfirmationVisible"},
                 "classList.has('has-error')": {"<-": "!!@owner.validationController.errorMessage"}
             }
         },
@@ -69,15 +70,30 @@
                 }
             ]
         },
-        "confirmationMessage": {
+        "confirmationDeleteMessage": {
             "prototype": "./inspector-confirmation.reel",
             "properties": {
-                "element": {"#": "confirmationMessage"},
-                "inspector": {"@": "owner"}
+                "element": {"#": "confirmationDeleteMessage"},
+                "inspector": {"@": "owner"},
+                "confirmMethod": "confirmDelete",
+                "cancelMethod": "cancelDelete"
             },
             "bindings": {
-                "confirmDeleteMessage": {"<-": "!!@owner.confirmDeleteMessage ? @owner.confirmDeleteMessage : 'Are you sure you want to delete ' + @owner.context.object.path(@owner.context.userInterfaceDescriptor.nameExpression)"},
-                "extraDeleteFlags": {"<-": "@owner.extraDeleteFlags"}
+                "confirmMessage": {"<-": "!!@owner.confirmDeleteMessage ? @owner.confirmDeleteMessage : 'Are you sure you want to delete ' + @owner.context.object.path(@owner.context.userInterfaceDescriptor.nameExpression) + '?'"},
+                "extraFlags": {"<-": "@owner.extraDeleteFlags"}
+            }
+        },
+        "confirmationSaveMessage": {
+            "prototype": "./inspector-confirmation.reel",
+            "properties": {
+                "element": {"#": "confirmationSaveMessage"},
+                "inspector": {"@": "owner"},
+                "confirmMethod": "confirmSave",
+                "cancelMethod": "cancelSave",
+                "confirmLabel": "Save"
+            },
+            "bindings": {
+                "confirmMessage": {"<-": "@owner.confirmSaveMessage || 'Are you sure you want to save changes to ' + @owner.context.object.path(@owner.context.userInterfaceDescriptor.nameExpression) + '?'"}
             }
         },
         "title": {
@@ -100,7 +116,8 @@
         <div class="Inspector-locked">
             <div data-montage-id="lockMessage"></div>
         </div>
-        <div data-montage-id="confirmationMessage" class="Inspector-confirmationMessage"></div>
+        <div data-montage-id="confirmationDeleteMessage" class="Inspector-confirmationMessage delete-confirmation"></div>
+        <div data-montage-id="confirmationSaveMessage" class="Inspector-confirmationMessage save-confirmation"></div>
         <div data-montage-id="scrollView">
             <div data-montage-id="loading" class="Inspector-loading"></div>
             <div data-montage-id="body" class="Inspector-body">

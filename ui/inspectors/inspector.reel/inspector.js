@@ -39,13 +39,14 @@ exports.Inspector = Component.specialize({
 
     exitDocument: {
         value: function() {
-            this.isConfirmationVisible = false;
+            this.isDeleteConfirmationVisible = false;
+            this.isSaveConfirmationVisible = false;
         }
     },
 
     handleDeleteAction: {
         value: function() {
-            this.isConfirmationVisible = true;
+            this.isDeleteConfirmationVisible = true;
         }
     },
 
@@ -82,13 +83,13 @@ exports.Inspector = Component.specialize({
                 self.clearObjectSelection();
             });
 
-            this.isConfirmationVisible = false;
+            this.isDeleteConfirmationVisible = false;
         }
     },
 
     cancelDelete: {
         value: function() {
-            this.isConfirmationVisible = false;
+            this.isDeleteConfirmationVisible = false;
         }
     },
 
@@ -125,6 +126,17 @@ exports.Inspector = Component.specialize({
 
     handleSaveAction: {
         value: function(event) {
+            if (!!this.needSaveConfirmation) {
+                this.isSaveConfirmationVisible = true;
+                event.stopPropagation();
+            } else {
+                return this.confirmSave(event);
+            }
+        }
+    },
+
+    confirmSave: {
+        value: function(event) {
             var self = this,
                 promise;
 
@@ -144,8 +156,11 @@ exports.Inspector = Component.specialize({
             }
 
             promise = Promise.is(promise) ? promise : Promise.resolve(promise);
-            event.stopPropagation();
+            if (event) {
+                event.stopPropagation();
+            }
 
+            this.isSaveConfirmationVisible = false;
             return promise
                 .catch(this._logError)
                 .then(function(task) {
@@ -154,6 +169,12 @@ exports.Inspector = Component.specialize({
                     }
                     return task;
                 });
+        }
+    },
+
+    cancelSave: {
+        value: function() {
+            this.isSaveConfirmationVisible = false;
         }
     },
 

@@ -106,6 +106,7 @@ export class NetworkSectionService extends AbstractSectionService {
         if (networkInterface._ipv6Address === null) {
             networkInterface._ipv6Address = {};
         }
+        return this.networkRepository.isClientInterface(networkInterface).then(isClient => networkInterface._isClient = isClient);
     }
 
     public getNewNetworkInterface() {

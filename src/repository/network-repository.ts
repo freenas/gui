@@ -13,6 +13,7 @@ export class NetworkRepository extends AbstractRepository {
 
     private interfaces: Map<string, Map<string, any>>;
     private ipmis: Map<string, Map<string, any>>;
+    private clientInterfaceId: string;
 
     public static readonly INTERFACE_TYPES = {
         VLAN: {
@@ -158,6 +159,15 @@ export class NetworkRepository extends AbstractRepository {
         return this.ipmiDao.isIpmiLoaded();
     }
 
+    isClientInterface(networkInterface: any) {
+        return this.clientInterfaceId ?
+            Promise.resolve(networkInterface.id === this.clientInterfaceId) :
+            this.networkConfigDao.getClientInterface().then(clientInterface => {
+                this.clientInterfaceId = clientInterface;
+                return networkInterface.id === clientInterface;
+            });
+    }
+
     protected handleStateChange(name: string, state: any) {
         switch (name) {
             case Model.NetworkInterface:
@@ -173,5 +183,4 @@ export class NetworkRepository extends AbstractRepository {
 
     protected handleEvent(name: string, data: any) {
     }
-
 }
