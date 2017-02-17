@@ -15,7 +15,7 @@ var UNITS = [
 exports.SecondsToStringConverter = Converter.specialize({
     convert: {
         value: function(seconds) {
-            var duration = moment.duration(seconds, 'seconds');
+            var duration = moment.duration(_.toNumber(seconds), 'seconds');
             return _.join(
                 _.compact(_.map(UNITS, function(unit) {
                     var value = duration.get(unit);
