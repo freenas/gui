@@ -84,6 +84,7 @@ exports.VirtualMachine = AbstractInspector.specialize({
 
             Promise.all(loadingPromises).then(function() {
                 self._sectionService.initializeVm(self.object);
+                self.addRangeAtPathChangeListener("object.devices", self, "_handleDevicesChange");
                 self.addPathChangeListener("object._bootDevice", self, "_handleBootDeviceChange");
                 self.addPathChangeListener("object._selectedTemplate", self, "_handleTemplateChange");
                 if (!self.object._isNew) {
@@ -178,6 +179,14 @@ exports.VirtualMachine = AbstractInspector.specialize({
         value: function() {
             if (this.object.status && this.object.status.state === 'STOPPED') {
                 this.object._isShutdownRequested = false;
+            }
+        }
+    },
+
+    _handleDevicesChange: {
+        value: function() {
+            if (this._inDocument) {
+                this._sectionService.updateBootDevices(this.object);
             }
         }
     },
