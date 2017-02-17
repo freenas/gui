@@ -32,7 +32,7 @@ exports.Updates = AbstractInspector.specialize({
                 }).then(function() {
                     self._updateService.getInfo().then(function(info) {
                         self.info = info;
-                        self.parsedHtml = marked(_.join(self.info.changelog, "\n"));
+                        self.parsedHtml = marked(_.replace(_.join(self.info.changelog, "\n"), /## /g, "\n## "));
                     });
                 });
             }
