@@ -451,7 +451,7 @@
             "properties": {
                 "element": {"#": "sudoEdit"},
                 "validationPath": "sudo",
-                "label": "Superuser"
+                "label": "Administrator"
             },
             "bindings": {
                 "checked": {"<->": "!!@owner.object.sudo"}
@@ -461,7 +461,7 @@
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
                 "element": {"#": "sudoDisplay"},
-                "label": "Superuser"
+                "label": "Administrator"
             },
             "bindings": {
                 "value": {"<-": "!!@owner.object.sudo ? 'Yes' : 'No'"}
