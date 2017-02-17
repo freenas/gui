@@ -68,7 +68,7 @@ exports.DirectoryServices = AbstractInspector.specialize({
             }
 
             promises.push(this._sectionService.getKerberosRealmEmptyList());
-            promises.push(this._sectionService.getKerberosKeytabEmptyList());
+            // promises.push(this._sectionService.getKerberosKeytabEmptyList());
 
             Promise.all(promises).then(function (directoryServices) {
                 var directoryService;

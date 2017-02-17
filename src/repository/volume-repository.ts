@@ -417,7 +417,7 @@ export class VolumeRepository extends AbstractRepository<Volume> {
         } else {
             results = volumeMap.get('topology').map(vdevs =>
                 vdevs.map(vdev =>
-                    vdev.get('children').size === 0 ? vdev.path : vdev.get('children').map(child => child.disk_id)
+                    (!vdev.get('children') || vdev.get('children').size === 0) ? vdev.path : vdev.get('children').map(child => child.disk_id)
                 )
             );
         }
