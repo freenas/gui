@@ -398,23 +398,31 @@ export class RoutingService {
     }
 
     private loadSection(sectionId: string) {
+        let promise: Promise<Array<any>> = this.currentSectionId !== sectionId && this.currentStacks.has(sectionId) ?
+            this.restorePreviousSectionStack(sectionId) :
+            this.loadSectionStack(sectionId);
         this.currentSectionId = sectionId;
-        let promise: Promise<Array<any>> = this.currentStacks.has(sectionId) ?
-            new Promise<Array<any>>((resolve) => {
-                let stack = this.currentStacks.get(sectionId);
-                this.changeHash(_.last(stack).path);
-                hasher.changed.addOnce(this.handleTaskHashChange.bind(this));
-                resolve(stack);
-            }) :
-            this.sectionRoute.get(sectionId).then((stack) => {
-                this.currentStacks.set(sectionId, stack);
-                return stack;
-            });
         promise.then((stack) => {
             if (this.currentSectionId === sectionId) {
                 this.eventDispatcherService.dispatch('sectionChange', stack[0].service);
                 this.eventDispatcherService.dispatch('pathChange', stack);
             }
+        });
+    }
+
+    private loadSectionStack(sectionId: string) {
+        return this.sectionRoute.get(sectionId).then((stack) => {
+            this.currentStacks.set(sectionId, stack);
+            return stack;
+        });
+    }
+
+    private restorePreviousSectionStack(sectionId: string) {
+        return new Promise<Array<any>>((resolve) => {
+            let stack = this.currentStacks.get(sectionId);
+            this.changeHash(_.last(stack).path);
+            hasher.changed.addOnce(this.handleTaskHashChange.bind(this));
+            resolve(stack);
         });
     }
 
