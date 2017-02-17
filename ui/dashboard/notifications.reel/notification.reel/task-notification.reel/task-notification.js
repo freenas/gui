@@ -52,7 +52,8 @@ exports.TaskNotification = Component.specialize({
     _handleChange: {
         value: function(state) {
             _.assign(this.object, state.toJS());
-            if (this.object.state === 'FINISHED' || this.object.state === 'FAILED') {
+            if (this.object.state === 'FINISHED' || this.object.state === 'FAILED' || this.object.state === 'ABORTED') {
+                var self = this;
                 this.object.progress.percentage = 100;
                 this._unregisterUpdates();
             }

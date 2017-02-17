@@ -15,7 +15,7 @@
                 }
             },
             "bindings": {
-                "classList.has('has-error')": {"<-": "@owner.object.state == 'FAILED'"},
+                "classList.has('has-error')": {"<-": "@owner.object.state == 'FAILED' || @owner.object.state == 'ABORTED'"},
                 "classList.has('has-warning')": {"<-": "@owner.object.warnings.length > 0"},
                 "classList.has('has-success')": {"<-": "@owner.object.state == 'FINISHED'"},
                 "classList.has('is-expired')": {"<-": "@owner.isExpired"},

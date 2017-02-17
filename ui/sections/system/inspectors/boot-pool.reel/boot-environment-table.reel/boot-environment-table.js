@@ -1,18 +1,11 @@
-/**
- * @module ui/boot-environment-table.reel
- */
-var Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component,
+    _ = require('lodash');
 
-/**
- * @class BootEnvironmentTable
- * @extends Component
- */
 exports.BootEnvironmentTable = Component.specialize({
     enterDocument: {
         value: function (isFirstTime) {
             if (isFirstTime) {
                 this.addEventListener("action", this, false);
-                this._bootEnvironmentService = this.application.bootEnvironmentService;
             }
         }
     },
@@ -20,106 +13,55 @@ exports.BootEnvironmentTable = Component.specialize({
     handleDeleteAction: {
         value: function () {
             return this._performAction( this.table.selectedRows,
-                                        this._bootEnvironmentService.delete,
-                                        this._bootEnvironmentService);
+                                        this.service.deleteBootEnvironment,
+                                        this.service);
         }
     },
 
     handleActivateAction: {
         value: function () {
             this._performAction(this.table.selectedRows,
-                                this._bootEnvironmentService.activateBootEnvironment,
-                                this._bootEnvironmentService);
+                                this.service.activateBootEnvironment,
+                                this.service);
         }
     },
 
     handleCloneAction: {
         value: function () {
             this._performAction(this.table.selectedRows,
-                                this._bootEnvironmentService.cloneBootEnvironment,
-                                this._bootEnvironmentService);
+                                this.service.cloneBootEnvironment,
+                                this.service);
         }
     },
 
     handleKeepOnButtonAction: {
         value: function () {
             this._performAction(this.table.selectedRows,
-                                this._bootEnvironmentService.keepBootEnvironment,
-                                this._bootEnvironmentService);
+                                this.service.keepBootEnvironment,
+                                this.service);
         }
     },
 
     handleKeepOffButtonAction: {
         value: function () {
             this._performAction(this.table.selectedRows,
-                                this._bootEnvironmentService.dontKeepBootEnvironment,
-                                this._bootEnvironmentService);
-        }
-    },
-
-    handleKeepToggleAction: {
-        value:function (event) {
-            var bootEnvironment = this._findBootEnvironmentFromActionEvent(event);
-                this._performAction([bootEnvironment],
-                                this._bootEnvironmentService.saveBootEnvironment,
-                                this._bootEnvironmentService);
-        }
-    },
-
-    handleAction: {
-        value: function (event) {
-            if(event.detail && event.detail.get('eventName') == 'textValueChanged') {
-                var bootEnvironment = this._findBootEnvironmentFromActionEvent(event);
-                this._performAction([bootEnvironment],
-                                this._bootEnvironmentService.saveBootEnvironment,
-                                this._bootEnvironmentService);
-            }
+                                this.service.dontKeepBootEnvironment,
+                                this.service);
         }
     },
 
     _performAction: {
         value: function (selectedRows, action, context) {
-
-            var self = this;
             if (selectedRows.length) {
-                var promises = [],
-                    rowPromise;
-                for (i = 0; i < selectedRows.length; i++) {
-                    rowPromise = action.call(context, selectedRows[i].object);
-                    selectedRows[i].object.promise = rowPromise;
-                    promises.push(rowPromise);
-                }
-
-                Promise.all(promises).then(function(taskSubmissions){
-                    var taskPromises = [];
-                    for (i = 0; i < taskSubmissions.length; i++) {
-                        taskPromises.push(taskSubmissions[i].taskPromise);
-                    }
-                    Promise.all(taskPromises).then(function(response) {
-                        for (i = 0; i < selectedRows.length; i++) {
-                            selectedRows[i].object.promise = null;
-                        }
+                Promise.all(_.map(selectedRows, function(row) {
+                    row.object._isLocked = true;
+                    return action.call(context, row.object).then(function(submittedTask) {
+                        return submittedTask && submittedTask.taskPromise;
+                    }).finally(function() {
+                        row.object._isLocked = false;
                     });
-                });
+                }));
             }
-        }
-    },
-
-    _findBootEnvironmentRowComponentWithElement: {
-        value: function (element) {
-            var iteration = this.table.rowRepetition._findIterationContainingElement(element);
-
-            if (iteration) {
-                return iteration._childComponents[0];
-            }
-        }
-    },
-
-    _findBootEnvironmentFromActionEvent: {
-        value: function (actionEvent) {
-            var iteration = this.table.findRowIterationContainingElement(actionEvent.target.element);
-
-            return iteration ? iteration.object : null;
         }
     }
 
