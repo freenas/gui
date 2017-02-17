@@ -367,6 +367,12 @@ exports.VmsSectionService = AbstractSectionService.specialize({
         }
     },
 
+    flushTemplateCache: {
+        value: function() {
+            return this._vmRepository.flushTemplateCache();
+        }
+    },
+
     saveVm: {
         value: function(vm) {
             vm.target = vm.target === this.DEFAULT_STRING ? null : vm.target;

@@ -36,5 +36,11 @@ exports.Settings = AbstractInspector.specialize({
             });
             this._sectionService.revertSettings();
         }
+    },
+
+    handleFlushTemplateCacheAction: {
+        value: function() {
+            this._sectionService.flushTemplateCache();
+        }
     }
 });
