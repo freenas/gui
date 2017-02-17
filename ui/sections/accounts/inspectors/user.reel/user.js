@@ -92,6 +92,7 @@ exports.User = AbstractInspector.specialize({
 
     save: {
         value: function() {
+            var self=this;
             this.object.groups = this.additionalGroups.map(function(x) { return x.id; });
             if (this.object.home) {
                 if (this.object._isNew) {
@@ -101,7 +102,23 @@ exports.User = AbstractInspector.specialize({
                 delete this.object.home;
             }
 
-            return this._sectionService.saveUser(this.object);
+            let wheel = _.find(this.groupOptions, function(x) { return x.name === "wheel"; });
+            let hasWheel = _.includes(this.object.groups, wheel.id);
+            if (this.object.sudo && !hasWheel) {
+                this.object.groups.push(wheel.id);
+            } else if (!this.object.sudo && hasWheel) {
+                for (var i=this.object.groups.length-1; i>=0; i--) {
+                    if (this.object.groups[i] === wheel.id) {
+                        this.object.groups.splice(i, 1);
+                    }
+                }
+            }
+            
+            return this._sectionService.saveUser(this.object).then(function(taskSubmission) {
+                    return taskSubmission.taskPromise;
+                }).then(function() {
+                    self._loadGroups(self.object);
+                });
         }
     },
 

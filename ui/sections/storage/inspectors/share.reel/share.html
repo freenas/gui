@@ -19,7 +19,8 @@
                 "targetTreeview": {"@": "target_path"}
             },
             "bindings": {
-                "volumePath": {"<-": "'/mnt/' + @owner.object._volume.id"}
+                "volumePath": {"<-": "'/mnt/' + @owner.object._volume.id"},
+                "isLoading": {"<-": "@owner.isDataLoading || @shareTypePlaceHolder.isLoadingComponent"}
             }
         },
         "datasetTreeController": {
@@ -95,7 +96,8 @@
             },
             "bindings": {
                 "checked": {"<->": "!!@owner.serviceEnabled"},
-                "label": {"<-": "'Enable ' + @owner.object.type.toUpperCase() + ' Service'"}
+                "label": {"<-": "'Enable ' + @owner.object.type.toUpperCase() + ' Service'"},
+                "isLoading": {"<-": "@owner.isServiceLoading"}
             }
         },
         "name": {
@@ -174,7 +176,8 @@
                 "element": {"#": "permissions"}
             },
             "bindings": {
-                "object": {"<->": "@owner.object"}
+                "object": {"<->": "@owner.object"},
+                "classList.has('hide')": {"<-": "@owner.object.type == 'iscsi'"}
             }
         }
     }

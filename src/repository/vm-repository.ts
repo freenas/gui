@@ -171,6 +171,10 @@ export class VmRepository extends AbstractRepository<Vm> {
         }));
     }
 
+    public flushTemplateCache() {
+        return this.vmDao.flushTemplateCache();
+    }
+
     public static initializeNewVmDevice(device: any) {
         if (device.type === VmDeviceType.VOLUME) {
             device.properties.type = VmDeviceVolumeType.VT9P;

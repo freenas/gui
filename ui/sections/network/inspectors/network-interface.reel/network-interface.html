@@ -255,7 +255,7 @@
             },
             "bindings": {
                 "object": {"<-": "@owner.object"},
-                "portOptions": {"<-": "@owner.interfaces.filter{type == 'ETHER'}"}
+                "portOptions": {"<-": "@owner.interfaces.filter{type == 'ETHER' && aliases.length == 0 && !dhcp}"}
             }
         },
         "vlan": {

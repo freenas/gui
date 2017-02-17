@@ -18,7 +18,7 @@ module.exports = {
             .press('.CascadingListItem:nth-child(4) div.Viewer .List-item:nth-child(1)')
             .waitForElementVisible('.CascadingListItem:nth-child(4) div.VirtualMachineDevice');
         browser.expect.element('.CascadingListItem:nth-child(4) div.VirtualMachineDevice .Inspector-header').text.to.equal('New DISK Device');
-        browser.expect.element('.CascadingListItem:nth-child(4) div.VirtualMachineDevice div.VirtualMachineDeviceDisk').to.be.present.before(1000);
+        browser.expect.element('.CascadingListItem:nth-child(4) div.VirtualMachineDevice div.VirtualMachineDeviceDisk').to.be.present.before(5000);
     },
     'Create vm - Create device - CDROM': function(browser) {
         browser
@@ -27,7 +27,7 @@ module.exports = {
             .press('.CascadingListItem:nth-child(4) div.Viewer .List-item:nth-child(2)')
             .waitForElementVisible('.CascadingListItem:nth-child(4) div.VirtualMachineDevice');
         browser.expect.element('.CascadingListItem:nth-child(4) div.VirtualMachineDevice .Inspector-header').text.to.equal('New CDROM Device');
-        browser.expect.element('.CascadingListItem:nth-child(4) div.VirtualMachineDevice div.VirtualMachineDeviceCdrom').to.be.present.before(1000);
+        browser.expect.element('.CascadingListItem:nth-child(4) div.VirtualMachineDevice div.VirtualMachineDeviceCdrom').to.be.present.before(5000);
     },
     'Create vm - Create device - NIC': function(browser) {
         browser
@@ -36,7 +36,7 @@ module.exports = {
             .press('.CascadingListItem:nth-child(4) div.Viewer .List-item:nth-child(3)')
             .waitForElementVisible('.CascadingListItem:nth-child(4) div.VirtualMachineDevice');
         browser.expect.element('.CascadingListItem:nth-child(4) div.VirtualMachineDevice .Inspector-header').text.to.equal('New NIC Device');
-        browser.expect.element('.CascadingListItem:nth-child(4) div.VirtualMachineDevice div.VirtualMachineDeviceNic').to.be.present.before(1000);
+        browser.expect.element('.CascadingListItem:nth-child(4) div.VirtualMachineDevice div.VirtualMachineDeviceNic').to.be.present.before(5000);
     },
     'Create vm - Create device - GRAPHICS': function(browser) {
         browser
@@ -45,7 +45,7 @@ module.exports = {
             .press('.CascadingListItem:nth-child(4) div.Viewer .List-item:nth-child(4)')
             .waitForElementVisible('.CascadingListItem:nth-child(4) div.VirtualMachineDevice');
         browser.expect.element('.CascadingListItem:nth-child(4) div.VirtualMachineDevice .Inspector-header').text.to.equal('New GRAPHICS Device');
-        browser.expect.element('.CascadingListItem:nth-child(4) div.VirtualMachineDevice div.VirtualMachineDeviceGraphics').to.be.present.before(1000);
+        browser.expect.element('.CascadingListItem:nth-child(4) div.VirtualMachineDevice div.VirtualMachineDeviceGraphics').to.be.present.before(5000);
     },
     'Create vm - Create device - USB': function(browser) {
         browser
@@ -54,6 +54,6 @@ module.exports = {
             .press('.CascadingListItem:nth-child(4) div.Viewer .List-item:nth-child(5)')
             .waitForElementVisible('.CascadingListItem:nth-child(4) div.VirtualMachineDevice');
         browser.expect.element('.CascadingListItem:nth-child(4) div.VirtualMachineDevice .Inspector-header').text.to.equal('New USB Device');
-        browser.expect.element('.CascadingListItem:nth-child(4) div.VirtualMachineDevice div.VirtualMachineDeviceUsb').to.be.present.before(1000);
+        browser.expect.element('.CascadingListItem:nth-child(4) div.VirtualMachineDevice div.VirtualMachineDeviceUsb').to.be.present.before(5000);
     }
 };

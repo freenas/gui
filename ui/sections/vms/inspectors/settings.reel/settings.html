@@ -68,6 +68,13 @@
                 "values": {"<->": "@owner.additional_templates"},
                 "placeholder": {"<-": "@owner.additional_templates ? 'eg. https://github.com/my/repo' : ''"}
             }
+        },
+        "flushTemplateCache": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "flushTemplateCache"},
+                "value": "Flush Template Cache"
+            }
         }
     }
     </script>
@@ -78,6 +85,7 @@
             <div data-montage-id="network.nat"></div>
             <div data-montage-id="network.management"></div>
             <div data-montage-id="additional_templates"></div>
+            <div data-montage-id="flushTemplateCache"></div>
         </div>
     </div>
 </body>

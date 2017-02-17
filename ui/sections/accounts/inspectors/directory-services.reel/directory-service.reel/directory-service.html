@@ -41,7 +41,8 @@
                 "controller":   {"@": "owner"}
             },
             "bindings": {
-                "context": {"<-": "@owner.context"}
+                "context": {"<-": "@owner.context"},
+                "isLoading": {"<-": "@content.isLoadingComponent"}
             }
         },
 

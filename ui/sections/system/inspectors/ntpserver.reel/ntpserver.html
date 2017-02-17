@@ -51,6 +51,16 @@
                 "disabled": {"<-": "!@owner.object.address"}
             }
         },
+        "force": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "force"},
+                "label": "Force save"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.force"}
+            }
+        },
         "pool ": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -123,6 +133,7 @@
         <div data-montage-id="inspector">
             <div data-montage-id="address"></div>
             <div data-montage-id="syncNow" class="g-margin-bottom"></div>
+            <div data-montage-id="force"></div>
             <div data-montage-id="pool"></div>
             <div data-montage-id="burst"></div>
             <div data-montage-id="iburst"></div>

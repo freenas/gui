@@ -38,7 +38,8 @@
                 "label": "System Version"
             },
             "bindings": {
-                "value": {"<-": "@owner.systemInfo.systemVersion"}
+                "value": {"<-": "@owner.systemInfo.systemVersion"},
+                "isLoading": {"<-": "@owner.isVersionLoading"}
             }
         },
         "secondsToStringConverter": {
@@ -52,7 +53,8 @@
                 "converter": {"@": "secondsToStringConverter"}
             },
             "bindings": {
-                "value": {"<-": "@owner.systemTime.uptime"}
+                "value": {"<-": "@owner.systemTime.uptime"},
+                "isLoading": {"<-": "@owner.isSystemTimeLoading"}
             }
         },
         "hostname": {
@@ -62,7 +64,8 @@
                 "label": "Host Name"
             },
             "bindings": {
-                "value": {"<-": "@owner.systemInfo.general.hostname"}
+                "value": {"<-": "@owner.systemInfo.general.hostname"},
+                "isLoading": {"<-": "@owner.isSystemGeneralLoading"}
             }
         },
         "dataset": {
@@ -72,7 +75,8 @@
                 "label": "Total Datasets"
             },
             "bindings": {
-                "value": {"<-": "@owner.systemInfo.datasets.length"}
+                "value": {"<-": "@owner.systemInfo.datasets.length"},
+                "isLoading": {"<-": "@owner.isVolumeDatasetLoading"}
             }
         },
         "totalVolumes": {
@@ -82,7 +86,8 @@
                 "label": "Total Volumes"
             },
             "bindings": {
-                "value": {"<-": "@owner.systemInfo.volumes.length"}
+                "value": {"<-": "@owner.systemInfo.volumes.length"},
+                "isLoading": {"<-": "@owner.isVolumesLoading"}
             }
         },
         "totalVMs": {
@@ -92,7 +97,8 @@
                 "label": "VMs (enabled / total)"
             },
             "bindings": {
-                "value": {"<-": "@owner.virtualMachines.filter{status.state=='RUNNING'}.length + '/' + @owner.virtualMachines.length"}
+                "value": {"<-": "@owner.virtualMachines.filter{status.state=='RUNNING'}.length + ' / ' + @owner.virtualMachines.length"},
+                "isLoading": {"<-": "@owner.isVmsLoading"}
             }
         },
         "totalDisks": {
@@ -102,7 +108,8 @@
                 "label": "Disks (SSD / HDD)"
             },
             "bindings": {
-                "value": {"<-": "@owner.systemInfo.disks.filter{status.is_ssd==true}.length + '/' + @owner.systemInfo.disks.filter{status.is_ssd==false}.length "}
+                "value": {"<-": "@owner.systemInfo.disks.filter{status.is_ssd==true}.length + ' / ' + @owner.systemInfo.disks.filter{status.is_ssd==false}.length "},
+                "isLoading": {"<-": "@owner.isDisksLoading"}
             }
         },
         "totalContainers": {
@@ -112,7 +119,8 @@
                 "label": "Containers (running / total)"
             },
             "bindings": {
-                "value": {"<-": "@owner.containers.filter{running == true}.length + '/' + @owner.containers.length"}
+                "value": {"<-": "@owner.containers.filter{running == true}.length + ' / ' + @owner.containers.length"},
+                "isLoading": {"<-": "@owner.isDockerLoading"}
             }
         },
         "totalNetworkInterfaces": {
@@ -122,7 +130,8 @@
                 "label": "Network (enabled / total)"
             },
             "bindings": {
-                "value": {"<-": "@owner.systemInfo.totalNetworkInterfaces.filter{enabled == true}.length + '/' + @owner.systemInfo.totalNetworkInterfaces.length"}
+                "value": {"<-": "@owner.systemInfo.totalNetworkInterfaces.filter{enabled == true}.length + ' / ' + @owner.systemInfo.totalNetworkInterfaces.length"},
+                "isLoading": {"<-": "@owner.isNetworkLoading"}
             }
         },
         "snapshots": {
@@ -132,7 +141,8 @@
                 "label": "Total Snapshots"
             },
             "bindings": {
-                "value": {"<-": "@owner.systemInfo.snapshots.length"}
+                "value": {"<-": "@owner.systemInfo.snapshots.length + ''"},
+                "isLoading": {"<-": "@owner.isSnapshotsLoading"}
             }
         },
         "shares": {
@@ -142,7 +152,8 @@
                 "label": "Total Shares"
             },
             "bindings": {
-                "value": {"<-": "@owner.systemInfo.shares.length"}
+                "value": {"<-": "@owner.systemInfo.shares.length + ''"},
+                "isLoading": {"<-": "@owner.isSharesLoading"}
             }
         },
         "peer": {
@@ -152,7 +163,8 @@
                 "label": "Total Peers"
             },
             "bindings": {
-                "value": {"<-": "@owner.systemInfo.peers.length"}
+                "value": {"<-": "@owner.systemInfo.peers.length + ''"},
+                "isLoading": {"<-": "@owner.isPeersLoading"}
             }
         },
         "replication": {
@@ -162,7 +174,8 @@
                 "label": "Total Replications"
             },
             "bindings": {
-                "value": {"<-": "@owner.systemInfo.replications.length"}
+                "value": {"<-": "@owner.systemInfo.replications.length + ''"},
+                "isLoading": {"<-": "@owner.isReplicationsLoading"}
             }
         },
         "system_dataset": {
@@ -172,7 +185,8 @@
                 "label": "System Dataset"
             },
             "bindings": {
-                 "value": {"<-": "@owner.systemDatasetData"}
+                 "value": {"<-": "@owner.systemDatasetData"},
+                 "isLoading": {"<-": "@owner.isSystemDatasetLoading"}
             }
         },
         "dataTitle": {

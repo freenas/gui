@@ -13,7 +13,8 @@
             },
             "bindings": {
                 "moduleRoot": {"<-": "@owner.templateModuleId.substr(0, @owner.templateModuleId.lastIndexOf('/')+1)"},
-                "isNewObject": {"<-": "@owner.object._isNew.defined() && @owner.object._isNew"}
+                "isNewObject": {"<-": "@owner.object._isNew.defined() && @owner.object._isNew"},
+                "isLoading": {"<-": "@deviceTypePlaceholder.isLoadingComponent || @deviceTypePlaceholder.object._isLoading"}
             },
             "listeners": [
                 {

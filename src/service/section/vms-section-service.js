@@ -133,11 +133,12 @@ exports.VmsSectionService = AbstractSectionService.specialize({
 
     loadEntries: {
         value: function() {
-            return this._vmRepository.listVms().then((entries) => {
+            var self = this;
+            return this._vmRepository.listVms().then(function(entries) {
                 return _.sortBy(entries, 'name' );
-            }).then((entries) => {
+            }).then(function(entries) {
                 entries._objectType = 'Vm';
-                this.entries = entries;
+                self.entries = entries;
                 return entries;
             });
         }
@@ -169,13 +170,13 @@ exports.VmsSectionService = AbstractSectionService.specialize({
 
     listBlocksInDatastore: {
         value: function(datastoreId) {
-            return this._vmDatastoreRepository.listDiskTargetsWithTypeInDatastore('BLOCK', datastoreId)
+            return this._vmDatastoreRepository.listDiskTargetsWithTypeForVm('BLOCK', datastoreId)
         }
     },
 
     listFilesInDatastore: {
         value: function(datastoreId) {
-            return this._vmDatastoreRepository.listDiskTargetsWithTypeInDatastore('FILE', datastoreId)
+            return this._vmDatastoreRepository.listDiskTargetsWithTypeForVm('FILE', datastoreId)
         }
     },
 
@@ -366,9 +367,14 @@ exports.VmsSectionService = AbstractSectionService.specialize({
         }
     },
 
+    flushTemplateCache: {
+        value: function() {
+            return this._vmRepository.flushTemplateCache();
+        }
+    },
+
     saveVm: {
         value: function(vm) {
-            vm.config.memsize = this._bytesService.convertStringToSize(vm._memory, this._bytesService.UNITS.M);
             vm.target = vm.target === this.DEFAULT_STRING ? null : vm.target;
             vm.config.readme = vm._readme.text;
             return this._vmRepository.saveVm(vm);

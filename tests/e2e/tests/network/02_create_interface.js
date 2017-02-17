@@ -12,7 +12,7 @@ module.exports = {
             .press('.CascadingListItem:nth-child(2) div.Viewer .List-item:nth-child(1)')
             .waitForElementVisible('.CascadingListItem:nth-child(2) div.NetworkInterface');
         browser.expect.element('.CascadingListItem:nth-child(2) div.NetworkInterface .Inspector-header').text.to.equal('New VLAN');
-        browser.expect.element('.CascadingListItem:nth-child(2) div.NetworkInterface div.Vlan').to.be.present.before(1000);
+        browser.expect.element('.CascadingListItem:nth-child(2) div.NetworkInterface div.Vlan').to.be.present.before(5000);
     },
     'Create interface - LAGG': function(browser) {
         browser
@@ -21,7 +21,7 @@ module.exports = {
             .press('.CascadingListItem:nth-child(2) div.Viewer .List-item:nth-child(2)')
             .waitForElementVisible('.CascadingListItem:nth-child(2) div.NetworkInterface');
         browser.expect.element('.CascadingListItem:nth-child(2) div.NetworkInterface .Inspector-header').text.to.equal('New LAGG');
-        browser.expect.element('.CascadingListItem:nth-child(2) div.NetworkInterface div.Lagg').to.be.present.before(1000);
+        browser.expect.element('.CascadingListItem:nth-child(2) div.NetworkInterface div.Lagg').to.be.present.before(5000);
     },
     'Create interface - BRIDGE': function(browser) {
         browser
@@ -30,6 +30,6 @@ module.exports = {
             .press('.CascadingListItem:nth-child(2) div.Viewer .List-item:nth-child(3)')
             .waitForElementVisible('.CascadingListItem:nth-child(2) div.NetworkInterface');
         browser.expect.element('.CascadingListItem:nth-child(2) div.NetworkInterface .Inspector-header').text.to.equal('New BRIDGE');
-        browser.expect.element('.CascadingListItem:nth-child(2) div.NetworkInterface div.Bridge').to.be.present.before(1000);
+        browser.expect.element('.CascadingListItem:nth-child(2) div.NetworkInterface div.Bridge').to.be.present.before(5000);
     }
 };

@@ -29,8 +29,8 @@ export class NtpServerRepository extends AbstractRepository {
         return this.ntpServerDao.syncNow(serverAddress);
     }
 
-    public saveNtpServer(server: any) {
-        return this.ntpServerDao.save(server);
+    public saveNtpServer(server: any, force: boolean) {
+        return this.ntpServerDao.save(server, force);
     }
 
     public getNewNtpServer() {
