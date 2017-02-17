@@ -24,17 +24,25 @@ export class SnapshotRoute extends AbstractRoute {
 
     public list(volumeId: string, stack: Array<any>) {
         let columnIndex = 2;
-        return this.loadListInColumn(
-            stack,
-            columnIndex,
-            columnIndex - 1,
-            '/volume-snapshot',
-            Model.VolumeSnapshot,
-            this.volumeRepository.listSnapshots(),
-            {
-                filter: {volume: volumeId}
-            }
-        );
+        let streamSnapshots = this.volumeRepository.streamSnapshots();
+        return Promise.all([
+            this.loadListInColumn(
+                stack,
+                columnIndex,
+                columnIndex - 1,
+                '/volume-snapshot',
+                Model.VolumeSnapshot,
+                streamSnapshots,
+                {
+                    filter: {volume: volumeId}
+                },
+            ),
+            streamSnapshots
+        ]).spread((stack, snapshots) => {
+console.log((_.last(stack) as any).object);
+            (_.last(stack) as any).object._stream = snapshots._stream;
+            return stack;
+        });
     }
 
     public listForDataset(volumeId: string, datasetId: string, stack: Array<any>) {

@@ -339,6 +339,10 @@ export class StorageSectionService extends AbstractSectionService {
         return this.volumeRepository.onlineVdev(volumeId, vdev);
     }
 
+    public getNextSequenceForStream (streamId) {
+        return this.volumeRepository.getNextSequenceForStream(streamId);
+    }
+
     private cloneVdevs(vdevs: Array<any>): Array<any> {
         return _.map(vdevs, (vdev) => {
             let clone = _.cloneDeep(vdev);

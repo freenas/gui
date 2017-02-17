@@ -68,12 +68,12 @@ export class AccountRepository extends AbstractRepository {
         return this.users ? Promise.resolve(this.users.toSet().toJS()) : this.userDao.list();
     }
 
-     public streamUsers(): Promise<Array<Object>> {
+    public streamUsers(): Promise<Array<Object>> {
         let promise;
 
         if (this.usersStreamId) {
             promise = Promise.resolve(
-                this.datastoreService.getState().get("streams").get(this.usersStreamId)
+                this.datastoreService.getState().get('streams').get(this.usersStreamId)
             );
         } else {
             promise = this.userDao.stream(true);
@@ -82,12 +82,12 @@ export class AccountRepository extends AbstractRepository {
         return promise.then((stream) => {
             let dataArray = stream.get('data').toJS();
 
-            //TODO: register to events add/remove
+            this.userDao.register();
             this.usersStreamId = stream.get('streamId');
             dataArray._objectType = this.userDao.objectType;
 
-            //FIXME!!
-            //DTM montage
+            // FIXME!!
+            // DTM montage
             dataArray._stream = stream;
 
             return dataArray;
@@ -110,7 +110,7 @@ export class AccountRepository extends AbstractRepository {
         return this.accountSystemDao.getEmptyList();
     }
 
-    //need discussion
+    // need discussion
     public getNextSequenceForStream (streamId) {
         return this.groupDao.getNextSequenceForStream(streamId);
     }
