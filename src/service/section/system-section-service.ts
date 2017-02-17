@@ -12,6 +12,7 @@ import {ReplicationRepository} from '../../repository/replication-repository';
 import {DiskRepository} from '../../repository/disk-repository';
 import {AlertFilterRepository} from '../../repository/alert-filter-repository';
 import {BootPoolRepository} from '../../repository/boot-pool-repository';
+import {AlertEmitterPushBulletRepository} from '../../repository/push-bullet-repository';
 import {ModelEventName} from '../../model-event-name';
 import {DataObjectChangeService} from '../data-object-change-service';
 import * as Immutable from 'immutable';
@@ -36,6 +37,7 @@ export class SystemSectionService extends AbstractSectionService {
     private bootEnvironments: Array<any> = [];
     private dataObjectChangeService: DataObjectChangeService;
     private initialDiskAllocationPromise: Promise<any>;
+    private alertEmitterPushBulletRepository: AlertEmitterPushBulletRepository;
 
     public readonly SELF_SIGNED = CryptoCertificateRepository.SELF_SIGNED;
     public readonly CREATION = CryptoCertificateRepository.CREATION;
@@ -56,6 +58,7 @@ export class SystemSectionService extends AbstractSectionService {
         this.bootPoolRepository = BootPoolRepository.getInstance();
         this.dataObjectChangeService = new DataObjectChangeService();
         this.alertFilterRepository = AlertFilterRepository.getInstance();
+        this.alertEmitterPushBulletRepository = AlertEmitterPushBulletRepository.getInstance();
 
         this.eventDispatcherService.addEventListener(
             ModelEventName.BootEnvironment.listChange,
@@ -152,6 +155,14 @@ export class SystemSectionService extends AbstractSectionService {
 
     private handleBootPoolChange (bootEnvironments: Immutable.Map<string, Immutable.Map<string, any>>) {
         this.dataObjectChangeService.handleDataChange(this.bootEnvironments, bootEnvironments);
+    }
+
+    public getAlertEmitterPushBulletConfig () {
+        return this.alertEmitterPushBulletRepository.getConfig();
+    }
+
+    public saveAlertEmitterPushBulletConfig (pushBulletConfig: any): SubmittedTask {
+        return this.alertEmitterPushBulletRepository.saveConfig(pushBulletConfig);
     }
 
     public saveCertificate(certificate: any) {

@@ -139,7 +139,7 @@
             "prototype": "blue-shark/ui/field-multiple-select.reel",
             "properties": {
                 "element": {"#": "send_to"},
-                "label": "Send to",
+                "label": "Recipients List",
                 "labelPath": "this",
                 "isDraggable": true,
                 "inputTitle": "Add a recipient",
@@ -150,17 +150,30 @@
                 "placeholder": {"<-": "!@owner.object.webui_listen ? 'eg. foo@example.com' : ''"}
             }
         },
-        "emailRecipient": {
-            "prototype": "ui/controls/inspector-section-title.reel",
+        "emailSection": {
+            "prototype": "ui/controls/foldable-section.reel",
             "properties": {
-                "element": {"#": "emailRecipient"},
-                "value": "Email Recipient"
+                "element": {"#": "emailSection"},
+                "isExpanded": true,
+                "title": "Setup Email Emitter"
             }
         },
-        "testField": {
-            "prototype": "blue-shark/ui/field.reel",
+        "apikey": {
+            "prototype": "blue-shark/ui/field-text-area.reel",
             "properties": {
-                "element": {"#": "testField"}
+                "element": {"#": "apikey"},
+                "label": "PushBullet API Key"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.pushbullet.api_key"}
+            }
+        },
+        "pushBulletSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "pushBulletSection"},
+                "isExpanded": true,
+                "title": "Setup PushBullet Emitter"
             }
         }
     }
@@ -169,17 +182,19 @@
 <body>
     <div data-montage-id="owner" class="Mail">
         <div data-montage-id="inspector">
-            <div data-montage-id="from"></div>
-            <div data-montage-id="outgoing_server"></div>
-            <div data-montage-id="outgoing_port"></div>
-            <div data-montage-id="useSMTPAuth"></div>
-            <div data-montage-id="encryption"></div>
-            <div data-montage-id="username"></div>
-            <div data-montage-id="password"></div>
-            <div data-montage-id="emailRecipient"></div>
-            <div data-montage-id="send_to"></div>
-            <div data-montage-id="testField" class="g-margin-top--subtract">
+            <div data-montage-id="emailSection" class="emailSection">
+                <div data-montage-id="from"></div>
+                <div data-montage-id="outgoing_server"></div>
+                <div data-montage-id="outgoing_port"></div>
+                <div data-montage-id="useSMTPAuth"></div>
+                <div data-montage-id="encryption"></div>
+                <div data-montage-id="username"></div>
+                <div data-montage-id="password"></div>
+                <div data-montage-id="send_to"></div>
                 <div data-montage-id="sendTestMail" class="Button--block"></div>
+            </div>
+            <div data-montage-id="pushBulletSection" class="pushBulletSection">
+                <div data-montage-id="apikey"></div>
             </div>
         </div>
     </div>
