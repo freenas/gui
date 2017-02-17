@@ -9,11 +9,7 @@
             "properties": {
                 "element": {"#": "owner"},
                 "validationController": {"@": "validationController"},
-                "inspector": {"@": "inspector"},
-                "controllers": {
-                    "routes": {"@": "routes"},
-                    "hosts": {"@": "hosts"}
-                }
+                "inspector": {"@": "inspector"}
             },
             "bindings": {
                 "isGatewayDhcpAssigned": {"<->": "@owner.object.settings.config.dhcp.assign_gateway"}
@@ -211,6 +207,9 @@
             "properties": {
                 "element": {"#": "routes"},
                 "label": "Add Static Routes"
+            },
+            "bindings": {
+                "values": {"<-": "@owner.object.settings.routes"}
             }
         },
         "hosts_header": {
@@ -224,10 +223,11 @@
             "prototype": "ui/sections/network/controls/table-hosts.reel",
             "properties": {
                 "element": {"#": "hosts"},
-                "label": "Add Hosts"
+                "label": "Add Hosts",
+                "controller": {"@": "owner"}
             },
             "bindings": {
-                "values": {"<-": "@owner.hosts"}
+                "values": {"<-": "@owner.object.settings.hosts"}
             }
         }
     }

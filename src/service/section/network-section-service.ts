@@ -9,16 +9,15 @@ import {ModelEventName} from '../../model-event-name';
 import {Map} from 'immutable';
 
 export class NetworkSectionService extends AbstractSectionService {
-
     public readonly INTERFACE_TYPES = NetworkRepository.INTERFACE_TYPES;
 
     public readonly IPV4_DEFAULT_NETMASK = 24;
-    public readonly IPV6_DEFAULT_NETMASK = 64;
 
+    public readonly IPV6_DEFAULT_NETMASK = 64;
     private networkRepository: NetworkRepository;
+
     private networkInterfaceRepository: NetworkInterfaceRepository;
     private systemRepository: SystemRepository;
-
     private ipmiServicesPromise: Promise<any>;
 
     protected init() {
@@ -48,9 +47,13 @@ export class NetworkSectionService extends AbstractSectionService {
     protected loadSettings() {
         return Promise.all([
             this.networkRepository.getNetworkSettings(),
-            this.systemRepository.getGeneral()
-        ]).spread((settings: any, general) => {
+            this.systemRepository.getGeneral(),
+            this.networkRepository.listNetworkHosts(),
+            this.networkRepository.listNetworkStaticRoutes()
+        ]).spread((settings: any, general: any, hosts: Array<any>, routes: Array<any>) => {
             settings.system = general;
+            settings.hosts = hosts;
+            settings.routes = routes;
             return settings;
         });
     }
@@ -64,6 +67,8 @@ export class NetworkSectionService extends AbstractSectionService {
             return overview;
         });
     }
+
+    public getNextSequenceForStream(streamId: string) {}
 
     public saveSettings(settings: any) {
         return this.networkRepository.saveNetworkSettings(settings.config).then(
