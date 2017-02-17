@@ -20,10 +20,13 @@
             }
         },
         "emitter": {
-            "prototype": "blue-shark/ui/text.reel",
+            "prototype": "blue-shark/ui/select.reel",
             "properties": {
-                "element": {"#": "emitter"},
-                "value": "Send Email"
+                "element": {"#": "emitter"}
+            },
+            "bindings": {
+                "options" : {"<-": "@owner.alertEmitters"},
+                "selectedValue": {"<->": "@owner.object.emitter"}
             }
         },
         "sendTo": {
@@ -42,6 +45,22 @@
             "bindings": {
                 "values": {"<->": "@owner.object.parameters.addresses"}
             }
+        },
+        "substitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "substitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.object.emitter"}
+            }
+        },     
+        "pushBulletField": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "pushBulletField"},
+                "value": "Default PushBullet Account"
+            }
         }
     }
     </script>
@@ -52,8 +71,17 @@
             <div data-montage-id="classValues"></div>
         </div>
         <div data-montage-id="emitter"></div>
-        <div>
-            <div data-montage-id="addresses" class="Select-value flush-bottom"></div>
+        <div data-montage-id="substitution">
+            <div data-arg="email">
+                <div>
+                    <div data-montage-id="addresses" class="Select-value flush-bottom"></div>
+                </div>
+            </div>
+            <div data-arg="pushbullet">
+                <div>
+                    <div data-montage-id="pushBulletField" class="Select-value flush-bottom"></div>
+                </div>
+            </div>
         </div>
     </div>
 </body>

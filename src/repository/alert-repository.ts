@@ -35,6 +35,10 @@ export class AlertRepository extends AbstractRepository<Alert> {
         return this.alertDao.listAlertClasses();
     }
 
+    public listAlertEmitters(): Promise<Array<any>> {
+        return this.alertDao.listAlertEmitters();
+    }
+
     public listAlertSeverities(): Promise<Array<any>> {
         return this.alertDao.listAlertSeverities();
     }
