@@ -22,24 +22,12 @@ exports.Volume = AbstractInspector.specialize({
         }
     },
 
-    _setVolumeSnapshots: {
-        value: function () {
-            var volumeId = this.object.id;
-            this.object._snapshots = _.sortBy(
-                _.filter(this.snapshots, function (snapshot) {
-                    return _.isEqual(snapshot.volume, volumeId);
-                }),
-                'name'
-            );
-        }
-    },
-
     _setVolumeDatasets: {
         value: function () {
             var volumeId = this.object.id;
             this.object._datasets = _.sortBy(
-                _.filter(this.datasets, function (snapshot) {
-                    return _.isEqual(snapshot.volume, volumeId);
+                _.filter(this.datasets, function (dataset) {
+                    return _.isEqual(dataset.volume, volumeId);
                 }),
                 'name'
             );
@@ -54,10 +42,8 @@ exports.Volume = AbstractInspector.specialize({
                 self.encryptedVolumeActions = encryptedVolumeActions;
             });
             this._setVolumeShares();
-            // this._setVolumeSnapshots();
             this._setVolumeDatasets();
             this.sharesEventListener = this.eventDispatcherService.addEventListener('sharesChange', this._handleSharesChange.bind(this));
-            // this.snapshotsEventListener = this.eventDispatcherService.addEventListener('volumeSnapshotsChange', this._handleSnapshotsChange.bind(this));
             this.datasetsEventListener = this.eventDispatcherService.addEventListener('volumeDatasetsChange', this._handleDatasetsChange.bind(this));
         }
     },
@@ -65,7 +51,6 @@ exports.Volume = AbstractInspector.specialize({
     exitDocument: {
         value: function () {
             this.eventDispatcherService.removeEventListener('volumeDatasetsChange', this.datasetsEventListener);
-            // this.eventDispatcherService.removeEventListener('volumeSnapshotsChange', this.snapshotsEventListener);
             this.eventDispatcherService.removeEventListener('sharesChange', this.sharesEventListener);
         }
     },
@@ -79,11 +64,6 @@ exports.Volume = AbstractInspector.specialize({
                 this._sectionService.listShares().then(function (shares) {
                     return self.shares = shares;
                 }),
-/*
-                this._sectionService.listSnapshots().then(function (snapshots) {
-                    return self.snapshots = snapshots;
-                }),
-*/
                 this._sectionService.listDatasets().then(function (datasets) {
                     return self.datasets = datasets;
                 })
@@ -99,17 +79,6 @@ exports.Volume = AbstractInspector.specialize({
                 self.shares.push(share.toJS());
             });
             this._setVolumeShares();
-        }
-    },
-
-    _handleSnapshotsChange: {
-        value: function (snapshots) {
-            var self = this;
-            this.snapshots.clear();
-            snapshots.forEach(function (snapshot) {
-                self.snapshots.push(snapshot.toJS());
-            });
-            this._setVolumeSnapshots();
         }
     },
 
