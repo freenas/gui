@@ -54,10 +54,10 @@ exports.Volume = AbstractInspector.specialize({
                 self.encryptedVolumeActions = encryptedVolumeActions;
             });
             this._setVolumeShares();
-            this._setVolumeSnapshots();
+            // this._setVolumeSnapshots();
             this._setVolumeDatasets();
             this.sharesEventListener = this.eventDispatcherService.addEventListener('sharesChange', this._handleSharesChange.bind(this));
-            this.snapshotsEventListener = this.eventDispatcherService.addEventListener('volumeSnapshotsChange', this._handleSnapshotsChange.bind(this));
+            // this.snapshotsEventListener = this.eventDispatcherService.addEventListener('volumeSnapshotsChange', this._handleSnapshotsChange.bind(this));
             this.datasetsEventListener = this.eventDispatcherService.addEventListener('volumeDatasetsChange', this._handleDatasetsChange.bind(this));
         }
     },
@@ -65,7 +65,7 @@ exports.Volume = AbstractInspector.specialize({
     exitDocument: {
         value: function () {
             this.eventDispatcherService.removeEventListener('volumeDatasetsChange', this.datasetsEventListener);
-            this.eventDispatcherService.removeEventListener('volumeSnapshotsChange', this.snapshotsEventListener);
+            // this.eventDispatcherService.removeEventListener('volumeSnapshotsChange', this.snapshotsEventListener);
             this.eventDispatcherService.removeEventListener('sharesChange', this.sharesEventListener);
         }
     },
@@ -79,9 +79,11 @@ exports.Volume = AbstractInspector.specialize({
                 this._sectionService.listShares().then(function (shares) {
                     return self.shares = shares;
                 }),
+/*
                 this._sectionService.listSnapshots().then(function (snapshots) {
                     return self.snapshots = snapshots;
                 }),
+*/
                 this._sectionService.listDatasets().then(function (datasets) {
                     return self.datasets = datasets;
                 })

@@ -54,6 +54,7 @@ export class VolumeRepository extends AbstractRepository<Volume> {
     private detachedVolumes: Map<string, Map<string, any>>;
     private volumeSnapshots: Map<string, Map<string, any>>;
     private volumeDatasets: Map<string, Map<string, any>>;
+    private snapshotsStreamId: string;
 
     public static readonly TOPOLOGY_KEYS = ['data', 'cache', 'log', 'spare'];
     public static readonly INHERITED = 'INHERITED';
@@ -135,6 +136,32 @@ export class VolumeRepository extends AbstractRepository<Volume> {
 
     public listSnapshots(): Promise<Array<VolumeSnapshot>> {
         return this.volumeSnapshots ? Promise.resolve(this.volumeSnapshots.valueSeq().toJS()) : this.volumeSnapshotDao.list();
+    }
+
+    public streamSnapshots(): Promise<Array<VolumeSnapshot>> {
+        let promise;
+
+        if (this.snapshotsStreamId) {
+            promise = Promise.resolve(
+                this.datastoreService.getState().get('streams').get(this.snapshotsStreamId)
+            );
+        } else {
+            promise = this.volumeSnapshotDao.stream(true);
+        }
+
+        return promise.then((stream) => {
+            let dataArray = stream.get('data').toJS();
+
+            this.volumeSnapshotDao.register();
+            this.snapshotsStreamId = stream.get('streamId');
+            dataArray._objectType = this.volumeSnapshotDao.objectType;
+
+            // FIXME!!
+            // DTM
+            dataArray._stream = stream;
+
+            return dataArray;
+        });
     }
 
     public getVolumeImporter(): Promise<VolumeImporter> {
@@ -490,6 +517,10 @@ export class VolumeRepository extends AbstractRepository<Volume> {
     }
 
     protected handleEvent() {}
+
+    public getNextSequenceForStream(streamId: string) {
+        return this.volumeSnapshotDao.getNextSequenceForStream(streamId);
+    }
 }
 
 

@@ -35,6 +35,9 @@ export abstract class AbstractSectionService {
 
     protected abstract loadOverview(): Promise<any>
 
+    public abstract getNextSequenceForStream(streamId: string)
+
+
     protected findObjectWithId(entries: Array<any>, id: string) {
         for (let entry of entries) {
             if (entry.id === id) {
