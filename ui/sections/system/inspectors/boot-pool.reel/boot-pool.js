@@ -91,6 +91,7 @@ exports.BootPool = AbstractInspector.specialize({
             if (!this._populatingPromise && (!this.bootEnvironments || !this.bootVolume)) {
                 return this._populatingPromise = Promise.all([
                     this._sectionService.getBootVolumeConfig(),
+                    // Wait for disks retrieving from middleware (should be split in load / list methods)
                     this._sectionService.listDisks()
                 ]).spread(function(bootVolume) {
                     self.bootVolume = bootVolume;
