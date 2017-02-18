@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="text/montage-serialization">
+        {
+            "owner": {
+                "properties": {
+                    "element": {"#": "owner"},
+                    "inspector": {"@": "inspector"}
+                }
+            },
+            "inspector": {
+                "prototype": "ui/inspectors/inspector.reel",
+                "properties": {
+                    "element": {
+                        "#": "inspector"
+                    },
+                    "canSave": true,
+                    "canDelete": true,
+                    "controller": {"@": "owner"}
+                },
+                "bindings": {
+                    "context": {"<-": "@owner.context"}
+                }
+            },
+            "name": {
+                "prototype": "blue-shark/ui/field-text-input.reel",
+                "properties": {
+                    "element": {
+                        "#": "name"
+                    },
+                    "label": "Name"
+                },
+                "bindings": {
+                    "value": {"<->": "@owner.object.name"}
+                }
+            },
+            "description": {
+                "prototype": "blue-shark/ui/field-text-input.reel",
+                "properties": {
+                    "element": {
+                        "#": "description"
+                    },
+                    "label": "Description"
+                },
+                "bindings": {
+                    "value": {"<->": "@owner.object.description"}
+                }
+            },
+            "rollback": {
+                "prototype": "blue-shark/ui/button.reel",
+                "properties": {
+                    "element": {"#": "rollback"},
+                    "value": "Rollback"
+                }
+            }
+        }
+
+    </script>
+</head>
+<body>
+<div data-montage-id="owner" class="VmSnapshot">
+    <div data-montage-id="inspector">
+        <div data-montage-id="name"></div>
+        <div data-montage-id="description"></div>
+        <div data-montage-id="rollback"></div>
+    </div>
+</div>
+</body>
+</html>
