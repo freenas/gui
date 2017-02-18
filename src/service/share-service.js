@@ -127,7 +127,7 @@ var ShareService = exports.ShareService = Montage.specialize({
                 if (shareObject.permissions.modes && (shareObject.permissions_type !== 'PERM' || shareObject.target_type !== 'DATASET')) {
                     delete shareObject.permissions.modes;
                 }
-                delete shareObject.permissions.acls;
+                delete shareObject.permissions.acl;
             }
             delete shareObject.permissions_type;
 
