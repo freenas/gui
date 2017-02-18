@@ -242,7 +242,8 @@ export class StorageSectionService extends AbstractSectionService {
     }
 
     public createVolume(volume: any): Promise<SubmittedTask> {
-        let password = volume._password && volume._password.length > 0 ? volume._password : null;
+        let password = volume._password;
+        delete volume._password;
         volume.password_encrypted = !!password;
         return this.volumeRepository.createVolume(volume, password);
     }
