@@ -143,8 +143,17 @@ confirmation
     transition: visibility .25s ease-in-out,
                 opacity .25s ease-in-out;
 
-    @nest .confirmation-is-visible & {
-        opacity: 1;
-        visibility: visible;
+    @nest .delete-confirmation-is-visible & {
+        &.delete-confirmation {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+
+    @nest .save-confirmation-is-visible & {
+        &.save-confirmation {
+            opacity: 1;
+            visibility: visible;
+        }
     }
 }

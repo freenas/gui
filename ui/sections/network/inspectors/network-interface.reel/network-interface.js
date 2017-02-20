@@ -33,8 +33,12 @@ exports.NetworkInterface = AbstractInspector.specialize({
     enterDocument: {
         value: function() {
             this.super();
-            this._sectionService.initializeInterface(this.object);
-            this.addPathChangeListener('object.dhcp', this, '_handleDhcpChange');
+            var self = this;
+            this.isLoading = true;
+            this._sectionService.initializeInterface(this.object).then(function() {
+                self.addPathChangeListener('object.dhcp', self, '_handleDhcpChange');
+                self.isLoading = false;
+            });
         }
     },
 

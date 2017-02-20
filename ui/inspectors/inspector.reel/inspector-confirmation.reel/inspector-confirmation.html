@@ -16,45 +16,47 @@
                 }
             ]
         },
-        "confirmDeleteMessage": {
+        "confirmMessage": {
             "prototype": "blue-shark/ui/text.reel",
             "properties": {
-                "element": {"#": "confirmDeleteMessage"}
+                "element": {"#": "confirmMessage"}
             },
             "bindings": {
-                "value": {"<-": "@owner.confirmDeleteMessage"}
+                "value": {"<-": "@owner.confirmMessage"}
             }
         },
-        "confirmDelete": {
+        "confirm": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
-                "element": {"#": "confirmDelete"},
-                "value": "Delete"
+                "element": {"#": "confirm"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.confirmLabel || 'Delete'"}
             }
         },
-        "cancelDelete": {
+        "cancel": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
-                "element": {"#": "cancelDelete"},
+                "element": {"#": "cancel"},
                 "value": "Cancel"
             }
         },
-        "extraDeleteRepetition": {
+        "extraRepetition": {
             "prototype": "montage/ui/repetition.reel",
             "properties": {
-                "element": {"#": "extraDeleteRepetition"}
+                "element": {"#": "extraRepetition"}
             },
             "bindings": {
-                "content": {"<-": "@owner.extraDeleteFlags"}
+                "content": {"<-": "@owner.extraFlags"}
             }
         },
-        "extraDeleteItems": {
+        "extraItems": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
-                "element": {"#": "extraDeleteItems"}
+                "element": {"#": "extraItems"}
             },
             "bindings": {
-                "iteration": {"<-": "@extraDeleteRepetition:iteration"},
+                "iteration": {"<-": "@extraRepetition:iteration"},
                 "label": {"<-": "iteration.object.label"},
                 "checked": {"<->": "iteration.object.checked"}
             }
@@ -64,13 +66,13 @@
 </head>
 <body>
     <div data-montage-id="owner" class="InspectorConfirmation">
-        <div data-montage-id="confirmDeleteMessage" class="InspectorConfirmation-message"></div>
-        <div data-montage-id="extraDeleteRepetition">
-            <div data-montage-id="extraDeleteItems" class="Checkbox--light"></div>
+        <div data-montage-id="confirmMessage" class="InspectorConfirmation-message"></div>
+        <div data-montage-id="extraRepetition">
+            <div data-montage-id="extraItems" class="Checkbox--light"></div>
         </div>
         <div class="InspectorConfirmation-actions">
-            <div data-montage-id="confirmDelete" class="Button--alert"></div>
-            <div data-montage-id="cancelDelete"></div>
+            <div data-montage-id="confirm" class="Button--alert"></div>
+            <div data-montage-id="cancel"></div>
         </div>
     </div>
 </body>

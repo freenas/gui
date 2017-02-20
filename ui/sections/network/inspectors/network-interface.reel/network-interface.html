@@ -32,11 +32,13 @@
                 "validationController": {"@": "validationController"},
                 "canRevert": "true",
                 "canSave": "true",
-                "controller": {"@": "owner"}
+                "controller": {"@": "owner"},
+                "confirmSaveMessage": "This is the interface you are currently connected on, are you sure you want to change its configuration?"
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
-                "canDelete": {"<-": "@owner.object.type != 'ETHER'"}
+                "canDelete": {"<-": "@owner.object.type != 'ETHER'"},
+                "needSaveConfirmation": {"<-": "@owner.object._isClient"}
             }
         },
         "overview": {
