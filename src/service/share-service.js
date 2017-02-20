@@ -291,7 +291,7 @@ var ShareService = exports.ShareService = Montage.specialize({
                 },
                 group: {
                     read: true,
-                    write: true,
+                    write: false,
                     execute: true
                 },
                 others: {
