@@ -58,12 +58,7 @@ var ShareService = exports.ShareService = Montage.specialize({
 
                 shareObject.properties = {};
                 shareObject.properties["%type"] = 'Share' + shareObject.type;
-                populatedSharePromise = Promise.all([
-                    this.shareRepository.getNewPermissions(),
-                    this.shareRepository.getNewUnixPermissions()
-                ]).spread(function(permissions, unixPermissions) {
-                    shareObject.permissions = _.cloneDeep(permissions);
-
+                populatedSharePromise = this.shareRepository.getNewUnixPermissions().then(function(unixPermissions) {
                     if (shareTypes.SMB === shareObject.type) {
                         shareObject.properties.vfs_objects = [];
                         shareObject.properties.browseable = true;
@@ -103,18 +98,15 @@ var ShareService = exports.ShareService = Montage.specialize({
 
     ensureDefaultPermissionsAreSet: {
         value: function(share) {
-            share.permissions_type = share.permissions_type || this.constructor.DEFAULT_PERM_TYPES[share.type.toLowerCase()];
-            if (!share.permissions || !share.permissions.user || !share.permissions.group) {
-                var self = this;
-                var permissionsPromise = share.permissions ?
-                    Promise.resolve(share.permissions) : this.shareRepository.getNewPermissions();
+            var self = this;
 
-                return permissionsPromise.then(function (permissions) {
+            share.permissions_type = share.permissions_type || this.constructor.DEFAULT_PERM_TYPES[share.type.toLowerCase()];
+            return share.permissions ?
+                Promise.resolve(share) :
+                this.shareRepository.getNewPermissions().then(function (permissions) {
                     share.permissions = _.defaults(permissions, self.constructor.DEFAULT_PERMISSIONS);
                     return share;
                 });
-            }
-            return Promise.resolve(share);
         }
     },
 
