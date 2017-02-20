@@ -223,7 +223,7 @@
                 "label": "Primary Network Mode"
             },
             "bindings": {
-                "options": {"<-": "@owner.constructor.primaryNetWorkModes"},
+                "options": {"<-": "@owner.primaryNetWorkModes"},
                 "selectedValue": {"<->": "@owner.object.primary_network_mode"},
                 "disabled": {"<-": "@owner.currentTemplate.immutable.has('primary_network_mode')"}
             }

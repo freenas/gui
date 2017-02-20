@@ -14,10 +14,12 @@ exports.ContainerCreator = AbstractInspector.specialize({
 
             return Promise.all([
                 this._sectionService.listDockerHosts(),
-                this._sectionService.listDockerNetworks()
-            ]).spread(function (hostDockers, networks) {
+                this._sectionService.listDockerNetworks(),
+                this._sectionService.getPrimaryNetWorkModes()
+            ]).spread(function (hostDockers, networks, primaryNetWorkModes) {
                 self._hostDockers = hostDockers;
                 self._networks = networks;
+                self.primaryNetWorkModes = primaryNetWorkModes;
             });
         }
     },
@@ -31,7 +33,6 @@ exports.ContainerCreator = AbstractInspector.specialize({
             if (this._object !== object) {
                 if (object) {
                     this._object = object;
-                    this._object.primary_network_mode = this.constructor.DEFAULT_PRIMARY_NETWORK;
                 } else {
                     this._object = null;
                 }
@@ -61,12 +62,6 @@ exports.ContainerCreator = AbstractInspector.specialize({
                 }).finally(function () {
                     self.isLoading = false;
                     self._loadDataPromise = null;
-                });
-            }
-
-            if (this.object) {
-                this._sectionService.getNewDockerContainerBridge().then(function(bridge) {
-                    self.object.bridge = bridge;
                 });
             }
         }
@@ -123,21 +118,6 @@ exports.ContainerCreator = AbstractInspector.specialize({
                 self._reset();
             });
         }
-    }
-
-}, {
-
-    primaryNetWorkModes: {
-        value: [
-            {label: 'Bridged', value: 'BRIDGED'},
-            {label: 'NAT', value: 'NAT'},
-            {label: 'Host', value: 'HOST'},
-            {label: 'None', value: 'NONE'}
-        ]
-    },
-
-    DEFAULT_PRIMARY_NETWORK: {
-        value: 'NAT'
     }
 
 });

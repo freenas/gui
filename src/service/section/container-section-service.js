@@ -161,6 +161,12 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         }
     },
 
+    getPrimaryNetWorkModes: {
+        value: function () {
+            return this.constructor.primaryNetWorkModes;
+        }
+    },
+
     saveContainer: {
         value: function (container, options) {
             var environments = [];
@@ -446,4 +452,13 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
     },
 
 
+}, {
+    primaryNetWorkModes: {
+        value: [
+            {label: 'Bridged', value: 'BRIDGED'},
+            {label: 'NAT', value: 'NAT'},
+            {label: 'Host', value: 'HOST'},
+            {label: 'None', value: 'NONE'}
+        ]
+    }
 });
