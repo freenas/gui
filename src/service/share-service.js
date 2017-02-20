@@ -99,7 +99,7 @@ var ShareService = exports.ShareService = Montage.specialize({
         value: function(share) {
             var self = this;
 
-            share.permissions_type = share.permissions_type || this.constructor.DEFAULT_PERM_TYPES[share.type.toLowerCase()];
+            share.permissions_type = share.permissions_type || this.constructor.DEFAULT_PERM_TYPES[share.type];
             return share.permissions ?
                 Promise.resolve(share) :
                 this.shareRepository.getNewPermissions().then(function (permissions) {
