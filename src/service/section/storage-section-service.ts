@@ -46,7 +46,7 @@ export class StorageSectionService extends AbstractSectionService {
             },
             group: {
                 read: true,
-                write: true,
+                write: false,
                 execute: true
             },
             others: {
