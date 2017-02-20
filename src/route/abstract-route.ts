@@ -13,12 +13,17 @@ export abstract class AbstractRoute {
     protected stack: Array<any>;
     private static sectionsServices = new Map<string, any>();
     private static sectionsDescriptorsPromise: Promise<any>;
+    private isFirstTime: boolean;
+    private isCurrentSection: boolean;
 
     protected constructor(
         protected eventDispatcherService: EventDispatcherService = EventDispatcherService.getInstance(),
         protected modelDescriptorService: ModelDescriptorService = ModelDescriptorService.getInstance(),
         protected dataObjectChangeService: DataObjectChangeService = new DataObjectChangeService()
-    ) {}
+    ) {
+        this.isFirstTime = true;
+        this.isCurrentSection = false;
+    }
 
     protected updateStackWithContext(stack: Array<any>, context: any) {
         this.popStackAtIndex(stack, context.columnIndex);
@@ -130,7 +135,13 @@ export abstract class AbstractRoute {
     }
 
     protected enterSection(sectionId: string) {
-        let promise: Promise<Array<any>> = this.stack ?
+        if (this.isFirstTime) {
+            this.isFirstTime = false;
+            crossroads.routed.add(request => {
+                this.isCurrentSection = AbstractRoute.getPathSection(request) === sectionId;
+            });
+        }
+        let promise: Promise<Array<any>> = (this.stack && !this.isCurrentSection) ?
             new Promise<Array<any>>(resolve => resolve(this.stack)) :
             this.getStackForSection(sectionId).then(stack => this.stack = stack);
         promise.then(stack => {
@@ -219,6 +230,9 @@ export abstract class AbstractRoute {
         });
     }
 
+    private static getPathSection(path: string) {
+        return _.head(_.compact(_.split(path, '/')));
+    }
 }
 
 export function Route(path: string) {

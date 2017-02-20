@@ -1,9 +1,17 @@
 var Component = require("montage/ui/component").Component,
     ModelDescriptorService = require("core/service/model-descriptor-service").ModelDescriptorService,
     RoutingService = require("core/service/routing-service").RoutingService,
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
+    ModelEventChange = require("core/model-event-name").ModelEventName,
     _ = require("lodash");
 
 exports.CascadingListItem = Component.specialize({
+    constructor: {
+        value: function() {
+            this.eventDispatcherService = EventDispatcherService.getInstance();
+        }
+    },
+
     templateDidLoad: {
         value: function() {
             this.modelDescriptorService = ModelDescriptorService.getInstance();
@@ -19,6 +27,7 @@ exports.CascadingListItem = Component.specialize({
         value: false
     },
 
+
     data: {
         get: function () {
             return this._data;
@@ -31,6 +40,10 @@ exports.CascadingListItem = Component.specialize({
                     var defaultInspectorId = this.constructor.DEFAULT_INSPECTOR_ID,
                         userInterfaceDescriptor = data.userInterfaceDescriptor,
                         object = this.object = data.object;
+                    this._removeObjectDeletedListener();
+                    if (ModelEventChange[data.objectType]) {
+                        this._objectDeletedListener = this.eventDispatcherService.addEventListener(ModelEventChange[data.objectType].remove(data.object.id), this._handleObjectDeleted.bind(this))
+                    }
 
                     data.cascadingListItem = this;
                     this.isCollection = Array.isArray(object);
@@ -81,55 +94,7 @@ exports.CascadingListItem = Component.specialize({
     _selectedObject: {
         value: void 0
     },
-/*
-    selectedObject: {
-        get: function () {
-            return this._selectedObject;
-        },
-        set: function (selectedObject) {
-            if (selectedObject !== this._selectedObject) {
-                this._selectedObject = selectedObject;
-                if (selectedObject) {
-                    this.selectObject(selectedObject);
-                }
-            }
-        }
-    },
 
-    selectObject: {
-        value: function(object) {
-            var self = this,
-                columnIndex = this.data && this.data.columnIndex || 0;
-            if (object._isNewObject) {
-                this.modelDescriptorService.getUiDescriptorForObject(object).then(function(uiDescriptor) {
-                    var data = _.clone(self.data);
-                    data.userInterfaceDescriptor = uiDescriptor;
-                    data.object = object;
-                    self.data = data;
-                });
-            } else {
-                this.routingService.getKeyFromObject(object).then(function(selectedKey) {
-                    self.selectedKey = selectedKey;
-                    return self.routingService.selectObject(object, columnIndex);
-                });
-            }
-        }
-    },
-
-    selectProperty: {
-        value: function(property, objectType) {
-            var columnIndex = this.data && this.data.columnIndex || 0;
-            this.selectedKey = this.routingService.selectProperty(property, columnIndex, objectType);
-        }
-    },
-
-    close: {
-        value: function() {
-            var columnIndex = this.data && this.data.columnIndex || 0;
-            this.routingService.closeColumnAtIndex(columnIndex)
-        }
-    },
-*/
     needToScrollIntoView: {
         value: false
     },
@@ -144,6 +109,7 @@ exports.CascadingListItem = Component.specialize({
 
     exitDocument: {
         value: function() {
+            this._removeObjectDeletedListener();
             this.data = null;
             this.object = null;
             this.selectedKey = null;
@@ -161,13 +127,11 @@ exports.CascadingListItem = Component.specialize({
 
     resetSelection: {
         value: function () {
-            this._isResetting = true;
             this.selectedObject = null;
 
             if (this.content && this.content.component && this.content.component.selectedObject) {
                 this.content.component.selectedObject = null;
             }
-            this._isResetting = false;
         }
     },
 
@@ -195,6 +159,22 @@ exports.CascadingListItem = Component.specialize({
                     this.cascadingList.scrollView.scrollIntoView(false);
                     this.needToScrollIntoView = false;
                 }
+            }
+        }
+    },
+
+    _removeObjectDeletedListener: {
+        value: function () {
+            if (this._objectDeletedListener && this._data && this._data.object) {
+                this.eventDispatcherService.removeEventListener(ModelEventChange[this._data.objectType].remove(this._data.object.id), this._objectDeletedListener);
+            }
+        }
+    },
+
+    _handleObjectDeleted: {
+        value: function() {
+            if (this._inDocument && this.data && this.data.parentContext) {
+                this.routingService.navigate(this.data.parentContext.path);
             }
         }
     }
