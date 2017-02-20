@@ -116,6 +116,7 @@ exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# *
         value: function() {
             if (this.object.type === "FILESYSTEM") {
                 this.object.properties.volblocksize = undefined;
+                delete this.object.permissions.acl;
             } else if (this.object.type === "VOLUME") {
                 this.object.permissions = undefined;
             }
