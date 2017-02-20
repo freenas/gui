@@ -63,15 +63,15 @@
     height: 1.9em;
     /* gives the size to the icon */
     margin-right: 1em;
-    color: currentColor;
+    color: var(--primary--2);
     transition: color .25s;
 
     @nest .ListItem:hover & {
-        color: var(--main-text-color);
+        color: var(--white);
     }
 
     @nest .ListItem.selected & {
-        color: var(--main-text-color);
+        color: var(--white);
     }
 }
 
