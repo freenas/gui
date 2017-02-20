@@ -174,7 +174,6 @@ exports.CascadingListItem = Component.specialize({
     _handleObjectDeleted: {
         value: function() {
             if (this._inDocument && this.data && this.data.parentContext) {
-console.log('Object delete, close inspector');
                 this.routingService.navigate(this.data.parentContext.path);
             }
         }
