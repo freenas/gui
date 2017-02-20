@@ -36,11 +36,6 @@ exports.SharePermissions = AbstractInspector.specialize(/** @lends SharePermissi
 
     enterDocument: {
         value: function () {
-            if (this.object._isNew) {
-                this.object.permissions = {
-                    modes: {}
-                }
-            }
             this._loadUsersIfNeeded();
             this._loadGroupsIfNeeded();
         }

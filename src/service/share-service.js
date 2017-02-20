@@ -57,13 +57,8 @@ var ShareService = exports.ShareService = Montage.specialize({
                 var shareTypes = this.constructor.SHARE_TYPES;
 
                 shareObject.properties = {};
-                shareObject.properties["%type"] = 'Share' + shareObject.type;
-                populatedSharePromise = Promise.all([
-                    this.shareRepository.getNewPermissions(),
-                    this.shareRepository.getNewUnixPermissions()
-                ]).spread(function(permissions, unixPermissions) {
-                    shareObject.permissions = _.cloneDeep(permissions);
-
+                shareObject.properties["%type"] = 'Share' + _.capitalize(shareObject.type);
+                populatedSharePromise = this.shareRepository.getNewUnixPermissions().then(function(unixPermissions) {
                     if (shareTypes.SMB === shareObject.type) {
                         shareObject.properties.vfs_objects = [];
                         shareObject.properties.browseable = true;
@@ -77,11 +72,10 @@ var ShareService = exports.ShareService = Montage.specialize({
                         shareObject.properties.block_size = 512;
                         shareObject.properties.size = 0;
                         shareObject.properties.refreservation = true;
-
-                        return (shareObject.__extent = {
+                        shareObject.__extent = {
                             id: null,
                             lun: 0
-                        });
+                        };
                     } else if (shareTypes.AFP === shareObject.type) {
                         shareObject.properties.default_file_perms = _.cloneDeep(unixPermissions);
                         shareObject.properties.default_directory_perms = _.cloneDeep(unixPermissions);
@@ -103,18 +97,15 @@ var ShareService = exports.ShareService = Montage.specialize({
 
     ensureDefaultPermissionsAreSet: {
         value: function(share) {
-            share.permissions_type = share.permissions_type || this.constructor.DEFAULT_PERM_TYPES[share.type.toLowerCase()];
-            if (!share.permissions || !share.permissions.user || !share.permissions.group) {
-                var self = this;
-                var permissionsPromise = share.permissions ?
-                    Promise.resolve(share.permissions) : this.shareRepository.getNewPermissions();
+            var self = this;
 
-                return permissionsPromise.then(function (permissions) {
+            share.permissions_type = share.permissions_type || this.constructor.DEFAULT_PERM_TYPES[share.type];
+            return share.permissions ?
+                Promise.resolve(share) :
+                this.shareRepository.getNewPermissions().then(function (permissions) {
                     share.permissions = _.defaults(permissions, self.constructor.DEFAULT_PERMISSIONS);
                     return share;
                 });
-            }
-            return Promise.resolve(share);
         }
     },
 
@@ -255,11 +246,11 @@ var ShareService = exports.ShareService = Montage.specialize({
     //FIXME: could probably be an enum
     SHARE_TYPES: {
         value: {
-            AFP: "Afp",
-            SMB: "Smb",
-            NFS: "Nfs",
-            ISCSI: "Iscsi",
-            WEBDAV: "Webdav"
+            AFP: "afp",
+            SMB: "smb",
+            NFS: "nfs",
+            ISCSI: "iscsi",
+            WEBDAV: "webdav"
         }
     },
 
