@@ -1,5 +1,6 @@
 var Montage = require("montage").Montage,
-    VolumeRepository = require("core/repository/volume-repository").VolumeRepository;
+    VolumeRepository = require("core/repository/volume-repository").VolumeRepository,
+    _ = require('lodash');
 
 exports.DatasetTreeController = Montage.specialize({
     _service: {
@@ -79,7 +80,7 @@ exports.DatasetTreeController = Montage.specialize({
             }
 
             var treePromise = this._datasetsPromise.then(function (rawDatasets) {
-                self._datasets = rawDatasets;
+                self._datasets = _.sortBy(rawDatasets, 'name');
                 self._datasetsPromise = null;
                 self._buildDatasetsTree();
                 if (!self._hasDatasetListener) {
