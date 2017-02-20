@@ -8,7 +8,16 @@
             "properties": {
                 "element": {"#": "owner"},
                 "validationController": {"@": "validationController"},
-                "inspector": {"@": "inspector"}
+                "inspector": {"@": "inspector"},
+                "_nameComponent": {"@": "name"},
+                "_commandComponent": {"@": "command"},
+                "_volumesComponent": {"@": "volumes"},
+                "_portsComponent": {"@": "ports"},
+                "_environmentComponent": {"@": "environment"}
+            },
+            "bindings": {
+                "interactive": {"<-": "@owner.object.interactive"},
+                "object.names": {"<-": "@name.value.split(' ')"}
             }
         },
 
@@ -80,8 +89,8 @@
             "properties": {
                 "element": {"#": "inspector"},
                 "validationController": {"@": "validationController"},
-                "canSave": false,
-                "canRevert": false,
+                "canSave": true,
+                "canRevert": true,
                 "canDelete": true,
                 "controller": {"@": "owner"}
             },
@@ -107,7 +116,7 @@
         },
 
         "name": {
-            "prototype": "blue-shark/ui/field-text.reel",
+            "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "name"},
                 "label": "Names"
@@ -140,24 +149,24 @@
         },
 
         "memoryLimit": {
-            "prototype": "blue-shark/ui/field-text.reel",
+            "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "memoryLimit"},
                 "label": "Memory Limit"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.memory_limit"}
+                "value": {"<->": "@owner.object.memory_limit"}
             }
         },
 
         "hostname": {
-            "prototype": "blue-shark/ui/field-text.reel",
+            "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "hostname"},
                 "label": "Hostname"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.hostname"}
+                "value": {"<->": "@owner.object.hostname"}
             }
         },
 
@@ -176,8 +185,7 @@
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
                 "element": {"#": "exposePorts"},
-                "label": "Expose Ports",
-                "disabled": true
+                "label": "Expose Ports"
             },
             "bindings": {
                 "checked": {"<-": "!!@owner.object.expose_ports"}
@@ -185,7 +193,7 @@
         },
 
         "command": {
-            "prototype": "blue-shark/ui/field-text.reel",
+            "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "command"},
                 "label": "Command"
@@ -196,73 +204,35 @@
         },
 
         "environment": {
-            "prototype": "blue-shark/ui/tables/table-read-only.reel",
+            "prototype": "ui/sections/containers/controls/table-environment.reel",
             "properties": {
-                "element": {"#": "environment"},
-                "label": "Environments",
-                "columns":  [
-                    {
-                        "value": "variable",
-                        "path": "variable"
-                    },
-                    {
-                        "value": "value",
-                        "path": "value"
-                    }
-                ]
+                "element": {"#": "environment"}
             },
             "bindings": {
-                "rows": {"<-": "@owner.environments"}
+                "inspector": {"<-": "@inspector"},
+                "values": {"<-": "@owner.environments"}
             }
         },
 
         "ports": {
-            "prototype": "blue-shark/ui/tables/table-read-only.reel",
+            "prototype": "ui/sections/containers/controls/table-port.reel",
             "properties": {
-                "element": {"#": "ports"},
-                "label": "Ports",
-                "columns":  [
-                    {
-                        "value": "Host Port",
-                        "path": "host_port"
-                    },
-                    {
-                        "value": "Container Port",
-                        "path": "container_port"
-                    },
-                    {
-                        "value": "protocol",
-                        "path": "protocol"
-                    }
-                ]
+                "element": {"#": "ports"}
             },
             "bindings": {
-                "rows": {"<-": "@owner.object.ports"}
+                "inspector": {"<-": "@inspector"},
+                "values": {"<-": "@owner.object.ports.map{{ host_port: host_port, container_port: container_port, protocol: protocol }}"}
             }
         },
 
         "volumes": {
-            "prototype": "blue-shark/ui/tables/table-read-only.reel",
+            "prototype": "ui/sections/containers/controls/table-volume.reel",
             "properties": {
-                "element": {"#": "volumes"},
-                "label": "Volumes",
-                "columns":  [
-                    {
-                        "value": "Host Path",
-                        "path": "host_path"
-                    },
-                    {
-                        "value": "Container Path",
-                        "path": "container_path"
-                    },
-                    {
-                        "value": "Read Only",
-                        "path": "readonly ? 'yes' : 'no'"
-                    }
-                ]
+                "element": {"#": "volumes"}
             },
             "bindings": {
-                "rows": {"<-": "@owner.object.volumes"}
+                "inspector": {"<-": "@inspector"},
+                "values": {"<-": "@owner.object.volumes.map{{ host_path: host_path, container_path: container_path, readonly: readonly , isLocked: isLocked }}"}
             }
         },
 
@@ -270,11 +240,10 @@
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
                 "element": {"#": "autostart"},
-                "label": "Start at Boot",
-                "disabled": true
+                "label": "Start at Boot"
             },
             "bindings": {
-                "checked": {"<-": "@owner.object.autostart"}
+                "checked": {"<->": "@owner.object.autostart"}
             }
         },
 
@@ -282,11 +251,10 @@
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
                 "element": {"#": "interactive"},
-                "label": "Interactive",
-                "disabled": true
+                "label": "Interactive"
             },
             "bindings": {
-                "checked": {"<-": "@owner.object.interactive"}
+                "checked": {"<->": "@owner.interactive"}
             }
         },
 
@@ -294,11 +262,34 @@
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
                 "element": {"#": "privileged"},
-                "label": "Privileged",
-                "disabled": true
+                "label": "Privileged"
             },
             "bindings": {
-                "checked": {"<-": "@owner.object.privileged"}
+                "checked": {"<->": "@owner.object.privileged"}
+            }
+        },
+
+        "primaryNetworkMode": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "primaryNetworkMode"},
+                "label": "Primary Network Mode"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.primaryNetWorkModes"},
+                "selectedValue": {"<->": "@owner.object.primary_network_mode"}
+            }
+        },
+
+        "bridgeDHCP": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "bridgeDHCP"},
+                "label": "DHCP"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.bridge.dhcp"},
+                "classList.has('hide')": {"<-": "@owner.object.primary_network_mode != 'BRIDGED'"}
             }
         },
 
@@ -306,25 +297,24 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "bridgeAddress"},
-                "label": "IP address",
-                "disabled": true
+                "label": "IP address"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.bridge.address"},
-                "classList.has('is-hidden')": {"<-": "!@owner.object.bridge.enable && !!@owner.object.bridge.address"}
+                "value": {"<->": "@owner.object.bridge.address"},
+                "disabled": {"<-": "@bridgeDHCP.checked"},
+                "classList.has('hide')": {"<-": "@owner.object.primary_network_mode != 'BRIDGED'"}
             }
         },
 
         "bridgeMacAddress": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "ui/controls/field-mac-address.reel",
             "properties": {
                 "element": {"#": "bridgeMacAddress"},
-                "label": "MAC address",
-                "disabled": true
+                "label": "MAC address"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.bridge.macaddress"},
-                "classList.has('is-hidden')": {"<-": "!@owner.object.bridge.enable && !!@owner.object.bridge.macaddress"}
+                "value": {"<->": "@owner.object.bridge.macaddress"},
+                "classList.has('hide')": {"<-": "@owner.object.primary_network_mode != 'BRIDGED'"}
             }
         },
 
@@ -332,11 +322,11 @@
             "prototype": "blue-shark/ui/field-select-multiple.reel",
             "properties": {
                 "element": {"#": "networks"},
-                "label": "Networks",
-                "disabled": true
+                "label": "Networks"
             },
             "bindings": {
-                "options": {"<-": "@owner._networks.filter{@owner.object.networks.has(id)}.map{{ label: name, value: id }}"}
+                "options": {"<-": "@owner._networks.map{{ label: name, value: id }}"},
+                "selectedValues": {"<->": "@owner.object.networks"}
             }
         },
 

@@ -9,11 +9,13 @@ exports.ContainerEditor = AbstractInspector.specialize({
             return Promise.all([
                 this._sectionService.listDockerHosts(),
                 this._sectionService.listDockerNetworks(),
-                this._sectionService.getNewDockerContainerLogs()
-            ]).spread(function (hosts, networks, logs) {
+                this._sectionService.getNewDockerContainerLogs(),
+                this._sectionService.getPrimaryNetWorkModes()
+            ]).spread(function (hosts, networks, logs, primaryNetWorkModes) {
                 self._dockerHosts = hosts;
                 self._dockerContainerLogs = logs;
                 self._networks = networks;
+                self.primaryNetWorkModes = primaryNetWorkModes;
             });
         }
     },
@@ -79,6 +81,17 @@ exports.ContainerEditor = AbstractInspector.specialize({
             if (this.object.web_ui_url) {
                 window.open(this.object.web_ui_url);
             }
+        }
+    },
+
+      save: {
+        value: function () {
+            return this._sectionService.saveContainer(this.object, {
+                command: this._commandComponent.value,
+                environments: this._environmentComponent.values,
+                ports: this._portsComponent.values,
+                volumes: this._volumesComponent.values,
+            });
         }
     },
 
