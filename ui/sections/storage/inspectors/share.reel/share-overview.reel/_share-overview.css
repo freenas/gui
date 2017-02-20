@@ -1,13 +1,11 @@
 .ShareOverview {
+    height: 5rem;
     display: flex;
-    margin-top: 0;
-    padding-bottom: 1em;
     margin: -1em;
     margin-bottom: 1em;
     padding: 1em;
     border-bottom: 1px solid var(--transparent--lighten);
-    background-color: var(--grey-blue);
-    color: var(--main-text-color);
+    background: var(--primary--8);
 }
 
 .ShareOverview-iconContainer {
@@ -21,8 +19,8 @@
 
 .ShareOverview-icon {
     display: inline-block;
-    width:  4em;
-    height: 4em;
+    width:  3em;
+    height: 3em;
     display: flex;
 
     & > * {
@@ -39,6 +37,7 @@
 }
 
 .ShareOverview-title {
-    font-size: 2em;
+    font-size: 1.5em;
+    font-weight: 400;
     margin: 0;
 }

@@ -9,7 +9,7 @@
 .Viewer > .Scrollview .Scrollview-transform { display: block; }
 
 .Viewer-header {
-    height: calc(3rem - 1px);
+    height: 3rem;
     border-bottom: 1px solid var(--separator-color);
     background-color: var(--primary);
     display: flex;
