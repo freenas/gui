@@ -6,7 +6,8 @@ export class DirectoryserviceConfigDao extends AbstractDao<DirectoryserviceConfi
 
     public constructor() {
         super(Model.DirectoryserviceConfig, {
-            queryMethod: 'directoryservice.get_config'
+            queryMethod: 'directoryservice.get_config',
+            updateMethod: 'directoryservice.update'
         });
     }
 
