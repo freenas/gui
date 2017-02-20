@@ -57,7 +57,7 @@ var ShareService = exports.ShareService = Montage.specialize({
                 var shareTypes = this.constructor.SHARE_TYPES;
 
                 shareObject.properties = {};
-                shareObject.properties["%type"] = 'Share' + shareObject.type;
+                shareObject.properties["%type"] = 'Share' + _.capitalize(shareObject.type);
                 populatedSharePromise = this.shareRepository.getNewUnixPermissions().then(function(unixPermissions) {
                     if (shareTypes.SMB === shareObject.type) {
                         shareObject.properties.vfs_objects = [];
@@ -72,11 +72,10 @@ var ShareService = exports.ShareService = Montage.specialize({
                         shareObject.properties.block_size = 512;
                         shareObject.properties.size = 0;
                         shareObject.properties.refreservation = true;
-
-                        return (shareObject.__extent = {
+                        shareObject.__extent = {
                             id: null,
                             lun: 0
-                        });
+                        };
                     } else if (shareTypes.AFP === shareObject.type) {
                         shareObject.properties.default_file_perms = _.cloneDeep(unixPermissions);
                         shareObject.properties.default_directory_perms = _.cloneDeep(unixPermissions);
@@ -247,11 +246,11 @@ var ShareService = exports.ShareService = Montage.specialize({
     //FIXME: could probably be an enum
     SHARE_TYPES: {
         value: {
-            AFP: "Afp",
-            SMB: "Smb",
-            NFS: "Nfs",
-            ISCSI: "Iscsi",
-            WEBDAV: "Webdav"
+            AFP: "afp",
+            SMB: "smb",
+            NFS: "nfs",
+            ISCSI: "iscsi",
+            WEBDAV: "webdav"
         }
     },
 
