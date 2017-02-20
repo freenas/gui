@@ -4,6 +4,7 @@ import {SystemRepository} from '../../repository/system-repository';
 import {AbstractSectionService} from './abstract-section-service-ng';
 import {DiskRepository} from '../../repository/disk-repository';
 import {VolumeRepository} from '../../repository/volume-repository';
+import {AccountRepository} from '../../repository/account-repository';
 
 export class CalendarSectionService extends AbstractSectionService {
     private calendarRepository: CalendarRepository;
@@ -11,6 +12,7 @@ export class CalendarSectionService extends AbstractSectionService {
     private diskRepository: DiskRepository;
     private systemRepository: SystemRepository;
     private volumeRepository: VolumeRepository;
+    private accountRepository: AccountRepository;
 
     public readonly SCHEDULE_OPTIONS = CalendarRepository.SCHEDULE_OPTIONS;
     public readonly DAYS = CalendarRepository.DAYS;
@@ -26,6 +28,7 @@ export class CalendarSectionService extends AbstractSectionService {
         this.diskRepository = DiskRepository.getInstance();
         this.systemRepository = SystemRepository.getInstance();
         this.volumeRepository = VolumeRepository.getInstance();
+        this.accountRepository = AccountRepository.getInstance();
     }
 
     protected loadEntries(): Promise<Array<any>> {
@@ -80,5 +83,9 @@ export class CalendarSectionService extends AbstractSectionService {
 
     public listVolumes() {
         return this.volumeRepository.listVolumes();
+    }
+
+    public listUsers() {
+        return this.accountRepository.listUsers();
     }
 }

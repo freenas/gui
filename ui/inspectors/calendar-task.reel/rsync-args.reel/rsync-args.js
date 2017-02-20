@@ -8,6 +8,8 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
 exports.RsyncArgs = AbstractInspector.specialize({
     _inspectorTemplateDidLoad: {
         value: function() {
+            var self = this;
+
             this.rsyncDirections = RsyncCopyRsyncdirection.members.map(function(x) {
                 return {
                     label: x.toLowerCase().toCapitalized(),
@@ -22,7 +24,9 @@ exports.RsyncArgs = AbstractInspector.specialize({
                 };
             });
 
-            return this._sectionService.listUsers();
+            this._sectionService.listUsers().then(function(users) {
+                self.users = users;
+            });
         }
     },
 
