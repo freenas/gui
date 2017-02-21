@@ -31,7 +31,7 @@
                 "label": "Volume"
             },
             "bindings": {
-                "options" : {"<-": "@owner.volumeOptions"},
+                "options" : {"<-": "[{id: '---'}].concat(@owner.volumeOptions)"},
                 "selectedValue": {"<->": "@owner.object.volume"}
             }
         },
@@ -42,7 +42,7 @@
                 "label": "Domain Controller IP address"
             },
             "bindings": {
-                "value": {"<-": "@owner.dcIp"}
+                "value": {"<-": "!!@owner.dcIp ? @owner.dcIp : ''"}
             }
         },
         "dcUrl": {
