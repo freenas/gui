@@ -1,11 +1,13 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     ModelEventName = require("core/model-event-name").ModelEventName,
+    DataObjectChangeService = require('core/service/data-object-change-service').DataObjectChangeService,
     _ = require("lodash");
 
 exports.DirectoryServices = AbstractInspector.specialize({
     _inspectorTemplateDidLoad: {
         value: function() {
             var self = this;
+            this.dataObjectChangeService = new DataObjectChangeService();
             this._sectionService.listNtpServers().then(function(ntpServers) {
                 self._handleNtpServersChange(ntpServers);
                 if (self.ntpServerOptions.length) {
@@ -37,7 +39,7 @@ exports.DirectoryServices = AbstractInspector.specialize({
         }
     },
 
-    handleDirectoriesChange: {
+    refreshDirectories: {
         value: function () {
             var directoryTypesKeyValuesKeys = _.keys(this._sectionService.DIRECTORY_TYPES_LABELS),
                 directoryTypesLabels = this._sectionService.DIRECTORY_TYPES_LABELS,
@@ -86,6 +88,13 @@ exports.DirectoryServices = AbstractInspector.specialize({
         }
     },
 
+    handleDirectoriesChange: {
+        value: function(state) {
+            this.dataObjectChangeService.handleContentChange(this._directories, state);
+            this.refreshDirectories();
+        }
+    },
+
     handleRevertAction: {
         value: function() {
             this.directoryServiceConfig.search_order = this._originalSearchOrder.slice();
@@ -112,7 +121,9 @@ exports.DirectoryServices = AbstractInspector.specialize({
                     return self._sectionService.listDirectories();
                 }).then(function (directories) {
                     self._directories = directories;
-                    self.addRangeAtPathChangeListener("_directories", self, "handleDirectoriesChange");
+                    self.refreshDirectories();
+                    self.eventDispatcherService.addEventListener(ModelEventName.Directory.listChange, self.handleDirectoriesChange.bind(self));
+                    // self.addRangeAtPathChangeListener("_directories", self, "handleDirectoriesChange");
                     self.object.isLoading = false;
                 });
             }
