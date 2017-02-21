@@ -16,5 +16,6 @@
         height: 2.5em;
         background-image: linear-gradient(color(var(--primary--8) a(0%)), var(--primary--8));
         border-radius: 4px;
+        pointer-events: none;
     }
 }
