@@ -21,7 +21,7 @@ exports.Peer = AbstractInspector.specialize(/** @lends Peer# */ {
 
     save: {
         value: function() {
-            if (this.object.type === 'freenas') {
+            if (this.object.type === 'freenas' && this.object._isNew) {
                 this.inspector.save({username: this.object.username, password: this.object.password});
             }else {
                 this.inspector.save();
