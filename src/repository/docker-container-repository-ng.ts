@@ -1,11 +1,15 @@
 import {AbstractModelRepository} from './abstract-model-repository';
 import {DockerContainerDao} from '../dao/docker-container-dao';
+import {DockerContainerBridgeRepository} from '../repository/docker-container-bridge-repository';
 
 export class DockerContainerRepository extends AbstractModelRepository {
     private static instance: DockerContainerRepository;
+    private dockerContainerBridgeRepository: DockerContainerBridgeRepository;
 
     private constructor(private dockerContainerDao: DockerContainerDao) {
         super(dockerContainerDao);
+
+        this.dockerContainerBridgeRepository = DockerContainerBridgeRepository.getInstance();
     }
 
     public static getInstance(): DockerContainerRepository {
@@ -22,7 +26,14 @@ export class DockerContainerRepository extends AbstractModelRepository {
     }
 
     public getNewDockerContainer() {
-        return this.dockerContainerDao.getNewInstance();
+        return this.dockerContainerDao.getNewInstance().then((container) => {
+            container.primary_network_mode = 'NAT';
+
+            return this.dockerContainerBridgeRepository.getNewDockerContainerBridge().then(function(bridge) {
+                container.bridge = bridge;
+                return container;
+            });
+        });
     }
 
     public saveContainer(container: any) {

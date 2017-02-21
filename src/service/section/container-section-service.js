@@ -10,6 +10,7 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
     VmRepository = require("core/repository/vm-repository").VmRepository,
     VmDatastoreRepository = require("core/repository/VmDatastoreRepository").VmDatastoreRepository,
     CONSTANTS = require("core/constants"),
+    BytesService = require("core/service/bytes-service").BytesService,
     ApplicationContextService = require("core/service/application-context-service").ApplicationContextService,
     MiddlewareClient = require("core/service/middleware-client").MiddlewareClient,
     Model = require("core/model").Model,
@@ -33,6 +34,7 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
             this._dockerContainerBridgeRepository = DockerContainerBridgeRepository.getInstance();
             this._vmRepository = VmRepository.getInstance();
             this._vmDatastoreRepository = VmDatastoreRepository.getInstance();
+            this._bytesService = BytesService.instance;
         }
     },
 
@@ -159,9 +161,91 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         }
     },
 
+    getPrimaryNetWorkModes: {
+        value: function () {
+            return this.constructor.primaryNetWorkModes;
+        }
+    },
+
     saveContainer: {
-        value: function (container) {
+        value: function (container, options) {
+            var environments = [];
+
+            if (options.command) {
+                container.command = options.command.split(" ");
+            }
+
+            if (container.memory_limit) {
+                container.memory_limit = this._bytesService.convertStringToSize(
+                    container.memory_limit, this._bytesService.UNITS.M
+                ) || void 0;
+            }
+
+            if (options.settings && options.settings.length) {
+                try {
+                    environments = this._getVariablesFromArray(options.settings);
+                } catch (e) {
+                    //TODO
+                }
+            }
+
+            if (options.environments) {
+                container.environment = environments.concat(
+                    this._getVariablesFromArray(options.environments)
+                );
+            }
+
+            if (options.ports) {
+                container.ports = options.ports.filter(function (entry) {
+                    return entry.host_port && entry.container_port;
+                });
+            }
+
+            if (options.volumes) {
+                container.volumes = this._extractValidVolumes(options.volumes);
+            }
+
+            if (container.primary_network_mode !== 'BRIDGED') {
+                container.bridge.address = null;
+                container.bridge.macaddress = null;
+                container.bridge.dhcp = false;
+            }
+
             return this._dockerContainerRepository.saveContainer(container);
+        }
+    },
+
+    _extractValidVolumes: {
+        value: function(values) {
+            var volumes = [],
+                entry;
+
+            for (var i = values.length - 1; i >= 0; i--) {
+                entry = values[i];
+
+                if (entry.host_path && entry.container_path) {
+                    delete entry.isLocked;
+                    volumes.push(entry);
+                }
+            }
+
+            return volumes;
+        }
+    },
+
+    _getVariablesFromArray: {
+        value: function (array) {
+            return array.filter(function (entry) {
+                var shouldKeep = !!(entry.variable && entry.value);
+
+                if (!shouldKeep && entry.optional !== void 0 && entry.optional === true) {
+                    throw new Error("missing setting");
+                }
+
+                return shouldKeep;
+            }).map(function (entry) {
+                return entry.variable + "=" + entry.value;
+            });
         }
     },
 
@@ -288,7 +372,7 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         }
     },
 
-     disconnectContainersFromNetwork: {
+    disconnectContainersFromNetwork: {
         value: function (containers, dockerNetwork) {
             var self = this,
                 networkId = dockerNetwork.id,
@@ -368,4 +452,13 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
     },
 
 
+}, {
+    primaryNetWorkModes: {
+        value: [
+            {label: 'Bridged', value: 'BRIDGED'},
+            {label: 'NAT', value: 'NAT'},
+            {label: 'Host', value: 'HOST'},
+            {label: 'None', value: 'NONE'}
+        ]
+    }
 });
