@@ -4,7 +4,7 @@
 
 .DockerImageSearch-table .Table-row > div:nth-child(1),
 .DockerImageSearch-table .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(1) {
-    min-width: 11em;
+    max-width: 9rem;
 }
 
 .DockerImageSearch-table .Table-row > div:nth-child(2),
