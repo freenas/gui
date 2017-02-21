@@ -2,7 +2,7 @@
 <html>
 <head>
     <title></title>
-
+    <link rel="stylesheet" href="./settings.css">
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -209,7 +209,8 @@
         "routes": {
             "prototype": "ui/sections/network/controls/table-routes.reel",
             "properties": {
-                "element": {"#": "routes"}
+                "element": {"#": "routes"},
+                "label": "Add Static Routes"
             }
         },
         "hosts_header": {
@@ -222,7 +223,8 @@
         "hosts": {
             "prototype": "ui/sections/network/controls/table-hosts.reel",
             "properties": {
-                "element": {"#": "hosts"}
+                "element": {"#": "hosts"},
+                "label": "Add Hosts"
             },
             "bindings": {
                 "values": {"<-": "@owner.hosts"}
@@ -232,7 +234,7 @@
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="Settings">
+    <div data-montage-id="owner" class="Network-settings">
         <div data-montage-id="inspector">
             <div data-montage-id="hostname"></div>
             <div data-montage-id="http_proxy"></div>
