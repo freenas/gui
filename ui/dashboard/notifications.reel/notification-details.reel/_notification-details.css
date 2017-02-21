@@ -1,6 +1,7 @@
 .Notification-details {
     background: var(--primary);
     font-size: .8em;
+    word-break: break-word;
 }
 
 .Notification-details main { padding: .5rem;}
