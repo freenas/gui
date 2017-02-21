@@ -5,6 +5,11 @@
     width: 3px;
     left: 0;
     bottom: 0;
+    z-index: 1;
+}
+
+.TaskNotification.has-error {
+    background-color: color(var(--red) alpha(8%));
 }
 
 .TaskNotification.has-warning:before    { background-color: var(--orange); }
