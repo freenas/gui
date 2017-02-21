@@ -32,6 +32,34 @@
     flex-direction: column;
 }
 
+.DiskSelector-title {
+    position: relative;
+    height: 2em;
+    line-height: 1.7em;
+    padding: 0 1em;
+    font-weight: 400;
+    background: var(--primary);
+    border-top: 2px solid currentColor;
+    overflow: hidden;
+    color: var(--orange-lighten-1);
+    /* set to hide behind dropZone overlay */
+    z-index: -1;
+    flex-shrink: 0;
+
+    /* left decoration */
+
+    &:before {
+        content: '';
+        position: absolute;
+        left: -1.7em;
+        top: -1em;
+        height: 4em;
+        background: currentColor;
+        width: 2em;
+        transform: rotate(17deg);
+    }
+}
+
 .EncryptedVolumeImporter-sidebar {
     display: flex;
     flex-direction: column;
@@ -41,9 +69,9 @@
     right: 0;
     /* magic number tied to inspector margin */
     width: 12.3em;
-    background-color: var(--grey);
+    background-color: var(--primary--6);
     overflow: hidden;
-    border-left: 2px solid var(--grey-blue);
+    border-left: 2px solid var(--primary);
 }
 
 .Inspector.is-locked + .EncryptedVolumeImporter-sidebar .FoldableSection-content {
