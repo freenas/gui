@@ -30,18 +30,6 @@ exports.Main = Component.specialize({
         }
     },
 
-    draw: {
-        value: function () {
-            var applicationModal = this.application.applicationModal;
-
-            // Fixme: @benoit hacky application modal is not detached once the loader has finished its work.
-            if (applicationModal !== rootComponent) {
-                applicationModal.attachToParentComponent();
-                applicationModal.enterDocument(true);
-            }
-        }
-    },
-
     _handleOldSectionChange: {
         value: function(sectionId) {
             this.sectionService = this.application.sectionService = null;
