@@ -269,7 +269,6 @@ exports.VmsSectionService = AbstractSectionService.specialize({
 
     populateVmWithTemplate: {
         value: function(vm, template) {
-            var self = this;
             vm.config = Object.clone(template.config);
             vm.config.readme = template.template.readme;
             vm.guest_type = template.guest_type;
