@@ -50,6 +50,7 @@
     height: 3em;
     left: 50%;
     margin-left: -1.5em;
+    color: var(--accent);
 }
 
 .Inspector.is-loading .Inspector-loading {
