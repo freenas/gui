@@ -22,7 +22,7 @@
                 "element": {"#": "info"}
             },
             "bindings": {
-                "status" : {"<-": "@owner.disks.length > 0 ? 'error' : 'default' "},
+                "status" : {"<-": "@owner.disks.length ? 'default' : 'error' "},
                 "message": {"<-": "status == 'default' ? 'Drag disks to the left': 'No available disks'"}
             }
         },
