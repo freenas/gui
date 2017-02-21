@@ -1,7 +1,8 @@
 var Component = require("montage/ui/component").Component,
     VmRepository = require("core/repository/vm-repository").VmRepository,
     DiskRepository = require("core/repository/disk-repository").DiskRepository,
-    SystemService = require("core/service/system-service").SystemService;
+    SystemService = require("core/service/system-service").SystemService,
+    moment = require("moment");
 
 exports.SystemInfo = Component.specialize({
     systemInfo: {
@@ -60,7 +61,7 @@ exports.SystemInfo = Component.specialize({
         value: function(time) {
             var self = this,
                 startTime = new Date().getTime(),
-                startSystemTime = new Date(time.system_time['$date']).getTime();
+                startSystemTime = +(moment(time.system_time['$date']).format("X"));
 
             this._stopTimer();
             this._timer = setInterval(function () {
