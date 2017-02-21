@@ -1,4 +1,4 @@
-import {AlertEmitterEmailDao} from '../dao/AlertEmitterEmailDao';
+import {AlertEmitterEmailDao} from '../dao/alert-emitter-email-dao';
 
 export class MailRepository {
     private static instance: MailRepository;

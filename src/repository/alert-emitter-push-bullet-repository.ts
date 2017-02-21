@@ -1,4 +1,4 @@
-import {AlertEmitterPushBulletDao} from '../dao/AlertEmitterPushBulletDao';
+import {AlertEmitterPushBulletDao} from '../dao/alert-emitter-push-bullet-dao';
 
 export class AlertEmitterPushBulletRepository {
     private static instance: AlertEmitterPushBulletRepository;
