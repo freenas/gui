@@ -19,8 +19,11 @@
         "info": {
             "prototype": "blue-shark/ui/panel.reel",
             "properties": {
-                "element": {"#": "info"},
-                "message": "Drag disks to the left to add"
+                "element": {"#": "info"}
+            },
+            "bindings": {
+                "status" : {"<-": "@owner.disks.length > 0 ? 'error' : 'default' "},
+                "message": {"<-": "status == 'default' ? 'Drag disks to the left': 'No available disks'"}
             }
         },
         "hddsCategory": {
