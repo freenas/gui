@@ -11,6 +11,7 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
     VmDatastoreNfsVersion = require("core/model/enumerations/vm-datastore-nfs-version").VmDatastoreNfsVersion,
     VmRepository = require("core/repository/vm-repository").VmRepository,
     VmDatastoreRepository = require("core/repository/VmDatastoreRepository").VmDatastoreRepository,
+    VmSnapshotRepository = require("core/repository/VmSnapshotRepository").VmSnapshotRepository,
     VolumeRepository = require("core/repository/volume-repository").VolumeRepository,
     DiskRepository = require("core/repository/disk-repository").DiskRepository,
     NetworkRepository = require("core/repository/network-repository").NetworkRepository,
@@ -122,6 +123,7 @@ exports.VmsSectionService = AbstractSectionService.specialize({
         value: function() {
             this._vmRepository = VmRepository.getInstance();
             this._vmDatastoreRepository = VmDatastoreRepository.getInstance();
+            this._vmSnapshotRepository = VmSnapshotRepository.getInstance();
             this._volumeRepository = VolumeRepository.getInstance();
             this._diskRepository = DiskRepository.getInstance();
             this._networkRepository = NetworkRepository.getInstance();
@@ -420,6 +422,18 @@ exports.VmsSectionService = AbstractSectionService.specialize({
     cloneVmToName: {
         value: function (vmId, name) {
             return this._vmRepository.cloneVmToName(vmId, name);
+        }
+    },
+
+    snapshotVmToName: {
+        value: function (vmId, name, description) {
+            return this._vmSnapshotRepository.snapshotVmToName(vmId, name, description);
+        }
+    },
+
+    rollbackToSnapshot: {
+        value: function (snapshotId) {
+            return this._vmSnapshotRepository.rollbackToSnapshot(snapshotId);
         }
     },
 

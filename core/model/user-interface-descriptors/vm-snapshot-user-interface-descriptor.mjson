@@ -1,0 +1,12 @@
+{
+    "root": {
+        "prototype": "montage/core/meta/user-interface-descriptor",
+        "properties": {
+            "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
+            "collectionNameExpression": "'VM Snapshots'",
+            "inspectorComponentModule": {"%": "ui/sections/vms/inspectors/vm-snapshot.reel"},
+            "creatorComponentModule": {"%": "ui/sections/vms/inspectors/vm-snapshot.reel"},
+            "nameExpression": "_isNew.defined() && _isNew ? 'New VM Snapshot' : name"
+        }
+    }
+}

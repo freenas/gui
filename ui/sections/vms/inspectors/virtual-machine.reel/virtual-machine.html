@@ -389,6 +389,18 @@
                 "classList.has('hide')": {"<-": "!!@owner.object.parent || @owner.object._isNew"}
             }
         },
+        "snapshots": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "snapshots"},
+                "name": "Snapshots",
+                "obectType": "VmSnapshots",
+                "path": "snapshots"
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "@owner.object._isNew"}
+            }
+        },
         "start": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
@@ -489,6 +501,7 @@
             <div data-montage-id="devices"></div>
             <div data-montage-id="volumeDevices"></div>
             <div data-montage-id="clones"></div>
+            <div data-montage-id="snapshots"></div>
         </div>
     </div>
 </body>

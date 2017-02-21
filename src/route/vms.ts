@@ -5,13 +5,15 @@ import {Model} from '../model';
 import {VmRepository} from '../repository/vm-repository';
 import {ModelEventName} from '../model-event-name';
 import {VmDatastoreRepository} from '../repository/VmDatastoreRepository';
+import {VmSnapshotRepository} from '../repository/VmSnapshotRepository';
 
 export class VmsRoute extends AbstractRoute {
     private static instance: VmsRoute;
 
     private constructor(
         private vmRepository: VmRepository,
-        private vmDatastoreRepository: VmDatastoreRepository
+        private vmDatastoreRepository: VmDatastoreRepository,
+        private vmSnapshotRepository: VmSnapshotRepository
     ) {
         super();
     }
@@ -20,7 +22,8 @@ export class VmsRoute extends AbstractRoute {
         if (!VmsRoute.instance) {
             VmsRoute.instance = new VmsRoute(
                 VmRepository.getInstance(),
-                VmDatastoreRepository.getInstance()
+                VmDatastoreRepository.getInstance(),
+                VmSnapshotRepository.getInstance()
             );
         }
         return VmsRoute.instance;
@@ -438,6 +441,60 @@ export class VmsRoute extends AbstractRoute {
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread((clone, uiDescriptor) => {
             context.object = _.assign(clone, {parent: vmId});
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            return this.updateStackWithContext(this.stack, context);
+        });
+    }
+
+    @Route('/vms/vm/_/{vmId}/snapshots')
+    public listSnapshots(vmId: string, ) {
+        let columnIndex = 2,
+            parentContext = this.stack[columnIndex - 1];
+        return this.loadListInColumn(
+            this.stack,
+            columnIndex,
+            columnIndex - 1,
+            '/snapshots',
+            Model.VmSnapshot,
+            this.vmSnapshotRepository.list(),
+            {
+                filter: { parent: {id: vmId}},
+                sort: 'name'
+            }
+        );
+    }
+
+    @Route('/vms/vm/_/{vmId}/snapshots/vm-snapshot/_/{snapshotId}')
+    public getSnapshot(vmId: string, snapshotId: string, ) {
+        let columnIndex = 3;
+        return this.loadObjectInColumn(
+            this.stack,
+            columnIndex,
+            columnIndex - 1,
+            AbstractRoute.getObjectPathSuffix(Model.VmSnapshot, snapshotId),
+            Model.VmSnapshot,
+            this.vmSnapshotRepository.list(),
+            {id: snapshotId}
+        );
+    }
+
+    @Route('/vms/vm/_/{vmId}/snapshots/create')
+    public createSnapshot(vmId: string, ) {
+        let objectType = Model.VmSnapshot,
+            columnIndex = 3,
+            parentContext = this.stack[columnIndex - 1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/create'
+            };
+        return Promise.all([
+            this.vmSnapshotRepository.getNewVmSnapshot(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread((snapshot, uiDescriptor) => {
+            context.object = _.assign(snapshot, {parent: vmId});
             context.userInterfaceDescriptor = uiDescriptor;
 
             return this.updateStackWithContext(this.stack, context);

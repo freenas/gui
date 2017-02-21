@@ -14,6 +14,7 @@ import * as uuid from 'uuid';
 import {VmDeviceDao} from '../dao/vm-device-dao';
 import {VmVolumeDao} from '../dao/vm-volume-dao';
 import {VmCloneDao} from '../dao/vm-clone-dao';
+import {VmSnapshotDao} from '../dao/vm-snapshot-dao';
 import {Vm} from '../model/Vm';
 
 export class VmRepository extends AbstractRepository<Vm> {
@@ -69,7 +70,9 @@ export class VmRepository extends AbstractRepository<Vm> {
                         private vmGuestInfoDao: VmGuestInfoDao,
                         private vmDeviceDao: VmDeviceDao,
                         private vmVolumeDao: VmVolumeDao,
-                        private vmCloneDao: VmCloneDao) {
+                        private vmCloneDao: VmCloneDao,
+                        private vmSnapshotDao: VmSnapshotDao
+                       ) {
         super([
             Model.Vm,
             Model.VmDatastore,
@@ -89,7 +92,8 @@ export class VmRepository extends AbstractRepository<Vm> {
                 new VmGuestInfoDao(),
                 new VmDeviceDao(),
                 new VmVolumeDao(),
-                new VmCloneDao()
+                new VmCloneDao(),
+                new VmSnapshotDao()
             );
         }
         return VmRepository.instance;

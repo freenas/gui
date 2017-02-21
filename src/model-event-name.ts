@@ -78,6 +78,7 @@ export class ModelEventName {
     public static VmDatastore = new ModelEventName(Model.VmDatastore);
     public static VmDevice = new ModelEventName(Model.VmDevice);
     public static VmReadme = new ModelEventName(Model.VmReadme);
+    public static VmSnapshot = new ModelEventName(Model.VmSnapshot);
     public static VmTemplate = new ModelEventName(Model.VmTemplate);
     public static VmVolume = new ModelEventName(Model.VmVolume);
     public static VmwareCredentials = new ModelEventName(Model.VmwareCredentials);
