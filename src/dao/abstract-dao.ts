@@ -59,12 +59,14 @@ export class AbstractDao<T extends AbstractDataObject> {
             });
     }
 
-    public stream(partial: boolean = false): Promise<Map<string, any>> {
+    public stream(partial: boolean = false, criteria?: any): Promise<Map<string, any>> {
+        let middlewareCriteria = criteria ? this.getMiddlewareCriteria(criteria) : [];
         return this.datastoreService.stream(
             this.objectType,
             this.queryMethod,
             this.idPath,
-            partial
+            partial,
+            middlewareCriteria
         );
     }
 

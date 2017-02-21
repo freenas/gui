@@ -69,10 +69,8 @@ exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# *
         value:function() {
             var self = this;
             return Promise.all([
-                this._sectionService.listSnapshots(),
                 this._sectionService.listVmwareDatasets()
-            ]).spread(function(snapshots, vmwareDatasets) {
-                self.snapshots = snapshots;
+            ]).spread(function(vmwareDatasets) {
                 self.vmwareDatasets = vmwareDatasets;
             });
         }

@@ -54,7 +54,7 @@ export class VolumeRepository extends AbstractRepository<Volume> {
     private detachedVolumes: Map<string, Map<string, any>>;
     private volumeSnapshots: Map<string, Map<string, any>>;
     private volumeDatasets: Map<string, Map<string, any>>;
-    private snapshotsStreamId: string;
+    private snapshotsStreamIds: Map<any, string>;
 
     public static readonly TOPOLOGY_KEYS = ['data', 'cache', 'log', 'spare'];
     public static readonly INHERITED = 'INHERITED';
@@ -93,6 +93,7 @@ export class VolumeRepository extends AbstractRepository<Volume> {
             Model.VolumeSnapshot,
             Model.DetachedVolume
         ]);
+        this.snapshotsStreamIds = Map<any, string>();
     }
 
     public static getInstance() {
@@ -138,22 +139,22 @@ export class VolumeRepository extends AbstractRepository<Volume> {
         return this.volumeSnapshots ? Promise.resolve(this.volumeSnapshots.valueSeq().toJS()) : this.volumeSnapshotDao.list();
     }
 
-    public streamSnapshots(): Promise<Array<VolumeSnapshot>> {
+    public streamSnapshots(criteria?: any): Promise<Array<VolumeSnapshot>> {
         let promise;
 
-        if (this.snapshotsStreamId) {
+        if (this.snapshotsStreamIds.has(criteria)) {
             promise = Promise.resolve(
-                this.datastoreService.getState().get('streams').get(this.snapshotsStreamId)
+                this.datastoreService.getState().get('streams').get(this.snapshotsStreamIds.get(criteria))
             );
         } else {
-            promise = this.volumeSnapshotDao.stream(true);
+            promise = this.volumeSnapshotDao.stream(true, criteria);
         }
 
         return promise.then((stream) => {
             let dataArray = stream.get('data').toJS();
 
             this.volumeSnapshotDao.register();
-            this.snapshotsStreamId = stream.get('streamId');
+            this.snapshotsStreamIds = this.snapshotsStreamIds.set(criteria, stream.get('streamId'));
             dataArray._objectType = this.volumeSnapshotDao.objectType;
 
             // FIXME!!

@@ -24,7 +24,7 @@ export class SnapshotRoute extends AbstractRoute {
 
     public list(volumeId: string, stack: Array<any>) {
         let columnIndex = 2;
-        let streamSnapshots = this.volumeRepository.streamSnapshots();
+        let streamSnapshots = this.volumeRepository.streamSnapshots({volume: volumeId});
         return Promise.all([
             this.loadListInColumn(
                 stack,
@@ -39,7 +39,6 @@ export class SnapshotRoute extends AbstractRoute {
             ),
             streamSnapshots
         ]).spread((stack, snapshots) => {
-console.log((_.last(stack) as any).object);
             (_.last(stack) as any).object._stream = snapshots._stream;
             return stack;
         });
@@ -47,17 +46,24 @@ console.log((_.last(stack) as any).object);
 
     public listForDataset(volumeId: string, datasetId: string, stack: Array<any>) {
         let columnIndex = 4;
-        return this.loadListInColumn(
-            stack,
-            columnIndex,
-            columnIndex - 1,
-            '/volume-snapshot',
-            Model.VolumeSnapshot,
-            this.volumeRepository.listSnapshots(),
-            {
-                filter: {volume: volumeId, dataset: datasetId}
-            }
-        );
+        let streamSnapshots = this.volumeRepository.streamSnapshots({volume: volumeId, dataset: datasetId});
+        return Promise.all([
+            this.loadListInColumn(
+                stack,
+                columnIndex,
+                columnIndex - 1,
+                '/volume-snapshot',
+                Model.VolumeSnapshot,
+                streamSnapshots,
+                {
+                    filter: {volume: volumeId, dataset: datasetId}
+                },
+            ),
+            streamSnapshots
+        ]).spread((stack, snapshots) => {
+            (_.last(stack) as any).object._stream = snapshots._stream;
+            return stack;
+        });
     }
 
     public create(volumeId: string, stack: Array<any>) {
