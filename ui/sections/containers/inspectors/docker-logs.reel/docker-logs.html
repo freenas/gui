@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+    <link rel="stylesheet" href="./docker-logs.css">
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -20,13 +20,26 @@
             "bindings": {
                 "token": {"<-": "@owner.token"}
             }
+        },
+
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "isFooterHidden": true
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="DockerLogs">
-        <div data-montage-id="console"></div>
+        <div data-montage-id="inspector">
+            <div data-montage-id="console" class="g-margin--subtract"></div>
+        </div>
     </div>
 </body>
 </html>
