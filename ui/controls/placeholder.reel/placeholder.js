@@ -32,11 +32,6 @@ exports.Placeholder = Slot.specialize({
                 if (typeof value === "string" && value.length) {
                     this._needsLoadComponent = true;
                     this.needsDraw = true;
-                } else {
-                    this.component = null;
-                    this.content = null;
-                    this._needsLoadComponent = true;
-                    this.needsDraw = true;
                 }
             }
         }
@@ -123,7 +118,8 @@ exports.Placeholder = Slot.specialize({
     _loadComponentIfNeeded: {
         value: function () {
             var moduleId = this._moduleId,
-                promises = [];
+                promises = [],
+                promise = Promise.resolve();
 
             if (this._needsLoadComponent && typeof moduleId === "string" && moduleId.length) {
                 var self = this,
@@ -139,7 +135,7 @@ exports.Placeholder = Slot.specialize({
                     promises.push(this._getDaoModule(userInterfaceDescriptor.daoModuleId));
                 }
 
-                Promise.all(promises).then(function (data) {
+                promise = Promise.all(promises).then(function (data) {
                     var component = data[0],
                         daoModule = data[1];
 
@@ -168,6 +164,7 @@ exports.Placeholder = Slot.specialize({
                 this.content.context = this.context;
                 this.content.object = this.object;
             }
+            return promise;
         }
     },
 
@@ -212,15 +209,26 @@ exports.Placeholder = Slot.specialize({
         }
     },
 
+    removeElementChild: {
+        value: function () {
+            if (this.element.children.length === 1) {
+                this.element.removeChild(this.element.firstElementChild);
+            }
+        }
+    },
+
     draw: {
         value: function () {
+            var self = this;
             if (this._needChildRemoval) {
                 this._needChildRemoval = false;
-                if (this.element.children.length === 1) {
-                    this.element.removeChild(this.element.firstElementChild);
-                }
+                this.removeElementChild();
             }
-            this._loadComponentIfNeeded();
+            this._loadComponentIfNeeded().then(function() {
+                if (!self._moduleId) {
+                    self.removeElementChild();
+                }
+            });
         }
     }
 
