@@ -42,7 +42,7 @@
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
-                "isLoading": {"<-": "@content.isLoadingComponent"}
+                "isLoading": {"<-": "@content.isLoadingComponent || @content.component.isLoading"}
             }
         },
 

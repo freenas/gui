@@ -1,30 +1,40 @@
-/**
- * @module ui/winbind-service.reel
- */
 var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+    Model = require("core/model/model").Model,
+    WinbindDirectoryParamsSaslWrapping = require('core/model/enumerations/WinbindDirectoryParamsSaslWrapping').WinbindDirectoryParamsSaslWrapping,
+    _ = require('lodash');
 
-/**
- * @class WinbindService
- * @extends Component
- */
-exports.WinbindService = Component.specialize(/** @lends WinbindService# */ {
-   
-   enterDocument: {
+exports.WinbindService = Component.specialize({
+    saslWrappingOptions: {
+        value: _.map(_.values(_.omit(WinbindDirectoryParamsSaslWrapping, '_montage_metadata')), function(x) { return { label: x, value: x}})
+    },
+
+    enterDocument: {
         value: function () {
-            this._populateObjectIfNeeded();
+            console.log(WinbindDirectoryParamsSaslWrapping);
+            var self = this;
+            this.isLoading = true;
+            this._populateObjectIfNeeded().then(function() {
+                if (!self.object.parameters.sasl_wrapping) {
+                    self.object.parameters.sasl_wrapping = 'PLAIN';
+                }
+                self.isLoading = false;
+            });
         }
     },
 
     _populateObjectIfNeeded: {
         value: function () {
+            var promise;
             if (this.object && !this.object.parameters) {
                 var self = this;
-                
-                return this.application.dataService.getNewInstanceForType(Model.WinbindDirectoryParams).then(function (winbindDirectoryParams) {
-                    return (self.object.parameters = winbindDirectoryParams);
+
+                promise = this.application.dataService.getNewInstanceForType(Model.WinbindDirectoryParams).then(function (winbindDirectoryParams) {
+                    return self.object.parameters = winbindDirectoryParams;
                 });
+            } else {
+                promise = Promise.resolve();
             }
+            return promise;
         }
     }
 
