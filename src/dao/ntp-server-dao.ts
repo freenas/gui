@@ -9,7 +9,8 @@ export class NtpServerDao extends AbstractDao<NtpServer> {
             queryMethod: 'ntp_server.query',
             updateMethod: 'ntp_server.update',
             createMethod: 'ntp_server.create',
-            deleteMethod: 'ntp_server.delete'
+            deleteMethod: 'ntp_server.delete',
+            eventName: 'entity-subscriber.ntp_server.changed'
         });
     }
 
