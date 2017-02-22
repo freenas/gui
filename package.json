@@ -26,7 +26,8 @@
     "systemjs-plugin-json": "^0.2.2",
     "uuid": "^3.0.1",
     "validators": "~0.3.1",
-    "xterm": "^1.0.0"
+    "xterm": "^1.0.0",
+    "smoothscroll-polyfill": "^0.3.4"
   },
   "redirects": {
     "redux": "redux/dist/redux.min.js",
