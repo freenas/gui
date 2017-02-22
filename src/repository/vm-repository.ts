@@ -70,8 +70,7 @@ export class VmRepository extends AbstractRepository<Vm> {
                         private vmGuestInfoDao: VmGuestInfoDao,
                         private vmDeviceDao: VmDeviceDao,
                         private vmVolumeDao: VmVolumeDao,
-                        private vmCloneDao: VmCloneDao,
-                        private vmSnapshotDao: VmSnapshotDao
+                        private vmCloneDao: VmCloneDao
                        ) {
         super([
             Model.Vm,
@@ -92,20 +91,18 @@ export class VmRepository extends AbstractRepository<Vm> {
                 new VmGuestInfoDao(),
                 new VmDeviceDao(),
                 new VmVolumeDao(),
-                new VmCloneDao(),
-                new VmSnapshotDao()
+                new VmCloneDao()
             );
         }
         return VmRepository.instance;
     }
 
     public listVms() {
-        var self = this;
         let promise = this.vms ? Promise.resolve(this.vms.valueSeq().toJS()) : this.vmDao.list();
         return promise.then((vms) => {
             for (let vm of vms) {
-                vm._hasGraphicDevice = _.get(vm, 'devices').some(function (x) {
-                    return x.type === self.DEVICE_TYPE.GRAPHICS;
+                vm._hasGraphicDevice = _.get(vm, 'devices').some(x => {
+                    return x.type === this.DEVICE_TYPE.GRAPHICS;
                 });
             }
             return vms;
@@ -145,7 +142,7 @@ export class VmRepository extends AbstractRepository<Vm> {
 
     public saveVm(vm: any) {
         let vmPlain: any = _.toPlainObject(vm);
-        vmPlain.devices = _.map(vmPlain.devices, (device) => _.omitBy(_.toPlainObject(device), _.isNull));
+        vmPlain.devices = _.map(vmPlain.devices, (device) => _.omitBy(_.omit(_.toPlainObject(device), 'id'), _.isNull));
         return this.vmDao.save(vmPlain);
     }
 
