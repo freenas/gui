@@ -2,7 +2,12 @@ var Component = require("montage/ui/component").Component,
     VmRepository = require("core/repository/vm-repository").VmRepository,
     DiskRepository = require("core/repository/disk-repository").DiskRepository,
     SystemService = require("core/service/system-service").SystemService,
-    moment = require("moment");
+    SessionService = require('core/service/SessionService').SessionService,
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
+    ModelEventName = require("core/model-event-name.js").ModelEventName,
+    Events = require('core/Events').Events,
+    moment = require("moment"),
+    _ = require('lodash');
 
 exports.SystemInfo = Component.specialize({
     systemInfo: {
@@ -12,10 +17,12 @@ exports.SystemInfo = Component.specialize({
     templateDidLoad: {
         value: function() {
             var self = this;
+            this.eventDispatcherService = EventDispatcherService.getInstance();
 
             this._systemService = SystemService.getInstance();
             this._vmRepository = VmRepository.getInstance();
             this._diskRepository = DiskRepository.getInstance();
+            this.sessionService = SessionService.getInstance();
 
             this._dataPromise = Promise.all([
                 this._systemService.getVersion(),
@@ -41,7 +48,10 @@ exports.SystemInfo = Component.specialize({
 
     enterDocument: {
         value: function () {
-            var self = this;
+            var self = this,
+                user = this.sessionService.session.user;
+            this.eventDispatcherService.addEventListener(ModelEventName.User.change(user.id), this._handleUserChange.bind(this));
+            this._loadUserSettings(user);
             return Promise.all([
                 this._systemService.getTime(),
                 this._dataPromise
@@ -57,6 +67,21 @@ exports.SystemInfo = Component.specialize({
         }
     },
 
+    _loadUserSettings: {
+        value: function(user) {
+            if (user.attributes.userSettings && _.includes(SystemService.LONG_TIME_FORMATS, user.attributes.userSettings.timeFormatLong)) {
+                this.datePattern = user.attributes.userSettings.dateFormatLong || this.datePattern;
+                this.timePattern = user.attributes.userSettings.timeFormatLong || this.timePattern;
+            }
+        }
+    },
+
+    _handleUserChange: {
+        value: function(user) {
+            this._loadUserSettings(user.toJS());
+        }
+    },
+
     _startTimer: {
         value: function(time) {
             var self = this,
@@ -68,7 +93,7 @@ exports.SystemInfo = Component.specialize({
                 var elapsed = new Date().getTime() - startTime;
                 self.systemInfo.time = {
                     uptime: time.uptime + elapsed / 1000,
-                    system_time: new Date(startSystemTime + elapsed).toISOString()
+                    system_time: new Date(startSystemTime * 1000 + elapsed)
                 };
             }, 500);
         }

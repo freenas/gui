@@ -31,9 +31,6 @@
         "loadToStringConverter": {
             "prototype": "core/converter/load-to-string-converter"
         },
-        "iso8601ToStringConverter": {
-            "prototype": "core/converter/iso8601-to-string-converter"
-        },
         "hostnameTitle": {
             "prototype": "blue-shark/ui/text.reel",
             "properties": {
@@ -110,12 +107,11 @@
         "systemTime": {
             "prototype": "blue-shark/ui/text.reel",
             "properties": {
-                "element": {"#": "systemTime"},
-                "converter": {"@": "iso8601ToStringConverter"},
-                "disableTranslation": true
+                "element": {"#": "systemTime"}
             },
             "bindings": {
-                "value": {"<-": "@owner.systemInfo.time.system_time"}
+                "value": {"<-": "!!@owner.systemInfo.time.system_time && '{systemTime, ' + @owner.datePattern + ' ' + @owner.timePattern + '}'"},
+                "args": {"<-": "!!@owner.systemInfo.time.system_time && {systemTime: @owner.systemInfo.time.system_time}"}
             }
         },
         "platformTitle": {
