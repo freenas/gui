@@ -36,8 +36,7 @@
                 "element": {"#": "date"}
             },
             "bindings": {
-                "args": {"<-": "!!@owner.now && {now: @owner.now}"},
-                "value": {"<-": "'{now, ' + @owner.datePattern + '}'"}
+                "value": {"<-": "@owner.date"}
             }
         },
         "time": {
@@ -46,8 +45,7 @@
                 "element": {"#": "time"}
             },
             "bindings": {
-                "args": {"<-": "!!@owner.now && {now: @owner.now}"},
-                "value": {"<-": "'{now, ' + @owner.timePattern + '}'"}
+                "value": {"<-": "@owner.time"}
             }
         }
     }
