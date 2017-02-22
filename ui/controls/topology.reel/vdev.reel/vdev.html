@@ -22,7 +22,7 @@
                 "element": {"#": "typeSelect"}
             },
             "bindings": {
-                "options": {"<-": "@owner.vdevTypesOptions.map{value}"},
+                "options": {"<-": "@owner.vdevTypesOptions.map{{label: value, value: value}}"},
                 "selectedValue": {"<->": "@owner.object.type"},
                 "disabled": {"<-": "!@owner.editable || (@owner.editable && @owner.vdevTypesOptions.length < 2)"}
             }
