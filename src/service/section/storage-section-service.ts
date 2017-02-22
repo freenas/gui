@@ -2,6 +2,7 @@ import {AbstractSectionService} from './abstract-section-service-ng';
 import {ShareRepository} from '../../repository/share-repository';
 import {DiskRepository} from '../../repository/disk-repository';
 import {VolumeRepository} from '../../repository/volume-repository';
+import {AccountRepository} from '../../repository/account-repository';
 
 import {TopologyService} from '../topology-service';
 import {PeeringService} from '../peering-service';
@@ -28,6 +29,7 @@ export class StorageSectionService extends AbstractSectionService {
     private peerRepository: PeerRepository;
     private networkRepository: NetworkRepository;
     private serviceRepository: ServiceRepository;
+    private accountRepository: AccountRepository;
 
     private topologyService: TopologyService;
 
@@ -70,6 +72,7 @@ export class StorageSectionService extends AbstractSectionService {
         this.networkRepository = NetworkRepository.getInstance();
         this.serviceRepository = ServiceRepository.getInstance();
         this.topologyService = TopologyService.getInstance();
+        this.accountRepository = AccountRepository.getInstance();
 
         this.eventDispatcherService.addEventListener(ModelEventName.Disk.listChange, this.handleDisksChange.bind(this));
         this.eventDispatcherService.addEventListener(ModelEventName.Volume.listChange, this.handleVolumesChange.bind(this));
@@ -390,4 +393,13 @@ export class StorageSectionService extends AbstractSectionService {
         }
         this.storageOverview.volumes = this.entries;
     }
+
+    public searchUser(value) {
+        return this.accountRepository.searchUser(value);
+    }
+
+    public searchGroup(value) {
+        return this.accountRepository.searchGroup(value);
+    }
+
 }

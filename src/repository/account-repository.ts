@@ -213,6 +213,24 @@ export class AccountRepository extends AbstractRepository {
 
     protected handleEvent(name: string, data: any) {
     }
+
+    public searchUser(value) {
+        return this.userDao.stream(false, {username: value}).then(function (results) {
+            var users = results.get('data').toJS();
+            return users.map(user => {
+                return {label: user.username, value: user.username}
+            });
+        });
+    }
+
+    public searchGroup(value) {
+        return this.groupDao.stream(false, {name: value}).then(function (results) {
+            var groups = results.get('data').toJS();
+            return groups.map(group => {
+                return {label: group.name, value: group.name}
+            });
+        });
+    }
 }
 
 
