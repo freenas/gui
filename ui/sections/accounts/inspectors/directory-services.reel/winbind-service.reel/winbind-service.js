@@ -10,7 +10,6 @@ exports.WinbindService = Component.specialize({
 
     enterDocument: {
         value: function () {
-            console.log(WinbindDirectoryParamsSaslWrapping);
             var self = this;
             this.isLoading = true;
             this._populateObjectIfNeeded().then(function() {
