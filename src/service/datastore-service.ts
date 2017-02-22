@@ -88,6 +88,14 @@ export class DatastoreService {
             stream = stream.set('lastSequence', sequenceNumber)
                         .set('reachEnd', true);
 
+            this.store.dispatch({
+                type: ACTIONS.SAVE_STREAM,
+                meta: {
+                    type: message.id
+                },
+                payload: stream.toJS()
+            });
+
             return stream;
         }
 
