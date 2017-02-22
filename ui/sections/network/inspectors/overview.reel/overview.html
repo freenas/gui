@@ -61,7 +61,7 @@
                 "element": {"#": "interfaces"}
             },
             "bindings": {
-                "content": {"<-": "@owner.object.interfaces.filter{!dhcp ? aliases.some{type == 'INET' || type == 'INET6'} : status.aliases.some{type == 'INET' || type == 'INET6'}}"}
+                "content": {"<-": "@owner.object.interfaces.filter{enabled}"}
             }
         },
         "interface": {
