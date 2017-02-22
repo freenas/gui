@@ -97,6 +97,17 @@
             "bindings": {
                 "value": {"<->": "!!@owner.object.parameters.allow_dns_updates"}
             }
+        },
+        "sasl_wrapping": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "saslWrapping"},
+                "label": "SASL wrapping"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.parameters.sasl_wrapping"},
+                "options": {"<-": "@owner.saslWrappingOptions"}
+            }
         }
     }
     </script>
@@ -112,6 +123,7 @@
             <div data-montage-id="globalCatalogServer"></div>
             <div data-montage-id="siteName"></div>
             <div data-montage-id="allowDNSUpdates"></div>
+            <div data-montage-id="saslWrapping"></div>
         </div>
     </div>
 </body>
