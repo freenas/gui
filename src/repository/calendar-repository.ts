@@ -36,9 +36,9 @@ export class CalendarRepository extends AbstractRepository {
             stringTemplate: 'Custom schedule, see dedicated panel.'
         }
     };
-    public static readonly DAYS = CalendarRepository.getIntegerSeries(1,31);
-    public static readonly HOURS = CalendarRepository.getIntegerSeries(0, 23);
-    public static readonly MINUTES = CalendarRepository.getIntegerSeries(0, 59);
+    public static readonly DAYS = CalendarRepository.getIntegerSeries(1, 32);
+    public static readonly HOURS = CalendarRepository.getIntegerSeries(0, 24);
+    public static readonly MINUTES = CalendarRepository.getIntegerSeries(0, 60);
     public static readonly MONTHS = [
         {
             value: {
@@ -252,7 +252,7 @@ export class CalendarRepository extends AbstractRepository {
             task._concurrentTasks = task._concurrentTasks || [task];
             if (typeof task.hour === 'number' && typeof task.minute === 'number') {
                 timeInMinutes = task.hour * 60 + task.minute;
-                for (j = i+1; j < length; j++) {
+                for (j = i + 1; j < length; j++) {
                     nextTask = schedule[j];
                     if (nextTask) {
                         nextTask._concurrentTasks = nextTask._concurrentTasks || [nextTask];
@@ -666,7 +666,7 @@ export class CalendarRepository extends AbstractRepository {
     }
 
     private static getIntegerSeries(start, end) {
-        return _.times(end - start, (x) => ({ label: x, value: x, index: x }));
+        return _.map(_.range(start, end), (x) => ({ label: _.toString(x), value: x, index: x }));
     }
 
     private refreshTasksSchedule() {
