@@ -152,6 +152,10 @@ export class DatastoreService {
             let stream = this.getState().get('streams').get(streamId);
 
             if (stream) {
+                if (stream.get('reachEnd')) {
+                    return Promise.resolve(stream);
+                }
+
                 let currentEndSequence = stream.get('endSequence'),
                     sequenceNumber = next ? currentEndSequence + 1 : currentEndSequence - 1;
 
