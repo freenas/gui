@@ -7,6 +7,9 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "!@owner.moduleId"}
             }
         }
     }

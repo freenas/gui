@@ -102,7 +102,6 @@ exports.Placeholder = Slot.specialize({
             // Reset content to ensure that component is detached from component tree
             // to ensure that its context is set when it's re-enter in the DOM
             this.content = null;
-            this._moduleId = null;
             //Fixme: montage issue, not able to remove a class from the element when leaving the dom
             if (this.element.classList.contains("selected")) {
                 this.element.classList.remove("selected");
