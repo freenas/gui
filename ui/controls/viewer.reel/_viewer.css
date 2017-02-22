@@ -86,7 +86,7 @@
     align-items: center;
     flex-shrink: 0;
 
-    & .montage-Slot {
+    & > div:first-child {
         flex: 1;
     }
 }
