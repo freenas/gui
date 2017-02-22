@@ -339,7 +339,9 @@ exports.VmsSectionService = AbstractSectionService.specialize({
 
     getWebVncConsoleUrl: {
         value: function(vm) {
-            return this._vmRepository.getWebVncConsoleUrl(vm);
+            return this._vmRepository.getWebVncConsoleUrl(vm).then(function(url) {
+                return MiddlewareClient.getRootURL('http') + url;
+            });
         }
     },
 
