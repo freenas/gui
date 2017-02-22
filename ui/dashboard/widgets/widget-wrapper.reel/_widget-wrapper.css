@@ -16,6 +16,7 @@
 
     &.isDragging {
         opacity: .75;
+        max-width: 25rem;
     }
 
     @media (min-width: 65em) {
