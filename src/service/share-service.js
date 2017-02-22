@@ -130,7 +130,7 @@ var ShareService = exports.ShareService = Montage.specialize({
             } else if (shareObject.type === this.constructor.SHARE_TYPES.AFP) {
                 saveSharePromise = this._saveAfpShareObject(shareObject, isServiceEnabled);
             } else {
-                saveSharePromise = this.shareRepository.saveShare(shareObject, isServiceEnabled);
+                saveSharePromise = this.shareRepository.saveShare(shareObject);
             }
             return saveSharePromise;
         }
@@ -144,7 +144,7 @@ var ShareService = exports.ShareService = Montage.specialize({
             properties.mapall_user = properties.mapall_user != ' - ' ? properties.mapall_user : null;
             properties.mapall_group = properties.mapall_group != ' - ' ? properties.mapall_group : null;
 
-            return this.shareRepository.saveShare(shareObject, isServiceEnabled);
+            return this.shareRepository.saveShare(shareObject);
         }
     },
 
@@ -158,7 +158,7 @@ var ShareService = exports.ShareService = Montage.specialize({
                 shareObject.properties.default_umask = this._isPermissionsDefined(shareObject.properties.default_umask) ?
                     shareObject.properties.default_umask : null;
             }
-            return this.shareRepository.saveShare(shareObject, isServiceEnabled);
+            return this.shareRepository.saveShare(shareObject);
         }
     },
 
@@ -201,7 +201,7 @@ var ShareService = exports.ShareService = Montage.specialize({
             }
             delete shareObject.properties.refreservation;
 
-            return this.shareRepository.saveShare(shareObject, datasetProperties, isServiceEnabled)
+            return this.shareRepository.saveShare(shareObject, datasetProperties)
                 .then(function() {
                     if (isNewShareObject) {
                         return self._dataService.getNewInstanceForType(Model.ShareIscsiTarget).then(function(target) {
@@ -292,7 +292,7 @@ var ShareService = exports.ShareService = Montage.specialize({
                 },
             }
         }
-    };
+    },
 
     instance: {
         get: function() {

@@ -44,12 +44,8 @@ export class ShareRepository extends AbstractRepository {
         });
     }
 
-    public saveShare(object: any, datasetProperties?: any, isServiceEnabled?: boolean) {
-        if (typeof datasetProperties === 'boolean') {
-            isServiceEnabled = datasetProperties;
-            datasetProperties = null;
-        }
-        return this.shareDao.save(object, object._isNew ? [datasetProperties, isServiceEnabled] : [isServiceEnabled]);
+    public saveShare(object: any, datasetProperties?: any) {
+        return this.shareDao.save(object, object._isNew ? [datasetProperties] : []);
     }
 
     public getNewPermissions() {
