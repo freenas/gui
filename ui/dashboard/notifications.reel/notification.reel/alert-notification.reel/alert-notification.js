@@ -17,8 +17,8 @@ exports.AlertNotification = Component.specialize(/** @lends AlertNotification# *
 
     setDate: {
         value: function() {
-            var displayedDate = this.object.updated_at - 28800;
-            this.object.date = moment(displayedDate.$date).tz(this.timezone).format(this.timeFormat);
+            var displayedDate = this.object.updated_at;
+            this.object.date = moment.utc(displayedDate.$date).tz(this.timezone).format(this.timeFormat);
         }
     },
 

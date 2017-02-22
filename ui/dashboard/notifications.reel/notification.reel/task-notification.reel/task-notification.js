@@ -39,8 +39,7 @@ exports.TaskNotification = Component.specialize({
     setStartDate: {
         value: function() {
             var displayedDate = this.object.started_at || this.object.created_at;
-            displayedDate = displayedDate - 28800;
-            this.object.startDate = moment(displayedDate.$date).tz(this.timezone).format(this.timeFormat);
+            this.object.startDate = moment.utc(displayedDate.$date).tz(this.timezone).format(this.timeFormat);
         }
     },
 
