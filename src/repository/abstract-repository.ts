@@ -51,7 +51,7 @@ export abstract class AbstractRepository<T extends AbstractDataObject> {
         });
         if (repositoryEntries) {
             repositoryEntries.forEach(function(repositoryEntry, id) {
-                if (!state.has(id) || state.get(id) !== repositoryEntry) {
+                if (!state.has(id)) {
                     self.eventDispatcherService.dispatch(modelEventName.remove(id), repositoryEntry);
                     hasListContentChanged = true;
                 }
