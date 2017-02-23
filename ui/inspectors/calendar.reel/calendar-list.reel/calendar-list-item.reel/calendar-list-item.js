@@ -1,13 +1,7 @@
-/**
- * @module ui/calendar-list-item.reel
- */
 var Component = require("montage/ui/component").Component,
-    PressComposer = require("montage/composer/press-composer").PressComposer;
+    PressComposer = require("montage/composer/press-composer").PressComposer,
+    _ = require('lodash');
 
-/**
- * @class CalendarListItem
- * @extends Component
- */
 exports.CalendarListItem = Component.specialize(/** @lends CalendarListItem# */ {
     schedule: {
         get: function() {
@@ -25,11 +19,11 @@ exports.CalendarListItem = Component.specialize(/** @lends CalendarListItem# */ 
                             if (everySecond) {
                                 result = "Every second";
                             } else {
-                                result +=   " at " + 
+                                result +=   " at " +
                                     this._normalizeValue(this.object.second);
                             }
                         } else {
-                            result +=   " at " + 
+                            result +=   " at " +
                                 this._normalizeValue(this.object.minute) + ':' +
                                 this._normalizeValue(this.object.second);
                         }
@@ -46,9 +40,10 @@ exports.CalendarListItem = Component.specialize(/** @lends CalendarListItem# */ 
     },
 
     enterDocument: {
-        value: function () {
-            this.classList.add('type-' + this.object.task.task.replace('.', '_').toLowerCase());
-            this.dispatchOwnPropertyChange("schedule", this.schedule);
+        value: function (isFirstTime) {
+            if (isFirstTime) {
+                this.addPathChangeListener('object', this, '_handleObjectChange');
+            }
         }
     },
 
@@ -64,6 +59,19 @@ exports.CalendarListItem = Component.specialize(/** @lends CalendarListItem# */ 
     handlePress: {
         value: function () {
             this.selectedTask = this.object.task;
+        }
+    },
+
+    _handleObjectChange: {
+        value: function(object) {
+            var self = this;
+            this.classList.forEach(function(className) {
+                if (_.startsWith(className, 'type-')) {
+                    self.classList.remove(className);
+                }
+            });
+            this.classList.add('type-' + object.task.task.replace('.', '_').toLowerCase());
+            this.dispatchOwnPropertyChange("schedule", this.schedule);
         }
     },
 
