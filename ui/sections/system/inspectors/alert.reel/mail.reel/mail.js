@@ -15,9 +15,9 @@ exports.Mail = AbstractInspector.specialize(/** @lends Mail# */ {
     handleSendTestMailAction: {
         value: function() {
             this.application.mailService.sendTestMail({
-                "from": this.alertEmitterEmail.config.from,
+                "from_address": this.alertEmitterEmail.config.from_address,
                 "subject": "test mail",
-                "to": this.alertEmitterEmail.to,
+                "to": this.alertEmitterEmail.config.to,
                 "extra_headers": {},
                 "message": "Yay, You've got mail",
                 "attachments": []
@@ -45,6 +45,9 @@ exports.Mail = AbstractInspector.specialize(/** @lends Mail# */ {
                 };
                 this._sectionService.getAlertEmitterEmail().then(function(alertEmitterEmail) {
                     self.alertEmitterEmail = alertEmitterEmail;
+                    if (!alertEmitterEmail.config.to) {
+                        self.alertEmitterEmail.config.to = [];
+                    }
                 });
                 this._sectionService.getAlertEmitterPushBullet().then(function (pushbullet) {
                     self.pushbullet = pushbullet;
