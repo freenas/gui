@@ -11,7 +11,8 @@ export class SystemGeneralDao extends AbstractDao<SystemGeneral> {
     public constructor() {
         super(Model.SystemGeneral, {
             queryMethod: 'system.general.get_config',
-            createMethod: 'system.general.update'
+            createMethod: 'system.general.update',
+            eventName: 'entity-subscriber.system.general.changed'
         });
     }
 
