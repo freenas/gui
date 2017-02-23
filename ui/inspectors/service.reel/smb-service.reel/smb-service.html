@@ -223,7 +223,19 @@
                 "options": {"<-": "@owner.networkInterfacesAliases.map{address}.filter{!@owner.object.bind_addresses.has(this)}"},
                 "values": {"<->": "@owner.object.bind_addresses"}
             }
-        }
+        },
+
+        "homeShare": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "homeShare"},
+                "label": "Use as Home Share"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.home_share"},
+                "options": {"<-": "@owner.DOS_CHARSETS"}
+            }
+        },
     }
     </script>
 </head>
@@ -233,6 +245,7 @@
         <div data-montage-id="workgroup"></div>
         <div data-montage-id="description"></div>
         <div data-montage-id="dosCharset"></div>
+        <div data-montage-id="homeShare"></div>
         <div data-montage-id="unixCharset"></div>
         <div data-montage-id="logLevel"></div>
         <div data-montage-id="localMaster"></div>
