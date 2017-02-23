@@ -1,4 +1,5 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
+var _ = require('lodash');
 
 exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# */ {
 
