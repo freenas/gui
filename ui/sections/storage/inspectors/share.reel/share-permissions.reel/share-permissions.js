@@ -1,13 +1,6 @@
-/**
- * @module ui/volume-dataset-permissions.reel
- */
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     Model = require("core/model/model").Model;
 
-/**
- * @class SharePermissions
- * @extends Component
- */
 exports.SharePermissions = AbstractInspector.specialize(/** @lends SharePermissions# */ {
 
     users: {
@@ -26,18 +19,12 @@ exports.SharePermissions = AbstractInspector.specialize(/** @lends SharePermissi
         value: null
     },
 
-    templateDidLoad: {
+    _inspectorTemplateDidLoad: {
         value: function () {
-            //Preload data before entering in the dom, in order to avoid graphic glitches
-            this._loadUsersIfNeeded();
-            this._loadGroupsIfNeeded();
-        }
-    },
-
-    enterDocument: {
-        value: function () {
-            this._loadUsersIfNeeded();
-            this._loadGroupsIfNeeded();
+            return Promise.all([
+                this._loadUsersIfNeeded(),
+                this._loadGroupsIfNeeded()
+            ]);
         }
     },
 
@@ -51,6 +38,7 @@ exports.SharePermissions = AbstractInspector.specialize(/** @lends SharePermissi
                     self._fetchUsersPromise = null;
                 });
             }
+            return this._fetchUsersPromise;
         }
     },
 
@@ -64,6 +52,7 @@ exports.SharePermissions = AbstractInspector.specialize(/** @lends SharePermissi
                     self._fetchGroupsPromise = null;
                 });
             }
+            return this._fetchGroupsPromise;
         }
     }
 
