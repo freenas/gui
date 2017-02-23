@@ -82,9 +82,6 @@
     & h5 {
         margin-top: .5em;
     }
-
-    & .Scrollview-transform { position: absolute; }
-    & .ScrollviewSpacer     { overflow: hidden; }
 }
 
 .CascadingListItem-help-message {

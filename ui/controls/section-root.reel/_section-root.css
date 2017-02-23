@@ -33,8 +33,6 @@
         @apply --flex-column;
     }
 
-    & .Scrollview-transform { display: block; }
-
     & .Overview-content { padding: 1em 1em 0; }
 
     & .InspectorSectionTitle { margin-top: 1rem;}
