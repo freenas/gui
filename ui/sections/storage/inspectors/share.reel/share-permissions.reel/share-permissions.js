@@ -1,58 +1,27 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Model = require("core/model/model").Model;
+    Model = require("core/model").Model;
+
+ var SearchController = function SearchController(service, model) {
+    this.service = service;
+    this.model = model
+ };
+
+ SearchController.prototype.search = function (value) {
+    if (this.model === Model.User) {
+        return this.service.searchUser(value);
+    }
+
+    return this.service.searchGroup(value);
+ }
 
 exports.SharePermissions = AbstractInspector.specialize(/** @lends SharePermissions# */ {
 
-    users: {
-        value: null
-    },
-
-    groups: {
-        value: null
-    },
-
-    _fetchUsersPromise: {
-        value: null
-    },
-
-    _fetchGroupsPromise: {
-        value: null
-    },
-
-    _inspectorTemplateDidLoad: {
-        value: function () {
-            return Promise.all([
-                this._loadUsersIfNeeded(),
-                this._loadGroupsIfNeeded()
-            ]);
-        }
-    },
-
-    _loadUsersIfNeeded: {
-        value: function() {
-            if ((!this._fetchGroupsPromise && !this.users) || (this.users && this.users.length === 0)) {
-                var self = this;
-
-                this._fetchUsersPromise = this.application.dataService.fetchData(Model.User).then(function (users) {
-                    self.users = users;
-                    self._fetchUsersPromise = null;
-                });
+    enterDocument: {
+        value: function (isFirstTime) {
+            if (isFirstTime) {
+                this.groupsSearchController = new SearchController(this._sectionService, Model.Group);
+                this.usersSearchController = new SearchController(this._sectionService, Model.User);
             }
-            return this._fetchUsersPromise;
-        }
-    },
-
-    _loadGroupsIfNeeded: {
-        value: function() {
-            if ((!this._fetchGroupsPromise && !this.groups) || (this.groups && this.groups.length === 0)) {
-                var self = this;
-
-                this._fetchGroupsPromise = this.application.dataService.fetchData(Model.Group).then(function (groups) {
-                    self.groups = groups;
-                    self._fetchGroupsPromise = null;
-                });
-            }
-            return this._fetchGroupsPromise;
         }
     }
 
