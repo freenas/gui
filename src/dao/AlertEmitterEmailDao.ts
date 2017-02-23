@@ -7,8 +7,7 @@ export class AlertEmitterEmailDao extends AbstractDao<AlertEmitterEmail> {
     public constructor() {
         super(Model.AlertEmitterEmail, {
             queryMethod: 'alert.emitter.email.get_config',
-            createMethod: 'alert.emitter.update',
-            updateMethod: 'alert.emitter.update'
+            createMethod: 'alert.emitter.email.update'
         });
     }
 
