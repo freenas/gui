@@ -347,6 +347,18 @@ export class StorageSectionService extends AbstractSectionService {
         return this.volumeRepository.getNextSequenceForStream(streamId);
     }
 
+    public importShares(volumeId: string) {
+        return this.volumeRepository.importShares(volumeId);
+    }
+
+    public searchUser(value) {
+        return this.accountRepository.searchUser(value);
+    }
+
+    public searchGroup(value) {
+        return this.accountRepository.searchGroup(value);
+    }
+
     private cloneVdevs(vdevs: Array<any>): Array<any> {
         return _.map(vdevs, (vdev) => {
             let clone = _.cloneDeep(vdev);
@@ -363,9 +375,6 @@ export class StorageSectionService extends AbstractSectionService {
         });
     }
 
-    public importShares(volumeId: string) {
-        return this.volumeRepository.importShares(volumeId);
-    }
 
     private handleDisksChange(disks: Map<string, Map<string, any>>) {
     }
@@ -393,13 +402,4 @@ export class StorageSectionService extends AbstractSectionService {
         }
         this.storageOverview.volumes = this.entries;
     }
-
-    public searchUser(value) {
-        return this.accountRepository.searchUser(value);
-    }
-
-    public searchGroup(value) {
-        return this.accountRepository.searchGroup(value);
-    }
-
 }

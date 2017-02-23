@@ -20,7 +20,7 @@
             },
             "bindings": {
                 "volumePath": {"<-": "'/mnt/' + @owner.object._volume.id"},
-                "isLoading": {"<-": "@owner.isDataLoading || @shareTypePlaceHolder.isLoadingComponent"}
+                "isLoading": {"<-": "@owner.isDataLoading || @shareTypePlaceHolder.isLoadingComponent || @shareTypePlaceHolder.component.isLoading"}
             }
         },
         "datasetTreeController": {

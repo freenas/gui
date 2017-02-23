@@ -104,14 +104,16 @@ exports.Share = AbstractInspector.specialize({
         }
     },
 
+    _inspectorTemplateDidLoad: {
+        value: function() {
+            this._shareService = this.application.shareService;
+        }
+    },
 
     enterDocument: {
         value: function(isFirstTime) {
-            this.super();
+            this.super(isFirstTime);
             var self = this;
-            if (isFirstTime) {
-                this._shareService = this.application.shareService;
-            }
 
             if (this.object) {
                 this.targetType = this.object.target_type;
