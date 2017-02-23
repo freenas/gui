@@ -38,6 +38,12 @@
     <script src="vendors/jquery-1.12.4.min.js" charset="utf-8"></script>
     <script src="node_modules/maphilight/jquery.maphilight.js" charset="utf-8" ></script>
     <script src="vendors/timezone-picker.js" charset="utf-8" defer></script>
+    <style>
+        .loading {height: 100vh;}
+        .loading:after {
+            display: none;
+        }
+    </style>
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -70,6 +76,7 @@
 </head>
 <body>
     <div data-montage-id="application-modal" class="ApplicationModal"></div>
-    <span class="loading"></span>
+    <span class="loading has-loading-spinner">
+    </span>
 </body>
 </html>
