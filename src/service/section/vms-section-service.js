@@ -284,7 +284,7 @@ exports.VmsSectionService = AbstractSectionService.specialize({
                 Promise.all(devicesPromises),
                 this.setReadmeOnVm(vm)
             ]).spread(function(devices) {
-                vm.devices = devices;
+                vm.devices = _.map(devices, function(device) { return _.assign(device, {_isFromTemplate: true}); });
                 return vm;
             });
         }
