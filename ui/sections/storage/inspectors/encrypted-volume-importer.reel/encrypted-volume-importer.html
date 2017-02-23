@@ -98,7 +98,7 @@
                 "value": "Import"
             },
             "bindings": {
-                "disabled": {"<-": "!@name.value || !@password.value || !@key.value"}
+                "disabled": {"<-": "!@name.value || (!@disks.disks || @disks.disks.length == 0) || (!@password.value && !@key.value)"}
             }
         }
     }
