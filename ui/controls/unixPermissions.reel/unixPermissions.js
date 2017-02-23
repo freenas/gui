@@ -47,7 +47,7 @@ exports.UnixPermissions = AbstractComponentActionDelegate.specialize({
             return this._modeBits;
         },
         set: function(mode) {
-            mode = ''+mode;
+            mode = ''+mode || '000';
             if (this._modeBits != mode && mode.length == 3) {
                 this._modeBits = mode;
                 this.modes = this.converter.revert(mode);
@@ -58,6 +58,17 @@ exports.UnixPermissions = AbstractComponentActionDelegate.specialize({
     handleAction: {
         value: function () {
             this.modeBits = this.converter.convert(this.modes);
+        }
+    },
+
+    modeBitsInputDelegate: {
+        get: function() {
+            var self = this;
+            return {
+                didEndEditing: function() {
+                    self.dispatchOwnPropertyChange('modeBits', self.modeBits);                 
+                }
+            }
         }
     }
 });
