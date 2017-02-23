@@ -42,7 +42,8 @@
                 "label": "Domain Controller IP address"
             },
             "bindings": {
-                "value": {"<-": "!!@owner.dcIp ? @owner.dcIp : ''"}
+                "value": {"<-": "@owner.dcIp"},
+                "classList.has('hide')": {"<-": "@owner.context.object.state != 'RUNNING'"}
             }
         },
         "dcUrl": {
