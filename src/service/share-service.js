@@ -4,6 +4,7 @@ var Montage = require("montage").Montage,
     FreeNASService = require("core/service/freenas-service").FreeNASService,
     BytesService = require("core/service/bytes-service").BytesService,
     ShareRepository = require("core/repository/share-repository").ShareRepository,
+    ShareIscsiTargetRepository = require("core/repository/ShareIscsiTargetRepository").ShareIscsiTargetRepository,
     VolumeRepository = require("core/repository/volume-repository").VolumeRepository,
     Promise = require("montage/core/promise").Promise,
     Model = require("core/model/model").Model,
@@ -176,7 +177,7 @@ var ShareService = exports.ShareService = Montage.specialize({
     },
 
     _saveIscsiShareObject: {
-        value: function (shareObject, isServiceEnabled) {
+        value: function (shareObject) {
             var self = this,
                 isNewShareObject = shareObject._isNew,
                 blockSize = shareObject.properties.block_size,
@@ -218,7 +219,7 @@ var ShareService = exports.ShareService = Montage.specialize({
                                 target.extents = [extentObject];
                             }
 
-                            return self._dataService.saveDataObject(target);
+                            return self.shareIscsiTargetRepository.save(target);
                         });
                     }
                 });
@@ -289,7 +290,7 @@ var ShareService = exports.ShareService = Montage.specialize({
                     read: true,
                     write: false,
                     execute: true
-                },
+                }
             }
         }
     },
@@ -301,6 +302,7 @@ var ShareService = exports.ShareService = Montage.specialize({
                 this._instance._dataService = FreeNASService.instance;
                 this._instance._bytesService = BytesService.instance;
                 this._instance.shareRepository = ShareRepository.getInstance();
+                this._instance.shareIscsiTargetRepository = ShareIscsiTargetRepository.getInstance();
                 this._instance.volumeRepository = VolumeRepository.getInstance();
             }
 
