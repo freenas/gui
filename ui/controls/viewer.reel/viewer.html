@@ -33,14 +33,6 @@
                 "classList.has('hide')": {"<-": "@owner.hideCreateButton || !@owner.hasCreateEditor"}
             }
         },
-        "scrollView": {
-            "prototype": "blue-shark/ui/scroller.reel",
-            "properties": {
-                "element": {"#": "scrollView"},
-                "controller": {"@": "list"},
-                "overflow": "scrollY"
-            }
-        },
         "headerCondition": {
             "prototype": "montage/ui/component",
             "properties": {
@@ -108,13 +100,12 @@
         <div data-montage-id="viewerControls" class="Viewer-controls">
             <div data-montage-id="controls"></div>
         </div>
-        <div data-montage-id="scrollView">
-            <div class="Viewer-content">
+        <div class="flex-column">
+            <div class="flex-column">
                 <div data-montage-id="emptyPanel" class="Viewer-emptyPanel g-margin"></div>
                 <div data-montage-id="list" class="Viewer-list"></div>
             </div>
-            <div class="Viewer-footer">
-            </div>
+            <div class="Viewer-footer"></div>
         </div>
     </div>
 </body>

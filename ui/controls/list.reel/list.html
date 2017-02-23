@@ -49,16 +49,25 @@
             "bindings": {
                 "isLoading": {"<-": "@owner.isLoadingData"}
             }
+        },
+        "scrollview": {
+            "prototype": "blue-shark/ui/scroller.reel",
+            "properties": {
+                "element": {"#": "scrollview"},
+                "hasFooter": false
+            }
         }
     }
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="List">
-        <div data-montage-id="repetition">
-            <div data-montage-id="item" class="List-item"></div>
+    <div data-montage-id="owner" class="List flex-column">
+        <div data-montage-id="scrollview">
+            <div data-montage-id="repetition">
+                <div data-montage-id="item" class="List-item"></div>
+            </div>
+            <div data-montage-id="loading" class="List-spinner"></div>
         </div>
-        <div data-montage-id="loading" class="List-spinner"></div>
     </div>
 </body>
 </html>
