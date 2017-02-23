@@ -5,7 +5,6 @@ import {Map} from 'immutable';
 
 export class PeeringSectionService extends AbstractSectionService {
     private peerRepository: PeerRepository;
-
     public readonly PEER_TYPES = PeerRepository.PEER_TYPES;
 
     protected init() {
@@ -17,6 +16,8 @@ export class PeeringSectionService extends AbstractSectionService {
     public getNewPeerWithType(peerType: any) {
         return this.peerRepository.getNewPeerWithType(peerType);
     }
+
+    public getNextSequenceForStream(streamId: string) {}
 
     protected loadEntries() {
         this.entries = [];

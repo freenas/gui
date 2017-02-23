@@ -1,8 +1,9 @@
 import {AbstractModelRepository} from './abstract-model-repository';
 import {DockerContainerDao} from '../dao/docker-container-dao';
-import {DockerContainerBridgeRepository} from '../repository/docker-container-bridge-repository';
+import {DockerContainerBridgeRepository} from './docker-container-bridge-repository';
+import {DockerContainer} from '../model/DockerContainer';
 
-export class DockerContainerRepository extends AbstractModelRepository {
+export class DockerContainerRepository extends AbstractModelRepository<DockerContainer> {
     private static instance: DockerContainerRepository;
     private dockerContainerBridgeRepository: DockerContainerBridgeRepository;
 

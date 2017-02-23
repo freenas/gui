@@ -17,7 +17,7 @@ import {AlertEmitterRepository} from '../../repository/alert-emitter-repository'
 import {ModelEventName} from '../../model-event-name';
 import * as Immutable from 'immutable';
 import * as _ from 'lodash';
-import {DockerContainerRepository} from '../../repository/docker-container-repository-ng';
+import {DockerContainerRepository} from '../../repository/docker-container-repository';
 import {BootEnvironment} from '../../model/BootEnvironment';
 import {SubmittedTask} from '../../model/SubmittedTask';
 import {AlertFilter} from '../../model/AlertFilter';
