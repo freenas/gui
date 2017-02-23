@@ -2,6 +2,8 @@ var Component = require("montage/ui/component").Component,
     EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
     ModelEventName = require("core/model-event-name").ModelEventName,
     TaskService = require("core/service/task-service").TaskService,
+    SystemService = require("core/service/system-service").SystemService,
+    moment = require('moment-timezone'),
     _ = require("lodash");
 
 exports.TaskNotification = Component.specialize({
@@ -30,10 +32,26 @@ exports.TaskNotification = Component.specialize({
         }
     },
 
-    enterDocument: {
+    timeFormat: {
+        value: "HH:mm:ss"
+    },
+
+    setStartDate: {
         value: function() {
             var displayedDate = this.object.started_at || this.object.created_at;
-            this.object.startDate = new Date(displayedDate.$date);
+            this.object.startDate = moment.utc(displayedDate.$date).tz(this.timezone).format(this.timeFormat);
+        }
+    },
+
+    enterDocument: {
+        value: function() {
+            var self = this;
+            this.systemService = SystemService.getInstance();
+            this.object.startDate = this.systemService.getGeneral().then(function (general) {
+                self.timezone = general.timezone;
+            }).then(function() {
+                self.setStartDate();
+            });
         }
     },
 

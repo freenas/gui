@@ -36,11 +36,10 @@
         "timestamp": {
             "prototype": "blue-shark/ui/text.reel",
             "properties": {
-                "element": {"#": "timestamp"},
-                "value": "{date, HH:mm:ss}"
+                "element": {"#": "timestamp"}
             },
             "bindings": {
-                "args": {"<-": "@owner.object.startDate && {date: @owner.object.startDate}"}
+                "value": {"<-": "@owner.object.startDate"}
             }
         },
         "progress": {
