@@ -3,6 +3,7 @@ export class ModelEventName {
     public static AccountCategory = new ModelEventName(Model.AccountCategory);
     public static AccountSystem = new ModelEventName(Model.AccountSystem);
     public static Alert = new ModelEventName(Model.Alert);
+    public static AlertEmitter = new ModelEventName(Model.AlertEmitter);
     public static AlertFilter = new ModelEventName(Model.AlertFilter);
     public static AlertSettings = new ModelEventName(Model.AlertSettings);
     public static AmazonS3Credentials = new ModelEventName(Model.AmazonS3Credentials);

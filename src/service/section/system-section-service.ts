@@ -13,6 +13,7 @@ import {DiskRepository} from '../../repository/disk-repository';
 import {AlertFilterRepository} from '../../repository/alert-filter-repository';
 import {BootPoolRepository} from '../../repository/boot-pool-repository';
 import {AlertEmitterPushBulletRepository} from '../../repository/alert-emitter-push-bullet-repository';
+import {AlertEmitterRepository} from '../../repository/alert-emitter-repository';
 import {ModelEventName} from '../../model-event-name';
 import * as Immutable from 'immutable';
 import * as _ from 'lodash';
@@ -39,6 +40,7 @@ export class SystemSectionService extends AbstractSectionService {
     private bootEnvironments: Array<any> = [];
     private initialDiskAllocationPromise: Promise<any>;
     private alertEmitterPushBulletRepository: AlertEmitterPushBulletRepository;
+    private alertEmitterRepository: AlertEmitterRepository;
 
     public readonly SELF_SIGNED = CryptoCertificateRepository.SELF_SIGNED;
     public readonly CREATION = CryptoCertificateRepository.CREATION;
@@ -59,6 +61,7 @@ export class SystemSectionService extends AbstractSectionService {
         this.bootPoolRepository = BootPoolRepository.getInstance();
         this.alertFilterRepository = AlertFilterRepository.getInstance();
         this.alertEmitterPushBulletRepository = AlertEmitterPushBulletRepository.getInstance();
+        this.alertEmitterRepository = AlertEmitterRepository.getInstance();
 
 
         this.eventDispatcherService.addEventListener(
@@ -173,6 +176,19 @@ export class SystemSectionService extends AbstractSectionService {
 
     public scrubBootPool(): Promise<SubmittedTask> {
         return this.bootPoolRepository.scrubBootPool();
+    }
+
+    public getAlertEmitterEmail() {
+        return this.alertEmitterRepository.list().then(alertEmitters => _.find(alertEmitters, {config: {'%type': 'AlertEmitterEmail'}}));
+    }
+
+    public saveAlertEmitter(alertEmitter: any) {
+        console.log(alertEmitter);
+        return this.alertEmitterRepository.save(alertEmitter);
+    }
+
+    public getAlertEmitterPushBullet() {
+        return this.alertEmitterRepository.list().then(alertEmitters => _.find(alertEmitters, {config: {'%type': 'AlertEmitterPushbullet'}}));
     }
 
     public getAlertEmitterPushBulletConfig () {

@@ -2,6 +2,8 @@ var Montage = require("montage").Montage,
     FreeNASService = require("core/service/freenas-service").FreeNASService,
     Model = require("core/model/model").Model;
 
+var MailRepository = require("core/repository/mail-repository").MailRepository;
+
 var MailService = exports.MailService = Montage.specialize({
     _instance: {
         value: null
@@ -12,10 +14,8 @@ var MailService = exports.MailService = Montage.specialize({
     },
 
     sendTestMail: {
-        value: function (mailMessage,mailObject) {
-            return Model.populateObjectPrototypeForType(Model.AlertEmitterEmail).then(function(Mail){
-                return Mail.constructor.services.send(mailMessage,mailObject);
-            });
+        value: function (mailMessage, mailObject) {
+            return this.mailRepository.sendTestMail(mailMessage, mailObject);
         }
     },
 
@@ -45,6 +45,7 @@ var MailService = exports.MailService = Montage.specialize({
             if(!this._instance) {
                 this._instance = new MailService();
                 this._instance._dataService = FreeNASService.instance;
+                this._instance.mailRepository = MailRepository.getInstance();
             }
             return this._instance;
         }
