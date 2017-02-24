@@ -56,6 +56,28 @@
                 "element": {"#": "scrollview"},
                 "hasFooter": false
             }
+        },
+        "substitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "stateSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "!!@owner.isInfiniteList && !!@owner.isLoadingData ? 'loading' : !!@owner.isInfiniteList ? 'load' : ''"}
+            }
+        },
+        "loadButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "loadButton"},
+                "value": "Load more data"
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
         }
     }
     </script>
@@ -66,7 +88,10 @@
             <div data-montage-id="repetition">
                 <div data-montage-id="item" class="List-item"></div>
             </div>
-            <div data-montage-id="loading" class="List-spinner"></div>
+            <div data-montage-id="stateSubstitution">
+                <div data-montage-id="loadButton" data-arg="load"></div>
+                <div data-montage-id="loading" class="List-spinner" data-arg="loading"></div>
+            </div>
         </div>
     </div>
 </body>

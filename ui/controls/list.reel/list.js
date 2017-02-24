@@ -1,4 +1,4 @@
-var Component = require("montage/ui/component").Component,
+var Component = require('montage/ui/component').Component,
     Immutable = require('immutable');
 
 exports.List = Component.specialize({
@@ -8,9 +8,22 @@ exports.List = Component.specialize({
             if (this.content && this.content._stream && this.content._stream.get('partial')) {
                 this._stream = this.content._stream;
 
-                if (!this._stream.get("reachEnd") && this._stream.get("endSequence") === 1) {
-                    this._needsComputeViewPortHeight = true;
+                if (!this._stream.get('reachEnd')) {
+                    if (this._stream.get('endSequence') === 1) {
+                        this._needsComputeViewPortHeight = true;
+                    }
+                    this.isInfiniteList = true;
+                } else {
+                    this.isInfiniteList = false;
                 }
+            }
+        }
+    },
+
+    handleLoadButtonAction: {
+        value: function () {
+            if (!this.isLoadingData && this._stream) {
+                this.fetchData();
             }
         }
     },
@@ -21,7 +34,7 @@ exports.List = Component.specialize({
                 var self = this;
 
                 return this.fetchData().then(function (stream) {
-                    if (self._stream.get("streamId") === stream.get("streamId") && !stream.get('reachEnd')) {
+                    if (self._stream.get('streamId') === stream.get('streamId') && !stream.get('reachEnd')) {
                         return self.fetchMinimumItems(minimumItems);
                     }
 
@@ -45,7 +58,7 @@ exports.List = Component.specialize({
                 promise = this.application.sectionService.getNextSequenceForStream(
                     this._stream.get('streamId')
                 ).then(function (stream) {
-                    if (self._stream.get("streamId") === stream.get("streamId")) {
+                    if (self._stream.get('streamId') === stream.get('streamId')) {
                         self._stream = stream;
                         //Workaround: Montage bug enterdocument twice...
                         self.content._stream = stream;
@@ -60,24 +73,20 @@ exports.List = Component.specialize({
 
             return promise.finally(function () {
                 self.isLoadingData = false;
-            });
-        }
-    },
 
-    scrollViewReachBottomY: {
-        value: function () {
-            if (!this.isLoadingData && this._stream) {
-                this.fetchData();
-            }
+                if (self._stream.get('reachEnd')) {
+                    self.isInfiniteList = false;
+                }
+            });
         }
     },
 
     didDraw: {
         value: function () {
             if (this._needsComputeViewPortHeight) {
-                var dummyListItem = document.createElement("div");
-                dummyListItem.classList.add("ListItem");
-                dummyListItem.style.visibility = "hidden";
+                var dummyListItem = document.createElement('div');
+                dummyListItem.classList.add('ListItem');
+                dummyListItem.style.visibility = 'hidden';
 
                 this.element.appendChild(dummyListItem);
 
