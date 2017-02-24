@@ -10,7 +10,7 @@ export {DockerCollectionRepository} from './docker-collection-repository-ng';
 export {DockerConfigRepository} from './docker-config-repository';
 export {DockerContainerBridgeRepository} from './docker-container-bridge-repository';
 export {DockerContainerLogsRepository} from './docker-container-logs-repository';
-export {DockerContainerRepository} from './docker-container-repository-ng';
+export {DockerContainerRepository} from './docker-container-repository';
 export {DockerHostRepository} from './docker-host-repository-ng';
 export {DockerImageReadmeRepository} from './docker-image-readme-repository';
 export {DockerImageRepository} from './docker-image-repository-ng';

@@ -6,9 +6,10 @@ import {DockerHostRepository} from '../repository/docker-host-repository-ng';
 import {DockerImageReadmeRepository} from '../repository/docker-image-readme-repository';
 import {DockerImageRepository} from '../repository/docker-image-repository-ng';
 import {DockerCollectionRepository} from '../repository/docker-collection-repository-ng';
-import {DockerContainerRepository} from '../repository/docker-container-repository-ng';
+import {DockerContainerRepository} from '../repository/docker-container-repository';
 import {DockerNetworkRepository} from '../repository/docker-network-repository';
 import {DockerContainerLogsRepository} from '../repository/docker-container-logs-repository';
+import {DockerContainer} from '../model/DockerContainer';
 
 export class DockerRoute extends AbstractRoute {
     private static instance: DockerRoute;
@@ -292,50 +293,28 @@ export class DockerRoute extends AbstractRoute {
     }
 
     public listContainers(stack: Array<any>) {
-        let self = this,
-            objectType = Model.DockerContainer,
-            columnIndex = 1,
-            parentContext = stack[columnIndex - 1],
-            context: any = {
-                columnIndex: columnIndex,
-                objectType: objectType,
-                parentContext: parentContext,
-                path: parentContext.path + '/docker-container'
-            };
-        return Promise.all([
-            this.dockerContainerRepository.listDockerContainers(),
-            this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread((containers: any, uiDescriptor) => {
-            context.object = containers;
-            context.userInterfaceDescriptor = uiDescriptor;
-            context.changeListener = self.eventDispatcherService.addEventListener(ModelEventName[objectType].listChange, function (state) {
-                self.dataObjectChangeService.handleDataChange(containers, state);
-            });
-
-            return this.updateStackWithContext(stack, context);
-        });
+        let columnIndex = 1;
+        return this.loadListInColumn(
+            stack,
+            columnIndex,
+            columnIndex - 1,
+            '/docker-container',
+            DockerContainer.getClassName(),
+            this.dockerContainerRepository.list()
+        );
     }
 
     public getContainer(containerId, stack: Array<any>) {
-        let objectType = Model.DockerContainer,
-            columnIndex = 2,
-            parentContext = stack[columnIndex - 1],
-            context: any = {
-                columnIndex: columnIndex,
-                objectType: objectType,
-                parentContext: parentContext,
-                path: parentContext.path + '/_/' + containerId
-            };
-
-        return Promise.all([
-            this.dockerContainerRepository.listDockerContainers(),
-            this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread((containers: any, uiDescriptor) => {
-            context.object = _.find(containers, {id: containerId});
-            context.userInterfaceDescriptor = uiDescriptor;
-
-            return this.updateStackWithContext(stack, context);
-        });
+        let columnIndex = 2;
+        return this.loadObjectInColumn(
+            stack,
+            columnIndex,
+            columnIndex - 1,
+            AbstractRoute.getObjectPathSuffix(DockerContainer.getClassName(), containerId),
+            DockerContainer.getClassName(),
+            this.dockerContainerRepository.list(),
+            {id: containerId}
+        );
     }
 
     public getSettings() {
