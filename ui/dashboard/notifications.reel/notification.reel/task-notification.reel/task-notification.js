@@ -47,7 +47,7 @@ exports.TaskNotification = Component.specialize({
         value: function() {
             var self = this;
             this.systemService = SystemService.getInstance();
-            this.object.startDate = this.systemService.getGeneral().then(function (general) {
+            this.systemService.getGeneral().then(function (general) {
                 self.timezone = general.timezone;
             }).then(function() {
                 self.setStartDate();
