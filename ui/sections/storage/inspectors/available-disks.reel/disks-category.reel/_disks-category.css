@@ -2,7 +2,6 @@
     position: relative;
 
     &.is-expanded {
-        flex: 1;
 
         & .Scrollview-transform { display: block; }
     }
