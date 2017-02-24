@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-    <link rel="stylesheet" type="text/css" href="table-row-route.css">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="ip-address.css">
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -24,7 +24,6 @@
                 }
             }
         },
-
         "ipv4_netmask_converter": {
             "prototype": "core/converter/ipv4-netmask-converter"
         },
@@ -42,19 +41,6 @@
                 "validator": {"@": "ipv6_netmask_validator"}
             }
         },
-
-        "id": {
-            "prototype": "blue-shark/ui/text-field.reel",
-            "properties": {
-                "element": {"#": "id"},
-                "placeholder": "e.g. local"
-            },
-            "bindings": {
-                "value": {"<->": "@owner.object.id"},
-                "disabled": {"<-": "@owner.object.disableId"}
-            }
-        },
-
         "type": {
             "prototype": "blue-shark/ui/radio-button-field-group.reel",
             "properties": {
@@ -69,19 +55,17 @@
                 "isReadOnly": {"<-": "!@owner.canChangeType"}
             }
         },
-
-        "network": {
+        "address": {
             "prototype": "blue-shark/ui/text-field.reel",
             "properties": {
-                "element": {"#": "network"}
+                "element": {"#": "address"}
             },
             "bindings": {
-                "value": {"<->": "@owner.object.network"},
+                "value": {"<->": "@owner.object.address"},
                 "placeholder": {"<-": "@owner.placeholders.address[@owner.object.type]"},
-                "disabled": {"<-": "!@owner.object.type"}
+                "disabled": {"<-": "!@owner.object.type || @owner.isReadOnly"}
             }
         },
-
         "netmask": {
             "prototype": "blue-shark/ui/text-field.reel",
             "properties": {
@@ -91,42 +75,23 @@
                 "value": {"<->": "@owner.object.netmask"},
                 "placeholder": {"<-": "@owner.placeholders.netmask[@owner.object.type]"},
                 "converter": {"<-": "@owner.converters[@owner.object.type]"},
-                "disabled": {"<-": "!@owner.object.type"}
-            }
-        },
-
-        "gateway": {
-            "prototype": "blue-shark/ui/text-field.reel",
-            "properties": {
-                "element": {"#": "gateway"}
-            },
-            "bindings": {
-                "value": {"<->": "@owner.object.gateway"},
-                "placeholder": {"<-": "@owner.placeholders.address[@owner.object.type]"},
-                "disabled": {"<-": "!@owner.object.type"}
+                "disabled": {"<-": "!@owner.object.type || @owner.isReadOnly"}
             }
         }
-
     }
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="TableRowRoute Table-cells">
-        <div>
-            <div data-montage-id="id"></div>
-        </div>
-        <div>
-            <div data-montage-id="type"></div>
-        </div>
-        <div>
-            <div data-montage-id="network"></div>
-        </div>
-        <div>
-            <div data-montage-id="netmask"></div>
-        </div>
-        <div>
-            <div data-montage-id="gateway"></div>
-        </div>
+<div data-montage-id="owner" class="IpAddress Table-cells">
+    <div>
+        <div data-montage-id="type"></div>
     </div>
+    <div>
+        <div data-montage-id="address"></div>
+    </div>
+    <div>
+        <div data-montage-id="netmask"></div>
+    </div>
+</div>
 </body>
 </html>

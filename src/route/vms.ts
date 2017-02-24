@@ -36,7 +36,7 @@ export class VmsRoute extends AbstractRoute {
 
     @Route('/vms/settings')
     public getSettings() {
-        this.loadSettings('vms')
+        this.loadSettings('vms');
     }
 
     @Route('/vms/vm/_/{vmId}')

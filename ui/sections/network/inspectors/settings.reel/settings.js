@@ -1,5 +1,5 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Model = require("core/model/model").Model;
+    _ = require('lodash');
 
 exports.Settings = AbstractInspector.specialize({
 
@@ -26,9 +26,10 @@ exports.Settings = AbstractInspector.specialize({
         value: function(isFirstTime) {
             this.super();
 
+            this._deletedHosts = [];
+            this._deletedRoutes = [];
             if (isFirstTime) {
                 this._snapshotDHCPSettingsIfNecessary();
-                return this._performActionOnControllers('initialize', this._sectionService);
             }
         }
     },
@@ -36,9 +37,11 @@ exports.Settings = AbstractInspector.specialize({
     revert: {
         value: function() {
             var self = this;
-            return this._performActionOnControllers('revert').then(function() {
-                return self._sectionService.revertSettings();
-            }).then(function() {
+            _.concat(this.object.settings.hosts, this._deletedHosts);
+            this._deletedHosts = [];
+            _.concat(this.object.settings.routes, this._deletedRoutes);
+            this._deletedRoutes = [];
+            return self._sectionService.revertSettings().then(function() {
                 return self._snapshotDHCPSettingsIfNecessary();
             });
         }
@@ -48,10 +51,25 @@ exports.Settings = AbstractInspector.specialize({
         value: function() {
             var self = this,
                 dhcpChanged = this._checkIfDHCPSettingsChanged();
-
-            return this._performActionOnControllers('save').then(function(){
-                return self._sectionService.saveSettings(self.object.settings);
-            }).then(function() {
+            return Promise.all(_.flatten(
+                _.concat(
+                    [self._sectionService.saveSettings(self.object.settings)],
+                    _.map(this._deletedHosts, function(host) {
+                        return self._sectionService.deleteHost(host);
+                    }),
+                    _.map(this.object.settings.hosts, function(host) {
+                        return self._sectionService.saveHost(host);
+                    }),
+                    _.map(this._deletedRoutes, function(route) {
+                        return self._sectionService.deleteStaticRoute(route);
+                    }),
+                    _.map(this.object.settings.routes, function(route) {
+                        return self._sectionService.saveStaticRoute(route);
+                    })
+                )
+            )).then(function() {
+                self._deletedHosts = [];
+                self._deletedRoutes = [];
                 if (dhcpChanged) {
                     self._snapshotDHCPSettingsIfNecessary();
                     return self._sectionService.renewLease();
@@ -60,17 +78,15 @@ exports.Settings = AbstractInspector.specialize({
         }
     },
 
-    _performActionOnControllers: {
-        value: function(action) {
-            var args = arguments.length > 1 ? Array.prototype.slice.call(arguments, 1) : [],
-                promises = [];
+    markHostAsDeleted: {
+        value: function(host) {
+            this._deletedHosts.push(host);
+        }
+    },
 
-            for (var key in this.controllers) {
-                var controller = this.controllers[key];
-                promises.push(controller[action].apply(controller, args));
-            }
-
-            return Promise.all(promises);
+    markRouteAsDeleted: {
+        value: function(route) {
+            this._deletedRoutes.push(route);
         }
     },
 
