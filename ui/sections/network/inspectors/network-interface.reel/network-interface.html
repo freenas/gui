@@ -68,12 +68,13 @@
             "prototype": "ui/controls/ip-aliases.reel",
             "properties": {
                 "element": {"#": "addresses"},
-                "label": "Aliases",
-                "canAdd": true,
-                "canDelete": true
+                "label": "Aliases"
             },
             "bindings": {
-                "addresses": {"<-": "@owner.object.aliases"}
+                "addresses": {"<-": "!!@owner.object.dhcp ? @owner.object.status.aliases.filter{type != 'LINK'} : @owner.object.aliases"},
+                "canAdd": {"<-": "!@owner.object.dhcp"},
+                "canDelete": {"<-": "!@owner.object.dhcp"},
+                "isReadOnly": {"<-": "!!@owner.object.dhcp"}
             }
         },
         "v6disabled": {

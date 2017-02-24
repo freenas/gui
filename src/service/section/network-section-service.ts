@@ -105,10 +105,6 @@ export class NetworkSectionService extends AbstractSectionService {
                     break;
                 }
             }
-/*
-        } else {
-            this.splitAliasesOnInterface(networkInterface);
-*/
         }
         if (networkInterface._ipv6Address === null) {
             networkInterface._ipv6Address = {};
@@ -132,7 +128,6 @@ export class NetworkSectionService extends AbstractSectionService {
     }
 
     public saveInterface(networkInterface: any) {
-        this.flattenAliasesOnInterface(networkInterface);
         if (networkInterface.type === NetworkInterfaceType.VLAN) {
             this.cleanupVlanInterface(networkInterface);
         }
@@ -184,52 +179,6 @@ export class NetworkSectionService extends AbstractSectionService {
                 tag: null,
                 parent: null
             };
-        }
-    }
-
-    private flattenAliasesOnInterface(networkInterface: any) {
-        let aliases = [];
-
-        if (!networkInterface.dhcp) {
-            if (networkInterface._ipAddress && typeof networkInterface._ipAddress === 'object' && !!networkInterface._ipAddress.address) {
-                networkInterface._ipAddress.type = NetworkInterfaceAliasType.INET;
-                networkInterface._ipAddress.netmask = networkInterface._ipAddress.netmask || this.IPV4_DEFAULT_NETMASK;
-                aliases.push(networkInterface._ipAddress);
-            }
-            if (networkInterface._ipv6Address && typeof networkInterface._ipv6Address === 'object' && !!networkInterface._ipv6Address.address) {
-                networkInterface._ipv6Address.type = NetworkInterfaceAliasType.INET6;
-                networkInterface._ipv6Address.netmask = networkInterface._ipv6Address.netmask || this.IPV6_DEFAULT_NETMASK;
-                aliases.push(networkInterface._ipv6Address);
-            }
-            networkInterface.aliases = aliases.concat(networkInterface._otherAliases);
-            this.splitAliasesOnInterface(networkInterface);
-        } else {
-            delete networkInterface.aliases;
-        }
-    }
-
-    private splitAliasesOnInterface(networkInterface: any) {
-        let alias, i;
-
-        networkInterface._otherAliases = [];
-        networkInterface._ipAddress = null;
-        networkInterface._ipv6Address = null;
-        for (i = 0, length = networkInterface.aliases.length; i < length; i++) {
-            alias = networkInterface.aliases[i];
-            _.unset(alias, 'broadcast');
-            if (alias.type === NetworkInterfaceAliasType.INET && networkInterface._ipAddress === null) {
-                networkInterface._ipAddress = alias;
-            } else if (alias.type === NetworkInterfaceAliasType.INET6 && networkInterface._ipv6Address === null) {
-                networkInterface._ipv6Address = alias;
-            } else {
-                networkInterface._otherAliases.push(alias);
-            }
-        }
-        if (!networkInterface._ipAddress) {
-            networkInterface._ipAddress = {};
-        }
-        if (!networkInterface._ipv6Address) {
-            networkInterface._ipv6Address = {};
         }
     }
 

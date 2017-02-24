@@ -63,7 +63,7 @@
             "bindings": {
                 "value": {"<->": "@owner.object.address"},
                 "placeholder": {"<-": "@owner.placeholders.address[@owner.object.type]"},
-                "disabled": {"<-": "!@owner.object.type"}
+                "disabled": {"<-": "!@owner.object.type || @owner.isReadOnly"}
             }
         },
         "netmask": {
@@ -75,7 +75,7 @@
                 "value": {"<->": "@owner.object.netmask"},
                 "placeholder": {"<-": "@owner.placeholders.netmask[@owner.object.type]"},
                 "converter": {"<-": "@owner.converters[@owner.object.type]"},
-                "disabled": {"<-": "!@owner.object.type"}
+                "disabled": {"<-": "!@owner.object.type || @owner.isReadOnly"}
             }
         }
     }
