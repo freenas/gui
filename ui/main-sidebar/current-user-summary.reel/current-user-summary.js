@@ -36,7 +36,7 @@ exports.CurrentUserSummary = Component.specialize({
     },
 
     timezone: {
-        value: "America/Los Angeles"
+        value: "America/Los_Angeles"
     },
 
     templateDidLoad: {
