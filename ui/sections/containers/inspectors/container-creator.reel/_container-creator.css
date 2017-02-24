@@ -1,6 +1,32 @@
-.ContainerCreator { min-width: 40rem !important; }
+.ContainerCreator { min-width: 43rem !important; }
 
 /* Table Volume Treeview Adjustments */
 
 .TableVolume .Field { margin-bottom: 0;}
 .TableVolume .FieldTreeview-treeView { margin-bottom: 0 !important; margin-top: .5em;}
+
+/* Volume Table UNIQUE LAYOUT */
+
+.TableVolume .Table-cells > div:nth-child(1),
+.TableVolume .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(1) {
+    min-width: 6rem;
+}
+
+.TableVolume .Table-cells > div:nth-child(2),
+.TableVolume .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(2) {
+    min-width: 17rem;
+}
+
+.TableVolume .Table-cells > div:nth-child(3),
+.TableVolume .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(3) {
+    min-width: 10rem;
+}
+
+.TableVolume .Table-cells > div:nth-child(4),
+.TableVolume .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(4) {
+    min-width: 3rem;
+}
+
+.TableVolume .FieldTreeview > .Field {
+    margin-bottom: 0;
+}

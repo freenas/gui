@@ -29,14 +29,10 @@
 }
 
 .FieldTreeview-treeView {
-    position: absolute;
-    visibility: hidden;
-    opacity: 0;
+    display: none;
 
     @nest .FieldTreeview.is-expanded & {
-        position: relative;
-        visibility: visible;
+        display: block;
         margin-bottom: 1em;
-        opacity: 1;
     }
 }
