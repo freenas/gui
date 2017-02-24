@@ -27,6 +27,7 @@ exports.Settings = AbstractInspector.specialize({
             this.super();
 
             this._deletedHosts = [];
+            this._deletedRoutes = [];
             if (isFirstTime) {
                 this._snapshotDHCPSettingsIfNecessary();
             }

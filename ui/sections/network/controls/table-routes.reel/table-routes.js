@@ -5,7 +5,9 @@ exports.TableRoutes = Component.specialize({
             return {
                 _isNew: true,
                 id: null,
+                type: 'INET',
                 network: null,
+                netmask: null,
                 gateway: null
             }
         }

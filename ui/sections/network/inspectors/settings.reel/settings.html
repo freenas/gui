@@ -206,7 +206,8 @@
             "prototype": "ui/sections/network/controls/table-routes.reel",
             "properties": {
                 "element": {"#": "routes"},
-                "label": "Add Static Routes"
+                "label": "Add Static Routes",
+                "controller": {"@": "owner"}
             },
             "bindings": {
                 "values": {"<-": "@owner.object.settings.routes"}

@@ -105,8 +105,10 @@ export class NetworkSectionService extends AbstractSectionService {
                     break;
                 }
             }
+/*
         } else {
             this.splitAliasesOnInterface(networkInterface);
+*/
         }
         if (networkInterface._ipv6Address === null) {
             networkInterface._ipv6Address = {};

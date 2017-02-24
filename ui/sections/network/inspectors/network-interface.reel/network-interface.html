@@ -15,15 +15,8 @@
                 "dhcpInterface": {"<-": "@owner.interfaces.filter{dhcp}.0"}
             }
         },
-        "interface_alias_converter": {
-            "prototype": "core/converter/interface-alias-converter"
-        },
         "validationController": {
-            "prototype": "core/controller/validation-controller",
-            "properties": {
-                "fields": {
-                }
-            }
+            "prototype": "core/controller/validation-controller"
         },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
@@ -71,37 +64,16 @@
                 "value": {"<->": "@owner.object.name"}
             }
         },
-        "ipv4_address_validator": {
-            "prototype": "core/converter/validator/ipv4-validator"
-        },
-        "address": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+        "addresses": {
+            "prototype": "ui/controls/ip-aliases.reel",
             "properties": {
-                "element": {"#": "address"},
-                "label": "IPv4 Address",
-                "validator": {"@": "ipv4_address_validator"},
-                "errorMessage": "Invalid IP address"
+                "element": {"#": "addresses"},
+                "label": "Aliases",
+                "canAdd": true,
+                "canDelete": true
             },
             "bindings": {
-                "value": {"<->": "@owner.object._ipAddress.address"},
-                "readonly": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp"},
-                "placeholder": {"<-": "!@owner.object.dhcp ? 'eg. 1.2.3.4' : ''"}
-            }
-        },
-        "ipv4_netmask_converter": {
-            "prototype": "core/converter/ipv4-netmask-converter"
-        },
-        "netmask": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
-            "properties": {
-                "element": {"#": "netmask"},
-                "label": "Subnet Mask",
-                "converter": {"@": "ipv4_netmask_converter"}
-            },
-            "bindings": {
-                "value": {"<->": "@owner.object._ipAddress.netmask"},
-                "readonly": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp"},
-                "placeholder": {"<-": "!@owner.object.dhcp ? '255.255.255.0' : ''"}
+                "addresses": {"<-": "@owner.object.aliases"}
             }
         },
         "v6disabled": {
@@ -112,56 +84,6 @@
             },
             "bindings": {
                 "checked": {"<->": "@owner.object.noipv6"}
-            }
-        },
-        "ipv6_address_validator": {
-            "prototype": "core/converter/validator/ipv6-validator"
-        },
-        "v6addressConverter": {
-            "prototype": "core/converter/string-or-null-validation-converter",
-            "properties": {
-                "validator": {"@": "ipv6_address_validator"}
-            }
-        },
-        "v6address": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
-            "properties": {
-                "element": {"#": "v6address"},
-                "label": "IPv6 Address",
-                "errorMessage": "Invalid IPv6 address",
-                "converter": {"@": "v6addressConverter"}
-            },
-            "bindings": {
-                "value": {"<->": "@owner.object._ipv6Address.address"},
-                "readonly": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp || @owner.object.rtadv"},
-                "placeholder": {"<-": "!@owner.object.rtadv ? 'eg. fda8:06c3:ce53:a890:0000:0000:0000:0005' : ''"}
-            }
-        },
-        "v6netmaskValidator": {
-            "prototype": "core/converter/validator/integer-range-validator",
-            "properties": {
-                "floor": 0,
-                "ceiling": 128,
-                "errorMessage": "IPv6 prefix length must be an integer between 0 and 128"
-            }
-        },
-        "v6netmaskConverter": {
-            "prototype": "core/converter/string-to-integer-or-null-converter",
-            "properties": {
-                "validator": {"@": "v6netmaskValidator"}
-            }
-        },
-        "v6netmask": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
-            "properties": {
-                "element": {"#": "v6netmask"},
-                "converter": {"@": "v6netmaskConverter"},
-                "label": "IPv6 Prefix Length"
-            },
-            "bindings": {
-                "value": {"<->": "@owner.object._ipv6Address.netmask"},
-                "readonly": {"<-": "@owner.object.dhcp.defined() && @owner.object.dhcp || @owner.object.rtadv"},
-                "placeholder": {"<-": "!@owner.object.rtadv ? '64' : ''"}
             }
         },
         "linkAddress": {
@@ -269,31 +191,6 @@
                 "object": {"<-": "@owner.object.vlan"},
                 "parentOptions": {"<-": "@owner.interfaces.filter{type == 'ETHER' || type == 'LAGG'}"}
             }
-        },
-        "aliasSection": {
-            "prototype": "ui/controls/foldable-section.reel",
-            "properties": {
-                "element": {"#": "aliasSection"},
-                "title": "Aliases"
-            }
-        },
-        "aliases": {
-            "prototype": "blue-shark/ui/field-multiple-select.reel",
-            "properties": {
-                "element": {"#": "aliases"},
-                "converter": {"@": "interface_alias_converter"},
-                "label": "Aliases",
-                "inputTitle": "Add Aliases",
-                "valuesTitle": "Added Aliases",
-                "labelPath": "address + '/' + netmask",
-                "emptyMessage": "no aliases added",
-                "inputErrorMessage": "Please enter a valid IP address and netmask."
-            },
-            "bindings": {
-                "values": {"<->": "@owner.object._otherAliases"},
-                "disabled": {"<-": "@owner.object.dhcp"},
-                "placeholder": {"<-": "!@owner.object.dhcp ? 'eg. 1.2.3.4/16' : ''"}
-            }
         }
     }
     </script>
@@ -304,11 +201,8 @@
             <div data-montage-id="overview"></div>
             <div data-montage-id="enabled"></div>
             <div data-montage-id="description"></div>
-            <div data-montage-id="address"></div>
-            <div data-montage-id="netmask"></div>
+            <div data-montage-id="addresses" class="g-margin-bottom"></div>
             <div data-montage-id="v6disabled"></div>
-            <div data-montage-id="v6address"></div>
-            <div data-montage-id="v6netmask"></div>
             <div data-montage-id="linkAddress"></div>
             <div data-montage-id="dhcp"></div>
             <div data-montage-id="rtadv"></div>
@@ -318,9 +212,6 @@
                 <div data-montage-id="lagg" data-arg="LAGG"></div>
                 <div data-montage-id="vlan" data-arg="VLAN"></div>
                 <div data-montage-id="bridge" data-arg="BRIDGE"></div>
-            </div>
-            <div data-montage-id="aliasSection">
-                <div data-montage-id="aliases"></div>
             </div>
         </div>
     </div>
