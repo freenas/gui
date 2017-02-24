@@ -4,7 +4,8 @@
 }
 
 .InspectorFooter {
-    padding: 1em;
+    border-top: 1px solid var(--separator-color);
+    padding: 1rem;
     display: flex;
     flex-shrink: 0;
     justify-content: space-between;
@@ -23,7 +24,6 @@
 .InspectorFooter button {
     display: none;
     overflow: hidden;
-    max-width: 8em;
 }
 
 /* States ---------------------------------- */

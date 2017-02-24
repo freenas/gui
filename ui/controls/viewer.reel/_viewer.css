@@ -1,12 +1,9 @@
 .Viewer  {
-    min-width: 16em;
     /* compensates for inspector */
     @nest .Inspector & {
         margin: 0 -1em;
     }
 }
-
-.Viewer > .Scrollview .Scrollview-transform { display: block; }
 
 .Viewer-header {
     height: 3rem;
@@ -87,7 +84,7 @@
     align-items: center;
     flex-shrink: 0;
 
-    & .montage-Slot {
+    & > div:first-child {
         flex: 1;
     }
 }

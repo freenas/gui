@@ -15,7 +15,7 @@
     position: relative;
     border-spacing: 0;
     font-weight: 200;
-    min-width: 45em;
+    max-width: 45em;
 
     & > header { margin-bottom: 1em; }
 

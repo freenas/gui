@@ -2,7 +2,7 @@
   "name": "freenas-10-gui",
   "version": "10.0.0-BETA2",
   "dependencies": {
-    "blue-shark": "freenas/blue-shark#master",
+    "blue-shark": "freenas/blue-shark#scroller",
     "bytes": "^2.4.0",
     "change-case": "^3.0.0",
     "collections": "montagejs/collections#90210529c7b01ed373b65d4a60409f5edd36a93a",
@@ -26,7 +26,8 @@
     "systemjs-plugin-json": "^0.2.2",
     "uuid": "^3.0.1",
     "validators": "~0.3.1",
-    "xterm": "^1.0.0"
+    "xterm": "^1.0.0",
+    "smoothscroll-polyfill": "^0.3.4"
   },
   "redirects": {
     "redux": "redux/dist/redux.min.js",

@@ -96,11 +96,6 @@
     display: flex;
     flex-direction: column;
     min-height: 0;
-
-    & .Scrollview-transform {
-        flex: none;
-        display: block;
-    }
 }
 
 .Widget-footer {

@@ -2,9 +2,6 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    & .Scrollview-transform {
-        flex: none;
-    }
 }
 
 .CalendarList-days {

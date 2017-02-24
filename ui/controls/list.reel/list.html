@@ -49,16 +49,50 @@
             "bindings": {
                 "isLoading": {"<-": "@owner.isLoadingData"}
             }
+        },
+        "scrollview": {
+            "prototype": "blue-shark/ui/scroller.reel",
+            "properties": {
+                "element": {"#": "scrollview"},
+                "hasFooter": false
+            }
+        },
+        "substitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "stateSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "!!@owner.isInfiniteList && !!@owner.isLoadingData ? 'loading' : !!@owner.isInfiniteList ? 'load' : ''"}
+            }
+        },
+        "loadButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "loadButton"},
+                "value": "Load more data"
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
         }
     }
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="List">
-        <div data-montage-id="repetition">
-            <div data-montage-id="item" class="List-item"></div>
+    <div data-montage-id="owner" class="List flex-column">
+        <div data-montage-id="scrollview">
+            <div data-montage-id="repetition">
+                <div data-montage-id="item" class="List-item"></div>
+            </div>
+            <div data-montage-id="stateSubstitution" class="flex-row flex-justifyContent--center">
+                <div data-montage-id="loadButton" data-arg="load" class="Button--block g-margin--half"></div>
+                <div data-montage-id="loading" class="List-spinner" data-arg="loading"></div>
+            </div>
         </div>
-        <div data-montage-id="loading" class="List-spinner"></div>
     </div>
 </body>
 </html>

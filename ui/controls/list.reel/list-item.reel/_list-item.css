@@ -1,11 +1,9 @@
 .ListItem {
     display: flex;
     align-items: center;
-    height:         3em;
+    height:       3em;
     padding-left: 1em;
     position: relative;
-    font-family: 'lato', 'Helvetica Neue', 'Helvetica', sans-serif;
-    font-weight: 300;
     cursor: pointer;
     overflow: hidden;
     position: relative;

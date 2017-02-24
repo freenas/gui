@@ -1,4 +1,4 @@
-.FieldTreeview-path { position: relative; }
+.FieldTreeview-path { position: relative; flex: 1; }
 
 .FieldTreeview-path-input { flex: 1; }
 

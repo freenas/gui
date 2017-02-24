@@ -9,7 +9,7 @@
             "properties": {
                 "element": {"#": "owner"},
                 "repetition": {"@": "repetition"},
-                "scrollView": {"@": "horizontalScroll"}
+                "scrollView": {"@": "scrollview"}
             }
         },
         "repetition": {
@@ -31,11 +31,10 @@
                 "data": {"<-": "@repetition:iteration.object"}
             }
         },
-        "horizontalScroll": {
-            "prototype": "blue-shark/ui/scrollview.reel",
+        "scrollview": {
+            "prototype": "blue-shark/ui/scroller.reel",
             "properties": {
-                "element": {"#": "horizontalScroll"},
-                "overflow": "scrollX",
+                "element": {"#": "scrollview"},
                 "minHeight": true
             }
         }
@@ -44,7 +43,7 @@
 </head>
 <body>
     <div data-montage-id="owner" class="CascadingList">
-        <div data-montage-id="horizontalScroll">
+        <div data-montage-id="scrollview" class="CascadingList-scroller">
             <div data-montage-id="repetition" class="CascadingList-repetition">
                 <div data-montage-id="item"></div>
             </div>

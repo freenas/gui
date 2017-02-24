@@ -5,6 +5,7 @@
 
 .SectionRoot-entries {
     @apply --flex-column;
+    margin-top: -1rem !important;
 }
 
 .SectionRoot-overview {
@@ -12,7 +13,7 @@
     max-height: 15em;
     /* margin overrides for inspector spacing */
     margin: -1rem;
-    margin-bottom: 0;
+    margin-bottom: 1rem;
 
     @apply --flex-column;
 
@@ -31,8 +32,6 @@
         flex: 1;
         @apply --flex-column;
     }
-
-    & .Scrollview-transform { display: block; }
 
     & .Overview-content { padding: 1em 1em 0; }
 

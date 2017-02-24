@@ -3,7 +3,6 @@
     flex-direction: column;
     border-right: 1px solid var(--separator-color);
     background-color: var(--primary--6);
-    background-size: 310px 195px;
     width: 9rem;
 }
 

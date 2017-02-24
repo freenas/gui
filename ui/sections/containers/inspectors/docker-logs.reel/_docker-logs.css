@@ -1,10 +1,5 @@
 .DockerLogs {
 
-    & .Scrollview-transform {
-        flex: 1 !important;
-        display: flex !important;
-    }
-
     & .Inspector-body {
         flex: 1 !important;
         display: flex !important;

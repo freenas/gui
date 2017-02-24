@@ -1,7 +1,6 @@
 .FoldableSection {
     overflow: hidden;
     position: relative;
-    margin: 0 -1em;
     margin-bottom: 1em;
 
     &:focus {
@@ -32,7 +31,6 @@ title
     display: flex;
     align-items: baseline;
     color: inherit;
-    padding: 0 1em;
     transition: color .25s ease-in-out;
 
     &:focus:before {
@@ -83,13 +81,11 @@ title
     &:before { display: none;}
 }
 
-
 /* content */
 
 .FoldableSection-content {
     display: none;
     transition: height .3s ease-in-out;
-    padding: 0 1em;
 }
 
 /*

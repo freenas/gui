@@ -1,4 +1,5 @@
 .InterfaceOverview {
+    flex-shrink: 0;
     display: flex;
     margin-top: 0;
     padding-bottom: 1em;

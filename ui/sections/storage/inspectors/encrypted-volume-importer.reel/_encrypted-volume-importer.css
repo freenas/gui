@@ -9,11 +9,6 @@
     margin-right: 12.3em;
 }
 
-/* maxes out scrollbar */
-.EncryptedVolumeImporter > .Inspector .Scrollview .Scrollview-transform {
-    max-height: 100%;
-}
-
 .EncryptedVolumeImporter .Inspector-body {
     margin: 0;
     flex: 1;

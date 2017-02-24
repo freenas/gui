@@ -3,10 +3,6 @@
     background-color: var(--grey);
 }
 
-.CronJob .ScrollviewContent {
-    min-width: 0;
-}
-
 .CronJob-months {
     margin-top: -1em;
     & .MultipleSelectGrid-option {

@@ -1,20 +1,18 @@
 .CascadingList {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
     display: flex;
     flex: 1;
-    flex-direction: column;
-    overflow: hidden;
+    min-width: 0;
 }
 
 .CascadingList-repetition {
     display: flex;
-    flex-wrap: nowrap;
     flex: 1;
     min-height: 0;
+}
+
+.CascadingList-scroller {
+    flex: 1;
+    display: flex;
 }
 
 

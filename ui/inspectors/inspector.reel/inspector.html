@@ -6,7 +6,8 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "scrollView": {"#": "scrollView"}
             },
             "bindings": {
                 "object": {"<-": "@owner.context.object"},
@@ -27,13 +28,10 @@
             }
         },
         "scrollView": {
-            "prototype": "blue-shark/ui/scrollview.reel",
+            "prototype": "blue-shark/ui/scroller.reel",
             "properties": {
                 "element": {"#": "scrollView"},
                 "overflow": "scrollY"
-            },
-            "bindings": {
-                "delegate": {"<-": "@owner.scrollViewDelegate"}
             }
         },
         "loading": {
@@ -57,10 +55,10 @@
                 "element": {"#": "footer"}
             },
             "bindings": {
-                "isHidden": {"<-": "!!@owner.isFooterHidden"},
                 "canDelete": {"<-": "!!@owner.canDelete && @owner.object.id.defined()"},
                 "canRevert": {"<-": "!!@owner.canRevert"},
                 "canSave": {"<-": "!!@owner.canSave"},
+                "isHidden": {"<-": "!!@owner.isFooterHidden || (!canSave && !canRevert && !canDelete)"},
                 "isSaveDisabled": {"<-": "@owner.isSaveDisabled || @owner.validationController.hasMissingProperties"}
             },
             "listeners": [
@@ -118,14 +116,14 @@
         </div>
         <div data-montage-id="confirmationDeleteMessage" class="Inspector-confirmationMessage delete-confirmation"></div>
         <div data-montage-id="confirmationSaveMessage" class="Inspector-confirmationMessage save-confirmation"></div>
-        <div data-montage-id="scrollView">
+        <div class="Inspector-body">
             <div data-montage-id="loading" class="Inspector-loading"></div>
-            <div data-montage-id="body" class="Inspector-body">
+            <div data-montage-id="scrollView" class="Inspector-body-scrollview">
                 <div data-param="*"></div>
             </div>
-            <div data-montage-id="footer" class="Inspector-footer">
-                <div data-param="footer-additional-button" class="Inspector-optionalButtons"></div>
-            </div>
+        </div>
+        <div data-montage-id="footer" class="Inspector-footer">
+            <div data-param="footer-additional-button" class="Inspector-optionalButtons"></div>
         </div>
     </div>
 </body>
