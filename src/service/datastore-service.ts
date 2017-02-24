@@ -82,7 +82,8 @@ export class DatastoreService {
         let fragment = message.args.fragment || [],
             reachEnd = message.name === 'end',
             sequenceNumber = message.args.seqno,
-            type = stream.get('type');
+            type = stream.get('type'),
+            idPath = stream.get('idPath');
 
         if (reachEnd) {
             stream = stream.set('lastSequence', sequenceNumber)
@@ -113,8 +114,8 @@ export class DatastoreService {
 
         let dataStore = this.getState().get(type),
             previousLastSequence = stream.get('lastSequence'),
-            data = payload.map((value)=> {
-                return dataStore.get(value[idPath]).toJS();
+            data = payload.map(value => {
+                return dataStore.get((_.get(value, idPath) as string)).toJS();
             });
 
         if (sequenceNumber > previousLastSequence) {

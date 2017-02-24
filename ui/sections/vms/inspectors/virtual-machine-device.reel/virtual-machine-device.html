@@ -41,7 +41,7 @@
             "bindings": {
                 "context": {"<-": "@owner.context"},
                 "canSave": {"<-": "@owner.isNewObject"},
-                "canDelete": {"<-": "!@owner.isNewObject"}
+                "canDelete": {"<-": "!@owner.isNewObject && !@owner.object._isFromTemplate"}
             }
         },
         "name": {
@@ -51,7 +51,8 @@
                 "label": "Name"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.name"}
+                "value": {"<->": "@owner.object.name"},
+                "disabled": {"<-": "@owner.object._isFromTemplate"}
             }
         },
         "deviceTypePlaceholder": {
@@ -62,7 +63,8 @@
             "bindings": {
                 "moduleId": {"<-": "@owner.moduleRoot + 'virtual-machine-device-' + @owner.object.type.toLowerCase() + '.reel'"},
                 "object": {"<-": "@owner.object.properties"},
-                "component.isNew": {"<-": "@owner.object._isNew"}
+                "component.isNew": {"<-": "@owner.object._isNew"},
+                "component.isFromTemplate": {"<-": "@owner.object._isFromTemplate"}
             }
         }
     }

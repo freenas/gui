@@ -44,7 +44,8 @@
             "bindings": {
                 "selectedPath": {"<->": "@owner.object._target_path"},
                 "controller": {"<-": "@owner.treeController ?? null"},
-                "classList.has('hide')": {"<-": "@targetType.selectedValue == 'DISK'"}
+                "classList.has('hide')": {"<-": "@targetType.selectedValue == 'DISK'"},
+                "disabled": {"<-": "@owner.isFromTemplate"}
             }
         },
         "targetType": {
@@ -55,7 +56,8 @@
             },
             "bindings": {
                 "options": {"<-": "@owner.targetTypeOptions.sorted{}"},
-                "selectedValue": {"<->": "@owner.object.target_type"}
+                "selectedValue": {"<->": "@owner.object.target_type"},
+                "disabled": {"<-": "@owner.isFromTemplate"}
             }
         },
         "selectOptionConverter": {
@@ -71,7 +73,7 @@
             "bindings": {
                 "units": {"<-": "@owner.sizeUnits"},
                 "value": {"<->": "@owner.object.size"},
-                "isReadOnly": {"<-": "@targetType.selectedValue == 'DISK'"}
+                "isReadOnly": {"<-": "@targetType.selectedValue == 'DISK' || @owner.isFromTemplate"}
             }
         },
         "mode": {
@@ -84,7 +86,8 @@
             "bindings": {
                 "options": {"<-": "@owner.blockModeOptions"},
                 "selectedValue": {"<->": "@owner.object.mode"},
-                "classList.has('hide')": {"<-": "@targetType.selectedValue != 'BLOCK'"}
+                "classList.has('hide')": {"<-": "@targetType.selectedValue != 'BLOCK'"},
+                "disabled": {"<-": "@owner.isFromTemplate"}
             }
         },
         "disk": {
@@ -96,7 +99,8 @@
             "bindings": {
                 "options": {"<-": "@owner.diskOptions"},
                 "selectedValue": {"<->": "@owner.object._disk"},
-                "classList.has('hide')": {"<-": "@targetType.selectedValue != 'DISK'"}
+                "classList.has('hide')": {"<-": "@targetType.selectedValue != 'DISK'"},
+                "disabled": {"<-": "@owner.isFromTemplate"}
             }
         }
     }

@@ -36,7 +36,8 @@
             },
             "bindings": {
                 "options": {"<-": "@owner.graphicsResolutionOptions"},
-                "selectedValue": {"<->": "@owner.object.resolution"}
+                "selectedValue": {"<->": "@owner.object.resolution"},
+                "disabled": {"<-": "@owner.isFromTemplate"}
             }
         },
         "vncPort": {
@@ -47,7 +48,8 @@
                 "label": "VNC Port"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.vnc_port"}
+                "value": {"<->": "@owner.object.vnc_port"},
+                "disabled": {"<-": "@owner.isFromTemplate"}
             }
         },
         "vncEnabled": {
@@ -57,7 +59,8 @@
                 "label": "VNC Enabled"
             },
             "bindings": {
-                "checked": {"<->": "@owner.object.vnc_enabled"}
+                "checked": {"<->": "@owner.object.vnc_enabled"},
+                "disabled": {"<-": "@owner.isFromTemplate"}
             }
         }
     }
