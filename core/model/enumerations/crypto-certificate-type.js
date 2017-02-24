@@ -1,3 +1,0 @@
-var Enum = require("montage/core/enum").Enum;
-
-exports.CryptoCertificateType = new Enum().initWithMembersAndValues(["CA_EXISTING","CA_INTERMEDIATE","CA_INTERNAL","CERT_CSR","CERT_EXISTING","CERT_INTERMEDIATE","CERT_INTERNAL"], ["CA_EXISTING","CA_INTERMEDIATE","CA_INTERNAL","CERT_CSR","CERT_EXISTING","CERT_INTERMEDIATE","CERT_INTERNAL"]);

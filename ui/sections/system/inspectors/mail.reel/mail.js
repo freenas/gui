@@ -1,5 +1,5 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    MailEncryptionType = require("core/model/enumerations/mail-encryption-type").MailEncryptionType,
+    MailEncryptionType = require("core/model/enumerations/MailEncryptionType").MailEncryptionType,
     _ = require("lodash");
 
 exports.Mail = AbstractInspector.specialize(/** @lends Mail# */ {
@@ -16,7 +16,7 @@ exports.Mail = AbstractInspector.specialize(/** @lends Mail# */ {
             if(isFirstTime) {
                 this.isLoading = true;
                 this.encryptionOptions = [];
-                this.encryptionOptions = MailEncryptionType.members.map(function(x) {
+                this.encryptionOptions = this.cleanupEnumeration(MailEncryptionType).map(function(x) {
                     return {
                         label: x,
                         value: x

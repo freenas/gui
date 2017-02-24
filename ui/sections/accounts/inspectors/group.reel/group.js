@@ -1,10 +1,5 @@
-var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Model = require("core/model/model").Model;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
-/**
- * @class Group
- * @extends Component
- */
 exports.Group = AbstractInspector.specialize({
     _object: {
         value: null
@@ -58,9 +53,7 @@ exports.Group = AbstractInspector.specialize({
     _getNextAvailableGroupID: {
         value: function() {
             var self = this;
-            return Model.populateObjectPrototypeForType(Model.Group).then(function (Group) {
-                return Group.constructor.services.nextGid();
-            }).then(function(groupId) {
+            return this._sectionService.getNextGid().then(function(groupId) {
                 self.nextGroupId = self.object.gid = groupId;
             });
         }

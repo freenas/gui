@@ -1,5 +1,5 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    DiskAcousticlevel = require("core/model/enumerations/disk-acousticlevel").DiskAcousticlevel;
+    DiskAcousticlevel = require("core/model/enumerations/DiskAcousticlevel").DiskAcousticlevel;
 
 exports.Disk = AbstractInspector.specialize({
     enterDocument: {
@@ -13,7 +13,7 @@ exports.Disk = AbstractInspector.specialize({
 
     templateDidLoad: {
         value: function() {
-            this.acousticLevelOptions = DiskAcousticlevel.members.map(function(x) {
+            this.acousticLevelOptions = this.cleanupEnumeration(DiskAcousticlevel).map(function(x) {
                 return {
                     label: x,
                     value: x

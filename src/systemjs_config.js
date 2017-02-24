@@ -18,7 +18,8 @@ SystemJS.config({
         bluebird:       './node_modules/montage/node_modules/bluebird/js/browser/bluebird.min.js',
         core:           './core',
         dao:            './core/dao',
-        data:           './data'
+        data:           './data',
+        "ui-descriptors": './ui-descriptors'
     },
     meta: {
         '*.mjson': {

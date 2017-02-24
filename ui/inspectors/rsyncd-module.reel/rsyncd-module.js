@@ -1,6 +1,5 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    RsyncdModuleMode = require("core/model/enumerations/rsyncd-module-mode").RsyncdModuleMode,
-    Model = require("core/model/model").Model,
+    RsyncdModuleMode = require("core/model/enumerations/RsyncdModuleMode").RsyncdModuleMode,
     Promise = require("montage/core/promise").Promise;
 
 
@@ -9,7 +8,7 @@ exports.RsyncdModule = AbstractInspector.specialize({
     _loadUsersIfNeeded: {
         value: function() {
             var self = this;
-            return this.application.dataService.fetchData(Model.User).then(function (users) {
+            return this._sectionService.listUsers().then(function (users) {
                 return self.users = users;
             });
         }
@@ -18,7 +17,7 @@ exports.RsyncdModule = AbstractInspector.specialize({
     _loadGroupsIfNeeded: {
         value: function() {
             var self = this;
-            return this.application.dataService.fetchData(Model.Group).then(function(groups) {
+            return this._sectionService.listGroups().then(function(groups) {
                 return self.groups = groups;
             });
         }
@@ -37,7 +36,7 @@ exports.RsyncdModule = AbstractInspector.specialize({
             });
 
 
-            this.rsyncdModeOptions = RsyncdModuleMode.members.map(function(x) {
+            this.rsyncdModeOptions = this.cleanupEnumeration(RsyncdModuleMode).map(function(x) {
                return {
                     value: x,
                     label: x

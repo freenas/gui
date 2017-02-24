@@ -1,6 +1,7 @@
 var AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate,
     EventDispatcherService = require('core/service/event-dispatcher-service').EventDispatcherService,
     DatastoreService = require("core/service/datastore-service").DatastoreService,
+    EnumerationsService = require('core/service/EnumerationsService').EnumerationsService,
     _ = require("lodash");
 
 exports.AbstractInspector = AbstractComponentActionDelegate.specialize({
@@ -130,6 +131,12 @@ exports.AbstractInspector = AbstractComponentActionDelegate.specialize({
                 result = !_.isEqual(object,reference);
             }
             return result;
+        }
+    },
+
+    cleanupEnumeration: {
+        value: function(enumeration) {
+            return EnumerationsService.cleanupMontageMetadata(enumeration);
         }
     },
 

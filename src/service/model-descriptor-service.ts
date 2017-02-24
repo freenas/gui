@@ -1,4 +1,5 @@
 // DTM
+import {AbstractDataObject} from '../model/AbstractDataObject';
 declare let require: any;
 import { MiddlewareClient } from './middleware-client';
 import { AbstractDao } from '../dao/abstract-dao';
@@ -12,14 +13,14 @@ export class ModelDescriptorService {
     private taskSchemaCache: Map<string, Map<string, any>>;
     private taskSchemaPromise: Promise<Map<string, Map<string, any>>>;
 
-    private readonly UI_DESCRIPTOR_PREFIX = 'core/model/user-interface-descriptors/';
+    private readonly UI_DESCRIPTOR_PREFIX = 'ui-descriptors/';
     private readonly UI_DESCRIPTOR_SUFFIX = '-user-interface-descriptor.mjson';
     private readonly DAO_PREFIX = 'core/dao/';
     private readonly DAO_SUFFIX = '-dao';
 
     public constructor(private middlewareClient: MiddlewareClient) {
         this.uiCache = new Map<string, Object>();
-        this.daoCache = new Map<string, Promise<AbstractDao>>();
+        this.daoCache = new Map<string, Promise<AbstractDao<AbstractDataObject>>>();
     }
 
     public static getInstance(): ModelDescriptorService {

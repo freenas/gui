@@ -1,7 +1,7 @@
 var Montage = require("montage").Montage,
-    FreeNASService = require("core/service/freenas-service").FreeNASService,
-    Promise = require("montage/core/promise").Promise,
-    Model = require("core/model/model").Model;
+    ModelDescriptorService = require('core/service/model-descriptor-service').ModelDescriptorService,
+    PeerRepository = require('core/repository/peer-repository').PeerRepository,
+    Model = require("core/model").Model;
 
 var PeeringService = exports.PeeringService = Montage.specialize({
 
@@ -36,6 +36,8 @@ var PeeringService = exports.PeeringService = Montage.specialize({
 
     constructor: {
         value: function () {
+            this.modelDescriptorService = ModelDescriptorService.getInstance();
+            this.peerRepository = PeerRepository.getInstance();
             this.TYPE_TO_LABEL[ "freenas" ] = "Create Freenas Peering";
             this.TYPE_TO_LABEL[ "amazon-s3" ] = "Create amazon-s3 Peering";
             this.TYPE_TO_LABEL[ "ssh" ] = "Create ssh Peering";
@@ -57,12 +59,6 @@ var PeeringService = exports.PeeringService = Montage.specialize({
 
     _peersPromise: {
         value: null
-    },
-
-    constructor: {
-        value: function() {
-            this._dataService = FreeNASService.instance;
-        }
     },
 
     createSshPeer: {
@@ -95,14 +91,6 @@ var PeeringService = exports.PeeringService = Montage.specialize({
         }
     },
 
-    getSupportedTypes: {
-        value: function() {
-            return Model.populateObjectPrototypeForType(Model.Peer).then(function (Peer) {
-                return Peer.constructor.services.peerTypes();
-            })
-        }
-    },
-
     list: {
         value: function() {
             if (this._peers) {
@@ -111,7 +99,7 @@ var PeeringService = exports.PeeringService = Montage.specialize({
                 return this._peersPromise;
             } else {
                 var self = this;
-                return this._peersPromise = this._dataService.fetchData(Model.Peer).then(function(peers) {
+                return this._peersPromise = this.peerRepository.listPeers().then(function(peers) {
                     return self._peers = peers;
                 });
             }
@@ -121,7 +109,7 @@ var PeeringService = exports.PeeringService = Montage.specialize({
 
     listPeers: {
         value: function() {
-            return this._dataService.fetchData(Model.Peer).then(function (peers) {
+            return this.peerRepository.listPeers().then(function (peers) {
                 return peers;
             });
         }
@@ -129,27 +117,7 @@ var PeeringService = exports.PeeringService = Montage.specialize({
 
     _createNewPeer: {
         value: function (peerType) {
-            var self = this;
-            return this._dataService.getNewInstanceForType(Model.Peer).then(function (peering) {
-                peering._isNewObject = true;
-                peering.type = peerType;
-                peering._action = peerType;
-                peering._label = self.TYPE_TO_LABEL[peerType];
-                return self._getNewCredentialsForType(peerType).then(function (credentials) {
-                    peering.credentials = credentials;
-                    return peering;
-                });
-            })
-        }
-    },
-
-    _getNewCredentialsForType: {
-        value: function(type) {
-            var credentialsType = this._CREDENTIALS_PER_TYPE[type];
-            return this._dataService.getNewInstanceForType(credentialsType.model).then(function(credentials) {
-                credentials['%type'] = credentialsType.type;
-                return credentials;
-            });
+            return this.peerRepository.getNewPeerWithType(peerType);
         }
     }
 

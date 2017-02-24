@@ -1,5 +1,4 @@
-var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+var Component = require("montage/ui/component").Component;
 
 /**
  * @class TftpdService
@@ -15,7 +14,7 @@ exports.TftpdService = Component.specialize({
         value: function () {
             var self = this;
 
-            this.application.dataService.fetchData(Model.User).then(function(users) {
+            this.sectionService.listUsers().then(function(users) {
                 self.users = users;
             });
         }

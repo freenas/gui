@@ -1,3 +1,0 @@
-var Enum = require("montage/core/enum").Enum;
-
-exports.NetworkInterfaceNd6FlagItems = new Enum().initWithMembersAndValues(["ACCEPT_RTADV","AUTO_LINKLOCAL","DONT_SET_IFROUTE","IFDISABLED","NO_PREFER_IFACE","NO_RADR","PERFORMNUD","PREFER_SOURCE"], ["ACCEPT_RTADV","AUTO_LINKLOCAL","DONT_SET_IFROUTE","IFDISABLED","NO_PREFER_IFACE","NO_RADR","PERFORMNUD","PREFER_SOURCE"]);

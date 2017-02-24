@@ -1,12 +1,9 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
-    Model = require("core/model/model").Model,
     RoutingService = require("core/service/routing-service").RoutingService,
     CascadingList = require("ui/controls/cascading-list.reel").CascadingList;
 
 exports.VolumeCreator = AbstractInspector.specialize({
-
-
     _object: {
         value: null
     },
@@ -91,12 +88,8 @@ exports.VolumeCreator = AbstractInspector.specialize({
             object = object || this._object;
             var self = this;
             this._sectionService.clearReservedDisks();
-            return this.application.dataService.getNewInstanceForType(Model.ZfsTopology).then(function(topology) {
+            return this._sectionService.getNewTopology().then(function(topology) {
                 object.topology = topology;
-                object.topology.cache = [];
-                object.topology.data = [];
-                object.topology.log = [];
-                object.topology.spare = [];
 
                 if (self.disks) {
                     self.disks.map(function(x) {

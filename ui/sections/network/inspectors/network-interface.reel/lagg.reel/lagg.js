@@ -1,5 +1,5 @@
 var Component = require("montage/ui/component").Component,
-    NetworkAggregationProtocols = require("core/model/enumerations/network-aggregation-protocols").NetworkAggregationProtocols;
+    NetworkAggregationProtocols = require("core/model/enumerations/NetworkAggregationProtocols").NetworkAggregationProtocols;
 
 /**
  * @class Lagg

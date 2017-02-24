@@ -10,6 +10,17 @@ import {ModelEventName} from '../model-event-name';
 import {Model} from '../model';
 import {DatastoreService} from '../service/datastore-service';
 import * as _ from 'lodash';
+import {FreeipaDirectoryParamsDao} from '../dao/FreeipaDirectoryParamsDao';
+import {User} from '../model/User';
+import {SubmittedTask} from '../model/SubmittedTask';
+import {Group} from '../model/Group';
+import {DirectoryServices} from '../model/DirectoryServices';
+import {AbstractDao} from '../dao/abstract-dao';
+import {AbstractDataObject} from '../model/AbstractDataObject';
+import {LdapDirectoryParams} from '../model/LdapDirectoryParams';
+import {LdapDirectoryParamsDao} from '../dao/LdapDirectoryParamsDao';
+import {NisDirectoryParamsDao} from '../dao/NisDirectoryParamsDao';
+import {WinbindDirectoryParamsDao} from '../dao/WinbindDirectoryParamsDao';
 
 export class AccountRepository extends AbstractRepository {
     private static instance: AccountRepository;
@@ -18,8 +29,9 @@ export class AccountRepository extends AbstractRepository {
     private groups: Map<string, Map<string, any>>;
     private directories: Map<string, Map<string, any>>;
     private groupsStreamId: string;
-    private usersStreamId: string;
+    private parametersDao: Map<string, AbstractDao<AbstractDataObject>>;
 
+    private usersStreamId: string;
     public static readonly DIRECTORY_TYPES_LABELS = {
         winbind: 'Active Directory',
         freeipa: 'FreeIPA',
@@ -30,15 +42,26 @@ export class AccountRepository extends AbstractRepository {
     private constructor(private userDao: UserDao,
                         private groupDao: GroupDao,
                         private datastoreService: DatastoreService,
-                        private directoryServiceDao: DirectoryServicesDao,
+                        private directoryServicesDao: DirectoryServicesDao,
                         private directoryserviceConfigDao: DirectoryserviceConfigDao,
                         private directoryDao: DirectoryDao,
-                        private accountSystemDao: AccountSystemDao) {
+                        private accountSystemDao: AccountSystemDao,
+                        freeipaDirectoryParamsDao: FreeipaDirectoryParamsDao,
+                        ldapDirectoryParamsDao: LdapDirectoryParamsDao,
+                        nisDirectoryParamsDao: NisDirectoryParamsDao,
+                        winbindDirectoryParamsDao: WinbindDirectoryParamsDao
+    ) {
         super([
             Model.User,
             Model.Group,
             Model.Directory
         ]);
+        this.parametersDao = Map<string, AbstractDao<AbstractDataObject>>().asMutable()
+            .set('freeipa', freeipaDirectoryParamsDao)
+            .set('ldap',    ldapDirectoryParamsDao)
+            .set('nis',     nisDirectoryParamsDao)
+            .set('winbind', winbindDirectoryParamsDao)
+            .asImmutable();
     }
 
     public static getInstance() {
@@ -50,7 +73,11 @@ export class AccountRepository extends AbstractRepository {
                 new DirectoryServicesDao(),
                 new DirectoryserviceConfigDao(),
                 new DirectoryDao(),
-                new AccountSystemDao()
+                new AccountSystemDao(),
+                new FreeipaDirectoryParamsDao(),
+                new LdapDirectoryParamsDao(),
+                new NisDirectoryParamsDao(),
+                new WinbindDirectoryParamsDao()
             );
         }
         return AccountRepository.instance;
@@ -103,7 +130,7 @@ export class AccountRepository extends AbstractRepository {
     }
 
     public getDirectoryServicesEmptyList() {
-        return this.directoryServiceDao.getEmptyList();
+        return this.directoryServicesDao.getEmptyList();
     }
 
     public getAccountSystemEmptyList() {
@@ -115,25 +142,25 @@ export class AccountRepository extends AbstractRepository {
         return this.groupDao.getNextSequenceForStream(streamId);
     }
 
-    public findUserWithName(name: string): Promise<Object> {
+    public findUserWithName(name: string): Promise<User> {
         return this.userDao.findSingleEntry({username: name});
     }
 
-    public saveUser(user: Object): Promise<Object> {
+    public saveUser(user: User): Promise<SubmittedTask> {
         return this.userDao.save(user);
     }
 
-    public listGroups(): Promise<Array<Object>> {
+    public listGroups(): Promise<Array<Group>> {
         return this.groups ? Promise.resolve(this.groups.toSet().toJS()) : this.groupDao.list();
     }
 
-    //TODO: ask only ids? (improvements)
-    public streamGroups(): Promise<Array<Object>> {
+    // TODO: ask only ids? (improvements)
+    public streamGroups(): Promise<Array<Group>> {
         let promise;
 
         if (this.groupsStreamId) {
             promise = Promise.resolve(
-                this.datastoreService.getState().get("streams").get(this.groupsStreamId)
+                this.datastoreService.getState().get('streams').get(this.groupsStreamId)
             );
         } else {
             promise = this.groupDao.stream(true);
@@ -162,12 +189,16 @@ export class AccountRepository extends AbstractRepository {
         return this.userDao.getNewInstance();
     }
 
+    public getNextGid() {
+        return this.groupDao.getNextGid();
+    }
+
     public getNewGroup() {
         return this.groupDao.getNewInstance();
     }
 
-    public getNewDirectoryServices(): Promise<Object> {
-        return this.directoryServiceDao.getNewInstance();
+    public getNewDirectoryServices(): Promise<DirectoryServices> {
+        return this.directoryServicesDao.getNewInstance();
     }
 
     public getDirectoryServiceConfig(): Promise<Object> {
@@ -185,10 +216,13 @@ export class AccountRepository extends AbstractRepository {
     }
 
     public getNewDirectoryForType(type: string) {
-        return this.directoryDao.getNewInstance().then(function (directory) {
+        return Promise.all([
+            this.directoryDao.getNewInstance(),
+            this.parametersDao.get(type).getNewInstance()
+        ]).spread((directory, parameters) => {
             directory.type = type;
             directory._tmpId = type;
-            directory.parameters = {'%type': type + '-directory-params'};
+            directory.parameters = parameters;
             directory.label = AccountRepository.DIRECTORY_TYPES_LABELS[type];
 
             return directory;

@@ -5,13 +5,15 @@ export function deleteOverlay(previousState, action): Map<string, any> {
         id = action.meta.id,
         taskId = action.meta.taskId,
         overlay = previousState.get('overlay');
-    overlay = overlay.set(
-        type,
-        overlay.get(type).set(
-            id,
-            overlay.get(type).get(id).delete(taskId)
-        )
-    );
+    if (overlay.has(type) && overlay.get(type).has(id)) {
+        overlay = overlay.set(
+            type,
+            overlay.get(type).set(
+                id,
+                overlay.get(type).get(id).delete(taskId)
+            )
+        );
+    }
 
     return previousState.set('overlay', overlay);
 }

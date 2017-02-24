@@ -1,6 +1,6 @@
 var AbstractShareInspector = require("../abstract-share-inspector").AbstractShareInspector,
-    ShareIscsiRpm = require("core/model/enumerations/share-iscsi-rpm").ShareIscsiRpm,
-    ShareIscsiBlocksize = require("core/model/enumerations/share-iscsi-blocksize").ShareIscsiBlocksize,
+    ShareIscsiRpm = require("core/model/enumerations/ShareIscsiRpm").ShareIscsiRpm,
+    ShareIscsiBlocksize = require("core/model/enumerations/ShareIscsiBlocksize").ShareIscsiBlocksize,
     Units = require('core/Units'),
     _ = require("lodash");
 

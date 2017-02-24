@@ -359,6 +359,14 @@ export class StorageSectionService extends AbstractSectionService {
         return this.accountRepository.searchGroup(value);
     }
 
+    public listUsers() {
+        return this.accountRepository.listUsers();
+    }
+
+    public listGroups() {
+        return this.accountRepository.listUsers();
+    }
+
     private cloneVdevs(vdevs: Array<any>): Array<any> {
         return _.map(vdevs, (vdev) => {
             let clone = _.cloneDeep(vdev);

@@ -1,6 +1,5 @@
 var Component = require("montage/ui/component").Component,
-    EventDispatcherService = require('core/service/event-dispatcher-service').EventDispatcherService,
-    Model = require("core/model/model").Model;
+    EventDispatcherService = require('core/service/event-dispatcher-service').EventDispatcherService;
 
 exports.VolumeOverviewItem = Component.specialize(/** @lends VolumeOverviewItem# */ {
     isExpanded: {

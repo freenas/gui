@@ -1,6 +1,5 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Model = require("core/model/model").Model,
-    TunableType = require("core/model/enumerations/tunable-type").TunableType;
+    TunableType = require("core/model/enumerations/TunableType").TunableType;
 
 exports.Tunable = AbstractInspector.specialize({
     typeOptions: {
@@ -12,7 +11,7 @@ exports.Tunable = AbstractInspector.specialize({
             this.typeOptions = TunableType.members;
         }
     },
- 
+
     enterDocument: {
         value: function(isFirstTime) {
             this.super();

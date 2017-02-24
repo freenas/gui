@@ -1,3 +1,0 @@
-var Enum = require("montage/core/enum").Enum;
-
-exports.ServiceDyndnsProvider = new Enum().initWithMembersAndValues(["default@dhis.org","default@dnsomatic.com","default@dynsip.org","default@easydns.com","default@freedns.afraid.org","default@majimoto.net","default@no-ip.com","default@sitelutions.com","default@tzo.com","default@zerigo.com","default@zoneedit.com","dyndns@3322.org","dyndns@dyndns.org","ipv6tb@he.net"], ["default@dhis.org","default@dnsomatic.com","default@dynsip.org","default@easydns.com","default@freedns.afraid.org","default@majimoto.net","default@no-ip.com","default@sitelutions.com","default@tzo.com","default@zerigo.com","default@zoneedit.com","dyndns@3322.org","dyndns@dyndns.org","ipv6tb@he.net"]);

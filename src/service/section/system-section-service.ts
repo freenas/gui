@@ -41,10 +41,9 @@ export class SystemSectionService extends AbstractSectionService {
     private initialDiskAllocationPromise: Promise<any>;
     private alertEmitterPushBulletRepository: AlertEmitterPushBulletRepository;
     private alertEmitterRepository: AlertEmitterRepository;
-
     public readonly SELF_SIGNED = CryptoCertificateRepository.SELF_SIGNED;
-    public readonly CREATION = CryptoCertificateRepository.CREATION;
 
+    public readonly CREATION = CryptoCertificateRepository.CREATION;
     protected init() {
         this.systemRepository = SystemRepository.getInstance();
         this.ntpServerRepository = NtpServerRepository.getInstance();
@@ -62,12 +61,6 @@ export class SystemSectionService extends AbstractSectionService {
         this.alertFilterRepository = AlertFilterRepository.getInstance();
         this.alertEmitterPushBulletRepository = AlertEmitterPushBulletRepository.getInstance();
         this.alertEmitterRepository = AlertEmitterRepository.getInstance();
-
-
-        this.eventDispatcherService.addEventListener(
-            ModelEventName.Disk.listChange,
-            this.handleDisksChange.bind(this)
-        );
     }
 
     protected loadEntries() {
@@ -187,16 +180,16 @@ export class SystemSectionService extends AbstractSectionService {
         return this.alertEmitterRepository.save(alertEmitter);
     }
 
+    public sendEmail(mailMessage, mailObject) {
+        return this.alertEmitterRepository.sendEmail(mailMessage, mailObject);
+    }
+
     public getAlertEmitterPushBullet() {
         return this.alertEmitterRepository.list().then(alertEmitters => _.find(alertEmitters, {config: {'%type': 'AlertEmitterPushbullet'}}));
     }
 
     public getAlertEmitterPushBulletConfig () {
         return this.alertEmitterPushBulletRepository.getConfig();
-    }
-
-    public saveAlertEmitterPushBulletConfig (pushBulletConfig: any): SubmittedTask {
-        return this.alertEmitterPushBulletRepository.saveConfig(pushBulletConfig);
     }
 
     public saveCertificate(certificate: any) {
@@ -250,9 +243,13 @@ export class SystemSectionService extends AbstractSectionService {
     public listAlertFilters() {
         return this.alertFilterRepository.listAlertFilters();
     }
+
     public saveAlertFilters(alertFilters: Array<AlertFilter>) {
         return _.map(alertFilters, alertFilter => this.alertFilterRepository.save(alertFilter));
     }
+
+    public getNextSequenceForStream(streamId: string) {}
+
     protected loadExtraEntries() {
         return undefined;
     }
@@ -263,9 +260,6 @@ export class SystemSectionService extends AbstractSectionService {
 
     protected loadOverview() {
         return undefined;
-    }
-
-    private handleDisksChange(disks: Map<string, Map<string, any>>) {
     }
 
     private setKeepBootEnvironment(bootEnvironment: BootEnvironment, keep: boolean): Promise<SubmittedTask> {

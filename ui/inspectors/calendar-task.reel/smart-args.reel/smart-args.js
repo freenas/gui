@@ -9,7 +9,7 @@ exports.SmartArgs = AbstractInspector.specialize({
             this._sectionService.listDisks().then(function(disks) {
                 self.disks = _.sortBy(_.filter(disks, { online: true }), 'path');
             });
-            this.testTypes = DiskSelftestType.members.map(function(x) {
+            this.testTypes = this.cleanupEnumeration(DiskSelftestType).map(function(x) {
                 return {
                     label: x.toLowerCase().toCapitalized(),
                     value: x

@@ -1,18 +1,11 @@
 var AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate,
     Notification = require("ui/dashboard/notifications.reel/notification.reel").Notification,
-    RoutingService = require("core/service/routing-service").RoutingService,
-    notificationCenter = require("core/backend/notification-center").defaultNotificationCenter;
+    RoutingService = require("core/service/routing-service").RoutingService;
 
 exports.Notifications = AbstractComponentActionDelegate.specialize({
     templateDidLoad: {
         value: function() {
             this._routingService = RoutingService.getInstance();
-        }
-    },
-
-    notificationCenter: {
-        get: function () {
-            return this.constructor.notificationCenter;
         }
     },
 
@@ -46,12 +39,6 @@ exports.Notifications = AbstractComponentActionDelegate.specialize({
                 }
             }
         }
-    }
-
-}, {
-
-    notificationCenter: {
-        value: notificationCenter
     }
 
 });

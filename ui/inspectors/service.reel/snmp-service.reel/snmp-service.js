@@ -1,6 +1,6 @@
 var Component = require("montage/ui/component").Component,
-    ServiceSnmpV3authtype = require("core/model/enumerations/service-snmp-v3authtype").ServiceSnmpV3authtype,
-    ServiceSnmpV3privacyprotocol = require("core/model/enumerations/service-snmp-v3privacyprotocol").ServiceSnmpV3privacyprotocol;
+    ServiceSnmpV3authtype = require("core/model/enumerations/ServiceSnmpV3authtype").ServiceSnmpV3authtype,
+    ServiceSnmpV3privacyprotocol = require("core/model/enumerations/ServiceSnmpV3privacyprotocol").ServiceSnmpV3privacyprotocol;
 
 /**
  * @class SnmpService

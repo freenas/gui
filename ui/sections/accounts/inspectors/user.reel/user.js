@@ -1,5 +1,4 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Model = require("core/model/model").Model,
     _ = require("lodash"),
     Promise = require("montage/core/promise").Promise,
     Converter = require("montage/core/converter/converter").Converter,
@@ -102,8 +101,8 @@ exports.User = AbstractInspector.specialize({
                 delete this.object.home;
             }
 
-            let wheel = _.find(this.groupOptions, function(x) { return x.name === "wheel"; });
-            let hasWheel = _.includes(this.object.groups, wheel.id);
+            var wheel = _.find(this.groupOptions, function(x) { return x.name === "wheel"; });
+            var hasWheel = _.includes(this.object.groups, wheel.id);
             if (this.object.sudo && !hasWheel) {
                 this.object.groups.push(wheel.id);
             } else if (!this.object.sudo && hasWheel) {
@@ -113,7 +112,7 @@ exports.User = AbstractInspector.specialize({
                     }
                 }
             }
-            
+
             return this._sectionService.saveUser(this.object).then(function(taskSubmission) {
                     return taskSubmission.taskPromise;
                 }).then(function() {

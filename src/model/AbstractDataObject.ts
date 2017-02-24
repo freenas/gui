@@ -3,13 +3,14 @@ export abstract class AbstractDataObject {
     public _isNew: boolean;
     public _objectType: string;
     public _tmpId: string;
+    public '%type': string;
 
     private static className: string;
     private static eventNames: ModelEventName;
 
     public static getClassName() {
         if (!this.className) {
-            this.className = this.toString().split(/\(|s+/)[0].split(/ |s+/)[1];
+            this.className = this.toString().split(/\(|\s+/)[1].split(/ |\s+/)[0];
         }
         return this.className;
     }
@@ -22,7 +23,7 @@ export abstract class AbstractDataObject {
     }
 
     public constructor() {
-        this._objectType = this.constructor.toString().split(/\(|s+/)[0].split(/ |s+/)[1];
+        this['%type'] = this._objectType = this.constructor.toString().split(/\(|\s+/)[1].split(/ |\s+/)[0];
     }
 
 }

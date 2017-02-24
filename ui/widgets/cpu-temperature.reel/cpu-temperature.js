@@ -1,14 +1,12 @@
-/**
- * @module ui/cpu-temperature.reel
- */
 var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+    SystemService = require('core/service/system-service').SystemService;
 
-/**
- * @class CpuTemperature
- * @extends Component
- */
 exports.CpuTemperature = Component.specialize(/** @lends CpuTemperature# */ {
+    templateDidLoad: {
+        value: function() {
+            this.systemService = SystemService.getInstance();
+        }
+    },
 
     _cpus: {
         value: null
@@ -19,7 +17,7 @@ exports.CpuTemperature = Component.specialize(/** @lends CpuTemperature# */ {
             var self = this;
 
             if (isFirstTime) {
-                return this.application.systemInfoService.getHardware().then(function(hardware) {
+                return this.systemService.getHardware().then(function(hardware) {
                     var cpus = [];
                     for (var i = 0; i < hardware.cpu_cores; i++) {
                         cpus.push('cputemp-' + i);

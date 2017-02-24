@@ -1,5 +1,5 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    VmwareDatasetFilterOp = require("core/model/enumerations/vmware-dataset-filter-op").VmwareDatasetFilterOp;
+    VmwareDatasetFilterOp = require("core/model/enumerations/VmwareDatasetFilterOp").VmwareDatasetFilterOp;
 
 exports.VmwareSnapshot = AbstractInspector.specialize({
     _inspectorTemplateDidLoad: {
@@ -10,7 +10,7 @@ exports.VmwareSnapshot = AbstractInspector.specialize({
                 self.peerOptions = peers;
                 self._handlePeerChange();
             });
-            this.filterOptions = VmwareDatasetFilterOp.members.map(function(x) {
+            this.filterOptions = this.cleanupEnumeration(VmwareDatasetFilterOp).map(function(x) {
                 return {
                     value: x,
                     label: x
