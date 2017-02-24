@@ -4,6 +4,7 @@ var Montage = require("montage").Montage,
     FreeNASService = require("core/service/freenas-service").FreeNASService,
     BytesService = require("core/service/bytes-service").BytesService,
     ShareRepository = require("core/repository/share-repository").ShareRepository,
+    ShareIscsiTargetRepository = require("core/repository/ShareIscsiTargetRepository").ShareIscsiTargetRepository,
     VolumeRepository = require("core/repository/volume-repository").VolumeRepository,
     Promise = require("montage/core/promise").Promise,
     Model = require("core/model/model").Model,
@@ -130,7 +131,7 @@ var ShareService = exports.ShareService = Montage.specialize({
             } else if (shareObject.type === this.constructor.SHARE_TYPES.AFP) {
                 saveSharePromise = this._saveAfpShareObject(shareObject, isServiceEnabled);
             } else {
-                saveSharePromise = this.shareRepository.saveShare(shareObject, isServiceEnabled);
+                saveSharePromise = this.shareRepository.saveShare(shareObject);
             }
             return saveSharePromise;
         }
@@ -144,7 +145,7 @@ var ShareService = exports.ShareService = Montage.specialize({
             properties.mapall_user = properties.mapall_user != ' - ' ? properties.mapall_user : null;
             properties.mapall_group = properties.mapall_group != ' - ' ? properties.mapall_group : null;
 
-            return this.shareRepository.saveShare(shareObject, isServiceEnabled);
+            return this.shareRepository.saveShare(shareObject);
         }
     },
 
@@ -158,7 +159,7 @@ var ShareService = exports.ShareService = Montage.specialize({
                 shareObject.properties.default_umask = this._isPermissionsDefined(shareObject.properties.default_umask) ?
                     shareObject.properties.default_umask : null;
             }
-            return this.shareRepository.saveShare(shareObject, isServiceEnabled);
+            return this.shareRepository.saveShare(shareObject);
         }
     },
 
@@ -176,7 +177,7 @@ var ShareService = exports.ShareService = Montage.specialize({
     },
 
     _saveIscsiShareObject: {
-        value: function (shareObject, isServiceEnabled) {
+        value: function (shareObject) {
             var self = this,
                 isNewShareObject = shareObject._isNew,
                 blockSize = shareObject.properties.block_size,
@@ -201,7 +202,7 @@ var ShareService = exports.ShareService = Montage.specialize({
             }
             delete shareObject.properties.refreservation;
 
-            return this.shareRepository.saveShare(shareObject, datasetProperties, isServiceEnabled)
+            return this.shareRepository.saveShare(shareObject, datasetProperties)
                 .then(function() {
                     if (isNewShareObject) {
                         return self._dataService.getNewInstanceForType(Model.ShareIscsiTarget).then(function(target) {
@@ -218,7 +219,7 @@ var ShareService = exports.ShareService = Montage.specialize({
                                 target.extents = [extentObject];
                             }
 
-                            return self._dataService.saveDataObject(target);
+                            return self.shareIscsiTargetRepository.save(target);
                         });
                     }
                 });
@@ -289,10 +290,10 @@ var ShareService = exports.ShareService = Montage.specialize({
                     read: true,
                     write: false,
                     execute: true
-                },
+                }
             }
         }
-    };
+    },
 
     instance: {
         get: function() {
@@ -301,6 +302,7 @@ var ShareService = exports.ShareService = Montage.specialize({
                 this._instance._dataService = FreeNASService.instance;
                 this._instance._bytesService = BytesService.instance;
                 this._instance.shareRepository = ShareRepository.getInstance();
+                this._instance.shareIscsiTargetRepository = ShareIscsiTargetRepository.getInstance();
                 this._instance.volumeRepository = VolumeRepository.getInstance();
             }
 

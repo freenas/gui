@@ -76,6 +76,44 @@ exports.VolumeDatasetSettings = AbstractInspector.specialize({
         }
     },
 
+    _quota: {
+        value: null
+    },
+
+    quota: {
+        get: function() {
+            return this._quota;
+        },
+        set: function(quota) {
+            if (this._quota !== quota) {
+                this._quota = quota;
+
+                if (this._canUpdateObjectProperty('quota')) {
+                    this.object.properties.quota.parsed = quota || null;
+                }
+            }
+        }
+    },
+
+    _refquota: {
+        value: null
+    },
+
+    refquota: {
+        get: function() {
+            return this._refquota;
+        },
+        set: function(refquota) {
+            if (this._refquota !== refquota) {
+                this._refquota = refquota;
+
+                if (this._canUpdateObjectProperty('refquota')) {
+                    this.object.properties.refquota.parsed = refquota || null;
+                }
+            }
+        }
+    },
+
     templateDidLoad: {
         value: function() {
             this.sizeUnits = Units.BYTE_SIZES;
@@ -97,6 +135,8 @@ exports.VolumeDatasetSettings = AbstractInspector.specialize({
                 this.compression = (!this.object.properties.compression || this._isInheritedProperty(this.object.properties.compression)) ? "none": this.object.properties.compression.parsed;
                 this.dedup = (!this.object.properties.dedup || this._isInheritedProperty(this.object.properties.dedup)) ? "none": this.object.properties.dedup.parsed;
                 this.atime = (!this.object.properties.atime || this._isInheritedProperty(this.object.properties.atime)) ? "none": this.object.properties.atime.parsed;
+                this.quota = (this.object.properties.quota || {}).parsed;
+                this.refquota = (this.object.properties.refquota || {}).parsed;
             }
             this.volblocksizeDisplayMode = this.object._isNew ? "edit" : "display";
             this._isLoaded = true;

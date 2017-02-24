@@ -36,16 +36,18 @@ exports.IscsiShare = AbstractShareInspector.specialize({
 
     templateDidLoad: {
         value: function () {
+            var self = this;
+            this.isLoading = true;
             this.sizeUnits = Units.BYTE_SIZES;
             this._sectionService.listNetworkInterfaces().then(function(networkInterfaces) {
                 self.networkInterfacesAliases = networkInterfaces;
             });
             this._targetName = { label: null, value: null };
+
             this.targetNames = [];
 
-            var self = this;
-
             this._findServiceIscsi().then(function (serviceIscsi) {
+                self.isLoading = false;
                 self.serviceIscsi = serviceIscsi;
             });
         }

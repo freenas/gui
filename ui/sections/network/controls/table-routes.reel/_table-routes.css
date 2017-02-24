@@ -1,0 +1,3 @@
+.TableRoutes .TableHeaderLayout-cell:nth-child(2) {
+    min-width: 60%;
+}

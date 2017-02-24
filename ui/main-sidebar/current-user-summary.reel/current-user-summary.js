@@ -3,7 +3,7 @@ var Component = require("montage/ui/component").Component,
     EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
     ModelEventName = require("core/model-event-name.js").ModelEventName,
     Events = require('core/Events').Events,
-    moment = require('moment'),
+    moment = require('moment-timezone'),
     _ = require('lodash');
 
 exports.CurrentUserSummary = Component.specialize({
@@ -35,6 +35,10 @@ exports.CurrentUserSummary = Component.specialize({
         value: null
     },
 
+    timezone: {
+        value: "America/Los Angeles"
+    },
+
     templateDidLoad: {
         value: function() {
             this.eventDispatcherService = EventDispatcherService.getInstance();
@@ -61,20 +65,30 @@ exports.CurrentUserSummary = Component.specialize({
 
     _loadUserSettings: {
         value: function(user) {
-            if (user.attributes.userSettings && _.includes(SystemService.MEDIUM_TIME_FORMATS, user.attributes.userSettings.timeFormatMedium)) {
-                this.datePattern = user.attributes.userSettings.dateFormatShort || this.datePattern;
-                this.timePattern = user.attributes.userSettings.timeFormatMedium || this.timePattern;
+            if (user.attributes.userSettings) {
+                if (_.includes(SystemService.SHORT_DATE_FORMATS, user.attributes.userSettings.dateFormatShort)) {
+                    this.datePattern = user.attributes.userSettings.dateFormatShort || this.datePattern;
+                }
+                if (_.includes(SystemService.MEDIUM_TIME_FORMATS, user.attributes.userSettings.timeFormatMedium)) {
+                    this.timePattern = user.attributes.userSettings.timeFormatMedium || this.timePattern;
+                }
             }
         }
     },
 
     _handleOpenedSession: {
         value: function(session) {
+            var self= this;
             this.user = session.user.username;
             this.url = session.url;
             this._loadUserSettings(session.user);
             this._startTimeUpdate();
+            this.systemService.getGeneral().then(function(systemGeneral) {
+                self.timezone = systemGeneral.timezone;
+            });
             this.eventDispatcherService.addEventListener(ModelEventName.User.change(session.user.id), this._handleUserChange.bind(this));
+            //fixme: this should work, just needs to be fixed since SystemGeneral doesn't have an id
+            //this.eventDispatcherService.addEventListener(ModelEventName.SystemGeneral.change(), this._handleSystemGeneralChange.bind(this));
         }
     },
 
@@ -83,6 +97,12 @@ exports.CurrentUserSummary = Component.specialize({
             this._loadUserSettings(user.toJS());
         }
     },
+
+    //_handleSystemGeneralChange: {
+    //    value: function(general) {
+    //        fixme: need a fix to handle system general updates to update timezone
+    //    }
+    //},
 
     _startTimeUpdate: {
         value: function() {
@@ -103,6 +123,8 @@ exports.CurrentUserSummary = Component.specialize({
                 } else {
                     this.now = moment(this.now).add(this._updatePeriod, 'ms').toDate();
                 }
+                this.date = moment(this.now).tz(this.timezone).format(this.datePattern);
+                this.time = moment(this.now).tz(this.timezone).format(this.timePattern);
             }
         }
     }

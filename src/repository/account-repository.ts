@@ -142,12 +142,12 @@ export class AccountRepository extends AbstractRepository {
         return promise.then((stream) => {
             let dataArray = stream.get('data').toJS();
 
-            //TODO: register to events add/remove
+            // TODO: register to events add/remove
             this.groupsStreamId = stream.get('streamId');
             dataArray._objectType = this.groupDao.objectType;
 
-            //FIXME!!
-            //DTM montage
+            // FIXME!!
+            // DTM montage
             dataArray._stream = stream;
 
             return dataArray;
@@ -192,6 +192,24 @@ export class AccountRepository extends AbstractRepository {
             directory.label = AccountRepository.DIRECTORY_TYPES_LABELS[type];
 
             return directory;
+        });
+    }
+
+    public searchUser(value) {
+        return this.userDao.stream(false, {username: [['~', value]]}).then(function (results) {
+            let users = results.get('data').toJS();
+            return users.map(user => {
+                return {label: user.username, value: user.username};
+            });
+        });
+    }
+
+    public searchGroup(value) {
+        return this.groupDao.stream(false, {name: [['~', value]]}).then(function (results) {
+            let groups = results.get('data').toJS();
+            return groups.map(group => {
+                return {label: group.name, value: group.name};
+            });
         });
     }
 

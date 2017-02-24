@@ -1,12 +1,8 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Model = require("core/model/model").Model,
-    application = require("montage/core/application").application,
-    ShareService = require("core/service/share-service").ShareService;
+    ShareService = require("core/service/share-service").ShareService,
+    ModelEventName = require('core/model-event-name').ModelEventName,
+    _ = require('lodash');
 
-/**
- * @class Share
- * @extends Component
- */
 exports.Share = AbstractInspector.specialize({
     EMPTY_STRING: {
         value: ''
@@ -20,51 +16,20 @@ exports.Share = AbstractInspector.specialize({
         value: null
     },
 
-    _volumeService: {
-        value: null
-    },
-
-
     _loadingPromise: {
         value: null
     },
 
-    _folders: {
+    folders: {
         value: null
-    },
-
-    folder: {
-        get: function() {
-            return this._folders;
-        },
-        set: function(folders) {
-            if (this._folders != folders) {
-                this._folders = folders;
-            }
-        }
     },
 
     pathConverter: {
         value: null
     },
 
-    _service: {
-        value: null
-    },
-
     service: {
-        get: function() {
-            return this._service;
-        },
-        set: function(service) {
-            if (this._service !== service) {
-                this._service = service;
-
-                if (service) {
-                    this.serviceEnabled = service.config.enable;
-                }
-            }
-        }
+        value: null
     },
 
     serviceEnabled: {
@@ -80,13 +45,8 @@ exports.Share = AbstractInspector.specialize({
             return this._object;
         },
         set: function(object) {
-            var self = this;
             if (this._object !== object) {
                 if (object) {
-                    this._getService(object).then(function (service) {
-                        self.service = service;
-                        self.serviceEnabled = service.state == 'RUNNING';
-                    });
 
                     if (this._shareService) {
                         this._shareService.populateShareObjectIfNeeded(object);
@@ -144,20 +104,20 @@ exports.Share = AbstractInspector.specialize({
         }
     },
 
+    _inspectorTemplateDidLoad: {
+        value: function() {
+            this._shareService = this.application.shareService;
+        }
+    },
 
     enterDocument: {
         value: function(isFirstTime) {
-            this.super();
+            this.super(isFirstTime);
             var self = this;
-            if (isFirstTime) {
-                this._loadVolumeService();
-                this._shareService = this.application.shareService;
-            }
 
             if (this.object) {
                 this.targetType = this.object.target_type;
 
-                //todo: block draw
                 this.isDataLoading = true;
                 this._shareService.populateShareObjectIfNeeded(this.object).then(function() {
                     if (self._object._isNew) {
@@ -166,17 +126,28 @@ exports.Share = AbstractInspector.specialize({
                     }
                     self.isDataLoading = false;
                 });
+                this._getService(this.object).then(function (service) {
+                    self.service = service;
+                    self.serviceEnabled = service.state === 'RUNNING';
+                });
             }
         }
     },
 
     save: {
         value: function() {
+            var self = this;
             this._object.target_path = this.targetTreeview.pathInput.value;
             if (this.object._isNew) {
                 this.isPathReadOnly = true;
             }
-            return this._shareService.save(this.object, this.serviceEnabled);
+            return this._shareService.save(this.object).then(function() {
+                if (self.serviceEnabled) {
+                    self._startService();
+                } else {
+                    self._stopService();
+                }
+            });
         }
     },
 
@@ -247,24 +218,28 @@ exports.Share = AbstractInspector.specialize({
         }
     },
 
-    _loadVolumeService: {
-        value: function() {
+    _getService: {
+        value: function(object) {
             var self = this;
-            return Model.populateObjectPrototypeForType(Model.Volume).then(function(Volume) {
-                self._volumeService = Volume.constructor.services;
+            this.isServiceLoading = true;
+            return this._sectionService.listServices().then(function(services) {
+                self.isServiceLoading = false;
+                var service = _.find(services, {config: {type: 'service-' + object.type}});
+                if (self._serviceListener && self.service) {
+                    self.eventDispatcherService.removeEventListener(ModelEventName.Service.change(self.service.id), self._serviceListener);
+                    self._serviceListener = null;
+                }
+                if (service) {
+                    self._serviceListener = self.eventDispatcherService.addEventListener(ModelEventName.Service.change(service.id), self._handleServiceChange.bind(self));
+                }
+                return service;
             });
         }
     },
 
-    _getService: {
-        value: function(object) {
-            var self = this,
-                serviceName = 'service-' + object.type;
-            this.isServiceLoading = true;
-            return this.application.dataService.fetchData(Model.Service).then(function(services) {
-                self.isServiceLoading = false;
-                return services.filter(function (x) { return x.config && x.config.type == serviceName; })[0];
-            });
+    _handleServiceChange: {
+        value: function(state) {
+            this.serviceEnabled = state.get('state') === 'RUNNING';
         }
     },
 

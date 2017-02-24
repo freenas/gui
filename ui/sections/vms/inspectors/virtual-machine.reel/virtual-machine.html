@@ -87,7 +87,7 @@
             },
             "bindings": {
                 "value": {"<-": "@owner.object.status ? @owner.object.status.health : 'UNKNOWN'"},
-                "isHidden": {"<-": "@owner.object._isNew"} 
+                "isHidden": {"<-": "@owner.object._isNew"}
             }
         },
         "guestHealthStatusLabel": {
@@ -150,7 +150,8 @@
             },
             "bindings": {
                 "options": {"<-": "@owner.bootloaderOptions"},
-                "selectedValue": {"<->": "@owner.object.config.bootloader"}
+                "selectedValue": {"<->": "@owner.object.config.bootloader"},
+                "disabled": {"<-": "!!@owner.object._selectedTemplate"}
             }
         },
         "bootDevice": {
@@ -161,7 +162,8 @@
             },
             "bindings": {
                 "options": {"<-": "[{label: @owner.DEFAULT_STRING, value: null}].concat(@owner.object._bootDevices).sorted{label}"},
-                "selectedValue": {"<->": "@owner.object._bootDevice"}
+                "selectedValue": {"<->": "@owner.object._bootDevice"},
+                "disabled": {"<-": "!!@owner.object._selectedTemplate"}
             }
         },
         "vmGuestType": {
@@ -173,7 +175,8 @@
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.object.guest_type"},
-                "options": {"<-": "@owner.guestTypeOptions.sorted{label}"}
+                "options": {"<-": "@owner.guestTypeOptions.sorted{label}"},
+                "disabled": {"<-": "!!@owner.object._selectedTemplate"}
             }
         },
         "datastoreSubstitution": {

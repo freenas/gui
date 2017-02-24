@@ -3,6 +3,7 @@ const Model = {
     AccountSystem: 'AccountSystem' as 'AccountSystem',
     DiskUsage: 'DiskUsage' as 'DiskUsage',
     Alert: 'Alert' as 'Alert',
+    AlertEmitter: 'AlertEmitter' as 'AlertEmitter',
     AlertFilter: 'AlertFilter' as 'AlertFilter',
     AlertSettings: 'AlertSettings' as 'AlertSettings',
     AmazonS3Credentials: 'AmazonS3Credentials' as 'AmazonS3Credentials',

@@ -33,43 +33,47 @@ exports.VirtualMachineDeviceDisk = AbstractInspector.specialize({
             this.super(isFirstTime);
             var self = this;
             this.object._isLoading = true;
-            Promise.all([
-                this._sectionService.listDisks(),
-                this._sectionService.listBlocksInDatastore(this.object._vm.target),
-                this._sectionService.listFilesInDatastore(this.object._vm.target)
-            ]).spread(function(disks, blocks, files) {
-                self.diskOptions = _.concat(
-                    [{label: '-', value: null}],
-                    _.sortBy(
-                        _.map(disks, function(disk) {
+            var promise = this.isFromTemplate ?
+                Promise.resolve() :
+                Promise.all([
+                    this._sectionService.listDisks(),
+                    this._sectionService.listBlocksInDatastore(this.object._vm.target),
+                    this._sectionService.listFilesInDatastore(this.object._vm.target)
+                ]).spread(function(disks, blocks, files) {
+                    self.diskOptions = _.concat(
+                        [{label: '-', value: null}],
+                        _.sortBy(
+                            _.map(disks, function (disk) {
+                                return {
+                                    label: disk.description + ' (' + numeral(disk.size).format('0 b') + ')',
+                                    value: disk
+                                };
+                            }),
+                            'label'
+                        )
+                    );
+                    self.blockOptions = _.sortBy(
+                        _.map(blocks, function (block) {
                             return {
-                                label: disk.description + ' (' + numeral(disk.size).format('0 b') + ')',
-                                value: disk
+                                name: block.path + ' ' + block.description,
+                                path: block.path,
+                                children: []
                             };
                         }),
-                        'label'
-                    )
-                );
-                self.blockOptions = _.sortBy(
-                    _.map(blocks, function(block) {
-                        return {
-                            name: block.path + ' ' + block.description,
-                            path: block.path,
-                            children: []
-                        };
-                    }),
-                    'name'
-                );
-                self.fileOptions = _.sortBy(
-                    _.map(files, function(file) {
-                        return {
-                            name: file.path + ' ' + file.description,
-                            path: file.path,
-                            children: []
-                        };
-                    }),
-                    'name'
-                );
+                        'name'
+                    );
+                    self.fileOptions = _.sortBy(
+                        _.map(files, function (file) {
+                            return {
+                                name: file.path + ' ' + file.description,
+                                path: file.path,
+                                children: []
+                            };
+                        }),
+                        'name'
+                    );
+                });
+            promise.then(function() {
                 if (isFirstTime) {
                     var target_path = self.object.target_path,
                         size = self.object.size;

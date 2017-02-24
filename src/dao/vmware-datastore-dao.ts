@@ -10,12 +10,26 @@ export class VmwareDatastoreDao extends AbstractDao<VmwareDatastore> {
     }
 
     public listDatastoresOnPeer(peer: any): Promise<Array<any>> {
+        let results = [];
         return this.middlewareClient.callRpcMethod('vmware.get_datastores', [
             peer.credentials.address,
             peer.credentials.username,
-            peer.credentials.password,
+            peer.credentials.password.$password,
             false
-        ]).then((datastores) => _.forEach(datastores, (datastore) => datastore._objectType = 'VmwareDatastore'));
+        ]).then((response) => {
+            results = response.args.fragment;
+            return _.forEach(this.handleNextFragment(response.id, response.args.seqno, results), result => result._objectType = 'VmwareDatastore');
+        });
+    }
+
+    private handleNextFragment(streamId: string, seqno: number, results: Array<any>): Array<any> {
+        this.middlewareClient.continueRpcMethod(streamId, seqno).then((response) => {
+            if (response.args.fragment) {
+                results = results.concat(response.args.fragment);
+                results = this.handleNextFragment(response.id, response.args.seqno, results);
+            }
+        });
+        return results;
     }
 
 }

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="ip-address.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "converters": {
+                    "INET": {"@": "ipv4_netmask_converter"},
+                    "INET6": {"@": "ipv6_netmask_converter"}
+                },
+                "placeholders": {
+                    "address": {
+                        "INET": "eg. 1.2.3.4",
+                        "INET6": "eg. fda8:06c3:ce53:a890:0000:0000:0000:0005"
+                    },
+                    "netmask": {
+                        "INET": "255.255.255.0",
+                        "INET6": "64"
+                    }
+                }
+            }
+        },
+        "ipv4_netmask_converter": {
+            "prototype": "core/converter/ipv4-netmask-converter"
+        },
+        "ipv6_netmask_validator": {
+            "prototype": "core/converter/validator/integer-range-validator",
+            "properties": {
+                "floor": 0,
+                "ceiling": 128,
+                "errorMessage": "IPv6 prefix length must be an integer between 0 and 128"
+            }
+        },
+        "ipv6_netmask_converter": {
+            "prototype": "core/converter/string-to-integer-or-null-converter",
+            "properties": {
+                "validator": {"@": "ipv6_netmask_validator"}
+            }
+        },
+        "type": {
+            "prototype": "blue-shark/ui/radio-button-field-group.reel",
+            "properties": {
+                "element": {"#": "type"},
+                "options": [
+                    { "label": "ipv4", "value": "INET"},
+                    { "label": "ipv6", "value": "INET6"}
+                ]
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.type"},
+                "isReadOnly": {"<-": "!@owner.canChangeType"}
+            }
+        },
+        "address": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "address"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.address"},
+                "placeholder": {"<-": "@owner.placeholders.address[@owner.object.type]"},
+                "disabled": {"<-": "!@owner.object.type || @owner.isReadOnly"}
+            }
+        },
+        "netmask": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "netmask"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.netmask"},
+                "placeholder": {"<-": "@owner.placeholders.netmask[@owner.object.type]"},
+                "converter": {"<-": "@owner.converters[@owner.object.type]"},
+                "disabled": {"<-": "!@owner.object.type || @owner.isReadOnly"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+<div data-montage-id="owner" class="IpAddress Table-cells">
+    <div>
+        <div data-montage-id="type"></div>
+    </div>
+    <div>
+        <div data-montage-id="address"></div>
+    </div>
+    <div>
+        <div data-montage-id="netmask"></div>
+    </div>
+</div>
+</body>
+</html>

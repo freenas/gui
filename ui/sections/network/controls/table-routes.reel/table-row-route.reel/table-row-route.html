@@ -2,11 +2,44 @@
 <html>
 <head>
 
+    <link rel="stylesheet" type="text/css" href="table-row-route.css">
     <script type="text/montage-serialization">
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "converters": {
+                    "INET": {"@": "ipv4_netmask_converter"},
+                    "INET6": {"@": "ipv6_netmask_converter"}
+                },
+                "placeholders": {
+                    "address": {
+                        "INET": "eg. 1.2.3.4",
+                        "INET6": "eg. fda8:06c3:ce53:a890:0000:0000:0000:0005"
+                    },
+                    "netmask": {
+                        "INET": "255.255.255.0",
+                        "INET6": "64"
+                    }
+                }
+            }
+        },
+
+        "ipv4_netmask_converter": {
+            "prototype": "core/converter/ipv4-netmask-converter"
+        },
+        "ipv6_netmask_validator": {
+            "prototype": "core/converter/validator/integer-range-validator",
+            "properties": {
+                "floor": 0,
+                "ceiling": 128,
+                "errorMessage": "IPv6 prefix length must be an integer between 0 and 128"
+            }
+        },
+        "ipv6_netmask_converter": {
+            "prototype": "core/converter/string-to-integer-or-null-converter",
+            "properties": {
+                "validator": {"@": "ipv6_netmask_validator"}
             }
         },
 
@@ -22,30 +55,55 @@
             }
         },
 
-        "networkConverter": {
-            "prototype": "core/converter/interface-alias-converter"
+        "type": {
+            "prototype": "blue-shark/ui/radio-button-field-group.reel",
+            "properties": {
+                "element": {"#": "type"},
+                "options": [
+                    { "label": "ipv4", "value": "INET"},
+                    { "label": "ipv6", "value": "INET6"}
+                ]
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.type"},
+                "isReadOnly": {"<-": "!@owner.canChangeType"}
+            }
         },
 
         "network": {
             "prototype": "blue-shark/ui/text-field.reel",
             "properties": {
-                "element": {"#": "network"},
-                "placeholder": "e.g. 1.2.3.4/16",
-                "converter": {"@": "networkConverter"}
+                "element": {"#": "network"}
             },
             "bindings": {
-                "value": {"<->": "@owner.object.network"}
+                "value": {"<->": "@owner.object.network"},
+                "placeholder": {"<-": "@owner.placeholders.address[@owner.object.type]"},
+                "disabled": {"<-": "!@owner.object.type"}
+            }
+        },
+
+        "netmask": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "netmask"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.netmask"},
+                "placeholder": {"<-": "@owner.placeholders.netmask[@owner.object.type]"},
+                "converter": {"<-": "@owner.converters[@owner.object.type]"},
+                "disabled": {"<-": "!@owner.object.type"}
             }
         },
 
         "gateway": {
             "prototype": "blue-shark/ui/text-field.reel",
             "properties": {
-                "element": {"#": "gateway"},
-                "placeholder": "e.g. 1.2.3.4"
+                "element": {"#": "gateway"}
             },
             "bindings": {
-                "value": {"<->": "@owner.object.gateway"}
+                "value": {"<->": "@owner.object.gateway"},
+                "placeholder": {"<-": "@owner.placeholders.address[@owner.object.type]"},
+                "disabled": {"<-": "!@owner.object.type"}
             }
         }
 
@@ -54,9 +112,21 @@
 </head>
 <body>
     <div data-montage-id="owner" class="TableRowRoute Table-cells">
-        <div><div data-montage-id="id"></div></div>
-        <div><div data-montage-id="network"></div></div>
-        <div><div data-montage-id="gateway"></div></div>
+        <div>
+            <div data-montage-id="id"></div>
+        </div>
+        <div>
+            <div data-montage-id="type"></div>
+        </div>
+        <div>
+            <div data-montage-id="network"></div>
+        </div>
+        <div>
+            <div data-montage-id="netmask"></div>
+        </div>
+        <div>
+            <div data-montage-id="gateway"></div>
+        </div>
     </div>
 </body>
 </html>

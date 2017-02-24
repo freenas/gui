@@ -218,16 +218,22 @@ export class AbstractDao<T extends AbstractDataObject> {
     private getMiddlewareCriteria(criteria: Object, params?: Object): Array<any> {
         let keys = Object.keys(criteria),
             middlewareCriteria = [],
-            key, value;
+            key, values;
         for (let i = 0, length = keys.length; i < length; i++) {
             key = keys[i];
-            value = criteria[key];
-            if (typeof value === 'object') {
-                let subCriteria = this.getMiddlewareCriteria(value);
-                Array.prototype.push.apply(middlewareCriteria, subCriteria.map(function(x) { return [key + '.' + x[0], x[1], x[2]]; }));
-            } else {
-                middlewareCriteria.push([key, '=', value]);
-            }
+            values = _.castArray(criteria[key]);
+            _.forEach(values, value => {
+                if (typeof value === 'object') {
+                    if (Array.isArray(value)) {
+                        middlewareCriteria.push(_.flatten([key, value]));
+                    }else {
+                        let subCriteria = this.getMiddlewareCriteria(value);
+                        Array.prototype.push.apply(middlewareCriteria, subCriteria.map(function(x) { return [key + '.' + x[0], x[1], x[2]]; }));
+                    }
+                } else {
+                    middlewareCriteria.push([key, '=', value]);
+                }
+            });
         }
         return params ? [middlewareCriteria, params] : [middlewareCriteria];
     }

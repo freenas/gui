@@ -82,7 +82,8 @@ export class DatastoreService {
         let fragment = message.args.fragment || [],
             reachEnd = message.name === 'end',
             sequenceNumber = message.args.seqno,
-            type = stream.get('type');
+            type = stream.get('type'),
+            idPath = stream.get('idPath');
 
         if (reachEnd) {
             stream = stream.set('lastSequence', sequenceNumber)
@@ -99,19 +100,23 @@ export class DatastoreService {
             return stream;
         }
 
+        let payload = _.castArray(fragment),
+            idPath = stream.get('idPath');
         // TODO: Store only data when the total number is under or equal to 2000.
-        // TODO: Manage stockage streaming response.
         this.store.dispatch({
             type: ACTIONS.IMPORT_OBJECTS,
             meta: {
                 type: type,
-                idPath: stream.get('idPath')
+                idPath: idPath
             },
-            payload: _.castArray(fragment)
+            payload: payload
         });
 
-        let data = this.getState().get(type).valueSeq().toJS(),
-            previousLastSequence = stream.get('lastSequence');
+        let dataStore = this.getState().get(type),
+            previousLastSequence = stream.get('lastSequence'),
+            data = payload.map(value => {
+                return dataStore.get((_.get(value, idPath) as string)).toJS();
+            });
 
         if (sequenceNumber > previousLastSequence) {
             stream = stream.set('lastSequence', sequenceNumber);
@@ -119,8 +124,8 @@ export class DatastoreService {
 
         // TODO: Remove data from strea objects. (related to montage data)
         stream = stream.set('endSequence', sequenceNumber)
-                    .set('reachEnd', false)
-                    .set('data', data);
+            .set('reachEnd', false)
+            .set('data', stream.get('data').concat(data));
 
         this.store.dispatch({
             type: ACTIONS.SAVE_STREAM,

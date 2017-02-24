@@ -2,6 +2,7 @@
 <html>
 <head>
 
+    <link rel="stylesheet" type="text/css" href="table-routes.css">
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -20,7 +21,7 @@
                         "value": "Id"
                     },
                     {
-                        "value": "CIDR block"
+                        "value": "Network"
                     },
                     {
                         "value": "Gateway"
@@ -45,11 +46,10 @@
             "prototype": "./table-row-route.reel",
             "properties": {
                 "element": {"#": "newEntry"},
-                "disableId": false
+                "canChangeType": true
             },
             "bindings": {
-                "object": {"<-": "@table.currentNewEntry.object"},
-                "object.disableId": {"<-": "false"}
+                "object": {"<-": "@table.currentNewEntry.object"}
             }
         },
 
@@ -59,8 +59,7 @@
                 "element": {"#": "entry"}
             },
             "bindings": {
-                "object": {"<-": "@table:rowIteration.object.object"},
-                "object.disableId": {"<-": "true"}
+                "object": {"<-": "@table:rowIteration.object.object"}
             }
         }
     }

@@ -60,7 +60,7 @@
                 "converter" : {"@": "outgoingPortConverter"}
             },
             "bindings": {
-                "value": {"<->": "@owner.object.port"}
+                "value": {"<->": "@owner.alertEmitterEmail.config.port"}
             }
         },
         "from": {
@@ -70,7 +70,7 @@
                 "label": "From Email Address"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.from_address"}
+                "value": {"<->": "@owner.alertEmitterEmail.config.from_address"}
             }
         },
         "useSMTPAuth": {
@@ -80,7 +80,7 @@
                 "label": "Use SMTP Authentication"
             },
             "bindings": {
-                "checked": {"<->": "@owner.object.auth"}
+                "checked": {"<->": "@owner.alertEmitterEmail.config.auth"}
             }
         },
         "outgoingServer": {
@@ -90,7 +90,7 @@
                 "label": "Outgoing Mail server"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.server"}
+                "value": {"<->": "@owner.alertEmitterEmail.config.server"}
             }
         },
         "serialPortOptionConverter": {
@@ -104,7 +104,7 @@
             },
             "bindings": {
                 "options" : {"<-": "@owner.encryptionOptions"},
-                "selectedValue": {"<->": "@owner.object.encryption"}
+                "selectedValue": {"<->": "@owner.alertEmitterEmail.config.encryption"}
             }
         },
         "username": {
@@ -114,7 +114,7 @@
                 "label": "Username"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.user"}
+                "value": {"<->": "@owner.alertEmitterEmail.config.user"}
             }
         },
         "password": {
@@ -125,7 +125,7 @@
                 "placeholder": "enter password"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.password"}
+                "value": {"<->": "@owner.alertEmitterEmail.config.password"}
             }
         },
         "sendTestMail": {
@@ -146,8 +146,8 @@
                 "valuesTitle": "Recipients"
             },
             "bindings": {
-                "values": {"<->": "@owner.object.to"},
-                "placeholder": {"<-": "!@owner.object.webui_listen ? 'eg. foo@example.com' : ''"}
+                "values": {"<->": "@owner.alertEmitterEmail.config.to"},
+                "placeholder": {"<-": "!@owner.alertEmitterEmail.config.to ? 'eg. foo@example.com' : ''"}
             }
         },
         "emailSection": {
