@@ -47,7 +47,6 @@ exports.VirtualMachine = AbstractInspector.specialize({
         value: function() {
             var self = this;
             this._sectionService.getGuestInfo(self.object).then(function(guestInfo) {
-                console.log(guestInfo);
                 if (guestInfo) {
                     self.object.guestInfo = guestInfo
                     if (guestInfo.load_avg) {
