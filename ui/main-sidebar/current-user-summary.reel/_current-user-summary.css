@@ -18,13 +18,11 @@
     justify-content: center;
 }
 
-.CurrentUserSummary-host {
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    word-break: break-all;
-    word-break: break-word;
-    hyphens: auto;
-    word-spacing: -.25em;
-    margin-left:  .25em;
-    margin-right: .25em;
+.CurrentUserSummary-host,
+.CurrentUserSummary-user {
+    width: 100%;
+    padding: 0 .25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
