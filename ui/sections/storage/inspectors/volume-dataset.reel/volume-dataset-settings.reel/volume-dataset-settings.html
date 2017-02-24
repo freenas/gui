@@ -60,7 +60,7 @@
             },
             "bindings": {
                 "units": {"<-": "@owner.sizeUnits"},
-                "value": {"<->": "@owner.object.properties.quota.parsed"},
+                "value": {"<->": "@owner.quota"},
                 "disabled": {"<-": "!@advancedSection.isExpanded"}
             }
         },
@@ -72,7 +72,7 @@
             },
             "bindings": {
                 "units": {"<-": "@owner.sizeUnits"},
-                "value": {"<->": "@owner.object.properties.refquota.parsed"},
+                "value": {"<->": "@owner.refquota"},
                 "disabled": {"<-": "!@advancedSection.isExpanded"}
             }
         },

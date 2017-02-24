@@ -8,6 +8,7 @@
     margin: .5rem;
     width: auto;
     display: flex;
+    flex-shrink: 0;
 }
 
 .AvailableDisks-category {
