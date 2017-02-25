@@ -375,6 +375,32 @@ export class StorageSectionService extends AbstractSectionService {
         });
     }
 
+    private iterateVdevs(topology: Array<any>) {
+        let vdevs = [];
+        for (let i = 0; i < topology.length; i++) {
+            if (topology[i].type === 'disk') {
+                vdevs.push(topology[i]);
+            }
+            else if (topology[i].children.length > 0) {
+                vdevs = vdevs.concat(this.iterateVdevs(topology[i].children));
+            }
+        }
+        return vdevs;
+    }
+
+    public getVdevFromTopology(path: string, topology) {
+        let vdevs = [];
+        for (let key in topology) {
+            vdevs = vdevs.concat(this.iterateVdevs(topology[key]));
+        }
+
+        for (var j = 0; j < vdevs.length; j++) {
+            if (vdevs[j].path === path) {
+                return vdevs[j];
+            }
+        }
+    }
+
 
     private handleDisksChange(disks: Map<string, Map<string, any>>) {
     }
