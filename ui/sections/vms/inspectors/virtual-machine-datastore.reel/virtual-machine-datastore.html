@@ -55,8 +55,7 @@
             },
             "bindings": {
                 "moduleId": {"<-": "@owner.moduleRoot + 'virtual-machine-datastore-' + @owner.object.type.toLowerCase() + '.reel'"},
-                "object": {"<-": "@owner.object.properties"},
-                "classList.has('hide')": {"<-": "@owner.isVolumeDatastore"}
+                "object": {"<-": "@owner.object.properties"}
             }
         },
         "capabilitiesSection": {
