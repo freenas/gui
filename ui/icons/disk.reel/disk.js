@@ -42,14 +42,36 @@ exports.Disk = Component.specialize({
     exitDocument: {
         value: function() {
             this._eventDispatcherService.removeEventListener(ModelEventName.Disk.change(this.object.id), this.eventListener);
+            if (this.topologyEventListener && allocation) {
+                this._eventDispatcherService.removeEventListener('VolumeTopologyChanged-' + this.object._allocation.name, this.topologyEventListener);
+            }
         }
     },
 
     _handleDiskChange: {
         value: function() {
+            var oldallocation;
+            if (this.object._allocation) {
+                oldallocation = this.object._allocation;
+            }
             this.object._allocation = this._diskRepository.getDiskAllocation(this.object);
+            if (this.object._allocation && this.object._allocation.type == 'VOLUME') {
+                this.topologyEventListener = this.eventDispatcherService.addEventListener('VolumeTopologyChanged-' + this.object._allocation.name, this.handleVdevChange.bind(this));
+            } else {
+                if (this.topologyEventListener && oldallocation) {
+                    this._eventDispatcherService.removeEventListener('VolumeTopologyChanged-' + oldallocation.name, this.topologyEventListener);
+                    delete this.topologyEventListener;
+                }
+            }
         }
-    }
+    },
+
+    handleVdevChange: {
+        value: function(topology) {
+            var vdev = this._sectionService.getVdevFromTopology(this.object._disk.path, topology.toJS());
+            // not sure what to do with vdev yet since it never gets here
+        }
+    },
 
 });
 
