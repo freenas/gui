@@ -19,20 +19,6 @@
         "permissionsTypeConverter": {
             "prototype": "core/converter/select-option-converter"
         },
-        "usersOptionsConverter": {
-            "prototype": "core/converter/select-option-converter",
-            "properties": {
-                "labelPropertyName": "username",
-                "valuePropertyName": "username"
-            }
-        },
-        "groupsOptionsConverter": {
-            "prototype": "core/converter/select-option-converter",
-            "properties": {
-                "labelPropertyName": "name",
-                "valuePropertyName": "name"
-            }
-        },
         "permissionsType": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
@@ -46,27 +32,23 @@
             }
         },
         "ownerUser": {
-            "prototype": "blue-shark/ui/field-select.reel",
+            "prototype": "ui/controls/search-users.reel",
             "properties": {
                 "element": {"#": "ownerUser"},
-                "label": "Owner user",
-                "converter": {"@": "usersOptionsConverter"}
+                "label": "Owner user"
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.object.permissions.user"},
-                "options": {"<-": "@owner.users.sorted{builtin + username}"}
+                "value": {"<->": "@owner.object.permissions.user"}
             }
         },
         "ownerGroup": {
-            "prototype": "blue-shark/ui/field-select.reel",
+            "prototype": "ui/controls/search-groups.reel",
             "properties": {
                 "element": {"#": "ownerGroup"},
-                "label": "Owner group",
-                "converter": {"@": "groupsOptionsConverter"}
+                "label": "Owner group"
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.object.permissions.group"},
-                "options": {"<-": "@owner.groups.sorted{builtin + name}"}
+                "value": {"<->": "@owner.object.permissions.group"}
             }
         },
         "modes": {
