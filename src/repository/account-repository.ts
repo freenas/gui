@@ -9,6 +9,9 @@ import {Map} from 'immutable';
 import {ModelEventName} from '../model-event-name';
 import {Model} from '../model';
 import {DatastoreService} from '../service/datastore-service';
+import {Group} from '../model/Group';
+import {User} from '../model/User';
+
 import * as _ from 'lodash';
 
 export class AccountRepository extends AbstractRepository {
@@ -16,6 +19,10 @@ export class AccountRepository extends AbstractRepository {
 
     private users: Map<string, Map<string, any>>;
     private groups: Map<string, Map<string, any>>;
+    private localGroupsPromise: Promise<Array<Group>>;
+    private systemGroupsPromise: Promise<Array<Group>>;
+    private localUsersPromise: Promise<Array<User>>;
+    private systemUsersPromise: Promise<Array<User>>;
     private directories: Map<string, Map<string, any>>;
     private groupsStreamId: string;
     private usersStreamId: string;
@@ -64,8 +71,33 @@ export class AccountRepository extends AbstractRepository {
         return this.groupDao.list();
     }
 
+    public listSystemUsersAndGroups() {
+        return Promise.all([
+            this.listSystemUsers(),
+            this.listSystemGroups()
+        ]).spread((users: Array<any>, groups: Array<any>) => _.concat(users, groups));
+    }
+
+    //@deprecated
     public listUsers(): Promise<Array<any>> {
         return this.users ? Promise.resolve(this.users.toSet().toJS()) : this.userDao.list();
+    }
+
+    public listLocalUsers(): Promise<Array<any>> {
+        if (this.localUsersPromise) {
+            return this.localUsersPromise;
+        }
+
+        //FIXME
+        return this.localUsersPromise = this.userDao.list(false);
+    }
+
+    public listSystemUsers(): Promise<Array<any>> {
+        if (this.systemUsersPromise) {
+            return this.systemUsersPromise;
+        }
+
+        return this.systemUsersPromise = this.userDao.list(false, {builtin: true});
     }
 
     public streamUsers(): Promise<Array<Object>> {
@@ -76,7 +108,7 @@ export class AccountRepository extends AbstractRepository {
                 this.datastoreService.getState().get('streams').get(this.usersStreamId)
             );
         } else {
-            promise = this.userDao.stream(true);
+            promise = this.userDao.stream(true, {builtin: false});
         }
 
         return promise.then((stream) => {
@@ -123,8 +155,26 @@ export class AccountRepository extends AbstractRepository {
         return this.userDao.save(user);
     }
 
+    //@deprecated
     public listGroups(): Promise<Array<Object>> {
         return this.groups ? Promise.resolve(this.groups.toSet().toJS()) : this.groupDao.list();
+    }
+
+    public listLocalGroups(): Promise<Array<Object>> {
+        if (this.localGroupsPromise) {
+            return this.localGroupsPromise;
+        }
+
+        //FIXME
+        return this.localGroupsPromise = this.groupDao.list(false, {builtin: false});
+    }
+
+    public listSystemGroups(): Promise<Array<any>> {
+        if (this.systemGroupsPromise) {
+            return this.systemGroupsPromise;
+        }
+
+        return this.localGroupsPromise = this.groupDao.list(false, {builtin: true});
     }
 
     //TODO: ask only ids? (improvements)
@@ -136,13 +186,13 @@ export class AccountRepository extends AbstractRepository {
                 this.datastoreService.getState().get("streams").get(this.groupsStreamId)
             );
         } else {
-            promise = this.groupDao.stream(true);
+            promise = this.groupDao.stream(true, {builtin: false});
         }
 
         return promise.then((stream) => {
             let dataArray = stream.get('data').toJS();
 
-            // TODO: register to events add/remove
+            this.groupDao.register();
             this.groupsStreamId = stream.get('streamId');
             dataArray._objectType = this.groupDao.objectType;
 
