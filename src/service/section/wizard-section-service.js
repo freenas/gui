@@ -7,7 +7,7 @@ var AbstractSectionService = require('core/service/section/abstract-section-serv
     VolumeRepository = require('core/repository/volume-repository').VolumeRepository,
     SystemRepository = require('core/repository/system-repository').SystemRepository,
     AccountRepository = require('core/repository/account-repository').AccountRepository,
-    MailRepository = require('core/repository/mail-repository').MailRepository,
+    AlertEmitterRepository = require('core/repository/alert-emitter-repository').AlertEmitterRepository,
     ShareRepository = require("core/repository/share-repository").ShareRepository,
     _ = require("lodash");
 
@@ -19,7 +19,7 @@ exports.WizardSectionService = AbstractSectionService.specialize({
             this._accountRepository = AccountRepository.getInstance();
             this._diskRepository = DiskRepository.getInstance();
             this._volumeRepository = VolumeRepository.getInstance();
-            this._mailRepository = MailRepository.getInstance();
+            this._alertEmitterRepository = AlertEmitterRepository.getInstance();
             this._shareRepository = ShareRepository.getInstance();
             this._topologyService = TopologyService.getInstance();
             this._modelDescriptorService = ModelDescriptorService.getInstance();
@@ -64,7 +64,9 @@ exports.WizardSectionService = AbstractSectionService.specialize({
 
     getMailData: {
         value: function () {
-            return this._mailRepository.getConfig();
+            return this._alertEmitterRepository.list().then(function(alerEmitters) {
+                return _.find(alerEmitters, {config: {'%type': 'AlertEmitterEmail'}});
+            });
         }
     },
 
@@ -112,13 +114,15 @@ exports.WizardSectionService = AbstractSectionService.specialize({
 
     getMailConfig: {
         value: function() {
-            return this._mailRepository.getConfig();
+            return this._alertEmitterRepository.list().then(function(alerEmitters) {
+                return _.find(alerEmitters, {config: {'%type': 'AlertEmitterEmail'}});
+            });
         }
     },
 
     saveMailConfig: {
         value: function(mailConfig) {
-            return this._mailRepository.saveConfig(mailConfig);
+            return this._alertEmitterRepository.save(mailConfig);
         }
     },
 
@@ -126,7 +130,6 @@ exports.WizardSectionService = AbstractSectionService.specialize({
         value: function (wizardDescriptor) {
             var self = this,
                 stepsDescriptor = wizardDescriptor.steps,
-                dataService = Application.dataService,
                 promises = [],
                 wizardSteps = [];
 
@@ -168,37 +171,6 @@ exports.WizardSectionService = AbstractSectionService.specialize({
 
             if (this._wizardsMap.has(notification.jobId)) {
                 if (notification.state === 'FINISHED') {
-                    var steps = this._wizardsMap.get(notification.jobId),
-                        shareStep = this._findWizardStepWithStepsAndId(steps, 'share'),
-                        volumeStep = this._findWizardStepWithStepsAndId(steps, 'volume'),
-                        userStep = this._findWizardStepWithStepsAndId(steps, 'user'),
-                        dataService = Application.dataService,
-                        volume = volumeStep.object,
-                        promises = [];
-
-                    if (!shareStep.isSkipped) {
-                        var shares = shareStep.object.__shares;
-
-                        shares.forEach(function (share) {
-                            if (share.name) {
-                                share.target_path = volume.id;
-                                promises.push(dataService.saveDataObject(share));
-                            }
-                        });
-                    }
-
-                    if (!userStep.isSkipped) {
-                        var users = userStep.object.__users;
-
-                        users.forEach(function (user) {
-                            if (user.username) {
-                                user.home = '/mnt/' + volume.id + '/' + user.username;
-                                promises.push(dataService.saveDataObject(user));
-                            }
-                        });
-                    }
-
-                    Promise.all(promises);
                 }
 
                 this._wizardsMap.delete(notification.jobId);
@@ -212,8 +184,7 @@ exports.WizardSectionService = AbstractSectionService.specialize({
 
     saveWizard: {
         value: function (steps) {
-            var dataService = Application.dataService,
-                self = this,
+            var self = this,
                 indexVolume = -1,
                 promises = [];
 
@@ -244,11 +215,39 @@ exports.WizardSectionService = AbstractSectionService.specialize({
                 }
             });
 
-            return Promise.all(promises).then(function (jobIds) {
-                if (indexVolume > -1) {
-                    var volumeJobId = jobIds[indexVolume];
-                    self._wizardsMap.set(volumeJobId, steps);
+            Promise.all(promises).then(function(submittedTasks) {
+                return indexVolume > -1 ? submittedTasks[indexVolume].taskPromise : Promise.resolve();
+            }).then(function() {
+                var shareStep = self._findWizardStepWithStepsAndId(steps, 'share'),
+                    volumeStep = self._findWizardStepWithStepsAndId(steps, 'volume'),
+                    userStep = self._findWizardStepWithStepsAndId(steps, 'user'),
+                    volume = volumeStep.object,
+                    promises = [];
+
+                if (!shareStep.isSkipped) {
+                    var shares = shareStep.object.__shares;
+
+                    shares.forEach(function (share) {
+                        if (share.name) {
+                            share.target_path = volume.id;
+                            share.target_type = 'DATASET';
+                            promises.push(self._shareRepository.saveShare(share));
+                        }
+                    });
                 }
+
+                if (!userStep.isSkipped) {
+                    var users = userStep.object.__users;
+
+                    users.forEach(function (user) {
+                        if (user.username) {
+                            user.home = '/mnt/' + volume.id + '/' + user.username;
+                            promises.push(self._accountRepository.saveUser(user));
+                        }
+                    });
+                }
+
+                return Promise.all(promises);
             });
         }
     },
