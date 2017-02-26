@@ -103,23 +103,14 @@
                 "checked": {"<->": "@owner.object.time_server"}
             }
         },
-        "usersToOptionsConverter": {
-            "prototype": "core/converter/select-option-converter",
-            "properties": {
-                "labelPropertyName": "username",
-                "valuePropertyName": "username"
-            }
-        },
         "guestUser": {
-            "prototype": "blue-shark/ui/field-select.reel",
+            "prototype": "ui/controls/search-users.reel",
             "properties": {
                 "element": {"#": "guestUser"},
-                "label": "Guest account",
-                "converter": {"@": "usersToOptionsConverter"}
+                "label": "Guest account"
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.object.guest_user"},
-                "options": {"<-": "@owner.users.sorted{builtin + username}"}
+                "value": {"<->": "@owner.object.guest_user"}
             }
         },
         "fileMask": {

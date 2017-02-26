@@ -1,5 +1,4 @@
-var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Model = require("core/model/model").Model;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
 exports.SmbService = AbstractInspector.specialize({
 
@@ -81,7 +80,6 @@ exports.SmbService = AbstractInspector.specialize({
             this._sectionService.listNetworkInterfaces().then(function(networkInterfaces) {
                 self.networkInterfacesAliases = networkInterfaces;
             });
-            this._fetchUsers();
         }
     },
 
@@ -146,16 +144,6 @@ exports.SmbService = AbstractInspector.specialize({
         value: function() {
             this.object.filemask = this.filemaskModes;
             this.object.dirmask = this.dirmaskModes;
-        }
-    },
-
-    _fetchUsers: {
-        value: function () {
-            var self = this;
-
-            return this.application.dataService.fetchData(Model.User).then(function (users) {
-                self.users = users;
-            });
         }
     },
 
