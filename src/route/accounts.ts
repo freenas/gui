@@ -190,7 +190,7 @@ export class AccountsRoute extends AbstractRoute {
                 path: parentContext.path + '/account-system'
             };
         return Promise.all([
-            this.listSystemUsersAndGroups(),
+            this.accountRepository.listSystemUsersAndGroups(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread((accountSystems: Array<any>, uiDescriptor) => {
             let filter = {builtin: true},
@@ -401,10 +401,4 @@ export class AccountsRoute extends AbstractRoute {
         });
     }
 
-    private listSystemUsersAndGroups() {
-        return Promise.all([
-            this.accountRepository.listUsers(),
-            this.accountRepository.listGroups()
-        ]).spread((users: Array<any>, groups: Array<any>) => _.concat(users, groups));
-    }
 }
