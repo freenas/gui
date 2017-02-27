@@ -1,4 +1,4 @@
 .Tasks {
 
-    & .Widget { height: 19em; }
+    & .Widget { min-height: 19em; }
 }
