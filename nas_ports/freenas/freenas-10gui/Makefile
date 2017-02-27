@@ -26,8 +26,7 @@ checksum:
 
 fetch:
 	${MKDIR} ${WRKDIR}
-	(cd ${WRKSRC} && sed -i .env "s/##dev##/production/" index.html && sed -i .sha "s/##git_sha##/$(git rev-parse HEAD)/" index.html)
-	(cd ${WRKSRC} && ${LOCALBASE}/bin/npm install && ${LOCALBASE}/bin/npm run-script clean && ${LOCALBASE}/bin/npm run-script build)
+	(cd ${WRKSRC} && ${LOCALBASE}/bin/npm cache clean && ${LOCALBASE}/bin/npm install && ${LOCALBASE}/bin/npm run-script clean && ${LOCALBASE}/bin/npm run-script build)
 	(cd ${WRKSRC}/serial-console-app && ${LOCALBASE}/bin/npm install)
 
 extract:
