@@ -227,7 +227,7 @@ export class AbstractDao<T extends AbstractDataObject> {
                     if (Array.isArray(value)) {
                         middlewareCriteria.push(_.flatten([key, value]));
                     }else {
-                        let subCriteria = this.getMiddlewareCriteria(value);
+                        let subCriteria = _.flatten(this.getMiddlewareCriteria(value));
                         Array.prototype.push.apply(middlewareCriteria, subCriteria.map(function(x) { return [key + '.' + x[0], x[1], x[2]]; }));
                     }
                 } else {
