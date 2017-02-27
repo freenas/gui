@@ -271,6 +271,7 @@ exports.VmsSectionService = AbstractSectionService.specialize({
         value: function(vm, template) {
             vm.config = Object.clone(template.config);
             vm.config.readme = template.template.readme;
+            _.unset(vm.config, 'minmemsize');
             vm.guest_type = template.guest_type;
             vm.template = Object.clone(template.template);
 
