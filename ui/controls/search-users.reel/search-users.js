@@ -57,6 +57,8 @@ exports.SearchUsers = Component.specialize(/** @lends SearchUsers# */ {
             this.service.searchUserWithCriteria(criteria).then(function (entries) {
                 if (entries && entries.length) {
                     self.displayedValue = entries[0][self.labelPath];
+                } else { // fallback
+                    self.displayedValue = self.value;
                 }
             }).finally(function () {
                 self.isLoading = false;
