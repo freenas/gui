@@ -68,7 +68,7 @@ exports.SearchUsers = Component.specialize(/** @lends SearchUsers# */ {
 
     search: {
         value: function (value) {
-             return this.service.searchUser(value, {
+             return this.service.searchUser({
                  labelPath: this.labelPath,
                  valuePath: this.valuePath
              });
@@ -77,7 +77,10 @@ exports.SearchUsers = Component.specialize(/** @lends SearchUsers# */ {
 
     listDefaultOptions: {
         value: function () {
-            //TODO
+            return this.service.listLocalUsers({
+                 labelPath: this.labelPath,
+                 valuePath: this.valuePath
+             });
         }
     }
 

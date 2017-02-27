@@ -67,7 +67,7 @@ exports.SearchGroups = Component.specialize(/** @lends SearchGroups# */ {
 
     search: {
         value: function (value) {
-             return this.service.searchGroup(value, {
+             return this.service.searchGroup({
                  labelPath: this.labelPath,
                  valuePath: this.valuePath
              });
@@ -76,7 +76,10 @@ exports.SearchGroups = Component.specialize(/** @lends SearchGroups# */ {
 
     listDefaultOptions: {
         value: function () {
-            //TODO
+            return this.service.listLocalGroups({
+                 labelPath: this.labelPath,
+                 valuePath: this.valuePath
+             });
         }
     }
 }, {

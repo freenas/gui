@@ -17,12 +17,18 @@ export class AccountService {
         return AccountService.instance;
     }
 
-    public listLocalUsers(): Promise<Array<User>> {
-        return this.accountRepository.listLocalUsers();
+    public listLocalUsers(options?: any): Promise<Array<User>> {
+        return this.handleSearchQuery(
+            this.accountRepository.listLocalUsers(),
+            options
+        );
     }
 
-    public listLocalGroups(): Promise<Array<Group>> {
-        return this.accountRepository.listLocalGroups();
+    public listLocalGroups(options?: any): Promise<Array<Group>> {
+        return this.handleSearchQuery(
+            this.accountRepository.listLocalGroups(),
+            options
+        );
     }
 
     public listSystemUsers(): Promise<Array<User>> {

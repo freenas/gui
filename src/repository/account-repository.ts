@@ -19,9 +19,7 @@ export class AccountRepository extends AbstractRepository {
 
     private users: Map<string, Map<string, any>>;
     private groups: Map<string, Map<string, any>>;
-    private localGroupsPromise: Promise<Array<Group>>;
     private systemGroupsPromise: Promise<Array<Group>>;
-    private localUsersPromise: Promise<Array<User>>;
     private systemUsersPromise: Promise<Array<User>>;
     private directories: Map<string, Map<string, any>>;
     private groupsStreamId: string;
@@ -84,12 +82,9 @@ export class AccountRepository extends AbstractRepository {
     }
 
     public listLocalUsers(): Promise<Array<any>> {
-        if (this.localUsersPromise) {
-            return this.localUsersPromise;
-        }
-
-        //FIXME
-        return this.localUsersPromise = this.userDao.list(false);
+        return this.userDao.stream(false, {origin: {directory: 'local'}}).then((stream) => {
+            return stream.get('data').toJS();;
+        });
     }
 
     public listSystemUsers(): Promise<Array<any>> {
@@ -161,12 +156,9 @@ export class AccountRepository extends AbstractRepository {
     }
 
     public listLocalGroups(): Promise<Array<Object>> {
-        if (this.localGroupsPromise) {
-            return this.localGroupsPromise;
-        }
-
-        //FIXME
-        return this.localGroupsPromise = this.groupDao.list(false, {builtin: false});
+        return this.groupDao.stream(false, {origin: {directory: 'local'}}).then((stream) => {
+            return stream.get('data').toJS();;
+        });
     }
 
     public listSystemGroups(): Promise<Array<any>> {
@@ -174,7 +166,7 @@ export class AccountRepository extends AbstractRepository {
             return this.systemGroupsPromise;
         }
 
-        return this.localGroupsPromise = this.groupDao.list(false, {builtin: true});
+        return this.systemGroupsPromise = this.groupDao.list(false, {builtin: true});
     }
 
     //TODO: ask only ids? (improvements)
