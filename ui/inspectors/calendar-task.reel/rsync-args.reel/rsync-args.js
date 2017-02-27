@@ -1,7 +1,6 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     RsyncCopyRsyncdirection = require('core/model/enumerations/rsync-copy-rsyncdirection').RsyncCopyRsyncdirection,
-    RsyncCopyRsyncmode = require('core/model/enumerations/rsync-copy-rsyncmode').RsyncCopyRsyncmode,
-    Model = require("core/model/model").Model;
+    RsyncCopyRsyncmode = require('core/model/enumerations/rsync-copy-rsyncmode').RsyncCopyRsyncmode;
 
 
 
@@ -22,10 +21,6 @@ exports.RsyncArgs = AbstractInspector.specialize({
                     label: x.toLowerCase().toCapitalized(),
                     value: x
                 };
-            });
-
-            this._sectionService.listUsers().then(function(users) {
-                self.users = users;
             });
         }
     },
