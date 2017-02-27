@@ -5,29 +5,18 @@
 .CalendarWidgetDay {
     position: relative;
     width: 14.2857%;
-    border-right: 1px solid var(--calender-line--strong);
-    border-top:   1px solid var(--calender-line--strong);
-    background-color: pink;
+    border-right: 1px solid var(--calendar-line--strong);
+    border-top:   1px solid var(--calendar-line--strong);
     font-size: .8em;
 
     &.show-more {
         z-index: 2;
-        background-color: pink;
     }
-}
-
-.CalendarWidgetDay-Sunday,
-.CalendarWidgetDay-Saturday {
-    background-color: red;
 }
 
 .CalendarWidgetDay-otherMonth {
     background-color: var(--primary--6);
     cursor: inherit;
-
-    & .CalendarWidgetDay-date {
-        color: pink;
-    }
 }
 
 .CalendarWidgetDay-date { text-align: right; }

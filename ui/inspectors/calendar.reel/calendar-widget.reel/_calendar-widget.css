@@ -3,8 +3,8 @@
     --titleBg:  var(--primary--8);
     --buttonBg: var(--primary);
     --hourHeight: 3rem;
-    --calenderStrongLine: var(--main-bg-color);
-    --calenderWeakLine: color(var(--calenderStrongLine) alpha(.3));
+    --calendarStrongLine: var(--main-bg-color);
+    --calendarWeakLine: color(var(--calendarStrongLine) alpha(.3));
     --allDayBg: var(--primary--4);
 }
 
@@ -156,7 +156,7 @@ Main Content
 .CalendarWidget-view-main {
     position: relative;
     flex: 1;
-    border: 1px solid var(--calender-line--strong);
+    border: 1px solid var(--calendar-line--strong);
     background-color: var(--bg);
     display: flex;
 
@@ -193,7 +193,7 @@ Main Content
         left: 0;
         right: 0;
         bottom: 0;
-        background-image: linear-gradient(var(--calender-line--strong) 1px, transparent 1px);
+        background-image: linear-gradient(var(--calendar-line--strong) 1px, transparent 1px);
         background-size: var(--hourHeight) var(--hourHeight);
         background-position: -1px -1px;
     }
@@ -206,7 +206,7 @@ Main Content
     position: relative;
     line-height: 1.5em;
     height: var(--hourHeight);
-    border-right: 1px solid var(--calender-line--strong);
+    border-right: 1px solid var(--calendar-line--strong);
 }
 
 /* Day Columns */
@@ -225,8 +225,8 @@ Main Content
         left: 0;
         right: 0;
         bottom: 0;
-        background-image: linear-gradient(var(--calender-line--strong) 1px, transparent 1px),
-                          linear-gradient(var(--calender-line--weak) 1px, transparent 1px);
+        background-image: linear-gradient(var(--calendar-line--strong) 1px, transparent 1px),
+                          linear-gradient(var(--calendar-line--weak) 1px, transparent 1px);
         background-size: var(--hourHeight) var(--hourHeight), var(--hourHeight) var(--hourHeight);
         background-position: -1px -1px, -1px calc(var(--hourHeight) / 2 - 1px);
     }
@@ -238,7 +238,7 @@ Main Content
     flex-direction: column;
 
     &:not(:last-child) {
-        border-right: 1px solid var(--calender-line--strong);
+        border-right: 1px solid var(--calendar-line--strong);
     }
 }
 
