@@ -1,3 +1,10 @@
+.Topology {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
 .CascadingListItem-Topology.CascadingListItem {
     flex: 1;
     min-width: 37.25em;
@@ -20,7 +27,12 @@
 
         & .TopologyEdit-sidebar { display: none; }
     }
+}
 
+.Topology .Inspector-body-scrollview,
+.TopologyEdit .Inspector-body-scrollview {
+    display: flex;
+    overflow: initial;
 }
 
 .TopologyEdit-content {

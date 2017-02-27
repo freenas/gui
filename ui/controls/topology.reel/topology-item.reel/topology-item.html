@@ -65,10 +65,17 @@
             "prototype": "../topology-dropzone.reel",
             "properties": {
                 "element": {"#": "drop-zone"},
-                "vDevController": {"@": "controller"}
+                "vDevController": {"@": "controller"},
+                "scrollView": {"@": "scrollView"}
             },
             "bindings": {
                 "identifier": {"<-": "@owner.gridIdentifier"}
+            }
+        },
+        "scrollView": {
+            "prototype": "blue-shark/ui/scroller.reel",
+            "properties": {
+                "element": {"#": "scrollView"}
             }
         }
     }
@@ -86,8 +93,10 @@
                 </div>
             </div>
             <div data-montage-id="allocationBar" class="TopologyItem-allocationBar"></div>
-            <div class="TopologyItem-grid">
-                <div data-montage-id="vdevsGrid" class="vdevs-grid"></div>
+            <div data-montage-id="scrollView">
+                <div class="TopologyItem-grid">
+                    <div data-montage-id="vdevsGrid" class="vdevs-grid"></div>
+                </div>
             </div>
         </div>
     </div>

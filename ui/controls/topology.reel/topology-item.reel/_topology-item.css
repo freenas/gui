@@ -88,6 +88,10 @@ allocation bar
 .Topology-log .TopologyItem-title   { color: var(--grey-1); }
 
 
+.Topology-data.has-items {
+    flex: 1;
+}
+
 .Topology-log {
     border-left: 1px solid var(--grey-blue);
 }
@@ -103,31 +107,8 @@ Grid
     flex: 1;
 
     @nest .TopologyItem.has-items & {
-        /* FIXME: currently using native scrolling */
-        overflow: scroll;
         padding: .25em;
     }
-
-    /* attempt at hinting for items below scroll */
-    /* &:before,
-    &:after {
-        content: "";
-        position: absolute;
-        left: 0;
-        right: 0;
-        height: 1.5em;
-        z-index: 1;
-    }
-
-    &:before {
-        top: 3.5em;
-        background-image: linear-gradient(var(--topologyItemBg), rgba(47, 50, 51,0));
-    }
-
-    &:after {
-        bottom: 0;
-        background-image: linear-gradient(rgba(47, 50, 51,0), var(--topologyItemBg));
-    } */
 }
 
 .TopologyItem .Grid-icon {
