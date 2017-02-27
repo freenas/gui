@@ -107,7 +107,9 @@
             "prototype": "ui/controls/search-users.reel",
             "properties": {
                 "element": {"#": "guestUser"},
-                "label": "Guest account"
+                "label": "Guest account",
+                "labelPath": "username",
+                "valuePath": "username"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.guest_user"}

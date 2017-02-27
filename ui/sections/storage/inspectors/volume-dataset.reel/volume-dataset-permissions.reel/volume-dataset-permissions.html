@@ -35,7 +35,9 @@
             "prototype": "ui/controls/search-users.reel",
             "properties": {
                 "element": {"#": "ownerUser"},
-                "label": "Owner user"
+                "label": "Owner user",
+                "labelPath": "username",
+                "valuePath": "username"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.permissions.user"}
@@ -45,7 +47,9 @@
             "prototype": "ui/controls/search-groups.reel",
             "properties": {
                 "element": {"#": "ownerGroup"},
-                "label": "Owner group"
+                "label": "Owner group",
+                "labelPath": "name",
+                "valuePath": "name"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.permissions.group"}

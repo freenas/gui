@@ -55,7 +55,9 @@
             "prototype": "ui/controls/search-users.reel",
             "properties": {
                 "element": {"#": "maprootUser"},
-                "label": "Maproot user"
+                "label": "Maproot user",
+                "labelPath": "username",
+                "valuePath": "username"
             },
             "bindings": {
                 "value": {"<->": "@owner.properties.maproot_user"}
@@ -65,7 +67,9 @@
             "prototype": "ui/controls/search-groups.reel",
             "properties": {
                 "element": {"#": "maprootGroup"},
-                "label": "Maproot group"
+                "label": "Maproot group",
+                "labelPath": "name",
+                "valuePath": "name"
             },
             "bindings": {
                 "value": {"<->": "@owner.properties.maproot_group"}
@@ -75,7 +79,9 @@
             "prototype": "ui/controls/search-users.reel",
             "properties": {
                 "element": {"#": "mapallUser"},
-                "label": "Mapall user"
+                "label": "Mapall user",
+                "labelPath": "username",
+                "valuePath": "username"
             },
             "bindings": {
                 "value": {"<->": "@owner.properties.mapall_user"}
@@ -85,7 +91,9 @@
             "prototype": "ui/controls/search-groups.reel",
             "properties": {
                 "element": {"#": "mapallGroup"},
-                "label": "Mapall group"
+                "label": "Mapall group",
+                "labelPath": "name",
+                "valuePath": "name"
             },
             "bindings": {
                 "value": {"<->": "@owner.properties.mapall_group"}
