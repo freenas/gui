@@ -33,12 +33,47 @@ export class AccountService {
         return this.accountRepository.listSystemGroups();
     }
 
-    public searchUser(value) {
-        return this.accountRepository.searchUser(value);
+    public searchUser(value: string, options?: any) {
+        return this.handleSearchQuery(
+            this.accountRepository.searchUser(value),
+            options
+        );
     }
 
-    public searchGroup(value) {
-        return this.accountRepository.searchGroup(value);
+    public searchUserWithCriteria(criteria: any, options?: any) {
+        return this.handleSearchQuery(
+            this.accountRepository.searchUserWithCriteria(criteria),
+            options
+        );
+    }
+
+    public searchGroup(value: string, options?: any) {
+        return this.handleSearchQuery(
+            this.accountRepository.searchGroup(value),
+            options
+        );
+    }
+
+    public searchGroupWithCriteria(criteria: any, options?: any) {
+        return this.handleSearchQuery(
+            this.accountRepository.searchGroupWithCriteria(criteria),
+            options
+        );
+    }
+
+    private handleSearchQuery(searchQuery: Promise<any>, options?: any) {
+        return searchQuery.then((entries) => {
+            if (options && options.labelPath && options.valuePath) {
+                entries = entries.map(entry => {
+                    return {
+                        label: entry[options.labelPath],
+                        value: entry[options.valuePath]
+                    };
+                });
+            }
+
+            return entries;
+        });
     }
 
 }

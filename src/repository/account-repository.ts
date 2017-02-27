@@ -246,20 +246,22 @@ export class AccountRepository extends AbstractRepository {
     }
 
     public searchUser(value) {
-        return this.userDao.stream(false, {username: [['~', value]]}).then(function (results) {
-            let users = results.get('data').toJS();
-            return users.map(user => {
-                return {label: user.username, value: user.username};
-            });
-        });
+        return this.searchUserWithCriteria({username: [['~', value]]});
     }
 
     public searchGroup(value) {
-        return this.groupDao.stream(false, {name: [['~', value]]}).then(function (results) {
-            let groups = results.get('data').toJS();
-            return groups.map(group => {
-                return {label: group.name, value: group.name};
-            });
+        return this.searchGroupWithCriteria({name: [['~', value]]});
+    }
+
+    public searchGroupWithCriteria(criteria: any) {
+        return this.groupDao.stream(false, criteria).then(function (results) {
+            return results.get('data').toJS();
+        });
+    }
+
+    public searchUserWithCriteria(criteria: any) {
+        return this.userDao.stream(false, criteria).then(function (results) {
+            return results.get('data').toJS();
         });
     }
 

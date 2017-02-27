@@ -1,4 +1,5 @@
 import {AbstractSectionService} from './abstract-section-service-ng';
+import {AccountService} from '../account-service';
 import {AccountRepository} from '../../repository/account-repository';
 import {Map, Iterable} from 'immutable';
 import {KerberosRepository} from '../../repository/kerberos-repository';
@@ -14,6 +15,7 @@ export class AccountsSectionService extends AbstractSectionService {
     private shellRepository: ShellRepository;
     private ntpServerRepository: NtpServerRepository;
     private systemRepository: SystemRepository;
+    private accountService: AccountService;
 
     public readonly DIRECTORY_TYPES_LABELS = AccountRepository.DIRECTORY_TYPES_LABELS;
 
@@ -26,6 +28,7 @@ export class AccountsSectionService extends AbstractSectionService {
         this.shellRepository = ShellRepository.getInstance();
         this.ntpServerRepository = NtpServerRepository.getInstance();
         this.systemRepository = SystemRepository.getInstance();
+        this.accountService = AccountService.getInstance();
 
         this.eventDispatcherService.addEventListener(ModelEventName.User.listChange, this.handleUsersChange.bind(this));
         this.eventDispatcherService.addEventListener(ModelEventName.Group.listChange, this.handleGroupsChange.bind(this));
@@ -163,6 +166,14 @@ export class AccountsSectionService extends AbstractSectionService {
 
     public getNextSequenceForStream (streamId) {
         return this.accountRepository.getNextSequenceForStream(streamId);
+    }
+
+    public searchUserWithCriteria(criteria: any, options?: any) {
+        return this.accountService.searchUserWithCriteria(criteria, options);
+    }
+
+    public searchGroupWithCriteria(criteria: any, options?: any) {
+        return this.accountService.searchGroupWithCriteria(criteria, options);
     }
 
     private handleUsersChange(state: Map<string, Map<string, any>>) {
