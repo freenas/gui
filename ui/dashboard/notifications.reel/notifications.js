@@ -26,6 +26,12 @@ exports.Notifications = AbstractComponentActionDelegate.specialize({
         }
     },
 
+    handleUpdateButtonAction: {
+        value: function (event) {
+            this._routingService.navigate('/settings/system-section/_/updates');
+        }
+    },
+
     handleExpandButtonAction: {
         value: function (event) {
             var iteration = this.items._findIterationContainingElement(event.target.element);
