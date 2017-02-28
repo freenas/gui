@@ -21,6 +21,24 @@ exports.SnapshotArgs = Component.specialize(/** @lends SnapshotArgs# */ {
         }
     },
 
+
+    _dataset:{
+        value: null
+    },
+
+    dataset: {
+        set: function (dataset) {
+            if (dataset !== this._dataset) {
+                //WORKAROUND: #21300
+                //the treeview needs to be refactored.
+                this._dataset = dataset.replace(/^\/mnt\/?/, '');
+            }
+        },
+        get: function () {
+            return this._dataset;
+        }
+    },
+
     _resetObjectIfNeeded: {
         value: function() {
             if (this.object.length != 5) {
