@@ -1,16 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
     <link rel="stylesheet" type="text/css" href="afp-share.css">
     <script type="text/montage-serialization">
     {
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
-            },
-            "bindings": {
-                "properties": {"<-": "@owner.object.properties"}
             }
         },
         "hostAllow": {
@@ -44,22 +40,22 @@
             }
         },
         "usersAllow": {
-            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "prototype": "blue-shark/ui/field-search-multiple.reel",
             "properties": {
                 "element": {"#": "usersAllow"},
                 "label": "Users Allowed",
                 "placeholder": "eg. sam",
-                "labelPath": "this",
                 "inputTitle": "Add an Allowed User",
                 "valuesTitle": "Allowed Users",
                 "emptyMessage": "No allowed users added"
             },
             "bindings": {
-                "values": {"<->": "@owner.properties.users_allow"}
+                "values": {"<->": "@owner.properties.users_allow"},
+                "controller": {"<-": "@owner.usersSearchController"}
             }
         },
         "usersDeny": {
-            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "prototype": "blue-shark/ui/field-search-multiple.reel",
             "properties": {
                 "element": {"#": "usersDeny"},
                 "label": "Users Denied",
@@ -70,11 +66,12 @@
                 "emptyMessage": "No users denied"
             },
             "bindings": {
-                "values": {"<->": "@owner.properties.users_deny"}
+                "values": {"<->": "@owner.properties.users_deny"},
+                "controller": {"<-": "@owner.usersSearchController"}
             }
         },
         "groupsAllow": {
-            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "prototype": "blue-shark/ui/field-search-multiple.reel",
             "properties": {
                 "element": {"#": "groupsAllow"},
                 "label": "Groups Allowed",
@@ -85,11 +82,12 @@
                 "emptyMessage": "No allowed groups added"
             },
             "bindings": {
-                "values": {"<->": "@owner.properties.groups_allow"}
+                "values": {"<->": "@owner.properties.groups_allow"},
+                "controller": {"<-": "@owner.groupsSearchController"}
             }
         },
         "groupsDeny": {
-            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "prototype": "blue-shark/ui/field-search-multiple.reel",
             "properties": {
                 "element": {"#": "groupsDeny"},
                 "label": "Groups Deny",
@@ -100,7 +98,8 @@
                 "emptyMessage": "No groups denied"
             },
             "bindings": {
-                "values": {"<->": "@owner.properties.groups_deny"}
+                "values": {"<->": "@owner.properties.groups_deny"},
+                "controller": {"<-": "@owner.groupsSearchController"}
             }
         },
         "afp3Privileges": {
