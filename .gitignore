@@ -69,17 +69,6 @@ tests/e2e/reports/
 *.js.map
 bin/
 
-core/*.js
-core/backend/
-core/components/
-core/controller/
-core/converter/
-core/dao/
-core/reducers/
-core/repository/
-core/route/
-core/service/
-core/model/enumerations/
-core/model/[A-Z]*.js
+core/
 ui/**/*.css
 !ui/**/_*.css

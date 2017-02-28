@@ -1,25 +1,22 @@
-/**
- * @module ui/disk-traffic.reel
- */
 var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+    DiskRepository = require('core/repository/disk-repository').DiskRepository;
 
-/**
- * @class DiskTraffic
- * @extends Component
- */
 exports.DiskTraffic = Component.specialize(/** @lends DiskTraffic# */ {
+    templateDidLoad: {
+        value: function() {
+            this.diskRepository = DiskRepository.getInstance();
+        }
+    },
+
     enterDocument: {
         value: function() {
-            if (!this.disks) {
-                var self = this;
-                this.application.dataService.fetchData(Model.Disk).then(function(disks) {
-                    self.disks = disks.filter(function(disk) {
-                        return !!disk.online;
-                    });
-                    self._refreshChart();
+            var self = this;
+            this.diskRepository.listDisks().then(function(disks) {
+                self.disks = disks.filter(function(disk) {
+                    return !!disk.online;
                 });
-            }
+                self._refreshChart();
+            });
         }
     },
 

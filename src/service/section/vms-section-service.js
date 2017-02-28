@@ -1,14 +1,14 @@
 var AbstractSectionService = require("core/service/section/abstract-section-service").AbstractSectionService,
-    VmGuestType = require("core/model/enumerations/vm-guest-type").VmGuestType,
-    VmConfigBootloader = require("core/model/enumerations/vm-config-bootloader").VmConfigBootloader,
-    VmDeviceDiskMode = require("core/model/enumerations/vm-device-disk-mode").VmDeviceDiskMode,
-    VmDeviceDiskTargetType = require("core/model/enumerations/vm-device-disk-target-type").VmDeviceDiskTargetType,
-    VmDeviceGraphicsResolution = require("core/model/enumerations/vm-device-graphics-resolution").VmDeviceGraphicsResolution,
-    VmDeviceNicDevice = require("core/model/enumerations/vm-device-nic-device").VmDeviceNicDevice,
-    VmDeviceNicMode = require("core/model/enumerations/vm-device-nic-mode").VmDeviceNicMode,
-    VmDeviceUsbDevice = require("core/model/enumerations/vm-device-usb-device").VmDeviceUsbDevice,
-    VmDeviceVolumeType = require("core/model/enumerations/vm-device-volume-type").VmDeviceVolumeType,
-    VmDatastoreNfsVersion = require("core/model/enumerations/vm-datastore-nfs-version").VmDatastoreNfsVersion,
+    VmGuestType = require("core/model/enumerations/VmGuestType").VmGuestType,
+    VmConfigBootloader = require("core/model/enumerations/VmConfigBootloader").VmConfigBootloader,
+    VmDeviceDiskMode = require("core/model/enumerations/VmDeviceDiskMode").VmDeviceDiskMode,
+    VmDeviceDiskTargetType = require("core/model/enumerations/VmDeviceDiskTargetType").VmDeviceDiskTargetType,
+    VmDeviceGraphicsResolution = require("core/model/enumerations/VmDeviceGraphicsResolution").VmDeviceGraphicsResolution,
+    VmDeviceNicDevice = require("core/model/enumerations/VmDeviceNicDevice").VmDeviceNicDevice,
+    VmDeviceNicMode = require("core/model/enumerations/VmDeviceNicMode").VmDeviceNicMode,
+    VmDeviceUsbDevice = require("core/model/enumerations/VmDeviceUsbDevice").VmDeviceUsbDevice,
+    VmDeviceVolumeType = require("core/model/enumerations/VmDeviceVolumeType").VmDeviceVolumeType,
+    VmDatastoreNfsVersion = require("core/model/enumerations/VmDatastoreNfsVersion").VmDatastoreNfsVersion,
     VmRepository = require("core/repository/vm-repository").VmRepository,
     VmDatastoreRepository = require("core/repository/VmDatastoreRepository").VmDatastoreRepository,
     VmSnapshotRepository = require("core/repository/VmSnapshotRepository").VmSnapshotRepository,
@@ -24,6 +24,7 @@ var AbstractSectionService = require("core/service/section/abstract-section-serv
     ModelEventName = require("core/model-event-name").ModelEventName,
     Model = require("core/model").Model,
     uuid = require("uuid"),
+    EnumerationsService = require('core/service/EnumerationsService').EnumerationsService,
     _ = require("lodash");
 
 exports.VmsSectionService = AbstractSectionService.specialize({
@@ -53,7 +54,7 @@ exports.VmsSectionService = AbstractSectionService.specialize({
                     "other32":      "Other (32-bit)",
                     "other64":      "Other (64-bit)"
                 });
-                this._guestTypes = VmGuestType.members.map(function(x) {
+                this._guestTypes = EnumerationsService.cleanupMontageMetadata(VmGuestType).map(function(x) {
                     return {
                         label: labels.get(x, x),
                         value: x

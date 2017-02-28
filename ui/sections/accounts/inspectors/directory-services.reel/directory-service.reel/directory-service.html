@@ -53,7 +53,8 @@
             },
             "bindings": {
                 "moduleId": {"<-": "'ui/sections/accounts/inspectors/directory-services.reel/' + @owner.object.type + '-service.reel'"},
-                "object": {"<-": "@owner.object"}
+                "object": {"<-": "@owner.object"},
+                "component.sectionService": {"<-": "@owner._sectionService"}
             }
         },
 

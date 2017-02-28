@@ -6,6 +6,7 @@ import {ModelEventName} from '../model-event-name';
 import {Map} from 'immutable';
 import {Model} from '../model';
 import {CalendarTask} from '../model/CalendarTask';
+import {SubmittedTask} from '../model/SubmittedTask';
 
 export class CalendarRepository extends AbstractRepository {
     private static instance: CalendarRepository;
@@ -228,6 +229,21 @@ export class CalendarRepository extends AbstractRepository {
 
     public getNewCalendarInstance() {
         return this.calendarDao.getNewInstance();
+    }
+
+    public getNewCalendarTaskInstance(type, schedule, args = [], enabled = false, name?) {
+        return this.calendarTaskDao.getNewInstance().then(calendarTask => {
+            calendarTask.task = type;
+            calendarTask.schedule = schedule;
+            calendarTask.args = args;
+            calendarTask.enabled = enabled;
+            calendarTask.name = name;
+            return calendarTask;
+        });
+    }
+
+    public saveCalendarTask(calendarTask: CalendarTask): Promise<SubmittedTask> {
+        return this.calendarTaskDao.save(calendarTask);
     }
 
     public getTasksScheduleOnDay(day: any) {

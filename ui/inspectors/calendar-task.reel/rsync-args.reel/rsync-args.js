@@ -1,7 +1,6 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     RsyncCopyRsyncdirection = require('core/model/enumerations/rsync-copy-rsyncdirection').RsyncCopyRsyncdirection,
-    RsyncCopyRsyncmode = require('core/model/enumerations/rsync-copy-rsyncmode').RsyncCopyRsyncmode,
-    Model = require("core/model/model").Model;
+    RsyncCopyRsyncmode = require('core/model/enumerations/rsync-copy-rsyncmode').RsyncCopyRsyncmode;
 
 
 
@@ -10,14 +9,14 @@ exports.RsyncArgs = AbstractInspector.specialize({
         value: function() {
             var self = this;
 
-            this.rsyncDirections = RsyncCopyRsyncdirection.members.map(function(x) {
+            this.rsyncDirections = this.cleanupEnumeration(RsyncCopyRsyncdirection).map(function(x) {
                 return {
                     label: x.toLowerCase().toCapitalized(),
                     value: x
                 };
             });
 
-            this.rsyncModes = RsyncCopyRsyncmode.members.map(function(x) {
+            this.rsyncModes = this.cleanupEnumeration(RsyncCopyRsyncmode).map(function(x) {
                 return {
                     label: x.toLowerCase().toCapitalized(),
                     value: x

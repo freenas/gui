@@ -1,22 +1,14 @@
 var Montage = require("montage").Montage,
-    ShareTargettype = require("core/model/enumerations/share-targettype").ShareTargettype,
-    application = require("montage/core/application").application,
-    FreeNASService = require("core/service/freenas-service").FreeNASService,
+    ShareTargettype = require("core/model/enumerations/ShareTargettype").ShareTargettype,
     BytesService = require("core/service/bytes-service").BytesService,
     ShareRepository = require("core/repository/share-repository").ShareRepository,
     ShareIscsiTargetRepository = require("core/repository/ShareIscsiTargetRepository").ShareIscsiTargetRepository,
     VolumeRepository = require("core/repository/volume-repository").VolumeRepository,
-    Promise = require("montage/core/promise").Promise,
-    Model = require("core/model/model").Model,
     _ = require("lodash");
 
 var ShareService = exports.ShareService = Montage.specialize({
 
     _instance: {
-        value: null
-    },
-
-    _dataService: {
         value: null
     },
 
@@ -111,7 +103,7 @@ var ShareService = exports.ShareService = Montage.specialize({
     },
 
     save: {
-        value: function (shareObject, isServiceEnabled) {
+        value: function (shareObject) {
             var saveSharePromise;
 
             // Clear up permissions
@@ -125,11 +117,11 @@ var ShareService = exports.ShareService = Montage.specialize({
 
             //FIXME: workaround for the SELECT component. Future dead code.
             if (shareObject.type === this.constructor.SHARE_TYPES.NFS) {
-                saveSharePromise = this._saveNfsShareObject(shareObject, isServiceEnabled);
+                saveSharePromise = this._saveNfsShareObject(shareObject);
             } else if (shareObject.type === this.constructor.SHARE_TYPES.ISCSI) {
-                saveSharePromise = this._saveIscsiShareObject(shareObject, isServiceEnabled);
+                saveSharePromise = this._saveIscsiShareObject(shareObject);
             } else if (shareObject.type === this.constructor.SHARE_TYPES.AFP) {
-                saveSharePromise = this._saveAfpShareObject(shareObject, isServiceEnabled);
+                saveSharePromise = this._saveAfpShareObject(shareObject);
             } else {
                 saveSharePromise = this.shareRepository.saveShare(shareObject);
             }
@@ -138,7 +130,7 @@ var ShareService = exports.ShareService = Montage.specialize({
     },
 
     _saveNfsShareObject: {
-        value: function(shareObject, isServiceEnabled) {
+        value: function(shareObject) {
             var properties = shareObject.properties;
             properties.maproot_user = properties.maproot_user != ' - ' ? properties.maproot_user : null;
             properties.maproot_group = properties.maproot_group != ' - ' ? properties.maproot_group : null;
@@ -150,7 +142,7 @@ var ShareService = exports.ShareService = Montage.specialize({
     },
 
     _saveAfpShareObject: {
-        value: function(shareObject, isServiceEnabled) {
+        value: function(shareObject) {
             if (shareObject._isNew) {
                 shareObject.properties.default_file_perms = this._isPermissionsDefined(shareObject.properties.default_file_perms) ?
                     shareObject.properties.default_file_perms : null;
@@ -205,7 +197,7 @@ var ShareService = exports.ShareService = Montage.specialize({
             return this.shareRepository.saveShare(shareObject, datasetProperties)
                 .then(function() {
                     if (isNewShareObject) {
-                        return self._dataService.getNewInstanceForType(Model.ShareIscsiTarget).then(function(target) {
+                        return self.shareIscsiTargetRepository.getNewInstance().then(function(target) {
                             var extentObject = {
                                 name: shareObject.name,
                                 number: shareObject.__extent ? shareObject.__extent.lun : 0
@@ -236,7 +228,7 @@ var ShareService = exports.ShareService = Montage.specialize({
         value: function () {
             var self = this;
 
-            return this._dataService.fetchData(Model.ShareIscsiTarget).then(function (shareIscsiTargetCollection) {
+            return this.shareIscsiTargetRepository.list().then(function (shareIscsiTargetCollection) {
                 return (self.shareIscsiTargetCollection = shareIscsiTargetCollection);
             });
         }
@@ -299,7 +291,6 @@ var ShareService = exports.ShareService = Montage.specialize({
         get: function() {
             if (!this._instance) {
                 this._instance = new ShareService();
-                this._instance._dataService = FreeNASService.instance;
                 this._instance._bytesService = BytesService.instance;
                 this._instance.shareRepository = ShareRepository.getInstance();
                 this._instance.shareIscsiTargetRepository = ShareIscsiTargetRepository.getInstance();

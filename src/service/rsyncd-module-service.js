@@ -1,17 +1,8 @@
 var Montage = require("montage").Montage,
-    FreeNASService = require("core/service/freenas-service").FreeNASService,
-    Model = require("core/model/model").Model;
+    RsyncdModuleRepository = require('core/repository/RsyncdModuleRepository').RsyncdModuleRepository;
 
 var RsyncdModuleService = exports.RsyncdModuleService = Montage.specialize({
     _instance: {
-        value: null
-    },
-
-    _dataService: {
-        value: null
-    },
-
-    _methods: {
         value: null
     },
 
@@ -21,18 +12,14 @@ var RsyncdModuleService = exports.RsyncdModuleService = Montage.specialize({
 
     constructor: {
         value: function() {
-            var self = this;
-            this._dataService = FreeNASService.instance;
-            Model.populateObjectPrototypeForType(Model.RsyncdModule).then(function() {
-                self._methods = Model.RsyncdModule.objectPrototype.services;
-            });
+            this.rsyncdModuleRepository = RsyncdModuleRepository.getInstance();
         }
     },
 
     list: {
         value: function() {
             var self = this;
-            return this._dataService.fetchData(Model.RsyncdModule).then(function(rsyncdModules) {
+            return this.rsyncdModuleRepository.list().then(function(rsyncdModules) {
                 return self._rsycndModules = rsyncdModules;
             });
         }
@@ -40,7 +27,7 @@ var RsyncdModuleService = exports.RsyncdModuleService = Montage.specialize({
 
     delete: {
         value: function(rsyncdModule) {
-            return this._dataService.deleteDataObject(rsyncdModule);
+            return this.rsyncdModuleRepository.delete(rsyncdModule);
         }
     }
 

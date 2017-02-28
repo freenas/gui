@@ -1,7 +1,7 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    COMPRESSION_OPTIONS = require("core/model/enumerations/volume-dataset-property-compression-value").VolumeDatasetPropertyCompressionValue,
-    DEDUP_OPTIONS = require("core/model/enumerations/volume-dataset-property-dedup-value").VolumeDatasetPropertyDedupValue,
-    VOLBLOCKSIZE_OPTIONS = require("core/model/enumerations/volume-dataset-property-volblocksize-value").VolumeDatasetPropertyVolblocksizeValue,
+    COMPRESSION_OPTIONS = require("core/model/enumerations/VolumeDatasetPropertycompressionValue").VolumeDatasetPropertycompressionValue,
+    DEDUP_OPTIONS = require("core/model/enumerations/VolumeDatasetPropertydedupValue").VolumeDatasetPropertydedupValue,
+    VOLBLOCKSIZE_OPTIONS = require("core/model/enumerations/VolumeDatasetPropertyvolblocksizeValue").VolumeDatasetPropertyvolblocksizeValue,
     Units = require('core/Units'),
     _ = require("lodash");
 
@@ -188,7 +188,7 @@ exports.VolumeDatasetSettings = AbstractInspector.specialize({
 
     _initializePropertyOptions: {
         value: function(optionEnum, isRoot) {
-            var keys = Object.keys(optionEnum), key,
+            var keys = this.cleanupEnumeration(optionEnum), key,
                 options = [], option;
             for (var i = 0, length = keys.length; i < length; i++) {
                 key = keys[i];

@@ -1,5 +1,5 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    SystemAdvancedSerialspeed = require("core/model/enumerations/system-advanced-serialspeed").SystemAdvancedSerialspeed,
+    SystemAdvancedSerialspeed = require("core/model/enumerations/SystemAdvancedSerialspeed").SystemAdvancedSerialspeed,
     _ = require("lodash");
 
 exports.SerialConsole = AbstractInspector.specialize({

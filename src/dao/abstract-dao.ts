@@ -114,6 +114,7 @@ export class AbstractDao<T extends AbstractDataObject> {
         let self = this;
         return Promise.resolve(new Object({
             _isNew: true,
+            '%type': self.objectType,
             _objectType: self.objectType
         }));
     }

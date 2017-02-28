@@ -1,5 +1,4 @@
-var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Model = require("core/model/model").Model;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
 exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
 

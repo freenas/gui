@@ -1,13 +1,5 @@
-/**
- * @module ui/inspectors/calendar-task.reel/snapshot-args.reel
- */
-var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+var Component = require("montage/ui/component").Component;
 
-/**
- * @class SnapshotArgs
- * @extends Component
- */
 exports.SnapshotArgs = Component.specialize(/** @lends SnapshotArgs# */ {
 
     enterDocument: {

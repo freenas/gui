@@ -1,20 +1,11 @@
-/**
- * @module ui/mail.reel
- */
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model,
-    MailEncryptionType = require("core/model/enumerations/mail-encryption-type").MailEncryptionType;
+    MailEncryptionType = require("core/model/enumerations/MailEncryptionType").MailEncryptionType;
 
-/**
- * @class Mail
- * @extends Component
- */
 exports.Mail = AbstractInspector.specialize(/** @lends Mail# */ {
 
     handleSendTestMailAction: {
         value: function() {
-            this.application.mailService.sendTestMail({
+            this._sectionService.sendEmail({
                 "from_address": this.alertEmitterEmail.config.from_address,
                 "subject": "test mail",
                 "to": this.alertEmitterEmail.config.to,
@@ -40,9 +31,10 @@ exports.Mail = AbstractInspector.specialize(/** @lends Mail# */ {
                 this.isLoading = true;
                 this.encryptionOptions = [];
                 this.pushbullet = {};
-                for (var i = 0; i < MailEncryptionType.members.length; i++) {
-                    this.encryptionOptions.push({label: MailEncryptionType.members[i], value: MailEncryptionType[MailEncryptionType.members[i]]});
-                };
+                var cleanupEnumeration = this.cleanupEnumeration(MailEncryptionType);
+                for (var i = 0; i < cleanupEnumeration.length; i++) {
+                    this.encryptionOptions.push({label: cleanupEnumeration[i], value: cleanupEnumeration});
+                }
                 this._sectionService.getAlertEmitterEmail().then(function(alertEmitterEmail) {
                     self.alertEmitterEmail = alertEmitterEmail;
                     if (!alertEmitterEmail.config.to) {

@@ -164,7 +164,7 @@ exports.CascadingListItem = Component.specialize({
 
     _removeObjectDeletedListener: {
         value: function () {
-            if (this._objectDeletedListener && this._data && this._data.object) {
+            if (this._objectDeletedListener && this._data && this._data.object && ModelEventChange[this._data.objectType]) {
                 this.eventDispatcherService.removeEventListener(ModelEventChange[this._data.objectType].remove(this._data.object.id), this._objectDeletedListener);
             }
         }

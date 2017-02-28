@@ -1,6 +1,6 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    ServiceUpsShutdownmode = require("core/model/enumerations/service-ups-shutdownmode").ServiceUpsShutdownmode,
-    ServiceUpsMode = require("core/model/enumerations/service-ups-mode").ServiceUpsMode,
+    ServiceUpsShutdownmode = require("core/model/enumerations/ServiceUpsShutdownmode").ServiceUpsShutdownmode,
+    ServiceUpsMode = require("core/model/enumerations/ServiceUpsMode").ServiceUpsMode,
     Units = require('core/Units');
 
 exports.UpsService = AbstractInspector.specialize({
@@ -8,13 +8,13 @@ exports.UpsService = AbstractInspector.specialize({
         value: function () {
             var self = this;
             this.timerUnits = Units.SECONDS;
-            this.modeOptions = ServiceUpsMode.members.map(function (x) {
+            this.modeOptions = this.cleanupEnumeration(ServiceUpsMode).map(function (x) {
                 return {
                     label: x,
                     value: x
                 };
             });
-            this.shutdownModeOptions = ServiceUpsShutdownmode.members.map(function (x) {
+            this.shutdownModeOptions = this.cleanupEnumeration(ServiceUpsShutdownmode).map(function (x) {
                 return {
                     label: x,
                     value: x

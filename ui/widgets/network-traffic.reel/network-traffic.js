@@ -1,11 +1,12 @@
 var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+    NetworkRepository = require('core/repository/network-repository').NetworkRepository;
 
-/**
- * @class NetworkTraffic
- * @extends Component
- */
 exports.NetworkTraffic = Component.specialize({
+    templateDidLoad: {
+        value: function() {
+            this.networkRepository = NetworkRepository.getInstance();
+        }
+    },
 
     _card: {
         value: null
@@ -25,13 +26,10 @@ exports.NetworkTraffic = Component.specialize({
 
     enterDocument: {
         value: function () {
-            if (!this.interfaces) {
-                var self = this;
-
-                this.application.dataService.fetchData(Model.NetworkInterface).then(function (interfaces) {
-                    self.interfaces = interfaces;
-                });
-            }
+            var self = this;
+            this.networkRepository.listNetworkInterfaces().then(function (interfaces) {
+                self.interfaces = interfaces;
+            });
         }
     },
 

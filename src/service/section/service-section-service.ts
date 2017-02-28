@@ -3,18 +3,23 @@ import {ServiceRepository} from '../../repository/service-repository';
 import {AbstractSectionService} from './abstract-section-service-ng';
 import {NetworkRepository} from '../../repository/network-repository';
 import {VolumeRepository} from '../../repository/volume-repository';
+import {User} from '../../model/User';
+import {UserRepository} from '../../repository/UserRepository';
+import {AccountRepository} from '../../repository/account-repository';
 
 export class ServiceSectionService extends AbstractSectionService {
     private systemRepository: SystemRepository;
     private serviceRepository: ServiceRepository;
     private networkRepository: NetworkRepository;
     private volumeRepository: VolumeRepository;
+    private accountRepository: AccountRepository;
 
     protected init() {
         this.systemRepository = SystemRepository.getInstance();
         this.serviceRepository = ServiceRepository.getInstance();
         this.networkRepository = NetworkRepository.getInstance();
         this.volumeRepository = VolumeRepository.getInstance();
+        this.accountRepository = AccountRepository.getInstance();
     }
 
     public getSystemGeneral() {
@@ -41,9 +46,19 @@ export class ServiceSectionService extends AbstractSectionService {
         return this.serviceRepository.provideDcUrl();
     }
 
+    public listUsers() {
+        return this.accountRepository.listUsers();
+    }
+
+    public listGroups() {
+        return this.accountRepository.listGroups();
+    }
+
     public listVolumes() {
         return this.volumeRepository.listVolumes();
     }
+
+    public getNextSequenceForStream(streamId: string) {}
 
     protected loadEntries(): Promise<Array<any>> {
         return this.serviceRepository.listServicesCategories();

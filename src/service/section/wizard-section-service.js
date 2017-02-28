@@ -1,5 +1,4 @@
 var AbstractSectionService = require('core/service/section/abstract-section-service').AbstractSectionService,
-    NotificationCenterModule = require('core/backend/notification-center'),
     Application = require('montage/core/application').application,
     ModelDescriptorService = require('core/service/model-descriptor-service').ModelDescriptorService,
     TopologyService = require('core/service/topology-service').TopologyService,
@@ -153,12 +152,6 @@ exports.WizardSectionService = AbstractSectionService.specialize({
             return Promise.all(promises).then(function () {
                 return wizardSteps;
             });
-        }
-    },
-
-    notificationCenter: {
-        get: function () {
-            return NotificationCenterModule.defaultNotificationCenter;
         }
     },
 

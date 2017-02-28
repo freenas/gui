@@ -1,24 +1,20 @@
-/**
- * @module ui/disk-temperature.reel
- */
 var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+    DiskRepository = require('core/repository/disk-repository').DiskRepository;
 
-/**
- * @class DiskTemperature
- * @extends Component
- */
-exports.DiskTemperature = Component.specialize(/** @lends DiskTemperature# */ {
+exports.DiskTemperature = Component.specialize({
+    templateDidLoad: {
+        value: function() {
+            this.diskRepository = DiskRepository.getInstance();
+        }
+    },
 
     enterDocument: {
-        value: function (isFirstTime) {
+        value: function () {
             var self = this;
 
-            if (!this.disks) {
-                this.application.dataService.fetchData(Model.Disk).then(function(disks) {
-                    self.disks = disks;
-                });
-            }
+            this.diskRepository.listDisks().then(function(disks) {
+                self.disks = disks;
+            });
         }
     }
 });

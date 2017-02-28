@@ -112,8 +112,8 @@ export class NetworkSectionService extends AbstractSectionService {
         return this.networkRepository.isClientInterface(networkInterface).then(isClient => networkInterface._isClient = isClient);
     }
 
-    public getNewNetworkInterface() {
-        return this.networkInterfaceRepository.getNewInstance();
+    public getNewNetworkInterface(type) {
+        return this.networkInterfaceRepository.getNewInterfaceWithType(type);
     }
 
     public handleDhcpChangeOnInterface(networkInterface: any) {

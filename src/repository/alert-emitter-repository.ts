@@ -1,7 +1,8 @@
 import {AlertEmitterDao} from '../dao/alert-emitter-dao';
 import {AbstractModelRepository} from './abstract-model-repository';
+import {AlertEmitter} from '../model/AlertEmitter';
 
-export class AlertEmitterRepository extends AbstractModelRepository {
+export class AlertEmitterRepository extends AbstractModelRepository<AlertEmitter> {
     private static instance: AlertEmitterRepository;
 
     private constructor(private alertEmitterDao: AlertEmitterDao) {
@@ -15,6 +16,10 @@ export class AlertEmitterRepository extends AbstractModelRepository {
             );
         }
         return AlertEmitterRepository.instance;
+    }
+
+    sendEmail(mailMessage: any, mailObject: any) {
+        return this.alertEmitterDao.sendEmail(mailMessage, mailObject);
     }
 }
 

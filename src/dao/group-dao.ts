@@ -8,5 +8,8 @@ export class GroupDao extends AbstractDao<Group> {
         super(Model.Group);
     }
 
+    getNextGid() {
+        return this.middlewareClient.callRpcMethod('group.next_gid');
+    }
 }
 

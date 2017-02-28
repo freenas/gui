@@ -1,18 +1,12 @@
 var Montage = require("montage").Montage,
-    FreeNASService = require("core/service/freenas-service").FreeNASService,
     Promise = require("montage/core/promise").Promise,
     EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
-    CalendarRepository = require("core/repository/calendar-repository").CalendarRepository,
-    Model = require("core/model/model").Model;
+    CalendarRepository = require("core/repository/calendar-repository").CalendarRepository;
 
 var EMPTY_STRING = '';
 
 var CalendarService = exports.CalendarService = Montage.specialize({
     _instance: {
-        value: null
-    },
-
-    _dataService: {
         value: null
     },
 
@@ -61,7 +55,7 @@ var CalendarService = exports.CalendarService = Montage.specialize({
         value: [
             {
                 unit: "second",
-                value: 1,
+                value: 1
             },
             {
                 unit: "minute",
@@ -101,7 +95,6 @@ var CalendarService = exports.CalendarService = Montage.specialize({
 
     constructor: {
         value: function() {
-            this._dataService = FreeNASService.instance;
             this._eventDispatcherService = EventDispatcherService.getInstance();
             this._eventDispatcherService.addEventListener("calendarTaskUpdated", this._handleTasksChange.bind(this));
             this.addRangeAtPathChangeListener("_tasks", this, "_handleTasksChange");
@@ -215,27 +208,21 @@ var CalendarService = exports.CalendarService = Montage.specialize({
         value: function(type, name, args, repetition) {
             var self = this;
 
-            return this._dataService.getNewInstanceForType(Model.CalendarTask).then(function(task) {
-                task.task = type;
-                task.name = name;
-                task.args = args;
-                task.enabled = true;
-                task.schedule = self._createScheduleWithRepeatDuration(self._getRepeatDuration(repetition));
-                return self._dataService.saveDataObject(task);
+            return this._calendarRepository.getNewCalendarTaskInstance(
+                type,
+                self._createScheduleWithRepeatDuration(self._getRepeatDuration(repetition)),
+                args,
+                true,
+                name
+            ).then(function(calendarTask) {
+                return self._calendarRepository.saveCalendarTask(calendarTask);
             });
         }
     },
 
     getNewTask: {
         value: function(date, type) {
-            var self = this,
-                date = date || new Date();
-            return this._dataService.getNewInstanceForType(Model.CalendarTask).then(function(task) {
-                task.task = type;
-                task.schedule = self._dateToSchedule(date);
-                task.args = [];
-                return task;
-            });
+            return this._calendarRepository.getNewCalendarTaskInstance(type, this._dateToSchedule(date || new Date()));
         }
     },
 

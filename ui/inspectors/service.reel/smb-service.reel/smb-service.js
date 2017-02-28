@@ -1,5 +1,4 @@
-var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Model = require("core/model/model").Model;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
 exports.SmbService = AbstractInspector.specialize({
 
@@ -153,7 +152,7 @@ exports.SmbService = AbstractInspector.specialize({
         value: function () {
             var self = this;
 
-            return this.application.dataService.fetchData(Model.User).then(function (users) {
+            return this.sectionService.listUsers().then(function (users) {
                 self.users = users;
             });
         }
