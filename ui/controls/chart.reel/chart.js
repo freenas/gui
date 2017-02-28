@@ -269,11 +269,9 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
         value: function() {
             if (this.isTimeSeries) {
                 this._xScale = new Plottable.Scales.Linear();
-                this._xAxis = new Plottable.Axes.Numeric(this._xScale, "bottom");
-                this._xAxis.addClass('is-label-hidden')
-                    .formatter(function(d) {
-                        return '';
-                    });
+                this._xAxis = new Plottable.Axes.Numeric(this._xScale, "bottom")
+                    .addClass('is-label-hidden')
+                    .formatter(function(d) { return d3.time.format('%H:%M')(new Date(d));});
             } else {
                 this._xScale = new Plottable.Scales.Category();
                 this._xAxis = new Plottable.Axes.Category(this._xScale, "bottom");
