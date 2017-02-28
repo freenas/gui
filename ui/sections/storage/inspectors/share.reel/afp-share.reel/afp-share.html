@@ -51,7 +51,8 @@
             },
             "bindings": {
                 "values": {"<->": "@owner.properties.users_allow"},
-                "controller": {"<-": "@owner.usersSearchController"}
+                "controller": {"<-": "@owner.usersSearchController"},
+                "initialOptions": {"<-": "@owner.initialUserOptions"}
             }
         },
         "usersDeny": {
@@ -67,7 +68,8 @@
             },
             "bindings": {
                 "values": {"<->": "@owner.properties.users_deny"},
-                "controller": {"<-": "@owner.usersSearchController"}
+                "controller": {"<-": "@owner.usersSearchController"},
+                "initialOptions": {"<-": "@owner.initialUserOptions"}
             }
         },
         "groupsAllow": {
@@ -83,7 +85,8 @@
             },
             "bindings": {
                 "values": {"<->": "@owner.properties.groups_allow"},
-                "controller": {"<-": "@owner.groupsSearchController"}
+                "controller": {"<-": "@owner.groupsSearchController"},
+                "initialOptions": {"<-": "@owner.initialGroupOptions"}
             }
         },
         "groupsDeny": {
@@ -99,7 +102,8 @@
             },
             "bindings": {
                 "values": {"<->": "@owner.properties.groups_deny"},
-                "controller": {"<-": "@owner.groupsSearchController"}
+                "controller": {"<-": "@owner.groupsSearchController"},
+                "initialOptions": {"<-": "@owner.initialGroupOptions"}
             }
         },
         "afp3Privileges": {

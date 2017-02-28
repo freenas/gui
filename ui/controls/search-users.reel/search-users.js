@@ -61,14 +61,14 @@ exports.SearchUsers = Component.specialize(/** @lends SearchUsers# */ {
                         labelPath: this.labelPath,
                         valuePath: this.valuePath
                     })
-                ]).spread(function (entries, initalOptions) {
+                ]).spread(function (entries, initialOptions) {
                     if (entries && entries.length) {
                         self.displayedValue = entries[0][self.labelPath];
                     } else { // fallback
                         self.displayedValue = self.value;
                     }
 
-                    self.initalOptions = initalOptions;
+                    self.initialOptions = initialOptions;
                 }).finally(function () {
                     self.isLoading = false;
                 });

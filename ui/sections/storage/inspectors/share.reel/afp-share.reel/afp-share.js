@@ -28,8 +28,28 @@ exports.AfpShare = AbstractShareInspector.specialize({
     enterDocument: {
         value: function (isFirstTime) {
             if (isFirstTime) {
+                var self = this;
+
                 this.groupsSearchController = new SearchController(Model.Group);
                 this.usersSearchController = new SearchController(Model.User);
+                this.accountService = AccountService.getInstance();
+
+                this.isLoading = true;
+
+                Promise.all([
+                    this.accountService.listLocalUsers(),
+                    this.accountService.listLocalGroups()
+                ]).spread(function (users, groups) {
+                    self.initialUserOptions = users.map(function (user) {
+                        return user.username;
+                    });
+
+                    self.initialGroupOptions = groups.map(function (group) {
+                        return group.name;
+                    });
+                }).finally(function () {
+                    self.isLoading = false;
+                });
             }
         }
     }
