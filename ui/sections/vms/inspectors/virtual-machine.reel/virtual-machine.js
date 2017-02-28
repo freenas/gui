@@ -70,6 +70,17 @@ exports.VirtualMachine = AbstractInspector.specialize({
         }
     },
 
+    _getDatastore: {
+        value: function() {
+            var self = this;
+            this._sectionService.listDatastores().then(function(datastores){
+                self.object._datastore = _.find(datastores, function(datastore) {
+                    return datastore.name === self.object.target;
+                });
+            });
+        }
+    },
+
     enterDocument: {
         value: function(isFirstTime) {
             this.super();
@@ -89,6 +100,7 @@ exports.VirtualMachine = AbstractInspector.specialize({
                 self.addPathChangeListener("object._selectedTemplate", self, "_handleTemplateChange");
                 if (!self.object._isNew) {
                     self._getGuestInfo();
+                    self._getDatastore();
                 }
                 self._finishLoading();
             });
