@@ -48,7 +48,7 @@ exports.SearchUsers = Component.specialize(/** @lends SearchUsers# */ {
                 this.service = AccountService.getInstance();
             }
 
-            if (!this.isLoading) {
+            if (!this.isLoading && this.value) {
                 var criteria = {},
                     self = this;
 
