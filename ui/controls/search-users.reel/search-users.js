@@ -48,36 +48,44 @@ exports.SearchUsers = Component.specialize(/** @lends SearchUsers# */ {
                 this.service = AccountService.getInstance();
             }
 
-            var criteria = {},
-                self = this;
+            if (!this.isLoading) {
+                var criteria = {},
+                    self = this;
 
-            criteria[this.valuePath] = this.value;
-            this.isLoading = true;
+                criteria[this.valuePath] = this.value;
+                this.isLoading= true;
 
-            this.service.searchUserWithCriteria(criteria).then(function (entries) {
-                if (entries && entries.length) {
-                    self.displayedValue = entries[0][self.labelPath];
-                } else { // fallback
-                    self.displayedValue = self.value;
-                }
-            }).finally(function () {
-                self.isLoading = false;
-            });
+                Promise.all([
+                    this.service.searchUserWithCriteria(criteria),
+                    this.service.listLocalUsers({
+                        labelPath: this.labelPath,
+                        valuePath: this.valuePath
+                    })
+                ]).spread(function (entries, initalOptions) {
+                    if (entries && entries.length) {
+                        self.displayedValue = entries[0][self.labelPath];
+                    } else { // fallback
+                        self.displayedValue = self.value;
+                    }
+
+                    console.log(initalOptions)
+                    self.initalOptions = initalOptions;
+                }).finally(function () {
+                    self.isLoading = false;
+                });
+            }
+        }
+    },
+
+    exitDocument: {
+        value: function () {
+            this.isLoading = false;
         }
     },
 
     search: {
         value: function (value) {
              return this.service.searchUser({
-                 labelPath: this.labelPath,
-                 valuePath: this.valuePath
-             });
-        }
-    },
-
-    listDefaultOptions: {
-        value: function () {
-            return this.service.listLocalUsers({
                  labelPath: this.labelPath,
                  valuePath: this.valuePath
              });

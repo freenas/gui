@@ -47,21 +47,37 @@ exports.SearchGroups = Component.specialize(/** @lends SearchGroups# */ {
                 this.service = AccountService.getInstance();
             }
 
-            var criteria = {},
-                self = this;
+            if (!this.isLoading) {
+                var criteria = {},
+                    self = this;
 
-            criteria[this.valuePath] = this.value;
-            this.isLoading = true;
+                criteria[this.valuePath] = this.value;
+                this.isLoading= true;
 
-            this.service.searchGroupWithCriteria(criteria).then(function (entries) {
-                if (entries && entries.length) {
-                    self.displayedValue = entries[0][self.labelPath];
-                } else { // fallback
-                    self.displayedValue = self.value;
-                }
-            }).finally(function () {
-                self.isLoading = false;
-            });
+                Promise.all([
+                    this.service.searchGroupWithCriteria(criteria),
+                    this.service.listLocalGroups({
+                        labelPath: this.labelPath,
+                        valuePath: this.valuePath
+                    })
+                ]).spread(function (entries, initalOptions) {
+                    if (entries && entries.length) {
+                        self.displayedValue = entries[0][self.labelPath];
+                    } else { // fallback
+                        self.displayedValue = self.value;
+                    }
+
+                    self.initalOptions = initalOptions;
+                }).finally(function () {
+                    self.isLoading = false;
+                });
+            }
+        }
+    },
+
+    exitDocument: {
+        value: function () {
+            this.isLoading = false;
         }
     },
 
@@ -72,16 +88,8 @@ exports.SearchGroups = Component.specialize(/** @lends SearchGroups# */ {
                  valuePath: this.valuePath
              });
         }
-    },
-
-    listDefaultOptions: {
-        value: function () {
-            return this.service.listLocalGroups({
-                 labelPath: this.labelPath,
-                 valuePath: this.valuePath
-             });
-        }
     }
+
 }, {
 
     labelPath: {
