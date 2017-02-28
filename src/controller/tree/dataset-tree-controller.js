@@ -1,5 +1,6 @@
 var Montage = require("montage").Montage,
     VolumeRepository = require("core/repository/volume-repository").VolumeRepository,
+    VOLUME = 'VOLUME',
     _ = require('lodash');
 
 exports.DatasetTreeController = Montage.specialize({
@@ -79,7 +80,7 @@ exports.DatasetTreeController = Montage.specialize({
                 this._datasetsPromise = this.service.listDatasets();
             }
 
-            var treePromise = this._datasetsPromise.then(function (rawDatasets) {
+            return this._datasetsPromise.then(function (rawDatasets) {
                 self._datasets = _.sortBy(rawDatasets, 'name');
                 self._datasetsPromise = null;
                 self._buildDatasetsTree();
@@ -88,12 +89,14 @@ exports.DatasetTreeController = Montage.specialize({
                     self._hasDatasetListener = true;
                 }
                 return null;
-            });
+            }).then(function () {
+                var entry = path ? self._findEntry(path) : self._tree;
 
-            return treePromise.then(function () {
-                self.entry = path ? self._findEntry(path) : self._tree;
-                self.dispatchOwnPropertyChange("parent", self.parent);
-                return self.selectedVolume = self.entry ? self.entry.volume : self._tree;
+                if (entry.type !== VOLUME) {
+                    self.entry = entry;
+                    self.dispatchOwnPropertyChange("parent", self.parent);
+                    return self.selectedVolume = self.entry ? self.entry.volume : self._tree;
+                }
             });
         }
     },
@@ -101,7 +104,7 @@ exports.DatasetTreeController = Montage.specialize({
     _buildDatasetsTree: {
         value: function() {
             var datasets = this._datasets || [],
-                orphanEntries = [],
+                orphanEntries = [], type,
                 dataset, entry, name, volume,
                 depth, pathParts, ancestorEntry;
 
@@ -114,12 +117,14 @@ exports.DatasetTreeController = Montage.specialize({
                 dataset = datasets[i];
                 name = dataset.name;
                 volume = dataset.volume;
+                type = dataset.type;
                 pathParts = name.split('/');
                 entry = {
                     name: pathParts.slice(-1)[0],
                     path: name,
                     volume: volume,
-                    children: []
+                    type: type,
+                    children: type !== VOLUME ? [] : null
                 };
                 if (name.indexOf('/') == -1) {
                     entry.parent = this._tree;
