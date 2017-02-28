@@ -68,7 +68,6 @@ exports.SearchUsers = Component.specialize(/** @lends SearchUsers# */ {
                         self.displayedValue = self.value;
                     }
 
-                    console.log(initalOptions)
                     self.initalOptions = initalOptions;
                 }).finally(function () {
                     self.isLoading = false;
