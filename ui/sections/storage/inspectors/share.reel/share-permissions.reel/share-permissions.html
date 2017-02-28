@@ -26,24 +26,22 @@
             }
         },
         "ownerUser": {
-            "prototype": "blue-shark/ui/field-search.reel",
+            "prototype": "ui/controls/search-users.reel",
             "properties": {
                 "element": {"#": "ownerUser"},
                 "label": "Owner user"
             },
             "bindings": {
-                "controller": {"<-": "@owner.usersSearchController"},
                 "value": {"<->": "@owner.object.permissions.user"}
             }
         },
         "ownerGroup": {
-            "prototype": "blue-shark/ui/field-search.reel",
+            "prototype": "ui/controls/search-groups.reel",
             "properties": {
                 "element": {"#": "ownerGroup"},
                 "label": "Owner group"
             },
             "bindings": {
-                "controller": {"<-": "@owner.groupsSearchController"},
                 "value": {"<->": "@owner.object.permissions.group"}
             }
         },

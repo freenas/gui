@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="search-groups.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+        "group": {
+            "prototype": "blue-shark/ui/field-search.reel",
+            "properties": {
+                "element": {"#": "group"},
+                "controller": {"@": "owner"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.value"},
+                "displayedValue": {"<-": "@owner.displayedValue"},
+                "label": {"<-": "@owner.label"},
+                "disabled": {"<-": "@owner.disabled"},
+                "isLoading": {"<-": "@owner.isLoading"},
+                "initialOptions": {"<-": "@owner.initialOptions"},
+                "validationPath": {"<-": "@owner.validationPath"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="SearchGroups">
+        <div data-montage-id="group"></div>
+    </div>
+</body>
+</html>

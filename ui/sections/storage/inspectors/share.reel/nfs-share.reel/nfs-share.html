@@ -1,33 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
     <link rel="stylesheet" type="text/css" href="nfs-share.css">
     <script type="text/montage-serialization">
     {
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
-            },
-            "bindings": {
-                "sortedUsers": {"<-": "@owner.users.sorted{builtin + username}"},
-                "sortedGroups": {"<-": "@owner.groups.sorted{builtin + name}"},
-                "mapUsers": {"<-": "[{username: ' - '}].concat(@owner.sortedUsers)"},
-                "mapGroups": {"<-": "[{name: ' - '}].concat(@owner.sortedGroups)"}
-            }
-        },
-        "usersOptionsConverter": {
-            "prototype": "core/converter/select-option-converter",
-            "properties": {
-                "labelPropertyName": "username",
-                "valuePropertyName": "username"
-            }
-        },
-        "groupsOptionsConverter": {
-            "prototype": "core/converter/select-option-converter",
-            "properties": {
-                "labelPropertyName": "name",
-                "valuePropertyName": "name"
             }
         },
         "readOnly": {
@@ -73,51 +52,51 @@
             }
         },
         "maprootUser": {
-            "prototype": "blue-shark/ui/field-select.reel",
+            "prototype": "ui/controls/search-users.reel",
             "properties": {
                 "element": {"#": "maprootUser"},
                 "label": "Maproot user",
-                "converter": {"@": "usersOptionsConverter"}
+                "labelPath": "username",
+                "valuePath": "username"
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.properties.maproot_user"},
-                "options": {"<-": "@owner.mapUsers"}
+                "value": {"<->": "@owner.properties.maproot_user"}
             }
         },
         "maprootGroup": {
-            "prototype": "blue-shark/ui/field-select.reel",
+            "prototype": "ui/controls/search-groups.reel",
             "properties": {
                 "element": {"#": "maprootGroup"},
                 "label": "Maproot group",
-                "converter": {"@": "groupsOptionsConverter"}
+                "labelPath": "name",
+                "valuePath": "name"
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.properties.maproot_group"},
-                "options": {"<-": "@owner.mapGroups"}
+                "value": {"<->": "@owner.properties.maproot_group"}
             }
         },
         "mapallUser": {
-            "prototype": "blue-shark/ui/field-select.reel",
+            "prototype": "ui/controls/search-users.reel",
             "properties": {
                 "element": {"#": "mapallUser"},
                 "label": "Mapall user",
-                "converter": {"@": "usersOptionsConverter"}
+                "labelPath": "username",
+                "valuePath": "username"
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.properties.mapall_user"},
-                "options": {"<-": "@owner.mapUsers"}
+                "value": {"<->": "@owner.properties.mapall_user"}
             }
         },
         "mapallGroup": {
-            "prototype": "blue-shark/ui/field-select.reel",
+            "prototype": "ui/controls/search-groups.reel",
             "properties": {
                 "element": {"#": "mapallGroup"},
                 "label": "Mapall group",
-                "converter": {"@": "groupsOptionsConverter"}
+                "labelPath": "name",
+                "valuePath": "name"
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.properties.mapall_group"},
-                "options": {"<-": "@owner.mapGroups"}
+                "value": {"<->": "@owner.properties.mapall_group"}
             }
         },
         "security": {

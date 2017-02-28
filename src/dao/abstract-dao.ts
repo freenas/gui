@@ -47,10 +47,10 @@ export class AbstractDao<T extends AbstractDataObject> {
         this.taskDescriptorsPromise = new Map<string, Promise<any>>();
     }
 
-    public list(partial: boolean = false): Promise<Array<T>> {
+    public list(partial: boolean = false,  criteria?: any): Promise<Array<T>> {
         return (this.listPromise && !this.preventQueryCaching) ?
             this.listPromise :
-            this.listPromise = this.stream(partial).then((stream) => {
+            this.listPromise = this.stream(partial, criteria).then((stream) => {
                 this.register();
                 let dataArray = stream.get('data').toJS();
                 dataArray._objectType = this.objectType;
@@ -227,7 +227,7 @@ export class AbstractDao<T extends AbstractDataObject> {
                     if (Array.isArray(value)) {
                         middlewareCriteria.push(_.flatten([key, value]));
                     }else {
-                        let subCriteria = this.getMiddlewareCriteria(value);
+                        let subCriteria = _.flatten(this.getMiddlewareCriteria(value));
                         Array.prototype.push.apply(middlewareCriteria, subCriteria.map(function(x) { return [key + '.' + x[0], x[1], x[2]]; }));
                     }
                 } else {

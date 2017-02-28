@@ -43,6 +43,7 @@ exports.User = AbstractInspector.specialize({
         value: null
     },
 
+    //@deprecated
     groupOptions: {
         value: null
     },
@@ -102,23 +103,26 @@ exports.User = AbstractInspector.specialize({
                 delete this.object.home;
             }
 
-            let wheel = _.find(this.groupOptions, function(x) { return x.name === "wheel"; });
-            let hasWheel = _.includes(this.object.groups, wheel.id);
-            if (this.object.sudo && !hasWheel) {
-                this.object.groups.push(wheel.id);
-            } else if (!this.object.sudo && hasWheel) {
-                for (var i=this.object.groups.length-1; i>=0; i--) {
-                    if (this.object.groups[i] === wheel.id) {
-                        this.object.groups.splice(i, 1);
+            return this._sectionService.searchGroupWithCriteria({name: 'wheel'}).then(function (groups) {
+                var wheel = groups[0],
+                    object = self.object,
+                    groups = object.groups,
+                    hasWheel = _.includes(groups, wheel.id);
+
+                if (object.sudo && !hasWheel) {
+                    groups.push(wheel.id);
+                } else if (!object.sudo && hasWheel) {
+                    for (var i = groups.length - 1; i >= 0; i--) {
+                        if (groups[i] === wheel.id) {
+                            groups.splice(i, 1);
+                        }
                     }
                 }
-            }
-            
-            return this._sectionService.saveUser(this.object).then(function(taskSubmission) {
+
+                return self._sectionService.saveUser(object).then(function(taskSubmission) {
                     return taskSubmission.taskPromise;
-                }).then(function() {
-                    self._loadGroups(self.object);
                 });
+            });
         }
     },
 
@@ -192,6 +196,7 @@ exports.User = AbstractInspector.specialize({
     }
 });
 
+//@deprecated
 exports.AdditionalGroupsConverter = Converter.specialize({
     convert: {
         value: function (groupId) {
@@ -207,6 +212,7 @@ exports.AdditionalGroupsConverter = Converter.specialize({
     }
 });
 
+//@deprecated
 exports.AdditionalGroupsValidator = Validator.specialize({
     validate: {
         value: function (name) {

@@ -32,23 +32,16 @@
                 "selectedValue": {"<->": "@owner.object.0.rsync_direction"}
             }
         },
-        "usersToOptionsConverter": {
-            "prototype": "core/converter/select-option-converter",
-            "properties": {
-                "labelPropertyName": "username",
-                "valuePropertyName": "username"
-            }
-        },
         "user": {
-            "prototype": "blue-shark/ui/field-select.reel",
+            "prototype": "ui/controls/search-users.reel",
             "properties": {
                 "element": {"#": "user"},
-                "converter": {"@": "usersToOptionsConverter"},
-                "label": "User"
+                "label": "User",
+                "labelPath": "username",
+                "valuePath": "username"
             },
             "bindings": {
-                "options": {"<-": "[{username: ' - '}].concat(@owner.users.sorted{builtin + user})"},
-                "selectedValue": {"<->": "@owner.object.0.user"}
+                "value": {"<->": "@owner.object.0.user"}
             }
         },
         "path": {

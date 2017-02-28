@@ -9,6 +9,9 @@ import {Map} from 'immutable';
 import {ModelEventName} from '../model-event-name';
 import {Model} from '../model';
 import {DatastoreService} from '../service/datastore-service';
+import {Group} from '../model/Group';
+import {User} from '../model/User';
+
 import * as _ from 'lodash';
 
 export class AccountRepository extends AbstractRepository {
@@ -16,6 +19,8 @@ export class AccountRepository extends AbstractRepository {
 
     private users: Map<string, Map<string, any>>;
     private groups: Map<string, Map<string, any>>;
+    private systemGroupsPromise: Promise<Array<Group>>;
+    private systemUsersPromise: Promise<Array<User>>;
     private directories: Map<string, Map<string, any>>;
     private groupsStreamId: string;
     private usersStreamId: string;
@@ -64,8 +69,30 @@ export class AccountRepository extends AbstractRepository {
         return this.groupDao.list();
     }
 
+    public listSystemUsersAndGroups() {
+        return Promise.all([
+            this.listSystemUsers(),
+            this.listSystemGroups()
+        ]).spread((users: Array<any>, groups: Array<any>) => _.concat(users, groups));
+    }
+
+    //@deprecated
     public listUsers(): Promise<Array<any>> {
         return this.users ? Promise.resolve(this.users.toSet().toJS()) : this.userDao.list();
+    }
+
+    public listLocalUsers(): Promise<Array<any>> {
+        return this.userDao.stream(false, {origin: {directory: 'local'}}).then((stream) => {
+            return stream.get('data').toJS();;
+        });
+    }
+
+    public listSystemUsers(): Promise<Array<any>> {
+        if (this.systemUsersPromise) {
+            return this.systemUsersPromise;
+        }
+
+        return this.systemUsersPromise = this.userDao.list(false, {builtin: true});
     }
 
     public streamUsers(): Promise<Array<Object>> {
@@ -76,7 +103,7 @@ export class AccountRepository extends AbstractRepository {
                 this.datastoreService.getState().get('streams').get(this.usersStreamId)
             );
         } else {
-            promise = this.userDao.stream(true);
+            promise = this.userDao.stream(true, {builtin: false});
         }
 
         return promise.then((stream) => {
@@ -123,8 +150,23 @@ export class AccountRepository extends AbstractRepository {
         return this.userDao.save(user);
     }
 
+    //@deprecated
     public listGroups(): Promise<Array<Object>> {
         return this.groups ? Promise.resolve(this.groups.toSet().toJS()) : this.groupDao.list();
+    }
+
+    public listLocalGroups(): Promise<Array<Object>> {
+        return this.groupDao.stream(false, {origin: {directory: 'local'}}).then((stream) => {
+            return stream.get('data').toJS();;
+        });
+    }
+
+    public listSystemGroups(): Promise<Array<any>> {
+        if (this.systemGroupsPromise) {
+            return this.systemGroupsPromise;
+        }
+
+        return this.systemGroupsPromise = this.groupDao.list(false, {builtin: true});
     }
 
     //TODO: ask only ids? (improvements)
@@ -136,13 +178,13 @@ export class AccountRepository extends AbstractRepository {
                 this.datastoreService.getState().get("streams").get(this.groupsStreamId)
             );
         } else {
-            promise = this.groupDao.stream(true);
+            promise = this.groupDao.stream(true, {builtin: false});
         }
 
         return promise.then((stream) => {
             let dataArray = stream.get('data').toJS();
 
-            // TODO: register to events add/remove
+            this.groupDao.register();
             this.groupsStreamId = stream.get('streamId');
             dataArray._objectType = this.groupDao.objectType;
 
@@ -196,20 +238,22 @@ export class AccountRepository extends AbstractRepository {
     }
 
     public searchUser(value) {
-        return this.userDao.stream(false, {username: [['~', value]]}).then(function (results) {
-            let users = results.get('data').toJS();
-            return users.map(user => {
-                return {label: user.username, value: user.username};
-            });
-        });
+        return this.searchUserWithCriteria({username: [['~', value]]});
     }
 
     public searchGroup(value) {
-        return this.groupDao.stream(false, {name: [['~', value]]}).then(function (results) {
-            let groups = results.get('data').toJS();
-            return groups.map(group => {
-                return {label: group.name, value: group.name};
-            });
+        return this.searchGroupWithCriteria({name: [['~', value]]});
+    }
+
+    public searchGroupWithCriteria(criteria: any) {
+        return this.groupDao.stream(false, criteria).then(function (results) {
+            return results.get('data').toJS();
+        });
+    }
+
+    public searchUserWithCriteria(criteria: any) {
+        return this.userDao.stream(false, criteria).then(function (results) {
+            return results.get('data').toJS();
         });
     }
 

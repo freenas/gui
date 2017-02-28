@@ -198,24 +198,15 @@
                 "switchValue": {"<-": "@owner.object.uid == 0 ? 'root' : 'luser'"}
             }
         },
-        "groupOptionConverter": {
-            "prototype": "core/converter/select-option-converter",
-            "properties": {
-                "valuePropertyName": "id",
-                "labelPropertyName": "name"
-            }
-        },
-        "groupEdit": {
-            "prototype": "blue-shark/ui/field-select.reel",
+         "groupEdit": {
+            "prototype": "ui/controls/search-groups.reel",
             "properties": {
                 "element": {"#": "groupEdit"},
                 "validationPath": "group",
-                "converter": {"@": "groupOptionConverter"},
                 "label": "Primary Group"
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.object.group"},
-                "options": {"<-": "[{id: null, name: ' - ', builtin: false}].concat(@owner.groupOptions).sorted{builtin + name}"}
+                "value": {"<->": "@owner.object.group"}
             }
         },
         "groupDisplay": {
