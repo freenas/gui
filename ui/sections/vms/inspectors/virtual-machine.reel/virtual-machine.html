@@ -329,7 +329,7 @@
                 "element": {"#": "guestVmTemplate"}
             },
             "bindings": {
-                "value": {"<-": "!@owner.object.guestInfo.template ? 'Not detected' : 'Available'"}
+                "value": {"<-": "!@owner.object.template.template_version ? 'Not detected' : 'Available'"}
             }        
         },
         "guestInfoLoadAvg": {
