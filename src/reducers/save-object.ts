@@ -11,7 +11,15 @@ export function saveObject(previousState, action): immutable.Map<string, any> {
 
     streamStates.forEach((streamState, streamId) => {
         if (streamState.get('type') === type) {
-            streamStates = streamStates.set(streamId, streamState.set('data', streamState.get('data').push(object)));
+            var key = streamStates.get(streamId).get('data').findKey((value) => {
+                return value.get('id') === id;
+            });
+
+            if (key > -1) {
+                streamStates = streamStates.set(streamId, streamState.set('data', streamState.get('data').set(key, object)));
+            } else {
+                streamStates = streamStates.set(streamId, streamState.set('data', streamState.get('data').push(object)));
+            }
         }
     });
 
