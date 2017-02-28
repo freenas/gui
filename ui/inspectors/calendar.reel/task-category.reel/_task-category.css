@@ -37,8 +37,8 @@
 .TaskCategory.type-volume_scrub                                                     { color: var(--task-scrub-color); }
 .TaskCategory.type-volume_scrub.is-displayed .TaskCategory-name                     { background-color: var(--task-scrub-color); }
 
-.TaskCategory.type-replication_replicate_dataset                                    { color: var(--task-replication-color); }
-.TaskCategory.type-replication_replicate_dataset.is-displayed .TaskCategory-name    { background-color: var(--task-replication-color); }
+.TaskCategory.type-replication_sync                                                 { color: var(--task-replication-color); }
+.TaskCategory.type-replication_sync.is-displayed .TaskCategory-name                 { background-color: var(--task-replication-color); }
 
 .TaskCategory.type-disk_parallel_test                                               { color: var(--task-smart-color); }
 .TaskCategory.type-disk_parallel_test.is-displayed .TaskCategory-name               { background-color: var(--task-smart-color); }

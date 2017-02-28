@@ -58,6 +58,10 @@ export class ReplicationRepository extends AbstractRepository {
         return this.replicationDao.replicateDataset(dataset, replicationOptions, transportOptions);
     }
 
+    public saveReplication(replication: any) {
+        return this.replicationDao.save(replication);
+    }
+
     protected handleStateChange(name: string, state: any) {
         switch (name) {
             case 'Replication':
