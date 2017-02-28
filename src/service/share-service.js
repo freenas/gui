@@ -78,8 +78,9 @@ var ShareService = exports.ShareService = Montage.specialize({
                             lun: 0
                         };
                     } else if (shareTypes.AFP === shareObject.type) {
-                        shareObject.properties.default_file_perms = _.cloneDeep(unixPermissions);
-                        shareObject.properties.default_directory_perms = _.cloneDeep(unixPermissions);
+                        shareObject.properties.afp3_privileges = true;
+                        shareObject.properties.default_file_perms = _.defaultsDeep(_.cloneDeep(unixPermissions), self.constructor.DEFAULT_FILE_PERMISSIONS);
+                        shareObject.properties.default_directory_perms = _.defaultsDeep(_.cloneDeep(unixPermissions), self.constructor.DEFAULT_DIRECTORY_PERMISSIONS);
                         shareObject.properties.default_umask = _.cloneDeep(unixPermissions);
                     }
 
@@ -291,6 +292,46 @@ var ShareService = exports.ShareService = Montage.specialize({
                     write: false,
                     execute: true
                 }
+            }
+        }
+    },
+
+    DEFAULT_FILE_PERMISSIONS: {
+        value: {
+            user: {
+                read: true,
+                write: true,
+                execute: false
+            },
+            group: {
+                read: true,
+                write: false,
+                execute: false
+            },
+            others: {
+                read: true,
+                write: false,
+                execute: false
+            }
+        }
+    },
+
+    DEFAULT_DIRECTORY_PERMISSIONS: {
+        value: {
+            user: {
+                read: true,
+                write: true,
+                execute: true
+            },
+            group: {
+                read: true,
+                write: false,
+                execute: true
+            },
+            others: {
+                read: true,
+                write: false,
+                execute: true
             }
         }
     },
