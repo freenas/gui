@@ -131,7 +131,7 @@
                 "selectedPath": {"<->": "@owner.object.target_path"},
                 "label": {"<-": "@owner.targetType != 'DATASET' || @owner.targetType != 'ZVOL' ? 'Target' : 'Create target'"},
                 "readOnly": {"<-": "@owner.isPathReadOnly"},
-                "suffix": {"<-": "(@owner.targetType == 'DATASET' || @owner.targetType == 'ZVOL') && !@owner.isPathReadOnly ? @name.value || '' : ''"},
+                "suffix": {"<-": "(@owner.targetType == 'DATASET' || (@owner.targetType == 'ZVOL' && @target_path.selectedEntry.type != 'VOLUME')) && !@owner.isPathReadOnly ? @name.value || '' : ''"},
                 "controller": {"<-": "@owner.treeControllers[@owner.targetType]"}
             }
         },
