@@ -34,8 +34,7 @@
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
-                "canDelete": {"<-": "!@owner.object._isNew && @owner.object.name != @owner.object.volume"},
-                "canEdit": {"<-": "@owner.object.hidden"}
+                "canDelete": {"<-": "!@owner.object._isNew && @owner.object.name != @owner.object.volume"}
             }
         },
         "datasetTreeController": {
