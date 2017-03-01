@@ -9,6 +9,8 @@ var AbstractSectionService = require('core/service/section/abstract-section-serv
     AccountRepository = require('core/repository/account-repository').AccountRepository,
     AlertEmitterRepository = require('core/repository/alert-emitter-repository').AlertEmitterRepository,
     ShareRepository = require("core/repository/share-repository").ShareRepository,
+    ServiceRepository = require("core/repository/service-repository").ServiceRepository,
+    ShareService = require('core/service/share-service').ShareService,
     _ = require("lodash");
 
 exports.WizardSectionService = AbstractSectionService.specialize({
@@ -21,8 +23,10 @@ exports.WizardSectionService = AbstractSectionService.specialize({
             this._volumeRepository = VolumeRepository.getInstance();
             this._alertEmitterRepository = AlertEmitterRepository.getInstance();
             this._shareRepository = ShareRepository.getInstance();
+            this._serviceRepository = ServiceRepository.getInstance();
             this._topologyService = TopologyService.getInstance();
             this._modelDescriptorService = ModelDescriptorService.getInstance();
+            this._shareService = ShareService.instance;
             Application.addEventListener('taskDone', this);
 
             return Promise.all([
@@ -52,7 +56,12 @@ exports.WizardSectionService = AbstractSectionService.specialize({
 
     getNewUser: {
         value: function() {
-            return this._accountRepository.getNewUser();
+            return this._accountRepository.getNewUser().then(function(user) {
+                user.password = {
+                    $password: null
+                };
+                return user;
+            });
         }
     },
 
@@ -97,12 +106,6 @@ exports.WizardSectionService = AbstractSectionService.specialize({
     clearReservedDisks: {
         value: function() {
             return this._diskRepository.clearReservedDisks();
-        }
-    },
-
-    listAvailableDisks: {
-        value: function() {
-            return this._diskRepository.listAvailableDisks();
         }
     },
 
@@ -186,7 +189,7 @@ exports.WizardSectionService = AbstractSectionService.specialize({
         value: function (steps) {
             var self = this,
                 indexVolume = -1,
-                promises = [];
+                promises = [this._serviceRepository.listServices()];
 
             steps.forEach(function (step) {
                 var stepId = step.id,
@@ -216,25 +219,15 @@ exports.WizardSectionService = AbstractSectionService.specialize({
             });
 
             Promise.all(promises).then(function(submittedTasks) {
-                return indexVolume > -1 ? submittedTasks[indexVolume].taskPromise : Promise.resolve();
-            }).then(function() {
+                return (indexVolume > -1 ? submittedTasks[indexVolume].taskPromise : Promise.resolve()).then(function() {
+                    return submittedTasks[0];
+                });
+            }).then(function(services) {
                 var shareStep = self._findWizardStepWithStepsAndId(steps, 'share'),
                     volumeStep = self._findWizardStepWithStepsAndId(steps, 'volume'),
                     userStep = self._findWizardStepWithStepsAndId(steps, 'user'),
                     volume = volumeStep.object,
-                    promises = [];
-
-                if (!shareStep.isSkipped) {
-                    var shares = shareStep.object.__shares;
-
-                    shares.forEach(function (share) {
-                        if (share.name) {
-                            share.target_path = volume.id;
-                            share.target_type = 'DATASET';
-                            promises.push(self._shareRepository.saveShare(share));
-                        }
-                    });
-                }
+                    userPromises = [];
 
                 if (!userStep.isSkipped) {
                     var users = userStep.object.__users;
@@ -242,12 +235,43 @@ exports.WizardSectionService = AbstractSectionService.specialize({
                     users.forEach(function (user) {
                         if (user.username) {
                             user.home = '/mnt/' + volume.id + '/' + user.username;
-                            promises.push(self._accountRepository.saveUser(user));
+                            userPromises.push(self._accountRepository.saveUser(user));
                         }
                     });
+                } else {
+                    userPromises.push(Promise.resolve());
                 }
 
-                return Promise.all(promises);
+                return Promise.all(userPromises).then(function() {
+                    var sharePromises = [];
+                    if (!shareStep.isSkipped) {
+                        var shares = shareStep.object.__shares;
+
+                        shares.forEach(function (share) {
+                            if (share.name) {
+                                share.target_path = volume.id + '/' + share.name;
+                                if (share.type === 'iscsi') {
+                                    share.target_type = 'ZVOL';
+                                    share.__extent = {
+                                        id: 'iqn.2005-10.org.freenas.ctl.' + share.name,
+                                        lun: 0
+                                    }
+                                } else {
+                                    share.target_type = 'DATASET';
+                                }
+                                var service = _.find(services, {config: {type: 'service-' + share.type}});
+                                if (!service.config.enable) {
+                                    service.config.enable = true;
+                                    sharePromises.push(self._serviceRepository.saveService(service));
+                                }
+                                sharePromises.push(self._shareService.save(share));
+                            }
+                        });
+                    }
+
+                    return Promise.all(sharePromises);
+                });
+
             });
         }
     },
@@ -289,7 +313,7 @@ exports.WizardSectionService = AbstractSectionService.specialize({
         }
     },
 
-    //FIXME: duplicated code between different section-service.
+    // FIXME: duplicated code between different section-service.
     listDisks: {
         value: function () {
             if (!this.initialDiskAllocationPromise || this.initialDiskAllocationPromise.isRejected()) {
@@ -304,7 +328,7 @@ exports.WizardSectionService = AbstractSectionService.specialize({
         }
     },
 
-    //FIXME: duplicated code between different section-service.
+    // FIXME: duplicated code between different section-service.
     listAvailableDisks: {
         value: function () {
             var self = this;

@@ -1,6 +1,23 @@
+.Wizard .Wizard-loading,
 .Wizard.is-loading .Wizard-controls,
+.Wizard.is-loading .Wizard-content *,
 .Wizard .wizard-is-hidden {
     display: none !important;
+}
+
+.Wizard.is-loading .Wizard-loading {
+    display: inherit !important;
+    width: 100%;
+}
+
+.Wizard .Wizard-loading svg {
+    position: relative;
+    top:    2em;
+    width:  3em;
+    height: 3em;
+    left: 50%;
+    margin-left: -1.5em;
+    color: var(--accent);
 }
 
 .Wizard {

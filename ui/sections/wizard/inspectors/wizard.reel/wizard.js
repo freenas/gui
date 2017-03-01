@@ -177,6 +177,7 @@ exports.Wizard = AbstractInspector.specialize(/** @lends Wizard# */ {
             this._currentIndex = -1;
             this._context = {};
             this._canSkip = true;
+            this._sectionService.clearReservedDisks();
         }
     }
 });
