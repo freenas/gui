@@ -9,7 +9,14 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "classList.has('is-loading')": {"<-": "@owner._isLoading"}
+                "classList.has('is-loading')": {"<-": "@owner._isLoading || @stepPlaceholder.isLoadingComponent"}
+            }
+        },
+
+        "loading": {
+            "prototype": "blue-shark/ui/spinner.reel",
+            "properties": {
+                "element": {"#": "loading"}
             }
         },
 
@@ -119,6 +126,7 @@
                 </div>
             </div>
         </div>
+        <div data-montage-id="loading" class="Wizard-loading"></div>
         <div class="Wizard-content">
             <div data-montage-id="contentScrollview">
                 <div data-montage-id="stepPlaceholder" class="stepPlaceholder g-padding"></div>

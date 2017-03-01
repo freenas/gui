@@ -7,8 +7,10 @@ var AbstractSectionService = require('core/service/section/abstract-section-serv
     VolumeRepository = require('core/repository/volume-repository').VolumeRepository,
     SystemRepository = require('core/repository/system-repository').SystemRepository,
     AccountRepository = require('core/repository/account-repository').AccountRepository,
-    MailRepository = require('core/repository/mail-repository').MailRepository,
+    AlertEmitterRepository = require('core/repository/alert-emitter-repository').AlertEmitterRepository,
     ShareRepository = require("core/repository/share-repository").ShareRepository,
+    ServiceRepository = require("core/repository/service-repository").ServiceRepository,
+    ShareService = require('core/service/share-service').ShareService,
     _ = require("lodash");
 
 exports.WizardSectionService = AbstractSectionService.specialize({
@@ -19,10 +21,12 @@ exports.WizardSectionService = AbstractSectionService.specialize({
             this._accountRepository = AccountRepository.getInstance();
             this._diskRepository = DiskRepository.getInstance();
             this._volumeRepository = VolumeRepository.getInstance();
-            this._mailRepository = MailRepository.getInstance();
+            this._alertEmitterRepository = AlertEmitterRepository.getInstance();
             this._shareRepository = ShareRepository.getInstance();
+            this._serviceRepository = ServiceRepository.getInstance();
             this._topologyService = TopologyService.getInstance();
             this._modelDescriptorService = ModelDescriptorService.getInstance();
+            this._shareService = ShareService.instance;
             Application.addEventListener('taskDone', this);
 
             return Promise.all([
@@ -52,7 +56,12 @@ exports.WizardSectionService = AbstractSectionService.specialize({
 
     getNewUser: {
         value: function() {
-            return this._accountRepository.getNewUser();
+            return this._accountRepository.getNewUser().then(function(user) {
+                user.password = {
+                    $password: null
+                };
+                return user;
+            });
         }
     },
 
@@ -64,7 +73,9 @@ exports.WizardSectionService = AbstractSectionService.specialize({
 
     getMailData: {
         value: function () {
-            return this._mailRepository.getConfig();
+            return this._alertEmitterRepository.list().then(function(alerEmitters) {
+                return _.find(alerEmitters, {config: {'%type': 'AlertEmitterEmail'}});
+            });
         }
     },
 
@@ -98,12 +109,6 @@ exports.WizardSectionService = AbstractSectionService.specialize({
         }
     },
 
-    listAvailableDisks: {
-        value: function() {
-            return this._diskRepository.listAvailableDisks();
-        }
-    },
-
     listUsers: {
         value: function() {
             return this._accountRepository.listUsers();
@@ -112,13 +117,15 @@ exports.WizardSectionService = AbstractSectionService.specialize({
 
     getMailConfig: {
         value: function() {
-            return this._mailRepository.getConfig();
+            return this._alertEmitterRepository.list().then(function(alerEmitters) {
+                return _.find(alerEmitters, {config: {'%type': 'AlertEmitterEmail'}});
+            });
         }
     },
 
     saveMailConfig: {
         value: function(mailConfig) {
-            return this._mailRepository.saveConfig(mailConfig);
+            return this._alertEmitterRepository.save(mailConfig);
         }
     },
 
@@ -126,7 +133,6 @@ exports.WizardSectionService = AbstractSectionService.specialize({
         value: function (wizardDescriptor) {
             var self = this,
                 stepsDescriptor = wizardDescriptor.steps,
-                dataService = Application.dataService,
                 promises = [],
                 wizardSteps = [];
 
@@ -168,37 +174,6 @@ exports.WizardSectionService = AbstractSectionService.specialize({
 
             if (this._wizardsMap.has(notification.jobId)) {
                 if (notification.state === 'FINISHED') {
-                    var steps = this._wizardsMap.get(notification.jobId),
-                        shareStep = this._findWizardStepWithStepsAndId(steps, 'share'),
-                        volumeStep = this._findWizardStepWithStepsAndId(steps, 'volume'),
-                        userStep = this._findWizardStepWithStepsAndId(steps, 'user'),
-                        dataService = Application.dataService,
-                        volume = volumeStep.object,
-                        promises = [];
-
-                    if (!shareStep.isSkipped) {
-                        var shares = shareStep.object.__shares;
-
-                        shares.forEach(function (share) {
-                            if (share.name) {
-                                share.target_path = volume.id;
-                                promises.push(dataService.saveDataObject(share));
-                            }
-                        });
-                    }
-
-                    if (!userStep.isSkipped) {
-                        var users = userStep.object.__users;
-
-                        users.forEach(function (user) {
-                            if (user.username) {
-                                user.home = '/mnt/' + volume.id + '/' + user.username;
-                                promises.push(dataService.saveDataObject(user));
-                            }
-                        });
-                    }
-
-                    Promise.all(promises);
                 }
 
                 this._wizardsMap.delete(notification.jobId);
@@ -212,10 +187,9 @@ exports.WizardSectionService = AbstractSectionService.specialize({
 
     saveWizard: {
         value: function (steps) {
-            var dataService = Application.dataService,
-                self = this,
+            var self = this,
                 indexVolume = -1,
-                promises = [];
+                promises = [this._serviceRepository.listServices()];
 
             steps.forEach(function (step) {
                 var stepId = step.id,
@@ -244,11 +218,60 @@ exports.WizardSectionService = AbstractSectionService.specialize({
                 }
             });
 
-            return Promise.all(promises).then(function (jobIds) {
-                if (indexVolume > -1) {
-                    var volumeJobId = jobIds[indexVolume];
-                    self._wizardsMap.set(volumeJobId, steps);
+            Promise.all(promises).then(function(submittedTasks) {
+                return (indexVolume > -1 ? submittedTasks[indexVolume].taskPromise : Promise.resolve()).then(function() {
+                    return submittedTasks[0];
+                });
+            }).then(function(services) {
+                var shareStep = self._findWizardStepWithStepsAndId(steps, 'share'),
+                    volumeStep = self._findWizardStepWithStepsAndId(steps, 'volume'),
+                    userStep = self._findWizardStepWithStepsAndId(steps, 'user'),
+                    volume = volumeStep.object,
+                    userPromises = [];
+
+                if (!userStep.isSkipped) {
+                    var users = userStep.object.__users;
+
+                    users.forEach(function (user) {
+                        if (user.username) {
+                            user.home = '/mnt/' + volume.id + '/' + user.username;
+                            userPromises.push(self._accountRepository.saveUser(user));
+                        }
+                    });
+                } else {
+                    userPromises.push(Promise.resolve());
                 }
+
+                return Promise.all(userPromises).then(function() {
+                    var sharePromises = [];
+                    if (!shareStep.isSkipped) {
+                        var shares = shareStep.object.__shares;
+
+                        shares.forEach(function (share) {
+                            if (share.name) {
+                                share.target_path = volume.id + '/' + share.name;
+                                if (share.type === 'iscsi') {
+                                    share.target_type = 'ZVOL';
+                                    share.__extent = {
+                                        id: 'iqn.2005-10.org.freenas.ctl.' + share.name,
+                                        lun: 0
+                                    }
+                                } else {
+                                    share.target_type = 'DATASET';
+                                }
+                                var service = _.find(services, {config: {type: 'service-' + share.type}});
+                                if (!service.config.enable) {
+                                    service.config.enable = true;
+                                    sharePromises.push(self._serviceRepository.saveService(service));
+                                }
+                                sharePromises.push(self._shareService.save(share));
+                            }
+                        });
+                    }
+
+                    return Promise.all(sharePromises);
+                });
+
             });
         }
     },
@@ -290,7 +313,7 @@ exports.WizardSectionService = AbstractSectionService.specialize({
         }
     },
 
-    //FIXME: duplicated code between different section-service.
+    // FIXME: duplicated code between different section-service.
     listDisks: {
         value: function () {
             if (!this.initialDiskAllocationPromise || this.initialDiskAllocationPromise.isRejected()) {
@@ -305,7 +328,7 @@ exports.WizardSectionService = AbstractSectionService.specialize({
         }
     },
 
-    //FIXME: duplicated code between different section-service.
+    // FIXME: duplicated code between different section-service.
     listAvailableDisks: {
         value: function () {
             var self = this;
