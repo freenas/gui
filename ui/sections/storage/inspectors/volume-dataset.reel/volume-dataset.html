@@ -34,7 +34,8 @@
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
-                "canDelete": {"<-": "!@owner.object._isNew && @owner.object.name != @owner.object.volume"}
+                "canDelete": {"<-": "!@owner.object._isNew && @owner.object.name != @owner.object.volume"},
+                "canEdit": {"<-": "@owner.object.hidden"}
             }
         },
         "datasetTreeController": {
@@ -167,6 +168,16 @@
             "bindings": {
                 "classList.has('hide')": {"<-": "!@owner.object._share"}
             }
+        },
+        "checkbox": {
+             "prototype": "blue-shark/ui/field-checkbox.reel",
+             "properties": {
+                 "element": {"#": "checkbox"},
+                 "label": "Edit hidden property"
+             },
+             "bindings": {
+                 "checked": {"<->": "@owner.object.hidden"}
+             }
         }
     }
     </script>
@@ -179,7 +190,10 @@
                     <div data-montage-id="nameInput"></div>
                     <div data-montage-id="pathSelector"></div>
                 </div>
-                <div data-montage-id="nameDisplay" data-arg="EDIT"></div>
+                <div data-arg="EDIT">
+                    <div data-montage-id="nameDisplay"></div> 
+                    <div data-montage-id="checkbox"></div>
+                </div>
             </div>
             <div data-montage-id="typeSelector"></div>
             <div data-montage-id="settings"></div>
