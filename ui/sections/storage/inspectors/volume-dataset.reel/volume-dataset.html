@@ -156,6 +156,17 @@
             "bindings": {
                 "object": {"<-": "@owner.vmwareDatasets.filter{dataset == @owner.object.id}"}
             }
+        },
+        "share": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "share"},
+                "name": "Share",
+                "path": "share"
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "!@owner.object._share"}
+            }
         }
     }
     </script>
@@ -177,6 +188,7 @@
                 <div data-montage-id="replicate"></div>
                 <div data-montage-id="snapshots"></div>
                 <div data-montage-id="vmwareSnapshots"></div>
+                <div data-montage-id="share"></div>
             </div>
         </div>
     </div>
