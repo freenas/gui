@@ -1,17 +1,13 @@
-import {AbstractRepository} from './abstract-repository';
-import {ModelEventName} from '../model-event-name';
-import {Map} from 'immutable';
 import {TaskDao} from '../dao/task-dao';
-import {Model} from '../model';
 import * as _ from 'lodash';
+import {Task} from '../model/Task';
+import {AbstractModelRepository} from './abstract-model-repository';
 
-export class TaskRepository extends AbstractRepository {
+export class TaskRepository extends AbstractModelRepository<Task> {
     private static instance: TaskRepository;
 
-    private tasks: Map<string, Map<string, any>>;
-
     private constructor(private taskDao: TaskDao) {
-        super([Model.Task]);
+        super(taskDao);
     }
 
     public static getInstance() {
@@ -24,7 +20,7 @@ export class TaskRepository extends AbstractRepository {
     }
 
     public listTasks(): Promise<Array<Object>> {
-        return this.tasks ? Promise.resolve(this.tasks.valueSeq().toJS()) : this.taskDao.list();
+        return this.list();
     }
 
     public findTasks(criteria: any): Promise<Array<any>> {
@@ -41,12 +37,5 @@ export class TaskRepository extends AbstractRepository {
 
     public submitTask(name: string, args?: Array<any>): Promise<any> {
         return this.taskDao.submit(name, args);
-    }
-
-    protected handleStateChange(name: string, state: any) {
-        this.tasks = this.dispatchModelEvents(this.tasks, ModelEventName.Task, state);
-    }
-
-    protected handleEvent(name: string, data: any) {
     }
 }

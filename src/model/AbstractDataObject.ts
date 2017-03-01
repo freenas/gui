@@ -9,7 +9,7 @@ export abstract class AbstractDataObject {
 
     public static getClassName() {
         if (!this.className) {
-            this.className = this.toString().split(/\(|s+/)[0].split(/ |s+/)[1];
+            this.className = this.toString().split(/\(|\s+/)[1].split(/ |\s+/)[0];
         }
         return this.className;
     }
@@ -22,7 +22,7 @@ export abstract class AbstractDataObject {
     }
 
     public constructor() {
-        this._objectType = this.constructor.toString().split(/\(|s+/)[0].split(/ |s+/)[1];
+        this._objectType = this.constructor.toString().split(/\(|\s+/)[1].split(/ |\s+/)[0];
     }
 
 }
