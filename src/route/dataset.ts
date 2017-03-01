@@ -1,6 +1,7 @@
 import {VolumeRepository} from '../repository/volume-repository';
 import {ModelEventName} from '../model-event-name';
 import {VmwareRepository} from '../repository/vmware-repository';
+import {ShareRepository} from '../repository/share-repository';
 import {AbstractRoute} from './abstract-route';
 import {Model} from '../model';
 import * as _ from 'lodash';
@@ -10,7 +11,8 @@ export class DatasetRoute extends AbstractRoute {
     private objectType: string;
 
     private constructor(private volumeRepository: VolumeRepository,
-                        private vmwareRepository: VmwareRepository) {
+                        private vmwareRepository: VmwareRepository,
+                        private shareRepository: ShareRepository) {
         super();
         this.objectType = Model.VolumeDataset;
     }
@@ -19,7 +21,8 @@ export class DatasetRoute extends AbstractRoute {
         if (!DatasetRoute.instance) {
             DatasetRoute.instance = new DatasetRoute(
                 VolumeRepository.getInstance(),
-                VmwareRepository.getInstance()
+                VmwareRepository.getInstance(),
+                ShareRepository.getInstance()
             );
         }
         return DatasetRoute.instance;
@@ -86,10 +89,14 @@ export class DatasetRoute extends AbstractRoute {
         return Promise.all([
             this.volumeRepository.listVolumes(),
             this.volumeRepository.listDatasets(),
+            this.shareRepository.listShares(),
             this.modelDescriptorService.getUiDescriptorForType(self.objectType)
-        ]).spread(function(volumes: Array<any>, datasets: Array<any>, uiDescriptor) {
+        ]).spread(function(volumes: Array<any>, datasets: Array<any>, shares: Array<any>, uiDescriptor) {
             let dataset = _.find(datasets, {id: datasetId});
             dataset._volume = _.find(volumes, {id: volumeId});
+            dataset._share = _.find(shares, function(share) {
+                return (share.target_path === dataset.name && share.target_type === 'DATASET');
+            });
             context.object = dataset;
             context.userInterfaceDescriptor = uiDescriptor;
 
@@ -177,6 +184,39 @@ export class DatasetRoute extends AbstractRoute {
             }
 
             stack.push(context);
+            return stack;
+        });
+    }
+
+    public getShare(volumeId: string, datasetId: string, stack: Array<any>) {
+        let self = this,
+            objectType = Model.Share;
+        return Promise.all([
+            this.volumeRepository.listVolumes(),
+            this.shareRepository.listShares(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType)
+        ]).spread(function(volumes: Array<any>, shares: Array<any>, uiDescriptor) {
+            let columnIndex = 4;
+            while (stack.length > columnIndex) {
+                let context = stack.pop();
+                if (context && context.changeListener) {
+                    self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
+                }
+            }
+
+            let share = _.find(shares, function(share) {
+                return (share.target_path === datasetId && share.target_type === 'DATASET');
+            });
+            share._volume = _.find(volumes, {id: volumeId});
+
+            stack.push({
+                object: share,
+                userInterfaceDescriptor: uiDescriptor,
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: stack[columnIndex - 1],
+                path: stack[columnIndex - 1].path + '/share'
+            });
             return stack;
         });
     }
