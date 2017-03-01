@@ -7,7 +7,8 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "table": {"@": "table"}
             }
         },
 
@@ -16,6 +17,8 @@
             "properties": {
                 "element": {"#": "table"},
                 "delegate": {"@": "owner"},
+                "emptyMessage": "There are no aliases setup",
+                "emptyActionLabel": "Add alias",
                 "columns":  [
                     {
                         "value": "Type"
@@ -30,7 +33,8 @@
             },
             "bindings": {
                 "rows": {"<->": "@owner.addresses"},
-                "label": {"<->": "@owner.label"}
+                "label": {"<->": "@owner.label"},
+                "isMultiSelectionEnabled": {"<-": "@owner.isMultiSelectionEnabled"}
             }
         },
 
@@ -57,10 +61,10 @@
             }
         },
 
-        "entry": {
+        "rowEntry": {
             "prototype": "./ip-address.reel",
             "properties": {
-                "element": {"#": "entry"}
+                "element": {"#": "rowEntry"}
             },
             "bindings": {
                 "object": {"<-": "@table:rowIteration.object.object"},
@@ -75,7 +79,7 @@
     <div data-montage-id="table">
         <div data-arg="table-editable-header-toolbar" data-montage-id="tableHeader"></div>
         <div data-arg="row-new" data-montage-id="newEntry" class="Table-row"></div>
-        <div data-arg="row-entry" data-montage-id="entry" class="Table-row"></div>
+        <div data-arg="row-entry" data-montage-id="rowEntry" class="Table-row"></div>
     </div>
 </div>
 </body>
