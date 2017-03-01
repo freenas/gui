@@ -77,7 +77,7 @@ exports.CalendarTask = AbstractInspector.specialize({
             });
             this.object.args.length = argsLength;
             delete this.object.status;
-            var savePromise = this.inspector.save();
+            var savePromise = this._sectionService.saveTask(this.object);
             this.inspector.clearObjectSelection();
             return savePromise;
         }

@@ -86,7 +86,7 @@ var CalendarService = exports.CalendarService = Montage.specialize({
     taskCategories: {
         value: [
             { name: "Scrub", value: "volume.scrub", checked: true },
-            { name: "Replication", value: "replication.replicate_dataset", checked: true },
+            { name: "Replication", value: "replication.sync", checked: true },
             { name: "Smart", value: "disk.parallel_test", checked: true },
             { name: "Update", value: "update.checkfetch", checked: true },
             { name: "Command", value: "calendar_task.command", checked: true },
