@@ -70,8 +70,10 @@ exports.CalendarListItem = Component.specialize(/** @lends CalendarListItem# */ 
                     self.classList.remove(className);
                 }
             });
-            this.classList.add('type-' + object.task.task.replace('.', '_').toLowerCase());
-            this.dispatchOwnPropertyChange("schedule", this.schedule);
+            if (object) {
+                this.classList.add('type-' + object.task.task.replace('.', '_').toLowerCase());
+                this.dispatchOwnPropertyChange("schedule", this.schedule);
+            }
         }
     },
 
