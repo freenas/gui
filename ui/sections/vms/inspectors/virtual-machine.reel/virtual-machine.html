@@ -319,7 +319,7 @@
                 "element": {"#": "guestInfoVersion"}
             },
             "bindings": {
-                "value": {"<-": "!@owner.object.guestInfo.version ? 'Not detected' : 'Available'"}
+                "value": {"<-": "!@owner.object.guestInfo.version ? 'Not detected' : @owner.object.guestInfo.version"}
             }        
         },
         "guestVmTemplate": {
@@ -329,7 +329,7 @@
                 "element": {"#": "guestVmTemplate"}
             },
             "bindings": {
-                "value": {"<-": "!@owner.object.template.template_version ? 'Not detected' : 'Available'"}
+                "value": {"<-": "!@owner.object.template.vm_tools_version ? 'Not detected' : @owner.object.template.vm_tools_version"}
             }        
         },
         "guestInfoLoadAvg": {
