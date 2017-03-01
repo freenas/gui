@@ -1,13 +1,13 @@
-/**
- * @module ui/docker-image-search.reel
- */
 var Component = require("montage/ui/component").Component;
 
-/**
- * @class DockerImageSearch
- * @extends Component
- */
-exports.DockerImageSearch = Component.specialize(/** @lends DockerImageSearch# */ {
+exports.DockerImageSearch = Component.specialize({
+    enterDocument: {
+        value: function(isFirstTime) {
+            if (isFirstTime) {
+                this.addPathChangeListener('imageComponent.selectedRow', this, '_handleRowSelection');
+            }
+        }
+    },
 
     exitDocument: {
         value: function () {
@@ -41,6 +41,12 @@ exports.DockerImageSearch = Component.specialize(/** @lends DockerImageSearch# *
                     self._isSearchingDockerImages = false;
                 });
             }
+        }
+    },
+
+    _handleRowSelection: {
+        value: function(selectedRow) {
+            this.selectedValue = selectedRow;
         }
     }
 

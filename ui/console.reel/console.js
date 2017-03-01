@@ -94,8 +94,8 @@ exports.Console = Component.specialize({
     _getToken: {
         value: function() {
             var self = this;
-            return this.token ? 
-                    Promise.resolve(this.token) : 
+            return this.token ?
+                    Promise.resolve(this.token) :
                     this._consoleService.getCliToken(this._getColumns()).then(function(token) {
                         return self.token = token;
                     });
@@ -146,7 +146,8 @@ exports.Console = Component.specialize({
 
     _getColumns: {
         value: function() {
-            var fontSize = Number(getComputedStyle(this._term.children[0], "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
+            var computedFontSize = getComputedStyle(this._term.children[0], "").fontSize,
+                fontSize = computedFontSize !== '' ? Number(computedFontSize.match(/(\d*(\.\d*)?)px/)[1]) : 16;
             this.terminalElement.firstElementChild.style.display = 'none';
             var currentWidth = this.terminalElement.getBoundingClientRect().width;
             this.terminalElement.firstElementChild.style.display = 'block';

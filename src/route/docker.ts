@@ -10,6 +10,9 @@ import {DockerContainerRepository} from '../repository/docker-container-reposito
 import {DockerNetworkRepository} from '../repository/docker-network-repository';
 import {DockerContainerLogsRepository} from '../repository/docker-container-logs-repository';
 import {DockerContainer} from '../model/DockerContainer';
+import {DockerHost} from '../model/DockerHost';
+import {DockerNetwork} from '../model/DockerNetwork';
+import {DockerCollection} from '../model/DockerCollection';
 
 export class DockerRoute extends AbstractRoute {
     private static instance: DockerRoute;
@@ -306,15 +309,27 @@ export class DockerRoute extends AbstractRoute {
 
     public getContainer(containerId, stack: Array<any>) {
         let columnIndex = 2;
-        return this.loadObjectInColumn(
-            stack,
-            columnIndex,
-            columnIndex - 1,
-            AbstractRoute.getObjectPathSuffix(DockerContainer.getClassName(), containerId),
-            DockerContainer.getClassName(),
-            this.dockerContainerRepository.list(),
-            {id: containerId}
-        );
+        return Promise.all(_.flatten([
+            this.loadObjectInColumn(
+                stack,
+                columnIndex,
+                columnIndex - 1,
+                '/_/' + containerId,
+                DockerContainer.getClassName(),
+                this.dockerContainerRepository.list(),
+                {id: containerId}
+            ),
+            this.getContainerDependencies()
+        ])).spread((stack: Array<any>,
+                    hosts: Array<DockerHost>,
+                    networks: Array<DockerNetwork>,
+                    networkModes: Array<any>) => {
+            let container = _.last(stack).object;
+            container._hosts = hosts;
+            container._networks = networks;
+            container._networkModes = networkModes;
+            return stack;
+        });
     }
 
     public getSettings() {
@@ -367,7 +382,7 @@ export class DockerRoute extends AbstractRoute {
     }
 
     public createContainer(collectionId, stack: Array<any>) {
-        let objectType = Model.DockerContainerCreator,
+        let objectType = Model.DockerContainer,
             columnIndex = 2,
             parentContext = stack[columnIndex],
             context: any = {
@@ -376,27 +391,33 @@ export class DockerRoute extends AbstractRoute {
                 parentContext: parentContext,
                 path: parentContext.path + '/' + collectionId
             };
-        return Promise.all([
+        return Promise.all(_.flatten([
             this.dockerContainerRepository.getNewDockerContainer(),
-            this.dockerCollectionRepository.listDockerCollections(),
+            this.getContainerDependencies(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread((container: any, collections, uiDescriptor) => {
-            context.dockerCollection = _.find(collections, {id: collectionId});
-            context.dockerImagesPromise = this.dockerCollectionRepository.getDockerImagesWithCollection(context.dockerCollection);
-            container._isNewObject = true;
+        ])).spread((container: any,
+                    hosts: Array<DockerHost>,
+                    networks: Array<DockerNetwork>,
+                    networkModes: Array<any>,
+                    collections: Array<DockerCollection>,
+                    uiDescriptor) => {
+            container._collection = _.find(collections, {id: collectionId});
+            container._imagesPromise = this.dockerCollectionRepository.getDockerImagesWithCollection(container._collection);
+            container._hosts = hosts;
+            container._networks = networks;
+            container._networkModes = networkModes;
+            context.object = container;
 
             context.userInterfaceDescriptor = uiDescriptor;
-            context.object = container;
 
             return this.updateStackWithContext(stack, context);
         });
     }
 
-    public getReadme(stack: Array<any>) {
+    public getReadmeForImage(imageName, stack: Array<any>) {
         let objectType = Model.DockerImageReadme,
             columnIndex = 3,
             parentContext = stack[columnIndex - 1],
-            imageName = parentContext.object.image,
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
@@ -410,6 +431,34 @@ export class DockerRoute extends AbstractRoute {
         ]).spread((dockerImageReadme, readme, uiDescriptor) => {
             (dockerImageReadme as any).text = readme;
             (dockerImageReadme as any).imageName = imageName;
+            context.object = dockerImageReadme;
+            context.userInterfaceDescriptor = uiDescriptor;
+
+            return this.updateStackWithContext(stack, context);
+        });
+    }
+
+    public getReadmeForContainer(containerId: string, stack: Array<any>) {
+        let objectType = Model.DockerImageReadme,
+            columnIndex = 3,
+            parentContext = stack[columnIndex - 1],
+            context: any = {
+                columnIndex: columnIndex,
+                objectType: objectType,
+                parentContext: parentContext,
+                path: parentContext.path + '/readme'
+            };
+        return this.dockerContainerRepository.list().then(containers => {
+            let container: any = _.find(containers, {id: containerId});
+            return Promise.all([
+                this.dockerImageReadmeRepository.getDockerImageReadme(),
+                container.image,
+                this.dockerImageRepository.getReadmeForDockerImage(container.image),
+                this.modelDescriptorService.getUiDescriptorForType(objectType)
+            ]);
+        }).spread((dockerImageReadme, imageName, readme, uiDescriptor) => {
+            (dockerImageReadme as any).imageName = imageName;
+            (dockerImageReadme as any).text = readme || 'No Readme available for this container';
             context.object = dockerImageReadme;
             context.userInterfaceDescriptor = uiDescriptor;
 
@@ -439,4 +488,12 @@ export class DockerRoute extends AbstractRoute {
         });
     }
 
+    private getContainerDependencies(): Array<Promise<Array<any>>|any> {
+        return [
+            this.dockerHostRepository.listDockerHosts(),
+            this.dockerNetworkRepository.list(),
+            Promise.resolve(DockerNetworkRepository.PRIMARY_NETWORK_MODES),
+            this.dockerCollectionRepository.listDockerCollections()
+        ];
+    }
 }
