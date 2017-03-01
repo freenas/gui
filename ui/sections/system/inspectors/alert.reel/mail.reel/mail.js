@@ -21,14 +21,6 @@ exports.Mail = AbstractInspector.specialize(/** @lends Mail# */ {
                 "extra_headers": {},
                 "message": "Yay, You've got mail",
                 "attachments": []
-            },{
-                "server": this.alertEmitterEmail.config.server,
-                "port": this.alertEmitterEmail.config.port,
-                "encryption": this.alertEmitterEmail.config.encryption,
-                "auth": this.alertEmitterEmail.config.auth,
-                "from": this.alertEmitterEmail.config.from,
-                "user": this.alertEmitterEmail.config.user,
-                "pass": this.alertEmitterEmail.config.pass
             });
         }
     },
