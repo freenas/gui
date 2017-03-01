@@ -1,7 +1,8 @@
 import {AbstractModelRepository} from './abstract-model-repository';
 import {DockerImageDao} from '../dao/docker-image-dao';
+import {DockerImage} from '../model/DockerImage';
 
-export class DockerImageRepository extends AbstractModelRepository {
+export class DockerImageRepository extends AbstractModelRepository<DockerImage> {
     private static instance: DockerImageRepository;
 
     private constructor(private dockerImageDao: DockerImageDao) {
@@ -22,7 +23,7 @@ export class DockerImageRepository extends AbstractModelRepository {
     }
 
     public listDockerImages() {
-        return this.dockerImageDao.list();
+        return this.list();
     }
 
     public getReadmeForDockerImage(imageName: string) {
