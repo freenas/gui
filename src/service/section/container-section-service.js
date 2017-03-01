@@ -275,42 +275,7 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
 
     saveDockerNetwork: {
         value: function (dockerNetwork) {
-            var self = this,
-                newContainers = dockerNetwork.containers;
-
-            return this._dockerNetworkRepository.saveDockerNetwork(dockerNetwork).then(function (task) {
-                task.taskPromise.then(function () {
-                    //@pierre: need discussion, probably not safe except if the name is unique.
-                    return self.findDockerNetworkWithName(dockerNetwork.name);
-                }).then(function (networks) {
-                    var containersToAdd, containersToRemove,
-                        network = networks[0],
-                        previousContainers = network.containers,
-                        promises = [];
-
-                    if (newContainers && previousContainers) {
-                       containersToAdd =  _.difference(newContainers, previousContainers);
-                       containersToRemove =  _.difference(previousContainers, newContainers);
-                    } else if (newContainers && newContainers.length) {
-                       containersToAdd =  newContainers;
-                    } else {
-                        containersToRemove = previousContainers;
-                    }
-
-                    if (containersToAdd && containersToAdd.length) {
-                        promises.push(self.connectContainersToNetwork(containersToAdd, network));
-                    }
-
-                    if (containersToRemove && containersToRemove.length) {
-                        promises.push(self.disconnectContainersFromNetwork(containersToRemove, network));
-                    }
-
-
-                    return Promise.all(promises);
-                });
-
-                return task;
-            });
+            return this._dockerNetworkRepository.saveDockerNetwork(dockerNetwork);
         }
     },
 
@@ -321,44 +286,21 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
     },
 
     connectContainersToNetwork: {
-        value: function (containers, dockerNetwork) {
-            if (dockerNetwork && containers) {
-                var promises = [];
-
-                for (var i = 0, length = containers.length; i < length; i++) {
-                    promises.push(this.connectContainerToNetwork(containers[i], dockerNetwork.id));
-                }
-
-                return Promise.all(promises);
+        value: function (containersIds, dockerNetwork) {
+            if (dockerNetwork && containersIds) {
+                return this._dockerNetworkRepository.connectContainersToNetwork(_.castArray(containersIds), dockerNetwork.id)
             }
 
-            return Promise.resolve(null);
-        }
-    },
-
-    connectContainerToNetwork: {
-        value: function (containerId, dockerNetworkId) {
-            return this._dockerNetworkRepository.connectContainerToNetwork(containerId, dockerNetworkId);
+            return Promise.resolve();
         }
     },
 
     disconnectContainersFromNetwork: {
         value: function (containers, dockerNetwork) {
-            var self = this,
-                networkId = dockerNetwork.id,
-                promise = null;
             if (dockerNetwork && containers) {
-                promise = Promise.all(_.map(containers, function(containerId) {
-                    return self.disconnectContainerFromNetwork(containerId, networkId);
-                }));
+                return this._dockerNetworkRepository.disconnectContainersFromNetwork(_.castArray(containers), dockerNetwork.id);
             }
-            return Promise.resolve(promise);
-        }
-    },
-
-    disconnectContainerFromNetwork: {
-        value: function (containerId, dockerNetworkId) {
-            return this._dockerNetworkRepository.disconnectContainerFromNetwork(containerId, dockerNetworkId);
+            return Promise.resolve();
         }
     },
 

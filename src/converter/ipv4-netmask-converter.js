@@ -1,13 +1,14 @@
 /**
  * @requires montage/core/converter/converter
  */
-var Converter = require("montage/core/converter/converter").Converter;
-var Ipv4NetmaskValidator = require("core/converter/validator/ipv4-netmask-validator").Ipv4NetmaskValidator;
+var Converter = require("montage/core/converter/converter").Converter,
+    Ipv4NetmaskValidator = require("core/converter/validator/ipv4-netmask-validator").Ipv4NetmaskValidator,
+    _ = require('lodash');
 
 /**
  * Converts a subnet mask value to and from CIDR block format
  * e.g. '255.255.255.0' <-> '24'
- * 
+ *
  * @class Ipv4NetmaskConverter
  * @extends Converter
  */
@@ -20,20 +21,21 @@ var Ipv4NetmaskValidator = require("core/converter/validator/ipv4-netmask-valida
     },
 
     convert: {
-        value: function (prefix) {
-            if (typeof prefix !== 'number') {
-                return prefix;
+        value: function (suffix) {
+            var suffixValue = _.toNumber(suffix);
+            if (!_.isFinite(suffixValue)) {
+                return suffix;
             }
 
             // Long representation of netmask
-            var long = prefix > 0 ? (-1 << (32 - prefix)) : 0;
+            var long = suffixValue > 0 ? (-1 << (32 - suffixValue)) : 0;
             var result;
 
             // Convert long to 4 parts, separated by dot
             for (var i = 0; i < 4; i++) {
                 result = (i == 0) ? '' : ('.' + result);
                 result = (long & 255) + result;
-                
+
                 long = long >>> 8;
             }
             return result;
@@ -50,7 +52,7 @@ var Ipv4NetmaskValidator = require("core/converter/validator/ipv4-netmask-valida
             var d = value.split('.');
 
             for (var i = 0; i < d.length; i++) {
-                // Sum up the number of occurrences of '1's 
+                // Sum up the number of occurrences of '1's
                 // in the binary representations of each decimal part
                 result += ((+d[i]).toString(2).match(/1/g) || []).length;
             }

@@ -72,10 +72,10 @@
                 "element": {"#": "netmask"}
             },
             "bindings": {
-                "value": {"<->": "@owner.object.netmask"},
-                "placeholder": {"<-": "@owner.placeholders.netmask[@owner.object.type]"},
                 "converter": {"<-": "@owner.converters[@owner.object.type]"},
-                "disabled": {"<-": "!@owner.object.type || @owner.isReadOnly"}
+                "placeholder": {"<-": "@owner.placeholders.netmask[@owner.object.type]"},
+                "disabled": {"<-": "!@owner.object.type || @owner.isReadOnly"},
+                "value": {"<->": "@owner.object.netmask"}
             }
         }
     }

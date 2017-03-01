@@ -41,11 +41,11 @@ export class DockerNetworkRepository extends AbstractModelRepository<DockerNetwo
         return this.dockerNetworkDao.find({name: name});
     }
 
-    public connectContainerToNetwork(containerId, networkId) {
-        return this.dockerNetworkDao.connectContainer(networkId, containerId);
+    public connectContainersToNetwork(containersIds, networkId) {
+        return this.dockerNetworkDao.connect(networkId, containersIds);
     }
 
-    public disconnectContainerFromNetwork(containerId, networkId) {
-        return this.dockerNetworkDao.disconnectContainer(networkId, containerId);
+    public disconnectContainersFromNetwork(containersIds, networkId) {
+        return this.dockerNetworkDao.disconnect(networkId, containersIds);
     }
 }
