@@ -24,7 +24,7 @@ exports.CurrentNode = Component.specialize(/** @lends CurrentNode# */ {
     handleDblclick: {
         value: function (event) {
             var iteration = this.items._findIterationContainingElement(event.target);
-            if (iteration) {
+            if (iteration && iteration.object && iteration.object.type !== 'VOLUME') {
                 this.controller.open(iteration.object.path);
             }
         }

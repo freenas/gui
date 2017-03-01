@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
     <link rel="stylesheet" type="text/css" href="tree-view.css">
     <script type="text/montage-serialization">
     {
@@ -13,6 +12,7 @@
             "bindings": {
                 "entry": {"<-": "@owner.controller.entry"},
                 "type": {"<-": "@owner.controller.type"},
+                "selectedEntry": {"<-": "@currentNode.selectedEntry"},
                 "classList.has('is-disabled')": {"<-": "@owner.disabled"}
             }
         },

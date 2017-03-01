@@ -11,6 +11,7 @@
                 "items": {"@": "childNodes"}
             },
             "bindings": {
+                "selectedEntry": {"<-": "@owner.entry.children.filter{path == @owner.selectedPath}.one()"},
                 "entry": {"<-": "@owner.controller.entry"},
                 "classList.has('is-empty')": {"<-": "@owner.entry.children.length == 0"}
             },
