@@ -94,6 +94,10 @@ export class RoutingService {
             let section = RoutingService.getPathSection(path);
             if (path === '/' + section) {
                 this.currentStacks.delete(section);
+            } else {
+                crossroads.ignoreState = true;
+                crossroads.parse(path);
+                crossroads.ignoreState = false;
             }
         }
         if (path[0] === '/') {

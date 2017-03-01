@@ -60,7 +60,7 @@
                 "converter" : {"@": "outgoingPortConverter"}
             },
             "bindings": {
-                "value": {"<->": "@owner.alertEmitterEmail.config.port"}
+                "value": {"<->": "@owner.object.email.config.port"}
             }
         },
         "from": {
@@ -70,7 +70,7 @@
                 "label": "From Email Address"
             },
             "bindings": {
-                "value": {"<->": "@owner.alertEmitterEmail.config.from_address"}
+                "value": {"<->": "@owner.object.email.config.from_address"}
             }
         },
         "useSMTPAuth": {
@@ -80,7 +80,7 @@
                 "label": "Use SMTP Authentication"
             },
             "bindings": {
-                "checked": {"<->": "@owner.alertEmitterEmail.config.auth"}
+                "checked": {"<->": "@owner.object.email.config.auth"}
             }
         },
         "outgoingServer": {
@@ -90,7 +90,7 @@
                 "label": "Outgoing Mail server"
             },
             "bindings": {
-                "value": {"<->": "@owner.alertEmitterEmail.config.server"}
+                "value": {"<->": "@owner.object.email.config.server"}
             }
         },
         "serialPortOptionConverter": {
@@ -104,7 +104,7 @@
             },
             "bindings": {
                 "options" : {"<-": "@owner.encryptionOptions"},
-                "selectedValue": {"<->": "@owner.alertEmitterEmail.config.encryption"}
+                "selectedValue": {"<->": "@owner.object.email.config.encryption"}
             }
         },
         "username": {
@@ -114,7 +114,7 @@
                 "label": "Username"
             },
             "bindings": {
-                "value": {"<->": "@owner.alertEmitterEmail.config.user"}
+                "value": {"<->": "@owner.object.email.config.user"}
             }
         },
         "password": {
@@ -125,7 +125,7 @@
                 "placeholder": "enter password"
             },
             "bindings": {
-                "value": {"<->": "@owner.alertEmitterEmail.config.password"}
+                "value": {"<->": "@owner.object.email.config.password"}
             }
         },
         "sendTestMail": {
@@ -143,11 +143,11 @@
                 "labelPath": "this",
                 "isDraggable": true,
                 "inputTitle": "Add a recipient",
-                "valuesTitle": "Recipients"
+                "valuesTitle": "Recipients",
+                "placeholder": "eg. foo@example.com"
             },
             "bindings": {
-                "values": {"<->": "@owner.alertEmitterEmail.config.to"},
-                "placeholder": {"<-": "!@owner.alertEmitterEmail.config.to ? 'eg. foo@example.com' : ''"}
+                "values": {"<->": "@owner.object.email.config.to"}
             }
         },
         "emailSection": {
@@ -158,6 +158,14 @@
                 "title": "Setup Email Emitter"
             }
         },
+        "pushBulletSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "pushBulletSection"},
+                "isExpanded": true,
+                "title": "Setup PushBullet Emitter"
+            }
+        },
         "apikey": {
             "prototype": "blue-shark/ui/field-text-area.reel",
             "properties": {
@@ -165,15 +173,7 @@
                 "label": "PushBullet API Key"
             },
             "bindings": {
-                "value": {"<->": "@owner.pushbullet.api_key"}
-            }
-        },
-        "pushBulletSection": {
-            "prototype": "ui/controls/foldable-section.reel",
-            "properties": {
-                "element": {"#": "pushBulletSection"},
-                "isExpanded": true,
-                "title": "Setup PushBullet Emitter"
+                "value": {"<->": "@owner.object.pushbullet.config.api_key"}
             }
         }
     }
