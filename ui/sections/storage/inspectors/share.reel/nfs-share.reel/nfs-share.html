@@ -36,15 +36,15 @@
                 "title": "Advanced"
             }
         },
+
         "hosts": {
             "prototype": "blue-shark/ui/field-multiple-select.reel",
             "properties": {
                 "element": {"#": "hosts"},
                 "labelPath": "this",
-                "label": "Authorized hosts",
-                "inputTitle": "Add Authorized Host",
-                "valuesTitle": "Authorized Hosts",
-                "emptyMessage": "No authorized hosts"
+                "label": "Authorized hosts or networks",
+                "inputTitle": "Add hosts / networks",
+                "emptyMessage": "No authorized hosts or networks added"
             },
             "bindings": {
                 "values": {"<->": "@owner.properties.hosts"},
