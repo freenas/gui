@@ -6,7 +6,8 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "table": {"@": "table"}
             },
             "bindings": {
                 "inspector.isSaveDisabled": {"<-": "@table.isAddingNewEntry"}
@@ -18,7 +19,9 @@
             "properties": {
                 "element": {"#": "table"},
                 "delegate": {"@": "owner"},
-                "label": "Environment Variables",
+                "label": "Environment variables",
+                "emptyMessage": "No environments added",
+                "emptyActionLabel": "Add environment",
                 "columns":  [
                     {
                         "value": "Variable",
