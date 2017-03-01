@@ -41,7 +41,7 @@ exports.CascadingListItem = Component.specialize({
                         userInterfaceDescriptor = data.userInterfaceDescriptor,
                         object = this.object = data.object;
                     this._removeObjectDeletedListener();
-                    if (ModelEventChange[data.objectType]) {
+                    if (ModelEventChange[data.objectType] && data.object) {
                         this._objectDeletedListener = this.eventDispatcherService.addEventListener(ModelEventChange[data.objectType].remove(data.object.id), this._handleObjectDeleted.bind(this))
                     }
 

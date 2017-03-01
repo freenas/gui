@@ -123,7 +123,7 @@ export class SystemSectionService extends AbstractSectionService {
     }
 
     public listContainers() {
-        return this.dockerContainerRepository.listDockerContainers();
+        return this.dockerContainerRepository.list();
     }
 
     public listNetworkInterfaces() {

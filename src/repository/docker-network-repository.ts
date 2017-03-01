@@ -1,8 +1,16 @@
 import {AbstractModelRepository} from './abstract-model-repository';
 import {DockerNetworkDao} from '../dao/docker-network-dao';
+import {DockerNetwork} from '../model/DockerNetwork';
 
-export class DockerNetworkRepository extends AbstractModelRepository {
+export class DockerNetworkRepository extends AbstractModelRepository<DockerNetwork> {
     private static instance: DockerNetworkRepository;
+
+    public static readonly PRIMARY_NETWORK_MODES = [
+        {label: 'Bridged', value: 'BRIDGED'},
+        {label: 'NAT', value: 'NAT'},
+        {label: 'Host', value: 'HOST'},
+        {label: 'None', value: 'NONE'}
+    ];
 
     private constructor(private dockerNetworkDao: DockerNetworkDao) {
         super(dockerNetworkDao);
@@ -33,11 +41,11 @@ export class DockerNetworkRepository extends AbstractModelRepository {
         return this.dockerNetworkDao.find({name: name});
     }
 
-    public connectContainerToNetwork(containerId, networkId) {
-        return this.dockerNetworkDao.connectContainer(networkId, containerId);
+    public connectContainersToNetwork(containersIds, networkId) {
+        return this.dockerNetworkDao.connect(networkId, containersIds);
     }
 
-    public disconnectContainerFromNetwork(containerId, networkId) {
-        return this.dockerNetworkDao.disconnectContainer(networkId, containerId);
+    public disconnectContainersFromNetwork(containersIds, networkId) {
+        return this.dockerNetworkDao.disconnect(networkId, containersIds);
     }
 }

@@ -25,12 +25,12 @@
             "properties": {
                 "element": {"#": "inspector"},
                 "controller": {"@": "owner"},
-                "validationController": {"@": "validationController"}
+                "validationController": {"@": "validationController"},
+                "canSave": true
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
                 "canDelete": {"<-": "!@owner.object._isNew"},
-                "canSave": {"<-": "@owner.object._isNew"},
                 "canRevert": {"<-": "!@owner.object._isNew && @inspector.canSave"},
                 "classList.has('has-loading-spinner')": {"<-": "@owner.isLoading"}
             }
@@ -44,18 +44,6 @@
             },
             "bindings": {
                 "value": {"<->": "@owner.object.name"}
-            }
-        },
-
-        "host": {
-            "prototype": "blue-shark/ui/field-select.reel",
-            "properties": {
-                "element": {"#": "host"},
-                "label": "Host"
-            },
-            "bindings": {
-                "options": {"<-": "[{label: '---', value: null}].concat(@owner._availablesDockers)"},
-                "selectedValue": {"<->": "@owner.object.host"}
             }
         },
 
@@ -93,13 +81,16 @@
         },
 
         "subnet": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "ui/controls/ip-aliases.reel",
             "properties": {
                 "element": {"#": "subnet"},
-                "label": "Subnet"
+                "label": "Subnet",
+                "canAdd": false,
+                "canDelete": false,
+                "canChangeType": false
             },
             "bindings": {
-                "value": {"<->": "@owner.object.subnet"}
+                "addresses": {"<->": "@owner.object._subnet"}
             }
         },
 
@@ -121,7 +112,7 @@
                 "label": "Containers"
             },
             "bindings": {
-                "options": {"<-": "@owner._dockerContainers.filter{host == @host.selectedValue}.map{{ label: name, value: id }}"},
+                "options": {"<-": "@owner.object._containers.map{{ label: name, value: id }}"},
                 "selectedValues": {"<->": "@owner.object.containers"}
             }
         }
@@ -132,12 +123,11 @@
     <div data-montage-id="owner" class="DockerNetwork">
         <div data-montage-id="inspector">
             <div data-montage-id="name"></div>
-            <div data-montage-id="host"></div>
             <div data-montage-id="driverSubstitution">
                 <div data-montage-id="driverReadOnly" data-arg="read"></div>
                 <div data-montage-id="driver" data-arg="create"></div>
             </div>
-            <div data-montage-id="subnet"></div>
+            <div data-montage-id="subnet" class="g-margin-bottom"></div>
             <div data-montage-id="gateway"></div>
             <div data-montage-id="containers"></div>
         </div>

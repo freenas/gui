@@ -49,11 +49,11 @@
         "newEntry": {
             "prototype": "./ip-address.reel",
             "properties": {
-                "element": {"#": "newEntry"},
-                "canChangeType": true
+                "element": {"#": "newEntry"}
             },
             "bindings": {
-                "object": {"<-": "@table.currentNewEntry.object"}
+                "object": {"<-": "@table.currentNewEntry.object"},
+                "canChangeType": {"<-": "!@owner.canChangeType.defined() || @owner.canChangeType"}
             }
         },
 

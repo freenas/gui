@@ -259,13 +259,8 @@ export class DatastoreService {
         switch (operation) {
             case 'create':
             case 'update':
-                let id, entity;
-                for (let i = 0; i < ids.length; i++) {
-                    id = ids[i];
-                    entity = entities[i];
-                    if (entity) {
-                        this.save(type, id, entity);
-                    }
+                for (let entity of entities) {
+                    this.save(type, entity.id, entity);
                 }
                 break;
             case 'delete':

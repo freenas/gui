@@ -233,7 +233,7 @@ export class RoutingService {
         crossroads.addRoute('/containers/docker-host/_/{hostId}/docker-network',
             (hostId) => this.dockerRoute.listDockerNetworks(hostId, this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/docker-host/_/{hostId}/docker-network/_/{dockerNetworkId}',
-            (hostId, dockerNetworkId) => this.dockerRoute.getDockerNetwork(hostId, dockerNetworkId, this.currentStacks.get('containers')));
+            (hostId, dockerNetworkId) => this.dockerRoute.getDockerNetwork(dockerNetworkId, this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/docker-host/_/{hostId}/docker-network/create',
             (hostId) => this.dockerRoute.createDockerNetwork(hostId, this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/docker-image',
@@ -256,14 +256,14 @@ export class RoutingService {
             () => this.dockerRoute.listCollectionsForCreate(this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/docker-container/create/{collectionId}',
             (collectionId) => this.dockerRoute.createContainer(collectionId, this.currentStacks.get('containers')));
-        crossroads.addRoute('/containers/docker-container/create/{collectionId}/readme',
-            (containerId) => this.dockerRoute.getReadme(this.currentStacks.get('containers')));
+        crossroads.addRoute('/containers/docker-container/create/{collectionId}/docker-image/{imageName*}/readme',
+            (containerId, imageName) => this.dockerRoute.getReadmeForImage(imageName, this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/docker-container/_/{containerId}',
             (containerId) => this.dockerRoute.getContainer(containerId, this.currentStacks.get('containers')));
-        crossroads.addRoute('/containers/docker-container/_/{containerId}/docker-container-logs',
-            (containerId) => this.dockerRoute.getContainerLogs(this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/docker-container/_/{containerId}/readme',
-            (containerId) => this.dockerRoute.getReadme(this.currentStacks.get('containers')));
+            (containerId) => this.dockerRoute.getReadmeForContainer(containerId, this.currentStacks.get('containers')));
+        crossroads.addRoute('/containers/docker-container/_/{containerId}/logs',
+            (containerId) => this.dockerRoute.getContainerLogs(this.currentStacks.get('containers')));
         crossroads.addRoute('/containers/section-settings',
             () => this.dockerRoute.getSettings());
     }

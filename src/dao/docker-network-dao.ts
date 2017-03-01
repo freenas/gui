@@ -16,11 +16,11 @@ export class DockerNetworkDao extends AbstractDao<DockerNetwork> {
         return super.getNewInstance().then(dockerNetwork => _.assign(dockerNetwork, {containers: []}));
     }
 
-    public connectContainer(networkId: string, containerId: string) {
-        return this.middlewareClient.submitTask('docker.network.connect', [containerId, networkId]);
+    public connect(networkId: string, containersIds: Array<string>) {
+        return this.middlewareClient.submitTask('docker.network.connect', [containersIds, networkId]);
     }
 
-    public disconnectContainer(networkId: string, containerId: string) {
-        return this.middlewareClient.submitTask('docker.network.disconnect', [containerId, networkId]);
+    public disconnect(networkId: string, containersIds: Array<string>) {
+        return this.middlewareClient.submitTask('docker.network.disconnect', [containersIds, networkId]);
     }
 }

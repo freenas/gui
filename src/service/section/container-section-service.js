@@ -59,7 +59,7 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
 
     listDockerContainers: {
         value: function () {
-            return this._dockerContainerRepository.listDockerContainers();
+            return this._dockerContainerRepository.list();
         }
     },
 
@@ -168,41 +168,25 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
     },
 
     saveContainer: {
-        value: function (container, options) {
-            var environments = [];
-
-            if (options.command) {
-                container.command = options.command.split(" ");
+        value: function (container) {
+            if (container._command) {
+                container.command = container._command.split(" ");
             }
 
-            if (container.memory_limit) {
-                container.memory_limit = this._bytesService.convertStringToSize(
-                    container.memory_limit, this._bytesService.UNITS.M
-                ) || void 0;
+            if (container._environments) {
+                container.environment = container._environments
+                    .filter(function(entry) { return entry.id && entry.value})
+                    .map(function(parts) { return parts.id + '=' + parts.value; });
             }
 
-            if (options.settings && options.settings.length) {
-                try {
-                    environments = this._getVariablesFromArray(options.settings);
-                } catch (e) {
-                    //TODO
-                }
+            if (container.ports) {
+                container.ports = container.ports
+                    .filter(function (entry) { return entry.host_port && entry.container_port; });
             }
 
-            if (options.environments) {
-                container.environment = environments.concat(
-                    this._getVariablesFromArray(options.environments)
-                );
-            }
-
-            if (options.ports) {
-                container.ports = options.ports.filter(function (entry) {
-                    return entry.host_port && entry.container_port;
-                });
-            }
-
-            if (options.volumes) {
-                container.volumes = this._extractValidVolumes(options.volumes);
+            if (container.volumes) {
+                container.volumes = container.volumes
+                    .filter(function(entry) { return entry.host_path && entry.container_path; });
             }
 
             if (container.primary_network_mode !== 'BRIDGED') {
@@ -215,36 +199,22 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         }
     },
 
-    _extractValidVolumes: {
-        value: function(values) {
-            var volumes = [],
-                entry;
-
-            for (var i = values.length - 1; i >= 0; i--) {
-                entry = values[i];
-
-                if (entry.host_path && entry.container_path) {
-                    delete entry.isLocked;
-                    volumes.push(entry);
-                }
-            }
-
-            return volumes;
-        }
-    },
-
-    _getVariablesFromArray: {
-        value: function (array) {
-            return array.filter(function (entry) {
-                var shouldKeep = !!(entry.variable && entry.value);
-
-                if (!shouldKeep && entry.optional !== void 0 && entry.optional === true) {
-                    throw new Error("missing setting");
-                }
-
-                return shouldKeep;
-            }).map(function (entry) {
-                return entry.variable + "=" + entry.value;
+    copyImageToContainer: {
+        value: function(image, container) {
+            container.image = image.name;
+            container.ports = _.cloneDeep(image.presets.ports);
+            container.expose_ports = image.presets.expose_ports;
+            container._environments = _.cloneDeep(image.presets.settings);
+            container.volumes = _.cloneDeep(image.presets.volumes);
+            container._command = _.join(image.presets.command, ' ');
+            container.autostart = image.presets.autostart;
+            container.privileged = image.presets.privileged;
+            container.interactive = image.presets.interactive;
+            container.primary_network_mode = image.presets.primary_network_mode || 'NAT';
+            return this.getNewDockerContainerBridge().then(function(bridge) {
+                bridge.dhcp = image.presets.bridge.dhcp;
+                bridge.address = image.presets.bridge.address;
+                container.bridge = bridge
             });
         }
     },
@@ -305,42 +275,7 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
 
     saveDockerNetwork: {
         value: function (dockerNetwork) {
-            var self = this,
-                newContainers = dockerNetwork.containers;
-
-            return this._dockerNetworkRepository.saveDockerNetwork(dockerNetwork).then(function (task) {
-                task.taskPromise.then(function () {
-                    //@pierre: need discussion, probably not safe except if the name is unique.
-                    return self.findDockerNetworkWithName(dockerNetwork.name);
-                }).then(function (networks) {
-                    var containersToAdd, containersToRemove,
-                        network = networks[0],
-                        previousContainers = network.containers,
-                        promises = [];
-
-                    if (newContainers && previousContainers) {
-                       containersToAdd =  _.difference(newContainers, previousContainers);
-                       containersToRemove =  _.difference(previousContainers, newContainers);
-                    } else if (newContainers && newContainers.length) {
-                       containersToAdd =  newContainers;
-                    } else {
-                        containersToRemove = previousContainers;
-                    }
-
-                    if (containersToAdd && containersToAdd.length) {
-                        promises.push(self.connectContainersToNetwork(containersToAdd, network));
-                    }
-
-                    if (containersToRemove && containersToRemove.length) {
-                        promises.push(self.disconnectContainersFromNetwork(containersToRemove, network));
-                    }
-
-
-                    return Promise.all(promises);
-                });
-
-                return task;
-            });
+            return this._dockerNetworkRepository.saveDockerNetwork(dockerNetwork);
         }
     },
 
@@ -351,44 +286,21 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
     },
 
     connectContainersToNetwork: {
-        value: function (containers, dockerNetwork) {
-            if (dockerNetwork && containers) {
-                var promises = [];
-
-                for (var i = 0, length = containers.length; i < length; i++) {
-                    promises.push(this.connectContainerToNetwork(containers[i], dockerNetwork.id));
-                }
-
-                return Promise.all(promises);
+        value: function (containersIds, dockerNetwork) {
+            if (dockerNetwork && containersIds) {
+                return this._dockerNetworkRepository.connectContainersToNetwork(_.castArray(containersIds), dockerNetwork.id)
             }
 
-            return Promise.resolve(null);
-        }
-    },
-
-    connectContainerToNetwork: {
-        value: function (containerId, dockerNetworkId) {
-            return this._dockerNetworkRepository.connectContainerToNetwork(containerId, dockerNetworkId);
+            return Promise.resolve();
         }
     },
 
     disconnectContainersFromNetwork: {
         value: function (containers, dockerNetwork) {
-            var self = this,
-                networkId = dockerNetwork.id,
-                promise = null;
             if (dockerNetwork && containers) {
-                promise = Promise.all(_.map(containers, function(containerId) {
-                    return self.disconnectContainerFromNetwork(containerId, networkId);
-                }));
+                return this._dockerNetworkRepository.disconnectContainersFromNetwork(_.castArray(containers), dockerNetwork.id);
             }
-            return Promise.resolve(promise);
-        }
-    },
-
-    disconnectContainerFromNetwork: {
-        value: function (containerId, dockerNetworkId) {
-            return this._dockerNetworkRepository.disconnectContainerFromNetwork(containerId, dockerNetworkId);
+            return Promise.resolve();
         }
     },
 
@@ -434,13 +346,13 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
     },
 
     stopDockerHost: {
-        value: function(dockerHost, force) {
+        value: function(dockerHost) {
             return this._vmRepository.stopVm(dockerHost);
         }
     },
 
     killDockerHost: {
-        value: function(dockerHost, force) {
+        value: function(dockerHost) {
             return this._vmRepository.stopVm(dockerHost, true);
         }
     },
@@ -449,8 +361,7 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         value: function(dockerHost) {
             return this._vmRepository.rebootVm(dockerHost);
         }
-    },
-
+    }
 
 }, {
     primaryNetWorkModes: {

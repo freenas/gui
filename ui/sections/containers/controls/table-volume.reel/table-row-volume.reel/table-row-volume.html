@@ -9,8 +9,7 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "selectedType": {"<-": "@pathSelect.selectedValue"},
-                "object.host_path": {"<-": "@owner.selectedType == 'host' && !!@hostPath.displayedPath ? @hostPath.displayedPath : @owner.selectedType == 'vm' ? @vmPath.value : @owner.object.host_path"}
+                "object.__host_path": {"<-": "@owner.selectedType == 'host' && !!@hostPath.displayedPath ? @hostPath.displayedPath : @owner.selectedType == 'vm' ? @vmPath.value : @owner.object.host_path"}
             }
         },
 
@@ -29,11 +28,11 @@
             "prototype": "blue-shark/ui/select.reel",
             "properties": {
                 "element": {"#": "pathSelect"},
-                "options": [{"label": "host", "value": "host"}, {"label": "VM", "value": "vm"}],
-                "selectedValue": "host"
+                "options": [{"label": "host", "value": "host"}, {"label": "VM", "value": "vm"}]
             },
             "bindings": {
-                "disabled": {"<-": "@owner.object.isLocked"}
+                "disabled": {"<-": "@owner.object.isLocked"},
+                "selectedValue": {"<->": "@owner.object._source"}
             }
         },
 
@@ -43,7 +42,7 @@
                 "element": {"#": "pathSubstitution"}
             },
             "bindings": {
-                "switchValue": {"<-": "@pathSelect.selectedValue"}
+                "switchValue": {"<-": "@owner.object._source"}
             }
         },
 
