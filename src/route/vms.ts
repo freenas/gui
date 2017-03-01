@@ -420,7 +420,7 @@ export class VmsRoute extends AbstractRoute {
     }
 
     @Route('/vms/vm/_/{vmId}/clones/vm/_/{cloneId}')
-    public getClone(cloneId: string, ) {
+    public getClone(vmId: string, cloneId: string, ) {
         let columnIndex = 3;
         return this.getVmWithIdAtColumnIndex(cloneId, columnIndex);
     }
@@ -492,9 +492,11 @@ export class VmsRoute extends AbstractRoute {
             };
         return Promise.all([
             this.vmSnapshotRepository.getNewVmSnapshot(),
+            this.vmRepository.listVms(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread((snapshot, uiDescriptor) => {
+        ]).spread((snapshot, allVms, uiDescriptor) => {
             context.object = _.assign(snapshot, {parent: vmId});
+            context.object._parent = _.find(allVms, {id: context.object.parent});
             context.userInterfaceDescriptor = uiDescriptor;
 
             return this.updateStackWithContext(this.stack, context);

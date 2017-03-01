@@ -389,7 +389,7 @@
                 "path": "clones"
             },
             "bindings": {
-                "classList.has('hide')": {"<-": "!!@owner.object.parent || @owner.object._isNew"}
+                "classList.has('hide')": {"<-": "!!@owner.object.parent || @owner.object._isNew || !@owner.object._datastore.capabilities.clones"}
             }
         },
         "snapshots": {
@@ -401,7 +401,7 @@
                 "path": "snapshots"
             },
             "bindings": {
-                "classList.has('hide')": {"<-": "@owner.object._isNew"}
+                "classList.has('hide')": {"<-": "@owner.object._isNew || !@owner.object._datastore.capabilities.snapshots"}
             }
         },
         "start": {

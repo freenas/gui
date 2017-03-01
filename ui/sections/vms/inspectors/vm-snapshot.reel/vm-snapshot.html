@@ -17,10 +17,13 @@
                     },
                     "canSave": true,
                     "canDelete": true,
-                    "controller": {"@": "owner"}
+                    "controller": {"@": "owner"},
+                    "confirmSaveMessage": "Warning: Current snapshot implementation requires that VM be stopped to create a snapshot. Are you sure you want to stop the Virtual Machine?"
                 },
                 "bindings": {
-                    "context": {"<-": "@owner.context"}
+                    "context": {"<-": "@owner.context"},
+                    "needSaveConfirmation": {"<-": "@owner.object._parent.status.state != 'STOPPED' && @owner.object._isNew"},
+                    "isSaveDisabled": {"<-": "!@owner.object.name"}
                 }
             },
             "name": {
@@ -52,6 +55,9 @@
                 "properties": {
                     "element": {"#": "rollback"},
                     "value": "Rollback"
+                },
+                "bindings": {
+                    "classList.has('hide')": {"<-": "@owner.object._isNew"}
                 }
             }
         }
