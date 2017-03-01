@@ -68,7 +68,7 @@
             "prototype": "ui/controls/ip-aliases.reel",
             "properties": {
                 "element": {"#": "addresses"},
-                "label": "Aliases"
+                "label": "Addresses"
             },
             "bindings": {
                 "addresses": {"<-": "!!@owner.object.dhcp ? @owner.object.status.aliases.filter{type != 'LINK'} : @owner.object.aliases"},
