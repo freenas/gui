@@ -74,6 +74,7 @@
                 "addresses": {"<-": "!!@owner.object.dhcp ? @owner.object.status.aliases.filter{type != 'LINK'} : @owner.object.aliases"},
                 "canAdd": {"<-": "!@owner.object.dhcp"},
                 "canDelete": {"<-": "!@owner.object.dhcp"},
+                "isMultiSelectionEnabled": {"<-": "!@owner.object.dhcp"},
                 "isReadOnly": {"<-": "!!@owner.object.dhcp"}
             }
         },
