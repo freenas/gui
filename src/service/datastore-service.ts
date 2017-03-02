@@ -100,8 +100,7 @@ export class DatastoreService {
             return stream;
         }
 
-        let payload = _.castArray(fragment),
-            idPath = stream.get('idPath');
+        let payload = _.castArray(fragment);
         // TODO: Store only data when the total number is under or equal to 2000.
         this.store.dispatch({
             type: ACTIONS.IMPORT_OBJECTS,
