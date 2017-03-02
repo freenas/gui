@@ -8,9 +8,16 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
+                "errors": {},
                 "converters": {
-                    "INET": {"@": "ipv4_netmask_converter"},
-                    "INET6": {"@": "ipv6_netmask_converter"}
+                    "INET": {
+                        "address": {"@": "ipv4_address_converter"},
+                        "netmask": {"@": "ipv4_netmask_converter"}
+                    },
+                    "INET6": {
+                        "address": {"@": "ipv6_address_converter"},
+                        "netmask": {"@": "ipv6_netmask_converter"}
+                    }
                 },
                 "placeholders": {
                     "address": {
@@ -41,6 +48,24 @@
                 "validator": {"@": "ipv6_netmask_validator"}
             }
         },
+        "ipv4_validator": {
+            "prototype": "core/converter/validator/ipv4-validator"
+        },
+        "ipv6_validator": {
+            "prototype": "core/converter/validator/ipv6-validator"
+        },
+        "ipv4_address_converter": {
+            "prototype": "core/converter/validation-only-converter",
+            "properties": {
+                "validator": {"@": "ipv4_validator"}
+            }
+        },
+        "ipv6_address_converter": {
+            "prototype": "core/converter/validation-only-converter",
+            "properties": {
+                "validator": {"@": "ipv6_validator"}
+            }
+        },
         "type": {
             "prototype": "blue-shark/ui/radio-button-field-group.reel",
             "properties": {
@@ -63,7 +88,9 @@
             "bindings": {
                 "value": {"<->": "@owner.object.address"},
                 "placeholder": {"<-": "@owner.placeholders.address[@owner.object.type]"},
-                "disabled": {"<-": "!@owner.object.type || @owner.isReadOnly"}
+                "disabled": {"<-": "!@owner.object.type || @owner.isReadOnly"},
+                "converter": {"<-": "@owner.converters[@owner.object.type].address"},
+                "error": {"<->": "@owner.errors.address"}
             }
         },
         "netmask": {
@@ -72,10 +99,11 @@
                 "element": {"#": "netmask"}
             },
             "bindings": {
-                "converter": {"<-": "@owner.converters[@owner.object.type]"},
+                "value": {"<->": "@owner.object.netmask"},
                 "placeholder": {"<-": "@owner.placeholders.netmask[@owner.object.type]"},
+                "converter": {"<-": "@owner.converters[@owner.object.type]"},
                 "disabled": {"<-": "!@owner.object.type || @owner.isReadOnly"},
-                "value": {"<->": "@owner.object.netmask"}
+                "error": {"<->": "@owner.errors.netmask"}
             }
         }
     }
