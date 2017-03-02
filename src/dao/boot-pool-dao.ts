@@ -1,10 +1,13 @@
 import { AbstractDao } from './abstract-dao';
+import {Model} from '../model';
+import {BootPool} from '../model/BootPool';
 
-export class BootPoolDao extends AbstractDao<any> {
+export class BootPoolDao extends AbstractDao<BootPool> {
 
     public constructor() {
-        super('BootPoolConfig', {
-            typeName: 'BootPoolConfig'
+        super(Model.BootPool, {
+            queryMethod: 'boot.pool.get_config',
+            eventName: 'entity-subscriber.boot.pool.changed'
         });
     }
 
