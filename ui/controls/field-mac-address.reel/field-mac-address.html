@@ -37,7 +37,7 @@
                 "placeholder": {"<-": "@owner.placeholder"},
                 "converter": {"<-": "@owner.converter"},
                 "value": {"<->": "@owner.value"},
-                "disabled": {"<-": "@owner.disabled"},
+                "disabled": {"<-": "!!@owner.disabled || !!@owner.isLoading"},
                 "readonly": {"<-": "@owner.readonly"}
             }
         },
@@ -47,6 +47,9 @@
             "properties": {
                 "element": {"#": "generate"},
                 "value": "Generate"
+            },
+            "bindings": {
+                "disabled": {"<-": "!!@owner.disabled || !!@owner.isLoading"}
             }
         }
     }

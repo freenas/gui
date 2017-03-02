@@ -29,12 +29,13 @@
         },
 
        "size": {
-            "prototype": "blue-shark/ui/text-field.reel",
+            "prototype": "blue-shark/ui/number-unit.reel",
             "properties": {
                 "element": {"#": "size"},
                 "placeholder": "e.g. 512"
             },
             "bindings": {
+                "units": {"<-": "@owner.units"},
                 "value": {"<->": "@owner.object.properties.size"}
             }
         }

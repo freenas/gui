@@ -136,18 +136,21 @@ exports.Share = AbstractInspector.specialize({
 
     save: {
         value: function() {
-            var self = this;
-            this._object.target_path = this.targetTreeview.pathInput.value;
-            if (this.object._isNew) {
+            var self = this,
+                share = this.object,
+                servicePromise = self.serviceEnabled ? self._startService() : self._stopService();
+
+            share.target_path = this.targetTreeview.pathInput.value;
+            if (share._isNew) {
                 this.isPathReadOnly = true;
             }
-            return this._shareService.save(this.object).then(function() {
-                if (self.serviceEnabled) {
-                    self._startService();
-                } else {
-                    self._stopService();
-                }
-            });
+            if (servicePromise) {
+                return servicePromise.then(function() {
+                    return self._shareService.save(share);
+                });
+            } else {
+                return self._shareService.save(share);
+            }
         }
     },
 
@@ -247,7 +250,7 @@ exports.Share = AbstractInspector.specialize({
         value: function() {
             if (this.service && this.service.config && !this.service.config.enable) {
                 this.service.config.enable = true;
-                this.application.dataService.saveDataObject(this.service);
+                return this.application.dataService.saveDataObject(this.service);
             }
         }
     },
@@ -256,7 +259,7 @@ exports.Share = AbstractInspector.specialize({
         value: function() {
             if (this.service && this.service.config && this.service.config.enable) {
                 this.service.config.enable = false;
-                this.application.dataService.saveDataObject(this.service);
+                return this.application.dataService.saveDataObject(this.service);
             }
         }
     }

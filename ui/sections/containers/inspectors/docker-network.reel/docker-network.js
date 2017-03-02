@@ -1,30 +1,25 @@
-/**
- * @module ui/docker-network.reel
- */
-var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    _ = require('lodash');
 
-/**
- * @class DockerNetwork
- * @extends Component
- */
 exports.DockerNetwork = AbstractInspector.specialize({
 
-     _inspectorTemplateDidLoad: {
-        value: function () {
-            var self = this;
-
-            return Promise.all([
-                this._sectionService.listDockerHosts(),
-                this._sectionService.listDockerContainers()
-            ]).then(function (data) {
-                self._dockerHosts = data[0];
-                self._dockerContainers = data[1];
-            });
+    enterDocument: {
+        value: function(isFirstTime) {
+            this.super(isFirstTime);
+            var parts = _.split(this.object.subnet, '/');
+            this.object._subnet = [
+                {
+                    type: 'INET',
+                    address: parts[0],
+                    netmask: parts[1]
+                }
+            ];
         }
     },
 
     save: {
         value: function () {
+            this.object.subnet = this.object._subnet[0].address + '/' + this.object._subnet[0].netmask;
             return this._sectionService.saveDockerNetwork(this.object);
         }
     }

@@ -15,20 +15,19 @@ class DiffProcessor implements DataProcessor {
             return null;
         }
         let state = this.datastoreService.getState(),
-            reference = state.has(type) && state.get(type).get(id);
+            reference = state.has(type) && state.get(type).has(id) && state.get(type).get(id).toJS();
         return this.getDifferences(object, reference, propertyDescriptors);
     }
 
-    private getDifferences(object: Object, reference?: Map<string, any>, propertyDescriptors?: any): Object {
+    private getDifferences(object: Object, reference?: Object, propertyDescriptors?: any): Object {
         let differences;
         if (!reference) {
             differences = Map<string, any>(object);
         } else {
-            let usedReference = (propertyDescriptors && Map<string, any>(propertyDescriptors)) || reference;
+            let usedReference = propertyDescriptors || reference;
             differences = Map<string, any>();
-            usedReference.forEach(function(value, key) {
-                value = reference.get(key);
-                if (object.hasOwnProperty(key) && (value instanceof Map || value instanceof List || value !== object[key])) {
+            _.forEach(usedReference, (value, key) => {
+                if (object.hasOwnProperty(key) && !_.isEqual(reference[key], object[key])) {
                     differences = differences.set(key, object[key]);
                 }
             });

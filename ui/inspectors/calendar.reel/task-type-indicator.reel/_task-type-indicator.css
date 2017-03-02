@@ -1,6 +1,6 @@
 .TaskTypeIndicator {
     display: inline-block;
-    width:  .8em;
+    width: .8em;
     height: .8em;
     border-radius: 50%;
     background-color: currentColor;
@@ -12,11 +12,37 @@
     margin-right: .25em;
 }
 
-.TaskTypeIndicator.type-rsync_copy                      { color: var(--task-rsync-color); }
-.TaskTypeIndicator.type-calendar_task_command           { color: var(--task-command-color); }
-.TaskTypeIndicator.type-volume_scrub                    { color: var(--task-scrub-color); }
-.TaskTypeIndicator.type-replication_sync                { color: var(--task-replication-color); }
-.TaskTypeIndicator.type-disk_parallel_test              { color: var(--task-smart-color); }
-.TaskTypeIndicator.type-update_checkfetch               { color: var(--task-update-color); }
-.TaskTypeIndicator.type-volume_snapshot_dataset         { color: var(--task-snapshot-color); }
+.TaskTypeIndicator.type-rsync_copy,
+.type-rsync_copy .TaskTypeIndicator  {
+    color: var(--task-rsync-color);
+}
 
+.TaskTypeIndicator.type-calendar_task_command,
+.type-calendar_task_command .TaskTypeIndicator  {
+    color: var(--task-command-color);
+}
+
+.TaskTypeIndicator.type-volume_scrub,
+.type-volume_scrub .TaskTypeIndicator  {
+    color: var(--task-scrub-color);
+}
+
+.TaskTypeIndicator.type-replication_sync,
+.type-replication_sync .TaskTypeIndicator  {
+    color: var(--task-replication-color);
+}
+
+.TaskTypeIndicator.type-disk_parallel_test,
+.type-disk_parallel_test .TaskTypeIndicator  {
+    color: var(--task-smart-color);
+}
+
+.TaskTypeIndicator.type-update_checkfetch,
+.type-update_checkfetch .TaskTypeIndicator  {
+    color: var(--task-update-color);
+}
+
+.TaskTypeIndicator.type-volume_snapshot_dataset,
+.type-volume_snapshot_dataset .TaskTypeIndicator  {
+    color: var(--task-snapshot-color);
+}

@@ -5,8 +5,7 @@ import {DockerImage} from '../model/DockerImage';
 export class DockerImageDao extends AbstractDao<DockerImage> {
     public constructor() {
         super(Model.DockerImage, {
-            eventName: 'entity-subscriber.docker.image.changed',
-            idPath: 'name'
+            eventName: 'entity-subscriber.docker.image.changed'
         });
     }
 

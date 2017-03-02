@@ -156,6 +156,27 @@
             "bindings": {
                 "object": {"<-": "@owner.vmwareDatasets.filter{dataset == @owner.object.id}"}
             }
+        },
+        "share": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "share"},
+                "name": "Share",
+                "path": "share"
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "!@owner.object._share"}
+            }
+        },
+        "checkbox": {
+             "prototype": "blue-shark/ui/field-checkbox.reel",
+             "properties": {
+                 "element": {"#": "checkbox"},
+                 "label": "Edit hidden property"
+             },
+             "bindings": {
+                 "checked": {"<->": "@owner.object.hidden"}
+             }
         }
     }
     </script>
@@ -168,7 +189,10 @@
                     <div data-montage-id="nameInput"></div>
                     <div data-montage-id="pathSelector"></div>
                 </div>
-                <div data-montage-id="nameDisplay" data-arg="EDIT"></div>
+                <div data-arg="EDIT">
+                    <div data-montage-id="nameDisplay"></div> 
+                    <div data-montage-id="checkbox"></div>
+                </div>
             </div>
             <div data-montage-id="typeSelector"></div>
             <div data-montage-id="settings"></div>
@@ -177,6 +201,7 @@
                 <div data-montage-id="replicate"></div>
                 <div data-montage-id="snapshots"></div>
                 <div data-montage-id="vmwareSnapshots"></div>
+                <div data-montage-id="share"></div>
             </div>
         </div>
     </div>

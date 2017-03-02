@@ -40,7 +40,7 @@ var ShareService = exports.ShareService = Montage.specialize({
 
     createIscsiShare: {
         value: function (volume) {
-            return this._createNewShare(this.constructor.SHARE_TYPES.AFP, volume);
+            return this._createNewShare(this.constructor.SHARE_TYPES.ISCSI, volume);
         }
     },
 
@@ -72,7 +72,6 @@ var ShareService = exports.ShareService = Montage.specialize({
                     } else if (shareTypes.ISCSI === shareObject.type) {
                         shareObject.properties.block_size = 512;
                         shareObject.properties.size = 0;
-                        shareObject.properties.refreservation = true;
                         shareObject.__extent = {
                             id: null,
                             lun: 0
@@ -261,7 +260,7 @@ var ShareService = exports.ShareService = Montage.specialize({
             afp: 'PERM',
             smb: 'ACL',
             nfs: 'PERM',
-            iscsi: 'NONE',
+            iscsi: null,
             webdav: 'PERM'
         }
     },

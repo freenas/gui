@@ -77,12 +77,12 @@
             "prototype": "blue-shark/ui/field-multiple-select.reel",
             "properties": {
                 "element": {"#": "hostAllow"},
-                "label": "Hosts allow",
+                "label": "Allowed hosts or networks",
                 "placeholder": "eg. 1.2.3.4 or hostname.local",
                 "labelPath": "this",
-                "inputTitle": "Add Allowed Host",
-                "valuesTitle": "Allowed Hosts",
-                "emptyMessage": "No allowed hosts added"
+                "inputTitle": "Add allowed hosts or networks",
+                "valuesTitle": "Allowed hosts / networks",
+                "emptyMessage": "No allowed hosts or networks added"
             },
             "bindings": {
                 "values": {"<->": "@owner.properties.hosts_allow"}
@@ -92,12 +92,12 @@
             "prototype": "blue-shark/ui/field-multiple-select.reel",
             "properties": {
                 "element": {"#": "hostDeny"},
-                "label": "Hosts deny",
+                "label": "Denied hosts or networks",
                 "placeholder": "eg. 1.2.3.4 or hostname.local",
                 "labelPath": "this",
-                "inputTitle": "Add a Denied Host",
-                "valuesTitle": "Denied Hosts",
-                "emptyMessage": "No hosts denied"
+                "inputTitle": "Deny a host or network ",
+                "valuesTitle": "Denied hosts / networks",
+                "emptyMessage": "No hosts or networks denied"
             },
             "bindings": {
                 "values": {"<->": "@owner.properties.hosts_deny"}

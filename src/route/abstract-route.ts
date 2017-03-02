@@ -84,7 +84,7 @@ export abstract class AbstractRoute {
             dataPromise,
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread((objects: Array<any>, uiDescriptor) => {
-            let filteredObjects = _.sortBy(_.filter(objects, options.filter || _.identity), options.sort || 'id');
+            let filteredObjects = _.sortBy(_.filter(objects, options.filter || _.identity), options.sort || ['name', 'id']);
             context.objectType = (filteredObjects as any)._objectType = objectType;
             context.object = filteredObjects;
             context.userInterfaceDescriptor = uiDescriptor;

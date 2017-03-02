@@ -6,27 +6,427 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "validationController": {"@": "validationController"}
             }
         },
 
-        "containerInspector": {
-            "prototype": "ui/controls/placeholder.reel",
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
             "properties": {
-                "element": {"#": "containerInspector"}
+                "fields": {
+                    "names": {"@": "name"},
+                    "image": {"@": "imageSelector"}
+                }
+            }
+        },
+
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "controller": {"@": "owner"},
+                "validationController": {"@": "validationController"},
+                "canSave": true,
+                "canRevert": true
             },
             "bindings": {
-                "moduleId": {"<-": "'ui/sections/containers/inspectors/' + (!!@owner.object._isNew ? 'container-creator' : 'container-editor') + '.reel'"},
-                "context": {"<-": "@owner.context"},
-                "object": {"<-": "@owner.context.object"}
+                "canDelete": {"<-": "!@owner.object._isNew"},
+                "isSaveDisabled": {"<-": "@owner.object.names.length == 0 || !@owner.object.names.0 || @owner.object.names.0.length == 0"}
+            }
+        },
+
+        "start": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "start"},
+                "value": "Start"
+            },
+            "bindings": {
+                "disabled": {"<-": "@owner.object.running"}
+            }
+        },
+
+        "restart": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "restart"},
+                "value": "Restart"
+            },
+            "bindings": {
+                "disabled": {"<-": "!@owner.object.running"}
+            }
+        },
+
+        "stop": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "stop"},
+                "value": "Stop"
+            },
+            "bindings": {
+                "disabled": {"<-": "!@owner.object.running"}
+            }
+        },
+
+        "serialConsole": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "serialConsole"},
+                "value": "Console"
+            },
+            "bindings": {
+                "disabled": {"<-": "!@owner.object.running"}
+            }
+        },
+
+        "webUI": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "webUI"},
+                "value": "Web UI"
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "!@owner.object.web_ui_url"},
+                "disabled": {"<-": "!@owner.object.running"}
+            }
+        },
+
+        "imageSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "imageSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "''+!!@owner.object._isNew"}
+            }
+        },
+
+        "imageSelector": {
+            "prototype": "ui/sections/containers/controls/docker-image-search.reel",
+            "properties": {
+                "element": {"#": "imageSelector"}
+            },
+            "bindings": {
+                "dockerImagesPromise": {"<-": "@owner.object._imagesPromise"},
+                "collection": {"<-": "@owner.object._collection"},
+                "selectedValue": {"<->": "@owner.object._selectedImage"}
+            }
+        },
+
+        "image": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "image"},
+                "label": "Image"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.image"}
+            }
+        },
+
+        "name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.names.0"},
+                "isReadOnly": {"<-": "!@owner.object._isNew"}
+            }
+        },
+
+        "version": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "version"},
+                "label": "Version"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.version"},
+                "classList.has('is-hidden')": {"<-": "@owner.object._isNew"}
+            }
+        },
+
+        "host": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "host"},
+                "label": "Docker host"
+            },
+            "bindings": {
+                "options": {"<-": "[{label: 'default', value: null}].concat(@owner.object._hosts.map{{label: name, value: id}})"},
+                "selectedValue": {"<->": "@owner.object.host"},
+                "isReadOnly": {"<-": "!@owner.object._isNew"}
+            }
+        },
+
+        "environment": {
+            "prototype": "ui/sections/containers/controls/table-environment.reel",
+            "properties": {
+                "element": {"#": "environment"}
+            },
+            "bindings": {
+                "inspector": {"<-": "@inspector"},
+                "values": {"<-": "@owner.object._environments"}
+            }
+        },
+
+        "expose_ports": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "expose_ports"},
+                "label": "Expose ports"
+            },
+            "bindings": {
+                "checked": {"<->": "!!@owner.object.expose_ports"},
+                "disabled": {"<-": "@owner.object._selectedImage.presets.immutable.has('expose_ports')"}
+            }
+        },
+
+        "ports": {
+            "prototype": "ui/sections/containers/controls/table-port.reel",
+            "properties": {
+                "element": {"#": "ports"}
+            },
+            "bindings": {
+                "inspector": {"<-": "@inspector"},
+                "values": {"<-": "@owner.object.ports"},
+                "disabled": {"<-": "@owner.object._selectedImage.presets.immutable.has('ports')"}
+            }
+        },
+
+        "volumes": {
+            "prototype": "ui/sections/containers/controls/table-volume.reel",
+            "properties": {
+                "element": {"#": "volumes"}
+            },
+            "bindings": {
+                "inspector": {"<-": "@inspector"},
+                "values": {"<-": "@owner.object.volumes"}
+            }
+        },
+
+        "interactive": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "interactive"},
+                "label": "Interactive"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.interactive"},
+                "disabled": {"<-": "@owner.object._selectedImage.presets.immutable.has('interactive')"}
+            }
+        },
+
+        "privileged": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "privileged"},
+                "label": "Privileged"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.privileged"},
+                "disabled": {"<-": "@owner.object._selectedImage.presets.immutable.has('privileged')"}
+            }
+        },
+
+        "autostart": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "autostart"},
+                "label": "Autostart"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.autostart"},
+                "disabled": {"<-": "@owner.object._selectedImage.presets.immutable.has('autostart')"}
+            }
+        },
+
+        "command": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "command"},
+                "label": "Command"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object._command"},
+                "disabled": {"<-": "@owner.object._selectedImage.presets.immutable.has('command')"}
+            }
+        },
+
+        "networkSettings": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "networkSettings"},
+                "title": "Network Settings"
+            }
+        },
+
+        "primaryNetworkMode": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "primary_network_mode"},
+                "label": "Primary Network Mode"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.object._networkModes"},
+                "selectedValue": {"<->": "@owner.object.primary_network_mode"},
+                "disabled": {"<-": "@owner.currentTemplate.immutable.has('primary_network_mode')"}
+            }
+        },
+
+        "bridgeAddress": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "bridgeAddress"},
+                "label": "IP address"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.bridge.address"},
+                "disabled": {"<-": "@bridgeDHCP.checked"},
+                "classList.has('hide')": {"<-": "@owner.object.primary_network_mode != 'BRIDGED'"}
+            }
+        },
+
+        "bridgeDHCP": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "bridgeDHCP"},
+                "label": "DHCP"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.bridge.dhcp"},
+                "classList.has('hide')": {"<-": "@owner.object.primary_network_mode != 'BRIDGED'"},
+                "disabled": {"<-": "@owner.currentTemplate.immutable.has('bridge.dhcp')"}
+            }
+        },
+
+        "bridgeMacAddress": {
+            "prototype": "ui/controls/field-mac-address.reel",
+            "properties": {
+                "element": {"#": "bridgeMacaddress"},
+                "label": "MAC address"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.bridge.macaddress"},
+                "isLoading": {"<-": "@owner.isGeneratingAddress"},
+                "classList.has('hide')": {"<-": "@owner.object.primary_network_mode != 'BRIDGED'"}
+            }
+        },
+
+        "networks": {
+            "prototype": "blue-shark/ui/field-select-multiple.reel",
+            "properties": {
+                "element": {"#": "networks"},
+                "label": "Networks"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.object._networks.map{{ label: name, value: id }}"},
+                "selectedValues": {"<->": "@owner.object.networks"}
+            }
+        },
+
+        "advanced": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "advanced"},
+                "title": "Advanced"
+            }
+        },
+
+        "hostname": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "hostname"},
+                "label": "Hostname"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.hostname"},
+                "disabled": {"<-": "@owner.object._selectedImage.presets.immutable.has('hostname')"}
+            }
+        },
+
+        "memory_limit": {
+            "prototype": "blue-shark/ui/field-number-unit.reel",
+            "properties": {
+                "element": {"#": "memory_limit"},
+                "label": "Memory limit"
+            },
+            "bindings": {
+                "units": {"<-": "@owner.memoryUnits"},
+                "value": {"<->": "@owner.object.memory_limit"},
+                "disabled": {"<-": "@owner.object._selectedImage.presets.immutable.has('memory_limit')"}
+            }
+        },
+
+        "logs": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "logs"},
+                "name": "Logs",
+                "path": "logs"
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "@owner.object._isNew || @owner.object.interactive"}
+            }
+        },
+
+        "readme": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "readme"},
+                "objectType": "VmReadme",
+                "name": "Readme",
+                "path": "readme"
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "@owner.object._isNew"}
             }
         }
+
     }
     </script>
 </head>
 <body>
 <div data-montage-id="owner" class="Container">
-    <div data-montage-id="containerInspector" class="Container-inspector">
+    <div data-montage-id="inspector">
+        <div class="g-margin-bottom">
+            <div data-montage-id="start"></div>
+            <div data-montage-id="restart"></div>
+            <div data-montage-id="stop"></div>
+            <div data-montage-id="webUI"></div>
+            <div data-montage-id="serialConsole"></div>
+        </div>
+        <div data-montage-id="imageSubstitution">
+            <div data-montage-id="imageSelector" class="g-margin-bottom" data-arg="true"></div>
+            <div data-montage-id="image" data-arg="false"></div>
+        </div>
+        <div data-montage-id="name"></div>
+        <div data-montage-id="version"></div>
+        <div data-montage-id="host"></div>
+        <div data-montage-id="expose_ports"></div>
+        <div data-montage-id="ports" class="g-margin-bottom"></div>
+        <div data-montage-id="volumes" class="g-margin-bottom"></div>
+        <div data-montage-id="environment" class="g-margin-bottom"></div>
+        <div data-montage-id="networkSettings">
+            <div data-montage-id="primary_network_mode"></div>
+            <div data-montage-id="bridgeDHCP"></div>
+            <div data-montage-id="bridgeAddress"></div>
+            <div data-montage-id="bridgeMacaddress"></div>
+            <div data-montage-id="networks"></div>
+        </div>
+        <div data-montage-id="advanced">
+            <div data-montage-id="hostname"></div>
+            <div data-montage-id="memory_limit"></div>
+            <div data-montage-id="interactive"></div>
+            <div data-montage-id="privileged"></div>
+            <div data-montage-id="autostart"></div>
+            <div data-montage-id="command"></div>
+        </div>
+        <div data-montage-id="logs"></div>
+        <div data-montage-id="readme"></div>
     </div>
 </div>
 </body>

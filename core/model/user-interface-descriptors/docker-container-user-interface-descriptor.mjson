@@ -5,7 +5,7 @@
             "inspectorComponentModule": {"%": "ui/sections/containers/inspectors/container.reel"},
             "nameExpression": "id.defined() ? names.0 : 'Choose a collection'",
             "collectionNameExpression": "'Containers'",
-            "creatorComponentModule": {"%": "ui/sections/containers/controls/docker-collection-list.reel"},
+            "creatorComponentModule": {"%": "ui/sections/containers/inspectors/container.reel"},
             "statusColorMapping": {
                 "running": "green",
                 "stopped": "grey"

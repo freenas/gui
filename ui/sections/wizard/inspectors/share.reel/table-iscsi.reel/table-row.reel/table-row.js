@@ -1,10 +1,8 @@
-/**
- * @module ui/table-row.reel
- */
-var Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component,
+    Units = require('core/Units');
 
-/**
- * @class TableRow
- * @extends Component
- */
-exports.TableRow = Component.specialize();
+exports.TableRow = Component.specialize({
+    units: {
+        value: Units.BYTE_SIZES
+    }
+});

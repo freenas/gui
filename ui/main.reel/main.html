@@ -126,7 +126,8 @@
         "signInModal": {
             "prototype": "blue-shark/ui/modal.reel",
             "properties": {
-                "element": {"#": "signInModal"}
+                "element": {"#": "signInModal"},
+                "hideCloseButton": true
             },
             "bindings": {
                 "classList.has('montage-Overlay--visible')": {"<-": "!@signIn.isLoggedIn"}

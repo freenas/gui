@@ -1,4 +1,7 @@
 import * as immutable from 'immutable';
+import {Task} from '../model/Task';
+
+const MAX_TASK_COUNT = 100;
 
 export function saveObject(previousState, action): immutable.Map<string, any> {
     let type = action.meta.type,
@@ -11,7 +14,7 @@ export function saveObject(previousState, action): immutable.Map<string, any> {
 
     streamStates.forEach((streamState, streamId) => {
         if (streamState.get('type') === type) {
-            var key = streamStates.get(streamId).get('data').findKey((value) => {
+            let key = streamStates.get(streamId).get('data').findKey((value) => {
                 return value.get('id') === id;
             });
 
@@ -22,6 +25,12 @@ export function saveObject(previousState, action): immutable.Map<string, any> {
             }
         }
     });
+
+    if (type === Task.getClassName()) {
+        if (typeState.size > MAX_TASK_COUNT) {
+            typeState = typeState.takeLast(MAX_TASK_COUNT);
+        }
+    }
 
     return previousState.set(type, typeState).set('streams', streamStates);
 }

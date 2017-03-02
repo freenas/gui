@@ -43,14 +43,9 @@
     @nest .VolumeOverviewItem.is-expanded & svg { transform: rotate(0); }
 }
 
-.VolumeOverviewItem-name {
-    margin-left: .5em;
-}
-
 .VolumeOverviewItem-size {
     flex: 1;
     text-align: right;
-    margin-right: 1em;
 
     @nest .VolumeOverviewItem.is-expanded & { visibility: hidden; }
 }

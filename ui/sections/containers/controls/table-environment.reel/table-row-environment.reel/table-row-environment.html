@@ -17,18 +17,29 @@
                 "placeholder": "e.g. variable"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.variable"}
+                "value": {"<->": "@owner.object.id"}
             }
         },
 
         "value": {
             "prototype": "blue-shark/ui/text-field.reel",
             "properties": {
-                "element": {"#": "value"},
-                "placeholder": "e.g. value"
+                "element": {"#": "value"}
             },
             "bindings": {
-                "value": {"<->": "@owner.object.value"}
+                "value": {"<->": "@owner.object.value"},
+                "placeholder": {"<-": "@owner.object.description ?? 'e.g. value'"}
+            }
+        },
+
+        "optional": {
+            "prototype": "blue-shark/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "optional"},
+                "disabled": true
+            },
+            "bindings": {
+                "checked": {"<-": "!@owner.object.optional.defined() || @owner.object.optional ? true : false"}
             }
         }
 
@@ -39,6 +50,7 @@
     <div data-montage-id="owner" class="TableRowEnvironment Table-cells">
         <div><div data-montage-id="variable"></div></div>
         <div><div data-montage-id="value"></div></div>
+        <div><div data-montage-id="optional"></div></div>
     </div>
 </body>
 </html>
