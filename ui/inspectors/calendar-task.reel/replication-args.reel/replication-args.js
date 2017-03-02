@@ -2,21 +2,6 @@ var Component = require("montage/ui/component").Component,
     Units = require('core/Units');
 
 exports.ReplicationArgs = Component.specialize({
-    // _object: {
-    //     value: null
-    // },
-
-    // object: {
-    //     get: function() {
-    //         return this._object;
-    //     },
-    //     set: function(object) {
-    //         if (this._object[0] !== object[0]) {
-    //             this._object = object;
-    //             this._loadReplicationObject();
-    //         }
-    //     }
-    // },
 
     replicationService: {
         get: function () {
@@ -44,8 +29,10 @@ exports.ReplicationArgs = Component.specialize({
         }
     },
 
-    _loadReplicationObject: {
-        value: function () {
+    enterDocument: {
+        value: function(isFirstTime) {
+            this.super(isFirstTime);
+
             var self = this;
 
             this.isLoading = true;
@@ -55,16 +42,8 @@ exports.ReplicationArgs = Component.specialize({
                 self.replicationObject = replication;
                 self._transportOptions = self.replicationService.extractTransportOptions(self.replicationObject);
 
-                self._ensureSlavePeerSet();                
+                self._ensureSlavePeerSet();
             });
-        }
-    },
-
-    enterDocument: {
-        value: function(isFirstTime) {
-            this.super(isFirstTime);
-
-            this._loadReplicationObject();
         }
     },
 
