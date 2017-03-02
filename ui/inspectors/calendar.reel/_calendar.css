@@ -27,3 +27,7 @@
     min-height: 0;
 }
 
+.Calendar > .Inspector .Inspector-backButton {
+    display: none;
+}
+
