@@ -144,9 +144,13 @@ exports.Share = AbstractInspector.specialize({
             if (share._isNew) {
                 this.isPathReadOnly = true;
             }
-            return servicePromise.then(function() {
+            if (servicePromise) {
+                return servicePromise.then(function() {
+                    return self._shareService.save(share);
+                });
+            } else {
                 return self._shareService.save(share);
-            });
+            }
         }
     },
 
@@ -246,7 +250,7 @@ exports.Share = AbstractInspector.specialize({
         value: function() {
             if (this.service && this.service.config && !this.service.config.enable) {
                 this.service.config.enable = true;
-                this.application.dataService.saveDataObject(this.service);
+                return this.application.dataService.saveDataObject(this.service);
             }
         }
     },
@@ -255,7 +259,7 @@ exports.Share = AbstractInspector.specialize({
         value: function() {
             if (this.service && this.service.config && this.service.config.enable) {
                 this.service.config.enable = false;
-                this.application.dataService.saveDataObject(this.service);
+                return this.application.dataService.saveDataObject(this.service);
             }
         }
     }
