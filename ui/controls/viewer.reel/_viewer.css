@@ -11,6 +11,14 @@
     background-color: var(--primary);
     display: flex;
     flex-shrink: 0;
+
+    & .Viewer-backButton {
+        margin-left: -.5rem;
+
+        @nest .SectionRoot & {
+            display: none;
+        }
+    }
 }
 
 .Viewer-footer { flex-shrink: 0; }
@@ -19,12 +27,12 @@
 
 .Viewer-title {
     flex: 1;
-    padding: .5em 1em;
-    line-height: 2em;
+    padding: 0 1em;
     flex-shrink: 0;
-    font-size: 1em;
-    overflow: hidden;
     font-weight: 400;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }

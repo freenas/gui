@@ -14,7 +14,6 @@
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    justify-content: space-between;
     height:  3rem;
     padding: 0 1rem;
     background-color: var(--primary);
@@ -22,6 +21,15 @@
 
     & button {
         color: var(--white);
+    }
+
+    & > .Inspector-backButton {
+        margin-left: -.5rem;
+
+        @nest .SectionRoot & {
+            display: none;
+            margin-left: 0;
+        }
     }
 }
 

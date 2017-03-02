@@ -94,14 +94,30 @@
                 "confirmMessage": {"<-": "@owner.confirmSaveMessage || 'Are you sure you want to save changes to ' + @owner.context.object.path(@owner.context.userInterfaceDescriptor.nameExpression) + '?'"}
             }
         },
+        "header": {
+            "prototype": "montage/ui/component",
+            "properties": {
+                "element": {"#": "header"},
+                "hasTemplate": false
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "@owner.hideHeader"}
+            }
+        },
         "title": {
             "prototype": "montage/ui/text.reel",
             "properties": {
                 "element": {"#": "title"}
             },
             "bindings": {
-                "value": {"<-": "(!!@owner.title && @owner.title.length > 0) ? @owner.title : @owner.context.object.path(@owner.context.userInterfaceDescriptor.nameExpression)"},
-                "classList.has('is-hidden')": {"<-": "@owner.hideHeader"}
+                "value": {"<-": "(!!@owner.title && @owner.title.length > 0) ? @owner.title : @owner.context.object.path(@owner.context.userInterfaceDescriptor.nameExpression)"}
+            }
+        },
+        "backButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "backButton"},
+                "value": "Back"
             }
         }
     }
@@ -109,7 +125,12 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Inspector">
-        <div data-montage-id="title" class="Inspector-header"></div>
+        <div data-montage-id="header" class="Inspector-header">
+            <button data-montage-id="backButton" class="Inspector-backButton Button--icon Button--transparent g-margin-right--half">
+                <svg class="rotate-180"><use xlink:href="#i-arrow"/></svg>
+            </button>
+            <span data-montage-id="title"></span>
+        </div>
         <div data-montage-id="errorMessage" class="Inspector-error"></div>
         <div class="Inspector-locked">
             <div data-montage-id="lockMessage"></div>
