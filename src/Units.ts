@@ -15,16 +15,16 @@ function makeList(values: Array<string>, power: number, start = 0) {
 const kb = 1024;
 const seconds = 60;
 
-const BYTE_SIZES = makeList(['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'], kb);
+const BYTE_SIZES = makeList(['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'], kb);
 export {BYTE_SIZES};
 
-const MEGABYTE_SIZES = makeList(['MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'], kb);
+const MEGABYTE_SIZES = makeList(['MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'], kb);
 export {MEGABYTE_SIZES};
 
-const GIGABYTE_SIZES = makeList(['GB', 'TB', 'PB', 'EB', 'ZB', 'YB'], kb);
+const GIGABYTE_SIZES = makeList(['GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'], kb);
 export {GIGABYTE_SIZES};
 
-const TRANSFER_SPEED = makeList(['B/s', 'KB/s', 'MB/s', 'GB/s', 'TB/s', 'PB/s', 'EB/s', 'ZB/s', 'YB/s'], kb);
+const TRANSFER_SPEED = makeList(['B/s', 'KiB/s', 'MiB/s', 'GiB/s', 'TiB/s', 'PiB/s', 'EiB/s', 'ZiB/s', 'YiB/s'], kb);
 export {TRANSFER_SPEED};
 
 const SECONDS = makeList(['secs', 'mins', 'hrs'], seconds);
