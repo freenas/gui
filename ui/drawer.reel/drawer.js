@@ -150,12 +150,11 @@ exports.Drawer = AbstractDropZoneComponent.specialize(/** @lends Drawer# */ {
 
     handleComponentDrop: {
         value: function (widgetWrapperComponent) {
-            var index;
+            var index,
+                widgets = widgetWrapperComponent.object.source.userWidgets;
 
-            if ((index = this.dashboardWidgets.indexOf(widgetWrapperComponent.object)) > -1) {
-                this.dashboardWidgets.splice(index, 1);
-            } else if ((index = this.sideBoardWidgets.indexOf(widgetWrapperComponent.object)) > -1) {
-                this.sideBoardWidgets.splice(index, 1);
+            if ((index = widgets.indexOf(widgetWrapperComponent.object)) > -1) {
+                widgets.splice(index, 1);
             }
         }
     }
