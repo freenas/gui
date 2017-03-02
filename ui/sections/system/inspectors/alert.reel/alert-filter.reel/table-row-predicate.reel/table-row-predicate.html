@@ -29,6 +29,15 @@
                 "selectedValue": {"<->": "@owner.object.emitter"}
             }
         },
+        "substitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "substitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.object.emitter"}
+            }
+        },
         "sendTo": {
             "prototype": "blue-shark/ui/multiple-select.reel",
             "properties": {
@@ -43,16 +52,7 @@
                 "valuesHeight": 4
             },
             "bindings": {
-                "values": {"<->": "@owner.object.parameters.addresses"}
-            }
-        },
-        "substitution": {
-            "prototype": "montage/ui/substitution.reel",
-            "properties": {
-                "element": {"#": "substitution"}
-            },
-            "bindings": {
-                "switchValue": {"<-": "@owner.object.emitter"}
+                "values": {"<->": "@owner.object.parameters.to"}
             }
         },
         "pushBulletField": {

@@ -215,10 +215,8 @@ exports.Inspector = Component.specialize({
 
     revert: {
         value: function() {
-            var self = this;
-            return this._getObjectDao(this.object).then(function(dao) {
-                return dao.revert(self.object);
-            });
+            this._routingService.navigate(this.context.path, true);
+            return Promise.resolve();
         }
     },
 

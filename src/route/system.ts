@@ -129,22 +129,24 @@ export class SystemRoute extends AbstractRoute {
         });
     }
 
-    public getAlertFilter(filterId: string, stack: Array<any>) {
+    public getAlert(stack: Array<any>) {
         let self = this,
             objectType = Model.AlertFilter,
-            columnIndex = 2,
+            columnIndex = 1,
             parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: parentContext,
-                path: parentContext.path + '/alert-filter/_/' + encodeURIComponent(filterId)
+                path: parentContext.path + '/system-section/_/alert'
             };
         return Promise.all([
             this.alertFilterRepository.listAlertFilters(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(alertFilters: Array<any>, uiDescriptor) {
-            context.object = _.find(alertFilters, {id: filterId});
+            context.object = {
+                filters: alertFilters
+            };
             context.userInterfaceDescriptor = uiDescriptor;
 
             return self.updateStackWithContext(stack, context);

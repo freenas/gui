@@ -1,13 +1,6 @@
-/**
- * @module ui/table-container-default-header.reel
- */
 var Component = require("montage/ui/component").Component;
 
-/**
- * @class TableContainerDefaultHeader
- * @extends Component
- */
-exports.TableContainerDefaultHeader = Component.specialize(/** @lends TableContainerDefaultHeader# */ {
+exports.TableHeader = Component.specialize({
 
     prepareForActivationEvents: {
         value: function () {
