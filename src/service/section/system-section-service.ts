@@ -62,12 +62,6 @@ export class SystemSectionService extends AbstractSectionService {
         this.alertFilterRepository = AlertFilterRepository.getInstance();
         this.alertEmitterPushBulletRepository = AlertEmitterPushBulletRepository.getInstance();
         this.alertEmitterRepository = AlertEmitterRepository.getInstance();
-
-
-        this.eventDispatcherService.addEventListener(
-            ModelEventName.Disk.listChange,
-            this.handleDisksChange.bind(this)
-        );
     }
 
     protected loadEntries() {
@@ -210,7 +204,7 @@ export class SystemSectionService extends AbstractSectionService {
     public listDisks() {
         if (!this.initialDiskAllocationPromise || this.initialDiskAllocationPromise.isRejected()) {
             this.initialDiskAllocationPromise = this.diskRepository.listDisks()
-                .tap(disks => this.volumeRepository.initializeDisksAllocations((_.map(disks, 'path') as Array<string>)));
+                .tap(disks => this.volumeRepository.initializeDisksAllocations((_.map(disks, 'id') as Array<string>)));
         }
         return this.initialDiskAllocationPromise;
     }
@@ -263,9 +257,6 @@ export class SystemSectionService extends AbstractSectionService {
 
     protected loadOverview() {
         return undefined;
-    }
-
-    private handleDisksChange(disks: Map<string, Map<string, any>>) {
     }
 
     private setKeepBootEnvironment(bootEnvironment: BootEnvironment, keep: boolean): Promise<SubmittedTask> {

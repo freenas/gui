@@ -10,12 +10,13 @@ import {BootEnvironment} from '../model/BootEnvironment';
 export class BootPoolRepository extends AbstractRepository<BootEnvironment> {
     private static instance: BootPoolRepository;
     private bootEnvironments: Map<string, Map<string, any>>;
+    private bootPool: any;
 
     private constructor(
         private bootPoolDao: BootPoolDao,
         private bootEnvironmentDao: BootEnvironmentDao
     ) {
-        super([Model.BootEnvironment]);
+        super([Model.BootEnvironment, Model.BootPool]);
     }
 
     public static getInstance() {
@@ -29,7 +30,7 @@ export class BootPoolRepository extends AbstractRepository<BootEnvironment> {
     }
 
     public getBootPoolConfig(): Promise<Object> {
-        return this.bootPoolDao.getConfig();
+        return this.bootPool ? Promise.resolve(this.bootPool) : this.bootPoolDao.get();
     }
 
     public listBootEnvironments() {
@@ -62,7 +63,15 @@ export class BootPoolRepository extends AbstractRepository<BootEnvironment> {
     }
 
     protected handleStateChange(name: string, state: any, overlay: Map<string, Map<string, any>>) {
-        this.bootEnvironments = this.dispatchModelEvents(this.bootEnvironments, ModelEventName.BootEnvironment, state, overlay);
+        switch (name) {
+            case Model.BootPool:
+                this.bootPool = state.get().toJS();
+                this.eventDispatcherService.dispatch(ModelEventName.BootPool.contentChange, this.bootPool);
+                break;
+            default:
+                this.bootEnvironments = this.dispatchModelEvents(this.bootEnvironments, ModelEventName.BootEnvironment, state, overlay);
+                break;
+        }
     }
 
     protected handleEvent(name: string, data: any) {}

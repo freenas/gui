@@ -8,6 +8,7 @@ const Model = {
     AlertSettings: 'AlertSettings' as 'AlertSettings',
     AmazonS3Credentials: 'AmazonS3Credentials' as 'AmazonS3Credentials',
     BootEnvironment: 'BootEnvironment' as 'BootEnvironment',
+    BootPool: 'BootPool' as 'BootPool',
     Calendar: 'Calendar' as 'Calendar',
     CalendarCustomSchedule: 'CalendarCustomSchedule' as 'CalendarCustomSchedule',
     CalendarTask: 'CalendarTask' as 'CalendarTask',

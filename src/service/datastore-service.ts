@@ -253,7 +253,7 @@ export class DatastoreService {
     private handleMiddlewareModelChange(args: any) {
         let type = _.upperFirst(_.camelCase(args.service)),
             ids = args.ids,
-            entities = args.entities,
+            entities = args.entities || [args.data],
             operation = args.operation;
         switch (operation) {
             case 'create':
