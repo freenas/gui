@@ -252,6 +252,8 @@ exports.Share = AbstractInspector.specialize({
                 this.service.config.enable = true;
                 return this.application.dataService.saveDataObject(this.service);
             }
+
+            return Promise.resolve();
         }
     },
 
@@ -261,6 +263,8 @@ exports.Share = AbstractInspector.specialize({
                 this.service.config.enable = false;
                 return this.application.dataService.saveDataObject(this.service);
             }
+
+            return Promise.resolve();
         }
     }
 },{
