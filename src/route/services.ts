@@ -75,14 +75,14 @@ export class ServicesRoute extends AbstractRoute {
                 parentContext: parentContext,
                 path: parentContext.path + '/modules'
             };
-        return Promise.all([
-            this.serviceRepository.listRsyncdModules(),
-            this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(rsyncdModules, uiDescriptor) {
-            context.object = rsyncdModules;
-            context.userInterfaceDescriptor = uiDescriptor;
-            return self.updateStackWithContext(stack, context);
-        });
+        return this.loadListInColumn(
+            stack,
+            columnIndex,
+            columnIndex - 1,
+            '/modules',
+            Model.RsyncdModule,
+            this.serviceRepository.listRsyncdModules()
+        );
     }
 
     public createRsyncdModule(stack: Array<any>) {
