@@ -312,6 +312,28 @@
                 "value": {"<-": "!@owner.object.status.vm_tools_available ? 'Not detected' : 'Available'"}
             }
         },
+        "guestInfoVersion": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "label": "VM Tool Version",
+                "element": {"#": "guestInfoVersion"}
+            },
+            "bindings": {
+                "value": {"<-": "!@owner.object.guestInfo.version ? 'Not detected' : @owner.object.guestInfo.version"},
+                "classList.has('hide')": {"<-": "!@owner.object.guestInfo.version"}
+            }        
+        },
+        "guestVmTemplate": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "label": "VM Template Version",
+                "element": {"#": "guestVmTemplate"}
+            },
+            "bindings": {
+                "value": {"<-": "!@owner.object.template.template_version ? 'Not detected' : @owner.object.template.template_version"},
+                "classList.has('hide')": {"<-": "!@owner.object.template.template_version"}
+            }        
+        },
         "guestInfoLoadAvg": {
             "prototype": "blue-shark/ui/tables/table-read-only.reel",
             "properties": {
@@ -495,6 +517,8 @@
             <div data-montage-id="guestToolsSubstitution">
                 <div data-montage-id="guestToolsStatus" data-arg="unavailable"></div>
                 <div data-montage-id="guestTools" data-arg="available">
+                    <div data-montage-id="guestInfoVersion" class="g-margin-bottom"></div>
+                    <div data-montage-id="guestVmTemplate" class="g-margin-bottom"></div>
                     <div data-montage-id="guestInfoRefresh" class="g-margin-bottom"></div>
                     <div data-montage-id="guestInfoLoadAvg" class="g-margin-bottom"></div>
                     <div data-montage-id="guestInfoInterfaces" class="g-margin-bottom"></div>
