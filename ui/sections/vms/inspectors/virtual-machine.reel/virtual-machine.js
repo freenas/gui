@@ -76,9 +76,7 @@ exports.VirtualMachine = AbstractInspector.specialize({
         value: function() {
             var self = this;
             this._sectionService.listDatastores().then(function(datastores){
-                self.object._datastore = _.find(datastores, function(datastore) {
-                    return datastore.name === self.object.target;
-                });
+                self.object._datastore = _.find(datastores, {id: self.object.target});
             });
         }
     },
