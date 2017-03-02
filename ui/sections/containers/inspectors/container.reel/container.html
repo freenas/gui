@@ -8,6 +8,9 @@
             "properties": {
                 "element": {"#": "owner"},
                 "validationController": {"@": "validationController"}
+            },
+            "bindings": {
+                "classList.has('is-new')": {"<-": "!!@owner.object._isNew"}
             }
         },
 
@@ -392,7 +395,7 @@
 <body>
 <div data-montage-id="owner" class="Container">
     <div data-montage-id="inspector">
-        <div class="g-margin-bottom">
+        <div class="Container-actions g-margin-bottom">
             <div data-montage-id="start"></div>
             <div data-montage-id="restart"></div>
             <div data-montage-id="stop"></div>
