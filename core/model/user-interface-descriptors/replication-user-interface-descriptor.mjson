@@ -13,7 +13,7 @@
                 "FAILED": "red"
             },
             "statusValueExpression": "current_state.status",
-            "subLabelExpression": "current_state.status == 'RUNNING' ? current_state.progress + '% (' + current_state.speed + ')' : ''"
+            "subLabelExpression": "current_state.status == 'RUNNING' ? Math.floor(current_state.progress) + '% (' + current_state.speed + ')' : ''"
         }
     }
 }
