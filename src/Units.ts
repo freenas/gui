@@ -24,7 +24,7 @@ export {MEGABYTE_SIZES};
 const GIGABYTE_SIZES = makeList(['GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'], kb);
 export {GIGABYTE_SIZES};
 
-const TRANSFER_SPEED = makeList(['B/s', 'KB/s', 'MB/s', 'GB/s', 'TB/s', 'PB/s', 'EiB/s', 'ZiB/s', 'YiB/s'], kb);
+const TRANSFER_SPEED = makeList(['B/s', 'KiB/s', 'MiB/s', 'GiB/s', 'TiB/s', 'PiB/s', 'EiB/s', 'ZiB/s', 'YiB/s'], kb);
 export {TRANSFER_SPEED};
 
 const SECONDS = makeList(['secs', 'mins', 'hrs'], seconds);
