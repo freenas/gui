@@ -15,7 +15,7 @@
 .TaskTypeIndicator.type-rsync_copy                      { color: var(--task-rsync-color); }
 .TaskTypeIndicator.type-calendar_task_command           { color: var(--task-command-color); }
 .TaskTypeIndicator.type-volume_scrub                    { color: var(--task-scrub-color); }
-.TaskTypeIndicator.type-replication_replicate_dataset   { color: var(--task-replication-color); }
+.TaskTypeIndicator.type-replication_sync                { color: var(--task-replication-color); }
 .TaskTypeIndicator.type-disk_parallel_test              { color: var(--task-smart-color); }
 .TaskTypeIndicator.type-update_checkfetch               { color: var(--task-update-color); }
 .TaskTypeIndicator.type-volume_snapshot_dataset         { color: var(--task-snapshot-color); }

@@ -300,7 +300,7 @@ Calendar Events
 
 .CalendarWidget-event.type-rsync_copy .CalendarWidget-event-inner                        { background-color: var(--task-rsync-color); }
 .CalendarWidget-event.type-volume_scrub .CalendarWidget-event-inner                      { background-color: var(--task-scrub-color); }
-.CalendarWidget-event.type-replication_replicate_dataset .CalendarWidget-event-inner     { background-color: var(--task-replication-color); }
+.CalendarWidget-event.type-replication_sync .CalendarWidget-event-inner                  { background-color: var(--task-replication-color); }
 .CalendarWidget-event.type-disk_parallel_test .CalendarWidget-event-inner                { background-color: var(--task-smart-color); }
 .CalendarWidget-event.type-update_checkfetch .CalendarWidget-event-inner                 { background-color: var(--task-update-color); }
 .CalendarWidget-event.type-volume_snapshot_dataset .CalendarWidget-event-inner           { background-color: var(--task-snapshot-color); }

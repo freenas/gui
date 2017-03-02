@@ -77,13 +77,7 @@ export class CalendarSectionService extends AbstractSectionService {
     }
 
     public runTask(task: any) {
-        if (task.task === 'replication.sync') return this.runReplicationTask(task);
         this.taskRepository.submitTask(task.task, task.args);
-    }
-
-    public saveTask(task: any) {
-        if (task.task === 'replication.sync') return this.saveReplicationTask(task);
-        return this.calendarRepository.saveCalendarTask(task);
     }
 
     public updateScheduleOnTask(task: any) {
@@ -100,50 +94,5 @@ export class CalendarSectionService extends AbstractSectionService {
 
     public listUsers() {
         return this.accountRepository.listUsers();
-    }
-
-    public getNewReplicationInstance() {
-        return Promise.all([
-            this.replicationRepository.getNewReplicationInstance(),
-            this.getHostUuid()
-        ]).spread((replication, host) => {
-            replication.master = host;
-            replication.datasets = [{}];
-            return replication;
-        });
-    }
-
-    private getHostUuid(): Promise<string> {
-        return this.hostPromise = this.hostPromise || this.middlewareClient.callRpcMethod('system.info.host_uuid');
-    }
-
-    private createReplication(task: any) {
-        return this.getNewReplicationInstance()
-            .then(replication => this.replicationRepository.saveReplication(
-                _.merge(replication, {
-                    name: task.name,
-                    slave: _.get(task, 'args.1.peer'),
-                    datasets: [{
-                        master: task.args[0],
-                        slave: _.get(task, 'args.1.remote_dataset')
-                    }],
-                    recursive: _.get(task, 'args.1.recursive'),
-                    followdelete: _.get(task, 'args.1.followdelete'),
-                    transport_options: _.get(task, 'args.2')
-                })
-            ));
-    }
-
-    private saveReplicationTask(task: any) {
-        return this.createReplication(task)
-            .then(() => this.calendarRepository.saveCalendarTask(
-                _.set(task, 'args', [task.name])
-            ));
-    }
-
-    private runReplicationTask(task: any) {
-        return this.createReplication(task)
-            .then(submittedTask => submittedTask.taskPromise)
-            .then(replicationId => this.taskRepository.submitTask(task.task, [replicationId]));
     }
 }

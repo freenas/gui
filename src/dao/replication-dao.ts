@@ -8,8 +8,8 @@ export class ReplicationDao extends AbstractDao<Replication> {
         super(Model.Replication);
     }
 
-    public replicateDataset(dataset: Object, replicationOptions: Object, transportOptions: Array<Object>) {
-        return this.middlewareClient.submitTask('replication.replicate_dataset', [dataset, replicationOptions, transportOptions]);
+    public sync(replicationId) {
+        return this.middlewareClient.submitTask('replication.sync', [replicationId]);
     }
 }
 

@@ -9,13 +9,26 @@
             "properties": {
                 "element": {"#": "owner"},
                 "datasetTreeController": {"@": "datasetTreeController"},
-                "sourceDataset": {"@": "sourceDataset"}
+                "sourceDataset": {"@": "source_dataset"}
             }
         },
         "datasetTreeController": {
             "prototype": "core/controller/tree/dataset-tree-controller",
             "bindings": {
                 "service": {"<-": "@owner.application.dataService"}
+            }
+        },
+        "source_dataset": {
+            "prototype": "ui/controls/field-treeview.reel",
+            "properties": {
+                "element": {"#": "source_dataset"},
+                "isMandatory": true,
+                "controller": {"@": "datasetTreeController"},
+                "label": "Source dataset",
+                "allowPathInput": true
+            },
+            "bindings": {
+                "selectedPath": {"<->": "@owner.replicationObject.datasets.0.master"}
             }
         },
         "peerOptionsConverter": {
@@ -29,33 +42,24 @@
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "peer"},
+                "isMandatory": true,
                 "label": "Peer",
                 "converter": {"@": "peerOptionsConverter"}
             },
             "bindings": {
                 "options": {"<-": "@owner.peers"},
-                "selectedValue": {"<->": "@owner.object.1.peer"}
+                "selectedValue": {"<->": "@owner.replicationObject.slave"}
             }
         },
-        "sourceDataset": {
-            "prototype": "ui/controls/field-treeview.reel",
-            "properties": {
-                "element": {"#": "sourceDataset"},
-                "controller": {"@": "datasetTreeController"},
-                "label": "Source dataset"
-            },
-            "bindings": {
-                "selectedPath": {"<->": "@owner.object.0"}
-            }
-        },
-        "targetDataset": {
+        "target_dataset": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
-                "element": {"#": "targetDataset"},
+                "element": {"#": "target_dataset"},
+                "isMandatory": true,
                 "label": "Target dataset"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.1.remote_dataset"}
+                "value": {"<->": "@owner.replicationObject.datasets.0.slave"}
             }
         },
         "compress": {
@@ -71,7 +75,7 @@
                 ]
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.compress"}
+                "selectedValue": {"<->": "@owner._transportOptions.compress"}
             }
         },
         "encrypt": {
@@ -87,7 +91,7 @@
                 ]
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.encrypt"}
+                "selectedValue": {"<->": "@owner._transportOptions.encrypt"}
             }
         },
         "throttle": {
@@ -97,8 +101,8 @@
                 "label": "Throttling"
             },
             "bindings": {
-                "units": {"<-": "@owner.throttleUnits"},
-                "value": {"<->": "@owner.throttle"}
+                "units": {"<-": "@owner.transferSpeedUnits"},
+                "value": {"<->": "@owner._transportOptions.throttle"}
             }
         },
         "recursive": {
@@ -108,7 +112,7 @@
                 "label": "Recursive"
             },
             "bindings": {
-                "checked": {"<->": "!!@owner.object.1.recursive"}
+                "checked": {"<->": "!!@owner.replicationObject.recursive"}
             }
         },
         "followDelete": {
@@ -118,7 +122,7 @@
                 "label": "Follow delete"
             },
             "bindings": {
-                "checked": {"<->": "!!@owner.object.1.followdelete"}
+                "checked": {"<->": "!!@owner.replicationObject.followdelete"}
             }
         }
     }
@@ -127,8 +131,8 @@
 <body>
     <div data-montage-id="owner" class="ReplicationArgs">
         <div data-montage-id="peer"></div>
-        <div data-montage-id="sourceDataset"></div>
-        <div data-montage-id="targetDataset"></div>
+        <div data-montage-id="source_dataset"></div>
+        <div data-montage-id="target_dataset"></div>
         <div data-montage-id="compress"></div>
         <div data-montage-id="encrypt"></div>
         <div data-montage-id="throttle"></div>

@@ -54,11 +54,15 @@ exports.Replication = AbstractInspector.specialize({
 
             return this._replicationService.buildTransportOptions(this._transportOptions).then(function(transportOptions) {
                 self.object.transport_options = transportOptions;
-                return self.inspector.save().then(function() {
-                    if (self._repetition) {
-                        self._calendarService.createNewRepeatedTask('replication.sync', self.object.name, [self.object.name], self._repetition);
-                    }
-                });
+                return self.inspector.save();
+            }).then(function(submittedTask) {
+                return submittedTask.taskPromise;
+            }).then(function(replicationId) {
+                if (replicationId && self.object._isNew) {
+                    return self._repetition ?
+                        self._calendarService.createNewRepeatedTask('replication.sync', self.object.name, [replicationId], self._repetition) :
+                        self._replicationService.syncReplication(replicationId);
+                }
             });
         }
     }
