@@ -37,37 +37,6 @@
     text-overflow: ellipsis;
 }
 
-/* Create */
-
-.Viewer-createButton {
-    padding: 0 .5rem;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    color: var(--green);
-}
-
-.Viewer-createButton-plus {
-    border: 1px solid currentColor;
-    width:  1.8em;
-    height: 1.8em;
-    padding: .25em;
-    border-radius: 50%;
-    transition: background-color .25s;
-
-    @nest .Viewer-createButton:hover & {
-        background-color: var(--green);
-        border-color:     var(--green);
-        color: var(--white);
-    }
-
-    @nest .Viewer-createButton:focus & {
-        background-color: var(--green);
-        border-color:     var(--green);
-        color: var(--white);
-    }
-}
-
 .Viewer-listItem + .Viewer-listItem { border-top: none; }
 
 .Viewer-listItem:hover { background-color: var(--grey-3); }
