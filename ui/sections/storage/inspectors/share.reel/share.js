@@ -130,6 +130,22 @@ exports.Share = AbstractInspector.specialize({
                     self.service = service;
                     self.serviceEnabled = service.state === 'RUNNING';
                 });
+
+                if (this.targetType === 'DATASET') {
+                    this.extraDeleteFlags = [{
+                        "label": "Delete associated dataset?",
+                        "value": "delete_dataset",
+                        "checked": false
+                    }];
+                } else if (this.targetType === 'ZVOL') {
+                    this.extraDeleteFlags = [{
+                        "label": "Delete associated ZVOL?",
+                        "value": "delete_dataset",
+                        "checked": false
+                    }];
+                } else {
+                    this.extraDeleteFlags = [];
+                }
             }
         }
     },
@@ -151,6 +167,12 @@ exports.Share = AbstractInspector.specialize({
             } else {
                 return self._shareService.save(share);
             }
+        }
+    },
+
+    delete: {
+        value: function() {
+            return this.inspector.delete(this.extraDeleteFlags[0].checked);
         }
     },
 
