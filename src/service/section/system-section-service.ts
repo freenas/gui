@@ -227,11 +227,11 @@ export class SystemSectionService extends AbstractSectionService {
         return this.systemRepository.getDevices(deviceClass);
     }
 
-    public saveAlertFilters(alertFilters: Array<AlertFilter>) {
+    public saveAlertFilters(alertFilters: Array<AlertFilter>): Array<Promise<SubmittedTask>> {
         return _.map(alertFilters, alertFilter => this.alertFilterRepository.save(alertFilter));
     }
 
-    public deleteAlertFilters(alertFilters: Array<AlertFilter>) {
+    public deleteAlertFilters(alertFilters: Array<AlertFilter>): Array<Promise<SubmittedTask>> {
         return _.map(alertFilters, alertFilter => this.alertFilterRepository.delete(alertFilter));
     }
 
