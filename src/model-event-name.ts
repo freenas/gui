@@ -8,6 +8,7 @@ export class ModelEventName {
     public static AlertSettings = new ModelEventName(Model.AlertSettings);
     public static AmazonS3Credentials = new ModelEventName(Model.AmazonS3Credentials);
     public static BootEnvironment = new ModelEventName(Model.BootEnvironment);
+    public static BootPool = new ModelEventName(Model.BootPool);
     public static Calendar = new ModelEventName(Model.Calendar);
     public static CalendarTask = new ModelEventName(Model.CalendarTask);
     public static CryptoCertificate = new ModelEventName(Model.CryptoCertificate);

@@ -14,14 +14,35 @@
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    justify-content: space-between;
     height:  3rem;
     padding: 0 1rem;
     background-color: var(--primary);
     border-bottom: 1px solid var(--separator-color);
+    min-width: 0;
 
     & button {
         color: var(--white);
+    }
+
+    & > .Inspector-backButton {
+        margin-left: -.5rem;
+
+        @nest .SectionRoot & {
+            display: none;
+            margin-left: 0;
+        }
+    }
+}
+
+.Inspector-title {
+    flex: 1;
+    display: flex;
+    min-width: 0;
+
+    & > span {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
 }
 

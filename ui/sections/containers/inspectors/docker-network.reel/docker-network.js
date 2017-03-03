@@ -11,7 +11,7 @@ exports.DockerNetwork = AbstractInspector.specialize({
                 {
                     type: 'INET',
                     address: parts[0],
-                    netmask: parts[1]
+                    netmask: parts[1] ? _.toNumber(parts[1]) : null
                 }
             ];
         }

@@ -48,6 +48,7 @@ exports.VirtualMachine = AbstractInspector.specialize({
             var self = this;
             this._sectionService.getGuestInfo(self.object).then(function(guestInfo) {
                 if (guestInfo) {
+                    self.object.guestInfo = guestInfo
                     if (guestInfo.load_avg) {
                         self.guestInfoLoadAvg = [{
                                                     onemin: guestInfo.load_avg[0],
@@ -74,9 +75,7 @@ exports.VirtualMachine = AbstractInspector.specialize({
         value: function() {
             var self = this;
             this._sectionService.listDatastores().then(function(datastores){
-                self.object._datastore = _.find(datastores, function(datastore) {
-                    return datastore.name === self.object.target;
-                });
+                self.object._datastore = _.find(datastores, {id: self.object.target});
             });
         }
     },
@@ -146,6 +145,7 @@ exports.VirtualMachine = AbstractInspector.specialize({
 
     handleStartAction: {
         value: function() {
+            this.startButton.isProcessing = true;
             this._sectionService.startVm(this.object);
         }
     },

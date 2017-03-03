@@ -50,6 +50,12 @@ exports.Inspector = Component.specialize({
         }
     },
 
+    prepareForActivationEvents: {
+        value: function() {
+            this.addEventListener("action", this);
+        }
+    },
+
     confirmDelete: {
         value: function (event) {
             var self = this,
@@ -121,6 +127,12 @@ exports.Inspector = Component.specialize({
                 console.warn('NOT IMPLEMENTED: revert() on unknown controller.');
             }
             event.stopPropagation();
+        }
+    },
+
+    handleBackButtonAction: {
+        value: function () {
+            this._routingService.navigate(this.parentCascadingListItem.data.parentContext.path);
         }
     },
 
@@ -215,10 +227,8 @@ exports.Inspector = Component.specialize({
 
     revert: {
         value: function() {
-            var self = this;
-            return this._getObjectDao(this.object).then(function(dao) {
-                return dao.revert(self.object);
-            });
+            this._routingService.navigate(this.context.path, true);
+            return Promise.resolve();
         }
     },
 

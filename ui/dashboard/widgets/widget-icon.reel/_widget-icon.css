@@ -5,8 +5,9 @@
     width:  2em;
     padding: .15em;
     border-radius: 4px;
-    background: var(--transparent--lighten);
+    background: var(--primary);
     border: 2px solid transparent;
+    color: var(--primary--3);
 }
 
 .WidgetIcon + .WidgetIcon { margin-top: 1em; }
@@ -21,7 +22,7 @@
     border-radius: .5rem;
     padding: 0.2em 0.45em .25em;
     font-size: 0.7em;
-    background: var(--grey-2);
+    /* background: var(--grey-2); */
     color: var(--black);
     line-height: 1em;
     box-shadow: 0 2px 2px var(--shadow-1);

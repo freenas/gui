@@ -47,7 +47,7 @@
                 "label": "Name"
             },
             "bindings": {
-                "value": {"<-": "@owner.bootVolume.id"}
+                "value": {"<-": "@owner.bootVolume.name"}
             }
         },
         "bootVolumeSize": {
@@ -99,7 +99,7 @@
                 "label": "Type"
             },
             "bindings": {
-                "value": {"<-": "@owner.bootVolume.groups.data.0.type"}
+                "value": {"<-": "@owner.bootVolume.disks.length > 1 ? 'MIRROR' : 'DISK'"}
             }
         },
         "bootPoolTopologyTable": {
@@ -165,11 +165,11 @@
             <div data-montage-id="bootVolumeUsed"></div>
             <div data-montage-id="bootVolumeCapacityUsed"></div>
             <div data-montage-id="bootVolumeCondition"></div>
-            <div data-montage-id="activeEnvironmentTable" class="BootPool-table BootPool-activeEnvironmentTable"></div>
-            <div data-montage-id="inactiveEnvironmentTable" class="BootPool-table"></div>
             <div data-montage-id="bootVolumeTopologySection">
                 <div data-montage-id="bootPoolTopologyTable" class="BootPool-table"></div>
             </div>
+            <div data-montage-id="activeEnvironmentTable" class="BootPool-table BootPool-activeEnvironmentTable"></div>
+            <div data-montage-id="inactiveEnvironmentTable" class="BootPool-table"></div>
             <div data-arg="footer-additional-button" class="ActionButtons">
                 <div data-montage-id="scrub"></div>
             </div>

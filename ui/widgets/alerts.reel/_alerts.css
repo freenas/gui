@@ -2,7 +2,7 @@
     & .Widget { height: 19rem;}
 }
 
-.Notifications-icon { color: var(--grey) !important; }
+.Notifications-icon { color: var(--primary--3) !important; }
 
 .Notifications-title { flex: 1; }
 

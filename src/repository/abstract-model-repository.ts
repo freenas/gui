@@ -23,6 +23,10 @@ export abstract class AbstractModelRepository<T extends AbstractDataObject> exte
         return this.dao.save(object, args);
     }
 
+    public delete(object: T, args?: Array<any>): Promise<SubmittedTask> {
+        return this.dao.delete(object, args);
+    }
+
     public getNewInstance(): Promise<T> {
         return this.dao.getNewInstance();
     }

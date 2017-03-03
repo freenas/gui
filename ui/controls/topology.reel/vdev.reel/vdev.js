@@ -60,7 +60,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize({
 
     isVDevImmutable: {
         get: function () {
-            return this.isEditorMode && this.gridIdentifier === Topology.IDENTIFIERS.DATA && this.isVDevRaidZType && !this.isNewVDev;
+            return this.isEditorMode && this.gridIdentifier === Topology.IDENTIFIERS.DATA && !this.isNewVDev;
         }
     },
 

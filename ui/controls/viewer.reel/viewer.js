@@ -48,6 +48,12 @@ exports.Viewer = AbstractComponentActionDelegate.specialize({
         }
     },
 
+    handleBackButtonAction: {
+        value: function () {
+            this._routingService.navigate(this._currentContext.parentContext.path);
+        }
+    },
+
     _setViewerMetaDataWithObject: {
         value: function (object) {
             var self = this;

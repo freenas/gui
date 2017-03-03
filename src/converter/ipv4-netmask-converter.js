@@ -23,7 +23,7 @@ var Converter = require("montage/core/converter/converter").Converter,
     convert: {
         value: function (suffix) {
             var suffixValue = _.toNumber(suffix);
-            if (!_.isFinite(suffixValue)) {
+            if (!_.isNumber(suffix)) {
                 return suffix;
             }
 

@@ -2,6 +2,10 @@
     min-width: 43rem;
 }
 
+.Container.is-new .Container-actions {
+    display: none !important;
+}
+
 .Container-inspector {
     display: flex;
     flex-direction: column;

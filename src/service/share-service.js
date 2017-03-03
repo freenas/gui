@@ -8,6 +8,7 @@ var Montage = require("montage").Montage,
     VolumeRepository = require("core/repository/volume-repository").VolumeRepository,
     Promise = require("montage/core/promise").Promise,
     Model = require("core/model/model").Model,
+    urlJoin = require("url-join"),
     _ = require("lodash");
 
 var ShareService = exports.ShareService = Montage.specialize({
@@ -122,6 +123,10 @@ var ShareService = exports.ShareService = Montage.specialize({
                 delete shareObject.permissions.acl;
             }
             delete shareObject.permissions_type;
+
+            if (shareObject.target_type === 'DIRECTORY' && !_.startsWith('/mnt', shareObject.target_path)) {
+                shareObject.target_path = urlJoin('/mnt', shareObject.target_path);
+            }
 
             //FIXME: workaround for the SELECT component. Future dead code.
             if (shareObject.type === this.constructor.SHARE_TYPES.NFS) {

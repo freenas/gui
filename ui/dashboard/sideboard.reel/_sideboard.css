@@ -16,6 +16,7 @@
 
 
 .Sideboard-container {
+    min-height: 0;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -40,8 +41,6 @@
     flex-direction: column;
 }
 
-.Sideboard-widgets { flex: 1; }
-
 .Sideboard-toggleSideboard {
     position: absolute;
     bottom: 1rem;
@@ -53,9 +52,21 @@
     background-color: var(--primary);
     transition: transform .5s cubic-bezier(.7,0,.3,1);
     z-index: 1;
-    /* border: 1px solid var(--primary--3); */
 
-    @nest .is-collapsed & { transform: translateX(-4rem); }
+    @nest .is-collapsed & {
+        transform: translateX(-4rem);
+
+        /* expands toggle hit area - hacky */
+        &:before {
+            position: absolute;
+            content: '';
+            top: -100vh;
+            left: -1rem;
+            /* matches width of collapsed sideboard */
+            width: 3.7em;
+            bottom: -1rem;
+        }
+    }
 
     &:hover {
         color: var(--white);
@@ -63,37 +74,34 @@
     }
 }
 
-/* expands toggle hit area - hacky */
-.Sideboard.is-collapsed .Sideboard-toggleSideboard:before {
-    position: absolute;
-    content: '';
-    top: -100vh;
-    left: -1rem;
-    /* matches width of collapsed sideboard */
-    width: 3.7em;
-    bottom: -1rem;
-}
+/* transition the sideboard toggle icon */
 
-.Sideboard .Sideboard-toggleSideboard svg {
+.Sideboard .Sideboard-toggleSideboard > div {
     transition: transform .5s cubic-bezier(.7,0,.3,1);
 }
 
-.Sideboard.is-collapsed .Sideboard-toggleSideboard svg {
+.Sideboard.is-collapsed .Sideboard-toggleSideboard > div {
     transform: rotateY(180deg);
+    transform-origin: center;
 }
 
 /* Dropzone Sizing Hacks - should remove dropzone */
 
-.Sideboard .WidgetDropzone-wrapper,
-.Sideboard .WidgetDropzone-widgets,
-.Sideboard .WidgetDropzone-widget:not(:first-child),
-.Sideboard .montage-Slot,
+/* tasks size hack */
 .Sideboard .Tasks,
+.Sideboard .WidgetWrapper > .montage-Slot,
+.Sideboard .WidgetDropzone-widget:not(:first-child),
+.Sideboard .WidgetDropzone-wrapper,
+.Sideboard .WidgetDropzone,
 .Sideboard .Widget,
+.Sideboard .WidgetDropzone-widgets,
 .Sideboard .Scroller {
-    display: flex;
-    flex-direction: column;
+    @apply --flex-column;
     flex: 1;
+}
+
+.Sideboard .WidgetDropzone-widget:not(:first-child) {
+    min-height: 20rem;
 }
 
 .Sideboard .WidgetDropzone-widgets {

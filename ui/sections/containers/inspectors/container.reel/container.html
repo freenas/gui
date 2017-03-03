@@ -8,6 +8,9 @@
             "properties": {
                 "element": {"#": "owner"},
                 "validationController": {"@": "validationController"}
+            },
+            "bindings": {
+                "classList.has('is-new')": {"<-": "!!@owner.object._isNew"}
             }
         },
 
@@ -31,6 +34,7 @@
                 "canRevert": true
             },
             "bindings": {
+                "context": {"<-": "@owner.context"},
                 "canDelete": {"<-": "!@owner.object._isNew"},
                 "isSaveDisabled": {"<-": "@owner.object.names.length == 0 || !@owner.object.names.0 || @owner.object.names.0.length == 0"}
             }
@@ -392,7 +396,7 @@
 <body>
 <div data-montage-id="owner" class="Container">
     <div data-montage-id="inspector">
-        <div class="g-margin-bottom">
+        <div class="Container-actions g-margin-bottom">
             <div data-montage-id="start"></div>
             <div data-montage-id="restart"></div>
             <div data-montage-id="stop"></div>
@@ -407,8 +411,8 @@
         <div data-montage-id="version"></div>
         <div data-montage-id="host"></div>
         <div data-montage-id="expose_ports"></div>
-        <div data-montage-id="ports" class="g-margin-bottom"></div>
-        <div data-montage-id="volumes" class="g-margin-bottom"></div>
+        <div data-montage-id="ports" class="g-margin-bottom--double"></div>
+        <div data-montage-id="volumes" class="g-margin-bottom--double"></div>
         <div data-montage-id="environment" class="g-margin-bottom"></div>
         <div data-montage-id="networkSettings">
             <div data-montage-id="primary_network_mode"></div>

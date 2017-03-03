@@ -30,9 +30,7 @@ Otherwise, to begin developing for the FreeNAS 10 GUI on one of these platforms,
 install node.js.
 
 For Mac OS X, installing the package from nodejs.org should suffice.
-For FreeBSD, run `sudo pkg install npm2`.
-
-Please note that the FreeNAS 10 GUI currently only works using npm 2.
+For FreeBSD, run `sudo pkg install npm`.
 
 ## Using the FreeNAS 10 Development Environment
 

@@ -15,7 +15,6 @@ import {BootPoolRepository} from '../../repository/boot-pool-repository';
 import {AlertEmitterPushBulletRepository} from '../../repository/alert-emitter-push-bullet-repository';
 import {AlertEmitterRepository} from '../../repository/alert-emitter-repository';
 import {ModelEventName} from '../../model-event-name';
-import * as Immutable from 'immutable';
 import * as _ from 'lodash';
 import {DockerContainerRepository} from '../../repository/docker-container-repository';
 import {BootEnvironment} from '../../model/BootEnvironment';
@@ -37,14 +36,12 @@ export class SystemSectionService extends AbstractSectionService {
     private diskRepository: DiskRepository;
     private bootPoolRepository: BootPoolRepository;
     private alertFilterRepository: AlertFilterRepository;
-    private bootEnvironments: Array<any> = [];
     private initialDiskAllocationPromise: Promise<any>;
     private alertEmitterPushBulletRepository: AlertEmitterPushBulletRepository;
     private alertEmitterRepository: AlertEmitterRepository;
-
     public readonly SELF_SIGNED = CryptoCertificateRepository.SELF_SIGNED;
-    public readonly CREATION = CryptoCertificateRepository.CREATION;
 
+    public readonly CREATION = CryptoCertificateRepository.CREATION;
     protected init() {
         this.systemRepository = SystemRepository.getInstance();
         this.ntpServerRepository = NtpServerRepository.getInstance();
@@ -62,12 +59,6 @@ export class SystemSectionService extends AbstractSectionService {
         this.alertFilterRepository = AlertFilterRepository.getInstance();
         this.alertEmitterPushBulletRepository = AlertEmitterPushBulletRepository.getInstance();
         this.alertEmitterRepository = AlertEmitterRepository.getInstance();
-
-
-        this.eventDispatcherService.addEventListener(
-            ModelEventName.Disk.listChange,
-            this.handleDisksChange.bind(this)
-        );
     }
 
     protected loadEntries() {
@@ -178,25 +169,8 @@ export class SystemSectionService extends AbstractSectionService {
         return this.bootPoolRepository.scrubBootPool();
     }
 
-    public getAlertEmitterEmail() {
-        return this.alertEmitterRepository.list().then(alertEmitters => _.find(alertEmitters, {config: {'%type': 'AlertEmitterEmail'}}));
-    }
-
     public saveAlertEmitter(alertEmitter: any) {
-        console.log(alertEmitter);
         return this.alertEmitterRepository.save(alertEmitter);
-    }
-
-    public getAlertEmitterPushBullet() {
-        return this.alertEmitterRepository.list().then(alertEmitters => _.find(alertEmitters, {config: {'%type': 'AlertEmitterPushbullet'}}));
-    }
-
-    public getAlertEmitterPushBulletConfig () {
-        return this.alertEmitterPushBulletRepository.getConfig();
-    }
-
-    public saveAlertEmitterPushBulletConfig (pushBulletConfig: any): SubmittedTask {
-        return this.alertEmitterPushBulletRepository.saveConfig(pushBulletConfig);
     }
 
     public saveCertificate(certificate: any) {
@@ -210,7 +184,7 @@ export class SystemSectionService extends AbstractSectionService {
     public listDisks() {
         if (!this.initialDiskAllocationPromise || this.initialDiskAllocationPromise.isRejected()) {
             this.initialDiskAllocationPromise = this.diskRepository.listDisks()
-                .tap(disks => this.volumeRepository.initializeDisksAllocations((_.map(disks, 'path') as Array<string>)));
+                .tap(disks => this.volumeRepository.initializeDisksAllocations((_.map(disks, 'id') as Array<string>)));
         }
         return this.initialDiskAllocationPromise;
     }
@@ -247,12 +221,14 @@ export class SystemSectionService extends AbstractSectionService {
         return this.systemRepository.getDevices(deviceClass);
     }
 
-    public listAlertFilters() {
-        return this.alertFilterRepository.listAlertFilters();
-    }
-    public saveAlertFilters(alertFilters: Array<AlertFilter>) {
+    public saveAlertFilters(alertFilters: Array<AlertFilter>): Array<Promise<SubmittedTask>> {
         return _.map(alertFilters, alertFilter => this.alertFilterRepository.save(alertFilter));
     }
+
+    public deleteAlertFilters(alertFilters: Array<AlertFilter>): Array<Promise<SubmittedTask>> {
+        return _.map(alertFilters, alertFilter => this.alertFilterRepository.delete(alertFilter));
+    }
+
     protected loadExtraEntries() {
         return undefined;
     }
@@ -265,11 +241,10 @@ export class SystemSectionService extends AbstractSectionService {
         return undefined;
     }
 
-    private handleDisksChange(disks: Map<string, Map<string, any>>) {
-    }
-
     private setKeepBootEnvironment(bootEnvironment: BootEnvironment, keep: boolean): Promise<SubmittedTask> {
         bootEnvironment.keep = keep;
         return this.bootPoolRepository.saveBootEnvironment(bootEnvironment);
     }
+
+    public getNextSequenceForStream(streamId: string) {}
 }
