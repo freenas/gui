@@ -58,7 +58,7 @@
                 "canDelete": {"<-": "!!@owner.canDelete && @owner.object.id.defined()"},
                 "canRevert": {"<-": "!!@owner.canRevert"},
                 "canSave": {"<-": "!!@owner.canSave"},
-                "isHidden": {"<-": "!!@owner.isFooterHidden || (!canSave && !canRevert && !canDelete)"},
+                "isHidden": {"<-": "!!@owner.isFooterHidden && !canSave && !canRevert && !canDelete"},
                 "isSaveDisabled": {"<-": "@owner.isSaveDisabled || @owner.validationController.hasMissingProperties"}
             },
             "listeners": [
