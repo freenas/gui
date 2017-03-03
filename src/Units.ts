@@ -29,3 +29,8 @@ export {TRANSFER_SPEED};
 
 const SECONDS = makeList(['secs', 'mins', 'hrs'], seconds);
 export {SECONDS};
+
+const HOURS = [{label: 'hours', value: 3600},
+               {label: 'days', value: 86400},
+               {label: 'weeks', value: 604800}];
+export {HOURS};
