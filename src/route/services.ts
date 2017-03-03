@@ -21,23 +21,24 @@ export class ServicesRoute extends AbstractRoute {
 
     public getCategory(categoryId: string, stack: Array<any>) {
         let self = this,
-            objectType = Model.ServicesCategory,
-            columnIndex = 1,
-            parentContext = stack[columnIndex - 1],
-            context: any = {
-                columnIndex: columnIndex,
-                objectType: objectType,
-                parentContext: parentContext,
-                path: parentContext.path + '/services-category/_/' + encodeURIComponent(categoryId)
-            };
-        return Promise.all([
-            this.serviceRepository.listServicesCategories(),
-            this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(categories: Array<any>, uiDescriptor) {
-            context.object = _.find(categories, {id: categoryId});
-            context.userInterfaceDescriptor = uiDescriptor;
-
-            return self.updateStackWithContext(stack, context);
+            columnIndex = 1;
+        return this.serviceRepository.listServicesCategories().then(function(categories) {
+            return _.find(categories, {id: categoryId});
+        }).then(function(category) {
+            return self.loadListInColumn(
+                stack,
+                columnIndex,
+                columnIndex - 1,
+                '/services-category/_/' + encodeURIComponent(categoryId),
+                Model.ServicesCategory,
+                self.serviceRepository.listServices(),
+                {
+                    filter: function(service) {
+                        return _.includes(category.types, 'service-' + service.name
+                    );},
+                    sort: 'name'
+                }
+            );
         });
     }
 
