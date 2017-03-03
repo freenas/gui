@@ -65,7 +65,8 @@
                 "canDelete": {"<-": "!@owner.object._isNew"},
                 "isSaveDisabled": {"<-": "(@owner.targetType == 'ZVOL' && !@owner.object.properties.size)"},
                 "context": {"<-": "@owner.context"},
-                "isLoading": {"<-": "@owner.isLoading"}
+                "isLoading": {"<-": "@owner.isLoading"},
+                "extraDeleteFlags": {"<-": "@owner.extraDeleteFlags"}
             }
         },
         "overview": {
