@@ -113,10 +113,10 @@
                 "value": {"<-": "(!!@owner.title && @owner.title.length > 0) ? @owner.title : @owner.context.object.path(@owner.context.userInterfaceDescriptor.nameExpression)"}
             }
         },
-        "backButton": {
+        "navigationBackButton": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
-                "element": {"#": "backButton"},
+                "element": {"#": "navigationBackButton"},
                 "value": "Back"
             }
         }
@@ -126,7 +126,7 @@
 <body>
     <div data-montage-id="owner" class="Inspector">
         <div data-montage-id="header" class="Inspector-header">
-            <button data-montage-id="backButton" class="Inspector-backButton Button--icon Button--transparent g-margin-right--half">
+            <button data-montage-id="navigationBackButton" class="Inspector-backButton Button--icon Button--transparent g-margin-right--half">
                 <svg class="rotate-180"><use xlink:href="#i-arrow"/></svg>
             </button>
             <div class="Inspector-title">

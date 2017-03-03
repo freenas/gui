@@ -84,10 +84,10 @@
                 "component.content": {"<-": "@owner.object"}
             }
         },
-        "backButton": {
+        "navigationBackButton": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
-                "element": {"#": "backButton"},
+                "element": {"#": "navigationBackButton"},
                 "value": "back"
             }
         }
@@ -98,7 +98,7 @@
     <div data-montage-id="owner" class="Viewer">
         <div data-montage-id="headerCondition" class="Viewer-header">
             <div class="Viewer-title">
-                <button data-montage-id="backButton" class="Viewer-backButton Button--icon Button--transparent g-margin-right--half">
+                <button data-montage-id="navigationBackButton" class="Viewer-backButton Button--icon Button--transparent g-margin-right--half">
                     <svg class="rotate-180"><use xlink:href="#i-arrow"/></svg>
                 </button>
                 <span data-montage-id="title"></span>
