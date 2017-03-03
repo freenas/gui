@@ -67,6 +67,12 @@
             "bindings": {
                 "data": {"<-": "@owner.notifications.filter{type == 'ALERT' && !data.dismissed}"}
             }
+        },
+        "scroller": {
+            "prototype": "blue-shark/ui/scroller.reel",
+            "properties": {
+                "element": {"#": "scroller"}
+            }
         }
     }
     </script>
@@ -78,8 +84,12 @@
                 <div data-montage-id="alertsIcon"></div>
                 <div data-montage-id="tasksIcon"></div>
             </div>
-            <div data-montage-id="alerts"></div>
-            <div data-montage-id="tasks"></div>
+            <div data-montage-id="scroller" class="Sideboard-scroller">
+                <div class="g-padding">
+                    <div data-montage-id="alerts" class="g-margin-bottom"></div>
+                    <div data-montage-id="tasks"></div>
+                </div>
+            </div>
             <div data-montage-id="toggleSideboard" class="Sideboard-toggleSideboard Button--naked Button--icon">
                 <div>
                     <svg><use xlink:href="#i-arrow"/></svg>
