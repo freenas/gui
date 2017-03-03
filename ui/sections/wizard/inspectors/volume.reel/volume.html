@@ -6,7 +6,8 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "passwordComponent": {"@": "password"}
             },
             "bindings": {
                 "context.isNextStepDisabled": {"<-": "!@owner.object.id || (@owner.object.topology.data.length == 0 ?? true)"}
@@ -26,6 +27,17 @@
             }
         },
 
+        "encrypt": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "encrypt"},
+                "label": "Encrypt volume"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object._encrypt"}
+            }
+        },
+
         "password": {
             "prototype": "blue-shark/ui/field-password.reel",
             "properties": {
@@ -36,7 +48,8 @@
                 "resetLabel": "Set Password"
             },
             "bindings": {
-                "value": {"<->": "@owner.object._password"}
+                "value": {"<->": "@owner.object._password"},
+                "disabled": {"<-": "!@encrypt.checked"}
             }
         },
 
@@ -68,6 +81,7 @@
 <body>
     <div data-montage-id="owner" class="Volume-volumeCreator">
         <div data-montage-id="name"></div>
+        <div data-montage-id="encrypt" class="encrypt"></div>
         <div data-montage-id="password"></div>
         <div data-montage-id="topologizer"></div>
         <div data-montage-id="topology"></div>
