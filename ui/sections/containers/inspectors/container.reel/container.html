@@ -34,6 +34,7 @@
                 "canRevert": true
             },
             "bindings": {
+                "context": {"<-": "@owner.context"},
                 "canDelete": {"<-": "!@owner.object._isNew"},
                 "isSaveDisabled": {"<-": "@owner.object.names.length == 0 || !@owner.object.names.0 || @owner.object.names.0.length == 0"}
             }
