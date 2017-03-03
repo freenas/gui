@@ -1,27 +1,12 @@
-/**
- * @module ui/mail.reel
- */
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model,
+    RoutingService = require('core/service/routing-service').RoutingService,
     MailEncryptionType = require("core/model/enumerations/mail-encryption-type").MailEncryptionType;
 
-/**
- * @class Mail
- * @extends Component
- */
-exports.Mail = AbstractInspector.specialize(/** @lends Mail# */ {
+exports.Mail = AbstractInspector.specialize({
 
-    handleSendTestMailAction: {
+    _inspectorTemplateDidLoad: {
         value: function() {
-            this.application.mailService.sendTestMail({
-                "from_address": this.alertEmitterEmail.config.from_address,
-                "subject": "test mail",
-                "to": this.alertEmitterEmail.config.to,
-                "extra_headers": {},
-                "message": "Yay, You've got mail",
-                "attachments": []
-            });
+            this.routingService = RoutingService.getInstance();
         }
     },
 
@@ -31,19 +16,9 @@ exports.Mail = AbstractInspector.specialize(/** @lends Mail# */ {
             if(isFirstTime) {
                 this.isLoading = true;
                 this.encryptionOptions = [];
-                this.pushbullet = {};
                 for (var i = 0; i < MailEncryptionType.members.length; i++) {
                     this.encryptionOptions.push({label: MailEncryptionType.members[i], value: MailEncryptionType[MailEncryptionType.members[i]]});
-                };
-                this._sectionService.getAlertEmitterEmail().then(function(alertEmitterEmail) {
-                    self.alertEmitterEmail = alertEmitterEmail;
-                    if (!alertEmitterEmail.config.to) {
-                        self.alertEmitterEmail.config.to = [];
-                    }
-                });
-                this._sectionService.getAlertEmitterPushBullet().then(function (pushbullet) {
-                    self.pushbullet = pushbullet;
-                });
+                }
                 self.isLoading = false;
             }
         }
@@ -52,15 +27,28 @@ exports.Mail = AbstractInspector.specialize(/** @lends Mail# */ {
     save: {
         value: function() {
             return Promise.all([
-                this._sectionService.saveAlertEmitter(this.alertEmitterEmail),
-                this._sectionService.saveAlertEmitter(this.pushbullet)
+                this._sectionService.saveAlertEmitter(this.object.email),
+                this._sectionService.saveAlertEmitter(this.object.pushbullet)
             ]);
+        }
+    },
+
+    handleSendTestMailAction: {
+        value: function() {
+            this.application.mailService.sendTestMail({
+                "from_address": this.object.email.config.from_address,
+                "subject": "test mail",
+                "to": this.object.email.config.to,
+                "extra_headers": {},
+                "message": "Yay, You've got mail",
+                "attachments": []
+            });
         }
     },
 
     revert: {
         value: function() {
-            this.alertEmitterEmail = this._alertEmitterEmail;
+            this.routingService.navigate(this.context.path, true);
         }
     },
 

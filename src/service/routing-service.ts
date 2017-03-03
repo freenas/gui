@@ -94,6 +94,10 @@ export class RoutingService {
             let section = RoutingService.getPathSection(path);
             if (path === '/' + section) {
                 this.currentStacks.delete(section);
+            } else {
+                crossroads.ignoreState = true;
+                crossroads.parse(path);
+                crossroads.ignoreState = false;
             }
         }
         if (path[0] === '/') {
@@ -288,10 +292,8 @@ export class RoutingService {
             () => this.systemRoute.selectNewCertificateType(this.currentStacks.get('settings')));
         crossroads.addRoute('/settings/system-section/_/certificates/create/{certificateType}',
             (certificateType) => this.systemRoute.createCertificate(certificateType, this.currentStacks.get('settings')));
-        crossroads.addRoute('/settings/system-section/_/alert/alert-filter/_/{filterId}',
-            (filterId) => this.systemRoute.getAlertFilter(filterId, this.currentStacks.get('settings')));
-        crossroads.addRoute('/settings/system-section/_/alert/create',
-            () => this.systemRoute.createAlertFilter(this.currentStacks.get('settings')));
+        crossroads.addRoute('/settings/system-section/_/alert',
+            () => this.systemRoute.getAlert(this.currentStacks.get('settings')), 1);
         crossroads.addRoute('/settings/system-section/_/alert/settings',
             () => this.systemRoute.getAlertSettings(this.currentStacks.get('settings')));
         crossroads.addRoute('/settings/system-section/_/tunables/tunable/_/{tunableId}',

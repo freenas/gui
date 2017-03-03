@@ -2,23 +2,26 @@ import {SystemRepository} from '../repository/system-repository';
 import {CryptoCertificateType} from '../model/enumerations/CryptoCertificateType';
 import {CryptoCertificateRepository} from '../repository/crypto-certificate-repository';
 import {AlertFilterRepository} from '../repository/alert-filter-repository';
-import {MailRepository} from '../repository/mail-repository';
 import {TunableRepository} from '../repository/tunable-repository';
 import {NtpServerRepository} from '../repository/ntp-server-repository';
 import {AbstractRoute} from './abstract-route';
 import {Model} from '../model';
 import * as _ from 'lodash';
+import {AlertEmitterRepository} from '../repository/alert-emitter-repository';
+import {AlertEmitter} from '../model/AlertEmitter';
 
 export class SystemRoute extends AbstractRoute {
     private static instance: SystemRoute;
     private objectType: string;
 
-    private constructor(private systemRepository: SystemRepository,
-                        private cryptoCertificateRepository: CryptoCertificateRepository,
-                        private alertFilterRepository: AlertFilterRepository,
-                        private mailRepository: MailRepository,
-                        private tunableRepository: TunableRepository,
-                        private ntpServerRepository: NtpServerRepository) {
+    private constructor(
+        private systemRepository: SystemRepository,
+        private cryptoCertificateRepository: CryptoCertificateRepository,
+        private alertFilterRepository: AlertFilterRepository,
+        private tunableRepository: TunableRepository,
+        private ntpServerRepository: NtpServerRepository,
+        private alertEmitterRepository: AlertEmitterRepository
+    ) {
         super();
         this.objectType = Model.SystemSection;
     }
@@ -29,9 +32,9 @@ export class SystemRoute extends AbstractRoute {
                 SystemRepository.getInstance(),
                 CryptoCertificateRepository.getInstance(),
                 AlertFilterRepository.getInstance(),
-                MailRepository.getInstance(),
                 TunableRepository.getInstance(),
-                NtpServerRepository.getInstance()
+                NtpServerRepository.getInstance(),
+                AlertEmitterRepository.getInstance()
             );
         }
         return SystemRoute.instance;
@@ -126,22 +129,24 @@ export class SystemRoute extends AbstractRoute {
         });
     }
 
-    public getAlertFilter(filterId: string, stack: Array<any>) {
+    public getAlert(stack: Array<any>) {
         let self = this,
             objectType = Model.AlertFilter,
-            columnIndex = 2,
+            columnIndex = 1,
             parentContext = stack[columnIndex - 1],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: parentContext,
-                path: parentContext.path + '/alert-filter/_/' + encodeURIComponent(filterId)
+                path: parentContext.path + '/system-section/_/alert'
             };
         return Promise.all([
             this.alertFilterRepository.listAlertFilters(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread(function(alertFilters: Array<any>, uiDescriptor) {
-            context.object = _.find(alertFilters, {id: filterId});
+            context.object = {
+                filters: alertFilters
+            };
             context.userInterfaceDescriptor = uiDescriptor;
 
             return self.updateStackWithContext(stack, context);
@@ -172,7 +177,7 @@ export class SystemRoute extends AbstractRoute {
 
     public getAlertSettings(stack: Array<any>) {
         let self = this,
-            objectType = Model.AlertEmitterEmail,
+            objectType = Model.AlertEmitter,
             columnIndex = 2,
             parentContext = stack[columnIndex - 1],
             context: any = {
@@ -182,10 +187,10 @@ export class SystemRoute extends AbstractRoute {
                 path: parentContext.path + '/settings'
             };
         return Promise.all([
-            this.mailRepository.getConfig(),
+            this.alertEmitterRepository.list(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(mailConfig, uiDescriptor) {
-            context.object = mailConfig;
+        ]).spread(function(alertEmitters, uiDescriptor) {
+            context.object = _.fromPairs<AlertEmitter>((_.map(alertEmitters, (alertEmitter: AlertEmitter) => [alertEmitter.name, alertEmitter]) as Array<any>));
             context.userInterfaceDescriptor = uiDescriptor;
 
             return self.updateStackWithContext(stack, context);

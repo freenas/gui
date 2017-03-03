@@ -1,17 +1,14 @@
-import {AbstractRepository} from './abstract-repository';
-import {Model} from '../model';
-import {Map} from 'immutable';
-import {ModelEventName} from '../model-event-name';
 import {AlertFilterDao} from '../dao/alert-filter-dao';
 import * as _ from 'lodash';
 import {AlertFilter} from '../model/AlertFilter';
+import {AbstractModelRepository} from './abstract-model-repository';
+import {SubmittedTask} from '../model/SubmittedTask';
 
-export class AlertFilterRepository extends AbstractRepository<AlertFilter> {
+export class AlertFilterRepository extends AbstractModelRepository<AlertFilter> {
     private static instance: AlertFilterRepository;
-    private alertFilters: Map<string, Map<string, any>>;
 
     private constructor(private alertFilterDao: AlertFilterDao) {
-        super([Model.AlertFilter]);
+        super(alertFilterDao);
     }
 
     public static getInstance(): AlertFilterRepository {
@@ -24,22 +21,16 @@ export class AlertFilterRepository extends AbstractRepository<AlertFilter> {
     }
 
     public getNewAlertFilter() {
-        return this.alertFilterDao.getNewInstance()
+        return this.getNewInstance()
             .then(alertFilter => _.assign(alertFilter, {predicates: []}));
     }
 
     public listAlertFilters() {
-        return this.alertFilters ? Promise.resolve(this.alertFilters.valueSeq().toJS()) : this.alertFilterDao.list();
+        return this.list();
     }
 
-    public save(alertFilter: AlertFilter) {
-        return this.alertFilterDao.save(alertFilter);
-    }
-
-    protected handleStateChange(name: string, state: any) {
-        this.alertFilters = this.dispatchModelEvents(this.alertFilters, ModelEventName.AlertFilter, state);
-    }
-
-    protected handleEvent(name: string, data: any) {
+    public save(alertFilter: AlertFilter): Promise<SubmittedTask> {
+        delete alertFilter.parameters.addresses;
+        return super.save(alertFilter);
     }
 }
