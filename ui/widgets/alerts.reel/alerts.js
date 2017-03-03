@@ -4,7 +4,7 @@ var AbstractComponentActionDelegate = require("ui/abstract/abstract-component-ac
     DashboardService = require("core/service/dashboard-service").DashboardService;
 
 exports.Alerts = AbstractComponentActionDelegate.specialize(/** @lends Alerts# */ {
-    templateDidLoad: {
+    handleUserLogged: {
         value: function() {
             var self = this;
             this._eventDispatcherService = EventDispatcherService.getInstance();
@@ -14,6 +14,14 @@ exports.Alerts = AbstractComponentActionDelegate.specialize(/** @lends Alerts# *
                 self._eventDispatcherService.addEventListener(ModelEventName.Alert.listChange, self._handleAlertsChange.bind(self));
                 self._eventDispatcherService.addEventListener('alertDismiss', self._handleAlertDismiss.bind(self));
             });
+        }
+    },
+
+    enterDocument: {
+        value: function (isFirstTime) {
+            if (isFirstTime) {
+                this.application.addEventListener("userLogged", this, false);
+            }
         }
     },
 

@@ -44,7 +44,6 @@ exports.Drawer = AbstractDropZoneComponent.specialize(/** @lends Drawer# */ {
                 self.currentUser = response[0];
 
                 self.addRangeAtPathChangeListener("dashboardWidgets", self, "_handleWidgetsChange");
-                self.addRangeAtPathChangeListener("sideBoardWidgets", self, "_handleWidgetsChange");
             }).finally(function () {
                 self._loadingPromise = null;
             });
@@ -150,12 +149,11 @@ exports.Drawer = AbstractDropZoneComponent.specialize(/** @lends Drawer# */ {
 
     handleComponentDrop: {
         value: function (widgetWrapperComponent) {
-            var index;
+            var index,
+                widgets = widgetWrapperComponent.object.source.userWidgets;
 
-            if ((index = this.dashboardWidgets.indexOf(widgetWrapperComponent.object)) > -1) {
-                this.dashboardWidgets.splice(index, 1);
-            } else if ((index = this.sideBoardWidgets.indexOf(widgetWrapperComponent.object)) > -1) {
-                this.sideBoardWidgets.splice(index, 1);
+            if ((index = widgets.indexOf(widgetWrapperComponent.object)) > -1) {
+                widgets.splice(index, 1);
             }
         }
     }

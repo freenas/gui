@@ -7,7 +7,8 @@ var Component = require("montage/ui/component").Component,
 
 
 exports.Tasks = Component.specialize({
-    templateDidLoad: {
+
+    handleUserLogged: {
         value: function() {
             this._eventDispatcherService = EventDispatcherService.getInstance();
             this._dashboardService = DashboardService.getInstance();
@@ -15,6 +16,14 @@ exports.Tasks = Component.specialize({
             this._eventDispatcherService.addEventListener(ModelEventName.Task.listChange, this._handleTasksChange.bind(this));
             this._dataObjectChangeService = new DataObjectChangeService();
             this.tasks = [];
+        }
+    },
+
+    enterDocument: {
+        value: function (isFirstTime) {
+            if (isFirstTime) {
+                this.application.addEventListener("userLogged", this, false);
+            }
         }
     },
 

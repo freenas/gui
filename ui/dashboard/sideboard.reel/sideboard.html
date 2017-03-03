@@ -20,12 +20,29 @@
             }
         },
 
-        "widgetDropzone": {
-            "prototype": "ui/dashboard/widget-dropzone.reel",
+        "alerts": {
+            "prototype": "ui/widgets/alerts.reel",
             "properties": {
-                "element": {"#": "widget-dropzone"},
-                "widgetsPath": "sideBoardContext.widgets",
-                "title": "Sideboard"
+                "element": {"#": "alerts"}
+            }
+        },
+
+        "tasks": {
+            "prototype": "ui/widgets/tasks.reel",
+            "properties": {
+                "element": {"#": "tasks"}
+            }
+        },
+
+        "tasksIcon": {
+            "prototype": "ui/dashboard/widgets/widget-icon.reel",
+            "properties": {
+                "element": {"#": "tasksIcon"},
+                "icon": "i-tasks"
+            },
+            "bindings": {
+                "badgeValue": {"<-": "@owner.tasks.filter{state == 'EXECUTING'}.length"},
+                "data": {"<-": "@owner.notifications.filter{type == 'TASK'}"}
             }
         },
 
@@ -50,6 +67,12 @@
             "bindings": {
                 "data": {"<-": "@owner.notifications.filter{type == 'ALERT' && !data.dismissed}"}
             }
+        },
+        "scroller": {
+            "prototype": "blue-shark/ui/scroller.reel",
+            "properties": {
+                "element": {"#": "scroller"}
+            }
         }
     }
     </script>
@@ -61,8 +84,12 @@
                 <div data-montage-id="alertsIcon"></div>
                 <div data-montage-id="tasksIcon"></div>
             </div>
-
-            <div data-montage-id="widget-dropzone" class="Sideboard-widgets"></div>
+            <div data-montage-id="scroller" class="Sideboard-scroller">
+                <div class="g-padding">
+                    <div data-montage-id="alerts" class="g-margin-bottom"></div>
+                    <div data-montage-id="tasks"></div>
+                </div>
+            </div>
             <div data-montage-id="toggleSideboard" class="Sideboard-toggleSideboard Button--naked Button--icon">
                 <div>
                     <svg><use xlink:href="#i-arrow"/></svg>
