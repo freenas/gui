@@ -9,7 +9,8 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "object.__host_path": {"<-": "@owner.selectedType == 'host' && !!@hostPath.displayedPath ? @hostPath.displayedPath : @owner.selectedType == 'vm' ? @vmPath.value : @owner.object.host_path"}
+                "source": {"<-": "@owner.object.origin == 'HOST' ? @hostPath.displayedPath : @vmPath.value"},
+                "object._source": {"<-": "(!!@owner.source && @owner.source.length > 0) ? @owner.source : @owner.object.source"}
             }
         },
 
@@ -28,11 +29,11 @@
             "prototype": "blue-shark/ui/select.reel",
             "properties": {
                 "element": {"#": "pathSelect"},
-                "options": [{"label": "host", "value": "host"}, {"label": "VM", "value": "vm"}]
+                "options": [{"label": "host", "value": "HOST"}, {"label": "VM", "value": "VM"}]
             },
             "bindings": {
                 "disabled": {"<-": "@owner.object.isLocked"},
-                "selectedValue": {"<->": "@owner.object._source"}
+                "selectedValue": {"<->": "@owner.object.origin"}
             }
         },
 
@@ -42,7 +43,7 @@
                 "element": {"#": "pathSubstitution"}
             },
             "bindings": {
-                "switchValue": {"<-": "@owner.object._source"}
+                "switchValue": {"<-": "@owner.object.origin"}
             }
         },
 
@@ -53,7 +54,7 @@
                 "placeholder": "e.g. vm path"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.host_path"},
+                "value": {"<-": "@owner.object.source"},
                 "disabled": {"<-": "@owner.object.isLocked"}
             }
         },
@@ -68,7 +69,7 @@
             },
             "bindings": {
                 "inspector": {"<-": "@owner.inspector"},
-                "selectedPath": {"<-": "@owner.object.host_path"},
+                "selectedPath": {"<-": "@owner.object.source"},
                 "disabled": {"<-": "@owner.object.isLocked"}
             }
         },
@@ -80,7 +81,7 @@
                 "placeholder": "e.g. container path"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.container_path"},
+                "value": {"<->": "@owner.object.target"},
                 "disabled": {"<-": "@owner.object.isLocked"}
             }
         },
@@ -102,8 +103,8 @@
     <div data-montage-id="owner" class="TableRowVolume Table-cells">
         <div><div data-montage-id="pathSelect"></div></div>
         <div data-montage-id="pathSubstitution">
-            <div data-montage-id="vmPath" data-arg="vm"></div>
-            <div data-montage-id="hostPath" data-arg="host"></div>
+            <div data-montage-id="vmPath" data-arg="VM"></div>
+            <div data-montage-id="hostPath" data-arg="HOST"></div>
         </div>
         <div><div data-montage-id="containerPath"></div></div>
         <div><div data-montage-id="readOnly"></div></div>
