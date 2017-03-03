@@ -41,28 +41,6 @@
                 "selectedValue": {"<->": "@owner.config.webui_protocol"}
             }
         },
-        "ipv4": {
-            "prototype": "blue-shark/ui/field-select.reel",
-            "properties": {
-                "element": {"#": "ipv4"},
-                "label": "IPv4 Address"
-            },
-            "bindings": {
-                "options" : {"<-": "@owner.IPv4_OPTIONS"},
-                "selectedValue": {"<->": "@owner.config.ipv4"}
-            }
-        },
-        "ipv6": {
-            "prototype": "blue-shark/ui/field-select.reel",
-            "properties": {
-                "element": {"#": "ipv6"},
-                "label": "IPv6 Address"
-            },
-            "bindings": {
-                "options" : {"<-": "@owner.IPv6_OPTIONS"},
-                "selectedValue": {"<->": "@owner.config.ipv6"}
-            }
-        },
         "AllowAllIPAddress": {
             "prototype": "blue-shark/ui/field-multiple-select.reel",
             "properties": {
@@ -164,8 +142,6 @@
             <div data-montage-id="protocols"></div>
             <div data-montage-id="httpPort"></div>
             <div data-montage-id="httpsPort"></div>
-            <div data-montage-id="ipv4"></div>
-            <div data-montage-id="ipv6"></div>
             <div data-montage-id="SSLCertificate"></div>
             <div data-montage-id="RedirectHTTP"></div>
             <div data-montage-id="freenas_token_lifetime"></div>
