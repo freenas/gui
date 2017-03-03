@@ -9,7 +9,8 @@
             "properties": {
                 "element": {"#": "owner"},
                 "validationController": {"@": "validationController"},
-                "inspector": {"@": "inspector"}
+                "inspector": {"@": "inspector"},
+                "startButton": {"@": "start"}
             },
             "bindings": {
                 "classList.has('has-actions')": {"<-": "!@owner.object._isNew"},
@@ -321,7 +322,7 @@
             "bindings": {
                 "value": {"<-": "!@owner.object.guestInfo.version ? 'Not detected' : @owner.object.guestInfo.version"},
                 "classList.has('hide')": {"<-": "!@owner.object.guestInfo.version"}
-            }        
+            }
         },
         "guestVmTemplate": {
             "prototype": "blue-shark/ui/field-text.reel",
@@ -332,7 +333,7 @@
             "bindings": {
                 "value": {"<-": "!@owner.object.template.template_version ? 'Not detected' : @owner.object.template.template_version"},
                 "classList.has('hide')": {"<-": "!@owner.object.template.template_version"}
-            }        
+            }
         },
         "guestInfoLoadAvg": {
             "prototype": "blue-shark/ui/tables/table-read-only.reel",
@@ -433,9 +434,12 @@
                 "value": "Start"
             },
             "bindings": {
-                "disabled": {"<-": "@owner.object.status.state != 'STOPPED'"}
+                "isProcessing": {"<-": "@owner.object.status.state == 'BOOTLOADER'"},
+                "value": {"<-": "isProcessing ? 'Starting': 'Start'"},
+                "disabled": {"<-": "isProcessing || @owner.object.status.state == 'RUNNING'"}
             }
         },
+
         "stop": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
@@ -484,7 +488,9 @@
     <div data-montage-id="owner" class="VirtualMachine">
         <div data-montage-id="inspector">
             <div class="VirtualMachine-actions">
-                <div data-montage-id="start"></div>
+                <div data-montage-id="start" class="Button--loader Button--primary">
+                    <svg><use xlink:href="#i-freenasIcon"/></svg>
+                </div>
                 <div data-montage-id="stop"></div>
                 <div data-montage-id="reboot"></div>
                 <div data-montage-id="serialConsole"></div>

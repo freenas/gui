@@ -145,6 +145,7 @@ exports.VirtualMachine = AbstractInspector.specialize({
 
     handleStartAction: {
         value: function() {
+            this.startButton.isProcessing = true;
             this._sectionService.startVm(this.object);
         }
     },
