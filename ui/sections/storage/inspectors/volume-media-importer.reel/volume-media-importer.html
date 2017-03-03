@@ -53,7 +53,8 @@
             "properties": {
                 "element": {"#": "mediaFsType"},
                 "label": "Media filesystem type",
-                "placeholder": "e.g. msdosfs, leave empty to autodetect"
+                "placeholder": "e.g. msdosfs",
+                "helpMessage": "Storage.importMedia.mediaFsType"
             },
             "bindings": {
                 "value": {"<->": "@owner.importFsType"}
@@ -77,7 +78,14 @@
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.importDisk"},
-                "options": {"<-": "@owner.importableDiskOptions"}
+                "options": {"<-": "@owner.importableDiskOptions"},
+                "readOnly": {"<-": "!options"}
+            }
+        },
+        "refreshField": {
+            "prototype": "blue-shark/ui/field.reel",
+            "properties": {
+                "element": {"#": "refreshField"}
             }
         }
     }
@@ -87,13 +95,13 @@
     <div data-montage-id="owner" class="VolumeMediaImporter">
         <div data-montage-id="inspector">
             <div data-montage-id="importableDisks"></div>
-            <div class="flex-row flex-justifyContent--end g-margin-bottom--double g-margin-top--subtract-half">
-                <div data-montage-id="refreshMedia"></div>
+            <div data-montage-id="refreshField" class="g-margin-top--subtract-half">
+                <button data-montage-id="refreshMedia"></button>
             </div>
             <div data-montage-id="mapMediaPath"></div>
             <div data-montage-id="mediaFsType"></div>
-            <div class="flex-row flex-justifyContent--end">
-                <div data-montage-id="importMedia" class="Button--primary"></div>
+            <div data-arg="footer-additional-button">
+                <div data-montage-id="importMedia"></div>
             </div>
         </div>
     </div>
