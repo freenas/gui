@@ -26,6 +26,10 @@
     overflow: hidden;
 }
 
+.Inspector-optionalButtons button {
+    display: block;
+}
+
 /* States ---------------------------------- */
 
 .InspectorFooter.is-visible { display: flex; }
