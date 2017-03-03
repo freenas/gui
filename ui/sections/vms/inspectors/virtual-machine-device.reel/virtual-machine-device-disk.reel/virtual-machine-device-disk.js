@@ -112,7 +112,7 @@ exports.VirtualMachineDeviceDisk = AbstractInspector.specialize({
 
     _handleTargetChange: {
         value: function(target) {
-            if (this._inDocument) {
+            if (this._inDocument && !this.isFromTemplate) {
                 if (this.object.target_type === 'DISK') {
                     if (target) {
                         this.object.target_path = target.path;
