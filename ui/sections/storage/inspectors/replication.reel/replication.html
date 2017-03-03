@@ -2,6 +2,7 @@
 <html>
 <head>
     <title></title>
+    <link rel="stylesheet" type="text/css" href="replication.css">
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -15,7 +16,13 @@
             "bindings": {
                 "classList.has('has-loading-spinner')": {"<-": "@owner.isLoading"},
                 "isCreateMode": {"<-": "(@owner.object._isNew.defined() && @owner.object._isNew) || (@owner.object._isNewObject.defined() && @owner.object._isNewObject)"}
-            }
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
         },
         "validationController": {
             "prototype": "core/controller/validation-controller",
@@ -253,38 +260,52 @@
             "bindings": {
                 "value": {"<->": "@owner._repetition"}
             }
+        },
+        "start": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "start"},
+                "value": "Start"
+            },
+            "bindings": {
+                "disabled": {"<-": "!!@owner.syncTask"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="Replication">
-    <div data-montage-id="inspector">
-        <div data-montage-id="nameSubstitution">
-            <div data-arg="CREATE">
-                <div data-montage-id="name"></div>
+        <div data-montage-id="inspector">
+            <div data-montage-id="nameSubstitution">
+                <div data-arg="CREATE">
+                    <div data-montage-id="name"></div>
+                </div>
+                <div data-arg="DISPLAY">
+                    <div data-montage-id="nameDisplay"></div>
+                </div>
             </div>
-            <div data-arg="DISPLAY">
-                <div data-montage-id="nameDisplay"></div>
+            <div data-montage-id="peer"></div>
+            <div data-montage-id="source_dataset"></div>
+            <div data-montage-id="target_dataset"></div>
+            <div data-montage-id="compress"></div>
+            <div data-montage-id="encrypt"></div>
+            <div data-montage-id="throttle"></div>
+            <div data-montage-id="autoRecover"></div>
+            <div data-montage-id="replicateServices"></div>
+            <div data-montage-id="recursive"></div>
+            <div data-montage-id="followDelete"></div>
+            <div data-montage-id="createdSubstitution">
+                <div data-arg="EDIT">
+                    <div data-montage-id="currentState"></div>
+                    <div data-montage-id="history"></div>
+                </div>
+                <div data-montage-id="repetitionSection" data-arg="CREATE">
+                    <div data-montage-id="repetition"></div>
+                </div>
             </div>
-        </div>
-        <div data-montage-id="peer"></div>
-        <div data-montage-id="source_dataset"></div>
-        <div data-montage-id="target_dataset"></div>
-        <div data-montage-id="compress"></div>
-        <div data-montage-id="encrypt"></div>
-        <div data-montage-id="throttle"></div>
-        <div data-montage-id="autoRecover"></div>
-        <div data-montage-id="replicateServices"></div>
-        <div data-montage-id="recursive"></div>
-        <div data-montage-id="followDelete"></div>
-        <div data-montage-id="createdSubstitution">
-            <div data-arg="EDIT">
-                <div data-montage-id="currentState"></div>
-                <div data-montage-id="history"></div>
-            </div>
-            <div data-montage-id="repetitionSection" data-arg="CREATE">
-                <div data-montage-id="repetition"></div>
+            <div data-arg="footer-additional-button" class="ActionButtons">
+                <div data-montage-id="start"></div>
             </div>
         </div>
     </div>

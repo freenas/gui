@@ -42,8 +42,8 @@ exports.Replication = AbstractInspector.specialize({
         }
     },
 
-    save: {
-        value: function() {
+    saveReplication: {
+        value: function () {
             var self = this;
 
             if (this.object.bidirectional) {
@@ -56,15 +56,50 @@ exports.Replication = AbstractInspector.specialize({
                 self.object.transport_options = transportOptions;
                 return self.inspector.save();
             }).then(function(submittedTask) {
-                return submittedTask.taskPromise;
-            }).then(function(replicationId) {
+                return submittedTask ? submittedTask.taskPromise : null;
+            });
+        }
+    },
+
+    syncReplication: {
+        value: function (replicationId) {
+            var self = this;
+
+            return this._replicationService.syncReplication(replicationId)
+                .then(function(submittedTask) {
+                    self.syncTask = submittedTask;
+                    return submittedTask.taskPromise;
+                })
+                .then(function() {
+                    self.syncTask = null;
+                });
+        }
+    },
+
+    save: {
+        value: function() {
+            var self = this;
+
+            this.saveReplication().then(function(replicationId) {
                 if (replicationId && self.object._isNew) {
                     return self._repetition ?
                         self._calendarService.createNewRepeatedTask('replication.sync', self.object.name, [replicationId], self._repetition) :
-                        self._replicationService.syncReplication(replicationId);
+                        self.syncReplication(replicationId);
+                }
+            });
+        }
+    },
+
+    handleStartAction: {
+        value: function () {
+            var self = this,
+                promise = this.object.id ? Promise.resolve(this.object.id) : this.saveReplication();
+
+            return promise.then(function(replicationId) {
+                if (replicationId) {
+                   self.syncReplication(self.object.id);
                 }
             });
         }
     }
-
 });

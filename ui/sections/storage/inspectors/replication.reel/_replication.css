@@ -1,0 +1,7 @@
+.Replication .Inspector-optionalButtons {
+
+    & button {
+        display: block;
+        margin-right: .5em;
+    }
+}
