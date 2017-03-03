@@ -1,5 +1,4 @@
 .FoldableSection {
-    overflow: hidden;
     position: relative;
     margin-bottom: 1em;
 
@@ -33,13 +32,16 @@ title
     color: inherit;
     transition: color .25s ease-in-out;
 
-    &:focus:before {
+    &:before {
         content: '';
         position: absolute;
-        top:     2px;
-        left:    2px;
-        right:   2px;
-        bottom:  2px;
+        top:     -.5rem;
+        left:    -1rem;
+        right:   -1rem;
+        bottom:  -.5rem;
+    }
+
+    &:focus:before {
         @apply --input-focus;
     }
 
@@ -84,6 +86,7 @@ title
 /* content */
 
 .FoldableSection-content {
+    overflow: hidden;
     display: none;
     transition: height .3s ease-in-out;
 }
