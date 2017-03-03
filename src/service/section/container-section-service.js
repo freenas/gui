@@ -229,20 +229,23 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
     copyImageToContainer: {
         value: function(image, container) {
             container.image = image.name;
-            container.ports = _.cloneDeep(image.presets.ports);
-            container.expose_ports = image.presets.expose_ports;
-            container._environments = _.cloneDeep(image.presets.settings);
-            container._volumes = this.getDisplayVolumeObjects(image.presets.volumes);
-            container._command = _.join(image.presets.command, ' ');
-            container.autostart = image.presets.autostart;
-            container.privileged = image.presets.privileged;
-            container.interactive = image.presets.interactive;
-            container.primary_network_mode = image.presets.primary_network_mode || 'NAT';
-            return this.getNewDockerContainerBridge().then(function(bridge) {
-                bridge.dhcp = image.presets.bridge.dhcp;
-                bridge.address = image.presets.bridge.address;
-                container.bridge = bridge
-            });
+            if (image.presets) {
+                container.ports = _.cloneDeep(image.presets.ports);
+                container.expose_ports = image.presets.expose_ports;
+                container._environments = _.cloneDeep(image.presets.settings);
+                container._volumes = this.getDisplayVolumeObjects(image.presets.volumes);
+                container._command = _.join(image.presets.command, ' ');
+                container.autostart = image.presets.autostart;
+                container.privileged = image.presets.privileged;
+                container.interactive = image.presets.interactive;
+                container.primary_network_mode = image.presets.primary_network_mode || 'NAT';
+                return this.getNewDockerContainerBridge().then(function(bridge) {
+                    bridge.dhcp = image.presets.bridge.dhcp;
+                    bridge.address = image.presets.bridge.address;
+                    container.bridge = bridge
+                });
+            }
+            return Promise.resolve();
         }
     },
 
