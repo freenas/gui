@@ -8,6 +8,9 @@
             "properties": {
                 "element": {"#": "owner"},
                 "imageComponent": {"@": "image"}
+            },
+            "bindings": {
+                "selectedRow": {"<-": "@image.selectedRows.one() && @image.selectedRows.one().object"}
             }
         },
 
@@ -23,13 +26,14 @@
         },
 
         "image": {
-            "prototype": "blue-shark/ui/tables/table-read-only.reel",
+            "prototype": "blue-shark/ui/tables/table-editable.reel",
             "properties": {
                 "element": {"#": "image"},
-                "isSelectionEnabled": "true",
+                "isSelectionEnabled": true,
                 "label": "Choose an image",
                 "loadingMessage": "Searching for images...",
                 "contentMaxHeight": 22,
+                "isMultiSelectionEnabled": false,
                 "columns":  [
                     {
                         "value": "name",
@@ -42,12 +46,47 @@
                     {
                         "value": "version",
                         "path": "version"
+                    },
+                    {
+                        "value": "stars",
+                        "path": "stars"
+                    },
+                    {
+                        "value": "readme",
+                        "path": "readme"
                     }
                 ]
             },
             "bindings": {
                 "rows": {"<-": "@owner._templates.sorted{label}"},
                 "isLoading": {"<-": "@owner._isSearchingDockerImages"}
+            }
+        },
+
+        "defaultHeader": {
+            "prototype": "ui/controls/table-editable-header.reel",
+            "properties": {
+                "element": {"#": "tableHeader"},
+                "table": {"@": "image"},
+                "addButtonDisabled": true
+            }
+        },
+
+        "newEntry": {
+            "prototype": "./table-row-image.reel",
+            "properties": {
+                "element": {"#": "newEntry"}
+            }
+        },
+
+        "entry": {
+            "prototype": "./table-row-image.reel",
+            "properties": {
+                "element": {"#": "entry"}
+            },
+            "bindings": {
+                "object": {"<-": "@image:rowIteration.object.object"},
+                "context": {"<-": "@owner.context"}
             }
         },
 
@@ -66,7 +105,11 @@
 <body>
     <div data-montage-id="owner" class="DockerImageSearch">
         <div data-montage-id="collection"></div>
-        <div data-montage-id="image" class="DockerImageSearch-table"></div>
+        <div data-montage-id="image" class="DockerImageSearch-table">
+            <div data-arg="table-editable-header-toolbar" data-montage-id="tableHeader" class="is-hidden"></div>
+            <div data-arg="row-new" data-montage-id="newEntry" class="Table-row"></div>
+            <div data-arg="row-entry" data-montage-id="entry" class="Table-row"></div>
+        </div>
         <div data-montage-id="searching"></div>
         <div data-montage-id="message" class="DockerImageSearch-message"></div>
     </div>

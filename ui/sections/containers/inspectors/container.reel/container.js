@@ -2,7 +2,6 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
     Units = require('core/Units'),
     EventDispatcherService = require('core/service/event-dispatcher-service').EventDispatcherService,
     DockerContainer = require('core/model/DockerContainer').DockerContainer,
-    RoutingService = require('core/service/routing-service').RoutingService,
     _ = require('lodash');
 
 exports.Container = AbstractInspector.specialize({
@@ -14,7 +13,6 @@ exports.Container = AbstractInspector.specialize({
         value: function() {
             this.memoryUnits = Units.MEGABYTE_SIZES;
             this.eventDispatcherService = EventDispatcherService.getInstance();
-            this.routingService = RoutingService.getInstance();
         }
     },
 
@@ -51,7 +49,6 @@ exports.Container = AbstractInspector.specialize({
                 var self = this;
                 this.isLoading = true;
                 this._sectionService.copyImageToContainer(this.object._selectedImage, this.object).then(function() {
-                    self.routingService.navigate(self.context.path + '/docker-image/' + encodeURIComponent(self.object.image) + '/readme');
                     self.isLoading = false;
                 });
             }

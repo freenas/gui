@@ -112,6 +112,7 @@
                 "element": {"#": "imageSelector"}
             },
             "bindings": {
+                "context": {"<-": "@owner.context"},
                 "dockerImagesPromise": {"<-": "@owner.object._imagesPromise"},
                 "collection": {"<-": "@owner.object._collection"},
                 "selectedValue": {"<->": "@owner.object._selectedImage"}

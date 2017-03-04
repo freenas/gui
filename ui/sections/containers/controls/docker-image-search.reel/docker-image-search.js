@@ -4,7 +4,7 @@ exports.DockerImageSearch = Component.specialize({
     enterDocument: {
         value: function(isFirstTime) {
             if (isFirstTime) {
-                this.addPathChangeListener('imageComponent.selectedRow', this, '_handleRowSelection');
+                this.addPathChangeListener('selectedRow', this, '_handleRowSelection');
             }
         }
     },
