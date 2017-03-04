@@ -5,8 +5,7 @@ var AbstractDropZoneComponent = require("blue-shark/core/drag-drop/abstract-drop
     AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate,
     WidgetWrapper = require("ui/dashboard/widgets/widget-wrapper.reel").WidgetWrapper,
     Widget = require("ui/dashboard/widgets/widget.reel").Widget,
-    DrawerItem = require("ui/drawer.reel/drawer-item.reel").DrawerItem,
-    _ = require('lodash');
+    DrawerItem = require("ui/drawer.reel/drawer-item.reel").DrawerItem;
 
 /**
  * @class WidgetDropzone
@@ -18,23 +17,8 @@ var WidgetDropzone = exports.WidgetDropzone = AbstractDropZoneComponent.speciali
         value: null
     },
 
-    _userWidgets: {
-        value: null
-    },
-
     userWidgets: {
-        set: function (userWidgets) {
-            if (userWidgets !== this._userWidgets) {
-                var self = this;
-                this._userWidgets = userWidgets.map(function (widget) {
-                    widget.source = self;
-                    return widget;
-                });
-            }
-        },
-        get: function () {
-            return this._userWidgets;
-        }
+        value: null
     },
 
     _placeHolderAnchor: {
@@ -100,17 +84,7 @@ var WidgetDropzone = exports.WidgetDropzone = AbstractDropZoneComponent.speciali
 
     shouldAcceptComponent: {
         value: function (draggableComponent) {
-            var response = (
-                    draggableComponent instanceof DrawerItem || draggableComponent instanceof WidgetWrapper
-                );
-
-            if (response) {
-                var draggableObject = draggableComponent.object;
-                response = !_.find(this.userWidgets, function (widget) {
-                    return widget.moduleId === draggableObject.moduleId;
-                });
-            }
-            return response;
+            return (draggableComponent instanceof DrawerItem || draggableComponent instanceof WidgetWrapper);
         }
     },
 
@@ -119,14 +93,17 @@ var WidgetDropzone = exports.WidgetDropzone = AbstractDropZoneComponent.speciali
             AbstractDropZoneComponent.prototype.handleComponentDragStart.call(this, draggableComponent, dragEvent);
 
             if (this.willAcceptDrop) {
-                if (this.userWidgets.length > 0) {
-                    this._placeHolderAnchor = this._widgetsRepetition._drawnIterations[this.userWidgets.length - 1].firstElement;
-                    this._placeHolderAnchorPosition = this._findPositionFromTranslateEvent(dragEvent);
+                if (draggableComponent instanceof DrawerItem) {
+                    if (this.userWidgets.length > 0) {
+                        this._placeHolderAnchor = this._widgetsRepetition._drawnIterations[this.userWidgets.length - 1].firstElement;
+                        this._placeHolderAnchorPosition = this._findPositionFromTranslateEvent(dragEvent);
+                    }
+
+                    this._needsUpdatePlaceHolder = true;
+                    this.needsDraw = true;
                 }
 
-                this._needsUpdatePlaceHolder = true;
                 this._hasComponentDragging = true;
-                this.needsDraw = true;
             }
         }
     },
@@ -134,11 +111,12 @@ var WidgetDropzone = exports.WidgetDropzone = AbstractDropZoneComponent.speciali
     didComponentDrop: {
         value: function (draggableComponent) {
             var indexObjectAnchor, index,
-                draggableObject = draggableComponent.object;
+                draggableObject = draggableComponent.object,
+                previousIndex = this.userWidgets.indexOf(draggableObject);
 
-            if (draggableComponent instanceof DrawerItem) {
-                draggableObject = Object.clone(draggableObject);
-                draggableObject.source = this;
+            if (draggableComponent instanceof DrawerItem && previousIndex === -1) {
+                draggableObject = Object.clone(draggableComponent.object);
+                draggableObject.context = {};
 
                 if (this._placeHolderAnchor) {
                     indexObjectAnchor = this.userWidgets.indexOf(this._placeHolderAnchor.component.object);
@@ -148,18 +126,13 @@ var WidgetDropzone = exports.WidgetDropzone = AbstractDropZoneComponent.speciali
                 } else {
                     this.userWidgets.push(draggableObject);
                 }
-            } else if (draggableComponent instanceof WidgetWrapper) {
-                var source = draggableObject.source
-                source.userWidgets.splice(source.userWidgets.indexOf(draggableObject), 1);
-                draggableObject.source = this;
+            } else if (draggableComponent instanceof WidgetWrapper && this._placeHolderAnchor.component.object !== draggableObject && previousIndex > -1) {
+                this.userWidgets.splice(previousIndex, 1);
 
-                if (this._placeHolderAnchor) {
-                    indexObjectAnchor = this.userWidgets.indexOf(this._placeHolderAnchor.component.object);
-                    index = this._shouldInsertBeforePlaceHolder ? indexObjectAnchor : indexObjectAnchor + 1;
-                    this.userWidgets.splice(index, 0, draggableObject);
-                } else {
-                    this.userWidgets.push(draggableObject);
-                }
+                indexObjectAnchor = this.userWidgets.indexOf(this._placeHolderAnchor.component.object);
+                index = this._shouldInsertBeforePlaceHolder ? indexObjectAnchor : indexObjectAnchor + 1;
+
+                this.userWidgets.splice(index, 0, draggableObject);
             }
         }
     },
@@ -199,7 +172,7 @@ var WidgetDropzone = exports.WidgetDropzone = AbstractDropZoneComponent.speciali
                     }
                 }
             }
-
+            
             return response;
         }
     },
