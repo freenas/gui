@@ -52,12 +52,22 @@ exports.TaskNotification = Component.specialize({
             }).then(function() {
                 self.setStartDate();
             });
+            this.generalChangeListener = this.eventDispatcherService.addEventListener(ModelEventName.SystemGeneral.change(), this._handleSystemGeneralChange.bind(this));
         }
     },
 
     _unregisterUpdates: {
         value: function () {
             this.eventDispatcherService.removeEventListener(ModelEventName.Task.change(this.object.id), this.availableDisksEventListener);
+            this.eventDispatcherService.removeEventListener(ModelEventName.SystemGeneral.change(), this.generalChangeListener);
+        }
+    },
+
+    _handleSystemGeneralChange: {
+        value: function(systemGeneral) {
+            general = systemGeneral.toJS();
+            this.timezone = general.timezone;
+            this.setStartDate();
         }
     },
 
