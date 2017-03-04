@@ -44,6 +44,7 @@ exports.Drawer = AbstractDropZoneComponent.specialize(/** @lends Drawer# */ {
                 self.currentUser = response[0];
 
                 self.addRangeAtPathChangeListener("dashboardWidgets", self, "_handleWidgetsChange");
+                self.addRangeAtPathChangeListener("sideBoardWidgets", self, "_handleWidgetsChange");
             }).finally(function () {
                 self._loadingPromise = null;
             });
