@@ -50,8 +50,7 @@ exports.AlertNotification = Component.specialize(/** @lends AlertNotification# *
 
     _handleSystemGeneralChange: {
         value: function(systemGeneral) {
-            general = systemGeneral.toJS();
-            this.timezone = general.timezone;
+            this.timezone = systemGeneral.get('timezone');
             this.setDate();
         }
     },

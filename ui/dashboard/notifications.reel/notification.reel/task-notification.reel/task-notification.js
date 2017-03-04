@@ -59,14 +59,12 @@ exports.TaskNotification = Component.specialize({
     _unregisterUpdates: {
         value: function () {
             this.eventDispatcherService.removeEventListener(ModelEventName.Task.change(this.object.id), this.availableDisksEventListener);
-            this.eventDispatcherService.removeEventListener(ModelEventName.SystemGeneral.change(), this.generalChangeListener);
         }
     },
 
     _handleSystemGeneralChange: {
         value: function(systemGeneral) {
-            general = systemGeneral.toJS();
-            this.timezone = general.timezone;
+            this.timezone = systemGeneral.get('timezone');
             this.setStartDate();
         }
     },
@@ -74,6 +72,7 @@ exports.TaskNotification = Component.specialize({
     exitDocument: {
         value: function() {
             this._unregisterUpdates();
+            this.eventDispatcherService.removeEventListener(ModelEventName.SystemGeneral.change(), this.generalChangeListener);
         }
     },
 
