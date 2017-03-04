@@ -10,9 +10,19 @@ import {DebugDao} from '../dao/debug-dao';
 import {SystemInfoDao} from '../dao/system-info-dao';
 import {CryptoCertificateDao} from '../dao/crypto-certificate-dao';
 import * as moment from 'moment-timezone';
+import {AbstractRepository} from './abstract-repository';
+import {SystemGeneral} from '../model/SystemGeneral';
+import {SystemTime} from '../model/SystemTime';
+import {SystemAdvanced} from '../model/SystemAdvanced';
+import {SystemUi} from '../model/SystemUi';
+import {ModelEventName} from '../model-event-name';
 
-export class SystemRepository {
+export class SystemRepository extends AbstractRepository {
     private static instance: SystemRepository;
+    private systemGeneral: Map<string, any>;
+    private systemTime: Map<string, any>;
+    private systemAdvanced: Map<string, any>;
+    private systemUi: Map<string, any>;
 
     private constructor(
         private systemGeneralDao: SystemGeneralDao,
@@ -26,8 +36,14 @@ export class SystemRepository {
         private systemUiDao: SystemUiDao,
         private systemInfoDao: SystemInfoDao,
         private cryptoCertificateDao: CryptoCertificateDao
-    ) {}
-
+    ) {
+        super([
+            SystemGeneral.getClassName(),
+            SystemTime.getClassName(),
+            SystemAdvanced.getClassName(),
+            SystemUi.getClassName()
+        ]);
+    }
     public static getInstance() {
         if (!SystemRepository.instance) {
             SystemRepository.instance = new SystemRepository(
@@ -135,5 +151,24 @@ export class SystemRepository {
     public getCertificateFileAddress(id: string, certTarFileName: string) {
         return this.cryptoCertificateDao.collect(id, certTarFileName);
     }
+
+    protected handleStateChange(name: string, state: Map<string, Map<string, any>>, overlay?: Map<string, Map<string, any>>) {
+        switch (name) {
+            case SystemGeneral.getClassName():
+                this.systemGeneral = this.dispatchModelEvents(this.systemGeneral, ModelEventName.SystemGeneral, state);
+                break;
+            case SystemTime.getClassName():
+                this.systemTime = this.dispatchModelEvents(this.systemTime, ModelEventName.SystemTime, state);
+                break;
+            case SystemAdvanced.getClassName():
+                this.systemAdvanced = this.dispatchModelEvents(this.systemAdvanced, ModelEventName.SystemAdvanced, state);
+                break;
+            case SystemUi.getClassName():
+                this.systemUi = this.dispatchModelEvents(this.systemUi, ModelEventName.SystemUi, state);
+                break;
+        }
+    }
+
+    protected handleEvent(name: string, data: any) {}
 }
 
