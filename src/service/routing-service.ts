@@ -433,30 +433,22 @@ export class RoutingService {
     private restoreTask(taskId: number) {
         taskId = _.toNumber(taskId);
         if (this.taskStacks.has(taskId)) {
-            hasher.appendHash +=  (hasher.appendHash.length > 0 ? '&' : '?') + 'task=' + taskId;
             let stack = _.clone(this.taskStacks.get(taskId)),
                 section = stack[0].object,
                 sectionId = section.id;
             let taskState = this.datastoreService.getState().get(Model.Task);
             if (taskState &&
-                taskState.get(_.toString(taskId)) &&
-                taskState.get(_.toString(taskId)).get('error')) {
-                _.last(stack).error = taskState.get(_.toString(taskId)).get('error').toJS();
+                taskState.get((taskId as any)) &&
+                taskState.get(taskId).get('error')) {
+                _.last(stack).error = taskState.get(taskId).get('error').toJS();
             }
             if (this.currentStacks.has(sectionId)) {
                 this.currentStacks.set(sectionId, stack);
             } else {
                 this.sectionRouters.get(sectionId).restore(stack);
             }
-            this.eventDispatcherService.dispatch('sectionRestored', sectionId);
-            this.navigate('/' + sectionId);
-            hasher.changed.addOnce(this.handleTaskHashChange.bind(this));
+            this.eventDispatcherService.dispatch('sectionRestored', stack);
+            this.changeHash(_.last(stack).path);
         }
-    }
-
-    private handleTaskHashChange() {
-        let hash = hasher.getHash();
-        hasher.appendHash = _.join(_.filter(_.split(hasher.appendHash, '&'), (part) => !(part === '' || _.startsWith(part, 'task='))), '&');
-        this.changeHash(hash);
     }
 }

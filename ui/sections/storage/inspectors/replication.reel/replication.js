@@ -29,8 +29,8 @@ exports.Replication = AbstractInspector.specialize({
             }
 
             this._transportOptions = this._replicationService.extractTransportOptions(this.object);
-            this._repetition = 0; 
-            this.repititionUnits = Units.HOURS;
+            this._repetition = 0;
+            this.repetitionUnits = Units.HOURS;
 
             if (this.context.dataset) {
                 this.object.datasets[0].master = this.context.dataset;
