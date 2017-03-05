@@ -132,7 +132,7 @@ exports.Inspector = Component.specialize({
 
     handleNavigationBackButtonAction: {
         value: function () {
-            this._routingService.navigate(this.parentCascadingListItem.data.parentContext.path);
+            this._routingService.closeColumn(this.context.columnIndex);
         }
     },
 

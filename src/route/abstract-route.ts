@@ -122,6 +122,10 @@ export abstract class AbstractRoute {
         this.stack = stack;
     }
 
+    public getStack(): Array<any> {
+        return this.stack;
+    }
+
     public saveState(): Array<any> {
         let stateSnapshot = [];
         _.forEach(this.stack, (value, index) => {

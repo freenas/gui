@@ -107,6 +107,13 @@ export class RoutingService {
         }
     }
 
+    public closeColumn(columnIndex: number) {
+        let currentStack = this.getCurrentStack();
+        currentStack.splice(columnIndex, currentStack.length - columnIndex);
+        this.changeHash(_.last(currentStack).path);
+        this.eventDispatcherService.dispatch('pathChange', currentStack);
+    }
+
     public getURLFromObject(object: any) {
         let objectType = this.modelDescriptorService.getObjectType(object),
             url = objectType === Model.Section ? '/' : _.kebabCase(objectType),
@@ -121,6 +128,7 @@ export class RoutingService {
     public handleTaskSubmitted(temporaryTaskId: string) {
         this.saveState(temporaryTaskId);
     }
+
     private changeHash(newHash: string) {
         hasher.changed.active = false;
         this.navigate(newHash);
@@ -158,6 +166,10 @@ export class RoutingService {
     }
 
     private saveState(temporaryTaskId: string) {
+        this.taskStacks = this.taskStacks.set(temporaryTaskId, this.getCurrentStateSnapshot());
+    }
+
+    private getCurrentStateSnapshot() {
         let stateSnapshot: Array<any>;
         if (this.sectionRouters.has(this.currentSectionId)) {
             stateSnapshot = this.sectionRouters.get(this.currentSectionId).saveState();
@@ -172,7 +184,17 @@ export class RoutingService {
                 stateSnapshot.push(context);
             });
         }
-        this.taskStacks = this.taskStacks.set(temporaryTaskId, stateSnapshot);
+        return stateSnapshot;
+    }
+
+    private getCurrentStack() {
+        let currentStack;
+        if (this.sectionRouters.has(this.currentSectionId)) {
+            currentStack = this.sectionRouters.get(this.currentSectionId).getStack();
+        } else {
+            currentStack = this.currentStacks.get(this.currentSectionId);
+        }
+        return currentStack;
     }
 
     private static getPathSection(path: string) {
