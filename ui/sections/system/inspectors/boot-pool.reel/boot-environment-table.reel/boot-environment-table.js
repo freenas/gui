@@ -11,10 +11,12 @@ exports.BootEnvironmentTable = Component.specialize({
     },
 
     handleDeleteAction: {
-        value: function () {
-            return this._performAction( this.table.selectedRows,
-                                        this.service.deleteBootEnvironment,
-                                        this.service);
+        value: function (event) {
+            var action = this._performAction( this.table.selectedRows,
+                this.service.deleteBootEnvironment,
+                this.service);
+            event.stopPropagation();
+            return action;
         }
     },
 
