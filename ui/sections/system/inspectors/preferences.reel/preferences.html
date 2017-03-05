@@ -33,6 +33,7 @@
                 "controller": {"@": "owner"}
             },
             "bindings": {
+                "classList.has('other-confirmation-is-visible')": {"<-": "@owner.isFactoryRestoreConfirmationVisible"},
                 "context": {"<-": "@owner.context"}
             }
         },
@@ -156,6 +157,19 @@
                 "element": {"#": "factoryRestore"},
                 "value": "Restore Factory Settings"
             }
+        },
+        "confirmationFactoryRestoreMessage": {
+            "prototype": "ui/inspectors/inspector.reel/inspector-confirmation.reel",
+            "properties": {
+                "element": {"#": "confirmationFactoryRestoreMessage"},
+                "inspector": {"@": "owner"},
+                "confirmMethod": "confirmFactoryRestore",
+                "cancelMethod": "cancelFactoryRestore",
+                "confirmLabel": "Factory Restore"
+            },
+            "bindings": {
+                "confirmMessage": {"<-": "'Are you sure you want to do a factory restore?  The box will reboot after a factory restore and the root password will be reset upon boot up.'"}
+            }
         }
     }
     </script>
@@ -163,6 +177,7 @@
 <body>
     <div data-montage-id="owner" class="Preferences">
         <div data-montage-id="inspector">
+            <div data-montage-id="confirmationFactoryRestoreMessage" class="Inspector-confirmationMessage other-confirmation"></div>
             <div data-montage-id="downloadConfig" class="g-margin-bottom--half" id="saveConfig"></div>
             <div data-montage-id="uploadConfig" class="g-margin-bottom--half"></div>
             <div class="g-margin-bottom">

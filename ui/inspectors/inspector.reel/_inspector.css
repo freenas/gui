@@ -194,4 +194,11 @@ confirmation
             visibility: visible;
         }
     }
+
+    @nest .other-confirmation-is-visible & {
+        &.other-confirmation {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
 }
