@@ -1,6 +1,5 @@
 .CronJob {
     width: 22em !important;
-    background-color: var(--grey);
 }
 
 .CronJob-months {
