@@ -61,6 +61,7 @@
                 "controller": {"@": "owner"}
             },
             "bindings": {
+                "classList.has('other-confirmation-is-visible')": {"<-": "@owner.isDiskEraseConfirmationVisible"},
                 "context": {"<-": "@owner.context"}
             }
         },
@@ -251,6 +252,19 @@
             "bindings": {
                 "classList.has('hide')": {"<-": "@owner.object._allocation.type != 'VOLUME'"}
             }
+        },
+        "confirmationDiskErase": {
+            "prototype": "ui/inspectors/inspector.reel/inspector-confirmation.reel",
+            "properties": {
+                "element": {"#": "confirmationDiskErase"},
+                "inspector": {"@": "owner"},
+                "confirmMethod": "confirmDiskErase",
+                "cancelMethod": "cancelDiskErase",
+                "confirmLabel": "Erase Disk"
+            },
+            "bindings": {
+                "confirmMessage": {"<-": "'Are you sure you want to erase the disk ' + @owner.object.name + '?'"}
+            }
         }
     }
     </script>
@@ -258,6 +272,7 @@
 <body>
     <div data-montage-id="owner" class="Disk">
         <div data-montage-id="inspector">
+            <div data-montage-id="confirmationDiskErase" class="Inspector-confirmationMessage other-confirmation"></div>
             <div data-montage-id="name"></div>
             <div data-montage-id="size"></div>
             <div data-montage-id="diskDescription"></div>
