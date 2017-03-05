@@ -28,6 +28,18 @@ exports.Preferences = AbstractInspector.specialize({
     },
 
     handleFactoryRestoreAction: {
+        value: function() {
+            this.isFactoryRestoreConfirmationVisible = true;
+        }
+    },
+
+    cancelFactoryRestore: {
+        value: function() {
+            this.isFactoryRestoreConfirmationVisible = false;
+        }
+    },
+
+    confirmFactoryRestore: {
         value: function () {
             this.application.systemService.restoreFactorySettings();
         }
@@ -57,6 +69,7 @@ exports.Preferences = AbstractInspector.specialize({
         value: function(isFirstTime) {
             var self = this,
                 loadingPromises = [];
+            this.isFactoryRestoreConfirmationVisible = false;
             if(isFirstTime) {
                 this.isLoading = true;
                 loadingPromises.push(
