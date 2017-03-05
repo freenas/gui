@@ -52,6 +52,7 @@ exports.TaskNotification = Component.specialize({
             }).then(function() {
                 self.setStartDate();
             });
+            this.generalChangeListener = this.eventDispatcherService.addEventListener(ModelEventName.SystemGeneral.change(), this._handleSystemGeneralChange.bind(this));
         }
     },
 
@@ -61,9 +62,17 @@ exports.TaskNotification = Component.specialize({
         }
     },
 
+    _handleSystemGeneralChange: {
+        value: function(systemGeneral) {
+            this.timezone = systemGeneral.get('timezone');
+            this.setStartDate();
+        }
+    },
+
     exitDocument: {
         value: function() {
             this._unregisterUpdates();
+            this.eventDispatcherService.removeEventListener(ModelEventName.SystemGeneral.change(), this.generalChangeListener);
         }
     },
 

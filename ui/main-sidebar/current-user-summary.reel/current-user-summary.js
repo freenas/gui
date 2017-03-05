@@ -87,8 +87,7 @@ exports.CurrentUserSummary = Component.specialize({
                 self.timezone = systemGeneral.timezone;
             });
             this.eventDispatcherService.addEventListener(ModelEventName.User.change(session.user.id), this._handleUserChange.bind(this));
-            //fixme: this should work, just needs to be fixed since SystemGeneral doesn't have an id
-            //this.eventDispatcherService.addEventListener(ModelEventName.SystemGeneral.change(), this._handleSystemGeneralChange.bind(this));
+            this.eventDispatcherService.addEventListener(ModelEventName.SystemGeneral.change(), this._handleSystemGeneralChange.bind(this));
         }
     },
 
@@ -98,11 +97,12 @@ exports.CurrentUserSummary = Component.specialize({
         }
     },
 
-    //_handleSystemGeneralChange: {
-    //    value: function(general) {
-    //        fixme: need a fix to handle system general updates to update timezone
-    //    }
-    //},
+    _handleSystemGeneralChange: {
+        value: function(systemGeneral) {
+            general = systemGeneral.toJS();
+            this.timezone = general.timezone;
+        }
+    },
 
     _startTimeUpdate: {
         value: function() {
