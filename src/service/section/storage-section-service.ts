@@ -319,6 +319,7 @@ export class StorageSectionService extends AbstractSectionService {
         return (dataset.permissions ?
             Promise.resolve(dataset.permissions) :
             this.volumeRepository.getNewPermissions()).then((permissions) => {
+                dataset.permissions_type = 'PERM';
                 dataset.permissions = _.defaults(permissions, this.DEFAULT_PERMISSIONS);
             });
     }
