@@ -106,7 +106,7 @@
             },
             "bindings": {
                 "checked": {"<->": "!!@owner.object.dhcp"},
-                "disabled": {"<-": "@owner.dhcpInterface.defined() && @owner.dhcpInterface != @owner.object"}
+                "disabled": {"<-": "@owner.dhcpInterface.defined() && @owner.dhcpInterface.id != @owner.object.id"}
             }
         },
         "rtadv": {
