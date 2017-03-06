@@ -306,7 +306,8 @@ exports.VmsSectionService = AbstractSectionService.specialize({
                 hasChanged = true;
             }
             if (vm.devices) {
-                var i, length, entry;
+                var i, length, entry,
+                    bootDevice = vm._bootDevice;
                 for (i = 0, length = vm.devices.length; i < length; i++) {
                     entry = vm.devices[i];
                     if (this._isDeviceBootable(entry)
@@ -325,6 +326,7 @@ exports.VmsSectionService = AbstractSectionService.specialize({
                         hasChanged = true;
                     }
                 }
+                vm._bootDevice = bootDevice;
             } else {
                 vm._bootDevices = [];
             }
