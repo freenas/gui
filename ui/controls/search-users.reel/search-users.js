@@ -4,7 +4,7 @@ exports.SearchUsers = AbstractSearchAccount.specialize(/** @lends SearchGroups# 
 
     search: {
         value: function (value) {
-             return this.service.searchUser({
+             return this.service.searchUser(value, {
                  labelPath: this.labelPath,
                  valuePath: this.valuePath
              });
