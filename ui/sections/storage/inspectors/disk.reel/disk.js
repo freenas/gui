@@ -4,6 +4,7 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
 exports.Disk = AbstractInspector.specialize({
     enterDocument: {
         value: function() {
+            this.isDiskEraseConfirmationVisible = false;
             this.object._allocation = this._sectionService.getDiskAllocation(this.object);
             if (this.object._allocation && this.object._allocation.type == 'VOLUME') {
                 this.object._vdev = this._sectionService.getVdev(this.object);
@@ -23,6 +24,18 @@ exports.Disk = AbstractInspector.specialize({
     },
 
     handleEraseAction: {
+        value: function() {
+            this.isDiskEraseConfirmationVisible = true;
+        }
+    },
+
+    cancelDiskErase: {
+        value: function() {
+            this.isDiskEraseConfirmationVisible = false;
+        }
+    },
+
+    confirmDiskErase: {
         value: function() {
             return this._sectionService.eraseDisk(this.object);
         }
