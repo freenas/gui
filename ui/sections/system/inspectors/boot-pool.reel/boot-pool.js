@@ -80,10 +80,13 @@ exports.BootPool = AbstractInspector.specialize({
                 this._sectionService.listBootEnvironments(),
                 this._sectionService.getBootVolumeConfig(),
                 this._sectionService.listDisks()
-            ]).spread(function(bootEnvironments, bootVolume) {
+            ]).spread(function(bootEnvironments, bootVolume, disks) {
+                var bootDiskIds = _.map(bootVolume.disks, 'disk_id');
+                self._bootDisks = _.filter(disks, function(disk) {
+                    return bootDiskIds.indexOf(disk.id) > -1;
+                });
                 self._handleBootEnvironmentChange(bootEnvironments);
                 self.bootVolume = bootVolume;
-                self._bootDisks = self._sectionService.listBootDisks();
                 self._extractAvailableDisks(self._sectionService.listAvailableDisks());
             });
         }
