@@ -26,12 +26,13 @@
             "properties": {
                 "element": {"#": "inspector"},
                 "validationController": {"@": "validationController"},
-                "canDelete": true,
-                "canRevert": true,
-                "canSave": true,
                 "controller": {"@": "owner"}
             },
             "bindings": {
+                "canDelete": {"<-": "!@owner.object._isDetached"},
+                "canRevert": {"<-": "!@owner.object._isDetached"},
+                "canSave": {"<-": "!@owner.object._isDetached"},
+                "isFooterHidden": {"<-": "!@owner.object._isDetached"},
                 "context": {"<-": "@owner.context"},
                 "isLocked": {"<->": "@owner.isLocked"}
             }
