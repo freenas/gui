@@ -1,4 +1,5 @@
 .MonthView > table {
+    height: 100%;
     table-layout: fixed;
     margin-bottom: 0;
 }

@@ -60,8 +60,10 @@ exports.CalendarWidgetDay = AbstractDropZoneComponent.specialize({
 
     _setMaxDisplayedLines: {
         value: function () {
-            if (document.documentElement.clientHeight > 1120) {
+            if (document.documentElement.clientHeight > 920) {
                 this._maxDisplayedLines = 3
+            } else {
+                this._maxDisplayedLines = 2
             }
         }
     },
@@ -79,7 +81,20 @@ exports.CalendarWidgetDay = AbstractDropZoneComponent.specialize({
             if (isFirstTime) {
                 this.addRangeAtPathChangeListener("taskCategories", this, "_filterDistinctTasks");
                 this.addRangeAtPathChangeListener("tasks", this, "_filterDistinctTasks");
+                window.addEventListener("resize", this, false);
             }
+            this._setMaxDisplayedLines();
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            window.removeEventListener("resize", this, false);
+        }
+    },
+
+    handleResize: {
+        value: function() {
             this._setMaxDisplayedLines();
         }
     },

@@ -1,20 +1,50 @@
+@custom-media --medium (width >= 80rem);
+@custom-media --large (width >= 95rem);
+@custom-media --medium-height (height >= 55rem);
+
+
+
 .Calendar {
     width: 45rem;
+
+    & .Inspector-body {
+        flex: 1;
+    }
+
+    @media (--medium) {
+        width: 56rem;
+    }
+
+    @media (--large) {
+        width: 70rem;
+    }
 }
 
 .Calendar .Inspector-body-scrollview {
+    flex: 1;
     display: flex;
     flex-direction: column;
 }
+
 
 .Calendar-wrapper {
     flex: 1;
     @apply --flex-column;
 }
 
-.Calendar-events {
+.Calendar-calendarWidget {
     flex: 1;
+    min-height: 28rem;
+}
+
+.Calendar-events {
+    max-height: 15rem;
     @apply --flex-column;
+    min-height: 15rem;
+
+    @media (--medium-height) {
+        max-height: 20rem;
+    }
 }
 
 .Calendar-events-header {
@@ -24,12 +54,6 @@
 }
 
 .Calendar-events h2 { margin: 0; }
-
-/* .Calendar-eventsList {
-    flex: 1;
-    position: relative;
-    min-height: 0;
-} */
 
 .Calendar > .Inspector .Inspector-backButton {
     display: none;

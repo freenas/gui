@@ -73,14 +73,6 @@
     text-align: center;
 }
 
-.CalendarWidget-day {
-    height: 5em;
-
-    @media (min-height: 70em) {
-        height: 8em;
-    }
-}
-
 .CalendarWidget-taskCategories {
     display: flex;
     align-items: center;
@@ -95,8 +87,8 @@
     @apply --flex-column;
 }
 
-.CalendarWidget-view {
-    max-height: 30rem;
+.Calendar-view-month {
+    flex: 1;
 }
 
 /*
@@ -297,6 +289,13 @@ Calendar Events
     font-size: .75rem;
     padding: 0 .1rem;
     color: var(--white);
+
+    & span {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: block;
+    }
 }
 
 .CalendarWidget-event.type-rsync_copy .CalendarWidget-event-inner                        { background-color: var(--task-rsync-color); }
