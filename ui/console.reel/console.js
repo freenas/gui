@@ -39,7 +39,7 @@ exports.Console = Component.specialize({
                 this._reconnectTries = 0;
 
                 if (!this.token && this.waitForToken) {
-                    this.addPathChangeListener("token", this, "_connect");
+                    this.addPathChangeListener("token", this, "_handleTokenChange");
                 } else {
                     this._connect();
                 }
@@ -91,6 +91,14 @@ exports.Console = Component.specialize({
         }
     },
 
+    _handleTokenChange: {
+        value: function(token) {
+            if (token) {
+                this._connect();
+            }
+        }
+    },
+
     _getToken: {
         value: function() {
             var self = this;
@@ -111,7 +119,7 @@ exports.Console = Component.specialize({
                 if (!self._term) {
                     self._term = new Terminal({
                         cols: 80,
-                        rows: 1,
+                        rows: 25,
                         screenKeys: true
                     });
                     self._term.open(self.terminalElement);

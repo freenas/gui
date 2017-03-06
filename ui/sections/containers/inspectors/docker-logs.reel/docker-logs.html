@@ -29,7 +29,8 @@
                 "isFooterHidden": true
             },
             "bindings": {
-                "context": {"<-": "@owner.context"}
+                "context": {"<-": "@owner.context"},
+                "isLoading": {"<-": "!@owner.token"}
             }
         }
     }
@@ -38,7 +39,7 @@
 <body>
     <div data-montage-id="owner" class="DockerLogs">
         <div data-montage-id="inspector">
-            <div data-montage-id="console" class="g-margin--subtract"></div>
+            <div data-montage-id="console" class="_g-margin--subtract"></div>
         </div>
     </div>
 </body>
