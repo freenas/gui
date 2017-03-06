@@ -2,6 +2,7 @@ import _ = require('lodash');
 import {ServiceRepository} from '../repository/service-repository';
 import {AbstractRoute} from './abstract-route';
 import {Model} from '../model';
+import { ModelEventName } from '../model-event-name';
 
 export class ServicesRoute extends AbstractRoute {
     private static instance: ServicesRoute;
@@ -20,24 +21,38 @@ export class ServicesRoute extends AbstractRoute {
     }
 
     public getCategory(categoryId: string, stack: Array<any>) {
-        let self = this,
-            objectType = Model.ServicesCategory,
-            columnIndex = 1,
-            parentContext = stack[columnIndex - 1],
+        let columnIndex = 1,
+            parentContext = stack[0],
             context: any = {
                 columnIndex: columnIndex,
-                objectType: objectType,
+                objectType: Model.ServicesCategory,
                 parentContext: parentContext,
                 path: parentContext.path + '/services-category/_/' + encodeURIComponent(categoryId)
             };
+
         return Promise.all([
             this.serviceRepository.listServicesCategories(),
-            this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(categories: Array<any>, uiDescriptor) {
-            context.object = _.find(categories, {id: categoryId});
+            this.serviceRepository.listServices(),
+            this.modelDescriptorService.getUiDescriptorForType(Model.ServicesCategory)
+        ]).spread((categories, objects: Array<any>, uiDescriptor) => {
+            let category = _.find(categories, { id: categoryId }),
+                options = {
+                    filter: function (service) {
+                        return _.includes(category.types, 'service-' + service.name);
+                    },
+                    sort: 'name'
+                },
+                filteredObjects = _.sortBy(_.filter(objects, options.filter), options.sort);
+
+            context.objectType = (filteredObjects as any)._objectType = Model.ServicesCategory;
+            context.object = filteredObjects;
             context.userInterfaceDescriptor = uiDescriptor;
 
-            return self.updateStackWithContext(stack, context);
+            context.changeListener = this.eventDispatcherService.addEventListener(ModelEventName[Model.Service].listChange, state => {
+                this.dataObjectChangeService.handleDataChange(filteredObjects, state, options)
+            });
+
+            return this.updateStackWithContext(stack, context);
         });
     }
 

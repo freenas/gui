@@ -31,7 +31,8 @@
                 "canDelete": false,
                 "canRevert": false,
                 "canSave": false,
-                "controller": {"@": "owner"}
+                "controller": {"@": "owner"},
+                "isFooterHidden": true
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
@@ -108,14 +109,11 @@
     <div data-montage-id="owner" class="EncryptedVolumeImporter has-availableDisks">
         <div data-montage-id="inspector">
             <div class="EncryptedVolumeImporter-content">
-
-                <div class="g-margin-h g-padding-top">
-                    <div data-montage-id="name"></div>
-                    <div data-montage-id="password"></div>
-                    <div data-montage-id="key"></div>
-                </div>
-                <div data-montage-id="importVolume" class="g-margin"></div>
-                <div data-montage-id="disks" class="EncryptedVolumeImporter-disks"></div>
+                <div data-montage-id="name"></div>
+                <div data-montage-id="password"></div>
+                <div data-montage-id="key"></div>
+                <div data-montage-id="importVolume" class="g-margin-bottom"></div>
+                <div data-montage-id="disks" class="EncryptedVolumeImporter-disks g-margin-h--subtract"></div>
             </div>
         </div>
         <div class="EncryptedVolumeImporter-sidebar">

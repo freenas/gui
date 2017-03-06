@@ -1,5 +1,9 @@
 .TrafficLight {
     display: flex;
+
+    &.is-loading {
+        animation: pulse .5s infinite alternate;
+    }
 }
 
 .TrafficLight-light {

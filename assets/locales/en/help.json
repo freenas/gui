@@ -1,3 +1,4 @@
 {
-    "User.uid": "User ID must be between 0 and 4294967295"
+    "User.uid": "User ID must be between 0 and 4294967295",
+    "Storage.importMedia.mediaFsType": "Leave field empty to autodetect filesystem type"
 }

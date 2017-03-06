@@ -35,11 +35,7 @@
     padding: .5em;
 }
 
-.Sideboard-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
+/* Toggle Button */
 
 .Sideboard-toggleSideboard {
     position: absolute;
@@ -77,33 +73,42 @@
 /* transition the sideboard toggle icon */
 
 .Sideboard .Sideboard-toggleSideboard > div {
+
+    &:before {
+        /* expands toggle hit area - hacky */
+        @nest .Sideboard.is-collapsed & {
+            position: absolute;
+            content: '';
+            top: -100vh;
+            left: -1rem;
+            /* matches width of collapsed sideboard */
+            width: 3.7em;
+            bottom: -1rem;
+
+        }
+    }
+}
+
+.Sideboard-toggleSideboard svg {
     transition: transform .5s cubic-bezier(.7,0,.3,1);
+
+    @nest .Sideboard.is-collapsed & {
+        transform: rotateY(180deg);
+    }
 }
 
-.Sideboard.is-collapsed .Sideboard-toggleSideboard > div {
-    transform: rotateY(180deg);
-    transform-origin: center;
-}
+/* Scroller */
 
-/* Dropzone Sizing Hacks - should remove dropzone */
-
-/* tasks size hack */
 .Sideboard .Tasks,
-.Sideboard .WidgetWrapper > .montage-Slot,
-.Sideboard .WidgetDropzone-widget:not(:first-child),
-.Sideboard .WidgetDropzone-wrapper,
-.Sideboard .WidgetDropzone,
 .Sideboard .Widget,
-.Sideboard .WidgetDropzone-widgets,
-.Sideboard .Scroller {
+.Sideboard-scroller,
+.Sideboard-scroller > div {
     @apply --flex-column;
     flex: 1;
 }
 
-.Sideboard .WidgetDropzone-widget:not(:first-child) {
-    min-height: 20rem;
-}
-
-.Sideboard .WidgetDropzone-widgets {
-    padding-bottom: 3.5rem;
+.Sideboard .Tasks {
+    flex: 1;
+    margin-bottom: 3rem;
+    min-height: 18rem;
 }

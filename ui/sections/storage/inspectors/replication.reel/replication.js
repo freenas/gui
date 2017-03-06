@@ -29,7 +29,8 @@ exports.Replication = AbstractInspector.specialize({
             }
 
             this._transportOptions = this._replicationService.extractTransportOptions(this.object);
-            this._repetition = null;
+            this._repetition = 0;
+            this.repetitionUnits = Units.HOURS;
 
             if (this.context.dataset) {
                 this.object.datasets[0].master = this.context.dataset;
@@ -70,7 +71,7 @@ exports.Replication = AbstractInspector.specialize({
                     self.syncTask = submittedTask;
                     return submittedTask.taskPromise;
                 })
-                .then(function() {
+                .finally(function() {
                     self.syncTask = null;
                 });
         }
@@ -80,9 +81,9 @@ exports.Replication = AbstractInspector.specialize({
         value: function() {
             var self = this;
 
-            this.saveReplication().then(function(replicationId) {
+            return this.saveReplication().then(function(replicationId) {
                 if (replicationId && self.object._isNew) {
-                    return self._repetition ?
+                    return self._repetition > 0 ?
                         self._calendarService.createNewRepeatedTask('replication.sync', self.object.name, [replicationId], self._repetition) :
                         self.syncReplication(replicationId);
                 }

@@ -48,9 +48,9 @@ exports.Viewer = AbstractComponentActionDelegate.specialize({
         }
     },
 
-    handleBackButtonAction: {
+    handleNavigationBackButtonAction: {
         value: function () {
-            this._routingService.navigate(this._currentContext.parentContext.path);
+            this._routingService.closeColumn(this._currentContext.columnIndex);
         }
     },
 

@@ -1,3 +1,7 @@
+.Calendar {
+    width: 45rem;
+}
+
 .Calendar .Inspector-body-scrollview {
     display: flex;
     flex-direction: column;
@@ -21,11 +25,11 @@
 
 .Calendar-events h2 { margin: 0; }
 
-.Calendar-eventsList {
+/* .Calendar-eventsList {
     flex: 1;
     position: relative;
     min-height: 0;
-}
+} */
 
 .Calendar > .Inspector .Inspector-backButton {
     display: none;

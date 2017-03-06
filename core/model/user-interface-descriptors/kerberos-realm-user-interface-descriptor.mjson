@@ -4,7 +4,7 @@
         "properties": {
             "inspectorComponentModule": {"%": "ui/sections/accounts/inspectors/kerberos-realm.reel"},
             "creatorComponentModule": {"%": "ui/sections/accounts/inspectors/kerberos-realm.reel"},
-            "nameExpression": "realm",
+            "nameExpression": "'Create a Kerberos Realm'",
             "collectionNameExpression": "'Kerberos Realms'",
             "daoModuleId": "core/dao/kerberos-realm-dao"
         }

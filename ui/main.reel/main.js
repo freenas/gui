@@ -54,8 +54,11 @@ exports.Main = Component.specialize({
     },
 
     _handleSectionRestored: {
-        value: function(sectionId) {
-            this.application.section = this._section = this.application.sectionsDescriptors[sectionId];
+        value: function(stack) {
+            this.stack = stack;
+            this.sectionService = this.application.sectionService = stack[0].service;
+            this.sectionId = null;
+            this.sectionGeneration = 'new';
         }
     },
 

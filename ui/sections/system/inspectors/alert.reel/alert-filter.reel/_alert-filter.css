@@ -3,17 +3,17 @@
 }
 
 .AlertFilter-table .Table-cells > div:nth-child(1),
-.TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(1) {
+.AlertFilter-table .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(1) {
     max-width: 14rem;
 }
 
 .AlertFilter-table .Table-cells > div:nth-child(2),
-.TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(2) {
+.AlertFilter-table .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(2) {
     max-width: 6rem;
 }
 
 .AlertFilter-table .Table-cells > div:nth-child(3),
-.TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(3) {}
+.AlertFilter-table .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(3) {}
 
 .AlertFilter-table .Table-cells > div:nth-child(1),
 .AlertFilter-table .Table-cells > div:nth-child(2),

@@ -26,6 +26,7 @@ exports.Container = AbstractInspector.specialize({
                 this.object.networks = [];
             } else {
                 this.object._command = _.join(this.object.command, ' ');
+                this.object._volumes = this._sectionService.getDisplayVolumeObjects(this.object.volumes);
             }
             this.object._environments = this.object.environment ? _.map(this.object.environment, function(environment) {
                 var parts = environment.match(/^(.+)=(.+)$/);

@@ -167,6 +167,31 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         }
     },
 
+    getDisplayVolumeObjects: {
+        value: function(middlewareVolumes) {
+            return _.map(middlewareVolumes, function(volume) {
+                return {
+                    origin: (!volume.host_path || _.startsWith(volume.host_path, '/mnt/')) ? 'HOST' : 'VM',
+                    source: volume.host_path,
+                    target: volume.container_path,
+                    readonly: !!volume.readonly
+                };
+            });
+        }
+    },
+
+    getMiddlewareVolumeObjects: {
+        value: function(guiVolumes) {
+            return _.map(guiVolumes, function(volume) {
+                return {
+                    host_path: volume._source,
+                    container_path: volume.target,
+                    readonly: !!volume.readonly
+                };
+            })
+        }
+    },
+
     saveContainer: {
         value: function (container) {
             if (container._command) {
@@ -184,9 +209,11 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
                     .filter(function (entry) { return entry.host_port && entry.container_port; });
             }
 
-            if (container.volumes) {
-                container.volumes = container.volumes
-                    .filter(function(entry) { return entry.host_path && entry.container_path; });
+            if (container._volumes) {
+                container.volumes = container._volumes ?
+                    this.getMiddlewareVolumeObjects(container._volumes)
+                        .filter(function(entry) { return entry.host_path && entry.container_path; }) :
+                    [];
             }
 
             if (container.primary_network_mode !== 'BRIDGED') {
@@ -202,20 +229,23 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
     copyImageToContainer: {
         value: function(image, container) {
             container.image = image.name;
-            container.ports = _.cloneDeep(image.presets.ports);
-            container.expose_ports = image.presets.expose_ports;
-            container._environments = _.cloneDeep(image.presets.settings);
-            container.volumes = _.cloneDeep(image.presets.volumes);
-            container._command = _.join(image.presets.command, ' ');
-            container.autostart = image.presets.autostart;
-            container.privileged = image.presets.privileged;
-            container.interactive = image.presets.interactive;
-            container.primary_network_mode = image.presets.primary_network_mode || 'NAT';
-            return this.getNewDockerContainerBridge().then(function(bridge) {
-                bridge.dhcp = image.presets.bridge.dhcp;
-                bridge.address = image.presets.bridge.address;
-                container.bridge = bridge
-            });
+            if (image.presets) {
+                container.ports = _.cloneDeep(image.presets.ports);
+                container.expose_ports = image.presets.expose_ports;
+                container._environments = _.cloneDeep(image.presets.settings);
+                container._volumes = this.getDisplayVolumeObjects(image.presets.volumes);
+                container._command = _.join(image.presets.command, ' ');
+                container.autostart = image.presets.autostart;
+                container.privileged = image.presets.privileged;
+                container.interactive = image.presets.interactive;
+                container.primary_network_mode = image.presets.primary_network_mode || 'NAT';
+                return this.getNewDockerContainerBridge().then(function(bridge) {
+                    bridge.dhcp = image.presets.bridge.dhcp;
+                    bridge.address = image.presets.bridge.address;
+                    container.bridge = bridge
+                });
+            }
+            return Promise.resolve();
         }
     },
 

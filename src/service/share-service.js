@@ -124,7 +124,7 @@ var ShareService = exports.ShareService = Montage.specialize({
             }
             delete shareObject.permissions_type;
 
-            if (shareObject.target_type === 'DIRECTORY' && !_.startsWith('/mnt', shareObject.target_path)) {
+            if (shareObject._isNew && shareObject.target_type === 'DIRECTORY' && !_.startsWith(shareObject.target_path, '/mnt')) {
                 shareObject.target_path = urlJoin('/mnt', shareObject.target_path);
             }
 

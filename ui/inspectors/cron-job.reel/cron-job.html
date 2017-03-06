@@ -15,6 +15,9 @@
             "properties": {
                 "element": {"#": "inspector"},
                 "isFooterHidden": true
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"}
             }
         },
         "months": {
@@ -71,7 +74,7 @@
 <body>
     <div data-montage-id="owner" class="CronJob">
         <div data-montage-id="inspector">
-            <div data-montage-id="months" class="CronJob-months"></div>
+            <div data-montage-id="months" class="CronJob-months g-margin-top--half"></div>
             <div data-montage-id="days" class="CronJob-days"></div>
             <div data-montage-id="hours" class="CronJob-hours"></div>
             <div data-montage-id="minutes" class="CronJob-minutes"></div>

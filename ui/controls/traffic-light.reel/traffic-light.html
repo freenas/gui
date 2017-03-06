@@ -10,6 +10,7 @@
             },
             "bindings": {
                 "classList.has('is-hidden')": {"<-": "!@owner.colorMapping || !!@owner.isHidden"},
+                "classList.has('is-loading')": {"<-": "@owner.value == 'CONNECTING'"},
                 "lightClass": {"<-": "@owner.colorMapping[@owner.value]"}
             }
         }

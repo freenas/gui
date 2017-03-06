@@ -34,7 +34,8 @@
             "bindings": {
                 "context": {"<-": "@owner.context"},
                 "canSave": {"<-": "!@owner.isVolumeDatastore"},
-                "canDelete": {"<-": "!@owner.isVolumeDatastore && !@owner.isNewObject"}
+                "canDelete": {"<-": "!@owner.isVolumeDatastore && !@owner.isNewObject"},
+                "isFooterHidden": {"<-": "!canSave && !canDelete"}
             }
         },
         "name": {

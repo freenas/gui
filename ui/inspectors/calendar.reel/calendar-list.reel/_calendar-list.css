@@ -1,7 +1,7 @@
 .CalendarList {
+    flex: 1;
+    @apply --flex-column;
     position: relative;
-    display: flex;
-    flex-direction: column;
 }
 
 .CalendarList-days {

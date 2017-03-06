@@ -252,12 +252,13 @@
             }
         },
         "repetition": {
-            "prototype": "blue-shark/ui/field-duration.reel",
+            "prototype": "blue-shark/ui/field-number-unit.reel",
             "properties": {
                 "element": {"#": "repetition"},
                 "label": "Repeat Every"
             },
             "bindings": {
+                "units": {"<-": "@owner.repetitionUnits"},
                 "value": {"<->": "@owner._repetition"}
             }
         },
