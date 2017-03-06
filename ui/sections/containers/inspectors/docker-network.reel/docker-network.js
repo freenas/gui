@@ -19,7 +19,11 @@ exports.DockerNetwork = AbstractInspector.specialize({
 
     save: {
         value: function () {
-            this.object.subnet = this.object._subnet[0].address + '/' + this.object._subnet[0].netmask;
+            if (this.object._subnet && this.object._subnet.length > 0 && this.object._subnet[0].address && this.object._subnet[0].netmask) {
+                this.object.subnet = this.object._subnet[0].address + '/' + this.object._subnet[0].netmask;
+            } else {
+                this.object.subnet = null;
+            }
             return this._sectionService.saveDockerNetwork(this.object);
         }
     }
