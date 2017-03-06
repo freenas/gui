@@ -175,7 +175,7 @@ confirmation
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 1;
+    z-index: 100;
     visibility: hidden;
     opacity: 0;
     transition: visibility .25s ease-in-out,
