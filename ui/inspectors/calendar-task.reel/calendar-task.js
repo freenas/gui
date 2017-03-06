@@ -65,30 +65,49 @@ exports.CalendarTask = AbstractInspector.specialize({
         }
     },
 
-    save: {
-        value: function() {
-            if (this.argsInspector && typeof this.argsInspector.save === 'function') {
-                this.object.args = this.argsInspector.save();
-            }
-            this._sectionService.updateScheduleOnTask(this.object);
-            var argsLength = this.object.args.length;
-            this.object.args = this.object.args.filter(function(x) {
+    resolveArgs: {
+        value: function(args) {
+            var argsLength = args.length;
+            args = args.filter(function(x) {
                 return !!x || (typeof x !== "undefined" && typeof x !== "object") ;
             });
-            this.object.args.length = argsLength;
+            args.length = argsLength;
+            return Promise.resolve(args);
+        }
+    },
+
+    save: {
+        value: function() {
+            this._sectionService.updateScheduleOnTask(this.object);
             delete this.object.status;
-            var savePromise = this._sectionService.saveTask(this.object);
-            this.inspector.clearObjectSelection();
-            return savePromise;
+
+            var argsPromise = this.object.args;
+            if (this.argsInspector && typeof this.argsInspector.save === 'function') {
+                argsPromise = this.argsInspector.save(this.object);
+            }
+            argsPromise = Promise.is(argsPromise) ? argsPromise : this.resolveArgs(argsPromise);
+
+            var self = this;
+            return argsPromise.then(function(args) {
+                self.object.args = args;
+                return self.inspector.save();
+            });
         }
     },
 
     handleRunNowAction: {
         value: function () {
+            var argsPromise = this.object.args;
             if (this.argsInspector && typeof this.argsInspector.save === 'function') {
-                this.object.args = this.argsInspector.save();
+                argsPromise = this.argsInspector.save(this.object);
             }
-            return this._sectionService.runTask(this.object);
+            var self = this,
+                argsPromise = Promise.is(argsPromise) ? argsPromise : Promise.resolve(argsPromise);
+
+            return argsPromise.then(function(args) {
+                self.object.args = args;
+                return self._sectionService.runTask(self.object);
+            });
         }
     },
 

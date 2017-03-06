@@ -27,8 +27,8 @@
     color: var(--task-scrub-color);
 }
 
-.TaskTypeIndicator.type-replication_replicate_dataset,
-.type-replication_replicate_dataset .TaskTypeIndicator  {
+.TaskTypeIndicator.type-replication_sync,
+.type-replication_sync .TaskTypeIndicator  {
     color: var(--task-replication-color);
 }
 
@@ -46,4 +46,3 @@
 .type-volume_snapshot_dataset .TaskTypeIndicator  {
     color: var(--task-snapshot-color);
 }
-

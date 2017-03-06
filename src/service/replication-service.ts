@@ -48,6 +48,21 @@ export class ReplicationService {
             ));
     }
 
+    public findOrCreateReplication(replicationId: string) {
+        if (replicationId) {
+            return this.listReplications().then(replications => _.find(replications, {id: replicationId}));
+        }
+        return this.getNewReplicationInstance();
+    }
+
+    public saveReplication(replication: any) {
+        return this.replicationRepository.saveReplication(replication);
+    }
+
+    public syncReplication(replicationId: string) {
+        return this.replicationRepository.syncReplication(replicationId);
+    }
+
     public extractTransportOptions(replication) {
         let result: any = {},
             length = replication.transport_options ? replication.transport_options.length || Object.keys(replication.transport_options).length : 0,

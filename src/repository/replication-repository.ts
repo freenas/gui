@@ -1,7 +1,6 @@
 import { AbstractRepository } from './abstract-repository';
 import {ModelEventName} from '../model-event-name';
 import {Map, Set} from 'immutable';
-import {ReplicationOptionsDao} from '../dao/replication-options-dao';
 import {ReplicationDao} from '../dao/replication-dao';
 import {CompressReplicationTransportOptionDao} from '../dao/compress-replication-transport-option-dao';
 import {EncryptReplicationTransportOptionDao} from '../dao/encrypt-replication-transport-option-dao';
@@ -12,7 +11,6 @@ export class ReplicationRepository extends AbstractRepository {
     private static instance: ReplicationRepository;
     private replications: Map<string, Map<string, any>>;
     private constructor(private replicationDao: ReplicationDao,
-                        private replicationOptionsDao: ReplicationOptionsDao,
                         private compressReplicationTransportOptionDao: CompressReplicationTransportOptionDao,
                         private encryptReplicationTransportOptionDao: EncryptReplicationTransportOptionDao,
                         private throttleReplicationTransportOptionDao: ThrottleReplicationTransportOptionDao) {
@@ -23,7 +21,6 @@ export class ReplicationRepository extends AbstractRepository {
         if (!ReplicationRepository.instance) {
             ReplicationRepository.instance = new ReplicationRepository(
                 new ReplicationDao(),
-                new ReplicationOptionsDao(),
                 new CompressReplicationTransportOptionDao(),
                 new EncryptReplicationTransportOptionDao(),
                 new ThrottleReplicationTransportOptionDao()
@@ -40,10 +37,6 @@ export class ReplicationRepository extends AbstractRepository {
         return this.replicationDao.getNewInstance();
     }
 
-    public getReplicationOptionsInstance() {
-        return this.replicationOptionsDao.getNewInstance();
-    }
-
     public getNewReplicationTransportOptionInstance(type) {
         if (type === Model.CompressReplicationTransportOption) {
             return this.compressReplicationTransportOptionDao.getNewInstance();
@@ -54,12 +47,12 @@ export class ReplicationRepository extends AbstractRepository {
         }
     }
 
-    public replicateDataset(dataset: Object, replicationOptions: Object, transportOptions: Array<Object>) {
-        return this.replicationDao.replicateDataset(dataset, replicationOptions, transportOptions);
-    }
-
     public saveReplication(replication: any) {
         return this.replicationDao.save(replication);
+    }
+
+    public syncReplication(replicationId: string) {
+        return this.replicationDao.sync(replicationId);
     }
 
     protected handleStateChange(name: string, state: any) {

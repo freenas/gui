@@ -2,106 +2,65 @@ var Component = require("montage/ui/component").Component,
     Units = require('core/Units');
 
 exports.ReplicationArgs = Component.specialize({
-    compress: {
-        value: null
-    },
 
-    encrypt: {
-        value: null
-    },
-
-    throttle: {
-        value: null
+    replicationService: {
+        get: function () {
+            return this._replicationService = this._replicationService || this.application.replicationService;
+        }
     },
 
     templateDidLoad: {
         value: function() {
             var self = this;
-            this.throttleUnits = Units.TRANSFER_SPEED;
-            this.peersPromise = this.application.peeringService.list().then(function(peers) {
-                return self.peers = peers;
+
+            this.transferSpeedUnits = Units.TRANSFER_SPEED;
+            this.application.peeringService.list().then(function(peers) {
+                self.peers = peers;
+                self._ensureSlavePeerSet();
             });
-            this._dataService = this.application.dataService;
+        }
+    },
+
+    _ensureSlavePeerSet: {
+        value: function () {
+            if (this.peers && this.peers.length && this.replicationObject && !this.replicationObject.slave) {
+                this.replicationObject.slave = this.peers[0].id;
+            }
         }
     },
 
     enterDocument: {
-        value: function() {
-            this.isLoading = true;
-            var self = this;
-            var argsInitializationPromise;
-            if (!this.object || this.object.length != 4) {
-                argsInitializationPromise = this.peersPromise.then(function() {
-                    var replicationOptions = {};
+        value: function(isFirstTime) {
+            this.super(isFirstTime);
 
-                    if (self.peers.length > 0) {
-                        replicationOptions.peer = self.peers[0].id;
-                    }
-                    self.object = [null, replicationOptions, [], false];
-                });
-            } else {
-                argsInitializationPromise = Promise.resolve();
-            }
-            argsInitializationPromise.then(function() {
-                if (self.datasetTreeController) {
-                    self.datasetTreeController.open(self.object[0]);
-                }
-                self._extractTransportOptions();
-                self.addPathChangeListener("compress", self, "_buildTransportOptions");
-                self.addPathChangeListener("encrypt", self, "_buildTransportOptions");
-                self.addPathChangeListener("throttle", self, "_buildTransportOptions");
+            var self = this;
+
+            this.isLoading = true;
+            this.replicationService.findOrCreateReplication(this.object[0]).then(function(replication) {
                 self.isLoading = false;
+
+                self.replicationObject = replication;
+                self._transportOptions = self.replicationService.extractTransportOptions(self.replicationObject);
+
+                self._ensureSlavePeerSet();
             });
         }
     },
 
     save: {
-        value: function() {
-            this.object[0] = this.sourceDataset.pathInput.value;
-            return this.object;
-        }
-    },
+        value: function(object) {
+            var self = this;
 
-    _extractTransportOptions: {
-        value: function() {
-            var transportOptions = this.object[2],
-                option,
-                length = transportOptions ? transportOptions.length || Object.keys(transportOptions).length : 0;
-            for (var i = 0; i < length; i++) {
-                option = transportOptions[i];
-                if (option["%type"] === "compress-replication-transport-plugin") {
-                    this.compress = option.level;
-                } else if (option["%type"] === "encrypt-replication-transport-plugin") {
-                    this.encrypt = option.type;
-                } else if (option["%type"] === "throttle-replication-transport-plugin") {
-                    this.throttle = option.buffer_size;
-                }
-            }
-        }
-    },
-
-    _buildTransportOptions: {
-        value: function() {
-            var transportOptions = [];
-            if (this.encrypt) {
-                transportOptions.push({
-                    "%type": "encrypt-replication-transport-plugin",
-                    type: this.encrypt
-                });
-            }
-            if (this.compress) {
-                transportOptions.push({
-                    "%type": "compress-replication-transport-plugin",
-                    level: this.compress
-                });
-            }
-            if (this.throttle) {
-                transportOptions.push({
-                    "%type": "throttle-replication-transport-plugin",
-                    buffer_size: this.throttle
-                });
-            }
-            this.object[2] = transportOptions;
+            return this.replicationService.buildTransportOptions(this._transportOptions).then(function(transportOptions) {
+                self.replicationObject.name = self.replicationObject.name || object.name;
+                self.replicationObject.transport_options = transportOptions;
+                return self.replicationService.saveReplication(self.replicationObject);
+            }).then(function(submittedTask) {
+                return submittedTask.taskPromise;
+            }).then(function(replicationId) {
+                return [self.replicationObject.id || replicationId];
+            });
         }
     }
+
 });

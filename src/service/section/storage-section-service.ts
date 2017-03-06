@@ -10,7 +10,6 @@ import {FilesystemService} from '../filesystem-service';
 import {Model} from '../../model';
 import {VmwareRepository} from '../../repository/vmware-repository';
 import {ModelEventName} from '../../model-event-name';
-import {ReplicationRepository} from '../../repository/replication-repository';
 import {TaskRepository} from '../../repository/task-repository';
 import {PeerRepository} from '../../repository/peer-repository';
 import {NetworkRepository} from '../../repository/network-repository';
@@ -24,7 +23,6 @@ export class StorageSectionService extends AbstractSectionService {
     private diskRepository: DiskRepository;
     private volumeRepository: VolumeRepository;
     private vmwareRepository: VmwareRepository;
-    private replicationRepository: ReplicationRepository;
     private taskRepository: TaskRepository;
     private peerRepository: PeerRepository;
     private networkRepository: NetworkRepository;
@@ -66,7 +64,6 @@ export class StorageSectionService extends AbstractSectionService {
         this.diskRepository = DiskRepository.getInstance();
         this.volumeRepository = VolumeRepository.getInstance();
         this.vmwareRepository = VmwareRepository.getInstance();
-        this.replicationRepository = ReplicationRepository.getInstance();
         this.taskRepository = TaskRepository.getInstance();
         this.peerRepository = PeerRepository.getInstance();
         this.networkRepository = NetworkRepository.getInstance();
@@ -277,14 +274,6 @@ export class StorageSectionService extends AbstractSectionService {
 
     public importEncryptedVolume(name: string, disks: Array<any>, key: string, password: string) {
         return this.volumeRepository.importEncryptedVolume(name, disks, key, password);
-    }
-
-    public getReplicationOptionsInstance() {
-        return this.replicationRepository.getReplicationOptionsInstance();
-    }
-
-    public replicateDataset(dataset: Object, replicationOptions: Object, transportOptions: Array<Object>) {
-        return this.replicationRepository.replicateDataset(dataset, replicationOptions, transportOptions);
     }
 
     public listImportableDisks() {
