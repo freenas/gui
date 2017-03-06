@@ -13,7 +13,6 @@ exports.FreenasCredentials = Component.specialize(/** @lends FreenasCredentials#
             if (this.object._isNew) {
                 this.object.credentials.port = 22;
             }
-            this.object.status.rtt = _.round(this.object.status.rtt*1000, 2);
         }
     }
 });
