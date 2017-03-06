@@ -23,13 +23,19 @@
         color: var(--white);
         border-color: transparent;
     }
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    & + .ListItem,
+    &:first-child {
+        border-top-color: transparent;
+        /* removes top border from first child and any sibling ListItem*/
+    }
 }
 
-.ListItem + .ListItem,
-.ListItem:first-child {
-    border-top-color: transparent;
-    /* removes top border from first child and any sibling ListItem*/
-}
+
 
 .ListItem-labels {
     flex: 1;
