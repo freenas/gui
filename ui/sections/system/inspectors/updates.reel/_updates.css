@@ -1,4 +1,6 @@
-.Updates {}
+.SystemSection.updates {
+    max-width: 48rem
+}
 
 .Updates-operations { display: none; }
 
