@@ -203,8 +203,7 @@ exports.Inspector = Component.specialize({
 
     clearObjectSelection: {
         value: function() {
-            var parentPath = this.parentCascadingListItem.data.parentContext.path;
-            return this._routingService.navigate(parentPath, true);
+            return this._routingService.closeColumn(this.context.columnIndex);
         }
     },
 

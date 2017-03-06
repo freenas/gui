@@ -398,7 +398,7 @@ export class RoutingService {
         crossroads.addRoute('/storage/volume/_/{volumeId}/topology',
             (volumeId) => this.volumeRoute.topology(volumeId, this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/volume/_/{volumeId}/topology/disk/_/{diskId}',
-            (volumeId, diskId) => this.volumeRoute.topologyDisk(diskId, this.currentStacks.get('storage')));
+            (volumeId, diskId) => this.volumeRoute.topologyDisk(volumeId, diskId, this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/create',
             () => this.volumeRoute.create(this.currentStacks.get('storage')));
         crossroads.addRoute('/storage/create/disk/_/{diskId}',

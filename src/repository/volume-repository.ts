@@ -483,6 +483,7 @@ export class VolumeRepository extends AbstractRepository<Volume> {
                     this.volumes.forEach(function(volume) {
                         volumeId = volume.get('id');
                         if (!state.has(volumeId) || volume.get('topology') !== state.get(volumeId).get('topology')) {
+                            self.eventDispatcherService.dispatch('VolumeTopologyChanged-' + volumeId, state.get(volumeId).get('topology'));
                             hasTopologyChanged = true;
                         }
                     });
@@ -490,6 +491,7 @@ export class VolumeRepository extends AbstractRepository<Volume> {
                         state.forEach(function(volume) {
                             volumeId = volume.get('id');
                             if (!self.volumes.has(volumeId) || volume.get('topology') !== self.volumes.get(volumeId).get('topology')) {
+                                self.eventDispatcherService.dispatch('VolumeTopologyChanged-' + volumeId, volume.get('topology'));
                                 hasTopologyChanged = true;
                             }
                         });

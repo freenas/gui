@@ -1,10 +1,40 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
+    RoutingService = require("core/service/routing-service").RoutingService,
     DiskAcousticlevel = require("core/model/enumerations/disk-acousticlevel").DiskAcousticlevel;
 
 exports.Disk = AbstractInspector.specialize({
+    _inspectorTemplateDidLoad: {
+        value: function() {
+            this._routingService = RoutingService.getInstance();
+            this._eventDispatcherService = EventDispatcherService.getInstance();
+            this.acousticLevelOptions = DiskAcousticlevel.members.map(function(x) {
+                return {
+                    label: x,
+                    value: x
+                };
+            });
+        }
+    },
+
     enterDocument: {
         value: function() {
             this.isDiskEraseConfirmationVisible = false;
+            this.populateDiskAllocation();
+            if (this.object._volume) {
+                this.topologyChangedListener = this._eventDispatcherService.addEventListener('VolumeTopologyChanged-' + this.object._volume.id, this.handleTopologyChanged.bind(this));
+            }
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            this._eventDispatcherService.removeEventListener('VolumeTopologyChanged-' + this.object._volume.id, this.topologyChangedListener);
+        }
+    },
+
+    populateDiskAllocation: {
+        value: function () {
             this.object._allocation = this._sectionService.getDiskAllocation(this.object);
             if (this.object._allocation && this.object._allocation.type == 'VOLUME') {
                 this.object._vdev = this._sectionService.getVdev(this.object);
@@ -12,14 +42,9 @@ exports.Disk = AbstractInspector.specialize({
         }
     },
 
-    templateDidLoad: {
+    handleTopologyChanged: {
         value: function() {
-            this.acousticLevelOptions = DiskAcousticlevel.members.map(function(x) {
-                return {
-                    label: x,
-                    value: x
-                };
-            });
+            this.populateDiskAllocation();
         }
     },
 
