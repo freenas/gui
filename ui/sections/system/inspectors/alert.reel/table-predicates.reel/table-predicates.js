@@ -8,7 +8,7 @@ exports.TablePredicates = Component.specialize({
                 _isNew: true,
                 index: null,
                 class: null,
-                emitter: 'EMAIL',
+                emitter: 'email',
                 parameters: {
                     "%type": 'AlertEmitterEmail',
                     "addresses": []

@@ -30,6 +30,7 @@ exports.AlertFilter = AbstractInspector.specialize({
     save: {
         value: function() {
             this._sectionService.deleteAlertFilters(this.deletedFilters);
+            this.deletedFilters = [];
             this._sectionService.saveAlertFilters(_.differenceWith(this.object.filters, this.referenceFilters, _.isEqual));
         }
     },
@@ -40,7 +41,7 @@ exports.AlertFilter = AbstractInspector.specialize({
                 _isNew: true,
                 index: null,
                 clazz: null,
-                emitter: 'EMAIL',
+                emitter: 'email',
                 parameters: {
                     '%type': 'AlertEmitterEmail',
                     to: []

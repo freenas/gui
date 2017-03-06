@@ -1,13 +1,6 @@
-/**
- * @module ui/table-row-port.reel
- */
 var Component = require("montage/ui/component").Component,
     AlertService = require("core/service/alert-service").AlertService;
 
-/**
- * @class TableRowPredicate
- * @extends Component
- */
 exports.TableRowPredicate = Component.specialize({
     templateDidLoad: {
         value: function () {
