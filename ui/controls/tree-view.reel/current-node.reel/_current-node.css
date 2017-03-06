@@ -11,8 +11,7 @@
 
 .CurrentNode-scrollview {
     position: relative;
-    display: flex;
-    min-height: 0;
+    @apply --flex-column;
 }
 
 /* parent node */
