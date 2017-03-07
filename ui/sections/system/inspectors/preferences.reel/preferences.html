@@ -82,6 +82,16 @@
                 "value": {"<->": "@owner.systemGeneralData.syslog_server"}
             }
         },
+        "home_directory_root": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "home_directory_root"},
+                "label": "Home Directory Root"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.systemAdvancedData.home_directory_root"}
+            }
+        },
         "error_uploads": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -191,6 +201,7 @@
             <div data-montage-id="syslog_server"></div>
             <div data-montage-id="error_uploads"></div>
             <div data-montage-id="dataset_pool"></div>
+            <div data-montage-id="home_directory_root"></div>
             <div data-montage-id="MOTD"></div>
             <div data-montage-id="graphiteServer"></div>
         </div>
