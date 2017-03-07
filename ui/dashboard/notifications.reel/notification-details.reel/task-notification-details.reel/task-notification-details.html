@@ -115,7 +115,7 @@
                 "value": "Cancel"
             },
             "bindings": {
-                "classList.has('hide')": {"<-": "@owner.object.state != 'WAITING'"}
+                "classList.has('hide')": {"<-": "@owner.object.state != 'WAITING' && @owner.object.state != 'EXECUTING'"}
             }
         }
     }
