@@ -44,7 +44,7 @@
 
 /* states */
 
-.DiskIcon.is-unavailable.DiskIcon-img {
+.DiskIcon.is-unavailable .DiskIcon-img {
     opacity: .5;
 }
 
@@ -69,6 +69,8 @@
 }
 
 .DiskIcon-state-offline { background-color: var(--red); }
+
+.DiskIcon-state-removed { background-color: var(--black); }
 
 .DiskIcon-smartStatus {
     position: absolute;

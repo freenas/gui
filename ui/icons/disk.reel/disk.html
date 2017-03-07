@@ -14,7 +14,8 @@
                 "disk": {"<-": "@owner.object ? @owner.object._disk.defined() ? @owner.object._disk : @owner.object : null"},
                 "isOffline": {"<-": "@owner.object._disk.defined() && @owner.object.status && @owner.object.status != 'ONLINE'" },
                 "isDetached": {"<-": "@owner.disk._allocation.defined() && @owner.disk._allocation.type == 'EXPORTED_VOLUME'"},
-                "classList.has('is-unavailable')": {"<-": "isOffline || isDetached"},
+                "isRemoved": {"<-": "@owner.object.status == 'REMOVED'"},
+                "classList.has('is-unavailable')": {"<-": "isOffline || isDetached || isRemoved"},
                 "smartFail": {"<-": "@owner.disk.status.smart_info.smart_status != 'PASS'" }
             }
         },
@@ -24,11 +25,11 @@
         "mediaSize": {
             "prototype": "blue-shark/ui/text.reel",
             "properties": {
-                "element": {"#": "mediaSize"},
-                "converter": {"@": "bytesConverter"}
+                "element": {"#": "mediaSize"}
             },
             "bindings": {
-                "value": {"<-": "@owner.disk.mediasize"}
+                "value": {"<-": "@owner.disk.mediasize.defined() ? @owner.disk.mediasize : '&nbsp;'"},
+                "converter": {"<-": "@owner.disk.mediasize.defined() && @bytesConverter"}
             }
         },
         "substitution": {
@@ -56,8 +57,8 @@
                 "element": {"#": "diskState"}
             },
             "bindings": {
-                "classList.has('hide')": {"<-": "!@owner.isOffline && !@owner.isDetached"},
-                "switchValue": {"<-": "@owner.isOffline ? 'offline' : 'exported'"}
+                "classList.has('hide')": {"<-": "!@owner.isOffline && !@owner.isDetached && !@owner.isRemoved"},
+                "switchValue": {"<-": "@owner.isOffline ? 'offline' : @owner.isRemoved ? 'removed' : 'exported'"}
             }
         },
         "offline": {
@@ -65,6 +66,13 @@
            "properties": {
                "element": {"#": "offline"},
                "value": "Offline"
+           }
+        },
+        "removed": {
+           "prototype": "blue-shark/ui/text.reel",
+           "properties": {
+               "element": {"#": "removed"},
+               "value": "Removed"
            }
         },
         "exported": {
@@ -85,6 +93,7 @@
     </div>
     <div data-montage-id="diskState" class="DiskIcon-states">
         <div data-arg="offline" data-montage-id="offline" class="DiskIcon-state DiskIcon-state-offline"></div>
+        <div data-arg="removed" data-montage-id="removed" class="DiskIcon-state DiskIcon-state-removed"></div>
         <div data-arg="exported" data-montage-id="exported" class="DiskIcon-state"></div>
     </div>
     <div data-montage-id="substitution" class="DiskIcon-img">

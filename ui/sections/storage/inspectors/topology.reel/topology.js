@@ -82,7 +82,7 @@ var Topology = exports.Topology = AbstractInspector.specialize({
 
     _handleSelectedDiskChange: {
         value: function(value) {
-            if (value) {
+            if (value && value.status !== 'REMOVED') {
                 var diskId = value._disk ? value._disk.id : value.id;
                 this._routingService.navigate(this.context.path + '/disk/_/' + diskId);
             }
