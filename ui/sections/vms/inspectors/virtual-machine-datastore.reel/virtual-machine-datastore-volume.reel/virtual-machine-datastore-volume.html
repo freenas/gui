@@ -16,7 +16,8 @@
                 "label": "Path"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.path"}
+                "value": {"<->": "@owner.object.path"},
+                "classList.has('hide')": {"<-": "!@owner.isNewObject"}
             }
         }
     }
