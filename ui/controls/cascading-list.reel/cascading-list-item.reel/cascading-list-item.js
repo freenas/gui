@@ -23,11 +23,6 @@ exports.CascadingListItem = Component.specialize({
         value: null
     },
 
-    helpShown: {
-        value: false
-    },
-
-
     data: {
         get: function () {
             return this._data;
@@ -140,12 +135,6 @@ exports.CascadingListItem = Component.specialize({
             if (this._inDocument) {
                 this.cascadingList.popAtIndex(this.data.columnIndex);
             }
-        }
-    },
-
-    handleHelpButtonAction: {
-        value: function () {
-            this.helpShown = !this.helpShown;
         }
     },
 

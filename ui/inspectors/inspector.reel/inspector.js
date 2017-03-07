@@ -14,6 +14,16 @@ exports.Inspector = Component.specialize({
         value: false
     },
 
+    helpShown: {
+        value: false
+    },
+
+    handleInspectorHelpButtonAction: {
+        value: function () {
+            this.helpShown = !this.helpShown;
+        }
+    },
+
     parentCascadingListItem: {
         get: function () {
             return this._parentCascadingListItem ||

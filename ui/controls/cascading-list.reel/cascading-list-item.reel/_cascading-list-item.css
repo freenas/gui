@@ -65,30 +65,6 @@
     }
 }
 
-/* Help */
-
-.CascadingListItem-help {
-    display: none;
-    flex-direction: column;
-    height: 0;
-    background-color: color(var(--blue) a(5%));
-    border-radius: 4px;
-    transition: height .25s ease-in-out;
-
-    @nest .help-is-shown & {
-        height: 10em;
-    }
-
-    & h5 {
-        margin-top: .5em;
-    }
-}
-
-.CascadingListItem-help-message {
-    color: var(--white);
-    padding: .5em 1em;
-}
-
 .CascadingListItem-spinner {
     height: 4rem;
     margin: 2rem 0;

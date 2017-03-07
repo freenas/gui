@@ -33,6 +33,16 @@ exports.Viewer = AbstractComponentActionDelegate.specialize({
         value: false
     },
 
+    helpShown: {
+        value: false
+    },
+
+    handleViewerHelpButtonAction: {
+        value: function() {
+            this.helpShown = !this.helpShown;
+        }
+    },
+
     enterDocument: {
         value: function(isFirstTime) {
             this.super(isFirstTime);

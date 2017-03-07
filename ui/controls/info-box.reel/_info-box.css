@@ -1,0 +1,8 @@
+.InfoBox {
+    background-color: var(--primary--8);
+    /* color: var(--white); */
+}
+
+.InfoBox-title {
+    margin-top: .5rem;
+}

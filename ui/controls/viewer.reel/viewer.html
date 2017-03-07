@@ -11,7 +11,13 @@
             "bindings": {
                 "hasItems": {"<-": "@owner.object.length > 0"},
                 "classList.has('has-items')": {"<-": "@owner.hasItems"}
-            }
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
         },
         "list": {
             "prototype": "ui/controls/list.reel",
@@ -90,6 +96,26 @@
                 "element": {"#": "navigationBackButton"},
                 "value": "back"
             }
+        },
+        "viewerHelpButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "viewerHelpButton"},
+                "value": "help"
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "true"}
+            }
+        },
+        "infoBox": {
+            "prototype": "ui/controls/info-box.reel",
+            "properties": {
+                "element": {"#": "infoBox"}
+            },
+            "bindings": {
+                "message": {"<-": "'this is the infoBox message'"},
+                "isShown": {"<-": "@owner.helpShown"}
+            }
         }
     }
     </script>
@@ -103,10 +129,14 @@
                 </button>
                 <span data-montage-id="title"></span>
             </div>
+            <button data-montage-id="viewerHelpButton" class="Button--icon Button--naked g-margin-right--half">
+                <svg><use xlink:href="#i-help"/></svg>
+            </button>
             <div data-montage-id="createButton" class="Button--add g-margin-right--half">
                 <svg><use xlink:href="#i-plus"/></svg>
             </div>
         </div>
+        <div data-montage-id="infoBox"></div>
         <div data-montage-id="viewerControls" class="Viewer-controls">
             <div data-montage-id="controls"></div>
         </div>

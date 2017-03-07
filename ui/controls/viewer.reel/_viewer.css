@@ -10,6 +10,7 @@
     border-bottom: 1px solid var(--separator-color);
     background-color: var(--primary);
     display: flex;
+    align-items: center;
     flex-shrink: 0;
 
     & .Viewer-backButton {

@@ -202,3 +202,30 @@ confirmation
         }
     }
 }
+
+/* Help */
+
+/* Help */
+
+/* .Inspector-help {
+    display: none;
+    flex-direction: column;
+    height: 0;
+    background-color: color(var(--blue) a(5%));
+    border-radius: 4px;
+    transition: height .25s ease-in-out;
+
+    @nest .help-visible & {
+        display: block;
+        height: 10em;
+    }
+
+    & h5 {
+        margin-top: .5em;
+    }
+}
+
+.Inspector-help-message {
+    color: var(--white);
+    padding: .5em 1em;
+} */

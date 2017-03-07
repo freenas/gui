@@ -121,6 +121,26 @@
                 "element": {"#": "navigationBackButton"},
                 "value": "Back"
             }
+        },
+        "help": {
+            "prototype": "ui/controls/info-box.reel",
+            "properties": {
+                "element": {"#": "help"}
+            },
+            "bindings": {
+                "title": {"<-": "'Foo'"},
+                "message": {"<-": "'This is the infobox message'"},
+                "isShown": {"<-": "@owner.helpShown"}
+            }
+        },
+        "inspectorHelpButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "inspectorHelpButton"}
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "false"}
+            }
         }
     }
     </script>
@@ -134,7 +154,11 @@
             <div class="Inspector-title">
                 <span data-montage-id="title"></span>
             </div>
+            <button data-montage-id="inspectorHelpButton" class="Button--naked Button--icon">
+                <svg><use xlink:href="#i-help"/></svg>
+            </button>
         </div>
+        <div data-montage-id="help" class="Inspector-help"></div>
         <div data-montage-id="errorMessage" class="Inspector-error"></div>
         <div class="Inspector-locked">
             <div data-montage-id="lockMessage"></div>
@@ -153,3 +177,4 @@
     </div>
 </body>
 </html>
+<!-- @owner.context.object.path(@owner.userInterfaceDescriptor.helpMessage) -->

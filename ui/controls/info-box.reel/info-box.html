@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="info-box.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "scroller": {"#": "scroller"}
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "!@owner.isShown"}
+            }
+        },
+        "title": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "title"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.title"}
+            }
+        },
+        "message": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "message"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.message"}
+            }
+        },
+        "scroller": {
+            "prototype": "blue-shark/ui/scroller.reel",
+            "properties": {
+                "element": {"#": "scroller"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="InfoBox g-padding-h">
+        <h4 data-montage-id="title" class="InfoBox-title"></h4>
+        <div data-montage-id="scroller">
+            <p data-montage-id="message" class="InfoBox-message"></p>
+        </div>
+    </div>
+</body>
+</html>
