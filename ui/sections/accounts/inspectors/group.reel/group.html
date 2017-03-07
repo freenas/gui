@@ -52,6 +52,8 @@
                 "label": "Group ID",
                 "validationPath": "gid",
                 "validator": {"@": "gidValidator"},
+                "placeholder": "e.g. 1001",
+                "helpMessage": "Group.uid",
                 "errorMessage": "User ID must be between 0 and 4294967295"
             },
             "bindings": {
@@ -82,7 +84,8 @@
             "properties": {
                 "element": {"#": "nameEdit"},
                 "validationPath": "name",
-                "label": "Group Name"
+                "label": "Group Name",
+                "placeholder": "enter group name"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.name"}

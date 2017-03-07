@@ -105,7 +105,8 @@
             "properties": {
                 "element": {"#": "usernameEdit"},
                 "validationPath": "username",
-                "label": "Username"
+                "label": "Username",
+                "placeholder": "enter a username"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.username"}
@@ -140,7 +141,8 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "fullNameEdit"},
-                "label": "Display Name"
+                "label": "Display Name",
+                "placeholder": "e.g. John"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.full_name"}
@@ -174,7 +176,8 @@
             "properties": {
                 "element": {"#": "emailEdit"},
                 "label": "Email",
-                "converter": {"@": "emailConverter"}
+                "converter": {"@": "emailConverter"},
+                "placeholder": "e.g. john@ponies.com"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.email"}
