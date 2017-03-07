@@ -70,7 +70,6 @@ exports.DirectoryServices = AbstractInspector.specialize({
             }
 
             promises.push(this._sectionService.getKerberosRealmEmptyList());
-            // promises.push(this._sectionService.getKerberosKeytabEmptyList());
 
             Promise.all(promises).then(function (directoryServices) {
                 var directoryService;
@@ -90,7 +89,7 @@ exports.DirectoryServices = AbstractInspector.specialize({
 
     handleDirectoriesChange: {
         value: function(state) {
-            this.dataObjectChangeService.handleContentChange(this._directories, state);
+            this.dataObjectChangeService.handleDataChange(this._directories, state);
             this.refreshDirectories();
         }
     },
