@@ -54,17 +54,23 @@ export class VolumeRoute extends AbstractRoute {
         });
     }
 
-    public topologyDisk(diskId: string, stack: Array<any>) {
+    public topologyDisk(volumeId, diskId: string, stack: Array<any>) {
         let columnIndex = 3;
-        return this.loadObjectInColumn(
-            stack,
-            columnIndex,
-            columnIndex - 1,
-            '/disk',
-            Model.Disk,
-            this.diskRepository.listDisks(),
-            {id: diskId}
-        );
+        return Promise.all([
+            this.loadObjectInColumn(
+                stack,
+                columnIndex,
+                columnIndex - 1,
+                '/disk',
+                Model.Disk,
+                this.diskRepository.listDisks(),
+                {id: diskId}
+            ),
+            this.volumeRepository.listVolumes()
+        ]).spread((stack: Array<any>, volumes) => {
+            _.last(stack).object._volume = _.find(volumes, {id: volumeId});
+            return stack;
+        });
     }
 
     public creatorDisk(diskId: string, stack: Array<any>) {

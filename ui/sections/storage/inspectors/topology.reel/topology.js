@@ -26,12 +26,14 @@ var Topology = exports.Topology = AbstractInspector.specialize({
             this.topologyProxy = this._sectionService.getTopologyProxy(this.object);
             this.context.cascadingListItem.classList.add("CascadingListItem-Topology");
             this.availableDisksEventListener = this._eventDispatcherService.addEventListener('AvailableDisksChanged', this._handleAvailableDisksChange.bind(this));
+            this.topologyChangedListener = this._eventDispatcherService.addEventListener('VolumeTopologyChanged-' + this.object._volume.id, this.handleTopologyChanged.bind(this));
         }
     },
 
     exitDocument: {
         value: function() {
             this._eventDispatcherService.removeEventListener('availableDisksChange', this.availableDisksEventListener);
+            this._eventDispatcherService.removeEventListener('VolumeTopologyChanged-' + this.object._volume.id, this.topologyChangedListener);
             this._sectionService.clearReservedDisks();
             this.context.cascadingListItem.classList.remove("CascadingListItem-Topology");
         }
@@ -47,6 +49,26 @@ var Topology = exports.Topology = AbstractInspector.specialize({
         value: function() {
             this._sectionService.clearReservedDisks();
             this.topologyProxy = this._sectionService.getTopologyProxy(this.object);
+        }
+    },
+
+    handleTopologyChanged: {
+        value: function(state) {
+            _.forEach(this.topologyProxy, function(vdevs, section) {
+                _.forEach(vdevs, function(vdev, vdevIndex) {
+                    var stateVdev = state.get(section).get(vdevIndex);
+                    if (vdev.status) {
+                        vdev.status = stateVdev.get('status');
+                    }
+                    if (vdev.children) {
+                        _.forEach(vdev.children, function(child, childIndex) {
+                            if (child.status) {
+                                child.status = stateVdev.get('children').get(childIndex).get('status');
+                            }
+                        });
+                    }
+                });
+            });
         }
     },
 
