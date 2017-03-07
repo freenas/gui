@@ -28,8 +28,8 @@ exports.RsyncArgs = AbstractInspector.specialize({
     enterDocument: {
         value: function(isFirstTime) {
             this.super(isFirstTime);
-            if (!this.object || this.object.length !== 1) {
-                this.object = [{rsync_properties: {}}];
+            if (this.object.length !== 1) {
+                this.object.push({rsync_properties: {}});
                 this.object.__type = this.type;
             }
             this._extra = this.object[0].rsync_properties.extra;

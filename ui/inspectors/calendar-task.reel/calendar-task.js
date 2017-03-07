@@ -1,5 +1,4 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Model = require("core/model/model").Model,
     _ = require("lodash");
 
 exports.CalendarTask = AbstractInspector.specialize({
@@ -39,7 +38,9 @@ exports.CalendarTask = AbstractInspector.specialize({
             if (this.object.task) {
                 this.classList.add('type-' + this.object.task.replace('.', '_').toLowerCase());
             }
-
+            if (this.object._isNew) {
+                this.object.args = [];
+            }
         }
     },
 
