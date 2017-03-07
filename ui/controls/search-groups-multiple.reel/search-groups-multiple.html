@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="search-groups-multiple.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+         "group": {
+            "prototype": "blue-shark/ui/field-search-multiple.reel",
+            "properties": {
+                "element": {"#": "group"},
+                "controller": {"@": "owner"}
+            },
+            "bindings": {
+                "values": {"<->": "@owner.values"},
+                "entries": {"<-": "@owner.entries"},
+                "label": {"<-": "@owner.label"},
+                "disabled": {"<-": "@owner.disabled"},
+                "isLoading": {"<-": "@owner.isLoading"},
+                "initialOptions": {"<-": "@owner.initialOptions"},
+                "hasNoneButton": {"<-": "@owner.hasNoneButton"},
+                "labelPath": {"<-": "@owner.labelPath"},
+                "valuePath": {"<-": "@owner.valuePath"},
+                "validationPath": {"<-": "@owner.validationPath"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="SearchGroupsMultiple">
+        <div data-montage-id="group"></div>
+    </div>
+</body>
+</html>
