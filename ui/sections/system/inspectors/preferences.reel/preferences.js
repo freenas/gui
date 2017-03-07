@@ -80,7 +80,7 @@ exports.Preferences = AbstractInspector.specialize({
                         self.systemGeneralData = systemGeneral;
                     }),
                     this.application.systemService.getBootPoolConfig().then(function(bootPool){
-                        self.datasetOptions.push({label:"Boot Pool", value:bootPool["id"]});
+                        self.datasetOptions.push({label:"Boot Pool", value:bootPool["name"]});
                     }),
                     this._sectionService.getSystemDataset().then(function(systemDataset) {
                         self.systemDatasetData = systemDataset.pool;
