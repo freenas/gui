@@ -233,21 +233,6 @@
                 "value": {"<-": "@owner.groupOptions.filter{id == @owner.object.group}.name"}
             }
         },
-        "additionalGroupsValidator": {
-            "prototype": "./[AdditionalGroupsValidator]",
-            "bindings": {
-                "groupOptions": {"<-": "@owner.groupOptions"}
-            }
-        },
-        "additionalGroupsConverter": {
-            "prototype": "./[AdditionalGroupsConverter]",
-            "properties": {
-                "validator": {"@": "additionalGroupsValidator"}
-            },
-            "bindings": {
-                "groupOptions": {"<-": "@owner.groupOptions"}
-            }
-        },
         "groupsCondition": {
             "prototype": "montage/ui/condition.reel",
             "properties": {
@@ -265,19 +250,14 @@
             }
         },
         "groups": {
-            "prototype": "blue-shark/ui/multiple-select.reel",
+            "prototype": "ui/controls/search-groups-multiple.reel",
             "properties": {
                 "element": {"#": "groups"},
-                "inputTitle": "Add additional groups",
                 "emptyMessage": "No groups added",
-                "labelPath": "name",
-                "placeholder": "Select a group",
-                "validationPath": "groups",
-                "converter": {"@": "additionalGroupsConverter"}
+                "validationPath": "groups"
             },
             "bindings": {
-                "options": {"<-": "@owner.groupOptions.filter{id != @owner.object.group}.sorted{builtin + name}"},
-                "values": {"<->": "@owner.additionalGroups"},
+                "values": {"<->": "@owner.object.groups"},
                 "enabled": {"<-": "@groupsSection.isExpanded"}
             }
         },
