@@ -164,29 +164,14 @@
             }
         },
 
-        "stateSubstitution": {
-            "prototype": "montage/ui/substitution.reel",
-            "properties": {
-                "element": {"#": "stateSubstitution"}
-            },
-            "bindings": {
-                "switchValue": {"<-": "@owner.object.state || 'DOWN'"}
-            }
-        },
-
         "start": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
                 "element": {"#": "start"},
                 "value": "Start"
-            }
-        },
-
-        "stop": {
-            "prototype": "blue-shark/ui/button.reel",
-            "properties": {
-                "element": {"#": "stop"},
-                "value": "Stop"
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "@owner.object._vm.status.state != 'STOPPED'"}
             }
         },
 
@@ -197,18 +182,18 @@
                 "value": "Reboot"
             },
             "bindings": {
-                "disabled": {"<-": "@owner.object.state == 'DOWN'"}
+                "disabled": {"<-": "@owner.object._vm.status.state == 'STOPPED'"}
             }
         },
 
         "shutdown": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
-                "element": {"#": "shutdown"},
-                "value": "Shutdown"
+                "element": {"#": "shutdown"}
             },
             "bindings": {
-                "disabled": {"<-": "@owner.object.state == 'DOWN'"}
+                "disabled": {"<-": "@owner.object._vm.status.state == 'STOPPED'"},
+                "value": {"<-": "!!@owner.object._isShutdownRequested ? 'Power Off' : 'Shutdown'"}
             }
         },
 
@@ -219,7 +204,7 @@
                 "value": "Serial Console"
             },
             "bindings": {
-                "disabled": {"<-": "@owner.object.state == 'DOWN'"}
+                "disabled": {"<-": "@owner.object._vm.status.state == 'STOPPED'"}
             }
         },
 
@@ -241,10 +226,7 @@
     <div data-montage-id="owner" class="DockerHost">
          <div data-montage-id="inspector">
             <div class="DockerHost-actions">
-                <span data-montage-id="stateSubstitution">
-                    <div data-montage-id="start" data-arg="DOWN"></div>
-                    <div data-montage-id="stop" data-arg="UP"></div>
-                </span>
+                <div data-montage-id="start"></div>
                 <div data-montage-id="shutdown"></div>
                 <div data-montage-id="reboot"></div>
                 <div data-montage-id="serialConsole"></div>

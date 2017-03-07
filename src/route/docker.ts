@@ -13,17 +13,23 @@ import {DockerContainer} from '../model/DockerContainer';
 import {DockerHost} from '../model/DockerHost';
 import {DockerNetwork} from '../model/DockerNetwork';
 import {DockerCollection} from '../model/DockerCollection';
+import {VmRepository} from '../repository/vm-repository';
+import {Vm} from '../model/Vm';
+
 
 export class DockerRoute extends AbstractRoute {
     private static instance: DockerRoute;
 
-    private constructor(private dockerHostRepository: DockerHostRepository,
-                        private dockerImageRepository: DockerImageRepository,
-                        private dockerCollectionRepository: DockerCollectionRepository,
-                        private dockerContainerRepository: DockerContainerRepository,
-                        private dockerNetworkRepository: DockerNetworkRepository,
-                        private dockerContainerLogsRepository: DockerContainerLogsRepository,
-                        private dockerImageReadmeRepository: DockerImageReadmeRepository) {
+    private constructor(
+        private dockerHostRepository: DockerHostRepository,
+        private dockerImageRepository: DockerImageRepository,
+        private dockerCollectionRepository: DockerCollectionRepository,
+        private dockerContainerRepository: DockerContainerRepository,
+        private dockerNetworkRepository: DockerNetworkRepository,
+        private dockerContainerLogsRepository: DockerContainerLogsRepository,
+        private dockerImageReadmeRepository: DockerImageReadmeRepository,
+        private vmRepository: VmRepository
+    ) {
         super();
     }
 
@@ -36,7 +42,8 @@ export class DockerRoute extends AbstractRoute {
                 DockerContainerRepository.getInstance(),
                 DockerNetworkRepository.getInstance(),
                 DockerContainerLogsRepository.getInstance(),
-                DockerImageReadmeRepository.getInstance()
+                DockerImageReadmeRepository.getInstance(),
+                VmRepository.getInstance()
             );
         }
         return DockerRoute.instance;
@@ -79,9 +86,11 @@ export class DockerRoute extends AbstractRoute {
             };
         return Promise.all([
             this.dockerHostRepository.listDockerHosts(),
+            this.vmRepository.listVms(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread((hosts: any, uiDescriptor) => {
+        ]).spread((hosts: any, vms: Array<Vm>, uiDescriptor) => {
             context.object = _.find(hosts, {id: hostId});
+            context.object._vm = _.find(vms, {id: hostId});
             context.userInterfaceDescriptor = uiDescriptor;
 
             return this.updateStackWithContext(stack, context);

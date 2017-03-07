@@ -369,25 +369,19 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
     },
 
 
-    startDockerHost: {
+    startVm: {
         value: function(dockerHost) {
             return this._vmRepository.startVm(dockerHost);
         }
     },
 
-    stopDockerHost: {
-        value: function(dockerHost) {
-            return this._vmRepository.stopVm(dockerHost);
+    stopVm: {
+        value: function(dockerHost, isKill) {
+            return this._vmRepository.stopVm(dockerHost, isKill);
         }
     },
 
-    killDockerHost: {
-        value: function(dockerHost) {
-            return this._vmRepository.stopVm(dockerHost, true);
-        }
-    },
-
-    rebootDockerHost: {
+    rebootVm: {
         value: function(dockerHost) {
             return this._vmRepository.rebootVm(dockerHost);
         }
