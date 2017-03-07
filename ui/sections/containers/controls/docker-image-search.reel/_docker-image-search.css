@@ -4,19 +4,29 @@
 
 .DockerImageSearch-table .Table-row > div:nth-child(1),
 .DockerImageSearch-table .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(1) {
-    max-width: 9rem;
+    max-width: 11rem;
 }
 
 .DockerImageSearch-table .Table-row > div:nth-child(2),
 .DockerImageSearch-table .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(2) {
-    min-width: 13em;
+    min-width: 15em;
 }
 
 .DockerImageSearch-table .Table-row > div:nth-child(2) .Table-cell { word-break: initial; }
 
 .DockerImageSearch-table .Table-row > div:nth-child(3),
 .DockerImageSearch-table .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(3) {
-    max-width: 5em;
+    max-width: 6em;
+}
+
+.DockerImageSearch-table .Table-row > div:nth-child(4),
+.DockerImageSearch-table .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(4) {
+    max-width: 6em;
+}
+
+.DockerImageSearch-table .Table-row > div:nth-child(5),
+.DockerImageSearch-table .TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(5) {
+    max-width: 6em;
 }
 
 .DockerImageSearch-message {
