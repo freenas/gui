@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="search-users-multiple.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+         "users": {
+            "prototype": "blue-shark/ui/field-search-multiple.reel",
+            "properties": {
+                "element": {"#": "users"},
+                "controller": {"@": "owner"}
+            },
+            "bindings": {
+                "values": {"<->": "@owner.values"},
+                "entries": {"<-": "@owner.entries"},
+                "label": {"<-": "@owner.label"},
+                "disabled": {"<-": "@owner.disabled"},
+                "isLoading": {"<-": "@owner.isLoading"},
+                "initialOptions": {"<-": "@owner.initialOptions"},
+                "hasNoneButton": {"<-": "@owner.hasNoneButton"},
+                "labelPath": {"<-": "@owner.labelPath"},
+                "valuePath": {"<-": "@owner.valuePath"},
+                "validationPath": {"<-": "@owner.validationPath"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="SearchUsersMultiple">
+        <div data-montage-id="users"></div>
+    </div>
+</body>
+</html>
