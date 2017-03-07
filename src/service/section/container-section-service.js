@@ -184,7 +184,7 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
         value: function(guiVolumes) {
             return _.map(guiVolumes, function(volume) {
                 return {
-                    host_path: volume._source,
+                    host_path: volume._source || volume.source,
                     container_path: volume.target,
                     readonly: !!volume.readonly
                 };
