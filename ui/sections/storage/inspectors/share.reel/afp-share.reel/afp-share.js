@@ -2,9 +2,9 @@ var AbstractShareInspector = require("../abstract-share-inspector").AbstractShar
     AccountService = require("core/service/account-service").AccountService,
     Model = require("core/model").Model;
 
- var SearchController = function SearchController(service, model) {
+ var SearchController = function SearchController(model) {
     this.service = AccountService.getInstance();
-    this.model = model
+    this.model = model;
  };
 
  SearchController.prototype.search = function (value) {
@@ -33,24 +33,24 @@ exports.AfpShare = AbstractShareInspector.specialize({
                 this.groupsSearchController = new SearchController(Model.Group);
                 this.usersSearchController = new SearchController(Model.User);
                 this.accountService = AccountService.getInstance();
-
-                this.isLoading = true;
-
-                Promise.all([
-                    this.accountService.listLocalUsers(),
-                    this.accountService.listLocalGroups()
-                ]).spread(function (users, groups) {
-                    self.initialUserOptions = users.map(function (user) {
-                        return user.username;
-                    });
-
-                    self.initialGroupOptions = groups.map(function (group) {
-                        return group.name;
-                    });
-                }).finally(function () {
-                    self.isLoading = false;
-                });
             }
+
+            this.isLoading = true;
+
+            Promise.all([
+                this.accountService.listLocalUsers(),
+                this.accountService.listLocalGroups()
+            ]).spread(function (users, groups) {
+                self.initialUserOptions = users.map(function (user) {
+                    return user.username;
+                });
+
+                self.initialGroupOptions = groups.map(function (group) {
+                    return group.name;
+                });
+            }).finally(function () {
+                self.isLoading = false;
+            });
         }
     }
 
