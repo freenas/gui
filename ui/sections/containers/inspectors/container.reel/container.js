@@ -29,7 +29,7 @@ exports.Container = AbstractInspector.specialize({
                 this.object._volumes = this._sectionService.getDisplayVolumeObjects(this.object.volumes);
             }
             this.object._environments = this.object.environment ? _.map(this.object.environment, function(environment) {
-                var parts = environment.match(/^(.+)=(.+)$/);
+                var parts = environment.match(/^(.+)=(.*)$/);
                 return { id: parts[1], value: parts[2] };
             }) : [];
             if (isFirstTime) {
