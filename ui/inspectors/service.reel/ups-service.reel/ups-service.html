@@ -159,17 +159,6 @@
                 "value": {"<->": "@owner.object.monitor_password"}
             }
         },
-        "auxiliary_users": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
-            "properties": {
-                "element": {"#": "auxiliary_users"},
-                "label": "Auxiliary Users"
-            },
-            "bindings": {
-                "value": {"<->": "@owner.object.auxiliary_users"},
-                "classList.has('hide')": {"<-": "@owner.object.mode=='SLAVE'"}
-            }
-        },
         "allow_remote_connections": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -213,7 +202,6 @@
         <div data-montage-id="description"></div>
         <div data-montage-id="shutdown_mode"></div>
         <div data-montage-id="shutdown_timer"></div>
-        <div data-montage-id="auxiliary_users"></div>
         <div data-montage-id="allow_remote_connections"></div>
         <div data-montage-id="monitor_user"></div>
         <div data-montage-id="monitor_password"></div>
