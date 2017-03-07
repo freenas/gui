@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "listeners": [
+                {
+                    "listener": {"@": "owner"},
+                    "type": "action"
+                }
+            ]
+        },
+
+        "name": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "name"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.name"}
+            }
+        },
+
+        "description": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "description"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.description"}
+            }
+        },
+
+        "version": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "version"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.version"}
+            }
+        },
+
+        "star_count": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "star_count"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.star_count"}
+            }
+        },
+
+        "readme": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "readme"},
+                "value": "Readme"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="TableRowImage Table-cells">
+        <div><div data-montage-id="name"></div></div>
+        <div><div data-montage-id="description"></div></div>
+        <div><div data-montage-id="version"></div></div>
+        <div><div data-montage-id="star_count"></div></div>
+        <div><button data-montage-id="readme" class="Button--icon-after"><svg><use xlink:href="#i-arrow"/></svg></button></div>
+    </div>
+</body>
+</html>
