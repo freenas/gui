@@ -24,10 +24,6 @@
         border-color: transparent;
     }
 
-    &:last-child {
-        border-bottom: none;
-    }
-
     & + .ListItem,
     &:first-child {
         border-top-color: transparent;

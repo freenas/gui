@@ -23,3 +23,7 @@
     border-top-color: transparent;
 }
 
+.InspectorOption:last-child .ListItem {
+    border-bottom: none;
+}
+
