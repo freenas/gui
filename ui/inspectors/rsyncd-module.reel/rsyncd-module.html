@@ -164,18 +164,7 @@
             "bindings": {
                 "values": {"<->": "@owner.object.hosts_deny"}
             }
-        },
-        "auxiliary": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
-            "properties": {
-                "element": {"#": "auxiliary"},
-                "label": "Auxiliary Parameters"
-            },
-            "bindings": {
-                "value": {"<->": "@owner.object.auxiliary"}
-            }
         }
-
     }
     </script>
 </head>
@@ -191,7 +180,6 @@
             <div data-montage-id="group"></div>
             <div data-montage-id="hosts_allow"></div>
             <div data-montage-id="hosts_deny"></div>
-            <div data-montage-id="auxiliary"></div>
         </div>
     </div>
 </body>

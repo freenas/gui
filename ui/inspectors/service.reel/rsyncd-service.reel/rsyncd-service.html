@@ -43,16 +43,6 @@
             "bindings": {
                 "value": {"<->": "@owner.object.port"}
             }
-        },
-        "auxiliary": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
-            "properties": {
-                "element": {"#": "auxiliary"},
-                "label": "Auxiliary Parameters"
-            },
-            "bindings": {
-                "value": {"<->": "@owner.object.auxiliary"}
-            }
         }
     }
     </script>
@@ -60,7 +50,6 @@
 <body>
     <div data-montage-id="owner" class="RsyncdService">
         <div data-montage-id="port"></div>
-        <div data-montage-id="auxiliary"></div>
         <div data-montage-id="rsyncdModules"></div>
     </div>
 </body>
