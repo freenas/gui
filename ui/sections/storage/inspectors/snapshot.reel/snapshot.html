@@ -54,7 +54,8 @@
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
-                "extraDeleteFlags": {"<-": "@owner.extraDeleteFlags"}
+                "extraDeleteFlags": {"<-": "@owner.extraDeleteFlags"},
+                "isSaveDisabled": {"<-": "!@owner.object.dataset"}
             }
         },
         "name": {
@@ -77,13 +78,14 @@
                 "switchValue": {"<-": "@owner.pathDisplayMode"}
             }
         },
-        "datasetSelector": {
+        "dataset": {
             "prototype": "ui/controls/field-treeview.reel",
             "properties": {
                 "element": {"#": "datasetSelector"},
                 "controller": {"@": "datasetTreeController"},
                 "label": "Dataset",
-                "allowPathInput": true
+                "allowPathInput": true,
+                "isMandatory": true
             },
             "bindings": {
                 "selectedPath": {"<->": "@owner.object.dataset"}
