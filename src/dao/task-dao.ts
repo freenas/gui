@@ -11,5 +11,9 @@ export class TaskDao extends AbstractDao<Task> {
     public submit(name: string, args = []): Promise<any> {
         return this.middlewareClient.submitTask(name, args);
     }
+
+    public abort(taskId: string): Promise<any> {
+        return this.middlewareClient.callRpcMethod('task.abort', [taskId]);
+    }
 }
 

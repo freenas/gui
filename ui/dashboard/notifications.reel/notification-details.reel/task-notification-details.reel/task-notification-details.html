@@ -107,6 +107,16 @@
             "bindings": {
                 "classList.has('hide')": {"<-": "@owner.object.state != 'FAILED'"}
             }
+        },
+        "cancelButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "cancelButton"},
+                "value": "Cancel"
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "@owner.object.state != 'WAITING'"}
+            }
         }
     }
     </script>
@@ -116,6 +126,7 @@
         <header>
             <div data-montage-id="jobId" class="Notification-details-title"></div>
             <button data-montage-id="retryButton" class="Button--primary Button--small"></button>
+            <button data-montage-id="cancelButton" class="Button--small"></button>
         </header>
         <main>
             <h4 data-montage-id="descriptionLabel"></h4>
