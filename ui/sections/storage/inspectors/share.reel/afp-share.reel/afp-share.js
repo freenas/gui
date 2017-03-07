@@ -27,9 +27,9 @@ exports.AfpShare = AbstractShareInspector.specialize({
 
     enterDocument: {
         value: function (isFirstTime) {
-            if (isFirstTime) {
-                var self = this;
+            var self = this;
 
+            if (isFirstTime) {
                 this.groupsSearchController = new SearchController(Model.Group);
                 this.usersSearchController = new SearchController(Model.User);
                 this.accountService = AccountService.getInstance();
