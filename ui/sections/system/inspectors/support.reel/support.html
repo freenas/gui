@@ -21,7 +21,8 @@
                 "validationController": {"@": "validationController"},
                 "canRevert": true,
                 "canSave": true,
-                "controller": {"@": "owner"}
+                "controller": {"@": "owner"},
+                "footerDoneLabel": "Submit"
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
@@ -33,7 +34,8 @@
             "properties": {
                 "element": {"#": "username"},
                 "label": "Username",
-                "isMandatory": true
+                "isMandatory": true,
+                "placeholder": "account username"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.username"}
@@ -44,7 +46,8 @@
             "properties": {
                 "element": {"#": "password"},
                 "label": "Password",
-                "isMandatory": true
+                "isMandatory": true,
+                "placeholder": "account password"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.password"}
@@ -89,7 +92,8 @@
             "properties": {
                 "element": {"#": "subject"},
                 "label": "Subject",
-                "isMandatory": true
+                "isMandatory": true,
+                "placeholder": "e.g. Docker networks are totally borked"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.subject"}
@@ -101,17 +105,18 @@
                 "element": {"#": "description"},
                 "validationPath": "description",
                 "label": "Description",
-                "isMandatory": true
+                "isMandatory": true,
+                "placeholder": "enter a detailed description of your issue"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.description"}
             }
         },
-        "supportHeader": {
-            "prototype": "blue-shark/ui/text.reel",
+        "title": {
+            "prototype": "ui/controls/inspector-section-title.reel",
             "properties": {
-                "element": {"#": "supportHeader"},
-                "value": "<p>Before filing a bug report or feature request, search <a href=\"http://bugs.freenas.org\" target=\"_blank\">http://bugs.freenas.org</a> to ensure the issue has not already been reported. If it has, add a comment to the existing issue instead of creating a new one. For enterprise-grade storage solutions and support, please visit <a href=\"http://www.ixsystems.com/storage/\" target=\"_blank\">http://www.ixsystems.com/storage/</a>.</p><p>If you do not have an account, please <a href=\"https://bugs.freenas.org/account/register\" target=\"_blank\">register</a>.</p>"
+                "element": {"#": "title"},
+                "value": "Submit a Ticket"
             }
         }
     }
@@ -120,7 +125,10 @@
 <body>
     <div data-montage-id="owner" class="Support">
         <div data-montage-id="inspector">
-            <div data-montage-id="supportHeader" class="Support-header"></div>
+            <div data-montage-id="supportHeader" class="Support-header">
+                <p>Before filing a bug report or feature request, search <a href=\"http://bugs.freenas.org\" target=\"_blank\">http://bugs.freenas.org</a> to ensure the issue has not already been reported. If it has, add a comment to the existing issue instead of creating a new one. For enterprise-grade storage solutions and support, please visit <a href=\"http://www.ixsystems.com/storage/\" target=\"_blank\">http://www.ixsystems.com/storage/</a>.</p><p>If you do not have an account, please <a href=\"https://bugs.freenas.org/account/register\" target=\"_blank\">register</a>.</p>
+            </div>
+            <div data-montage-id="title"></div>
             <div data-montage-id="username"></div>
             <div data-montage-id="password"></div>
             <div data-montage-id="type"></div>
