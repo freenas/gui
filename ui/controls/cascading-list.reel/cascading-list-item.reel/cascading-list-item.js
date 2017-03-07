@@ -36,7 +36,7 @@ exports.CascadingListItem = Component.specialize({
                         userInterfaceDescriptor = data.userInterfaceDescriptor,
                         object = this.object = data.object;
                     this._removeObjectDeletedListener();
-                    if (ModelEventChange[data.objectType] && data.object) {
+                    if (data.object && ModelEventChange[data.objectType] && _.isFunction(ModelEventChange[data.objectType].remove)) {
                         this._objectDeletedListener = this.eventDispatcherService.addEventListener(ModelEventChange[data.objectType].remove(data.object.id), this._handleObjectDeleted.bind(this))
                     }
 
@@ -153,7 +153,7 @@ exports.CascadingListItem = Component.specialize({
 
     _removeObjectDeletedListener: {
         value: function () {
-            if (this._objectDeletedListener && this._data && this._data.object) {
+            if (this._objectDeletedListener && this._data && this._data.object && ModelEventChange[this._data.objectType] && _.isFunction(ModelEventChange[this._data.objectType].remove)) {
                 this.eventDispatcherService.removeEventListener(ModelEventChange[this._data.objectType].remove(this._data.object.id), this._objectDeletedListener);
             }
         }
