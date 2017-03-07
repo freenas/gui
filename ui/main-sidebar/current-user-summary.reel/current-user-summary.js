@@ -116,7 +116,7 @@ exports.CurrentUserSummary = Component.specialize({
             if (!this._remoteTimePromise) {
                 if (++this._localUpdatesCount % (this._intervalTimeInSec * this._updatePerSec) === 0) {
                     this._remoteTimePromise = this.systemService.getTime().then(function(time) {
-                        self.now = new Date(time.system_time.$date);
+                        self.now = time.system_time.$date;
                         self._remoteTimePromise = null;
                         self._localUpdatesCount = 0;
                     });
