@@ -138,9 +138,10 @@ exports.ChartLive = Component.specialize({
 
     _getSnapshotDatasourceProperties: {
         value: function(source, metric, prefix, suffix) {
-            var suffixSafe = suffix || 'value',
-                path = source.children[metric].path.join('.') + '.' + suffixSafe,
-                key  = this.getChartKey(source, metric, suffixSafe) ||
+            if (source.children[metric]) {
+                var suffixSafe = suffix || 'value',
+                    path = source.children[metric].path.join('.') + '.' + suffixSafe,
+                    key  = this.getChartKey(source, metric, suffixSafe) ||
                         [
                             metric,
                             suffix || ''
@@ -148,16 +149,17 @@ exports.ChartLive = Component.specialize({
                             .filter(function(x) { return x.length; })
                             .join('.')
                             .replace(prefix, ''),
-                event = path + '.pulse',
-                label = this.getChartLabel(source, metric, suffixSafe) ||
+                    event = path + '.pulse',
+                    label = this.getChartLabel(source, metric, suffixSafe) ||
                         (this.removeSourcePrefix ? source.label.replace(this.removeSourcePrefix, "") : source.label);
 
-            return {
-                path:  path,
-                key:   key,
-                event: event,
-                label: label
-            };
+                return {
+                    path:  path,
+                    key:   key,
+                    event: event,
+                    label: label
+                };
+            }
         }
     },
 
@@ -197,7 +199,7 @@ exports.ChartLive = Component.specialize({
                 return self._statisticsService.subscribeToDatasourcesUpdates(allEvents, self).then(function() {
                     for (i = 0; i < datasourceProperties.length; i++) {
                         property = datasourceProperties[i];
-                        // FIXME: backend bridge _addEventListeners should return 
+                        // FIXME: backend bridge _addEventListeners should return
                         // event & eventType key-value pairs, rather than an array of eventTypes
                         eventType = 'statd.' + property.event;
                         self._eventToKey[eventType] = property.key;
@@ -227,7 +229,7 @@ exports.ChartLive = Component.specialize({
                 return self._statisticsService.subscribeToDatasourcesUpdates(allEvents, self).then(function() {
                     for (i = 0; i < datasourceProperties.length; i++) {
                         property = datasourceProperties[i];
-                        // FIXME: backend bridge _addEventListeners should return 
+                        // FIXME: backend bridge _addEventListeners should return
                         // event & eventType key-value pairs, rather than an array of eventTypes
                         eventType = 'statd.' + property.event;
                         self._eventToKey[eventType] = property.key;
