@@ -54,21 +54,23 @@ var Topology = exports.Topology = AbstractInspector.specialize({
 
     handleTopologyChanged: {
         value: function(state) {
-            _.forEach(this.topologyProxy, function(vdevs, section) {
-                _.forEach(vdevs, function(vdev, vdevIndex) {
-                    var stateVdev = state.get(section).get(vdevIndex);
-                    if (vdev.status) {
-                        vdev.status = stateVdev.get('status');
-                    }
-                    if (vdev.children) {
-                        _.forEach(vdev.children, function(child, childIndex) {
-                            if (child.status) {
-                                child.status = stateVdev.get('children').get(childIndex).get('status');
-                            }
-                        });
-                    }
+            if (state) {
+                _.forEach(this.topologyProxy, function(vdevs, section) {
+                    _.forEach(vdevs, function(vdev, vdevIndex) {
+                        var stateVdev = state.get(section).get(vdevIndex);
+                        if (vdev.status) {
+                            vdev.status = stateVdev.get('status');
+                        }
+                        if (vdev.children) {
+                            _.forEach(vdev.children, function(child, childIndex) {
+                                if (child.status) {
+                                    child.status = stateVdev.get('children').get(childIndex).get('status');
+                                }
+                            });
+                        }
+                    });
                 });
-            });
+            }
         }
     },
 
