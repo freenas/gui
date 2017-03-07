@@ -29,15 +29,15 @@
     &:after {
         position: absolute;
         content: '';
-        width: 1em;
+        width: 1.5rem;
         top: 0;
         height: 100%;
-        background-image: linear-gradient(90deg, color(var(--black) a(100%)), color(var(--black) a(0%)));
+        background-image: linear-gradient(90deg, color(var(--primary--9) a(100%)), color(var(--primary--9) a(0%)));
     }
 
     &:after {
         right: 0;
-        background-image: linear-gradient(90deg, color(var(--black) a(0%)), color(var(--black) a(100%)));
+        background-image: linear-gradient(90deg, color(var(--primary--9) a(0%)), color(var(--primary--9) a(100%)));
     }
 }
 

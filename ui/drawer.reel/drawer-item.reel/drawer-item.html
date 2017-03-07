@@ -7,6 +7,9 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('is-bar-graph')": {"<-": "@title.value == 'Composite Temperature' || @title.value == 'CPU temperature' || @title.value == 'Disk I/O' || @title.value == 'Disk Temperature'"}
             }
         },
         "title": {
@@ -17,21 +20,6 @@
             "bindings": {
                 "value": {"<-": "@owner.object.title"}
             }
-        },
-        "description": {
-            "prototype": "blue-shark/ui/text.reel",
-            "properties": {
-                "element": {"#": "description"}
-            },
-            "bindings": {
-                "value": {"<-": "@owner.object.description"}
-            }
-        },
-        "infoToggle": {
-            "prototype": "montage/ui/button.reel",
-            "properties": {
-                "element": {"#": "infoToggle"}
-            }
         }
     }
     </script>
@@ -40,19 +28,9 @@
     <div data-montage-id="owner" class="DrawerItem">
         <header>
             <div data-montage-id="title" class="DrawerItem-title"></div>
-            <button data-montage-id="infoToggle" class="DrawerItem-infoToggle">
-                <svg><use xlink:href="#i-info"/></svg>
-            </button>
         </header>
         <main>
-            <div class="DrawerItem-content">
-                <div class="DrawerItem-front">
-                    <img src="../../../assets/images/graph-placeholder.jpg" alt="Graph Image placeholder">
-                </div>
-                <div class="DrawerItem-back">
-                    <div data-montage-id="description" class="DrawerItem-description"></div>
-                </div>
-            </div>
+            <div class="DrawerItem-content"></div>
         </main>
     </div>
 </body>
