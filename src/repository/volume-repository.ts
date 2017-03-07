@@ -58,7 +58,7 @@ export class VolumeRepository extends AbstractRepository<Volume> {
 
     public static readonly TOPOLOGY_KEYS = ['data', 'cache', 'log', 'spare'];
     public static readonly INHERITED = 'INHERITED';
-    private static readonly DEFAULT_VOLBLOCKSIZE = 512;
+    private static readonly DEFAULT_VOLBLOCKSIZE = 16384;
     private readonly DEFAULT_SOURCE_SETTING = {source: VolumeRepository.INHERITED};
     private readonly DEFAULT_VOLBLOCKSIZE_SETTING = {parsed: VolumeRepository.DEFAULT_VOLBLOCKSIZE};
 
