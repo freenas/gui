@@ -24,4 +24,9 @@ export class TaskService {
     public getTask(taskId: number): any {
         return this.taskRepository.getTask(taskId);
     }
+
+    public abortTask(taskId: string): Promise<any> {
+        return this.taskRepository.abortTask(taskId);
+    }
+
 }

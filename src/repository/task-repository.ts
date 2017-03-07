@@ -38,4 +38,8 @@ export class TaskRepository extends AbstractModelRepository<Task> {
     public submitTask(name: string, args?: Array<any>): Promise<any> {
         return this.taskDao.submit(name, args);
     }
+
+    public abortTask(taskId: string): Promise<any> {
+        return this.taskDao.abort(taskId);
+    }
 }
