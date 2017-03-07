@@ -58,6 +58,8 @@
                 "canDelete": {"<-": "!!@owner.canDelete && @owner.object.id.defined()"},
                 "canRevert": {"<-": "!!@owner.canRevert"},
                 "canSave": {"<-": "!!@owner.canSave"},
+                "footerDoneLabel": {"<-": "@owner.footerDoneLabel"},
+                "footerSaveLabel": {"<-": "@owner.footerSaveLabel"},
                 "isHidden": {"<-": "!!@owner.isFooterHidden && !canSave && !canRevert && !canDelete"},
                 "isSaveDisabled": {"<-": "@owner.isSaveDisabled || @owner.validationController.hasMissingProperties"}
             },

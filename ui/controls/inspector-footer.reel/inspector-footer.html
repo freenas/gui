@@ -26,21 +26,21 @@
         "revert": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
-                "element": {"#": "revert"},
-                "value": "Revert"
+                "element": {"#": "revert"}
             },
             "bindings": {
-                "classList.has('is-visible')": {"<-": "@owner.canRevert"}
+                "classList.has('is-visible')": {"<-": "@owner.canRevert"},
+                "value": {"<-": "!!@owner.footerCancelLabel ? @owner.footerCancelLabel : 'Revert'"}
             }
         },
         "save": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
-                "element": {"#": "save"},
-                "value": "Save"
+                "element": {"#": "save"}
             },
             "bindings": {
                 "disabled": {"<-": "@owner.isSaveDisabled"},
+                "value": {"<-": "!!@owner.footerDoneLabel ? @owner.footerDoneLabel : 'Save'"},
                 "classList.has('is-visible')": {"<-": "@owner.canSave"}
             }
         }
