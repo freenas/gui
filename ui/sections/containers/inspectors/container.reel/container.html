@@ -193,10 +193,10 @@
         "ports": {
             "prototype": "ui/sections/containers/controls/table-port.reel",
             "properties": {
-                "element": {"#": "ports"}
+                "element": {"#": "ports"},
+                "inspector": {"@": "inspector"}
             },
             "bindings": {
-                "inspector": {"<-": "@inspector"},
                 "values": {"<-": "@owner.object.ports"},
                 "disabled": {"<-": "@owner.object._selectedImage.presets.immutable.has('ports')"}
             }
@@ -205,10 +205,10 @@
         "volumes": {
             "prototype": "ui/sections/containers/controls/table-volume.reel",
             "properties": {
-                "element": {"#": "volumes"}
+                "element": {"#": "volumes"},
+                "inspector": {"@": "inspector"}
             },
             "bindings": {
-                "inspector": {"<-": "@inspector"},
                 "values": {"<-": "@owner.object._volumes"}
             }
         },
