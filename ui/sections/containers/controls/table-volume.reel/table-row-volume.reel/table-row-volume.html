@@ -33,7 +33,8 @@
             },
             "bindings": {
                 "disabled": {"<-": "@owner.object.isLocked"},
-                "selectedValue": {"<->": "@owner.object.origin"}
+                "selectedValue": {"<->": "@owner.object.origin"},
+                "isReadOnly": {"<-": "!@owner.isNew"}
             }
         },
 
