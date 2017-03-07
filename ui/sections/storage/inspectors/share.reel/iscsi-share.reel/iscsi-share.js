@@ -1,6 +1,6 @@
 var AbstractShareInspector = require("../abstract-share-inspector").AbstractShareInspector,
     ShareIscsiRpm = require("core/model/enumerations/share-iscsi-rpm").ShareIscsiRpm,
-    ShareIscsiBlocksize = require("core/model/enumerations/share-iscsi-blocksize").ShareIscsiBlocksize,
+    ShareIscsiBlocksize = require("core/model/enumerations/ShareIscsiBlocksize").ShareIscsiBlocksize,
     Units = require('core/Units'),
     _ = require("lodash");
 
@@ -25,7 +25,7 @@ exports.IscsiShare = AbstractShareInspector.specialize({
 
     iscsiBlocksize: {
         get: function () {
-            return this._iscsiBlocksize || (this._iscsiBlocksize = _.map(ShareIscsiBlocksize.members, function(value) {
+            return this._iscsiBlocksize || (this._iscsiBlocksize = _.map(ShareIscsiBlocksize, function(value) {
                 return {
                     value: +value,
                     label: value
