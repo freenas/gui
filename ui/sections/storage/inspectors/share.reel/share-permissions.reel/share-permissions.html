@@ -30,7 +30,8 @@
             "properties": {
                 "element": {"#": "ownerUser"},
                 "label": "Owner user",
-                "valuePath": "username"
+                "valuePath": "username",
+                "hasNoneButton": false
             },
             "bindings": {
                 "value": {"<->": "@owner.object.permissions.user"}
@@ -41,7 +42,8 @@
             "properties": {
                 "element": {"#": "ownerGroup"},
                 "label": "Owner group",
-                "valuePath": "name"
+                "valuePath": "name",
+                "hasNoneButton": false
             },
             "bindings": {
                 "value": {"<->": "@owner.object.permissions.group"}
