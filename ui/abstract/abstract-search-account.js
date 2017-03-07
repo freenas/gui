@@ -94,7 +94,7 @@ exports.AbstractSearchAccount = Component.specialize({
 
     _findLabelForValue: {
         value: function () {
-            if (typeof this.loadInitialOptions === 'function') {
+            if (typeof this.findLabelForValue === 'function') {
                 var criteria = {},
                     self = this;
 
