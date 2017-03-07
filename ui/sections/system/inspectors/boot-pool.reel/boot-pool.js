@@ -34,19 +34,12 @@ exports.BootPool = AbstractInspector.specialize({
        value: function() {
             this._eventDispatcherService.removeEventListener(ModelEventName.BootEnvironment.contentChange, this.bootEnvironmentListener);
             this._eventDispatcherService.removeEventListener(ModelEventName.BootPool.contentChange, this.bootPoolListener);
-            this._eventDispatcherService.removeEventListener('BootDisksChanged', this.bootDisksListener);
             this._eventDispatcherService.removeEventListener('AvailableDisksChanged', this.availableDisksListener);
        }
     },
 
     _handleAvailableDisksChange: {
-        value: function(state) {
-            this._availableDisks = state.valueSeq().toJS();
-        }
-    },
-
-    _handleBootDisksChange: {
-        value: function(state) {
+        value: function (state) {
             this._extractAvailableDisks(state.valueSeq().toJS());
         }
     },
@@ -67,7 +60,6 @@ exports.BootPool = AbstractInspector.specialize({
         value: function() {
             this.bootEnvironmentListener = this._eventDispatcherService.addEventListener(ModelEventName.BootEnvironment.contentChange, this._handleBootEnvironmentChange.bind(this));
             this.bootVolumeListener = this._eventDispatcherService.addEventListener(ModelEventName.BootPool.contentChange, this._handleBootPoolChange.bind(this));
-            this.bootDisksListener = this._eventDispatcherService.addEventListener('BootDisksChanged', this._handleBootDisksChange.bind(this));
             this.availableDisksListener = this._eventDispatcherService.addEventListener('AvailableDisksChanged', this._handleAvailableDisksChange.bind(this));
         }
     },
