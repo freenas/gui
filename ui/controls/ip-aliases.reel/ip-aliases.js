@@ -1,6 +1,12 @@
 var Component = require('montage/ui/component').Component;
 
 exports.IpAliases = Component.specialize({
+    prepareForActivationEvents: {
+        value: function () {
+            this.addEventListener("action", this);
+        }
+    },
+
     tableWillUseNewEntry: {
         value: function() {
             return {
@@ -9,5 +15,10 @@ exports.IpAliases = Component.specialize({
                 netmask: null
             };
         }
-    }
+    },
+    handleAddButtonAction: {
+        value: function () {
+            this.table.showNewEntryRow();
+        }
+    },
 });

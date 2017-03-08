@@ -44,20 +44,25 @@ var Converter = require("montage/core/converter/converter").Converter,
 
     revert: {
         value: function (value) {
-            if (typeof value !== 'string' || !this.validator.validate(value)) {
+            try {
+                if (typeof value !== 'string' || !this.validator.validate(value)) {
+                    return value;
+                }
+
+                var result = 0;
+                var d = value.split('.');
+
+                for (var i = 0; i < d.length; i++) {
+                    // Sum up the number of occurrences of '1's
+                    // in the binary representations of each decimal part
+                    result += ((+d[i]).toString(2).match(/1/g) || []).length;
+                }
+
+                return result;
+            }
+            catch (e) {
                 return value;
             }
-
-            var result = 0;
-            var d = value.split('.');
-
-            for (var i = 0; i < d.length; i++) {
-                // Sum up the number of occurrences of '1's
-                // in the binary representations of each decimal part
-                result += ((+d[i]).toString(2).match(/1/g) || []).length;
-            }
-
-            return result;
         }
     },
 

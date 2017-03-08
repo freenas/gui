@@ -25,13 +25,17 @@ exports.DockerHost = AbstractInspector.specialize({
             }
 
             this._sectionService.initializeDockerHost(this.object);
-            this.vmChangeListener = this.eventDispatcherService.addEventListener(Vm.getEventNames().change(this.object._vm.id), this.handleVmChange.bind(this));
+            if (this.object && this.object._vm) {
+                this.vmChangeListener = this.eventDispatcherService.addEventListener(Vm.getEventNames().change(this.object._vm.id), this.handleVmChange.bind(this));
+            }
         }
     },
 
     exitDocument: {
         value: function() {
-            this.eventDispatcherService.removeEventListener(Vm.getEventNames().change(this.object._vm.id), this.vmChangeListener);
+            if (this.object && this.object._vm) {
+                this.eventDispatcherService.removeEventListener(Vm.getEventNames().change(this.object._vm.id), this.vmChangeListener);
+            }
         }
     },
 

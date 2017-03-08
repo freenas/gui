@@ -6,7 +6,8 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "table": {"@": "table"}
             },
             "bindings": {
                 "inspector.isSaveDisabled": {"<-": "@table.isAddingNewEntry"}
@@ -19,6 +20,8 @@
                 "element": {"#": "table"},
                 "delegate": {"@": "owner"},
                 "label": "Volumes",
+                "emptyMessage": "No added volumes",
+                "emptyActionLabel": "Add volume",
                 "columns":  [
                     {
                         "value": "type"

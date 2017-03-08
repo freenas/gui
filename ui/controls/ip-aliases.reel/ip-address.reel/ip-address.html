@@ -8,9 +8,26 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
+                "errors": {},
                 "converters": {
-                    "INET": {"@": "ipv4_netmask_converter"},
-                    "INET6": {"@": "ipv6_netmask_converter"}
+                    "INET": {
+                        "address": {"@": "validationOnlyConverter"},
+                        "netmask": {"@": "ipv4_netmask_converter"}
+                    },
+                    "INET6": {
+                        "address": {"@": "validationOnlyConverter"},
+                        "netmask": {"@": "ipv6_netmask_converter"}
+                    }
+                },
+                "validators": {
+                    "INET": {
+                        "address": {"@": "ipv4_validator"},
+                        "netmask": {"@": "ipv4_netmask_validator"}
+                    },
+                    "INET6": {
+                        "address": {"@": "ipv6_validator"},
+                        "netmask": {"@": "ipv6_netmask_validator"}
+                    }
                 },
                 "placeholders": {
                     "address": {
@@ -24,8 +41,26 @@
                 }
             }
         },
+        "validationOnlyConverter": {
+            "prototype": "core/converter/validation-only-converter"
+        },
+        "ipv4_validator": {
+            "prototype": "core/converter/validator/ipv4-validator"
+        },
         "ipv4_netmask_converter": {
             "prototype": "core/converter/ipv4-netmask-converter"
+        },
+        "ipv4_netmask_validator": {
+            "prototype": "core/converter/validator/ipv4-netmask-validator"
+        },
+        "ipv6_validator": {
+            "prototype": "core/converter/validator/ipv6-validator"
+        },
+        "ipv6_netmask_converter": {
+            "prototype": "core/converter/string-to-integer-or-null-converter",
+            "properties": {
+                "validator": {"@": "ipv6_netmask_validator"}
+            }
         },
         "ipv6_netmask_validator": {
             "prototype": "core/converter/validator/integer-range-validator",
@@ -35,10 +70,10 @@
                 "errorMessage": "IPv6 prefix length must be an integer between 0 and 128"
             }
         },
-        "ipv6_netmask_converter": {
-            "prototype": "core/converter/string-to-integer-or-null-converter",
+        "errorController": {
+            "prototype": "blue-shark/core/error-controller",
             "properties": {
-                "validator": {"@": "ipv6_netmask_validator"}
+                "form": {"@": "owner"}
             }
         },
         "type": {
@@ -58,24 +93,33 @@
         "address": {
             "prototype": "blue-shark/ui/text-field.reel",
             "properties": {
-                "element": {"#": "address"}
+                "element": {"#": "address"},
+                "errorName": "Address",
+                "isMandatory": true
             },
             "bindings": {
                 "value": {"<->": "@owner.object.address"},
                 "placeholder": {"<-": "@owner.placeholders.address[@owner.object.type]"},
-                "disabled": {"<-": "!@owner.object.type || @owner.isReadOnly"}
+                "disabled": {"<-": "!@owner.object.type || @owner.isReadOnly"},
+                "converter": {"<-": "@owner.converters[@owner.object.type].address"},
+                "validator": {"<-": "@owner.validators[@owner.object.type].address"},
+                "error": {"<->": "@owner.errors.address"}
             }
         },
         "netmask": {
             "prototype": "blue-shark/ui/text-field.reel",
             "properties": {
-                "element": {"#": "netmask"}
+                "element": {"#": "netmask"},
+                "errorName": "Netmask",
+                "isMandatory": true
             },
             "bindings": {
-                "converter": {"<-": "@owner.converters[@owner.object.type]"},
+                "value": {"<->": "@owner.object.netmask"},
                 "placeholder": {"<-": "@owner.placeholders.netmask[@owner.object.type]"},
+                "converter": {"<-": "@owner.converters[@owner.object.type].netmask"},
+                "validator": {"<-": "@owner.validators[@owner.object.type].netmask"},
                 "disabled": {"<-": "!@owner.object.type || @owner.isReadOnly"},
-                "value": {"<->": "@owner.object.netmask"}
+                "error": {"<->": "@owner.errors.netmask"}
             }
         }
     }

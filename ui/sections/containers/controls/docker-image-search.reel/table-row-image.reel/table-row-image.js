@@ -24,7 +24,11 @@ exports.TableRowImage = Component.specialize({
 
     _selectImage: {
         value: function() {
-            _.forEach(this.element.parentElement.parentElement.querySelectorAll('.Table-row'), function(row) {
+            var tableElement = this.element.parentElement;
+            while (!tableElement.classList.contains('Table-row-group')) {
+                tableElement = tableElement.parentElement;
+            }
+            _.forEach(tableElement.querySelectorAll('.Table-row'), function(row) {
                 row.classList.remove('selected');
             });
             _.forEach(this.parentComponent.content, function(row) {

@@ -1,5 +1,5 @@
-.DockerImageSearch {
-
+.DockerImageSearch .Table-content {
+    cursor: pointer;
 }
 
 .DockerImageSearch-table .Table-row > div:nth-child(1),
