@@ -8,6 +8,9 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "media": {"<-": "@media.selectedValue"}
             }
         },
         "active_media_type": {
@@ -27,7 +30,7 @@
                 "label": "Selected Media Type"
             },
             "bindings": {
-                "options": {"<-": "@owner.object.status.supported_media"},
+                "options": {"<-": "[{value: null, label: '---'}].concat(@owner.object.status.supported_media.sorted{this})"},
                 "selectedValue": {"<->": "@owner.object.media"}
             }
         },
