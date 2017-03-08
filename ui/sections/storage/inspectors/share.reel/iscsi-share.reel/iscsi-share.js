@@ -46,10 +46,6 @@ exports.IscsiShare = AbstractShareInspector.specialize({
 
             this.targetNames = [];
 
-            this._findServiceIscsi().then(function (serviceIscsi) {
-                self.isLoading = false;
-                self.serviceIscsi = serviceIscsi;
-            });
         }
     },
 
@@ -82,6 +78,7 @@ exports.IscsiShare = AbstractShareInspector.specialize({
 
     enterDocument: {
         value: function (isFirstTime) {
+            var self = this;
             if (isFirstTime) {
                 this.addPathChangeListener("object.name", this, "handleNameChange");
             }
@@ -89,6 +86,10 @@ exports.IscsiShare = AbstractShareInspector.specialize({
             if (this.object._isNew) {
                 this._resetTargetName();
             }
+            this._findServiceIscsi().then(function (serviceIscsi) {
+                self.isLoading = false;
+                self.serviceIscsi = serviceIscsi;
+            });
         }
     },
 
