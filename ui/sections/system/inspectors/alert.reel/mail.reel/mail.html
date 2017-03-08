@@ -177,16 +177,23 @@
             }
         },
         "msgSent": {
-            "prototype": "blue-shark/ui/text.reel",
+            "prototype": "blue-shark/ui/panel.reel",
             "properties": {
-                "element": {"#": "msgSent"}
+                "element": {"#": "msgSent"},
+                "status": "error"
             },
             "bindings": {
-                "value": {"<-": "@owner.msgSent"}
+                "message": {"<-": "@owner.msgSent"},
+                "classList.has('is-hidden')": {"<-": "!@owner.msgSent"}
             }
         }
     }
     </script>
+    <style>
+        .Mail-msg .montage-Text {
+            max-width: 24rem;
+        }
+    </style>
 </head>
 <body>
     <div data-montage-id="owner" class="Mail">
@@ -201,7 +208,7 @@
                 <div data-montage-id="password"></div>
                 <div data-montage-id="send_to"></div>
                 <div data-montage-id="sendTestMail" class="Button--block"></div>
-                <div data-montage-id="msgSent"></div>
+                <div data-montage-id="msgSent" class="Mail-msg g-margin-top"></div>
             </div>
             <div data-montage-id="pushBulletSection" class="pushBulletSection">
                 <div data-montage-id="apikey"></div>
