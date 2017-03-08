@@ -35,7 +35,7 @@ exports.DockerImageSearch = Component.specialize({
                     self.message = error.message || error;
                 }).finally(function () {
                     if (!self.message && !self._templates.length) {
-                        self.message = "no docker images";
+                        self.message = self.collection.status !== 'OK' ? 'Error connecting to Docker registry' : 'No Docker images';
                     }
 
                     self._isSearchingDockerImages = false;
