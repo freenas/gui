@@ -47,11 +47,19 @@
             }
         },
 
+        "searchOrderTitle": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+            "properties": {
+                "element": {"#": "searchOrderTitle"},
+                "value": "Search order"
+            }
+        },
+
         "searchOrder": {
-            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "prototype": "blue-shark/ui/multiple-select.reel",
             "properties": {
                 "element": {"#": "searchOrder"},
-                "label": "Search order",
+                "inputTitle": "Add origin",
                 "labelPath": "this",
                 "isDraggable": true,
                 "valuesTitle": "Drag to change search order"
@@ -115,6 +123,7 @@
                 <div class="flex-row flex-justifyContent--end g-margin-bottom g-margin-top--subtract-half">
                     <div data-montage-id="ntpSyncNow"></div>
                 </div>
+                <div data-montage-id="searchOrderTitle"></div>
                 <div data-montage-id="searchOrder" class="DirectoryServices-searchorder"></div>
                 <div class="DirectoryServices-buttons">
                     <div data-montage-id="revert"></div>
