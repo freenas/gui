@@ -10,7 +10,8 @@
                 "imageComponent": {"@": "image"}
             },
             "bindings": {
-                "selectedRow": {"<-": "@image.selectedRows.one() && @image.selectedRows.one().object"}
+                "selectedRow": {"<-": "@image.selectedRows.one() && @image.selectedRows.one().object"},
+                "hasImage": {"<-": "@image.rows && @image.rows.length > 0"}
             }
         },
 
@@ -85,6 +86,7 @@
                 "element": {"#": "entry"}
             },
             "bindings": {
+                "imageElement": {"<-": "@image.element"},
                 "object": {"<-": "@image:rowIteration.object.object"},
                 "context": {"<-": "@owner.context"}
             }
