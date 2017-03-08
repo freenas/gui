@@ -4,19 +4,17 @@ exports.SearchUsersMultiple = AbstractSearchAccountMultiple.specialize(/** @lend
 
     search: {
         value: function (value) {
-             return this.service.searchUser(value, {
-                 labelPath: this.labelPath,
-                 valuePath: this.valuePath
-             });
+             return this.service.searchUser(value);
         }
+    },
+
+    labelExpression: {
+        value: "origin && origin.domain != 'local' ? username  + '@' + origin.domain : username"
     },
 
     loadInitialOptions: {
         value: function () {
-            return this.service.listLocalUsers({
-                labelPath: this.labelPath,
-                valuePath: this.valuePath
-            });
+            return this.service.listLocalUsers();
         }
     },
 

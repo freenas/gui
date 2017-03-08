@@ -4,19 +4,17 @@ exports.SearchGroupsMultiple = AbstractSearchAccountMultiple.specialize(/** @len
 
     search: {
         value: function (value) {
-             return this.service.searchGroup(value, {
-                 labelPath: this.labelPath,
-                 valuePath: this.valuePath
-             });
+             return this.service.searchGroup(value);
         }
+    },
+
+    labelExpression: {
+        value: "origin && origin.domain != 'local' ? name  + '@' + origin.domain : name"
     },
 
     loadInitialOptions: {
         value: function () {
-            return this.service.listLocalGroups({
-                labelPath: this.labelPath,
-                valuePath: this.valuePath
-            });
+            return this.service.listLocalGroups();
         }
     },
 

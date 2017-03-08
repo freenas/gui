@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="search-users-multiple.css">
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -17,13 +16,13 @@
                 "controller": {"@": "owner"}
             },
             "bindings": {
-                "values": {"<->": "@owner.values"},
-                "entries": {"<-": "@owner.entries"},
+                "values": {"<->": "@owner.entries"},
                 "label": {"<-": "@owner.label"},
                 "disabled": {"<-": "@owner.disabled"},
                 "isLoading": {"<-": "@owner.isLoading"},
                 "initialOptions": {"<-": "@owner.initialOptions"},
                 "hasNoneButton": {"<-": "@owner.hasNoneButton"},
+                "labelExpression": {"<-": "@owner.labelExpression"},
                 "labelPath": {"<-": "@owner.labelPath"},
                 "valuePath": {"<-": "@owner.valuePath"},
                 "validationPath": {"<-": "@owner.validationPath"}

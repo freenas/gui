@@ -4,20 +4,29 @@ var AbstractSearchAccount = require("ui/abstract/abstract-search-account").Abstr
 
 exports.AbstractSearchAccountMultiple = AbstractSearchAccount.specialize({
 
+    enterDocument: {
+        value: function (firstTime) {
+            if (firstTime) {
+                this.addRangeAtPathChangeListener('entries', this, 'handleEntriesChange');
+            }
+            this._loadInitialOptions();
+        }
+    },
+
     //Override properties from AbstractSearchAccount
     _value: {
-        value: void 0
+        value: null
     },
 
     value: {
-        value: void 0
+        value: null
     },
 
     _findLabelForValue: {
-        value: void 0
+        value: null
     },
 
-     _values: {
+    _values: {
         value: null
     },
 
@@ -26,15 +35,26 @@ exports.AbstractSearchAccountMultiple = AbstractSearchAccount.specialize({
             if (this._values !== values) {
                 this._values = values;
 
-                if (values) {
+                if (values && (!this.entries || values.length !== this.entries.length)) {
                     this._findLabelsForValues(values);
-                } else {
-                    this.displayedValues = null;
                 }
             }
         },
         get: function () {
             return this._values;
+        }
+    },
+
+    handleEntriesChange: {
+        value: function () {
+            if (this.entries) {
+                var self = this;
+                this._values = this.entries.map(function (entry) {
+                    return entry[self.valuePath];
+                });
+                this.dispatchOwnPropertyChange("values", this.values);
+            }
+
         }
     },
 
@@ -57,21 +77,6 @@ exports.AbstractSearchAccountMultiple = AbstractSearchAccount.specialize({
                     self.entries = entries && entries.length ? entries : self.values;
                 }).finally(function () {
                     self._setLoadingStep('loadingLabel', false);
-                });
-            }
-        }
-    },
-
-    _loadInitialOptions: {
-        value: function () {
-            if (typeof this.loadInitialOptions === 'function') {
-                var self = this;
-                this._setLoadingStep('loadingOptions', true);
-
-                this.loadInitialOptions().then(function (options) {
-                    self.initialOptions = options;
-                }).finally(function () {
-                    self._setLoadingStep('loadingOptions', false);
                 });
             }
         }

@@ -7,6 +7,7 @@ exports.AbstractSearchAccount = Component.specialize({
     constructor: {
         value: function () {
             this.service = AccountService.getInstance();
+            this._isLoading = { loadingLabel: false, loadingOptions: false };
         }
     },
 
@@ -49,7 +50,7 @@ exports.AbstractSearchAccount = Component.specialize({
     },
 
     _isLoading: {
-        value: { loadingLabel: false, loadingOptions: false }
+        value: null
     },
 
     isLoading: {
