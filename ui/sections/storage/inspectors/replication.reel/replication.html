@@ -42,13 +42,9 @@
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
-<<<<<<< HEAD
                 "extraDeleteFlags": {"<-": "@owner.extraDeleteFlags"}
-                "isLoading": {"<-": "@owner.isLoading"}
-=======
-                "extraDeleteFlags": {"<-": "@owner.extraDeleteFlags"},
                 "isSaveDisabled": {"<-": "!@owner.object.datasets.0.slave || !@owner.object.datasets.0.master"}
->>>>>>> origin/master
+                "isLoading": {"<-": "@owner.isLoading"}
             }
         },
         "datasetTreeController": {
