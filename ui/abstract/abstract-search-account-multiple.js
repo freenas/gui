@@ -51,7 +51,7 @@ exports.AbstractSearchAccountMultiple = AbstractSearchAccount.specialize({
                 var self = this;
                 this._values = this.entries.map(function (entry) {
                     var value = entry[self.valuePath];
-                    return self.valuePath !== 'id' && entry.origin && entry.origin.domain !== 'local' ?
+                    return self.valuePath !== 'id' && entry.origin && entry.origin.domain && entry.origin.domain !== 'local' ?
                         value + '@' + entry.origin.domain : value;
                 });
                 this.dispatchOwnPropertyChange("values", this.values);

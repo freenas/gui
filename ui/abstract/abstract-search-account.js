@@ -89,7 +89,7 @@ exports.AbstractSearchAccount = Component.specialize({
         value: function () {
             if (this.entry) {
                 var value = this.entry[this.valuePath];
-                this._value = this.valuePath !== 'id' && this.entry.origin && this.entry.origin.domain !== 'local' ?
+                this._value = this.valuePath !== 'id' && this.entry.origin && this.entry.origin.domain && this.entry.origin.domain !== 'local' ?
                     value + '@' + this.entry.origin.domain : value;
                 this.dispatchOwnPropertyChange('value', this.value);
             }

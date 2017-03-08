@@ -9,7 +9,7 @@ exports.SearchUsersMultiple = AbstractSearchAccountMultiple.specialize(/** @lend
     },
 
     labelExpression: {
-        value: "origin && origin.domain != 'local' ? username  + '@' + origin.domain : username"
+        value: "!!origin && !!origin.domain && origin.domain != 'local' ? username  + '@' + origin.domain : username"
     },
 
     loadInitialOptions: {
