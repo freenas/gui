@@ -68,8 +68,7 @@ exports.AbstractSearchAccount = Component.specialize({
             if (this._value !== value) {
                 this._value = value;
 
-                if (value && typeof value === "string" &&
-                    (!this.entry || (this.entry && typeof this.entry === "object" && this.entry[this.valuePath] !== value))) {
+                if (value && typeof value === "string" && !this.entry) {
                     this._findLabelForValue(value);
                 }
             }
@@ -89,7 +88,10 @@ exports.AbstractSearchAccount = Component.specialize({
     handleEntryChange: {
         value: function () {
             if (this.entry) {
-                this.value = this.entry[this.valuePath];
+                var value = this.entry[this.valuePath];
+                this._value = this.valuePath !== 'id' && this.entry.origin && this.entry.origin.domain !== 'local' ?
+                    value + '@' + this.entry.origin.domain : value;
+                this.dispatchOwnPropertyChange('value', this.value);
             }
         }
     },
@@ -109,8 +111,17 @@ exports.AbstractSearchAccount = Component.specialize({
                 var criteria = {},
                     self = this;
 
-                criteria[this.valuePath] = value;
                 this._setLoadingStep('loadingLabel', true);
+
+                if (this.valuePath !== 'id' && value.indexOf('@') > -1) {
+                    var data = value.split('@');
+                    criteria[this.valuePath] = data[0];
+                    criteria.origin = {
+                        domain: data[1]
+                    };
+                } else {
+                    criteria[this.valuePath] = value;
+                }
 
                 this.findLabelForValue(criteria).then(function (entries) {
                     self.entry = entries && entries.length ?

@@ -50,7 +50,9 @@ exports.AbstractSearchAccountMultiple = AbstractSearchAccount.specialize({
             if (this.entries) {
                 var self = this;
                 this._values = this.entries.map(function (entry) {
-                    return entry[self.valuePath];
+                    var value = entry[self.valuePath];
+                    return self.valuePath !== 'id' && entry.origin && entry.origin.domain !== 'local' ?
+                        value + '@' + entry.origin.domain : value;
                 });
                 this.dispatchOwnPropertyChange("values", this.values);
             }
@@ -68,7 +70,16 @@ exports.AbstractSearchAccountMultiple = AbstractSearchAccount.specialize({
                 this._setLoadingStep('loadingLabel', true);
 
                 values.forEach(function (value) {
-                    criteria[self.valuePath] = value;
+                    if (self.valuePath !== 'id' && value.indexOf('@') > -1) {
+                        var data = value.split('@');
+                        criteria[self.valuePath] = data[0];
+                        criteria.origin = {
+                            domain: data[1]
+                        };
+                    } else {
+                        criteria[self.valuePath] = value;
+                    }
+
                     promises.push(self.findLabelForValue(criteria));
                 });
 
