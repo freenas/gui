@@ -10,8 +10,6 @@
 
 .MainSidebar-logo-container {
     flex-shrink: 0;
-    background-color: var(--primary--8);
-    border-bottom: 1px solid var(--black);
 }
 
 .MainSidebar-logo {
