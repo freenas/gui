@@ -1,13 +1,15 @@
 import _ = require('lodash');
-import {ReplicationService} from '../service/replication-service';
+import {ReplicationRepository} from '../repository/replication-repository';
 import {AbstractRoute} from './abstract-route';
 import {Model} from '../model';
+import {CalendarRepository} from '../repository/calendar-repository';
 
 export class ReplicationRoute extends AbstractRoute {
     private static instance: ReplicationRoute;
     private objectType: string;
 
-    private constructor(private replicationService: ReplicationService) {
+    private constructor(private replicationRepository: ReplicationRepository,
+                        private calendarRepository: CalendarRepository) {
         super();
         this.objectType = Model.Replication;
     }
@@ -15,7 +17,8 @@ export class ReplicationRoute extends AbstractRoute {
     public static getInstance() {
         if (!ReplicationRoute.instance) {
             ReplicationRoute.instance = new ReplicationRoute(
-                ReplicationService.getInstance()
+                ReplicationRepository.getInstance(),
+                CalendarRepository.getInstance()
             );
         }
         return ReplicationRoute.instance;
@@ -23,24 +26,15 @@ export class ReplicationRoute extends AbstractRoute {
 
     public list(volumeId: string, stack: Array<any>) {
         let self = this,
-            objectType = Model.Replication,
-            columnIndex = 2,
-            parentContext = stack[columnIndex-1],
-            context: any = {
-                columnIndex: columnIndex,
-                objectType: this.objectType,
-                parentContext: parentContext,
-                path: parentContext.path + '/replication'
-            };
-        return Promise.all([
-            this.replicationService.listReplicationsForVolume(volumeId),
-            this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(replications, uiDescriptor) {
-            replications._objectType = objectType;
-            context.object = replications;
-            context.userInterfaceDescriptor = uiDescriptor;
-            return self.updateStackWithContext(stack, context);
-        });
+            columnIndex = 2;
+        return this.loadListInColumn(
+            stack,
+            columnIndex,
+            columnIndex - 1,
+            '/replication',
+            Model.Replication,
+            this.replicationRepository.listReplicationsForVolume(volumeId)
+        );
     }
 
     public create(volumeId: string, stack: Array<any>) {
@@ -56,10 +50,13 @@ export class ReplicationRoute extends AbstractRoute {
                 volume: volumeId
             };
         return Promise.all([
-            this.replicationService.getNewReplicationInstance(),
-            this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(replication, uiDescriptor) {
+            this.replicationRepository.getNewReplicationInstance(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType),
+            this.replicationRepository.getHostUuid()
+        ]).spread(function(replication, uiDescriptor, host) {
             context.object = replication;
+            context.object.master = host;
+            context.object.datasets = [{}];
             context.userInterfaceDescriptor = uiDescriptor;
             return self.updateStackWithContext(stack, context);
         });
@@ -78,10 +75,13 @@ export class ReplicationRoute extends AbstractRoute {
                 dataset: datasetId
             };
         return Promise.all([
-            this.replicationService.getNewReplicationInstance(),
-            this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(replication, uiDescriptor) {
+            this.replicationRepository.getNewReplicationInstance(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType),
+            this.replicationRepository.getHostUuid()
+        ]).spread(function(replication, uiDescriptor, host) {
             context.object = replication;
+            context.object.master = host;
+            context.object.datasets = [{}];
             context.userInterfaceDescriptor = uiDescriptor;
             return self.updateStackWithContext(stack, context);
         });
@@ -99,10 +99,14 @@ export class ReplicationRoute extends AbstractRoute {
                 path: parentContext.path + '/_/' + encodeURIComponent(replicationId)
             };
         return Promise.all([
-            this.replicationService.listReplications(),
-            this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(replication, uiDescriptor) {
+            this.replicationRepository.listReplications(),
+            this.modelDescriptorService.getUiDescriptorForType(objectType),
+            this.calendarRepository.listTasks()
+        ]).spread(function(replication, uiDescriptor, calendarTasks) {
             context.object = _.find(replication, {id: replicationId});
+            context.object._calendarTask = _.find(calendarTasks, function(calendarTask) {
+                return calendarTask['args'][0] === context.object.id;
+            });
             context.userInterfaceDescriptor = uiDescriptor;
             return self.updateStackWithContext(stack, context);
         });

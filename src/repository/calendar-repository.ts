@@ -352,6 +352,9 @@ export class CalendarRepository extends AbstractRepository {
         return this.calendarTaskDao.save(task);
     }
 
+    public deleteCalendarTask(task: any) {
+        return this.calendarTaskDao.delete(task);
+    }
 
     private extractSchedule(task: any, view: any) {
         if (!task._simpleSchedule) {

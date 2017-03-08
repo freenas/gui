@@ -6,8 +6,10 @@ import {CompressReplicationTransportOptionDao} from '../dao/compress-replication
 import {EncryptReplicationTransportOptionDao} from '../dao/encrypt-replication-transport-option-dao';
 import {ThrottleReplicationTransportOptionDao} from '../dao/throttle-replication-transport-option-dao';
 import {Model} from '../model';
+import * as _ from 'lodash';
+import {Replication} from '../model/Replication';
 
-export class ReplicationRepository extends AbstractRepository {
+export class ReplicationRepository extends AbstractRepository<Replication> {
     private static instance: ReplicationRepository;
     private replications: Map<string, Map<string, any>>;
     private constructor(private replicationDao: ReplicationDao,
@@ -33,6 +35,16 @@ export class ReplicationRepository extends AbstractRepository {
         return this.replicationDao.list();
     }
 
+    public listReplicationsForVolume(volume: string) {
+        return Promise.all([
+            this.replicationDao.list(),
+            this.getHostUuid()
+        ]).spread((replications, host) => _.filter(replications, (replication: any) =>
+            (replication.master === host && replication.datasets[0].master.startsWith(volume)) ||
+                (replication.slave === host && replication.datasets[0].slave.startsWith(volume))
+        ));
+    }
+
     public getNewReplicationInstance() {
         return this.replicationDao.getNewInstance();
     }
@@ -51,8 +63,16 @@ export class ReplicationRepository extends AbstractRepository {
         return this.replicationDao.save(replication);
     }
 
+    public deleteReplication(replication:any) {
+        return this.replicationDao.delete(replication);
+    }
+
     public syncReplication(replicationId: string) {
         return this.replicationDao.sync(replicationId);
+    }
+
+    public getHostUuid() {
+        return this.replicationDao.getHostUuid();
     }
 
     protected handleStateChange(name: string, state: any) {

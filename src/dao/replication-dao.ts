@@ -11,6 +11,10 @@ export class ReplicationDao extends AbstractDao<Replication> {
     public sync(replicationId) {
         return this.middlewareClient.submitTask('replication.sync', [replicationId]);
     }
+
+    public getHostUuid() {
+        return this.middlewareClient.callRpcMethod('system.info.host_uuid');
+    }
 }
 
 
