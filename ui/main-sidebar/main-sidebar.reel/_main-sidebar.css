@@ -6,51 +6,31 @@
     width: 9rem;
 }
 
-/* Logos */
+/* Logo */
 
-.logoButton {
-    position: relative;
+.MainSidebar-logo-container {
     flex-shrink: 0;
-    height:  6em;
-    cursor: pointer;
-    outline: none;
+    background-color: var(--primary--8);
+    border-bottom: 1px solid var(--black);
 }
 
-.MainSidebar-freenasLogo,
-.MainSidebar-ixLogo {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-position: center center;
-    background-size: calc(100% - 3em);
+.MainSidebar-logo {
+    margin: .75rem .9rem;
+    margin-top: 1.1rem;
+    padding-bottom: 30%;
+    background-image: url(../../../assets/images/corral-logo.svg);
+    background-size: contain;
     background-repeat: no-repeat;
-    transition: transform .45s cubic-bezier(.8,0,.2,1);
 }
 
-.MainSidebar-freenasLogo {
-    background-image: url(../../../assets/images/logo.png);
-
-    @media (min-height: 40em) {
-        background-image: url(../../../assets/images/logo-stacked.png);
-    }
-}
-.MainSidebar-ixLogo {
-    background-size: calc(100% - 4em);
-    background-position: center center;
-    transform: translateX(100%);
-    background-image: url(../../../assets/images/ix_logo.png);
-}
-
-.logoButton.is-flipped .MainSidebar-freenasLogo { transform: translateX(-100%); }
-.logoButton.is-flipped .MainSidebar-ixLogo {
-    transform: translateX(0);
-}
-
-.MainSidebar-navigation { flex: 1; }
-
+.MainSidebar-navigation  { flex: 1; }
 .MainSidebar-userSummary { flex-shrink: 0; }
+
+/*
+
+Power Actions
+
+*/
 
 .MainSidebar-globalActions {
     position: relative;
