@@ -40,9 +40,11 @@
     <script src="node_modules/smoothscroll-polyfill/src/smoothscroll.js"></script>
     <script src="vendors/timezone-picker.js" charset="utf-8" defer></script>
     <style>
-        .loading {height: 100vh;}
-        .loading:after {
-            display: none;
+        .loading {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     </style>
     <script type="text/montage-serialization">
@@ -51,6 +53,13 @@
             "prototype": "montage/ui/loader.reel"
         },
 
+        "spinner": {
+            "prototype": "blue-shark/ui/spinner.reel",
+            "properties": {
+                "element": {"#": "spinner"},
+                "isShown": true
+            }
+        },
         "applicationDelegate": {
             "prototype": "core/application-delegate"
         },
@@ -76,8 +85,9 @@
     </script>
 </head>
 <body>
+    <div class="loading">
+        <div data-montage-id="spinner"></div>
+    </div>
     <div data-montage-id="application-modal" class="ApplicationModal"></div>
-    <span class="loading has-loading-spinner">
-    </span>
 </body>
 </html>
