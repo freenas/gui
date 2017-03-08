@@ -22,6 +22,10 @@ exports.SearchUsers = AbstractSearchAccount.specialize(/** @lends SearchGroups# 
 
 }, {
 
+    labelExpression: {
+        value: "origin && origin.domain != 'local' ? username  + '@' + origin.domain : username"
+    },
+
     labelPath: {
         value: 'username'
     },

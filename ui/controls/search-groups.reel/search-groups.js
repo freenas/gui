@@ -8,6 +8,10 @@ exports.SearchGroups = AbstractSearchAccount.specialize(/** @lends SearchGroups#
         }
     },
 
+    labelExpression: {
+        value: "origin && origin.domain != 'local' ? name  + '@' + origin.domain : name"
+    },
+
     loadInitialOptions: {
         value: function () {
             return this.service.listLocalGroups();
