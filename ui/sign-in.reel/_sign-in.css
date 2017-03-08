@@ -14,6 +14,7 @@
     z-index: 1000;
     transition: visibility .5s cubic-bezier(.39,.32,.46,1.3),
                 opacity    .5s cubic-bezier(.39,.32,.46,1.3);
+    background: none;
 
     @nest .montage-Overlay--visible & {
         opacity: 1;
@@ -55,13 +56,11 @@
 
 }
 
-
-
-
 /* Logo */
 
 .SignIn-logo {
     margin-bottom: 2em;
+    padding: 1rem;
     width: 100%;
 }
 
