@@ -35,6 +35,25 @@
     padding: .5em;
 }
 
+.Sideboard-logo {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem;
+    padding-top: 0;
+
+    & a {
+        transition: transform .1s ease-in-out;
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+
+    & img {
+        width: auto;
+        height: 1.5rem;
+    }
+}
+
 /* Toggle Button */
 
 .Sideboard-toggleSideboard {
@@ -109,6 +128,5 @@
 
 .Sideboard .Tasks {
     flex: 1;
-    margin-bottom: 3rem;
     min-height: 18rem;
 }
