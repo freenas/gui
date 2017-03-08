@@ -44,7 +44,7 @@ exports.Mail = AbstractInspector.specialize({
                 "extra_headers": {},
                 "message": "Yay, You've got mail",
                 "attachments": []
-            }).catch(function (error) {
+            }, this.object.email.config).catch(function (error) {
                 self.msgSent = error.message;
             });
         }
