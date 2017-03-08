@@ -238,11 +238,11 @@ export class AccountRepository extends AbstractRepository {
     }
 
     public searchUser(value) {
-        return this.searchUserWithCriteria({username: [['~', value + "*"]]});
+        return this.searchUserWithCriteria({username: [['match', value + "*"]]});
     }
 
     public searchGroup(value) {
-        return this.searchGroupWithCriteria({name: [['~', value + "*"]]});
+        return this.searchGroupWithCriteria({name: [['match', value + "*"]]});
     }
 
     public searchGroupWithCriteria(criteria: any) {
