@@ -15,5 +15,23 @@ exports.TableHosts = Component.specialize({
         value: function(host) {
             this.controller.markHostAsDeleted(host);
         }
+    },
+
+    prepareForActivationEvents: {
+        value: function () {
+            this.addEventListener("action", this);
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            this.removeEventListener("action", this);
+        }
+    },
+
+    handleAddButtonAction: {
+        value: function () {
+            this.table.showNewEntryRow();
+        }
     }
 });

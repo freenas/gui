@@ -17,5 +17,23 @@ exports.TableRoutes = Component.specialize({
         value: function(route) {
             this.controller.markRouteAsDeleted(route);
         }
+    },
+
+    prepareForActivationEvents: {
+        value: function () {
+            this.addEventListener("action", this);
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            this.removeEventListener("action", this);
+        }
+    },
+
+    handleAddButtonAction: {
+        value: function () {
+            this.table.showNewEntryRow();
+        }
     }
 });
