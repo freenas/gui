@@ -35,6 +35,8 @@ exports.Mail = AbstractInspector.specialize({
 
     handleSendTestMailAction: {
         value: function() {
+            var self = this;
+            this.msgSent = "";
             this.application.mailService.sendTestMail({
                 "from_address": this.object.email.config.from_address,
                 "subject": "test mail",
@@ -42,6 +44,8 @@ exports.Mail = AbstractInspector.specialize({
                 "extra_headers": {},
                 "message": "Yay, You've got mail",
                 "attachments": []
+            }).catch(function (error) {
+                self.msgSent = error.message;
             });
         }
     },
