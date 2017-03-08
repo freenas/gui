@@ -2,8 +2,6 @@
     border-top-color: transparent;
 }
 
-.List-spinner { height: 3rem; }
-
 .ListItem .dummy {
     position: absolute;
     margin: -1000px;
