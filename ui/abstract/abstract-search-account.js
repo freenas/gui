@@ -54,7 +54,7 @@ exports.AbstractSearchAccount = Component.specialize({
 
     isLoading: {
         get: function () {
-            return _.every(this._isLoading);
+            return !!_.find(this._isLoading, function (prop) { return prop === true });
         }
     },
 
