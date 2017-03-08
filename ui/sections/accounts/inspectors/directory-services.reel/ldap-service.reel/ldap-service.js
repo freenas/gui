@@ -1,14 +1,7 @@
-/**
- * @module ui/ldap-service.reel
- */
 var Component = require("montage/ui/component").Component,
     Model = require("core/model/model").Model;
 
-/**
- * @class LdapService
- * @extends Component
- */
-exports.LdapService = Component.specialize(/** @lends LdapService# */ {
+exports.LdapService = Component.specialize({
 
     enterDocument: {
         value: function () {

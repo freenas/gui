@@ -1,14 +1,7 @@
-/**
- * @module ui/nis-service.reel
- */
 var Component = require("montage/ui/component").Component,
     Model = require("core/model/model").Model;
 
-/**
- * @class NisService
- * @extends Component
- */
-exports.NisService = Component.specialize(/** @lends NisService# */ {
+exports.NisService = Component.specialize({
 
     enterDocument: {
         value: function () {
