@@ -1,6 +1,6 @@
-var AbstractSearchAccount = require("ui/abstract/abstract-search-account").AbstractSearchAccount;
+var AbstractSearchAccountMultiple = require("ui/abstract/abstract-search-account-multiple").AbstractSearchAccountMultiple;
 
-exports.SearchUsers = AbstractSearchAccount.specialize(/** @lends SearchGroups# */ {
+exports.SearchUsersMultiple = AbstractSearchAccountMultiple.specialize(/** @lends SearchGroups# */ {
 
     search: {
         value: function (value) {

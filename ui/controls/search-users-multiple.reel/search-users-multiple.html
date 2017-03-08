@@ -9,31 +9,31 @@
             }
         },
 
-        "user": {
-            "prototype": "blue-shark/ui/field-search.reel",
+         "users": {
+            "prototype": "blue-shark/ui/field-search-multiple.reel",
             "properties": {
-                "element": {"#": "user"},
+                "element": {"#": "users"},
                 "controller": {"@": "owner"}
             },
             "bindings": {
-                "value": {"<->": "@owner.entry"},
+                "values": {"<->": "@owner.entries"},
                 "label": {"<-": "@owner.label"},
-                "labelExpression": {"<-": "@owner.labelExpression"},
                 "disabled": {"<-": "@owner.disabled"},
                 "isLoading": {"<-": "@owner.isLoading"},
+                "initialOptions": {"<-": "@owner.initialOptions"},
+                "hasNoneButton": {"<-": "@owner.hasNoneButton"},
+                "labelExpression": {"<-": "@owner.labelExpression"},
                 "labelPath": {"<-": "@owner.labelPath"},
                 "valuePath": {"<-": "@owner.valuePath"},
-                "initialOptions": {"<-": "@owner.initialOptions"},
-                "validationPath": {"<-": "@owner.validationPath"},
-                "hasNoneButton": {"<-": "@owner.hasNoneButton"}
+                "validationPath": {"<-": "@owner.validationPath"}
             }
         }
     }
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="SearchUsers">
-        <div data-montage-id="user"></div>
+    <div data-montage-id="owner" class="SearchUsersMultiple">
+        <div data-montage-id="users"></div>
     </div>
 </body>
 </html>

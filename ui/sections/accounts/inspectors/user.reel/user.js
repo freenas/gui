@@ -1,9 +1,7 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     Model = require("core/model/model").Model,
     _ = require("lodash"),
-    Promise = require("montage/core/promise").Promise,
-    Converter = require("montage/core/converter/converter").Converter,
-    Validator = require("montage/core/converter/converter").Validator;
+    Promise = require("montage/core/promise").Promise;
 
 /**
  * @class User
@@ -43,11 +41,6 @@ exports.User = AbstractInspector.specialize({
         value: null
     },
 
-    //@deprecated
-    groupOptions: {
-        value: null
-    },
-
     templateDidLoad: {
         value: function() {
             var self = this;
@@ -66,7 +59,6 @@ exports.User = AbstractInspector.specialize({
                 loadingPromises = [];
 
             this.isLoading = true;
-
             this._cleanupHomeDirectory(this.object);
 
             if (isFirstTime) {
@@ -74,11 +66,9 @@ exports.User = AbstractInspector.specialize({
                 loadingPromises.push(this._getShellOptions());
             }
 
-            this._loadGroups(this.object);
-
             this.userType = (this.object.builtin && this.object.uid !== 0) || (this.object.origin && this.object.origin.read_only)  ? "system" : "user";
 
-            Promise.all(loadingPromises).then(function() {
+            Promise.all(loadingPromises).finally(function() {
                 self.isLoading = false;
             });
         }
@@ -94,7 +84,7 @@ exports.User = AbstractInspector.specialize({
     save: {
         value: function() {
             var self=this;
-            this.object.groups = this.additionalGroups.map(function(x) { return x.id; });
+
             if (this.object.home) {
                 if (this.object._isNew) {
                     this.object.home += '/' + this.object.username;
@@ -159,20 +149,6 @@ exports.User = AbstractInspector.specialize({
         }
     },
 
-    _loadGroups: {
-        value: function() {
-            var self = this,
-                promise = this.groupOptions ?
-                    Promise.resolve(this.groupOptions) :
-                    this._sectionService.listGroups().then(function(groups) {
-                        return self.groupOptions = groups;
-                    });
-            promise.then(function (groups) {
-                self.additionalGroups = self._object.groups ? groups.filter(function (x) { return self.object.groups.indexOf(x.id) > -1; }) : [];
-            });
-        }
-    },
-
     _getNextAvailableUserId: {
         value: function() {
             var self = this;
@@ -192,31 +168,6 @@ exports.User = AbstractInspector.specialize({
                     self.shellOptions.push({label: shell[shell.length -1], value: shells[i]});
                 }
             });
-        }
-    }
-});
-
-//@deprecated
-exports.AdditionalGroupsConverter = Converter.specialize({
-    convert: {
-        value: function (groupId) {
-            return _.find(this.groupOptions, function(x) { return x.id === groupId; });
-        }
-    },
-
-    revert: {
-        value: function (name) {
-            var newGroupValue = _.find(this.groupOptions, function(x) { return x.name === name; });
-            return newGroupValue ? newGroupValue : null;
-        }
-    }
-});
-
-//@deprecated
-exports.AdditionalGroupsValidator = Validator.specialize({
-    validate: {
-        value: function (name) {
-            return !!_.find(this.groupOptions, function(x) { return x.name === name; });
         }
     }
 });

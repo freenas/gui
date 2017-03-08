@@ -7,6 +7,7 @@ exports.AbstractSearchAccount = Component.specialize({
     constructor: {
         value: function () {
             this.service = AccountService.getInstance();
+            this._isLoading = { loadingLabel: false, loadingOptions: false };
         }
     },
 
@@ -49,12 +50,12 @@ exports.AbstractSearchAccount = Component.specialize({
     },
 
     _isLoading: {
-        value: { loadingLabel: false, loadingOptions: false }
+        value: null
     },
 
     isLoading: {
         get: function () {
-            return _.every(this._isLoading);
+            return !!_.find(this._isLoading, function (prop) { return prop === true });
         }
     },
 
@@ -67,10 +68,8 @@ exports.AbstractSearchAccount = Component.specialize({
             if (this._value !== value) {
                 this._value = value;
 
-                if (value) {
-                    this._findLabelForValue();
-                } else {
-                    this.displayedValue = null;
+                if (value && typeof value === "string" && !this.entry) {
+                    this._findLabelForValue(value);
                 }
             }
         },
@@ -86,24 +85,47 @@ exports.AbstractSearchAccount = Component.specialize({
         }
     },
 
-    enterDocument: {
+    handleEntryChange: {
         value: function () {
+            if (this.entry) {
+                var value = this.entry[this.valuePath];
+                this._value = this.valuePath !== 'id' && this.entry.origin && this.entry.origin.domain !== 'local' ?
+                    value + '@' + this.entry.origin.domain : value;
+                this.dispatchOwnPropertyChange('value', this.value);
+            }
+        }
+    },
+
+    enterDocument: {
+        value: function (firstTime) {
+            if (firstTime) {
+                this.addPathChangeListener('entry', this, 'handleEntryChange');
+            }
             this._loadInitialOptions();
         }
     },
 
     _findLabelForValue: {
-        value: function () {
-            if (typeof this.loadInitialOptions === 'function') {
+        value: function (value) {
+            if (typeof this.findLabelForValue === 'function') {
                 var criteria = {},
                     self = this;
 
-                criteria[this.valuePath] = this.value;
                 this._setLoadingStep('loadingLabel', true);
 
+                if (this.valuePath !== 'id' && value.indexOf('@') > -1) {
+                    var data = value.split('@');
+                    criteria[this.valuePath] = data[0];
+                    criteria.origin = {
+                        domain: data[1]
+                    };
+                } else {
+                    criteria[this.valuePath] = value;
+                }
+
                 this.findLabelForValue(criteria).then(function (entries) {
-                    self.displayedValue = entries && entries.length ?
-                        entries[0][self.labelPath] : self.value;
+                    self.entry = entries && entries.length ?
+                        entries[0] : self.value;
                 }).finally(function () {
                     self._setLoadingStep('loadingLabel', false);
                 });
@@ -113,14 +135,15 @@ exports.AbstractSearchAccount = Component.specialize({
 
     _loadInitialOptions: {
         value: function () {
-            if (typeof this.loadInitialOptions === 'function') {
+            if (!this._loadInitialOptionsPromise && typeof this.loadInitialOptions === 'function') {
                 var self = this;
                 this._setLoadingStep('loadingOptions', true);
 
-                this.loadInitialOptions().then(function (options) {
+                this._loadInitialOptionsPromise = this.loadInitialOptions().then(function (options) {
                     self.initialOptions = options;
                 }).finally(function () {
                     self._setLoadingStep('loadingOptions', false);
+                    self._loadInitialOptionsPromise = null;
                 });
             }
         }

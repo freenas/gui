@@ -40,55 +40,51 @@
             }
         },
         "usersAllow": {
-            "prototype": "blue-shark/ui/field-search-multiple.reel",
+            "prototype": "ui/controls/search-users-multiple.reel",
             "properties": {
                 "element": {"#": "usersAllow"},
                 "label": "Users Allowed",
-                "emptyMessage": "No allowed users added"
+                "emptyMessage": "No allowed users added",
+                "valuePath": "username"
             },
             "bindings": {
-                "values": {"<->": "@owner.properties.users_allow"},
-                "controller": {"<-": "@owner.usersSearchController"},
-                "initialOptions": {"<-": "@owner.initialUserOptions"}
+                "values": {"<->": "@owner.properties.users_allow"}
             }
         },
         "usersDeny": {
-            "prototype": "blue-shark/ui/field-search-multiple.reel",
+            "prototype": "ui/controls/search-users-multiple.reel",
             "properties": {
                 "element": {"#": "usersDeny"},
                 "label": "Users Denied",
-                "emptyMessage": "No users denied"
+                "emptyMessage": "No users denied",
+                "valuePath": "username"
             },
             "bindings": {
-                "values": {"<->": "@owner.properties.users_deny"},
-                "controller": {"<-": "@owner.usersSearchController"},
-                "initialOptions": {"<-": "@owner.initialUserOptions"}
+                "values": {"<->": "@owner.properties.users_deny"}
             }
         },
         "groupsAllow": {
-            "prototype": "blue-shark/ui/field-search-multiple.reel",
+            "prototype": "ui/controls/search-groups-multiple.reel",
             "properties": {
                 "element": {"#": "groupsAllow"},
                 "label": "Groups Allowed",
-                "emptyMessage": "No allowed groups added"
+                "emptyMessage": "No allowed groups added",
+                "valuePath": "name"
             },
             "bindings": {
-                "values": {"<->": "@owner.properties.groups_allow"},
-                "controller": {"<-": "@owner.groupsSearchController"},
-                "initialOptions": {"<-": "@owner.initialGroupOptions"}
+                "values": {"<->": "@owner.properties.groups_allow"}
             }
         },
         "groupsDeny": {
-            "prototype": "blue-shark/ui/field-search-multiple.reel",
+            "prototype": "ui/controls/search-groups-multiple.reel",
             "properties": {
                 "element": {"#": "groupsDeny"},
                 "label": "Groups Deny",
-                "emptyMessage": "No groups denied"
+                "emptyMessage": "No groups denied",
+                "valuePath": "name"
             },
             "bindings": {
-                "values": {"<->": "@owner.properties.groups_deny"},
-                "controller": {"<-": "@owner.groupsSearchController"},
-                "initialOptions": {"<-": "@owner.initialGroupOptions"}
+                "values": {"<->": "@owner.properties.groups_deny"}
             }
         },
         "afp3Privileges": {
