@@ -13,10 +13,18 @@
         "modal": {
             "prototype": "blue-shark/ui/modal.reel",
             "properties": {
-                "element": {"#": "modal"}
+                "element": {"#": "modal"},
+                "hideCloseButton": true
             },
             "bindings": {
                 "classList.has('montage-Overlay--visible')": {"<-": "@owner.connectionState == 'CLOSED'"}
+            }
+        },
+        "spinner": {
+            "prototype": "blue-shark/ui/spinner.reel",
+            "properties": {
+                "element": {"#": "spinner"},
+                "isShown": true
             }
         }
     }
@@ -28,7 +36,7 @@
             <div class="DisconnectionModal-content">
                 <h1 class="DisconnectionModal-title">WebSocket Connection Interrupted!</h1>
                 <h3 class="DisconnectionModal-message">Attempting to reconnect...</h3>
-                <div class="has-loading-spinner"></div>
+                <div data-montage-id="spinner" class="DisconnectionModal-spinner"></div>
             </div>
         </div>
     </div>
