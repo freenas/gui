@@ -2,6 +2,7 @@
 declare let require: any;
 import sectionsDescriptors  = require('../../data/sections-descriptors.json');
 import {CalendarRepository} from '../repository/calendar-repository';
+import {ReplicationRepository} from '../repository/replication-repository';
 import _ = require('lodash');
 import {ModelEventName} from '../model-event-name';
 import {AbstractRoute} from './abstract-route';
@@ -11,14 +12,16 @@ export class CalendarRoute extends AbstractRoute {
     private static instance: CalendarRoute;
     private calendarService: any;
 
-    private constructor(private calendarRepository: CalendarRepository) {
+    private constructor(private calendarRepository: CalendarRepository,
+                        private replicationRepository: ReplicationRepository) {
         super();
     }
 
     public static getInstance() {
         if (!CalendarRoute.instance) {
             CalendarRoute.instance = new CalendarRoute(
-                CalendarRepository.getInstance()
+                CalendarRepository.getInstance(),
+                ReplicationRepository.getInstance()
             );
         }
         return CalendarRoute.instance;
@@ -92,8 +95,9 @@ export class CalendarRoute extends AbstractRoute {
             };
         return Promise.all([
             this.calendarRepository.listTasks(),
-            this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(calendarTasks: Array<any>, uiDescriptor) {
+            this.modelDescriptorService.getUiDescriptorForType(objectType),
+            this.replicationRepository.listReplications()
+        ]).spread(function(calendarTasks: Array<any>, uiDescriptor, replications: Array<any>) {
             context.object = _.find(calendarTasks, {id: calendarTaskId});
             context.userInterfaceDescriptor = uiDescriptor;
 
@@ -102,6 +106,10 @@ export class CalendarRoute extends AbstractRoute {
                 if (context && context.changeListener) {
                     self.eventDispatcherService.removeEventListener(ModelEventName[context.objectType].listChange, context.changeListener);
                 }
+            }
+
+            if (context.object.task === "replication.sync") {
+                context.object._replicationObject = _.find(replications, {id: context.object.args[0]});
             }
 
             stack.push(context);

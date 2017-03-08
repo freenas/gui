@@ -46,7 +46,8 @@
                 "controller": {"@": "owner"}
             },
             "bindings": {
-                "context": {"<-": "@owner.context"}
+                "context": {"<-": "@owner.context"},
+                "extraDeleteFlags": {"<-": "@owner.extraDeleteFlags"}
             }
         },
         "datasetTreeController": {

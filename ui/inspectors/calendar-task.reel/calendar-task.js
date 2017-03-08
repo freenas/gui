@@ -37,6 +37,17 @@ exports.CalendarTask = AbstractInspector.specialize({
             this.addRangeAtPathChangeListener("object._simpleSchedule.daysOfWeek", this, "_handleSimpleScheduleChange");
             if (this.object.task) {
                 this.classList.add('type-' + this.object.task.replace('.', '_').toLowerCase());
+                if (this.object._replicationObject ) {
+                    this.replicationObject = this.object._replicationObject;
+                    this.extraDeleteFlags = [{
+                        "label": "Delete associated replication?",
+                        "value": "delete_repl",
+                        "checked": false
+                    }];
+                } else {
+                    this.replicationObject = null;
+                    this.extraDeleteFlags = [];
+                }
             }
             if (this.object._isNew) {
                 this.object.args = [];
@@ -93,6 +104,15 @@ exports.CalendarTask = AbstractInspector.specialize({
                 self.object.args = args;
                 return self.inspector.save();
             });
+        }
+    },
+
+    delete: {
+        value: function(object) {
+            if (this.replicationObject && this.extraDeleteFlags[0].checked) {
+                this._sectionService.deleteReplication(this.replicationObject);
+            }
+            this.inspector.delete();
         }
     },
 

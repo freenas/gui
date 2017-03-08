@@ -1,6 +1,5 @@
 import {ReplicationRepository} from '../repository/replication-repository';
 import {SystemRepository} from '../repository/system-repository';
-import {MiddlewareClient} from './middleware-client';
 import * as _ from 'lodash';
 import {Model} from '../model';
 
@@ -29,13 +28,7 @@ export class ReplicationService {
     }
 
     public listReplicationsForVolume(volume: string): Promise<any> {
-        return Promise.all([
-            this.replicationRepository.listReplications(),
-            this.getHostUuid()
-        ]).spread((replications, host) => _.filter(replications, (replication: any) =>
-                (replication.master === host && replication.datasets[0].master.startsWith(volume)) ||
-                    (replication.slave === host && replication.datasets[0].slave.startsWith(volume))
-            ));
+        return this.replicationRepository.listReplicationsForVolume(volume);
     }
 
     public listReplicationsForDataset(dataset: string): Promise<any> {
@@ -122,6 +115,6 @@ export class ReplicationService {
     }
 
     private getHostUuid(): Promise<string> {
-        return this.hostPromise = this.hostPromise || this.middlewareClient.callRpcMethod('system.info.host_uuid');
+        return this.hostPromise = this.hostPromise || this.replicationRepository.getHostUuid();
     }
 }

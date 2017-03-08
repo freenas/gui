@@ -36,9 +36,21 @@ exports.Replication = AbstractInspector.specialize({
                 this.object.datasets[0].master = this.context.dataset;
                 this._hideSourceDataset = true;
             }
-
+            
             if (this.datasetTreeController) {
-                this.datasetTreeController.open(this.object.datasets[0].master || this.context.volume);
+                this.datasetTreeController.open(this.context.volume || this.object.datasets[0].master);
+            }
+
+            if (this.object._calendarTask ) {
+                this.calendarTask = this.object._calendarTask;
+                this.extraDeleteFlags = [{
+                    "label": "Delete associated replication calendar task?",
+                    "value": "delete_task",
+                    "checked": false
+                }];
+            } else {
+                this.calendarTask = null;
+                this.extraDeleteFlags = [];
             }
         }
     },
@@ -88,6 +100,15 @@ exports.Replication = AbstractInspector.specialize({
                         self.syncReplication(replicationId);
                 }
             });
+        }
+    },
+
+    delete: {
+        value: function(object) {
+            if (this.calendarTask && this.extraDeleteFlags[0].checked) {
+                this._sectionService.deleteCalendarTask(this.calendarTask);
+            }
+            this.inspector.delete();
         }
     },
 

@@ -95,4 +95,8 @@ export class CalendarSectionService extends AbstractSectionService {
     public listUsers() {
         return this.accountRepository.listUsers();
     }
+
+    public deleteReplication(replication) {
+        return this.replicationRepository.deleteReplication(replication);
+    }
 }
