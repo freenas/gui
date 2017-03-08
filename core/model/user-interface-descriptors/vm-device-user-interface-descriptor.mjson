@@ -6,7 +6,14 @@
             "collectionNameExpression": "'Devices'",
             "inspectorComponentModule": {"%": "ui/sections/vms/inspectors/virtual-machine-device.reel"},
             "creatorComponentModule": {"%": "ui/sections/vms/inspectors/virtual-machine-device-creator.reel"},
-            "nameExpression": "!_isNew ? name : 'New ' + type + ' Device'"
+            "nameExpression": "!_isNew ? name : 'New ' + type + ' Device'",
+            "statusColorMapping": {
+                "CONNECTED": "green",
+                "DISCONNECTED": "yellow",
+                "ERROR": "red",
+                "UNKNOWN": "grey"
+            },
+            "statusValueExpression": "status"
         }
     }
 }

@@ -55,25 +55,15 @@
                 "disabled": {"<-": "@owner.object._isFromTemplate"}
             }
         },
-        "deviceStatusLight": {
-            "prototype": "ui/controls/traffic-light.reel",
+        "deviceStatus": {
+            "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
-                "element": {"#": "deviceStatusLight"},
-                "colorMapping": {"CONNECTED" : "green", "ERROR": "yellow", "DISCONNECTED" : "red", "UNKNOWN": "grey"}
+                "element": {"#": "deviceStatus"},
+                "label": "Status"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.status ? @owner.object.status : 'UNKNOWN'"},
+                "value": {"<-": "@owner.object.status"},
                 "isHidden": {"<-": "@owner.object._isNew"}
-            }
-        },
-        "deviceStatusLabel": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "deviceStatusLabel"},
-                "value": "Device Status"
-            },
-            "bindings": {
-                "classList.has('is-hidden')": {"<-": "@owner.object._isNew"}
             }
         },
         "deviceTypePlaceholder": {
@@ -94,12 +84,9 @@
 <body>
     <div data-montage-id="owner" class="VirtualMachineDevice">
         <div data-montage-id="inspector">
+            <div data-montage-id="deviceStatus"></div>
             <div data-montage-id="name"></div>
             <div data-montage-id="deviceTypePlaceholder"></div>
-            <div class="flex-row flex-align--center g-margin-bottom">
-                <div data-montage-id="deviceStatusLight" class="g-margin-right--half"></div>
-                <div data-montage-id="deviceStatusLabel"></div>
-            </div>
         </div>
     </div>
 </body>
