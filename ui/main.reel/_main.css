@@ -28,6 +28,7 @@
 }
 
 .SignInModal.montage-Overlay--visible {
+    background-color: var(--primary--9);
     opacity: 1;
     visibility: visible;
 }
