@@ -63,11 +63,11 @@ export class ReplicationService {
 
         for (i = 0; i < length; i++) {
             option = replication.transport_options[i];
-            if (option['%type'] === 'compress-replication-transport-option') {
+            if (option['%type'] === 'CompressReplicationTransportOption') {
                 result.compress = option.level;
-            } else if (option['%type'] === 'encrypt-replication-transport-option') {
+            } else if (option['%type'] === 'EncryptReplicationTransportOption') {
                 result.encrypt = option.type;
-            } else if (option['%type'] === 'throttle-replication-transport-option') {
+            } else if (option['%type'] === 'ThrottleReplicationTransportOption') {
                 result.throttle = option.buffer_size;
             }
         }
