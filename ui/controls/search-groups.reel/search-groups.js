@@ -4,19 +4,13 @@ exports.SearchGroups = AbstractSearchAccount.specialize(/** @lends SearchGroups#
 
     search: {
         value: function (value) {
-             return this.service.searchGroup(value, {
-                 labelPath: this.labelPath,
-                 valuePath: this.valuePath
-             });
+             return this.service.searchGroup(value);
         }
     },
 
     loadInitialOptions: {
         value: function () {
-            return this.service.listLocalGroups({
-                labelPath: this.labelPath,
-                valuePath: this.valuePath
-            });
+            return this.service.listLocalGroups();
         }
     },
 

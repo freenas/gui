@@ -67,10 +67,9 @@ exports.AbstractSearchAccount = Component.specialize({
             if (this._value !== value) {
                 this._value = value;
 
-                if (value) {
-                    this._findLabelForValue();
-                } else {
-                    this.displayedValue = null;
+                if (value && typeof value === "string" &&
+                    (!this.entry || (this.entry && typeof this.entry === "object" && this.entry[this.valuePath] !== value))) {
+                    this._findLabelForValue(value);
                 }
             }
         },
@@ -86,24 +85,35 @@ exports.AbstractSearchAccount = Component.specialize({
         }
     },
 
-    enterDocument: {
+    handleEntryChange: {
         value: function () {
+            if (this.entry) {
+                this.value = this.entry[this.valuePath];
+            }
+        }
+    },
+
+    enterDocument: {
+        value: function (firstTime) {
+            if (firstTime) {
+                this.addPathChangeListener('entry', this, 'handleEntryChange');
+            }
             this._loadInitialOptions();
         }
     },
 
     _findLabelForValue: {
-        value: function () {
+        value: function (value) {
             if (typeof this.findLabelForValue === 'function') {
                 var criteria = {},
                     self = this;
 
-                criteria[this.valuePath] = this.value;
+                criteria[this.valuePath] = value;
                 this._setLoadingStep('loadingLabel', true);
 
                 this.findLabelForValue(criteria).then(function (entries) {
-                    self.displayedValue = entries && entries.length ?
-                        entries[0][self.labelPath] : self.value;
+                    self.entry = entries && entries.length ?
+                        entries[0] : self.value;
                 }).finally(function () {
                     self._setLoadingStep('loadingLabel', false);
                 });
@@ -113,14 +123,15 @@ exports.AbstractSearchAccount = Component.specialize({
 
     _loadInitialOptions: {
         value: function () {
-            if (typeof this.loadInitialOptions === 'function') {
+            if (!this._loadInitialOptionsPromise && typeof this.loadInitialOptions === 'function') {
                 var self = this;
                 this._setLoadingStep('loadingOptions', true);
 
-                this.loadInitialOptions().then(function (options) {
+                this._loadInitialOptionsPromise = this.loadInitialOptions().then(function (options) {
                     self.initialOptions = options;
                 }).finally(function () {
                     self._setLoadingStep('loadingOptions', false);
+                    self._loadInitialOptionsPromise = null;
                 });
             }
         }

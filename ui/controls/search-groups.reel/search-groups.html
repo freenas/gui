@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -17,8 +16,9 @@
                 "controller": {"@": "owner"}
             },
             "bindings": {
-                "value": {"<->": "@owner.value"},
-                "displayedValue": {"<-": "@owner.displayedValue"},
+                "value": {"<->": "@owner.entry"},
+                "labelPath": {"<-": "@owner.labelPath"},
+                "valuePath": {"<-": "@owner.valuePath"},
                 "label": {"<-": "@owner.label"},
                 "disabled": {"<-": "@owner.disabled"},
                 "isLoading": {"<-": "@owner.isLoading"},

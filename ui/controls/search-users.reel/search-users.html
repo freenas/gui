@@ -16,11 +16,12 @@
                 "controller": {"@": "owner"}
             },
             "bindings": {
-                "value": {"<->": "@owner.value"},
+                "value": {"<->": "@owner.entry"},
                 "label": {"<-": "@owner.label"},
                 "disabled": {"<-": "@owner.disabled"},
                 "isLoading": {"<-": "@owner.isLoading"},
-                "displayedValue": {"<-": "@owner.displayedValue"},
+                "labelPath": {"<-": "@owner.labelPath"},
+                "valuePath": {"<-": "@owner.valuePath"},
                 "initialOptions": {"<-": "@owner.initialOptions"},
                 "validationPath": {"<-": "@owner.validationPath"},
                 "hasNoneButton": {"<-": "@owner.hasNoneButton"}
