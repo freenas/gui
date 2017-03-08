@@ -62,6 +62,7 @@ export class ModelEventName {
     public static ServicesCategory = new ModelEventName(Model.ServicesCategory);
     public static ServiceUps = new ModelEventName(Model.ServiceUps);
     public static Share = new ModelEventName(Model.Share);
+    public static ShareIscsiTarget = new ModelEventName(Model.ShareIscsiTarget);
     public static SshCredentials = new ModelEventName(Model.SshCredentials);
     public static SupportCategory = new ModelEventName(Model.SupportCategory);
     public static SupportTicket = new ModelEventName(Model.SupportTicket);
