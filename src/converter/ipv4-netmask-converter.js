@@ -45,7 +45,7 @@ var Converter = require("montage/core/converter/converter").Converter,
     revert: {
         value: function (value) {
             try {
-                if (typeof value !== 'string' || this.validator.validate(value)) {
+                if (typeof value !== 'string' || !this.validator.validate(value)) {
                     return value;
                 }
 
