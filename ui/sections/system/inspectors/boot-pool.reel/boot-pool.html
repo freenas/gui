@@ -9,9 +9,6 @@
             "properties": {
                 "element": {"#": "owner"}
             },
-            "bindings": {
-                "classList.has('has-loading-spinner')": {"<-": "!!@owner._isLocked"}
-            },
             "listeners": [
                 {
                     "type": "action",
@@ -35,7 +32,8 @@
                 "isFooterHidden": true
             },
             "bindings": {
-                "context": {"<-": "@owner.context"}
+                "context": {"<-": "@owner.context"},
+                "isLoading": {"<-": "!!@owner._isLocked"}
             }
         },
         "bytesSizeConverter": {
