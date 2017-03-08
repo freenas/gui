@@ -10,7 +10,8 @@
                 "validationController": {"@": "validationController"}
             },
             "bindings": {
-                "classList.has('is-new')": {"<-": "!!@owner.object._isNew"}
+                "classList.has('is-new')": {"<-": "!!@owner.object._isNew"},
+                "classList.has('has-image')": {"<-": "@imageSelector.hasImage || !@owner.object._isNew"}
             }
         },
 
@@ -412,27 +413,29 @@
         <div data-montage-id="name"></div>
         <div data-montage-id="version"></div>
         <div data-montage-id="host"></div>
-        <div data-montage-id="expose_ports"></div>
-        <div data-montage-id="ports" class="g-margin-bottom--double"></div>
-        <div data-montage-id="volumes" class="g-margin-bottom--double"></div>
-        <div data-montage-id="environment" class="g-margin-bottom"></div>
-        <div data-montage-id="networkSettings">
-            <div data-montage-id="primary_network_mode"></div>
-            <div data-montage-id="bridgeDHCP"></div>
-            <div data-montage-id="bridgeAddress"></div>
-            <div data-montage-id="bridgeMacaddress"></div>
-            <div data-montage-id="networks"></div>
+        <div class="Container-settings">
+            <div data-montage-id="expose_ports"></div>
+            <div data-montage-id="ports" class="g-margin-bottom--double"></div>
+            <div data-montage-id="volumes" class="g-margin-bottom--double"></div>
+            <div data-montage-id="environment" class="g-margin-bottom"></div>
+            <div data-montage-id="networkSettings">
+                <div data-montage-id="primary_network_mode"></div>
+                <div data-montage-id="bridgeDHCP"></div>
+                <div data-montage-id="bridgeAddress"></div>
+                <div data-montage-id="bridgeMacaddress"></div>
+                <div data-montage-id="networks"></div>
+            </div>
+            <div data-montage-id="advanced">
+                <div data-montage-id="hostname"></div>
+                <div data-montage-id="memory_limit"></div>
+                <div data-montage-id="interactive"></div>
+                <div data-montage-id="privileged"></div>
+                <div data-montage-id="autostart"></div>
+                <div data-montage-id="command"></div>
+            </div>
+            <div data-montage-id="logs"></div>
+            <div data-montage-id="readme"></div>
         </div>
-        <div data-montage-id="advanced">
-            <div data-montage-id="hostname"></div>
-            <div data-montage-id="memory_limit"></div>
-            <div data-montage-id="interactive"></div>
-            <div data-montage-id="privileged"></div>
-            <div data-montage-id="autostart"></div>
-            <div data-montage-id="command"></div>
-        </div>
-        <div data-montage-id="logs"></div>
-        <div data-montage-id="readme"></div>
     </div>
 </div>
 </body>

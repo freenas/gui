@@ -12,6 +12,14 @@
     flex: 1;
 }
 
+.Container-settings {
+    display: none;
+
+    @nest .Container.has-image & {
+        display: block;
+    }
+}
+
 /* Volume Table UNIQUE LAYOUT */
 
 .TableVolume .Table-cells > div:nth-child(1),
