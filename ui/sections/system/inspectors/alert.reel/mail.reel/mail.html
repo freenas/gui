@@ -175,6 +175,15 @@
             "bindings": {
                 "value": {"<->": "@owner.object.pushbullet.config.api_key"}
             }
+        },
+        "msgSent": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "msgSent"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.msgSent"}
+            }
         }
     }
     </script>
@@ -192,6 +201,7 @@
                 <div data-montage-id="password"></div>
                 <div data-montage-id="send_to"></div>
                 <div data-montage-id="sendTestMail" class="Button--block"></div>
+                <div data-montage-id="msgSent"></div>
             </div>
             <div data-montage-id="pushBulletSection" class="pushBulletSection">
                 <div data-montage-id="apikey"></div>
