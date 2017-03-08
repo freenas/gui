@@ -30,7 +30,7 @@
                 "context": {"<-": "@owner.context"},
                 "canDelete": {"<-": "!@owner.object._isNew"},
                 "canRevert": {"<-": "!@owner.object._isNew"},
-                "classList.has('has-loading-spinner')": {"<-": "@owner.isLoading"}
+                "isLoading": {"<-": "@owner.isLoading"}
             }
         },
 
