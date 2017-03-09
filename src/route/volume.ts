@@ -145,7 +145,9 @@ export class VolumeRoute extends AbstractRoute {
             Model.ZfsTopology,
             'topology'
         ).then(stack => {
-            _.last(stack).object._isDetached = true;
+            let topology = _.last(stack).object;
+            topology._isDetached = true;
+            topology._volume = stack[2].object;
             return stack;
         });
     }
