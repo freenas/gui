@@ -152,8 +152,7 @@ export class StorageSectionService extends AbstractSectionService {
         if (!this.initialDiskAllocationPromise || this.initialDiskAllocationPromise.isRejected()) {
             this.initialDiskAllocationPromise = this.diskRepository.listDisks().then(
                 (disks) => {
-                    this.volumeRepository.initializeDisksAllocations((_.map(disks, 'id') as Array<string>));
-                    return disks;
+                    return this.volumeRepository.initializeDisksAllocations((_.map(disks, 'id') as Array<string>)).then(() => disks);
                 }
             );
         }

@@ -199,10 +199,9 @@ export class VolumeRepository extends AbstractRepository<Volume> {
         });
     }
 
-    public initializeDisksAllocations(diskIds: Array<string>): void {
-        this.volumeDao.getDisksAllocation(diskIds).then(
-            (allocations) => _.forIn(allocations,
-                (allocation, path) => this.setDiskAllocation(path, allocation)
+    public initializeDisksAllocations(diskIds: Array<string>): Promise<Array<any>> {
+        return this.volumeDao.getDisksAllocation(diskIds).then(
+            (allocations) => _.forIn(allocations, (allocation, path) => this.setDiskAllocation(path, allocation)
             )
         );
     }
@@ -470,7 +469,7 @@ export class VolumeRepository extends AbstractRepository<Volume> {
                             this.datastoreService.getState().get(Model.DiskUsage).get(usageType).toJS() :
                             {};
         diskUsage[path] = allocation.name || 'boot';
-        this.datastoreService.save(Model.DiskUsage, usageType, diskUsage);
+        return this.datastoreService.save(Model.DiskUsage, usageType, diskUsage);
     }
 
     protected handleStateChange(name: string, state: any) {

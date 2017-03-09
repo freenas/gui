@@ -43,18 +43,21 @@ exports.VolumeCreator = AbstractInspector.specialize({
 
     enterDocument: {
         value: function(isFirstTime) {
+            var self = this;
             this.super(isFirstTime);
+            this.isLoading = true;
             if (isFirstTime) {
                 this.addPathChangeListener("topologySelectedDisk", this, "_handleSelectedDiskChange");
                 this.addPathChangeListener("availableSelectedDisk", this, "_handleSelectedDiskChange");
             }
-            var self = this;
             this._parentCascadingListItem = CascadingList.findCascadingListItemContextWithComponent(this);
             if (this._parentCascadingListItem) {
                 this._parentCascadingListItem.classList.add("CascadingListItem-VolumeCreator");
             }
             this._sectionService.listAvailableDisks().then(function(availableDisks) {
                 self.availableDisks = availableDisks;
+            }).finally(function() {
+                self.isLoading = false;
             });
             this.availableDisksEventListener = this._eventDispatcherService.addEventListener('AvailableDisksChanged', this._handleAvailableDisksChange.bind(this));
         }
