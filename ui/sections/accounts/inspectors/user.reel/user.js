@@ -96,7 +96,7 @@ exports.User = AbstractInspector.specialize({
             return this._sectionService.searchGroupWithCriteria({name: 'wheel'}).then(function (groups) {
                 var wheel = groups[0],
                     object = self.object,
-                    groups = object.groups,
+                    groups = object.groups || (object.groups = []),
                     hasWheel = _.includes(groups, wheel.id);
 
                 if (object.sudo && !hasWheel) {
