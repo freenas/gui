@@ -17,7 +17,8 @@ exports.CryptoCertificateImport = Component.specialize(/** @lends CryptoCertific
     _saveWithFileUpload: {
         value: function () {
             this.object.certificate = this.certificateFile;
-            this.object.privatekey = this.privateKeyFile;
+            this.object.privatekey = {};
+            this.object.privatekey['$password'] = this.privateKeyFile || null;
         }
     }
 });
