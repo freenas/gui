@@ -12,6 +12,23 @@ exports.TableUsers = Component.specialize(/** @lends TableUsers# */ {
         value: function () {
             return this._sectionService.getNewUser();
         }
-    }
+    },
     //TODO: password checking.
+    prepareForActivationEvents: {
+        value: function () {
+            this.addEventListener("action", this);
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            this.removeEventListener("action", this);
+        }
+    },
+
+    handleAddButtonAction: {
+        value: function () {
+            this.table.showNewEntryRow();
+        }
+    }
 });

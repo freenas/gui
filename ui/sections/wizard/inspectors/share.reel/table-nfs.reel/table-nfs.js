@@ -16,5 +16,22 @@ exports.TableNfs = Component.specialize(/** @lends TableNfs# */ {
                 return shareService.populateShareObjectIfNeeded(share);
             });
         }
+    },
+    prepareForActivationEvents: {
+        value: function () {
+            this.addEventListener("action", this);
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            this.removeEventListener("action", this);
+        }
+    },
+
+    handleAddButtonAction: {
+        value: function () {
+            this.table.showNewEntryRow();
+        }
     }
 });

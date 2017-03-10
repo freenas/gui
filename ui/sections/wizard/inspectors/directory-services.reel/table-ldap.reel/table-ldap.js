@@ -12,5 +12,23 @@ exports.TableLdap = Component.specialize(/** @lends TableLdap# */ {
         value: function () {
             return this._sectionService.getNewDirectoryForType("ldap");
         }
+    },
+
+    prepareForActivationEvents: {
+        value: function () {
+            this.addEventListener("action", this);
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            this.removeEventListener("action", this);
+        }
+    },
+
+    handleAddButtonAction: {
+        value: function () {
+            this.table.showNewEntryRow();
+        }
     }
 });

@@ -14,6 +14,12 @@ exports.TableEnvironment = Component.specialize({
         }
     },
 
+    exitDocument: {
+        value: function() {
+            this.removeEventListener("action", this);
+        }
+    },
+
     handleAddButtonAction: {
         value: function () {
             this.table.showNewEntryRow();
