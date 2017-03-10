@@ -40,20 +40,32 @@ exports.DcService = AbstractInspector.specialize({
 
     handleDcUrlAction: {
         value: function() {
+            window.open(this.dcUrl, '_blank');
+        }
+    },
+
+    _handleStateChange: {
+        value: function(state) {
             this._updateIp();
             this._updateUrl();
-            window.open(this.dcUrl, '_blank');
         }
     },
 
     enterDocument: {
         value: function() {
             var self = this;
-            this._updateIp();
-            this._updateUrl();
             this._sectionService.listVolumes().then(function(volumesList) {
                 self.volumeOptions = volumesList;
             });
+            this.addPathChangeListener("context.object.state", this, "_handleStateChange");
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            if (this.getPathChangeDescriptor("context.object.state", this)) {
+                this.removePathChangeListener("context.object.state", this);
+            }
         }
     }
 });
