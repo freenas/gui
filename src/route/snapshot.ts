@@ -140,7 +140,7 @@ export class SnapshotRoute extends AbstractRoute {
             this.volumeRepository.listSnapshots(),
             this.modelDescriptorService.getUiDescriptorForType(self.objectType)
         ]).spread(function (volumes: Array<any>, snapshots: Array<any>, uiDescriptor) {
-            let snapshot = _.find(snapshots, {id: snapshotId});
+            let snapshot = _.find(snapshots, {id: decodeURIComponent(snapshotId)});
             snapshot._volume = _.find(volumes, {id: volumeId});
             context.object = snapshot;
             context.userInterfaceDescriptor = uiDescriptor;
