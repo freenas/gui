@@ -44,9 +44,14 @@ exports.VolumeDatasetPermissions = AbstractInspector.specialize(/** @lends Volum
         value: null
     },
 
-    templateDidLoad: {
+    _inspectorTemplateDidLoad: {
         value: function () {
-            this._permissionsTypeOptions = VolumeDatasetPermissionstype.members;
+            this._permissionsTypeOptions = VolumeDatasetPermissionstype.members.map(function(type) {
+                return {
+                    label: type,
+                    value: type
+                };
+            });
         }
     }
 

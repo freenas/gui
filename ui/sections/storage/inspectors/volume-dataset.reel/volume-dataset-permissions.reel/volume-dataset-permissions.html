@@ -16,15 +16,11 @@
                 "title": "Permissions"
             }
         },
-        "permissionsTypeConverter": {
-            "prototype": "core/converter/select-option-converter"
-        },
         "permissionsType": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "permissionsType"},
-                "label": "Permissions Type",
-                "converter": {"@": "permissionsTypeConverter"}
+                "label": "Permissions Type"
             },
             "bindings": {
                 "options": {"<-": "@owner._permissionsTypeOptions"},
