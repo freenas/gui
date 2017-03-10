@@ -28,8 +28,10 @@ exports.Disk = AbstractInspector.specialize({
     },
 
     exitDocument: {
-        value: function() {
-            this._eventDispatcherService.removeEventListener('VolumeTopologyChanged-' + this.object._volume.id, this.topologyChangedListener);
+        value: function () {
+            if (this.object._volume) {
+                this._eventDispatcherService.removeEventListener('VolumeTopologyChanged-' + this.object._volume.id, this.topologyChangedListener);
+            }
         }
     },
 

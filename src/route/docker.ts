@@ -114,43 +114,41 @@ export class DockerRoute extends AbstractRoute {
 
     public getDockerNetwork(dockerNetworkId: string, stack: Array<any>) {
         let columnIndex = 4;
-        return Promise.all([
-            this.loadObjectInColumn(
+
+        return this.dockerContainerRepository.list().then(containers => {
+            return this.loadObjectInColumn(
                 stack,
                 columnIndex,
                 columnIndex - 1,
                 '/create',
                 DockerNetwork.getClassName(),
                 this.dockerNetworkRepository.list(),
-                {
-                    id: dockerNetworkId
+                { id: dockerNetworkId },
+                context => {
+                    let network = context.object;
+                    network._containers = _.filter(containers, { host: network.host });
                 }
-            ),
-            this.dockerContainerRepository.list()
-        ]).spread((stack, containers) => {
-            let network = (_.last(stack) as any).object;
-            network._containers = _.filter(containers, {host: network.host});
-            return stack;
+            );
         });
     }
 
     public createDockerNetwork(hostId, stack: Array<any>) {
         let columnIndex = 4;
-        return Promise.all([
-            this.loadObjectInColumn(
+        return this.dockerContainerRepository.list().then(containers => {
+            return this.loadObjectInColumn(
                 stack,
                 columnIndex,
                 columnIndex - 1,
                 '/create',
                 DockerNetwork.getClassName(),
-                this.dockerNetworkRepository.getNewInstance()
-            ),
-            this.dockerContainerRepository.list()
-        ]).spread((stack, containers) => {
-            let network = (_.last(stack) as any).object;
-            network.host = hostId;
-            network._containers = _.filter(containers, {host: hostId});
-            return stack;
+                this.dockerNetworkRepository.getNewInstance(),
+                null,
+                context => {
+                    let network = context.object;
+                    network.host = hostId;
+                    network._containers = _.filter(containers, {host: hostId});
+                }
+            );
         });
     }
 
@@ -306,26 +304,29 @@ export class DockerRoute extends AbstractRoute {
 
     public getContainer(containerId, stack: Array<any>) {
         let columnIndex = 2;
-        return Promise.all(_.flatten([
-            this.loadObjectInColumn(
+        return Promise.all(
+            _.flatten(this.getContainerDependencies())
+        ).spread((
+            hosts: Array<DockerHost>,
+            networks: Array<DockerNetwork>,
+            networkModes: Array<any>
+        ) => {
+            return this.loadObjectInColumn(
                 stack,
                 columnIndex,
                 columnIndex - 1,
                 '/_/' + containerId,
                 DockerContainer.getClassName(),
                 this.dockerContainerRepository.list(),
-                {id: containerId}
-            ),
-            this.getContainerDependencies()
-        ])).spread((stack: Array<any>,
-                    hosts: Array<DockerHost>,
-                    networks: Array<DockerNetwork>,
-                    networkModes: Array<any>) => {
-            let container = _.last(stack).object;
-            container._hosts = hosts;
-            container._networks = networks;
-            container._networkModes = networkModes;
-            return stack;
+                { id: containerId },
+                context => {
+                    let container = context.object;
+                    container._hosts = hosts;
+                    container._networks = networks;
+                    container._networkModes = networkModes;
+                    return stack;
+                }
+            );
         });
     }
 

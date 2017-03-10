@@ -1,5 +1,6 @@
 import {VolumeRepository} from '../repository/volume-repository';
 import {DiskRepository} from '../repository/disk-repository';
+import {DiskUsageService} from '../service/disk-usage-service';
 import {AbstractRoute} from './abstract-route';
 import {Model} from '../model';
 import * as _ from 'lodash';
@@ -7,17 +8,17 @@ import * as _ from 'lodash';
 export class VolumeRoute extends AbstractRoute {
     private static instance: VolumeRoute;
 
-    private constructor(private volumeRepository: VolumeRepository,
-                        private diskRepository: DiskRepository) {
+    private constructor(
+        private volumeRepository = VolumeRepository.getInstance(),
+        private diskRepository = DiskRepository.getInstance(),
+        private diskUsageService = DiskUsageService.getInstance()
+    ) {
         super();
     }
 
     public static getInstance() {
         if (!VolumeRoute.instance) {
-            VolumeRoute.instance = new VolumeRoute(
-                VolumeRepository.getInstance(),
-                DiskRepository.getInstance()
-            );
+            VolumeRoute.instance = new VolumeRoute();
         }
         return VolumeRoute.instance;
     }
@@ -56,20 +57,19 @@ export class VolumeRoute extends AbstractRoute {
 
     public topologyDisk(volumeId, diskId: string, stack: Array<any>) {
         let columnIndex = 3;
-        return Promise.all([
-            this.loadObjectInColumn(
+        return this.volumeRepository.listVolumes().then((volumes) => {
+            return this.loadObjectInColumn(
                 stack,
                 columnIndex,
                 columnIndex - 1,
                 '/disk',
                 Model.Disk,
                 this.diskRepository.listDisks(),
-                {id: diskId}
-            ),
-            this.volumeRepository.listVolumes()
-        ]).spread((stack: Array<any>, volumes) => {
-            _.last(stack).object._volume = _.find(volumes, {id: volumeId});
-            return stack;
+                { id: diskId },
+                context => {
+                    context.object._volume = _.find(volumes, { id: volumeId });
+                }
+            )
         });
     }
 
@@ -88,14 +88,20 @@ export class VolumeRoute extends AbstractRoute {
 
     public create(stack: Array<any>) {
         let columnIndex = 1;
-        return this.loadObjectInColumn(
-            stack,
-            columnIndex,
-            columnIndex - 1,
-            '/create',
-            Model.Volume,
-            this.volumeRepository.getNewVolume()
-        );
+        return this.diskUsageService.listAvailableDisks().then((availbleDisks) => {
+            return this.loadObjectInColumn(
+                stack,
+                columnIndex,
+                columnIndex - 1,
+                '/create',
+                Model.Volume,
+                this.volumeRepository.getNewVolume(),
+                null,
+                context => {
+                    context.object._availableDisks = availbleDisks;
+                }
+            )
+        });
     }
 
     public import(stack: Array<any>) {
