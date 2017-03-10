@@ -13,6 +13,7 @@
 
 .AvailableDisks-category {
     @apply --flex-column;
+    min-height: 10rem;
 }
 
 
