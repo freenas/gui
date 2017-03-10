@@ -33,9 +33,15 @@ exports.AbstractSearchAccountMultiple = AbstractSearchAccount.specialize({
     values: {
         set: function (values) {
             if (this._values !== values) {
+                var self = this;
                 this._values = values;
 
-                if (values && (!this.entries || values.length !== this.entries.length)) {
+                //TODO: need refactor
+                if (values && (!this.entries || values.length !== this.entries.length ||
+                    (_.difference(values, _.map(this.entries, function (entry) {
+                        return entry[self.valuePath];
+                    })).length))
+                ) {
                     this._findLabelsForValues(values);
                 }
             }
@@ -51,7 +57,7 @@ exports.AbstractSearchAccountMultiple = AbstractSearchAccount.specialize({
                 var self = this;
                 this._values = this.entries.map(function (entry) {
                     var value = entry[self.valuePath];
-                    return self.valuePath !== 'id' && entry.origin && entry.origin.domain !== 'local' ?
+                    return self.valuePath !== 'id' && entry.origin && entry.origin.domain && entry.origin.domain !== 'local' ?
                         value + '@' + entry.origin.domain : value;
                 });
                 this.dispatchOwnPropertyChange("values", this.values);

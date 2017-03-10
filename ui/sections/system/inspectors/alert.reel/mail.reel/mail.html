@@ -8,13 +8,7 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
-            },
-            "listeners": [
-                {
-                    "type": "action",
-                    "listener": {"@": "owner"}
-                }
-            ]
+            }
         },
         "validationController": {
             "prototype": "core/controller/validation-controller",
@@ -133,7 +127,13 @@
             "properties": {
                 "element": {"#": "sendTestMail"},
                 "value": "Send Test Mail"
-            }
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
         },
         "send_to": {
             "prototype": "blue-shark/ui/field-multiple-select.reel",

@@ -13,6 +13,24 @@ exports.TableActiveDirectory = Component.specialize(/** @lends TableActiveDirect
         value: function () {
             return this._sectionService.getNewDirectoryForType("winbind");
         }
+    },
+
+    prepareForActivationEvents: {
+        value: function () {
+            this.addEventListener("action", this);
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            this.removeEventListener("action", this);
+        }
+    },
+
+    handleAddButtonAction: {
+        value: function () {
+            this.table.showNewEntryRow();
+        }
     }
 
 });

@@ -6,6 +6,7 @@ import {AccountRepository} from '../../repository/account-repository';
 import {CalendarRepository} from '../../repository/calendar-repository';
 
 import {TopologyService} from '../topology-service';
+import {DiskUsageService} from '../disk-usage-service';
 import {PeeringService} from '../peering-service';
 import {FilesystemService} from '../filesystem-service';
 import {Model} from '../../model';
@@ -30,6 +31,7 @@ export class StorageSectionService extends AbstractSectionService {
     private serviceRepository: ServiceRepository;
     private accountRepository: AccountRepository;
     private calendarRepository: CalendarRepository;
+    private diskUsageService: DiskUsageService;
 
     private topologyService: TopologyService;
 
@@ -73,6 +75,7 @@ export class StorageSectionService extends AbstractSectionService {
         this.topologyService = TopologyService.getInstance();
         this.accountRepository = AccountRepository.getInstance();
         this.calendarRepository = CalendarRepository.getInstance();
+        this.diskUsageService = DiskUsageService.getInstance();
 
         this.eventDispatcherService.addEventListener(ModelEventName.Disk.listChange, this.handleDisksChange.bind(this));
         this.eventDispatcherService.addEventListener(ModelEventName.Volume.listChange, this.handleVolumesChange.bind(this));
@@ -149,15 +152,7 @@ export class StorageSectionService extends AbstractSectionService {
     }
 
     public listDisks() {
-        if (!this.initialDiskAllocationPromise || this.initialDiskAllocationPromise.isRejected()) {
-            this.initialDiskAllocationPromise = this.diskRepository.listDisks().then(
-                (disks) => {
-                    this.volumeRepository.initializeDisksAllocations((_.map(disks, 'id') as Array<string>));
-                    return disks;
-                }
-            );
-        }
-        return this.initialDiskAllocationPromise;
+        return this.diskUsageService.listDisks();
     }
 
     public clearReservedDisks() {
@@ -165,7 +160,7 @@ export class StorageSectionService extends AbstractSectionService {
     }
 
     public listAvailableDisks() {
-        return this.listDisks().then(() => this.diskRepository.listAvailableDisks());
+        return this.diskUsageService.listAvailableDisks();
     }
 
     public findDetachedVolumes() {

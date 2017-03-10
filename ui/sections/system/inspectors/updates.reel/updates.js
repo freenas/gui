@@ -26,14 +26,22 @@ exports.Updates = AbstractInspector.specialize({
                 });
             }
 
-            if (this._inDocument) {
-                this._updateService.check().then(function(taskSubmission) {
+            self.checkForUpdate();
+        }
+    },
+
+    checkForUpdate: {
+        value: function() {
+            var self = this;
+            if (this._inDocument && !this.updatePromise) {
+                this.updatePromise = this._updateService.check().then(function(taskSubmission) {
                     return taskSubmission.taskPromise;
                 }).then(function() {
                     self._updateService.getInfo().then(function(info) {
                         self.info = info;
                         self.parsedHtml = marked(_.replace(_.join(self.info.changelog, "\n"), /## /g, "\n## "));
                     });
+                    self.updatePromise = null;
                 });
             }
         }
@@ -51,20 +59,25 @@ exports.Updates = AbstractInspector.specialize({
         }
     },
 
-    handleSaveAction: {
+    save: {
         value: function() {
             var self = this,
                 config = {
                     check_auto: this.config.check_auto,
                     train: this.config.train
                 };
-            this._updateService.saveConfig(config).then(function() {
+            this._updateService.saveConfig(config).then(function(taskSubmission) {
                 self._cacheRemoteConfig(config);
+                if (taskSubmission) {
+                    return taskSubmission.taskPromise.then(function() {
+                        self.checkForUpdate();
+                    });
+                }
             });
         }
     },
 
-    handleRevertAction: {
+    revert: {
         value: function() {
             this.config.check_auto = this._remoteConfig.check_auto;
             this.config.train = this._remoteConfig.train;

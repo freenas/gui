@@ -24,11 +24,7 @@
             ]
         },
         "validationController": {
-            "prototype": "core/controller/validation-controller",
-            "properties": {
-                "fields": {
-                }
-            }
+            "prototype": "core/controller/validation-controller"
         },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
@@ -46,8 +42,13 @@
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
+<<<<<<< HEAD
                 "extraDeleteFlags": {"<-": "@owner.extraDeleteFlags"}
                 "isLoading": {"<-": "@owner.isLoading"}
+=======
+                "extraDeleteFlags": {"<-": "@owner.extraDeleteFlags"},
+                "isSaveDisabled": {"<-": "!@owner.object.datasets.0.slave || !@owner.object.datasets.0.master"}
+>>>>>>> origin/master
             }
         },
         "datasetTreeController": {
@@ -108,10 +109,10 @@
                 "labelPropertyName": "name"
             }
         },
-        "peer": {
+        "slave": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
-                "element": {"#": "peer"},
+                "element": {"#": "slave"},
                 "isMandatory": true,
                 "label": "Peer",
                 "converter": {"@": "peerOptionsConverter"}
@@ -287,7 +288,7 @@
                     <div data-montage-id="nameDisplay"></div>
                 </div>
             </div>
-            <div data-montage-id="peer"></div>
+            <div data-montage-id="slave"></div>
             <div data-montage-id="source_dataset"></div>
             <div data-montage-id="target_dataset"></div>
             <div data-montage-id="compress"></div>

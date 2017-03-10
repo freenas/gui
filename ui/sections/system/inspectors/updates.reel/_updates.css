@@ -1,5 +1,6 @@
 .SystemSection.updates {
-    max-width: 48rem
+    min-width: 25rem;
+    max-width: 48rem;
 }
 
 .Updates-operations { display: none; }

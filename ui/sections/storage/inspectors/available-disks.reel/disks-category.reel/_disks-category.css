@@ -1,6 +1,6 @@
 .AvailableDisksCategory {
     position: relative;
-
+    min-height: 10rem;
     /* toggle disks */
     &.is-expanded {
         & .Scroller { display: block; }

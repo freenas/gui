@@ -9,7 +9,7 @@ exports.SearchGroupsMultiple = AbstractSearchAccountMultiple.specialize(/** @len
     },
 
     labelExpression: {
-        value: "origin && origin.domain != 'local' ? name  + '@' + origin.domain : name"
+        value: "!!origin && !!origin.domain && origin.domain != 'local' ? name  + '@' + origin.domain : name"
     },
 
     loadInitialOptions: {

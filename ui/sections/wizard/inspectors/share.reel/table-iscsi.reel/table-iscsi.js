@@ -16,5 +16,23 @@ exports.TableIscsi = Component.specialize(/** @lends TableIscsi# */ {
                 return shareService.populateShareObjectIfNeeded(share);
             });
         }
+    },
+
+    prepareForActivationEvents: {
+        value: function () {
+            this.addEventListener("action", this);
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            this.removeEventListener("action", this);
+        }
+    },
+
+    handleAddButtonAction: {
+        value: function () {
+            this.table.showNewEntryRow();
+        }
     }
 });

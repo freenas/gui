@@ -71,6 +71,12 @@ exports.WizardSectionService = AbstractSectionService.specialize({
         }
     },
 
+    getNewDirectoryForType: {
+        value: function(type) {
+            return this._accountRepository.getNewDirectoryForType(type);
+        }
+    },
+
     getMailData: {
         value: function () {
             return this._alertEmitterRepository.list().then(function(alerEmitters) {

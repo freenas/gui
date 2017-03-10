@@ -39,6 +39,7 @@
     <script src="node_modules/maphilight/jquery.maphilight.js" charset="utf-8" ></script>
     <script src="node_modules/smoothscroll-polyfill/src/smoothscroll.js"></script>
     <script src="vendors/timezone-picker.js" charset="utf-8" defer></script>
+    <script src="vendors/konami.js"></script>
     <style>
         .loading {
             height: 100vh;
@@ -89,5 +90,12 @@
         <div data-montage-id="spinner"></div>
     </div>
     <div data-montage-id="application-modal" class="ApplicationModal"></div>
+    <span class="loading has-loading-spinner">
+    </span>
+    <script>
+        new Konami(function() {
+            document.querySelector('.SignIn-logo').src = '/assets/images/alt_logo.gif';
+        });
+    </script>
 </body>
 </html>

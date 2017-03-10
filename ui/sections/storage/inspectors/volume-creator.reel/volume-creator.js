@@ -6,7 +6,6 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
 
 exports.VolumeCreator = AbstractInspector.specialize({
 
-
     _object: {
         value: null
     },
@@ -17,13 +16,19 @@ exports.VolumeCreator = AbstractInspector.specialize({
         },
         set: function(object) {
             var self = this;
-            if (this._object != object) {
-                if (!object.topology) {
-                    this._initializeTopology(object).then(function(_object) {
-                        self.object = _object;
-                    });
+            if (this._object !== object) {
+                if (object) {
+                    if (!object.topology) {
+                        this._initializeTopology(object).then(function(_object) {
+                            self.object = _object;
+                        });
+                    } else {
+                        this._object = object;
+                        this.availableDisks = object._availableDisks;
+                    }
                 } else {
-                    self._object = object;
+                    this.availableDisks = null;
+                    this._object = null;
                 }
             }
         }
@@ -43,19 +48,16 @@ exports.VolumeCreator = AbstractInspector.specialize({
 
     enterDocument: {
         value: function(isFirstTime) {
+            var self = this;
             this.super(isFirstTime);
             if (isFirstTime) {
                 this.addPathChangeListener("topologySelectedDisk", this, "_handleSelectedDiskChange");
                 this.addPathChangeListener("availableSelectedDisk", this, "_handleSelectedDiskChange");
             }
-            var self = this;
             this._parentCascadingListItem = CascadingList.findCascadingListItemContextWithComponent(this);
             if (this._parentCascadingListItem) {
                 this._parentCascadingListItem.classList.add("CascadingListItem-VolumeCreator");
             }
-            this._sectionService.listAvailableDisks().then(function(availableDisks) {
-                self.availableDisks = availableDisks;
-            });
             this.availableDisksEventListener = this._eventDispatcherService.addEventListener('AvailableDisksChanged', this._handleAvailableDisksChange.bind(this));
         }
     },
@@ -72,7 +74,7 @@ exports.VolumeCreator = AbstractInspector.specialize({
     },
 
     _handleAvailableDisksChange: {
-        value: function(availableDisks) {
+        value: function (availableDisks) {
             this.availableDisks = availableDisks.valueSeq().toJS();
         }
     },

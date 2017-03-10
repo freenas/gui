@@ -32,12 +32,14 @@
                 "controller": {"@": "owner"},
                 "validationController": {"@": "validationController"},
                 "canSave": true,
-                "canRevert": true
+                "canRevert": true,
+                "confirmSaveMessage": "Updating this container will remove all data not stored in a volume, are you sure you want to update it ?"
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
                 "canDelete": {"<-": "!@owner.object._isNew"},
-                "isSaveDisabled": {"<-": "@owner.object.names.length == 0 || !@owner.object.names.0 || @owner.object.names.0.length == 0"}
+                "isSaveDisabled": {"<-": "@owner.object.names.length == 0 || !@owner.object.names.0 || @owner.object.names.0.length == 0"},
+                "needSaveConfirmation": {"<-": "!@owner.object._isNew"}
             }
         },
 

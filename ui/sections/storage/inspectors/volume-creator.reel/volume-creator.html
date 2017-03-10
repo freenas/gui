@@ -32,6 +32,7 @@
                 "canSave": true
             },
             "bindings": {
+                "isLoading": {"<-": "@owner.isLoading"},
                 "context": {"<-": "@owner.context"},
                 "isSaveDisabled": {"<-": "@owner.object.topology.data.length == 0"}
             }

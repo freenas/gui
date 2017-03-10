@@ -24,8 +24,8 @@ export class MailRepository {
         return this.alertEmitterEmailDao.save(config);
     }
 
-    public sendTestMail(mailMessage){
-        return this.alertEmitterEmailDao.send(mailMessage);
+    public sendTestMail(mailMessage, config){
+        return this.alertEmitterEmailDao.send(mailMessage, config);
     }
 }
 

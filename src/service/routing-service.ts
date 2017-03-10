@@ -139,7 +139,11 @@ export class RoutingService {
         this.eventDispatcherService.dispatch('inspectorExit').then((isBlockingNeeded) => {
             if (!isBlockingNeeded) {
                 this.currentSectionId = RoutingService.getPathSection(newHash);
-                crossroads.parse(decodeURIComponent(newHash));
+                if (oldHash !== newHash) {
+                    crossroads.ignoreState = true;
+                    crossroads.parse(decodeURIComponent(newHash));
+                    crossroads.ignoreState = false;
+                }
                 this.eventDispatcherService.dispatch('hashChange', newHash);
             } else {
                 this.changeHash(oldHash);
