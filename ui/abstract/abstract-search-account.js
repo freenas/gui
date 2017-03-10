@@ -68,7 +68,8 @@ exports.AbstractSearchAccount = Component.specialize({
             if (this._value !== value) {
                 this._value = value;
 
-                if (value && typeof value === "string" && !this.entry) {
+                if (value && typeof value === "string" &&
+                    (!this.entry || (this.entry[this.valuePath] !== value))) {
                     this._findLabelForValue(value);
                 }
             }
