@@ -172,7 +172,11 @@ exports.Share = AbstractInspector.specialize({
 
     delete: {
         value: function() {
-            return this.inspector.delete(this.extraDeleteFlags[0].checked);
+            if (this.extraDeleteFlags.length > 0) {
+                return this.inspector.delete(this.extraDeleteFlags[0].checked);
+            } else {
+                return this.inspector.delete();
+            }
         }
     },
 
