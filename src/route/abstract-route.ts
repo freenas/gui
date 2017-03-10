@@ -31,25 +31,39 @@ export abstract class AbstractRoute {
         return stack;
     }
 
-    protected loadObjectInColumn(stack: any, columnIndex: number, previousColumnIndex: number, pathSuffix: any, objectType: any, dataPromise: Promise<Array<any>>|Promise<any>, filter?: any): Promise<Array<any>> {
+    protected loadObjectInColumn(
+        stack: any,
+        columnIndex: number,
+        previousColumnIndex: number,
+        pathSuffix: any,
+        objectType: any,
+        dataPromise: Promise<Array<any>> | Promise<any>,
+        filter?: any,
+        postProcessor: Function = _.noop
+    ): Promise<any> {
         let parentContext = stack[previousColumnIndex],
             context: any = {
                 columnIndex: columnIndex,
                 objectType: objectType,
                 parentContext: parentContext,
                 path: parentContext.path + pathSuffix
-            };
-        return Promise.all([
-            dataPromise,
-            this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread((objects: Array<any>|any, uiDescriptor: Object) => {
-            context.object = filter ? _.find(objects, filter) : objects;
-            context.userInterfaceDescriptor = uiDescriptor;
-            context.objectType = objectType;
+            },
+            promise = Promise.all([
+                dataPromise,
+                this.modelDescriptorService.getUiDescriptorForType(objectType)
+            ]).spread((objects: Array<any>|any, uiDescriptor: Object) => {
+                context.object = filter ? _.find(objects, filter) : objects;
+                context.userInterfaceDescriptor = uiDescriptor;
+                context.objectType = objectType;
 
-            return this.updateStackWithContext(stack, context);
-        });
+                return context;
+            }).disposer(() => {
+                this.updateStackWithContext(stack, context);
+            });
 
+        Promise.using(promise, postProcessor);
+
+        return promise;
     }
 
     protected loadPropertyInColumn(stack: any, columnIndex: number, previousColumnIndex: number, pathSuffix: any, objectType: any, propertyPath: string): Promise<Array<any>> {
