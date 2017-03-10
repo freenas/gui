@@ -1,5 +1,5 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Model = require("core/model/model").Model;
+    moment = require('moment');
 
 exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
 
@@ -68,12 +68,12 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
                 this.object._isNew ? this.inspector.save(this.object._recursive) : this.inspector.save(),
                 this._repetition ? this._calendarService.createNewRepeatedTask(
                     'volume.snapshot_dataset',
-                    this.object.name,
+                    this.object.name || 'snapshot_' + moment().format('X'),
                     [
                         this.object.dataset,
                         this.object._recursive,
                         this.object.lifetime,
-                        this.object.name + '-auto',
+                        this.object.name ? this.object.name + '-auto' : 'auto',
                         this.object.replicable
                     ],
                     this._repetition
