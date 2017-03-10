@@ -46,8 +46,10 @@ exports.DcService = AbstractInspector.specialize({
 
     _handleStateChange: {
         value: function(state) {
-            this._updateIp();
-            this._updateUrl();
+            if (state === "RUNNING") {
+                this._updateIp();
+                this._updateUrl();
+            }
         }
     },
 
