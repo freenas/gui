@@ -319,12 +319,12 @@ exports.Vdev = AbstractDropZoneComponent.specialize({
 
                 if (this.isEditorMode && !this.isNewVDev) {
                     if (!this.isVDevRaidZType) {
-                        this.object.type = childrenCount > 1 ? Topology.VDEV_TYPES.MIRROR.value : Topology.VDEV_TYPES.DISK.value;
+                        this.object._defaultType = this.object.type = childrenCount > 1 ? Topology.VDEV_TYPES.MIRROR.value : Topology.VDEV_TYPES.DISK.value;
                     }
                 } else {
                     var allowedDefaultVdevTypesValues = this.topologyItem.allowedDefaultVdevTypes.filter(function(x) { return childrenCount >= x.minDisks; }).map(function(x) { return x.value; });
                     if (!this.object.type || !isAdd || allowedDefaultVdevTypesValues.indexOf(this.object.type) != -1) {
-                        this.object.type = allowedDefaultVdevTypesValues[0];
+                        this.object._defaultType = this.object.type = allowedDefaultVdevTypesValues[0];
                     }
                 }
             }

@@ -412,7 +412,7 @@ export class VolumeRepository extends AbstractRepository<Volume> {
             }
         } else {
             clean = {
-                type: vdev.type,
+                type: vdev.type || vdev._defaultType,
                 children: []
             };
             for (let child of vdev.children) {
