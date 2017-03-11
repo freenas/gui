@@ -13,6 +13,7 @@ import {Group} from '../model/Group';
 import {User} from '../model/User';
 
 import * as _ from 'lodash';
+import {SubmittedTask} from '../model/SubmittedTask';
 
 export class AccountRepository extends AbstractRepository {
     private static instance: AccountRepository;
@@ -146,11 +147,11 @@ export class AccountRepository extends AbstractRepository {
         return this.userDao.findSingleEntry({username: name});
     }
 
-    public saveUser(user: Object): Promise<Object> {
+    public saveUser(user: User): Promise<SubmittedTask> {
         return this.userDao.save(user);
     }
 
-    //@deprecated
+    // @deprecated
     public listGroups(): Promise<Array<Object>> {
         return this.groups ? Promise.resolve(this.groups.toSet().toJS()) : this.groupDao.list();
     }

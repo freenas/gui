@@ -1,7 +1,8 @@
 var AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate,
     EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
     ModelEventName = require("core/model-event-name").ModelEventName,
-    DashboardService = require("core/service/dashboard-service").DashboardService;
+    DashboardService = require("core/service/dashboard-service").DashboardService,
+    _ = require('lodash');
 
 exports.Alerts = AbstractComponentActionDelegate.specialize(/** @lends Alerts# */ {
     handleUserLogged: {
@@ -9,8 +10,10 @@ exports.Alerts = AbstractComponentActionDelegate.specialize(/** @lends Alerts# *
             var self = this;
             this._eventDispatcherService = EventDispatcherService.getInstance();
             this._dashboardService = DashboardService.getInstance();
+            this.isLoading = true;
             this._dashboardService.listAlerts().then(function(alerts) {
-                self.alerts = alerts;
+                self.alerts = alerts.valueSeq().toJS();
+                self.isLoading = false;
                 self._eventDispatcherService.addEventListener(ModelEventName.Alert.listChange, self._handleAlertsChange.bind(self));
                 self._eventDispatcherService.addEventListener('alertDismiss', self._handleAlertDismiss.bind(self));
             });
@@ -27,16 +30,21 @@ exports.Alerts = AbstractComponentActionDelegate.specialize(/** @lends Alerts# *
 
     handleClearAction: {
         value: function () {
-            for (var i = this.displayedAlerts.length - 1; i >= 0; i--) {
-                this._dashboardService.dismissAlert(this.displayedAlerts[i]);
-            }
+            var self = this;
+            this._dashboardService.dismissAllAlerts().then(function() {
+                _.forEach(self.alerts, function(alert) {
+                    alert.dismissed = true;
+                });
+            });
         }
     },
 
     _handleAlertDismiss: {
         value: function (alert) {
             if (alert && !alert.dismissed) {
-                return this._dashboardService.dismissAlert(alert);
+                return this._dashboardService.dismissAlert(alert).then(function() {
+                    alert.dismissed = true;
+                });
             }
         }
     },
