@@ -1,21 +1,27 @@
 .SectionRoot {
     display: flex;
     flex-direction: column;
+
+    & .Inspector-body-scrollview {
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 .SectionRoot-entries {
     @apply --flex-column;
+    flex-shrink: 0;
     margin-top: -1rem !important;
 }
 
 .SectionRoot-overview {
     position: relative;
-    max-height: 15em;
+    flex: 1;
     /* margin overrides for inspector spacing */
     margin: -1rem;
     margin-bottom: 1rem;
-
     @apply --flex-column;
+    min-height: 6rem;
 
     &:after {
         position: absolute;
