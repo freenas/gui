@@ -86,11 +86,10 @@ export class AbstractDao<T extends AbstractDataObject> {
         });
     }
 
-    public find(criteria?: any, params?: any): Promise<any> {
+    public find(criteria?: any): Promise<any> {
         criteria = criteria || {};
-        params = params || {};
-        return this.query(criteria, params).then(function(results) {
-            return results;
+        return this.stream(false, criteria).then(function(results) {
+            return results.get('data');
         });
     }
 

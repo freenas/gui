@@ -27,8 +27,16 @@ export class AlertRepository extends AbstractRepository<Alert> {
         return this.alerts ? Promise.resolve(this.alerts.valueSeq().toJS()) : this.alertDao.find({active: true, dismissed: false});
     }
 
-    public dismissAlert(alert: any): Promise<any> {
+    public dismissAlert(alert: Alert): Promise<any> {
         return this.alertDao.dismiss(alert);
+    }
+
+    public dismissAlerts(alerts: Array<Alert>): Promise<any> {
+        return this.alertDao.dismiss(alerts);
+    }
+
+    public dismissAll(): Promise<any> {
+        return this.alertDao.dismissAll();
     }
 
     public listAlertClasses(): Promise<Array<any>> {
@@ -42,7 +50,7 @@ export class AlertRepository extends AbstractRepository<Alert> {
     public listAlertSeverities(): Promise<Array<any>> {
         return this.alertDao.listAlertSeverities();
     }
-    
+
     protected handleStateChange(name: string, state: any) {
         this.alerts = this.dispatchModelEvents(this.alerts, ModelEventName.Alert, state);
     }
