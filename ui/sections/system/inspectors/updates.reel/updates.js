@@ -14,10 +14,12 @@ exports.Updates = AbstractInspector.specialize({
             var self = this;
 
             if (isFirstTime || this.noServer) {
-                this._updateService = UpdateService.getInstance();
-                this._sectionService.getSystemVersion().then(function(version){
-                    self.currentVersion = version;
-                })
+                if (isFirstTime) {
+                    this._updateService = UpdateService.getInstance();
+                    this._sectionService.getSystemVersion().then(function(version){
+                        self.currentVersion = version;
+                    });
+                }
                 Promise.all([
                     this._updateService.getConfig(),
                     this._updateService.getTrains()
