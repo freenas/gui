@@ -13,16 +13,23 @@ exports.Updates = AbstractInspector.specialize({
         value: function(isFirstTime) {
             var self = this;
 
-            if (isFirstTime) {
-                this._updateService = UpdateService.getInstance();
+            if (isFirstTime || this.noServer) {
+                if (isFirstTime) {
+                    this._updateService = UpdateService.getInstance();
+                    this._sectionService.getSystemVersion().then(function(version){
+                        self.currentVersion = version;
+                    });
+                }
                 Promise.all([
                     this._updateService.getConfig(),
-                    this._updateService.getTrains(),
-                    this._sectionService.getSystemVersion()
-                ]).spread(function(config, trains, version) {
+                    this._updateService.getTrains()
+                ]).spread(function(config, trains) {
                     self.config = config;
                     self.trains = trains;
-                    self.currentVersion = version;
+                    self._cacheRemoteConfig(config);
+                    self.noServer = false
+                }).catch(function() {
+                    self.noServer = true
                 });
             }
 
@@ -41,6 +48,9 @@ exports.Updates = AbstractInspector.specialize({
                         self.info = info;
                         self.parsedHtml = marked(_.replace(_.join(self.info.changelog, "\n"), /## /g, "\n## "));
                     });
+                    self.updatePromise = null;
+                }).catch(function() {
+                    self.noServer = true;
                     self.updatePromise = null;
                 });
             }
@@ -61,26 +71,30 @@ exports.Updates = AbstractInspector.specialize({
 
     save: {
         value: function() {
-            var self = this,
-                config = {
-                    check_auto: this.config.check_auto,
-                    train: this.config.train
-                };
-            this._updateService.saveConfig(config).then(function(taskSubmission) {
-                self._cacheRemoteConfig(config);
-                if (taskSubmission) {
-                    return taskSubmission.taskPromise.then(function() {
-                        self.checkForUpdate();
-                    });
-                }
-            });
+            if (this.config) {
+                var self = this,
+                    config = {
+                        check_auto: this.config.check_auto,
+                        train: this.config.train
+                    };
+                this._updateService.saveConfig(config).then(function(taskSubmission) {
+                    self._cacheRemoteConfig(config);
+                    if (taskSubmission) {
+                        return taskSubmission.taskPromise.then(function() {
+                            self.checkForUpdate();
+                        });
+                    }
+                });
+            }
         }
     },
 
     revert: {
         value: function() {
-            this.config.check_auto = this._remoteConfig.check_auto;
-            this.config.train = this._remoteConfig.train;
+            if (this._remoteConfig) {
+                this.config.check_auto = this._remoteConfig.check_auto;
+                this.config.train = this._remoteConfig.train;
+            }
         }
     },
 
