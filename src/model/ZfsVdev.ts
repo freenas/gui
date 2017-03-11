@@ -6,4 +6,5 @@ export class ZfsVdev extends AbstractDataObject {
     public type: ZfsVdevType;
     public path: string;
     public children: Array<ZfsVdev>;
+    public _defaultType: ZfsVdevType;
 }
