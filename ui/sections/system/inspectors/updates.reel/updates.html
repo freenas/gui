@@ -165,8 +165,10 @@
         "noOperation": {
             "prototype": "ui/controls/inspector-section-title.reel",
             "properties": {
-                "element": {"#": "noOperation"},
-                "value": "No update available"
+                "element": {"#": "noOperation"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.noServer ? 'Error connecting to update server' : 'No update available'"}
             }
         },
         "updateAvailable": {

@@ -33,16 +33,19 @@ exports.AbstractSearchAccountMultiple = AbstractSearchAccount.specialize({
     values: {
         set: function (values) {
             if (this._values !== values) {
-                var self = this;
                 this._values = values;
 
                 //TODO: need refactor
-                if (values && (!this.entries || values.length !== this.entries.length ||
-                    (_.difference(values, _.map(this.entries, function (entry) {
-                        return entry[self.valuePath];
-                    })).length))
-                ) {
-                    this._findLabelsForValues(values);
+                if (values) {
+                    var self = this;
+                    if (!this.entries || values.length !== this.entries.length ||
+                        (_.difference(values, _.map(this.entries, function (entry) {
+                            return entry[self.valuePath];
+                        })).length)) {
+                            this._findLabelsForValues(values);
+                        }
+                } else {
+                    this.entries = [];
                 }
             }
         },

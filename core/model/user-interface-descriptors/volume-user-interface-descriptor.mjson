@@ -11,6 +11,7 @@
             "statusColorMapping": {
                 "ONLINE": "green",
                 "OFFLINE": "grey",
+                "UNKNOWN": "grey",
                 "UNAVAIL": "red",
                 "FAULTED": "red",
                 "DEGRADED": "yellow"
