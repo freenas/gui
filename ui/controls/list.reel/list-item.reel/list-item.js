@@ -80,11 +80,11 @@ exports.ListItem = Button.specialize({
 
     _handlePathChange: {
         value: function() {
-            if (this.parentCascadingListItem) {
+            if (this.parentCascadingListItem && this.parentCascadingListItem.data) {
                 var parentPath = this.parentCascadingListItem.data.path,
-                    parentLast = _.last(_.split(parentPath, '/')),
-                    itemPath =  this.path || this.property || _.kebabCase(this.objectType) ||
-                        (this.object ? this.routingService.getURLFromObject(this.object) : '');
+                parentLast = _.last(_.split(parentPath, '/')),
+                itemPath =  this.path || this.property || _.kebabCase(this.objectType) ||
+                    (this.object ? this.routingService.getURLFromObject(this.object) : '');
                 if (parentLast === 'create' && this.object) {
                     this._path = parentPath + '/' + (this.object._tmpId || this.object.id);
                 } else {
