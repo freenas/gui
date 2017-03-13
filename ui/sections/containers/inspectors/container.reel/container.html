@@ -332,7 +332,7 @@
                 "label": "Networks"
             },
             "bindings": {
-                "options": {"<-": "@owner.object._networks.map{{ label: name, value: id }}"},
+                "options": {"<-": "@owner.object._networks.filter{host == @owner.object.host}.map{{ label: name, value: id }}"},
                 "selectedValues": {"<->": "@owner.object.networks"}
             }
         },
