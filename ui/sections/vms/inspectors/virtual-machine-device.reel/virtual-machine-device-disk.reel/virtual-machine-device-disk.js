@@ -100,6 +100,17 @@ exports.VirtualMachineDeviceDisk = AbstractInspector.specialize({
         }
     },
 
+    save: {
+        value: function() {
+            if (!this.object.target_path) {
+                delete this.object.target_path;
+            }
+            if (!this.object.size) {
+                delete this.object.size;
+            }
+        }
+    },
+
     _handleTypeChange: {
         value: function() {
             if (this.treeController) {
