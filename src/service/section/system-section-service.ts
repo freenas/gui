@@ -89,6 +89,10 @@ export class SystemSectionService extends AbstractSectionService {
         return this.systemRepository.getVersion();
     }
 
+    public getDebugFileAddress() {
+        return this.systemRepository.getDebugFileAddress();
+    }
+
     public getSystemDataset() {
         return this.systemRepository.getDataset();
     }
