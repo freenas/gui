@@ -20,6 +20,7 @@ exports.Debug = AbstractInspector.specialize({
                 this.isLoading = true;
                 this._sectionService.getSystemAdvanced().then(function(consoleData) {
                     self.object = consoleData;
+                    self.object._isDebugUiEnabled = !!self.object.debugui;
                     self._snapshotDataObjectsIfNecessary();
                     self.isLoading = false;
                 });
