@@ -1,7 +1,14 @@
-var Component = require("montage/ui/component").Component,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    RoutingService = require('core/service/routing-service').RoutingService,
     _ = require("lodash");
 
-exports.Debug = Component.specialize({
+exports.Debug = AbstractInspector.specialize({
+    _inspectorTemplateDidLoad: {
+        value: function() {
+            this.routingService = RoutingService.getInstance();
+        }
+    },
+
     consoleData: {
         value: null
     },
@@ -11,7 +18,7 @@ exports.Debug = Component.specialize({
             var self = this;
             if (isFirstTime) {
                 this.isLoading = true;
-                this.application.systemService.getAdvanced().then(function(consoleData) {
+                this._sectionService.getSystemAdvanced().then(function(consoleData) {
                     self.object = consoleData;
                     self._snapshotDataObjectsIfNecessary();
                     self.isLoading = false;
@@ -22,7 +29,13 @@ exports.Debug = Component.specialize({
 
     save: {
         value: function() {
-            return this.application.systemService.saveAdvanced(this.object);
+            return this._sectionService.saveSystemAdvanced(this.object);
+        }
+    },
+
+    handleDebuggerUrlAction: {
+        value: function() {
+            window.open('http://' + window.location.hostname + ':8180' , '_blank');
         }
     },
 
@@ -30,10 +43,10 @@ exports.Debug = Component.specialize({
         value: function() {
             var self = this;
             var todayString = (new Date()).toISOString().split('T')[0];
-            this.application.systemService.getVersion().then(function(systemVersion) {
+            this._sectionService.getSystemVersion().then(function(systemVersion) {
                 self.systemVersion = systemVersion.split("-")[3];
             });
-            this.application.systemService.getDebugFileAddress().then(function(debugObject) {
+            this._sectionService.getDebugFileAddress().then(function(debugObject) {
                 var downloadLink = document.createElement("a");
                     downloadLink.href = debugObject.link;
                     downloadLink.download = "FreeNAS10" + "-" + self.systemVersion + "-" + todayString + "-" + "debug.tar.gz";
