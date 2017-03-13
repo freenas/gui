@@ -43,7 +43,7 @@
                 "label": "Enable debug kernel"
             },
             "bindings": {
-                "checked": {"<->": "@owner.debugkernel"}
+                "checked": {"<->": "@owner.object.debugkernel"}
             }
         },
         "uploadcrash": {
@@ -63,6 +63,26 @@
                 "value": "Download Debug File"
             }
         },
+        "enable_debugger_ui": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "enable_debugger_ui"},
+                "label": "Enable debugger UI"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.debugui"}
+            }
+        },
+        "debuggerUrl": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "debuggerUrl"},
+                "value": "Open Debugger UI"
+            },
+            "bindings": {
+                "disabled": {"<-": "!@owner.object._isDebugUiEnabled"}
+            }
+        },
         "noOperation": {
             "prototype": "ui/controls/inspector-section-title.reel",
             "properties": {
@@ -79,6 +99,8 @@
             <div data-montage-id="downloadDebug" id="downloadDebug"></div>
             <div data-montage-id="noOperation" class="Updates-noOperation"></div>
             <div data-montage-id="enable_debug_kernel"></div>
+            <div data-montage-id="enable_debugger_ui"></div>
+            <div data-montage-id="debuggerUrl" class="g-margin-bottom"></div>
             <div data-montage-id="uploadcrash"></div>
         </div>
     </div>

@@ -16,6 +16,7 @@ export class AbstractDao<T extends AbstractDataObject> {
     protected modelDescriptorService: ModelDescriptorService;
 
     private listPromise: Promise<Array<any>>;
+    private getPromise: Promise<T>;
     private propertyDescriptorsPromise: Promise<any>;
     private taskDescriptorsPromise: Map<string, Promise<any>>;
 
@@ -75,7 +76,10 @@ export class AbstractDao<T extends AbstractDataObject> {
     }
 
     public get(): Promise<T> {
-        return this.query().then((x) => x[0]);
+        return this.getPromise ? this.getPromise : this.query().then(x => {
+            this.getPromise = null;
+            return x[0];
+        });
     }
 
     public findSingleEntry(criteria: any, params?: any): Promise<T> {
