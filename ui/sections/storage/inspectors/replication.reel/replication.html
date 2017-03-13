@@ -42,8 +42,8 @@
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
-                "extraDeleteFlags": {"<-": "@owner.extraDeleteFlags"}
-                "isSaveDisabled": {"<-": "!@owner.object.datasets.0.slave || !@owner.object.datasets.0.master"}
+                "extraDeleteFlags": {"<-": "@owner.extraDeleteFlags"},
+                "isSaveDisabled": {"<-": "!@owner.object.datasets.0.slave || !@owner.object.datasets.0.master"},
                 "isLoading": {"<-": "@owner.isLoading"}
             }
         },
