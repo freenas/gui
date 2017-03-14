@@ -17,6 +17,9 @@
             "prototype": "blue-shark/ui/spinner.reel",
             "properties": {
                 "element": {"#": "loading"}
+            },
+            "bindings": {
+                "isShown": {"<-": "@owner._isLoading || @stepPlaceholder.isLoadingComponent"}
             }
         },
 

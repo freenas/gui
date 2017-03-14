@@ -1,7 +1,8 @@
 .DisconnectionModal-content {
-    background: var(--main-bg-color);
+    background: var(--primary--7);
     text-align: center;
     padding: 1em 2em 4em 2em;
+    margin-top: 2rem;
     border-radius: 4px;
     box-shadow: 0 2px 2px 2px rgba(0,0,0,.5);
 }
@@ -11,7 +12,7 @@
     visibility: visible;
 }
 
-.DisconnectionModal .has-loading-spinner {
+.DisconnectionModal-spinner {
     margin-top: 3em;
     font-size: 1.5em;
 }

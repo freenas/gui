@@ -31,15 +31,6 @@
                 "element": {"#": "userSummary"}
             }
         },
-        "logoButton": {
-            "prototype": "montage/ui/button.reel",
-            "properties": {
-                "element": {"#": "logoButton"}
-            },
-            "bindings": {
-                "classList.has('is-flipped')": {"<-": "@owner.isFlipped"}
-            }
-        },
         "logout": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
@@ -115,9 +106,8 @@
 </head>
 <body>
     <div data-montage-id="owner" class="MainSidebar">
-        <div data-montage-id="logoButton" class="logoButton">
-            <div class="MainSidebar-freenasLogo"></div>
-            <div class="MainSidebar-ixLogo"></div>
+        <div class="MainSidebar-logo-container">
+            <div class="MainSidebar-logo"></div>
         </div>
         <div data-montage-id="navigation" class="MainSidebar-navigation"></div>
         <div data-montage-id="userSummary" class="MainSidebar-userSummary"></div>

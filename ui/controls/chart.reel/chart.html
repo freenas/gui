@@ -13,10 +13,15 @@
                 "classList.has('is-spinner-shown')": {"<-": "@owner.isSpinnerShown"}
             }
         },
-        "loading": {
+        "spinner": {
             "prototype": "blue-shark/ui/spinner.reel",
             "properties": {
-                "element": {"#": "loading"}
+                "element": {"#": "spinner"},
+                "isShown": true,
+                "centerInContainer": true
+            },
+            "bindings": {
+                "isShown": {"<-":"@owner.isSpinnerShown"}
             }
         }
     }
@@ -24,7 +29,7 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Chart">
-        <div data-montage-id="loading" class="Chart-loading"></div>
+        <div data-montage-id="spinner"></div>
         <svg data-montage-id="chart" class="Chart-svg"></svg>
     </div>
 </body>

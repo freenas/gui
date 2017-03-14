@@ -9,7 +9,6 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "classList.has('has-loading-spinner')": {"<-":"@owner.object.isLoading"},
                 "selectedObject": {"<->": "@directoryServices.selectedObject"}
             },
             "listeners": [
@@ -26,6 +25,9 @@
                 "element": {"#": "inspector"},
                 "title": "Directory services",
                 "isFooterHidden": true
+            },
+            "bindings": {
+                "isLoading": {"<-": "@owner.object.isLoading"}
             }
         },
 

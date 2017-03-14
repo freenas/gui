@@ -37,7 +37,11 @@
         "loading": {
             "prototype": "blue-shark/ui/spinner.reel",
             "properties": {
-                "element": {"#": "loading"}
+                "element": {"#": "loading"},
+                "centerInContainer": true
+            },
+            "bindings": {
+                "isShown": {"<-": "@owner.isLoading || @owner.controller.isLoading"}
             }
         },
         "lockMessage": {
@@ -165,8 +169,8 @@
         </div>
         <div data-montage-id="confirmationDeleteMessage" class="Inspector-confirmationMessage delete-confirmation"></div>
         <div data-montage-id="confirmationSaveMessage" class="Inspector-confirmationMessage save-confirmation"></div>
+        <div data-montage-id="loading" class="Inspector-loading"></div>
         <div class="Inspector-body">
-            <div data-montage-id="loading" class="Inspector-loading"></div>
             <div data-montage-id="scrollView" class="Inspector-body-scrollview">
                 <div data-param="*"></div>
             </div>

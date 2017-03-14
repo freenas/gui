@@ -28,14 +28,22 @@
             "bindings": {
                 "object": {"<-": "@repetition:iteration.object"}
             }
+        },
+        "scroller": {
+            "prototype": "blue-shark/ui/scroller.reel",
+            "properties": {
+                "element": {"#": "scroller"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="MainNavigation">
-        <div data-montage-id="repetition" class="MainNavigation-repetition">
-            <div data-montage-id="item"></div>
+        <div data-montage-id="scroller" class="flex-column MainNavigation-scroller">
+            <div data-montage-id="repetition" class="MainNavigation-repetition">
+                <div data-montage-id="item"></div>
+            </div>
         </div>
     </div>
 </body>

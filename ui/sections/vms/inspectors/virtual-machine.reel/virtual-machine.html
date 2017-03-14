@@ -38,7 +38,7 @@
             "bindings": {
                 "context": {"<-": "@owner.context"},
                 "canDelete": {"<-": "!@owner.object._isNew"},
-                "classList.has('has-loading-spinner')": {"<-": "@owner.isLoading"}
+                "isLoading": {"<-": "@owner.isLoading"}
             }
         },
         "stateCondition": {
@@ -488,9 +488,7 @@
     <div data-montage-id="owner" class="VirtualMachine">
         <div data-montage-id="inspector">
             <div class="VirtualMachine-actions">
-                <div data-montage-id="start" class="Button--loader Button--primary">
-                    <svg><use xlink:href="#i-freenasIcon"/></svg>
-                </div>
+                <div data-montage-id="start" class="Button--loader Button--primary"></div>
                 <div data-montage-id="stop"></div>
                 <div data-montage-id="reboot"></div>
                 <div data-montage-id="serialConsole"></div>
