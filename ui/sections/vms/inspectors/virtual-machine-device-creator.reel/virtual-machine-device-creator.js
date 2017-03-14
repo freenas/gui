@@ -44,7 +44,7 @@ exports.VirtualMachineDeviceCreator = Component.specialize({
 
             this._canDrawGate.setField(this.constructor.DRAW_GATE_FIELD, false);
             this._populateNewDeviceObjectList().then(function() {
-                self._canDrawGate.setField(this.constructor.DRAW_GATE_FIELD, true);
+                self._canDrawGate.setField(self.constructor.DRAW_GATE_FIELD, true);
             });
             if (this.parentCascadingListItem) {
                 this.parentCascadingListItem.selectedObject = null;
