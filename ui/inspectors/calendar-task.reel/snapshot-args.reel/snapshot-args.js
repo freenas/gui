@@ -65,6 +65,9 @@ exports.SnapshotArgs = Component.specialize(/** @lends SnapshotArgs# */ {
             for (var i = 0; i < this.constructor.ARGUMENTS_LIST.length; i++) {
                 this.object[i] = this[this.constructor.ARGUMENTS_LIST[i]];
             }
+            if (!this.dataset) {
+                this.object[0] = '';
+            }
             return this.object;
         }
     }
