@@ -124,14 +124,10 @@ exports.VirtualMachineDeviceDisk = AbstractInspector.specialize({
                             this.object.size = target.size;
                             break;
                         case 'BLOCK':
-                            this.object.target_path = target;
-                            var selectedBlock = this.treeController.entry.children && _.find(this.treeController.entry.children, {path: target});
-                            this.object.size = (selectedBlock && selectedBlock.type === 'BLOCK') ? selectedBlock.original.size : 0;
-                            break;
                         case 'FILE':
                             this.object.target_path = target;
-                            var selectedBlock = this.treeController.entry.children && _.find(this.treeController.entry.children, {path: target});
-                            this.object.size = (selectedBlock && selectedBlock.type === 'FILE') ? selectedBlock.original.size : 0;
+                            var selectedTarget = this.treeController.entry.children && _.find(this.treeController.entry.children, {path: target});
+                            this.object.size = (selectedTarget && selectedTarget.type === this.object.target_type) ? selectedTarget.original.size : 0;
                             break;
                     }
                 }
