@@ -55,6 +55,7 @@
 }
 
 .AvailableDisksCategory-grid {
+    user-select: none;
     padding: .5em;
 }
 
