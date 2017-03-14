@@ -199,6 +199,7 @@ exports.VirtualMachine = AbstractInspector.specialize({
         value: function() {
             if (this._inDocument) {
                 this._sectionService.updateBootDevices(this.object);
+                this._eventDispatcherService.dispatch('VmDevicesChanged-' + (this.object.id || 'new'), this.object.devices);
             }
         }
     },
