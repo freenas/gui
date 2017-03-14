@@ -43,98 +43,98 @@ export class CalendarRepository extends AbstractRepository {
         {
             value: {
                 label: 'January',
-                index: 0
-            },
-            label: 'Jan',
-            index: 0
-        },
-        {
-            value: {
-                label: 'February',
                 index: 1
             },
-            label: 'Feb',
+            label: 'Jan',
             index: 1
         },
         {
             value: {
-                label: 'March',
+                label: 'February',
                 index: 2
             },
-            label: 'Mar',
+            label: 'Feb',
             index: 2
         },
         {
             value: {
-                label: 'April',
+                label: 'March',
                 index: 3
             },
-            label: 'Apr',
+            label: 'Mar',
             index: 3
         },
         {
             value: {
-                label: 'May',
+                label: 'April',
                 index: 4
             },
-            label: 'May',
+            label: 'Apr',
             index: 4
         },
         {
             value: {
-                label: 'June',
+                label: 'May',
                 index: 5
             },
-            label: 'Jun',
+            label: 'May',
             index: 5
         },
         {
             value: {
-                label: 'July',
+                label: 'June',
                 index: 6
             },
-            label: 'Jul',
+            label: 'Jun',
             index: 6
         },
         {
             value: {
-                label: 'August',
+                label: 'July',
                 index: 7
             },
-            label: 'Aug',
+            label: 'Jul',
             index: 7
         },
         {
             value: {
-                label: 'September',
+                label: 'August',
                 index: 8
             },
-            label: 'Sep',
+            label: 'Aug',
             index: 8
         },
         {
             value: {
-                label: 'October',
+                label: 'September',
                 index: 9
             },
-            label: 'Oct',
+            label: 'Sep',
             index: 9
         },
         {
             value: {
-                label: 'November',
+                label: 'October',
                 index: 10
             },
-            label: 'Nov',
+            label: 'Oct',
             index: 10
         },
         {
             value: {
-                label: 'December',
+                label: 'November',
                 index: 11
             },
-            label: 'Dec',
+            label: 'Nov',
             index: 11
+        },
+        {
+            value: {
+                label: 'December',
+                index: 12
+            },
+            label: 'Dec',
+            index: 12
         }
     ];
     public static readonly DAYS_OF_WEEK = [

@@ -105,17 +105,32 @@ export class VmsRoute extends AbstractRoute {
         return Promise.all([
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread((uiDescriptor) => {
-            context.object = _.map(
-                _.reject(parentContext.object.devices, {type: this.vmRepository.DEVICE_TYPE.VOLUME}),
+            let vm = parentContext.object,
+                devices: any = _.map(
+                _.reject(vm.devices, {type: this.vmRepository.DEVICE_TYPE.VOLUME}),
                 device => _.assign(device, {
                     _objectType: Model.VmDevice,
-                    _vm: parentContext.object,
+                    _vm: vm,
                     id: uuid.v4()
                 })
             );
-            context.object._vm = parentContext.object;
+            context.object = devices;
+            context.object._vm = vm;
             context.object._objectType = Model.VmDevice;
             context.userInterfaceDescriptor = uiDescriptor;
+            context.changeListener = this.eventDispatcherService.addEventListener('VmDevicesChanged-' + (vm.id || 'new'), (newDevices) => {
+                context.object = _.map(
+                    _.reject(newDevices, {type: this.vmRepository.DEVICE_TYPE.VOLUME}),
+                    device => _.assign(device, {
+                        _objectType: Model.VmDevice,
+                        _vm: vm,
+                        id: uuid.v4()
+                    })
+                );
+                context.object._vm = vm;
+                context.object._objectType = Model.VmDevice;
+            });
+
 
             return this.updateStackWithContext(this.stack, context);
         });
@@ -298,28 +313,6 @@ export class VmsRoute extends AbstractRoute {
             Model.VmDatastore,
             this.vmDatastoreRepository.list()
         );
-
-/*
-        let objectType = Model.VmDatastore,
-            columnIndex = 1,
-            parentContext = this.stack[columnIndex - 1],
-            context: any = {
-                columnIndex: columnIndex,
-                objectType: objectType,
-                parentContext: parentContext,
-                path: parentContext.path + '/vm-datastore'
-            };
-        return Promise.all([
-            this.vmDatastoreRepository.list(),
-            this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread((datastores, uiDescriptor) => {
-            (datastores as any)._objectType = objectType;
-            context.object = datastores;
-            context.userInterfaceDescriptor = uiDescriptor;
-
-            return this.updateStackWithContext(this.stack, context);
-        });
-*/
     }
 
     @Route('/vms/vm-datastore/_/{datastoreId}')
