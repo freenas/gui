@@ -38,6 +38,9 @@ exports.VirtualMachineDevice = AbstractInspector.specialize({
 
     save: {
         value: function() {
+            if (this.propertiesComponent && typeof this.propertiesComponent.save === 'function') {
+                this.propertiesComponent.save();
+            }
             this._sectionService.addNewDeviceToVm(this.object._vm, this.object);
         }
     },

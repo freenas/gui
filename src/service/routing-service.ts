@@ -397,7 +397,7 @@ export class RoutingService {
             (volumeId, datasetId, vmwareDatasetId) => this.datasetRoute.getVmware(vmwareDatasetId, this.currentStacks.get('storage')), 1);
         crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/replication',
             (volumeId, datasetId) => this.replicationRoute.createForDataset(datasetId, this.currentStacks.get('storage')), 1);
-        crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/share',
+        crossroads.addRoute('/storage/volume/_/{volumeId}/volume-dataset/_/{datasetId*}/_/share',
             (volumeId, datasetId) => this.datasetRoute.getShare(volumeId, datasetId, this.currentStacks.get('storage')), 1);
         crossroads.addRoute('/storage/volume/_/{volumeId}/topology',
             (volumeId) => this.volumeRoute.topology(volumeId, this.currentStacks.get('storage')));

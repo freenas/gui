@@ -254,9 +254,9 @@ exports.Inspector = Component.specialize({
     },
 
     _logError: {
-        value: function (message) {
+        value: function (error) {
             //todo: provide UI
-            console.warn(JSON.stringify(message.error));
+            console.warn(JSON.stringify(error));
         }
     }
 });

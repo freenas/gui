@@ -10,7 +10,7 @@ export class VmDatastoreDao extends AbstractDao<VmDatastore> {
         });
     }
 
-    public listDiskTargetsWithType(type: string, datastoreId?: string): Promise<any> {
-        return this.middlewareClient.callRpcMethod('vm.datastore.list', _.compact([type, datastoreId]));
+    public listDiskTargetsWithType(type: string, datastoreId?: string, root?: string): Promise<any> {
+        return this.middlewareClient.callRpcMethod('vm.datastore.list', _.compact([type, datastoreId, root]));
     }
 }

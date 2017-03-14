@@ -25,7 +25,11 @@ export class DockerCollectionRepository extends AbstractModelRepository {
     public getDockerImagesWithCollection(collection: any) {
         return this.dockerCollectionDao.getImages(collection).then(function (templates) {
             return _.filter(templates, (template) => {
-                return _.startsWith((template as any).name, collection.collection) ? template : false;
+                if (_.startsWith((template as any).name, collection.collection)) {
+                    (template as any).name = _.replace((template as any).name, collection.collection + '/', '');
+                    return template;
+                }
+                return false;
             });
         });
     }
