@@ -37,9 +37,9 @@ exports.VirtualMachineDeviceDisk = AbstractInspector.specialize({
                 Promise.resolve() :
                 Promise.all([
                     this._sectionService.listDisks(),
-                    this._sectionService.listBlocksInDatastore(this.object._vm.target),
-                    this._sectionService.listFilesInDatastore(this.object._vm.target)
-                ]).spread(function(disks, blocks, files) {
+                    this._sectionService.listFilesInDatastore(this.object._vm.target),
+                    this.treeControllers.BLOCK.open()
+                ]).spread(function(disks, files) {
                     self.diskOptions = _.concat(
                         [{label: '-', value: null}],
                         _.sortBy(
@@ -51,16 +51,6 @@ exports.VirtualMachineDeviceDisk = AbstractInspector.specialize({
                             }),
                             'label'
                         )
-                    );
-                    self.blockOptions = _.sortBy(
-                        _.map(blocks, function (block) {
-                            return {
-                                name: block.path + ' ' + block.description,
-                                path: block.path,
-                                children: []
-                            };
-                        }),
-                        'name'
                     );
                     self.fileOptions = _.sortBy(
                         _.map(files, function (file) {
@@ -124,20 +114,21 @@ exports.VirtualMachineDeviceDisk = AbstractInspector.specialize({
     _handleTargetChange: {
         value: function(target) {
             if (this._inDocument && !this.isFromTemplate) {
-                if (this.object.target_type === 'DISK') {
-                    if (target) {
-                        this.object.target_path = target.path;
-                        this.object.size = target.size;
-                    } else {
-                        this.object.target_path = null;
-                        this.object.size = null;
-                    }
-                } else {
+                if (!target) {
+                    this.object.target_path = null;
                     this.object.size = null;
-                    if (target) {
-                        this.object.target_path = target;
-                    } else {
-                        this.object.target_path = null;
+                } else {
+                    switch (this.object.target_type) {
+                        case 'DISK':
+                            this.object.target_path = target.path;
+                            this.object.size = target.size;
+                            break;
+                        case 'BLOCK':
+                        case 'FILE':
+                            this.object.target_path = target;
+                            var selectedTarget = this.treeController.entry.children && _.find(this.treeController.entry.children, {path: target});
+                            this.object.size = (selectedTarget && selectedTarget.type === this.object.target_type) ? selectedTarget.original.size : 0;
+                            break;
                     }
                 }
             }

@@ -9,30 +9,31 @@
             "properties": {
                 "element": {"#": "owner"},
                 "treeControllers": {
-                    "BLOCK":         {"@": "blockTreeController"},
-                    "FILE":         {"@": "fileTreeController"}
+                    "BLOCK": {"@": "blockTreeController"},
+                    "FILE":  {"@": "fileTreeController"}
                 }
             },
             "bindings": {
-                "treeController": {"<-": "@owner.treeControllers[@owner.object.target_type]"}
+                "treeController": {"<-": "@owner.treeControllers[@owner.object.target_type]"},
+                "isBlockSelected": {"<-": "@owner.object.target_type == 'BLOCK' && @owner.treeController.entry.children.map{path}.has(@targetPath.selectedPath)"}
             }
         },
         "blockTreeController": {
-            "prototype": "core/controller/tree/StaticTreeController",
+            "prototype": "core/controller/tree/VmDatastoreTreeController",
             "properties": {
-                "root": "/"
+                "type": "BLOCK"
             },
             "bindings": {
-                "entries": {"<-": "@owner.blockOptions"}
+                "datastoreId": {"<-": "@owner.object._vm.target"}
             }
         },
         "fileTreeController": {
-            "prototype": "core/controller/tree/StaticTreeController",
+            "prototype": "core/controller/tree/VmDatastoreTreeController",
             "properties": {
-                "root": "/"
+                "type": "FILE"
             },
             "bindings": {
-                "entries": {"<-": "@owner.fileOptions"}
+                "datastoreId": {"<-": "@owner.object._vm.target"}
             }
         },
         "targetPath": {
