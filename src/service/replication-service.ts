@@ -9,14 +9,12 @@ export class ReplicationService {
     private hostPromise: Promise<string>;
 
     public constructor(private systemRepository: SystemRepository,
-                       private middlewareClient: MiddlewareClient,
                        private replicationRepository: ReplicationRepository) {}
 
     public static getInstance(): ReplicationService {
         if (!ReplicationService.instance) {
             ReplicationService.instance = new ReplicationService(
                 SystemRepository.getInstance(),
-                MiddlewareClient.getInstance(),
                 ReplicationRepository.getInstance()
             );
         }
@@ -63,11 +61,11 @@ export class ReplicationService {
 
         for (i = 0; i < length; i++) {
             option = replication.transport_options[i];
-            if (option['%type'] === 'CompressReplicationTransportOption') {
+            if (option['%type'] === 'compress-replication-transport-option') {
                 result.compress = option.level;
-            } else if (option['%type'] === 'EncryptReplicationTransportOption') {
+            } else if (option['%type'] === 'encrypt-replication-transport-option') {
                 result.encrypt = option.type;
-            } else if (option['%type'] === 'ThrottleReplicationTransportOption') {
+            } else if (option['%type'] === 'throttle-replication-transport-option') {
                 result.throttle = option.buffer_size;
             }
         }
@@ -77,24 +75,25 @@ export class ReplicationService {
 
     public buildTransportOptions(options) {
         let promises = [];
+        let self = this;
 
         if (options.encrypt) {
             promises.push(
-                this.replicationRepository
+                self.replicationRepository
                     .getNewReplicationTransportOptionInstance(Model.EncryptReplicationTransportOption)
                     .then(option => _.set(option, 'type', options.encrypt))
             );
         }
         if (options.compress) {
             promises.push(
-                this.replicationRepository
+                self.replicationRepository
                     .getNewReplicationTransportOptionInstance(Model.CompressReplicationTransportOption)
                     .then(option => _.set(option, 'level', options.compress))
             );
         }
         if (options.throttle) {
             promises.push(
-                this.replicationRepository
+                self.replicationRepository
                     .getNewReplicationTransportOptionInstance(Model.ThrottleReplicationTransportOption)
                     .then(option => _.set(option, 'buffer_size', options.throttle))
             );
