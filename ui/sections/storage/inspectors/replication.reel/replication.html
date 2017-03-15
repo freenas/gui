@@ -41,6 +41,7 @@
                 "controller": {"@": "owner"}
             },
             "bindings": {
+                "isLoading": {"<-": "@owner.isLoading"},
                 "context": {"<-": "@owner.context"},
                 "extraDeleteFlags": {"<-": "@owner.extraDeleteFlags"},
                 "isSaveDisabled": {"<-": "!@owner.object.datasets.0.slave || !@owner.object.datasets.0.master"},

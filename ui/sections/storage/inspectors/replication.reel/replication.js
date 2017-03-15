@@ -9,49 +9,50 @@ exports.Replication = AbstractInspector.specialize({
 
     _inspectorTemplateDidLoad: {
         value: function() {
-            var self = this;
             this.transferSpeedUnits = Units.TRANSFER_SPEED;
             this._calendarService = this.application.calendarService;
             this._replicationService = this.application.replicationService;
             this._peeringService = this.application.peeringService;
-
-            return this._peeringService.list().then(function(peers) {
-                self.peers = peers;
-            });
         }
     },
 
     enterDocument: {
         value: function(isFirstTime) {
+            var self = this;
             this.super(isFirstTime);
-            if (this.peers && this.peers.length && !this.object.slave) {
-                this.object.slave = this.peers[0].id;
-            }
+            this.isLoading = true;
+            return this._peeringService.list().then(function(peers) {
+                self.peers = peers;
+                if (self.peers && self.peers.length && !self.object.slave) {
+                    self.object.slave = self.peers[0].id;
+                }
 
-            this._transportOptions = this._replicationService.extractTransportOptions(this.object);
-            this._repetition = 0;
-            this.repetitionUnits = Units.HOURS;
+                self._transportOptions = self._replicationService.extractTransportOptions(self.object);
+                self._repetition = 0;
+                self.repetitionUnits = Units.HOURS;
 
-            if (this.context.dataset) {
-                this.object.datasets[0].master = this.context.dataset;
-                this._hideSourceDataset = true;
-            }
-            
-            if (this.datasetTreeController) {
-                this.datasetTreeController.open(this.context.volume || this.object.datasets[0].master);
-            }
+                if (self.context.dataset) {
+                    self.object.datasets[0].master = self.context.dataset;
+                    self._hideSourceDataset = true;
+                }
 
-            if (this.object._calendarTask ) {
-                this.calendarTask = this.object._calendarTask;
-                this.extraDeleteFlags = [{
-                    "label": "Delete associated replication calendar task?",
-                    "value": "delete_task",
-                    "checked": false
-                }];
-            } else {
-                this.calendarTask = null;
-                this.extraDeleteFlags = [];
-            }
+                if (self.datasetTreeController) {
+                    self.datasetTreeController.open(self.context.volume || self.object.datasets[0].master);
+                }
+
+                if (self.object._calendarTask ) {
+                    self.calendarTask = self.object._calendarTask;
+                    self.extraDeleteFlags = [{
+                        "label": "Delete associated replication calendar task?",
+                        "value": "delete_task",
+                        "checked": false
+                    }];
+                } else {
+                    self.calendarTask = null;
+                    self.extraDeleteFlags = [];
+                }
+                self.isLoading = false;
+            });
         }
     },
 

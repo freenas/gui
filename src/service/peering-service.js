@@ -1,7 +1,8 @@
 var Montage = require("montage").Montage,
     FreeNASService = require("core/service/freenas-service").FreeNASService,
     Promise = require("montage/core/promise").Promise,
-    Model = require("core/model/model").Model;
+    Model = require("core/model/model").Model,
+    PeerRepository = require('core/repository/peer-repository').PeerRepository;
 
 var PeeringService = exports.PeeringService = Montage.specialize({
 
@@ -36,10 +37,12 @@ var PeeringService = exports.PeeringService = Montage.specialize({
 
     constructor: {
         value: function () {
+            this._peerRepository = PeerRepository.getInstance();
             this.TYPE_TO_LABEL[ "freenas" ] = "Create Freenas Peering";
             this.TYPE_TO_LABEL[ "amazon-s3" ] = "Create amazon-s3 Peering";
             this.TYPE_TO_LABEL[ "ssh" ] = "Create ssh Peering";
             this.TYPE_TO_LABEL[ "vmware" ] = "Create vmware Peering";
+            this._dataService = FreeNASService.instance;
         }
     },
 
@@ -57,12 +60,6 @@ var PeeringService = exports.PeeringService = Montage.specialize({
 
     _peersPromise: {
         value: null
-    },
-
-    constructor: {
-        value: function() {
-            this._dataService = FreeNASService.instance;
-        }
     },
 
     createSshPeer: {
@@ -105,25 +102,14 @@ var PeeringService = exports.PeeringService = Montage.specialize({
 
     list: {
         value: function() {
-            if (this._peers) {
-                return Promise.resolve(this._peers);
-            } else if (this._peersPromise) {
-                return this._peersPromise;
-            } else {
-                var self = this;
-                return this._peersPromise = this._dataService.fetchData(Model.Peer).then(function(peers) {
-                    return self._peers = peers;
-                });
-            }
+            return this._peerRepository.listPeers();
         }
     },
 
 
     listPeers: {
         value: function() {
-            return this._dataService.fetchData(Model.Peer).then(function (peers) {
-                return peers;
-            });
+            return this.list();
         }
     },
 
