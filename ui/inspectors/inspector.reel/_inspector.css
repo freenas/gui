@@ -69,29 +69,8 @@
 
 /* Browser with Scrollers */
 
-
-.Inspector.is-loading .Inspector-body,
 .Inspector.is-loading .Inspector-footer {
     display: none;
-}
-
-.Inspector .Inspector-loading {
-    display: none;
-    width: 100%;
-}
-
-.Inspector .Inspector-loading svg {
-    position: absolute;
-    top:    2em;
-    width:  3em;
-    height: 3em;
-    left: 50%;
-    margin-left: -1.5em;
-    color: var(--accent);
-}
-
-.Inspector.is-loading .Inspector-loading {
-    display: block;
 }
 
 /* Global error message */

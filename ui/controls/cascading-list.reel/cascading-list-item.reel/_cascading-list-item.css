@@ -64,8 +64,3 @@
         flex-direction: column;
     }
 }
-
-.CascadingListItem-spinner {
-    height: 4rem;
-    margin: 2rem 0;
-}

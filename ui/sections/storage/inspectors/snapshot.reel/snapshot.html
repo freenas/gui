@@ -16,9 +16,6 @@
                       "value": "recursive",
                       "checked": false}
                 ]
-            },
-            "bindings": {
-                "classList.has('has-loading-spinner')": {"<-": "@owner.isLoading"}
             }
         },
         "sizeConverter": {
@@ -55,7 +52,8 @@
             "bindings": {
                 "context": {"<-": "@owner.context"},
                 "extraDeleteFlags": {"<-": "@owner.extraDeleteFlags"},
-                "isSaveDisabled": {"<-": "!@owner.object.dataset"}
+                "isSaveDisabled": {"<-": "!@owner.object.dataset"},
+                "isLoading": {"<-": "@owner.isLoading"}
             }
         },
         "name": {

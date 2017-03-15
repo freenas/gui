@@ -9,9 +9,6 @@
             "properties": {
                 "element": {"#": "owner"}
             },
-            "bindings": {
-                "classList.has('has-loading-spinner')": {"<-": "!!@owner.object._isLocked"}
-            },
             "listeners": [
                 {
                     "type": "action",
@@ -71,6 +68,7 @@
                 "label": {"<-": "checked ? 'yes' : 'no'"}
             }
         }
+
     }
     </script>
 </head>

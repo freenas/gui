@@ -14,7 +14,6 @@
                 "sourceDataset": {"@": "source_dataset"}
             },
             "bindings": {
-                "classList.has('has-loading-spinner')": {"<-": "@owner.isLoading"},
                 "isCreateMode": {"<-": "(@owner.object._isNew.defined() && @owner.object._isNew) || (@owner.object._isNewObject.defined() && @owner.object._isNewObject)"}
             },
             "listeners": [
@@ -45,7 +44,8 @@
                 "isLoading": {"<-": "@owner.isLoading"},
                 "context": {"<-": "@owner.context"},
                 "extraDeleteFlags": {"<-": "@owner.extraDeleteFlags"},
-                "isSaveDisabled": {"<-": "!@owner.object.datasets.0.slave || !@owner.object.datasets.0.master"}
+                "isSaveDisabled": {"<-": "!@owner.object.datasets.0.slave || !@owner.object.datasets.0.master"},
+                "isLoading": {"<-": "@owner.isLoading"}
             }
         },
         "datasetTreeController": {
