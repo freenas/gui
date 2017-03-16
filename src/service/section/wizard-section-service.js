@@ -151,7 +151,9 @@ exports.WizardSectionService = AbstractSectionService.specialize({
                 promises.push(Promise.all([
                     self._modelDescriptorService.getDaoForType(stepDescriptor.objectType).then(function(dao) {
                         wizardStep.dao = dao;
-                        return dao.getNewInstance();
+                        return wizardStep.id === 'mail' ?
+                            self.getMailConfig() :
+                            dao.getNewInstance();
                     }),
                     self._modelDescriptorService.getUiDescriptorForType(stepDescriptor.objectType)
                 ]).spread(function (instance, uiDescriptor) {
