@@ -41,12 +41,10 @@ exports.SnapshotArgs = Component.specialize(/** @lends SnapshotArgs# */ {
 
     _resetObjectIfNeeded: {
         value: function() {
-            if (this.object.length != 5) {
+            if (this.isNew) {
+                this.object.clear();
                 for (var i = 0, length = this.constructor.DEFAULT_VALUES.length; i < length; i++) {
                     this.object[i] = this.constructor.DEFAULT_VALUES[i];
-                }
-                while (this.object.length > 5) {
-                    this.object.pop();
                 }
             }
         }

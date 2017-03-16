@@ -49,9 +49,6 @@ exports.CalendarTask = AbstractInspector.specialize({
                     this.extraDeleteFlags = [];
                 }
             }
-            if (this.object._isNew) {
-                this.object.args = [];
-            }
         }
     },
 
