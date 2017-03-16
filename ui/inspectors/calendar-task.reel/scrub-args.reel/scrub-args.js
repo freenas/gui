@@ -13,9 +13,19 @@ exports.ScrubArgs = AbstractInspector.specialize({
     enterDocument: {
         value: function(isFirstTime) {
             this.super(isFirstTime);
-            if (this.object.length != 1) {
+            if (this.isNew) {
+                this.object.clear();
                 this.object.push('---');
             }
+        }
+    },
+
+    save: {
+        value: function(task) {
+            if (task.args && task.args[0] === '---') {
+                task.args[0] = null;
+            }
+            return task.args;
         }
     }
 });
