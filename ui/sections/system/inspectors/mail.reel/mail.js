@@ -22,10 +22,6 @@ exports.Mail = AbstractInspector.specialize(/** @lends Mail# */ {
                         value: x
                     };
                 });
-                this._sectionService.getMailConfig().then(function(mailData) {
-                    self.object = mailData.mail;
-                    self._snapshotDataObjectsIfNecessary();
-                });
                 self.isLoading = false;
             }
         }
