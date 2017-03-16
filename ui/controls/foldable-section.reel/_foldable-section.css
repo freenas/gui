@@ -45,7 +45,7 @@ title
         @apply --input-focus;
     }
 
-    & svg {
+    & .FoldableSection-expand-icon {
         width:  1em;
         height: 1em;
         transform: rotate(-90deg);
@@ -68,7 +68,7 @@ title
 
 /* Icon */
 
-.FoldableSection.is-expanded .FoldableSection-expand svg { transform: rotate(0);}
+.FoldableSection.is-expanded .FoldableSection-expand .FoldableSection-expand-icon { transform: rotate(0);}
 
 .FoldableSection-expand-titles {
     flex: 1;
