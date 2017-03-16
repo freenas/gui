@@ -228,11 +228,19 @@ exports.Topologizer = Component.specialize({
         }
     },
 
+    defaultWidth: {
+        value: 110
+    },
+
+    defaultHeight: {
+        value: 95
+    },
+
     willDraw: {
         value: function () {
             if (!this._isMoving) {
-                this._width = this.triangleElement.clientWidth;
-                this._height = this.triangleElement.clientHeight;
+                this._width = this.triangleElement.clientWidth || this.defaultWidth;
+                this._height = this.triangleElement.clientHeight || this.defaultHeight;
             }
         }
     },
