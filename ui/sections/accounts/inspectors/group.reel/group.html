@@ -10,6 +10,9 @@
                 "element": {"#": "owner"},
                 "validationController": {"@": "validationController"},
                 "inspector": {"@": "inspector"}
+            },
+            "bindings": {
+                "readOnly": {"<-": "@owner.object.builtin || @owner.object.origin.read_only"}
             }
         },
         "validationController": {
@@ -28,9 +31,10 @@
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
-                "canDelete": {"<-": "!@owner.object.builtin"},
-                "canRevert": {"<-": "(@owner.object.gid == 0) || !@owner.object.builtin"},
-                "canSave": {"<-": "(@owner.object.gid == 0) || !@owner.object.builtin"}
+                "canDelete": {"<-": "!@owner.readOnly"},
+                "canRevert": {"<-": "!@owner.readOnly"},
+                "canSave": {"<-": "!@owner.readOnly"},
+                "isFooterHidden": {"<-": "@owner.readOnly"}
             }
         },
         "gidValidator": {
@@ -76,7 +80,7 @@
                 "element": {"#": "systemGroupSubstitution"}
             },
             "bindings": {
-                "switchValue": {"<-": "@owner.groupType"}
+                "switchValue": {"<-": "@owner.readOnly ? 'system' : @owner.groupType"}
             }
         },
         "nameEdit": {
