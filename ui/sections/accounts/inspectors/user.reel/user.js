@@ -86,7 +86,7 @@ exports.User = AbstractInspector.specialize({
             var self=this;
 
             if (this.object.home) {
-                if (this.object._isNew) {
+                if (this.object._isNew && !_.endsWith('/' + this.object.username)) {
                     this.object.home += '/' + this.object.username;
                 }
             } else {
