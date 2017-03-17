@@ -36,13 +36,16 @@ exports.ReplicationArgs = Component.specialize({
             var self = this;
 
             this.isLoading = true;
+            if (this.isNew) {
+                this.object.clear();
+            }
             this.replicationService.findOrCreateReplication(this.object[0]).then(function(replication) {
-                self.isLoading = false;
 
                 self.replicationObject = replication;
                 self._transportOptions = self.replicationService.extractTransportOptions(self.replicationObject);
 
                 self._ensureSlavePeerSet();
+                self.isLoading = false;
             });
         }
     },

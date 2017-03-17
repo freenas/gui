@@ -21,7 +21,7 @@
             "properties": {
                 "element": {"#": "inspector"},
                 "validationController": {"@": "validationController"},
-                "canRevert": true,
+                "canRevert": false,
                 "canSave": true,
                 "controller": {"@": "owner"}
             },
@@ -52,7 +52,7 @@
                 "placeholder": "e.g. 25"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.port"}
+                "value": {"<->": "@owner.object.config.port"}
             }
         },
         "from": {
@@ -63,7 +63,7 @@
                 "placeholder": "e.g. john@johnsmith.com"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.from"}
+                "value": {"<->": "@owner.object.config.from_address"}
             }
         },
         "useSMTPAuth": {
@@ -73,7 +73,7 @@
                 "label": "Use SMTP Authentication"
             },
             "bindings": {
-                "checked": {"<->": "@owner.object.auth"}
+                "checked": {"<->": "@owner.object.config.auth"}
             }
         },
         "outgoingServer": {
@@ -84,7 +84,7 @@
                 "placeholder": "e.g. mail.yourserver.com"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.server"}
+                "value": {"<->": "@owner.object.config.server"}
             }
         },
         "serialPortOptionConverter": {
@@ -98,7 +98,7 @@
             },
             "bindings": {
                 "options" : {"<-": "@owner.encryptionOptions"},
-                "selectedValue": {"<->": "@owner.object.encryption"}
+                "selectedValue": {"<->": "@owner.object.config.encryption"}
             }
         },
         "username": {
@@ -109,7 +109,7 @@
                 "placeholder": "enter username"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.user"}
+                "value": {"<->": "@owner.object.config.user"}
             }
         },
         "password": {
@@ -120,7 +120,7 @@
                 "placeholder": "enter password"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.pass"}
+                "value": {"<->": "@owner.object.config.password"}
             }
         }
     }
