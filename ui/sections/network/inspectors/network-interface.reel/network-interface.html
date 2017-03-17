@@ -172,7 +172,7 @@
             },
             "bindings": {
                 "object": {"<-": "@owner.object.bridge"},
-                "memberOptions": {"<-": "@owner.interfaces.filter{type == 'ETHER'}"}
+                "memberOptions": {"<-": "@owner.interfaces.filter{type == 'ETHER' || type == 'VLAN'}"}
             }
         },
         "lagg": {
