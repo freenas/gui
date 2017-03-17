@@ -67,7 +67,7 @@ export class NetworkRepository extends AbstractRepository {
     }
 
     public listNetworkInterfaces() {
-        return this.networkInterfaceDao.list();
+        return this.interfaces ? Promise.resolve(this.interfaces.valueSeq().toJS()) : this.networkInterfaceDao.list();
     }
 
     public saveNetworkInterface(networkInterface) {
@@ -78,25 +78,6 @@ export class NetworkRepository extends AbstractRepository {
         return this.networkInterfaceDao.getNewInstance();
     }
 
-/*
-    public getNewInterfaceWithType(interfaceType) {
-        return Promise.all([
-            this.networkInterfaceDao.getNewInstance(),
-            this.modelDescriptorService.getDaoForType(interfaceType.properties.objectType).then(function(dao) {
-                return dao.getNewInstance();
-            })
-        ]).spread(function (newInterface, properties) {
-            newInterface._isNewObject = true;
-            newInterface._tmpId = interfaceType.type;
-            newInterface.type = interfaceType.type.toUpperCase();
-            newInterface.aliases = [];
-            newInterface.name = '';
-            newInterface[interfaceType.type] = properties;
-            return newInterface;
-        });
-    }
-
-*/
     public listNetworkStaticRoutes() {
         return this.networkRouteDao.list();
     }
