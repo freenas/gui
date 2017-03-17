@@ -31,7 +31,8 @@
             "bindings": {
                 "context": {"<-": "@owner.context"},
                 "canDelete": {"<-": "@owner.object.type != 'ETHER'"},
-                "needSaveConfirmation": {"<-": "@owner.object._isClient"}
+                "needSaveConfirmation": {"<-": "@owner.object._isClient"},
+                "isLoading": {"<-": "@owner.isLoading"}
             }
         },
         "overview": {
