@@ -58,6 +58,7 @@ export class VolumeRepository extends AbstractRepository<Volume> {
 
     public static readonly TOPOLOGY_KEYS = ['data', 'cache', 'log', 'spare'];
     public static readonly INHERITED = 'INHERITED';
+    private static readonly DEFAULT_VOLSIZE = 8589934592;
     private static readonly DEFAULT_VOLBLOCKSIZE = 16384;
     private readonly DEFAULT_SOURCE_SETTING = {source: VolumeRepository.INHERITED};
     private readonly DEFAULT_VOLBLOCKSIZE_SETTING = {parsed: VolumeRepository.DEFAULT_VOLBLOCKSIZE};
@@ -343,6 +344,7 @@ export class VolumeRepository extends AbstractRepository<Volume> {
                 properties.volblocksize = (_.assign(volblocksize, this.DEFAULT_VOLBLOCKSIZE_SETTING) as VolumeDatasetPropertyVolblocksize);
                 properties.refreservation = refreservation;
                 properties.reservation = reservation;
+                dataset.volsize = VolumeRepository.DEFAULT_VOLSIZE;
 
                 dataset.properties = properties;
             });
