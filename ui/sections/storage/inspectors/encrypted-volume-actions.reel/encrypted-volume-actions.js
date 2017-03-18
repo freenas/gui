@@ -26,8 +26,7 @@ exports.EncryptedVolumeActions = AbstractInspector.specialize({
 
     handleRekeyButtonAction: {
         value: function(event) {
-            var password = this.object.rekeyPassword && this.object.rekeyPassword.length > 0 ? this.object.rekeyPassword : null;
-            this._sectionService.rekeyVolume(this.object.volume, this.object.rekeyKey, password);
+            this._sectionService.rekeyVolume(this.object.volume, this.object.rekeyKey, this.object.rekeyPassword);
         }
     },
 
