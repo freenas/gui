@@ -19,9 +19,6 @@
                      "value": "delete_own_group",
                      "checked": false}
                 ]
-            },
-            "bindings": {
-                "readOnly": {"<-": "@owner.object.builtin || @owner.object.origin.read_only"}
             }
         },
         "validationController": {
@@ -41,11 +38,11 @@
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
-                "canDelete": {"<-": "!@owner.readOnly"},
-                "canRevert": {"<-": "(@owner.object.uid == 0) || !@owner.readOnly"},
-                "canSave": {"<-": "(@owner.object.uid == 0) || !@owner.readOnly"},
+                "canDelete": {"<-": "!@owner.object.builtin || !@owner.object.origin.read_only"},
+                "canRevert": {"<-": "(@owner.object.uid == 0) || !@owner.object.builtin || !@owner.object.origin.read_only"},
+                "canSave": {"<-": "(@owner.object.uid == 0) || !@owner.object.builtin || !@owner.object.origin.read_only"},
                 "extraDeleteFlags": {"<-": "@owner.extraDeleteFlags"},
-                "isFooterHidden": {"<-": "@owner.readOnly"}
+                "isFooterHidden": {"<-": "@owner.object.builtin || @owner.object.origin.read_only"}
             }
         },
         "filesystemTreeController": {
@@ -67,7 +64,7 @@
                 "element": {"#": "uidNameSubstitution"}
             },
             "bindings": {
-                "switchValue": {"<-": "!!@owner.readOnly ? 'system' : 'luser'"}
+                "switchValue": {"<-": "!!@owner.object.builtin || !!@owner.object.origin.read_only ? 'system' : 'luser'"}
             }
         },
         "systemUserSubstitution": {
