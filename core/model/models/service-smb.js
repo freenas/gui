@@ -79,19 +79,6 @@ exports.ServiceSmb = Montage.specialize({
             return this._dos_charset;
         }
     },
-    _empty_password: {
-        value: null
-    },
-    empty_password: {
-        set: function (value) {
-            if (this._empty_password !== value) {
-                this._empty_password = value;
-            }
-        },
-        get: function () {
-            return this._empty_password;
-        }
-    },
     _enable: {
         value: null
     },
@@ -367,10 +354,6 @@ exports.ServiceSmb = Montage.specialize({
             name: "dos_charset",
             valueObjectPrototypeName: "ServiceSmbDoscharset",
             valueType: "object"
-        }, {
-            mandatory: false,
-            name: "empty_password",
-            valueType: "boolean"
         }, {
             mandatory: false,
             name: "enable",
