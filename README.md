@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/freenas/gui/master/Shark.jpg">
+<img src="https://avatars0.githubusercontent.com/u/3792476?v=3&s=200">
 
 # FreeNAS Corral GUI Development
 
