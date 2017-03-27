@@ -53,7 +53,7 @@ If you don't have a FreeNAS Corral instance already running, go to http://downlo
 
 ## Editing CSS in FreeNAS Corral
 
-###This is required to edit css files!
+### This is required to edit css files!
 
 FreeNAS Corral Development environment uses [PostCSS](https://github.com/postcss/postcss) with [CSSNext](http://cssnext.io/features/). 
 
