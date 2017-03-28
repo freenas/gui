@@ -280,7 +280,7 @@
             },
             "bindings": {
                 "selectedPath": {"<->": "@owner.object.home"},
-                "suffix": {"<-": "@owner.object._isNew ? @owner.object.username : ''"},
+                "suffix": {"<-": "@owner.object._isNew && !@owner.object.home.endsWith('/' + @owner.object.username) ? @owner.object.username : ''"},
                 "classList.has('hide')": {"<-": "@owner.useEmptyHomedir"}
             }
         },
