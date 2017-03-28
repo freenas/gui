@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import {ModelEventName} from '../model-event-name';
 import {AccountRepository} from '../repository/account-repository';
+import { AccountService } from '../service/account-service';
 import {AbstractRoute, Route} from './abstract-route';
 import {KerberosRepository} from '../repository/kerberos-repository';
 import {Model} from '../model';
@@ -9,7 +10,8 @@ export class AccountsRoute extends AbstractRoute {
     private static instance: AccountsRoute;
 
     public constructor(private accountRepository: AccountRepository,
-                       private kerberosRepository: KerberosRepository) {
+                       private kerberosRepository: KerberosRepository,
+                       private accountService: AccountService) {
         super();
     }
 
@@ -17,7 +19,8 @@ export class AccountsRoute extends AbstractRoute {
         if (!AccountsRoute.instance) {
             AccountsRoute.instance = new AccountsRoute(
                 AccountRepository.getInstance(),
-                KerberosRepository.getInstance()
+                KerberosRepository.getInstance(),
+                AccountService.getInstance()
             );
         }
         return AccountsRoute.instance;
@@ -76,6 +79,20 @@ export class AccountsRoute extends AbstractRoute {
         ]).spread((users: Array<any>, uiDescriptor) => {
             context.object = _.find(users, {id: userId});
             context.userInterfaceDescriptor = uiDescriptor;
+
+            let groupId = context.object.group;
+
+            if (groupId) {
+                return this.accountService.searchGroupWithCriteria({id: groupId}).then((groups) => {
+                    let group = groups[0];
+
+                    if (group) {
+                        context.primaryGroup = group;
+                        group.name = this.accountService.formatAccountName(group, 'name');
+                    }
+                });
+            }
+        }).then(() => {
             return this.updateStackWithContext(this.stack, context);
         });
     }

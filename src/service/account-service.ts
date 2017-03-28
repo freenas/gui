@@ -67,18 +67,32 @@ export class AccountService {
         );
     }
 
+    public formatAccountName(account, namePath) {
+        let label = account[namePath];
+        if (account.origin && account.origin.domain && account.origin.domain !== 'local') {
+            label += '@' + account.origin.domain;
+        }
+        return label;
+    }
+
+    public extractPropertyFormAccount(account, propertyName) {
+        if (propertyName === 'name' || propertyName === 'username') {
+            return this.formatAccountName(account, propertyName);
+        }
+        return account[propertyName];
+    }
+
     private handleSearchQuery(searchQuery: Promise<any>, options?: any) {
-        return searchQuery.then((entries) => {
+        return searchQuery.then((values) => {
             if (options && options.labelPath && options.valuePath) {
-                entries = entries.map(entry => {
+                values = values.map(value => {
                     return {
-                        label: entry[options.labelPath],
-                        value: entry[options.valuePath]
+                        label: this.extractPropertyFormAccount(value, options.labelPath),
+                        value: this.extractPropertyFormAccount(value, options.valuePath)
                     };
                 });
             }
-
-            return entries;
+            return values;
         });
     }
 

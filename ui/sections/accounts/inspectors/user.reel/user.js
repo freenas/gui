@@ -93,6 +93,8 @@ exports.User = AbstractInspector.specialize({
                 delete this.object.home;
             }
 
+            this.object.group = this.context.primaryGroup ? this.context.primaryGroup : null;
+
             return this._sectionService.searchGroupWithCriteria({name: 'wheel'}).then(function (groups) {
                 var wheel = groups[0],
                     object = self.object,
