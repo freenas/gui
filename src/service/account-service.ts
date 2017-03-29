@@ -5,6 +5,7 @@ import {User} from '../model/User';
 export class AccountService {
 
     private static instance: AccountService;
+    private groupWheelPromise: Promise<Group>;
 
     public constructor(private accountRepository: AccountRepository) {}
 
@@ -15,6 +16,16 @@ export class AccountService {
             );
         }
         return AccountService.instance;
+    }
+
+    public getWheelGroup(): Promise<Group> {
+        if (!this.groupWheelPromise) {
+            this.groupWheelPromise = this.searchGroupWithCriteria({ name: 'wheel' }).then((groups) => {
+                return groups[0];
+            });
+        }
+
+        return this.groupWheelPromise;
     }
 
     public listLocalUsers(options?: any): Promise<Array<User>> {

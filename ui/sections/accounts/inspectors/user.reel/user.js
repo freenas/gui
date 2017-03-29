@@ -63,6 +63,8 @@ exports.User = AbstractInspector.specialize({
 
             if (isFirstTime) {
                 this.addPathChangeListener('object.home', this, '_handleHomeChange');
+                this.addPathChangeListener('object.sudo', this, '_handleSudoChange');
+                this.addRangeAtPathChangeListener('context.secondaryGroups', this, '_handleGroupsChange');
                 loadingPromises.push(this._getShellOptions());
             }
 
@@ -71,6 +73,63 @@ exports.User = AbstractInspector.specialize({
             Promise.all(loadingPromises).finally(function() {
                 self.isLoading = false;
             });
+        }
+    },
+
+    _handleSudoChange: {
+        value: function () {
+            if (this.object && this.context && this.context.secondaryGroups) {
+                var self = this,
+                    groups = this.context.secondaryGroups;
+
+                this._secondaryGroupsIncludesWheel().then(function (hasWheel) {
+                    return self._sectionService.getWheelGroup().then(function (wheel) {
+                        if (self.object.sudo && !hasWheel) {
+                            groups.push(wheel);
+                        } else if (!self.object.sudo && hasWheel) {
+                            var index = self._findGroupIndexWithinCollection(wheel, groups);
+                            if (index > -1) {
+                                groups.splice(index, 1);
+                            }
+                        }
+                    });
+                });
+            }
+        }
+    },
+
+    _handleGroupsChange: {
+        value: function (add, remove) {
+            if (this.object && (add.length || remove.length)) {
+                var self = this;
+                this._secondaryGroupsIncludesWheel().then(function (hasWheel) {
+                    if (hasWheel && !self.object.sudo) {
+                        self.object.sudo = true;
+                    } else if (!hasWheel && self.object.sudo) {
+                        self.object.sudo = false;
+                    }
+                });
+            }
+        }
+    },
+
+    _secondaryGroupsIncludesWheel: {
+        value: function () {
+            var self = this;
+            return this._sectionService.getWheelGroup().then(function (wheel) {
+                var object = self.object,
+                    groups = self.context.secondaryGroups || (self.context.secondaryGroups = []);
+                return !!(self._findGroupIndexWithinCollection(wheel, groups) > -1);
+            });
+        }
+    },
+
+    _findGroupIndexWithinCollection: {
+        value: function (group, groups) {
+            return _.findIndex(
+                groups,
+                function (candidate) { return candidate.id === group.id; }
+            );
         }
     },
 
@@ -98,25 +157,8 @@ exports.User = AbstractInspector.specialize({
                 return groups.id;
             }, this) : null;
 
-            return this._sectionService.searchGroupWithCriteria({name: 'wheel'}).then(function (groups) {
-                var wheel = groups[0],
-                    object = self.object,
-                    groups = object.groups || (object.groups = []),
-                    hasWheel = _.includes(groups, wheel.id);
-
-                if (object.sudo && !hasWheel) {
-                    groups.push(wheel.id);
-                } else if (!object.sudo && hasWheel) {
-                    for (var i = groups.length - 1; i >= 0; i--) {
-                        if (groups[i] === wheel.id) {
-                            groups.splice(i, 1);
-                        }
-                    }
-                }
-
-                return self._sectionService.saveUser(object).then(function(taskSubmission) {
-                    return taskSubmission.taskPromise;
-                });
+           return self._sectionService.saveUser(object).then(function(taskSubmission) {
+                return taskSubmission.taskPromise;
             });
         }
     },
