@@ -160,6 +160,15 @@ exports.Share = AbstractInspector.specialize({
             if (share._isNew) {
                 this.isPathReadOnly = true;
             }
+
+            if (share.properties) {
+                var properties = share.properties;
+                properties.groups_allow = this._mapAccountCollection(this.context.groupsAllow, 'name');
+                properties.groups_deny = this._mapAccountCollection(this.context.groupsDeny, 'name');
+                properties.users_allow = this._mapAccountCollection(this.context.usersAllow, 'username');
+                properties.users_deny = this._mapAccountCollection(this.context.usersDeny, 'username');
+            }
+
             if (servicePromise) {
                 return servicePromise.then(function() {
                     return self._shareService.save(share);
@@ -167,6 +176,20 @@ exports.Share = AbstractInspector.specialize({
             } else {
                 return self._shareService.save(share);
             }
+        }
+    },
+
+    _mapAccountCollection: {
+        value: function (collection, propertyPath) {
+            var mappedArray = null;
+
+            if (collection) {
+                mappedArray = collection.map(function (value) {
+                    return value[propertyPath];
+                }, this);
+            }
+
+            return mappedArray;
         }
     },
 

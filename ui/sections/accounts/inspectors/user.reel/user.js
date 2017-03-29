@@ -94,6 +94,9 @@ exports.User = AbstractInspector.specialize({
             }
 
             this.object.group = this.context.primaryGroup ? this.context.primaryGroup : null;
+            this.object.groups = this.context.secondaryGroups ? this.context.secondaryGroups.map(function (groups) {
+                return groups.id;
+            }, this) : null;
 
             return this._sectionService.searchGroupWithCriteria({name: 'wheel'}).then(function (groups) {
                 var wheel = groups[0],

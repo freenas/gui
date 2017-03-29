@@ -80,18 +80,34 @@ export class AccountsRoute extends AbstractRoute {
             context.object = _.find(users, {id: userId});
             context.userInterfaceDescriptor = uiDescriptor;
 
-            let groupId = context.object.group;
+            let groupId = context.object.group,
+                groups = context.object.groups,
+                promises = [];
 
             if (groupId) {
-                return this.accountService.searchGroupWithCriteria({id: groupId}).then((groups) => {
-                    let group = groups[0];
-
-                    if (group) {
-                        context.primaryGroup = group;
-                        group.name = this.accountService.formatAccountName(group, 'name');
-                    }
-                });
+                promises.push(this.accountService.searchGroupWithCriteria({id: groupId}));
             }
+
+            if (groups && groups.length) {
+                promises.push(this.accountService.searchGroupWithCriteria({id: [['in', groups]]}));
+            }
+
+            return Promise.all(promises).spread((primaryGroups, secondaryGroups) => {
+                let group = primaryGroups[0];
+
+                if (group) {
+                    context.primaryGroup = group;
+                    group.name = this.accountService.formatAccountName(group, 'name');
+                }
+
+                if (secondaryGroups) {
+                    context.secondaryGroups = secondaryGroups;
+
+                    secondaryGroups.forEach((group) => {
+                        group.name = this.accountService.formatAccountName(group, 'name');
+                    });
+                }
+            });
         }).then(() => {
             return this.updateStackWithContext(this.stack, context);
         });

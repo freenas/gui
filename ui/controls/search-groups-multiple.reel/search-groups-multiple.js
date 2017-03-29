@@ -4,23 +4,20 @@ exports.SearchGroupsMultiple = AbstractSearchAccountMultiple.specialize(/** @len
 
     search: {
         value: function (value) {
-             return this.service.searchGroup(value);
-        }
-    },
+            var self = this;
 
-    labelExpression: {
-        value: "!!origin && !!origin.domain && origin.domain != 'local' ? name  + '@' + origin.domain : name"
+            return this.service.searchGroup(value).then(function (groups) {
+                return groups.map(function (group) {
+                    group.name = self.service.formatAccountName(group, self.labelPath);
+                    return group;
+                });
+            });
+        }
     },
 
     loadInitialOptions: {
         value: function () {
             return this.service.listLocalGroups();
-        }
-    },
-
-    findLabelForValue: {
-        value: function (criteria) {
-            return this.service.searchGroupWithCriteria(criteria);
         }
     }
 
