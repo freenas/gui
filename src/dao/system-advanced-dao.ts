@@ -11,7 +11,8 @@ export class SystemAdvancedDao extends AbstractDao<SystemAdvanced> {
     public constructor() {
         super(Model.SystemAdvanced, {
             queryMethod: 'system.advanced.get_config',
-            createMethod: 'system.advanced.update'
+            createMethod: 'system.advanced.update',
+            eventName: 'entity-subscriber.system.advanced.changed'
         });
     }
 
