@@ -66,7 +66,8 @@
                 "isSaveDisabled": {"<-": "(@owner.targetType == 'ZVOL' && !@owner.object.properties.size)"},
                 "context": {"<-": "@owner.context"},
                 "isLoading": {"<-": "@owner.isLoading"},
-                "extraDeleteFlags": {"<-": "@owner.extraDeleteFlags"}
+                "extraDeleteFlags": {"<-": "@owner.extraDeleteFlags"},
+                "extraDeleteMessage": {"<-": "@owner.extraDeleteMessage"}
             }
         },
         "overview": {

@@ -15,7 +15,8 @@
                      {"label": "Delete recursive snapshots?",
                       "value": "recursive",
                       "checked": false}
-                ]
+                ],
+                "extraDeleteMessage" : "I am sure that I wish to delete this snapshot and its recursive snapshots"
             }
         },
         "sizeConverter": {
@@ -52,6 +53,7 @@
             "bindings": {
                 "context": {"<-": "@owner.context"},
                 "extraDeleteFlags": {"<-": "@owner.extraDeleteFlags"},
+                "extraDeleteMessage": {"<-": "@owner.extraDeleteMessage"},
                 "isSaveDisabled": {"<-": "!@owner.object.dataset"},
                 "isLoading": {"<-": "@owner.isLoading"}
             }

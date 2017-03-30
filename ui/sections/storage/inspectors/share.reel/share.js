@@ -137,16 +137,25 @@ exports.Share = AbstractInspector.specialize({
                         "value": "delete_dataset",
                         "checked": false
                     }];
+                    this.extraDeleteMessage = "I am sure that I wish to delete this share and its associated dataset";
                 } else if (this.targetType === 'ZVOL') {
                     this.extraDeleteFlags = [{
                         "label": "Delete associated ZVOL?",
                         "value": "delete_dataset",
                         "checked": false
                     }];
+                    this.extraDeleteMessage = "I am sure that I wish to delete this share and its associated ZVOL";
                 } else {
                     this.extraDeleteFlags = [];
                 }
             }
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            this.extraDeleteFlags = null;
+            this.extraDeleteMessage = null;
         }
     },
 
