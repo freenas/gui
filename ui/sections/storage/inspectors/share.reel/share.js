@@ -181,7 +181,7 @@ exports.Share = AbstractInspector.specialize({
 
     _mapAccountCollection: {
         value: function (collection, propertyPath) {
-            var mappedArray = null;
+            var mappedArray;
 
             if (collection) {
                 mappedArray = collection.map(function (value) {
