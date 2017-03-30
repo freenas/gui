@@ -4,23 +4,20 @@ exports.SearchUsersMultiple = AbstractSearchAccountMultiple.specialize(/** @lend
 
     search: {
         value: function (value) {
-             return this.service.searchUser(value);
-        }
-    },
+            var self = this;
 
-    labelExpression: {
-        value: "!!origin && !!origin.domain && origin.domain != 'local' ? username  + '@' + origin.domain : username"
+            return this.service.searchUser(value).then(function (users) {
+                return users.map(function (user) {
+                    user.username = self.service.formatAccountName(user, self.labelPath);
+                    return user;
+                });
+            });
+        }
     },
 
     loadInitialOptions: {
         value: function () {
             return this.service.listLocalUsers();
-        }
-    },
-
-    findLabelForValue: {
-        value: function (criteria) {
-            return this.service.searchUserWithCriteria(criteria);
         }
     }
 

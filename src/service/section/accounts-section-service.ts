@@ -39,6 +39,10 @@ export class AccountsSectionService extends AbstractSectionService {
         return this.accountRepository.saveUser(user);
     }
 
+    public getWheelGroup() {
+        return this.accountService.getWheelGroup();
+    }
+
     public getNextUid() {
         return this.accountRepository.getNextUid();
     }
