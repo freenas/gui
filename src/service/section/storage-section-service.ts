@@ -351,6 +351,10 @@ export class StorageSectionService extends AbstractSectionService {
         return this.calendarRepository.deleteCalendarTask(task);
     }
 
+    public setVolumeKey(volume, keyFile, password) {
+        return this.volumeRepository.setVolumeKey(volume, keyFile, password);
+    }
+
     private cloneVdevs(vdevs: Array<any>): Array<any> {
         return _.map(vdevs, (vdev) => {
             let clone = _.cloneDeep(vdev);
