@@ -84,7 +84,9 @@
             },
             "bindings": {
                 "confirmMessage": {"<-": "!!@owner.confirmDeleteMessage ? @owner.confirmDeleteMessage : 'Are you sure you want to delete ' + @owner.context.object.path(@owner.context.userInterfaceDescriptor.nameExpression) + '?'"},
-                "extraFlags": {"<-": "@owner.extraDeleteFlags"}
+                "extraFlags": {"<-": "@owner.extraDeleteFlags"},
+                "needsExtraConfirm": {"<-": "@owner.needsExtraConfirm"},
+                "confirmExtraLabel": {"<-": "@owner.extraDeleteMessage || 'I am sure that I wish to delete this item and its associated objects.'"}
             }
         },
         "confirmationSaveMessage": {
