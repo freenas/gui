@@ -178,7 +178,7 @@ export class VmsRoute extends AbstractRoute {
             this.modelDescriptorService.getUiDescriptorForType(objectType)
         ]).spread((newVmDevices: Array<any>, uiDescriptor) => {
             let vm = parentContext.object._vm;
-            context.object = _.compact(newVmDevices);
+            context.object = vm.target ? _.compact(newVmDevices) : _.reject(_.compact(newVmDevices), {type: this.vmRepository.DEVICE_TYPE.DISK});
             context.object._vm = vm;
             parentContext.object = _.map(
                 _.reject(vm.devices, {type: this.vmRepository.DEVICE_TYPE.VOLUME}),
