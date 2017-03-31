@@ -97,8 +97,17 @@
                 "validator": {"@": "portValidator"}
             }
         },
+        "remoteSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "remoteSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.object.0.rsync_mode"}
+            }
+        },
         "remotePort": {
-            "prototype": "core/converter/validator/integer-floor-validator",
+            "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "remotePort"},
                 "label": "Remote ssh port",
@@ -227,8 +236,10 @@
         <div data-montage-id="remoteUser"></div>
         <div data-montage-id="remoteHost"></div>
         <div data-montage-id="remotePath"></div>
-        <div data-montage-id="remotePort"></div>
-        <div data-montage-id="remoteModule"></div>
+        <div data-montage-id="remoteSubstitution">
+            <div data-montage-id="remotePort" data-arg="SSH"></div>
+            <div data-montage-id="remoteModule" data-arg="MODULE"></div>
+        </div>
         <div class="RsyncProperties">
             <div data-montage-id="rsyncPropertiesTitle"></div>
             <div data-montage-id="archive"></div>
