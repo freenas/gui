@@ -4,6 +4,7 @@ import {DiskUsageService} from '../service/disk-usage-service';
 import {AbstractRoute} from './abstract-route';
 import {Model} from '../model';
 import * as _ from 'lodash';
+import {ZfsTopology} from '../model/ZfsTopology';
 
 export class VolumeRoute extends AbstractRoute {
     private static instance: VolumeRoute;
@@ -38,21 +39,19 @@ export class VolumeRoute extends AbstractRoute {
 
     public topology(volumeId: string, stack: Array<any>) {
         let columnIndex = 2;
-        return Promise.all([
-            this.loadPropertyInColumn(
-                stack,
-                columnIndex,
-                columnIndex - 1,
-                '/topology',
-                Model.ZfsTopology,
-                'topology'
-            ),
-            this.volumeRepository.listVolumes()
-        ]).spread((stack: Array<any>, volumes) => {
-            _.last(stack).object._volume = _.find(volumes, {id: volumeId});
-            _.last(stack).object._disks = this.diskRepository.listAvailableDisks();
-            return stack;
-        });
+        return this.loadObjectInColumn(
+            stack,
+            columnIndex,
+            columnIndex - 1,
+            '/topology',
+            ZfsTopology.getClassName(),
+            this.volumeRepository.listVolumes().then(volumes => _.find(volumes, {id: volumeId}).topology),
+            null,
+            context => this.volumeRepository.listVolumes().then(volumes => {
+                context.object._volume = _.find(volumes, {id: volumeId});
+                context.object._disks = this.diskRepository.listAvailableDisks();
+            }
+        );
     }
 
     public topologyDisk(volumeId, diskId: string, stack: Array<any>) {
