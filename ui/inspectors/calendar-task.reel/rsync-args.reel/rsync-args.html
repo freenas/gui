@@ -80,7 +80,8 @@
                 "label": "Remote path (destination)"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.0.remote_path"}
+                "value": {"<->": "@owner.object.0.remote_path"},
+                "classList.has('hide')": {"<-": "@owner.object.0.rsync_mode != 'SSH'"}
             }
         },
         "portValidator": {
