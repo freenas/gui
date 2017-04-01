@@ -66,7 +66,8 @@
                 "isSaveDisabled": {"<-": "(@owner.targetType == 'ZVOL' && !@owner.object.properties.size)"},
                 "context": {"<-": "@owner.context"},
                 "isLoading": {"<-": "@owner.isLoading"},
-                "extraDeleteFlags": {"<-": "@owner.extraDeleteFlags"}
+                "extraDeleteFlags": {"<-": "@owner.extraDeleteFlags"},
+                "extraDeleteMessage": {"<-": "@owner.extraDeleteMessage"}
             }
         },
         "overview": {
@@ -143,7 +144,8 @@
             },
             "bindings": {
                 "moduleId": {"<-": "@owner._montage_metadata.moduleId + '/' + @owner.object.type + '-share.reel'"},
-                "object": {"<-": "@owner.object"}
+                "object": {"<-": "@owner.object"},
+                "context": {"<-": "@owner.context"}
             }
         },
         "targetTypeSelect": {
