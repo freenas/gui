@@ -1,5 +1,4 @@
-var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+var Component = require("montage/ui/component").Component;
 
 exports.AvailableDisks = Component.specialize({
     enterDocument: {
@@ -30,7 +29,7 @@ exports.AvailableDisks = Component.specialize({
                 }
             }
         }
-    }, 
+    },
 
     _handleDisksChange: {
         value: function() {

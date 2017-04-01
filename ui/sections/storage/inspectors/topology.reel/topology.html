@@ -53,7 +53,8 @@
             "prototype": "ui/sections/storage/inspectors/available-disks.reel",
             "properties": {
                 "element": {"#": "availableDisks"},
-                "topology": {"@": "topology"}
+                "topology": {"@": "topology"},
+                "controller": {"@": "owner"}
             },
             "bindings": {
                 "disks": {"<-": "@owner.availableDisks"},

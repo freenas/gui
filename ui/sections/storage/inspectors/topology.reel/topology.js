@@ -1,6 +1,7 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
     RoutingService = require("core/service/routing-service").RoutingService,
+    TopologyControl = require("ui/controls/topology.reel").Topology,
     _ = require("lodash");
 
 var Topology = exports.Topology = AbstractInspector.specialize({
@@ -64,12 +65,29 @@ var Topology = exports.Topology = AbstractInspector.specialize({
                         if (vdev.children) {
                             _.forEach(vdev.children, function(child, childIndex) {
                                 if (child.status) {
-                                    child.status = stateVdev.get('children').get(childIndex).get('status');
+                                    child.status = stateVdev.get('type') === 'disk' ?
+                                        stateVdev.get('status') :
+                                        stateVdev.get('children').get(childIndex).get('status');
                                 }
                             });
                         }
                     });
                 });
+            }
+        }
+    },
+
+    handleComponentDropInDiskCategory: {
+        value: function(diskGridItemComponent, sourceComponent) {
+            var vDev = diskGridItemComponent.object,
+                disk = vDev._disk,
+                sourceGridId = diskGridItemComponent.ownerComponent.identifier;
+
+            if (disk && TopologyControl.IDENTIFIERS[sourceGridId]) {
+                this._sectionService.markDiskAsFreed(disk.id);
+                var collectionSource = sourceComponent.topology.findTopologyCollectionWithIdentifier.call(sourceComponent.topology, sourceGridId);
+                sourceComponent.topology.removeDiskFromTopologyCollection(vDev, collectionSource);
+                disk.volume = null;
             }
         }
     },
