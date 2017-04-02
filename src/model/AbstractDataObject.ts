@@ -14,7 +14,7 @@ export abstract class AbstractDataObject {
         return this.className;
     }
 
-    public static getEventNames(): ModelEventName {
+    public static getEventNames() {
         if (!this.eventNames) {
             this.eventNames = new ModelEventName(this.getClassName());
         }

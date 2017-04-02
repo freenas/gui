@@ -16,11 +16,10 @@ import {SystemTime} from '../model/SystemTime';
 import {SystemAdvanced} from '../model/SystemAdvanced';
 import {SystemUi} from '../model/SystemUi';
 import {ModelEventName} from '../model-event-name';
-import {Map} from 'immutable';
 
 export class SystemRepository extends AbstractRepository {
     private static instance: SystemRepository;
-    private systemGeneral: Map<string, Map<string, any>>;
+    private systemGeneral: Map<string, any>;
     private systemTime: Map<string, any>;
     private systemAdvanced: Map<string, any>;
     private systemUi: Map<string, any>;
@@ -65,7 +64,7 @@ export class SystemRepository extends AbstractRepository {
     }
 
     public getGeneral(): Object {
-        return this.systemGeneral ? Promise.resolve(this.systemGeneral.valueSeq().get(0).toJS()) : this.systemGeneralDao.get();
+        return this.systemGeneralDao.get();
     }
 
     public getTime(): Object {

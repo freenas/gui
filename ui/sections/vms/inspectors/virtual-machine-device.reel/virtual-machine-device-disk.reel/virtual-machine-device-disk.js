@@ -116,6 +116,7 @@ exports.VirtualMachineDeviceDisk = AbstractInspector.specialize({
             if (this._inDocument && !this.isFromTemplate) {
                 if (!target) {
                     this.object.target_path = null;
+                    this.object.size = null;
                 } else {
                     switch (this.object.target_type) {
                         case 'DISK':
@@ -124,11 +125,9 @@ exports.VirtualMachineDeviceDisk = AbstractInspector.specialize({
                             break;
                         case 'BLOCK':
                         case 'FILE':
-                            if (this.object.target_path !== target) {
-                                this.object.target_path = target;
-                                var selectedTarget = this.treeController.entry.children && _.find(this.treeController.entry.children, {path: target});
-                                this.object.size = (selectedTarget && selectedTarget.type === this.object.target_type) ? selectedTarget.original.size : 0;
-                            }
+                            this.object.target_path = target;
+                            var selectedTarget = this.treeController.entry.children && _.find(this.treeController.entry.children, {path: target});
+                            this.object.size = (selectedTarget && selectedTarget.type === this.object.target_type) ? selectedTarget.original.size : 0;
                             break;
                     }
                 }

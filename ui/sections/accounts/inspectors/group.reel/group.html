@@ -12,7 +12,7 @@
                 "inspector": {"@": "inspector"}
             },
             "bindings": {
-                "readOnly": {"<-": "!@owner.object._isNew && (@owner.object.builtin || @owner.object.origin.read_only)"}
+                "readOnly": {"<-": "@owner.object.builtin || @owner.object.origin.read_only"}
             }
         },
         "validationController": {

@@ -44,11 +44,9 @@ exports.CalendarTask = AbstractInspector.specialize({
                         "value": "delete_repl",
                         "checked": false
                     }];
-                    this.extraDeleteMessage = "I am sure that I wish to delete this calendar task and its associated replication";
                 } else {
                     this.replicationObject = null;
                     this.extraDeleteFlags = [];
-                    this.extraDeleteMessage = null;
                 }
             }
         }

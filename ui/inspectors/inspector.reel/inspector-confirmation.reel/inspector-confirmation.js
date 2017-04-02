@@ -1,5 +1,4 @@
-var Component = require("montage/ui/component").Component,
-    _ = require("lodash");
+var Component = require("montage/ui/component").Component;
 
 exports.InspectorConfirmation = Component.specialize(/** @lends InspectorConfirmation# */ {
 
@@ -9,20 +8,6 @@ exports.InspectorConfirmation = Component.specialize(/** @lends InspectorConfirm
 
     inspector: {
         value: null
-    },
-
-    confirmExtra: {
-        value: false
-    },
-
-    extraFlags: {
-        value: []
-    },
-
-    exitDocument: {
-        value: function() {
-            this.confirmExtra = false;
-        }
     },
 
     handleConfirmAction: {

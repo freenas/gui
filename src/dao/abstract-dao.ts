@@ -76,7 +76,7 @@ export class AbstractDao<T extends AbstractDataObject> {
     }
 
     public get(): Promise<T> {
-        return this.getPromise ? this.getPromise : this.getPromise = this.query().then(x => {
+        return this.getPromise ? this.getPromise : this.query().then(x => {
             this.getPromise = null;
             return x[0];
         });

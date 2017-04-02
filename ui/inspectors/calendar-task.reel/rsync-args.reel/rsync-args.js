@@ -32,7 +32,6 @@ exports.RsyncArgs = AbstractInspector.specialize({
                 this.object.clear();
                 this.object.push({rsync_properties: {}});
                 this.object.__type = this.type;
-                this.object[0].remote_ssh_port = 22;
             }
             this._extra = this.object[0].rsync_properties.extra;
         }

@@ -1,4 +1,5 @@
 var Montage = require("montage").Montage,
+    NotificationCenterModule = require("core/backend/notification-center"),
     SupportCategoryDao = require("core/dao/support-category-dao").SupportCategoryDao,
     SupportTicketDao = require("core/dao/support-ticket-dao").SupportTicketDao;
 
@@ -46,6 +47,7 @@ var SupportService = exports.SupportService = Montage.specialize({
                 this._instance = new this();
                 this._instance._supportCategoryDao = new SupportCategoryDao();
                 this._instance._supportTicketDao = new SupportTicketDao();
+                this._instance._notificationCenter = NotificationCenterModule.defaultNotificationCenter;
             }
             return this._instance;
         }

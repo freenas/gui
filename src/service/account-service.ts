@@ -5,7 +5,6 @@ import {User} from '../model/User';
 export class AccountService {
 
     private static instance: AccountService;
-    private groupWheelPromise: Promise<Group>;
 
     public constructor(private accountRepository: AccountRepository) {}
 
@@ -16,16 +15,6 @@ export class AccountService {
             );
         }
         return AccountService.instance;
-    }
-
-    public getWheelGroup(): Promise<Group> {
-        if (!this.groupWheelPromise) {
-            this.groupWheelPromise = this.searchGroupWithCriteria({ name: 'wheel' }).then((groups) => {
-                return groups[0];
-            });
-        }
-
-        return this.groupWheelPromise;
     }
 
     public listLocalUsers(options?: any): Promise<Array<User>> {
@@ -78,32 +67,18 @@ export class AccountService {
         );
     }
 
-    public formatAccountName(account, namePath) {
-        let label = account[namePath];
-        if (account.origin && account.origin.domain && account.origin.domain !== 'local') {
-            label += '@' + account.origin.domain;
-        }
-        return label;
-    }
-
-    public extractPropertyFormAccount(account, propertyName) {
-        if (propertyName === 'name' || propertyName === 'username') {
-            return this.formatAccountName(account, propertyName);
-        }
-        return account[propertyName];
-    }
-
     private handleSearchQuery(searchQuery: Promise<any>, options?: any) {
-        return searchQuery.then((values) => {
+        return searchQuery.then((entries) => {
             if (options && options.labelPath && options.valuePath) {
-                values = values.map(value => {
+                entries = entries.map(entry => {
                     return {
-                        label: this.extractPropertyFormAccount(value, options.labelPath),
-                        value: this.extractPropertyFormAccount(value, options.valuePath)
+                        label: entry[options.labelPath],
+                        value: entry[options.valuePath]
                     };
                 });
             }
-            return values;
+
+            return entries;
         });
     }
 

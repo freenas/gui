@@ -16,8 +16,9 @@
                 "controller": {"@": "owner"}
             },
             "bindings": {
-                "value": {"<->": "@owner.value"},
+                "value": {"<->": "@owner.entry"},
                 "label": {"<-": "@owner.label"},
+                "labelExpression": {"<-": "@owner.labelExpression"},
                 "disabled": {"<-": "@owner.disabled"},
                 "isLoading": {"<-": "@owner.isLoading"},
                 "labelPath": {"<-": "@owner.labelPath"},

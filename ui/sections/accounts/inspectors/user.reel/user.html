@@ -21,7 +21,7 @@
                 ]
             },
             "bindings": {
-                "readOnly": {"<-": "!@owner.object._isNew && (@owner.object.builtin || @owner.object.origin.read_only)"}
+                "readOnly": {"<-": "@owner.object.builtin || @owner.object.origin.read_only"}
             }
         },
         "validationController": {
@@ -37,8 +37,7 @@
             "properties": {
                 "element": {"#": "inspector"},
                 "controller": {"@": "owner"},
-                "validationController": {"@": "validationController"},
-                "extraDeleteMessage": "I am sure that I wish to delete this user and its home directory and/or group"
+                "validationController": {"@": "validationController"}
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
@@ -214,7 +213,7 @@
                 "label": "Primary Group"
             },
             "bindings": {
-                "value": {"<->": "@owner.context.primaryGroup"}
+                "value": {"<->": "@owner.object.group"}
             }
         },
         "groupDisplay": {
@@ -261,7 +260,7 @@
                 "validationPath": "groups"
             },
             "bindings": {
-                "values": {"<->": "@owner.context.secondaryGroups"},
+                "values": {"<->": "@owner.object.groups"},
                 "enabled": {"<-": "@groupsSection.isExpanded"}
             }
         },
@@ -284,7 +283,7 @@
             },
             "bindings": {
                 "selectedPath": {"<->": "@owner.object.home"},
-                "suffix": {"<-": "@owner.object._isNew && !@owner.object.home.endsWith('/' + @owner.object.username) ? @owner.object.username : ''"},
+                "suffix": {"<-": "@owner.object._isNew ? @owner.object.username : ''"},
                 "classList.has('hide')": {"<-": "@owner.useEmptyHomedir"}
             }
         },

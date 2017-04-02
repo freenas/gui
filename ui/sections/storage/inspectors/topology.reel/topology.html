@@ -15,8 +15,7 @@
                 "classList.has('has-availableDisks')": {"<-": "@availableDisks.availableDisks.length > 0"},
                 "classList.has('is-detached')": {"<-": "!!@owner.object._isDetached"},
                 "availableSelectedDisk": {"<->": "@availableDisks.selectedDisk"},
-                "topologySelectedDisk": {"<->": "@topology.selectedDisk"},
-                "isEditable": {"<-": "!@owner.object._isDetached && @owner.object._volume.status != 'LOCKED'"}
+                "topologySelectedDisk": {"<->": "@topology.selectedDisk"}
             }
         },
         "validationController": {
@@ -30,10 +29,10 @@
                 "controller": {"@": "owner"}
             },
             "bindings": {
-                "canDelete": {"<-": "@owner.isEditable"},
-                "canRevert": {"<-": "@owner.isEditable"},
-                "canSave": {"<-": "@owner.isEditable"},
-                "isFooterHidden": {"<-": "!@owner.isEditable"},
+                "canDelete": {"<-": "!@owner.object._isDetached"},
+                "canRevert": {"<-": "!@owner.object._isDetached"},
+                "canSave": {"<-": "!@owner.object._isDetached"},
+                "isFooterHidden": {"<-": "!@owner.object._isDetached"},
                 "context": {"<-": "@owner.context"},
                 "isLocked": {"<->": "@owner.isLocked"}
             }
@@ -41,11 +40,11 @@
         "topology": {
             "prototype": "ui/controls/topology.reel",
             "properties": {
-                "element": {"#": "topology"}
+                "element": {"#": "topology"},
+                "mode": "UPDATE"
             },
             "bindings": {
-                "object": {"<-": "@owner.topologyProxy"},
-                "mode": {"<-": "@owner.isEditable ? 'UPDATE' : 'read-mode'"}
+                "object": {"<-": "@owner.topologyProxy"}
             }
         },
 

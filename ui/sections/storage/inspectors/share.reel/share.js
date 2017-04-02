@@ -137,25 +137,16 @@ exports.Share = AbstractInspector.specialize({
                         "value": "delete_dataset",
                         "checked": false
                     }];
-                    this.extraDeleteMessage = "I am sure that I wish to delete this share and its associated dataset";
                 } else if (this.targetType === 'ZVOL') {
                     this.extraDeleteFlags = [{
                         "label": "Delete associated ZVOL?",
                         "value": "delete_dataset",
                         "checked": false
                     }];
-                    this.extraDeleteMessage = "I am sure that I wish to delete this share and its associated ZVOL";
                 } else {
                     this.extraDeleteFlags = [];
                 }
             }
-        }
-    },
-
-    exitDocument: {
-        value: function() {
-            this.extraDeleteFlags = null;
-            this.extraDeleteMessage = null;
         }
     },
 
@@ -169,15 +160,6 @@ exports.Share = AbstractInspector.specialize({
             if (share._isNew) {
                 this.isPathReadOnly = true;
             }
-
-            if (share.properties) {
-                var properties = share.properties;
-                properties.groups_allow = this._mapAccountCollection(this.context.groupsAllow, 'name');
-                properties.groups_deny = this._mapAccountCollection(this.context.groupsDeny, 'name');
-                properties.users_allow = this._mapAccountCollection(this.context.usersAllow, 'username');
-                properties.users_deny = this._mapAccountCollection(this.context.usersDeny, 'username');
-            }
-
             if (servicePromise) {
                 return servicePromise.then(function() {
                     return self._shareService.save(share);
@@ -185,20 +167,6 @@ exports.Share = AbstractInspector.specialize({
             } else {
                 return self._shareService.save(share);
             }
-        }
-    },
-
-    _mapAccountCollection: {
-        value: function (collection, propertyPath) {
-            var mappedArray;
-
-            if (collection) {
-                mappedArray = collection.map(function (value) {
-                    return value[propertyPath];
-                }, this);
-            }
-
-            return mappedArray;
         }
     },
 

@@ -5,8 +5,7 @@ import {SystemUi} from '../model/SystemUi';
 export class SystemUiDao extends AbstractDao<SystemUi> {
     public constructor() {
         super(Model.SystemUi, {
-            queryMethod: 'system.ui.get_config',
-            eventName: 'entity-subscriber.system.ui.changed'
+            queryMethod: 'system.ui.get_config'
         });
     }
 }

@@ -37,6 +37,7 @@
             "properties": {
                 "element": {"#": "user"},
                 "label": "User",
+                "labelPath": "username",
                 "valuePath": "username"
             },
             "bindings": {
@@ -80,8 +81,7 @@
                 "label": "Remote path (destination)"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.0.remote_path"},
-                "classList.has('hide')": {"<-": "@owner.object.0.rsync_mode != 'SSH'"}
+                "value": {"<->": "@owner.object.0.remote_path"}
             }
         },
         "portValidator": {
@@ -98,17 +98,8 @@
                 "validator": {"@": "portValidator"}
             }
         },
-        "remoteSubstitution": {
-            "prototype": "montage/ui/substitution.reel",
-            "properties": {
-                "element": {"#": "remoteSubstitution"}
-            },
-            "bindings": {
-                "switchValue": {"<-": "@owner.object.0.rsync_mode"}
-            }
-        },
         "remotePort": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "core/converter/validator/integer-floor-validator",
             "properties": {
                 "element": {"#": "remotePort"},
                 "label": "Remote ssh port",
@@ -237,10 +228,8 @@
         <div data-montage-id="remoteUser"></div>
         <div data-montage-id="remoteHost"></div>
         <div data-montage-id="remotePath"></div>
-        <div data-montage-id="remoteSubstitution">
-            <div data-montage-id="remotePort" data-arg="SSH"></div>
-            <div data-montage-id="remoteModule" data-arg="MODULE"></div>
-        </div>
+        <div data-montage-id="remotePort"></div>
+        <div data-montage-id="remoteModule"></div>
         <div class="RsyncProperties">
             <div data-montage-id="rsyncPropertiesTitle"></div>
             <div data-montage-id="archive"></div>

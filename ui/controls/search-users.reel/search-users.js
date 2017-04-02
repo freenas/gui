@@ -4,20 +4,23 @@ exports.SearchUsers = AbstractSearchAccount.specialize(/** @lends SearchGroups# 
 
     search: {
         value: function (value) {
-            var self = this;
-
-             return this.service.searchUser(value).then(function (users) {
-                 return users.map(function (user) {
-                    user.username = self.service.formatAccountName(user, self.labelPath);
-                    return user;
-                 });
-             });
+             return this.service.searchUser(value);
         }
+    },
+
+    labelExpression: {
+        value: "!!origin && !!origin.domain && origin.domain != 'local' ? username  + '@' + origin.domain : username"
     },
 
     loadInitialOptions: {
         value: function () {
             return this.service.listLocalUsers();
+        }
+    },
+
+    findLabelForValue: {
+        value: function (criteria) {
+            return this.service.searchUserWithCriteria(criteria);
         }
     }
 
