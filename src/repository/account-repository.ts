@@ -97,17 +97,11 @@ export class AccountRepository extends AbstractRepository {
     }
 
     public streamUsers(): Promise<Array<Object>> {
-        let promise;
-
         if (this.usersStreamId) {
-            promise = Promise.resolve(
-                this.datastoreService.getState().get('streams').get(this.usersStreamId)
-            );
-        } else {
-            promise = this.userDao.stream(true, {builtin: false});
+            this.datastoreService.delete('streams', this.usersStreamId);
         }
 
-        return promise.then((stream) => {
+        return this.userDao.stream(true, {builtin: false}).then((stream) => {
             let dataArray = stream.get('data').toJS();
 
             this.userDao.register();
@@ -172,17 +166,11 @@ export class AccountRepository extends AbstractRepository {
 
     //TODO: ask only ids? (improvements)
     public streamGroups(): Promise<Array<Object>> {
-        let promise;
-
         if (this.groupsStreamId) {
-            promise = Promise.resolve(
-                this.datastoreService.getState().get("streams").get(this.groupsStreamId)
-            );
-        } else {
-            promise = this.groupDao.stream(true, {builtin: false});
+            this.datastoreService.delete('streams', this.groupsStreamId);
         }
 
-        return promise.then((stream) => {
+        return this.groupDao.stream(true, {builtin: false}).then((stream) => {
             let dataArray = stream.get('data').toJS();
 
             this.groupDao.register();

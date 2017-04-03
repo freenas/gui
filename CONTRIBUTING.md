@@ -1,41 +1,41 @@
-# Contributing to the FreeNAS 10 GUI
+# Contributing to the FreeNAS Corral GUI
 
-FreeNAS 10 is a ground-up rewrite of FreeNAS, and we're looking for
+FreeNAS Corral is a ground-up rewrite of FreeNAS, and we're looking for
 contributors who are prepared to work with an entirely new code base.
 Our dev environment is designed to make iterating quick and easy.
 
 ## Prerequisites
 
-1. You will need a reasonably up-to-date FreeNAS 10 instance running, either in a VM or on a physical machine:
-  * Go to http://download.freenas.org/10/MASTER/latest/x64 and grab the ISO installation image.
+1. You will need a reasonably up-to-date FreeNAS Corral instance running, either in a VM or on a physical machine:
+  * Go to http://download.freenas.org/Corral/latest/x64 and grab the ISO installation image.
   * You will need at least 8GB of memory on the machine and at least one boot device (USB stick or virtual disk), 16GB or larger.
 
-2. Once you have FreeNAS 10 installed, you can use the built-in updater to keep it up to date
-  * We release updates on the 10-Nightlies update "train" and you can stay as up to date as you wish.
+2. Once you have FreeNAS Corral installed, you can use the built-in updater to keep it up to date
+  * We release updates on the FreeNAS-Corral-Nightlies update "train" and you can stay as up to date as you wish.
   * Use _System → Boot Volume UI_ (or the _boot_ command if you are restricted to the CLI) to roll backwards as necessary from any bad updates (it sometimes happens, but updates can also be easily rolled back so it's not a show-stopper).
 
-3. Now that you have FreeNAS 10 installed and up-to-date
-  * You can use the UI directly from the installation or, as described below, run a copy of the GUI locally on your development machine, pointing at the remote FreeNAS 10 server.  This is the preferred method of doing UI development, since you can use the very latest UI sources before they're actually checked into the master branch and incorporated into a build.
+3. Now that you have FreeNAS Corral installed and up-to-date
+  * You can use the UI directly from the installation or, as described below, run a copy of the GUI locally on your development machine, pointing at the remote FreeNAS Corral server.  This is the preferred method of doing UI development, since you can use the very latest UI sources before they're actually checked into the master branch and incorporated into a build.
 
 ## Getting Started
 
-FreeNAS 10 GUI development is currently supported on FreeBSD, Mac OS X, and some
+FreeNAS Corral GUI development is currently supported on FreeBSD, Mac OS X, and some
 Linux distributions. Windows users might be able to get it working, but it's not
 and will not be an officially supported platform for development.
 
 If you already have node.js installed and the repo checked out, great! Skip to
-"Using the FreeNAS 10 Development Environment" below.
+"Using the FreeNAS Corral Development Environment" below.
 
-Otherwise, to begin developing for the FreeNAS 10 GUI on one of these platforms,
+Otherwise, to begin developing for the FreeNAS Corral GUI on one of these platforms,
 install node.js.
 
 For Mac OS X, installing the package from nodejs.org should suffice.
 For FreeBSD, run `sudo pkg install npm`.
 
-## Using the FreeNAS 10 Development Environment
+## Using the FreeNAS Corral Development Environment
 
 To make sure you have all the necessary global dev dependencies for developing
-the FreeNAS 10 GUI, run:
+the FreeNAS Corral GUI, run:
 
     npm install
 
@@ -47,15 +47,15 @@ Once you have the environment bootstrapped, just for now do the following:
        This will start the stand-alone web server so you can connect your web browser to localhost:3000 (see next step)
     2. Add `#?host=<MIDDLEWARE_HOSTNAME>:<MIDDLEWARE_PORT>` to the URL gulp gives you, e.g. `http://localhost:3000/#?host=freenas.local`
 
-In the example above, you have obviously already installed a copy of FreeNAS 10 on a machine called "freenas.local", which is the default mDNS name that FreeNAS gives itself - edit that to suit your actual configuration as necessary.
+In the example above, you have obviously already installed a copy of FreeNAS Corral on a machine called "freenas.local", which is the default mDNS name that FreeNAS gives itself - edit that to suit your actual configuration as necessary.
 
-If you don't have a FreeNAS 10 instance already running, go to http://download.freenas.org/10/MASTER/ for the latest up-to-date version, grab the ISO out of it, and install it on a VM or spare machine somewhere.
+If you don't have a FreeNAS Corral instance already running, go to http://download.freenas.org/Corral/MASTER/ for the latest up-to-date version, grab the ISO out of it, and install it on a VM or spare machine somewhere.
 
-## Editing CSS in FreeNAS 10
+## Editing CSS in FreeNAS Corral
 
-###This is required to edit css files!
+### This is required to edit css files!
 
-FreeNAS 10 Development environment uses [PostCSS](https://github.com/postcss/postcss) with [CSSNext](http://cssnext.io/features/). 
+FreeNAS Corral Development environment uses [PostCSS](https://github.com/postcss/postcss) with [CSSNext](http://cssnext.io/features/). 
 
 Make all css changes to documents labeled `_nameOfFile.css` These files get compiled by PostCSS and create a minified version `nameOfFile.css` in which the program will use.
 
@@ -67,9 +67,13 @@ Upcoming: Docs walking through the process of adding a top level feature.
 
 ## How to Coordinate with the FreeNAS Team
 
-FreeNAS 10 is still incredibly early in development. We're looking for
-contributors who can provide a concrete mockup for a given feature, work with us
-to refine the mockup, and then implement it independently. To get started, open an issue containing a mockup of the feature you're propsing. We accept beautiful, detailed designs in any mockup or design software you user. We also accept cellphone pictures of whiteboards and cocktail napkins. All we need is something clear enough to review.
+The FreeNAS Corral GUI team is *always* looking for contributors who can
+provide a concrete mockup for a given feature, work with us to refine the
+mockup, and then collaborate on its implementation. To get started, open an
+issue containing a mockup of the feature you're propsing. We accept beautiful,
+detailed designs in any mockup or design software you use. We also accept
+cellphone pictures of whiteboards and cocktail napkins. All we need is
+something clear enough to review.
 
 The FreeNAS team at iXsystems has regular meetings to assess and provide
 feedback on mockups. Once a mockup is approved (probably a pretty informal

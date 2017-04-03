@@ -100,6 +100,11 @@ exports.Inspector = Component.specialize({
             });
 
             this.isDeleteConfirmationVisible = false;
+            if (this.extraDeleteFlags) {
+                _.forEach(this.extraDeleteFlags, function(flag) {
+                    flag.checked = false;
+                });
+            }
         }
     },
 

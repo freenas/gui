@@ -53,7 +53,7 @@ export class ShareRoute extends AbstractRoute {
             this.volumeRepository.listVolumes(),
             this.shareRepository.listShares(),
             this.modelDescriptorService.getUiDescriptorForType(objectType)
-        ]).spread(function(volumes: Array<any>, shares: Array<any>, uiDescriptor) {
+        ]).spread((volumes: Array<any>, shares: Array<any>, uiDescriptor) => {
             let columnIndex = 3;
             while (stack.length > columnIndex) {
                 let context = stack.pop();

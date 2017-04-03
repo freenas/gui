@@ -7,6 +7,12 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "context.groupsAllow": {"<-": "@owner.properties.groups_allow.map{{name: this}}"},
+                "context.groupsDeny": {"<-": "@owner.properties.groups_deny.map{{name: this}}"},
+                "context.usersAllow": {"<-": "@owner.properties.users_allow.map{{username: this}}"},
+                "context.usersDeny": {"<-": "@owner.properties.users_deny.map{{username: this}}"}
             }
         },
         "hostAllow": {
@@ -48,7 +54,7 @@
                 "valuePath": "username"
             },
             "bindings": {
-                "values": {"<->": "@owner.properties.users_allow"}
+                "values": {"<->": "@owner.context.usersAllow"}
             }
         },
         "usersDeny": {
@@ -60,7 +66,7 @@
                 "valuePath": "username"
             },
             "bindings": {
-                "values": {"<->": "@owner.properties.users_deny"}
+                "values": {"<->": "@owner.context.usersDeny"}
             }
         },
         "groupsAllow": {
@@ -72,7 +78,7 @@
                 "valuePath": "name"
             },
             "bindings": {
-                "values": {"<->": "@owner.properties.groups_allow"}
+                "values": {"<->": "@owner.context.groupsAllow"}
             }
         },
         "groupsDeny": {
@@ -84,7 +90,7 @@
                 "valuePath": "name"
             },
             "bindings": {
-                "values": {"<->": "@owner.properties.groups_deny"}
+                "values": {"<->": "@owner.context.groupsDeny"}
             }
         },
         "afp3Privileges": {

@@ -1,11 +1,30 @@
-var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    EventDispatcherService = require("core/service/event-dispatcher-service").EventDispatcherService,
+    Volume = require('core/model/Volume').Volume;
 
 exports.EncryptedVolumeActions = AbstractInspector.specialize({
+    _inspectorTemplateDidLoad: {
+        value: function() {
+            this._eventDispatcherService = EventDispatcherService.getInstance();
+        }
+    },
+
     enterDocument: {
         value: function(isFirstTime) {
-            if (isFirstTime) {
-                this.addPathChangeListener("object.volume.providers_presence", this, "_handleProvidersPresenceChange");
-            }
+            this.providers = this.object.volume.providers_presence;
+            this.volumeChangedListener = this._eventDispatcherService.addEventListener(Volume.getEventNames().change(this.object.volume.id), this.handleVolumeChanged.bind(this));
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            this._eventDispatcherService.removeEventListener(Volume.getEventNames().change(this.object.volume.id), this.volumeChangedListener);
+        }
+    },
+
+    handleVolumeChanged: {
+        value: function(state) {
+            this.providers = state.get('providers_presence');
         }
     },
 
@@ -49,12 +68,6 @@ exports.EncryptedVolumeActions = AbstractInspector.specialize({
         value: function() {
             var password = this.object.restoreKeyPassword && this.object.restoreKeyPassword.length > 0 ? this.object.restoreKeyPassword : null;
             this._sectionService.setVolumeKey(this.object.volume, this.object.keyFile, password);
-        }
-    },
-
-    _handleProvidersPresenceChange: {
-        value: function(value) {
-            this.providers = value;
         }
     }
 });

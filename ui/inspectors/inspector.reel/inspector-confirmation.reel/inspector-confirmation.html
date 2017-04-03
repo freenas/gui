@@ -14,7 +14,10 @@
                     "type": "action",
                     "listener": {"@": "owner"}
                 }
-            ]
+            ],
+            "bindings": {
+                "checkedFlags": {"<-": "@owner.extraFlags.filter{checked}.map{checked}.length"}
+            }
         },
         "confirmMessage": {
             "prototype": "blue-shark/ui/text.reel",
@@ -31,7 +34,8 @@
                 "element": {"#": "confirm"}
             },
             "bindings": {
-                "value": {"<-": "@owner.confirmLabel || 'Delete'"}
+                "value": {"<-": "@owner.confirmLabel || 'Delete'"},
+                "disabled": {"<-": "(@owner.needsExtraConfirm || @owner.checkedFlags) && !@owner.confirmExtra"}
             }
         },
         "cancel": {
@@ -58,7 +62,18 @@
             "bindings": {
                 "iteration": {"<-": "@extraRepetition:iteration"},
                 "label": {"<-": "iteration.object.label"},
-                "checked": {"<->": "iteration.object.checked"}
+                "checked": {"<->": "!!iteration.object.checked"}
+            }
+        },
+        "confirmExtra": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "confirmExtra"}
+            },
+            "bindings": {
+                "label": {"<-": "@owner.confirmExtraLabel"},
+                "checked": {"<->": "!!@owner.confirmExtra"},
+                "classList.has('hide')": {"<-": "!@owner.checkedFlags && !@owner.needsExtraConfirm"}
             }
         }
     }
@@ -70,6 +85,7 @@
         <div data-montage-id="extraRepetition">
             <div data-montage-id="extraItems" class="Checkbox--light"></div>
         </div>
+        <div data-montage-id="confirmExtra" class="Checkbox--light"></div>
         <div class="InspectorConfirmation-actions">
             <div data-montage-id="confirm" class="Button--alert"></div>
             <div data-montage-id="cancel"></div>

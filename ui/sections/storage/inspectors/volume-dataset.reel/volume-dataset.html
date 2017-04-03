@@ -30,7 +30,9 @@
                 "controller": {"@": "owner"},
                 "validationController": {"@": "validationController"},
                 "canRevert": true,
-                "canSave": true
+                "canSave": true,
+                "needsExtraConfirm": true,
+                "extraDeleteMessage": "I am sure that I wish to delete my dataset and all the data on it"
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},

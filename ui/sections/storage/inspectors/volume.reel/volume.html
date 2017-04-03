@@ -51,7 +51,9 @@
                 "element": {"#": "inspector"},
                 "validationController": {"@": "validationController"},
                 "canDelete": true,
-                "controller": {"@": "owner"}
+                "controller": {"@": "owner"},
+                "needsExtraConfirm": true,
+                "extraDeleteMessage": "I am sure that I wish to delete my volume and all the data on it"
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
