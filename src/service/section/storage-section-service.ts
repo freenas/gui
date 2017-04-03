@@ -235,6 +235,10 @@ export class StorageSectionService extends AbstractSectionService {
         this.diskRepository.markDiskAsNonReserved(diskPath);
     }
 
+    public markDiskAsFreed(diskPath: string) {
+        this.diskRepository.markDiskAsFreed(diskPath);
+    }
+
     public getDiskAllocation(disk: any) {
         return this.diskRepository.getDiskAllocation(disk);
     }

@@ -2,10 +2,6 @@ var AbstractDropZoneComponent = require("blue-shark/core/drag-drop/abstract-drop
     Topology = require("ui/controls/topology.reel").Topology,
     _ = require('lodash');
 
-/**
- * @class DisksCategory
- * @extends Component
- */
 exports.DisksCategory = AbstractDropZoneComponent.specialize({
 
     shouldAcceptComponent: {

@@ -37,6 +37,7 @@ export class DiskRepository extends AbstractRepository<Disk> {
 
     public clearReservedDisks() {
         this.datastoreService.save(Model.DiskUsage, 'reserved', {});
+        this.datastoreService.save(Model.DiskUsage, 'freed', {});
     }
 
     public listAvailableDisks() {
@@ -85,6 +86,15 @@ export class DiskRepository extends AbstractRepository<Disk> {
         this.datastoreService.save(Model.DiskUsage, 'reserved', diskUsage);
     }
 
+    public markDiskAsFreed(diskPath: any) {
+        let diskUsage = this.datastoreService.getState().get(Model.DiskUsage) &&
+                        this.datastoreService.getState().get(Model.DiskUsage).has('freed') ?
+                            this.datastoreService.getState().get(Model.DiskUsage).get('freed').toJS() :
+                            {};
+        diskUsage[diskPath] = 'temp';
+        this.datastoreService.save(Model.DiskUsage, 'freed', diskUsage);
+    }
+
     public erase(disk: any) {
         return this.diskDao.erase(disk);
     }
@@ -92,10 +102,14 @@ export class DiskRepository extends AbstractRepository<Disk> {
     private getAvailableDisks(disks: Map<string, Map<string, any>>, diskUsage: Map<string, Map<string, string>>): Map<string, Map<string, any>> {
         return disks ?
             Map<string, Map<string, any>>(
-                disks.filter((disk) =>  disk.get('online') &&
-                                        !this.isDiskUsed(disk, diskUsage.get('attached')) &&
-                                        !this.isDiskUsed(disk, diskUsage.get('boot')) &&
-                                        !this.isDiskUsed(disk, diskUsage.get('reserved')))
+                disks.filter((disk) =>  disk.get('online') && (
+                                            (
+                                                !this.isDiskUsed(disk, diskUsage.get('attached')) &&
+                                                !this.isDiskUsed(disk, diskUsage.get('boot')) &&
+                                                !this.isDiskUsed(disk, diskUsage.get('reserved'))
+                                            ) || this.isDiskUsed(disk, diskUsage.get('freed'))
+                                        )
+                )
             ) :
             Map<string, Map<string, any>>();
     }
