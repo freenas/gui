@@ -24,7 +24,12 @@ export class AlertRepository extends AbstractRepository<Alert> {
     }
 
     public listAlerts(): Promise<Array<Object>> {
-        return this.alerts ? Promise.resolve(this.alerts.valueSeq().toJS()) : this.alertDao.find({active: true, dismissed: false});
+        return this.alerts ?
+            Promise.resolve(this.alerts.valueSeq().toJS()) :
+            this.alertDao.find({active: true, dismissed: false}).then(alerts => {
+                this.alertDao.register();
+                return alerts;
+            });
     }
 
     public dismissAlert(alert: Alert): Promise<any> {
