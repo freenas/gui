@@ -66,7 +66,7 @@ exports.EncryptedVolumeActions = AbstractInspector.specialize({
 
     handleRestoreKeyAction: {
         value: function() {
-            var password = this.object.restoreKeyPassword && this.object.restoreKeyPassword.length > 0 ? this.object.restoreKeyPassword : null;
+            var password = this.object.restoreKeyPassword && this.object.restoreKeyPassword.$password && this.object.restoreKeyPassword.$password.length > 0 ? this.object.restoreKeyPassword : null;
             this._sectionService.setVolumeKey(this.object.volume, this.object.keyFile, password);
         }
     }

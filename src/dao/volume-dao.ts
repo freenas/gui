@@ -32,6 +32,10 @@ export class VolumeDao extends AbstractDao<Volume> {
         return this.middlewareClient.submitTask('volume.rekey', [volume.id, !!key, password]);
     }
 
+    public setVolumeKey(volume: Volume, key: File, password: string) {
+        return this.middlewareClient.submitTaskWithUpload('volume.keys.restore', [volume.id, null, password], key);
+    }
+
     public getVolumeKey(volume: Volume) {
         return this.middlewareClient.submitTaskWithDownload('volume.keys.backup', [volume.id, 'key_' + volume.id]);
     }
