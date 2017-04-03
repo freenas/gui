@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "editableTable": {"@": "editableTable"}
+            }
+        },
+
+        "icons": {
+            "prototype": "blue-shark/ui/icons.reel",
+            "properties": {
+                "element": {"#": "icons"}
+            }
+        },
+
+        "editableTable": {
+            "prototype": "blue-shark/ui/tables/table-editable.reel",
+            "properties": {
+                "element": {"#": "editableTable"},
+                "delegate": {"@": "owner"},
+                "label": "Foo",
+                "isMultiSelectionEnabled": true,
+                "contentMaxHeight": 15,
+                "canAddWithError": false,
+                "columns":  [
+                    {
+                        "value": "long title here",
+                        "path": "name"
+                    },
+                    {
+                        "value": "age",
+                        "path": "age"
+                    },
+                    {
+                        "value": "weight",
+                        "path": "weight"
+                    }
+                ],
+                "rows":  [
+                    {
+                        "name": "option1",
+                        "age": "16",
+                        "weight": "120"
+                    },
+                    {
+                        "name": "option1",
+                        "age": "18",
+                        "weight": "140"
+                    },
+                    {
+                        "name": "option1",
+                        "age": "16",
+                        "weight": "120"
+                    },
+                    {
+                        "name": "option1",
+                        "age": "18",
+                        "weight": "140"
+                    },
+                    {
+                        "name": "option1",
+                        "age": "16",
+                        "weight": "120"
+                    },
+                    {
+                        "name": "option1",
+                        "age": "18",
+                        "weight": "140"
+                    }
+
+                ]
+            }
+        },
+
+        "addButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "addButton"},
+                "value": "add"
+            },
+            "bindings": {
+                "disabled": {"<-": "@editableTable.isAddingNewEntry"}
+            }
+        },
+
+        "deleteButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "deleteButton"},
+                "value": "delete"
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "!@editableTable.selectedRows.length"}
+            }
+        },
+
+        "newEntry": {
+            "prototype": "blue-shark/ui/table-new-row.reel",
+            "properties": {
+                "element": {"#": "newEntry"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.newObject"}
+            }
+        },
+
+        "rowEntry": {
+            "prototype": "blue-shark/ui/table-new-row.reel",
+            "properties": {
+                "element": {"#": "rowEntry"}
+            },
+            "bindings": {
+                "object": {"<-": "@editableTable:rowIteration.object.object"}
+            }
+        }
+
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div data-montage-id="icons"></div> <!-- sample only -->
+        <div data-montage-id="editableTable" class="sampleTable">
+            <div data-arg="table-editable-header-toolbar">
+                <div data-montage-id="deleteButton" class="Button--alert Button--icon"><svg><use xlink:href="#i-trashCan"/></svg></div>
+                <div data-montage-id="addButton" class="Button--add">
+                    <svg><use xlink:href="#i-plus"/></svg>
+                </div>
+            </div>
+            <div data-arg="row-new" data-montage-id="newEntry"></div>
+            <div data-arg="row-entry" data-montage-id="rowEntry"></div>
+        </div>
+    </div>
+</body>
+</html>

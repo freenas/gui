@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "myFoo": true
+            }
+        },
+        "checkbox": {
+            "prototype": "blue-shark/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "checkbox"},
+                "label": "test label"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.myFoo"}
+            }
+        },
+        "defaultDisabled": {
+            "prototype": "blue-shark/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "defaultDisabled"},
+                "label": "test label",
+                "disabled": true
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.myFoo"}
+            }
+        },
+        "light": {
+            "prototype": "blue-shark/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "light"},
+                "label": "light checkbox"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.myFoo"}
+            }
+        },
+        "lightDisabled": {
+            "prototype": "blue-shark/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "lightDisabled"},
+                "label": "light checkbox",
+                "disabled": true
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.myFoo"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div class="container">
+            <h1>Checkbox</h1>
+            <h2>Default</h2>
+            <div data-montage-id="checkbox"></div>
+            <h4>disabled</h4>
+            <div data-montage-id="defaultDisabled"></div>
+            <h2>Theme - Light</h2>
+            <div data-montage-id="light" class="Checkbox--light"></div>
+            <h4>disabled</h4>
+            <div data-montage-id="lightDisabled" class="Checkbox--light"></div>
+        </div>
+    </div>
+</body>
+</html>

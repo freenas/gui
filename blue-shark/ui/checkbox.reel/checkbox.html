@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="checkbox.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "checkboxComponent": {"@": "checkbox"},
+                "labelComponent": {"@": "label"}
+            }
+        },
+        "checkbox": {
+            "prototype": "montage/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "checkbox"}
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.checked"},
+                "disabled": {"<-": "@owner.disabled"}
+            }
+        },
+        "label": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "label"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.label"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Checkbox">
+        <input type='checkbox' data-montage-id="checkbox" tabindex="0">
+        <label data-montage-id="label" class="Checkbox-label"></label>
+    </div>
+</body>
+</html>

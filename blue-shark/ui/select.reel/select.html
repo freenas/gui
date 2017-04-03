@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="select.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "optionsOverlayComponent": {"@": "optionsOverlay"},
+                "_selectButton": {"@": "selectButton"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ],
+            "bindings": {
+                "classList.has('disabled')": {"<-": "@owner.disabled"},
+                "classList.has('is-read-only')": {"<-": "@owner.isReadOnly || !@owner._options.length"}
+            }
+        },
+
+        "selectButton": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "selectButton"}
+            },
+            "bindings": {
+                "disabled": {"<-": "@owner.disabled || @owner._options.length == 0"}
+            }
+        },
+
+        "currentSelection": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "currentSelection"}
+            },
+            "bindings": {
+                "selectedObject": {"<-": "@optionsOverlay.optionsRepetition.selection.0 || @owner._options.filter{value == @owner._selectedValue}.0  || @owner._selectedValue || @owner._options.0"},
+                "expressionResult": {"<-": "selectedObject.path(selectedObject.label)"},
+                "value": {"<-": "expressionResult || selectedObject.label || selectedObject"}
+            }
+        },
+
+        "optionsOverlay": {
+            "prototype": "./select-options.reel",
+            "properties": {
+                "element": {"#": "optionsOverlay"},
+                "anchor": {"#": "selectButton"}
+            },
+            "bindings": {
+                "options": {"<-": "@owner._options"},
+                "selectedValue": {"<->": "@owner._selectedValue"}
+            }
+        },
+
+        "readOnly": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "readOnly"}
+            },
+            "bindings": {
+                "value": {"<-": "!!@currentSelection.value ? @currentSelection.value: !!@owner.emptyMessage ? @owner.emptyMessage : 'No options available'"}
+            }
+        }
+
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Select" tabindex="0" role="listbox">
+        <button data-montage-id="selectButton" tabindex="-1">
+            <span data-montage-id="currentSelection" class="Select-currentOption"></span>
+            <div class="Select-icon">
+                <svg><use xlink:href="#i-triangle-down"/></svg>
+            </div>
+        </button>
+        <div data-montage-id="optionsOverlay"></div>
+        <div data-montage-id="readOnly" class="Select-readOnly"></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+.FieldText {
+
+    & .Field { min-height: auto; }
+
+    & .Field-title { padding-top: 0; }
+
+    & .control {
+        color: var(--input-text-color);
+        max-width: 20rem;
+        word-wrap: break-word;
+    }
+}
+

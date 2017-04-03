@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="table-layout.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "rowRepetitionComponent": {"@": "rowRepetition"},
+                "scrollview": {"#": "scrollview"}
+            },
+            "bindings": {
+                "selectionEnabled": {"<-": "!!@owner.isSelectionEnabled"},
+                "classList.has('has-selection-enabled')": {"<-": "selectionEnabled"},
+                "classList.has('content-is-empty')": {"<-": "@owner.contentIsEmpty"}
+            }
+        },
+
+        "rowRepetition": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "rowRepetition"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.rows"},
+                "isSelectionEnabled": {"<-": "@owner.selectionEnabled"}
+            }
+        },
+
+        ":rowIteration": {
+            "alias": "@rowRepetition:iteration"
+        },
+
+        "scrollview": {
+            "prototype": "blue-shark/ui/scroller.reel",
+            "properties": {
+                "element": {"#": "scrollview"},
+                "overflow": "scrollY"
+            }
+        },
+
+        "label": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "label"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.label"}
+            }
+        },
+
+        "isLoading": {
+            "prototype": "blue-shark/ui/loading-message.reel",
+            "properties": {
+                "element": {"#": "isLoading"}
+            },
+            "bindings": {
+                "loadingMessage": {"<-": "@owner.loadingMessage"},
+                "isLoading": {"<-": "@owner.isLoading"}
+            }
+        },
+
+        "emptyMessage": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "emptyMessage"}
+            },
+            "bindings": {
+                "value": {"<-": "!!@owner.emptyMessage ? @owner.emptyMessage : 'No data added'"}
+            }
+        },
+
+        "emptyState": {
+            "prototype": "blue-shark/ui/panel.reel",
+            "properties": {
+                "element": {"#": "emptyState"}
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "@owner.rows.length || @owner.isLoading"}
+            }
+        }
+
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Table">
+        <div class="Table-caption">
+            <div data-montage-id="label" class="Table-label"></div>
+            <div data-param="table-header-toolbar"></div>
+        </div>
+        <div data-param="table-header-columns" class="Table-header-columns"></div>
+        <div data-montage-id="table-content" class="Table-content">
+            <div data-montage-id="isLoading" class="Table-isLoading"></div>
+            <div data-montage-id="emptyState" class="Table-emptyState">
+                <p data-montage-id="emptyMessage" class="flush-bottom"></p>
+                <div data-param="emptyAction" class="g-margin-top"></div>
+            </div>
+            <div data-montage-id="scrollview" class="Table-scroller">
+                <div data-param="table-body-top" class="Table-row-group"></div>
+                <div data-montage-id="rowRepetition" class="Table-row-group">
+                    <div class=Table-row-fields tabindex="0"><div data-param="table-row"></div></div>
+                </div>
+                <div data-param="table-row-controls"></div>
+            </div>
+        </div>
+        <div class="Table-footer">
+            <div data-param="table-footer"></div>
+        </div>
+    </div>
+</body>
+</html>

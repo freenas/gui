@@ -1,0 +1,16 @@
+/* Setup code */
+
+body,
+html {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.Main {
+    flex: 1;
+    @apply --flex-column;
+}

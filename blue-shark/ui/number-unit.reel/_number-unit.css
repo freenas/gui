@@ -1,0 +1,16 @@
+.NumberUnit {
+    display: flex;
+    max-width: 11rem;
+}
+
+.NumberUnit .NumberUnit-count { margin-right: .5em; }
+
+.NumberUnit.is-read-only .NumberUnit-count,
+.NumberUnit.is-read-only .NumberUnit-unit {
+    background: transparent;
+    border: none;
+}
+
+.NumberUnit.is-read-only .NumberUnit-unit .Select-icon {
+    display: none;
+}

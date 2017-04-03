@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="color-swatch.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "color": {"#": "color"}
+            }
+        },
+        "variable": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "variable"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.variable"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="ColorSwatch flex-row">
+        <div data-montage-id="color" class="ColorSwatch-color g-margin-right"></div>
+        <div class="ColorSwatch-info">
+            <div data-montage-id="variable"></div>
+        </div>
+    </div>
+</body>
+</html>

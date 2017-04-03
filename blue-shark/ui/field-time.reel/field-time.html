@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="field-time.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "field": {
+            "prototype": "blue-shark/ui/field.reel",
+            "properties": {
+                "element": {"#": "field"}
+            },
+            "bindings": {
+                "label": {"<-": "@owner.label"},
+                "documentationReference": {"<-": "@owner.documentationReference"},
+                "disabled": {"<-": "@owner.disabled"},
+                "errorMessage": {"<-": "@owner.errorMessage || @control.errorMessage"},
+                "hasError": {"<-": "@owner.hasError || !!@control.errorMessage"},
+                "isMandatory": {"<-": "@owner.isMandatory"},
+                "isLoading": {"<-": "@owner.isLoading"}
+            }
+        },
+        "control": {
+            "prototype": "blue-shark/ui/time.reel",
+            "properties": {
+                "element": {"#": "control"}
+            },
+            "bindings": {
+                "__selectedOption": {"<->": "@owner.selectedOption"},
+                "enabled": {"<-": "@owner.enabled"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="FieldTime">
+        <div data-montage-id="field">
+            <div data-montage-id="control"></div>
+        </div>
+    </div>
+</body>
+</html>

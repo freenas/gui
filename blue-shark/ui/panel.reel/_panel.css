@@ -1,0 +1,18 @@
+.Panel {
+    width: 100%;
+    position: relative;
+    border: 1px solid var(--accent);
+    background-color: color(var(--accent) a(5%));
+    padding: 1em;
+    border-radius: 4px;
+
+    &.is-warning {
+        border-color: var(--orange);
+        background-color: color(var(--orange) a(5%));
+    }
+
+    &.is-error {
+        border-color: var(--red);
+        background-color: color(var(--red) a(5%));
+    }
+}

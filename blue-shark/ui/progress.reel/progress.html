@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="progress.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "bar": {"#": "bar"}
+            }
+        },
+        "bar": {
+            "prototype": "montage/ui/component",
+            "properties": {
+                "element": {"#": "bar"},
+                "hasTemplate": false
+            },
+            "bindings": {
+                "percentageComplete": {"<-": "@owner.percentageComplete"}
+            }
+        },
+        "statusSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "statusSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.status"}
+            }
+        },
+        "spinner": {
+            "prototype": "blue-shark/ui/spinner.reel",
+            "properties": {
+                "element": {"#": "spinner"},
+                "isShown": true
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Progress">
+        <div class="Progress-wrapper">
+            <div data-montage-id="bar" class="Progress-bar"></div>
+        </div>
+        <div data-montage-id="statusSubstitution" class="Progress-status">
+            <div data-arg="error" class="Progress-error Progress-statusIcon">
+                <svg><use xlink:href="#i-alert"/></svg>
+            </div>
+            <div data-arg="active" class="Progress-active Progress-statusIcon">
+                <div data-montage-id="spinner"></div>
+            </div>
+            <div data-arg="pending" class="Progress-pending Progress-statusIcon">
+                <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <title>menu</title><g fill="#979797" fill-rule="evenodd">
+                    <rect id="pending-l" x="3" y="10" width="4" height="4" rx="2"/>
+                    <rect id="pending-c" x="10" y="10" width="4" height="4" rx="2"/>
+                    <rect id="pending-r" x="17" y="10" width="4" height="4" rx="2"/></g>
+                </svg>
+            </div>
+            <div data-arg="success" class="Progress-success Progress-statusIcon">
+                <svg><use xlink:href="#i-circleCheck"/></svg>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

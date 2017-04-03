@@ -1,0 +1,206 @@
+.SelectSearch {
+    position: relative;
+    margin-bottom: 1em;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.SelectSearch.disabled { cursor: not-allowed; }
+
+.SelectSearch:focus {
+    outline: none;
+    box-shadow: 0 0 1px 1px var(--blue-lighten-2);
+}
+
+.SelectSearch-button {
+    position: relative;
+    font-family: 'lato';
+    font-size: inherit;
+    line-height: inherit;
+    font-weight: 200;
+    height: 2em;
+    width: 100%;
+    text-align: left;
+    padding: .3em 2.5em 0em .5em;
+    border-radius: 4px;
+    background: var(--grey-blue);
+    border: none;
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent;
+    border-bottom-color:  rgba(0, 0, 0, .15);
+    border-top-color:     rgba(255, 255, 255, .1);
+    outline: none;
+    color: var(--grey-3);
+    user-select: none;
+    cursor: pointer;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.SelectSearch-button:hover {
+    background-image: linear-gradient(rgba(255,255,255,0.025), rgba(255,255,255,0.025));
+}
+
+.SelectSearch.disabled .SelectSearch-button {
+    border-color: transparent;
+    background: var(--grey-blue);
+    opacity: .5;
+    color: var(--grey-1);
+    pointer-events: none;
+}
+
+.SelectSearch.isExpanded .SelectSearch-button {
+    border-color: var(--blue-lighten-2);
+    border-bottom-color: transparent;
+    border-bottom-left-radius:  0;
+    border-bottom-right-radius: 0;
+}
+
+/* container */
+
+.SelectSearch-input {
+    position: absolute;
+    width: 100%;
+    padding: .25em;
+    padding-top: 0;
+    top: calc(2em - 1px);
+    background: var(--grey-blue);
+    border-left:  1px solid var(--blue-lighten-2);
+    border-right: 1px solid var(--blue-lighten-2);
+    opacity: 0;
+    visibility: hidden;
+}
+
+.SelectSearch-input-field {
+    border-radius: 3px;
+    background: var(--grey-3);
+    color: var(--main-bg-color);
+}
+
+/* icons */
+
+.SelectSearch-input-clearButton,
+.SelectSearch-input-triangle,
+.SelectSearch-input-search {
+    position: absolute;
+}
+
+.SelectSearch-input-clearButton {
+    height: 1.3em;
+    width:  1.3em;
+    top: 50%;
+    right: .5em;
+    margin-top: -.75em;
+    padding: .25em;
+    color: var(--grey-3);
+    transform: rotate(45deg);
+    background: var(--grey-blue);
+    border-radius: 2em;
+    cursor: pointer;
+    outline: none;
+    visibility: hidden;
+    opacity: 0;
+    border-radius: 1em;
+}
+
+/*  add icon */
+
+.SelectSearch-input-triangle {
+    height: 1em;
+    width:  1em;
+    top: 50%;
+    right: .5em;
+    margin-top: -.5em;
+    color: rgba(255,255,255,.8);
+    opacity: 1;
+}
+
+.SelectSearch-input-search {
+    height: 1.5em;
+    width:  1.5em;
+    top: 50%;
+    right: .4em;
+    margin-top: -.8em;
+    color: var(--main-bg-color);
+    padding: .1em;
+}
+
+.SelectSearch.disabled .SelectSearch-input-triangle { opacity: .5; }
+
+.SelectSearch-input-options {
+    position: absolute;
+    top: 2.25em;
+    left:  -1px;
+    right: -1px;
+    height: 8.2em;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius:  4px;
+    color: var(--grey-2);
+    background-color: var(--grey-blue);
+    border: 1px solid var(--blue-lighten-2);
+    border-top: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,.3);
+    z-index: 100;
+    overflow-x: hidden;
+}
+
+.SelectSearch-input-error {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: var(--red);
+    color: var(--white);
+    font-weight: 300;
+    padding: .5em;
+    transform: translateY(100%);
+    z-index: 1;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,.3);
+    visibility: hidden;
+    opacity: 0;
+    transition-property: visibility, opacity;
+    transition-duration: .2s;
+}
+
+/*
+
+States
+
+*/
+
+.SelectSearch.isExpanded .SelectSearch-input {
+    opacity: 1;
+    visibility: visible;
+}
+
+.SelectSearch.isExpanded .SelectSearch-input-triangle {
+    transform: rotate(180deg);
+}
+
+/*.SelectSearch-input-field.has-options:focus + .SelectSearch-input-options.has-content,
+.SelectSearch-input-options:active,
+.SelectSearch-input.has-error .SelectSearch-input-error {
+    visibility: visible;
+    opacity: 1;
+}*/
+
+.SelectSearch.isExpanded .SelectSearch-input.has-value .SelectSearch-input-clearButton {
+    z-index: 1;
+    visibility: visible;
+    opacity: 1;
+}
+
+.SelectSearch-input.has-value .SelectSearch-input-search {
+    /*opacity: 0;*/
+}
+
+/*.SelectSearch-input.has-error .SelectSearch-input-field {
+    border-color: var(--red);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}*/
+
+

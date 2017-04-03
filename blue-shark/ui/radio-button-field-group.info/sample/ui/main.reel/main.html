@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "default": {
+            "prototype": "blue-shark/ui/radio-button-field-group.reel",
+            "properties": {
+                "element": {"#": "default"},
+                "options": [
+                    {"label": "option1", "value": "option1"},
+                    {"label": "option2", "value": "option2"},
+                    {"label": "option3", "value": "option3"},
+                    {"label": "option4", "value": "option4"}
+                ]
+            }
+        },
+        "disabled": {
+            "prototype": "blue-shark/ui/radio-button-field-group.reel",
+            "properties": {
+                "element": {"#": "disabled"},
+                "options": [
+                    {"label": "option5", "value": "option5"},
+                    {"label": "option6", "value": "option6"},
+                    {"label": "option7", "value": "option7"},
+                    {"label": "option8", "value": "option8"}
+                ],
+                "disabled": true
+            }
+        },
+        "block": {
+            "prototype": "blue-shark/ui/radio-button-field-group.reel",
+            "properties": {
+                "element": {"#": "block"},
+                "options": [
+                    {"label": "option1"},
+                    {"label": "option2"},
+                    {"label": "option3"},
+                    {"label": "option4"}
+                ]
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div class="container">
+            <h1>Radio Button Field Group</h1>
+            <h2>Default</h2>
+            <div data-montage-id="default"></div>
+            <h2>Disabled</h2>
+            <div data-montage-id="disabled"></div>
+            <h2>Block</h2>
+            <div data-montage-id="block" class="RadioButtonFieldGroup--block"></div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="select-multiple.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('is-disabled')": {"<-": "!!@owner.disabled"}
+            }
+        },
+
+        "ownerOptions": {
+            "value": {"#": "owner"},
+            "bindings": {
+                "multiple": {"<-": "@owner.allowMultiple"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <select data-montage-id="owner" size="4" class="SelectMultiple"></select>
+</body>
+</html>

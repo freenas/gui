@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="select-filter.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "filterOverlayComponent": {"@": "filterItems"}
+            },
+            "listeners": [
+                {
+                    "listener": {"@": "owner"},
+                    "type": "action"
+                }
+            ],
+            "bindings": {
+                "classList.has('filters-are-visible')": {"<-": "@owner.areFiltersVisible"}
+            }
+        },
+        "displayAllButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "displayAllButton"},
+                "value": "Display All"
+            },
+            "bindings": {
+                "disabled": {"<-": "@owner.options.every{checked}"}
+            }
+        },
+        "filterButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "filterButton"},
+                "value": "Display"
+            }
+        },
+        "filterItems": {
+            "prototype": "blue-shark/ui/select-filter-items.reel",
+            "properties": {
+                "element": {"#": "filterItems"},
+                "anchor": {"#": "selectFilterButtonWrapper"}
+            },
+            "bindings": {
+                "options": {"<-": "@owner.options"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="SelectFilter">
+        <button data-montage-id="displayAllButton" class="SelectFilter-displayAll"></button>
+        <div data-montage-id="selectFilterButtonWrapper" class="SelectFilter-filter">
+            <button data-montage-id="filterButton" class="SelectFilter-filterButton">
+                <svg><use xlink:href="#i-triangle-down"/></svg>
+            </button>
+            <div data-montage-id="filterItems" class="SelectFilter-items"></div>
+        </div>
+    </div>
+</body>
+</html>

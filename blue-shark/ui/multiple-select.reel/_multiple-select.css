@@ -1,0 +1,196 @@
+.MultipleSelect {
+    min-width: 16em;
+    margin-bottom: 2em;
+    border-radius: 4px;
+
+    &.is-disabled {
+        opacity: .5;
+        cursor: not-allowed;
+    }
+}
+
+.MultipleSelect-title {
+    font-family: 'lato';
+    line-height: 1.5;
+    font-weight: 300;
+    font-weight: 400;
+
+    @nest .MultipleSelect-input & {
+        /* adjustment for extra 1px on outline */
+        height: calc(2em - 1px);
+        line-height: 1.4;
+    }
+}
+
+.MultipleSelect-input-controls {
+    margin-bottom: .5rem;
+
+    & .Field { margin-bottom: .5em;}
+}
+
+/* default input */
+
+.MultipleSelect-input-default {
+    position: relative;
+    margin-right: .25rem;
+    display: inline-block;
+    /* magic # */
+    width: calc(100% - 5.1rem);
+    vertical-align: middle;
+}
+
+.MultipleSelect-input-field {
+    padding-right: 0 !Important;
+
+    @nest .MultipleSelect-input-default.has-value & {
+        padding-right: 1.7rem !important;
+    }
+}
+
+.MultipleSelect-input-clearButton.Button {
+    position: absolute;
+    height: 1.25rem;
+    width:  1.25rem;
+    top: 50%;
+    right: .25rem;
+    margin-top: -.625rem;
+    background-color: var(--primary--4);
+    color: var(--primary--1);
+    border: none;
+    border-radius: .75rem;
+    visibility: hidden;
+    opacity: 0;
+    transition-property: visibility, opacity;
+    transition-duration: .2s;
+
+    &:hover { color: var(--white); }
+
+    &:active { background-color: var(--primary--6); }
+
+    & svg {
+        transform: rotate(45deg);
+        padding: 2px;
+    }
+
+    @nest .MultipleSelect-input-default.has-value & {
+        visibility: visible;
+        opacity: 1;
+    }
+}
+
+/*  buttons */
+
+.MultipleSelect-input-buttons {
+    flex: 0;
+    display: flex;
+    justify-content: flex-end;
+
+    @nest .MultipleSelect-input-default + & {
+        display: inline-block;
+        vertical-align: middle;
+    }
+}
+
+.MultipleSelect-input-add { height: 2rem; }
+
+.MultipleSelect-input-options {
+    /* Fix - should I have to do this? */
+    display: none;
+    position: absolute !important;
+    top: 2em;
+    left: 0;
+    right: 0;
+    height: 8.2em;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius:  3px;
+    color: var(--grey);
+    background-color: var(--grey-3);
+    border: 1px solid var(--blue-lighten-2);
+    border-top: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,.3);
+    z-index: 100;
+    overflow-x: hidden;
+}
+
+.MultipleSelect-input-error {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: var(--red);
+    color: var(--white);
+    font-weight: 300;
+    padding: .5em;
+    transform: translateY(100%);
+    z-index: 1;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,.3);
+    visibility: hidden;
+    opacity: 0;
+    transition-property: visibility, opacity;
+    transition-duration: .2s;
+}
+.MultipleSelect-values { padding: .25rem; }
+
+.MultipleSelect-valuesContainer {
+    border: 1px solid var(--input-border-color);
+    border-radius: var(--border-radius);
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    color: var(--white);
+    height: 7.25em;
+    width: 100%;
+    transition-property: border-color, background-color, opacity;
+    transition-duration: .25s;
+
+    @nest .MultipleSelect.is-disabled & {
+        pointer-events: none;
+    }
+}
+
+/* Empty State */
+
+.MultipleSelect-values-emptyState {
+    position: absolute;
+    color: var(--primary--3);
+    height: 1em;
+    line-height: 1em;
+    left: .5em;
+    right: .5em;
+    top: 50%;
+    text-align: center;
+    margin-top: -.5em;
+
+    @nest .MultipleSelect.disabled & {
+        display: none;
+    }
+}
+
+/*
+
+States
+
+*/
+
+.MultipleSelect-input-field.has-options:focus + .MultipleSelect-input-options.has-content,
+.MultipleSelect-input-options:active,
+.MultipleSelect-input.has-error .MultipleSelect-input-error {
+    display: block;
+}
+
+.MultipleSelect-input.has-error .MultipleSelect-input-field {
+    border-color: var(--red);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+/* disabled */
+
+.MultipleSelect.disabled .MultipleSelect-valuesContainer {
+    border-color: transparent;
+    opacity: .5;
+    background-color: rgba(0,0,0,.1);
+}
+
+

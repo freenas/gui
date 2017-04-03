@@ -1,0 +1,75 @@
+.Date { font-family: 'Lato', 'helvetica neue', 'helvetica', 'sans-serif'; }
+
+.Date-calendar {
+    max-width: 20em;
+    position: absolute;
+    top: 2em;
+    left: 0;
+    width: 100%;
+    font-family: lato;
+    font-weight: 200;
+    color: var(--grey-1);
+    background: var(--primary);
+    opacity: 0;
+    visibility: hidden;
+    z-index: 100;
+    box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    overflow: hidden;
+}
+
+.Date-value:focus + .Date-calendar,
+.Date-calendar:active,
+.Date.is-calendar-shown .Date-calendar {
+    visibility: visible;
+    opacity: 1;
+}
+
+.DateCalendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 2rem;
+    height: 2rem;
+    background-color: var(--primary--6);
+    margin-bottom: .25em;
+}
+
+.DateCalendar-header .Button {
+
+    & svg {
+        height: 2rem;
+        width:  2rem;
+        color: var(--white);
+    }
+
+    &:hover {
+        background-color: var(--primary--7);
+        color: var(--white);
+        opacity: 1;
+    }
+}
+
+.DateCalendarHeader-decrement { transform: rotate(180deg); }
+
+.DateCalendar-days,
+.DateCalendar-daysHeader {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    text-align: center;
+}
+
+.DateCalendar-days {
+    justify-content: space-between;
+    margin-bottom: .25rem;
+}
+
+.DateCalendar-daysHeader div {
+    width: calc(100% / 7);
+    padding: 0 0.5em;
+    font-weight: 400;
+    height: 1.5rem;
+    opacity: .5;
+}

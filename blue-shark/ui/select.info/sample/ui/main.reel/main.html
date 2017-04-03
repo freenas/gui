@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "options": [
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "truthy", "label": "truthy"},
+                    {"value": "test", "label": "test"},
+                    {"value": "another", "label": "another"},
+                    {"value": "last option", "label": "last option"},
+                    {"value": "last option frb", "label": "'last option that is really long and should push things ' + number", "number": 3}
+                ],
+                "selectedValue": "last option frb"
+            }
+        },
+        "icons": {
+            "prototype": "blue-shark/ui/icons.reel",
+            "properties": {
+                "element": {"#": "icons"}
+            }
+        },
+        "select": {
+            "prototype": "blue-shark/ui/select.reel",
+            "properties": {
+                "element": {"#": "select"}
+            },
+            "bindings": {
+                "options": {"<-": "@owner.options"},
+                "selectedValue": {"<-": "@owner.selectedValue"}
+            }
+        },
+        "select2": {
+            "prototype": "blue-shark/ui/select.reel",
+            "properties": {
+                "element": {"#": "select2"}
+            },
+            "bindings": {
+                "options": {"<-": "null"},
+                "selectedValue": {"<-": "@owner.selectedValue"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <!-- for example only -->
+        <div data-montage-id="icons" style="display: none;"></div>
+        <!-- end -->
+        <div class="container">
+            <h1>Select</h1>
+            <h3>Default Select</h3>
+            <div data-montage-id="select"></div>
+            <div data-montage-id="select2"></div>
+        </div>
+    </div>
+</body>
+</html>

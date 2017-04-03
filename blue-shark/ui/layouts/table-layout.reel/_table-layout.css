@@ -1,0 +1,115 @@
+.Table-label {
+    color: var(--grey-2);
+    font-weight: 400;
+}
+
+/* Table-header-columns */
+
+.Table-header-columns {
+    display: flex;
+    align-items: center;
+    background-color: var(--primary--8);
+}
+
+.Table.content-is-empty .Table-header-columns { display: none;}
+
+.Table-row-group { width: 100%; }
+
+.Table-row-group:empty { display: none; } /* removes table row group if empty */
+
+/* Content */
+
+.Table-content { position: relative; }
+
+/*
+
+Row
+
+*/
+
+.Table-row {
+    display: flex;
+    flex: 1;
+    align-items: stretch;
+    transition: background-color .15s ease-in-out;
+
+    & > div:not(:last-child):after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: -1px;;
+        border-right: 1px solid var(--table-border-color);
+    }
+}
+
+.Table-row-fields {
+    outline: none;
+}
+
+.Table-row-fields:nth-child(odd) .Table-row:not(.Table-cells)  { background-color: var(--primary); }
+.Table-row-fields:nth-child(even) .Table-row:not(.Table-cells) { background-color: color(var(--primary) shade(10%)); }
+.Table-row-group .Table-row:not(.Table-cells):hover  { background-color: color(var(--primary) tint(5%)); }
+
+/*
+
+Rows - selection Enabled
+
+*/
+
+.Table.has-selection-enabled .Table-row { cursor: pointer; }
+
+.Table-row-group .Table-row.selected:not(.Table-cells) {
+    color: var(--white);
+    background-color: var(--color-selected);
+}
+
+.Table-row-group .Table-row.selected:hover { background-color: var(--color-selected); }
+
+/* Table Cell */
+
+.Table-cell {
+    flex: 1;
+    flex-shrink: 0;
+    padding: .5em;
+    word-break: break-all;
+}
+
+/* Caption */
+
+.Table-caption {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: .5em;
+}
+
+/* isLoading */
+
+.Table-isLoading {
+    justify-content: center;
+    min-height: 4em;
+}
+
+/* Empty State */
+
+.Table-emptyState {
+    display: none;
+    font-weight: 300;
+    color: var(--grey-1);
+    margin-top: .5em;
+    font-style: italic;
+}
+
+.Table.content-is-empty .Table-emptyState { display: block;}
+
+/* Scrollview */
+
+.Table-scroller {
+    position: relative;
+    overflow: auto;
+
+    @nest .content-is-empty & {
+        display: none;
+    }
+}

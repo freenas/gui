@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "icons": {
+            "prototype": "blue-shark/ui/icons.reel",
+            "properties": {
+                "element": {"#": "icons"}
+            }
+        },
+        "textField": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "textField"},
+                "placeholderValue": "Enter text here",
+                "label": "Field Text Input"
+            }
+        },
+        "textArea": {
+            "prototype": "blue-shark/ui/field-text-area.reel",
+            "properties": {
+                "element": {"#": "textArea"},
+                "placeholderValue": "Enter text here",
+                "label": "Field Text Input"
+            }
+        },
+        "longTitle": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "longTitle"},
+                "placeholderValue": "Enter text here",
+                "label": "Field Text Input with a long title that wraps"
+            }
+        },
+        "enabled": {
+            "prototype": "blue-shark/ui/field-toggle-switch.reel",
+            "properties": {
+                "element": {"#": "enabled"},
+                "label": "Toggle Switch"
+            }
+        },
+        "radioGroup": {
+            "prototype": "blue-shark/ui/field-radio-group.reel",
+            "properties": {
+                "element": {"#": "radioGroup"},
+                "label": "test label",
+                "options": [
+                    {"label": "option1", "value": "option1"},
+                    {"label": "option2", "value": "option2"},
+                    {"label": "option3", "value": "option3"},
+                    {"label": "option4", "value": "option4"}
+                ]
+            }
+        },
+        "select": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "select"},
+                "label": "test label",
+                "selectedValue": "media",
+                "options": [
+                    {
+                        "value": "none",
+                        "label": "None"
+                    },
+                    {
+                        "value": "optimal",
+                        "label": "Optimal"
+                    },
+                    {
+                        "value": "virtualization",
+                        "label": "Virtualization"
+                    },
+                    {
+                        "value": "backups",
+                        "label": "Backups"
+                    },
+                    {
+                        "value": "option1",
+                        "label": "Option1"
+                    },
+                    {
+                        "value": "option2",
+                        "label": "Option2"
+                    },
+                    {
+                        "value": "option3",
+                        "label": "Option3"
+                    },
+                    {
+                        "value": "option4",
+                        "label": "Option4"
+                    },
+                    {
+                        "value": "option5",
+                        "label": "Option5"
+                    }
+                ]
+            }
+        },
+        "checkbox": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "checkbox"},
+                "label": "Checkbox"
+            }
+        },
+        "checkbox2": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "checkbox2"},
+                "label": "Checkbox"
+            }
+        },
+        "scrollView": {
+            "prototype": "blue-shark/ui/scroller.reel",
+            "properties": {
+                "element": {"#": "scrollView"},
+                "overflow": "scrollY"
+            }
+        },
+        "converter": {
+            "prototype": "montage/core/converter/number-converter"
+        },
+        "multiSelect": {
+            "prototype": "blue-shark/ui/multiple-select.reel",
+            "properties": {
+                "element": {"#": "multiSelect"},
+                "options": [
+                    {"name": "foo", "myProperty": "blah 1"},
+                    {"name": "aaoption2", "myProperty": "blah 2"},
+                    {"name": "aaaoption3", "myProperty": "blah 3"},
+                    {"name": "option4", "myProperty": "blah 4"},
+                    {"name": "option42", "myProperty": "blah 5"},
+                    {"name": "_option6", "myProperty": "blah 6"}
+                ],
+                "values": [
+                    {"name": "value1ThatisreallyLongandshouldcutoffatsomepoint", "myProperty": "Hello"},
+                    {"name": "value2", "myProperty": "world"},
+                    {"name": "value3", "myProperty": "state"},
+                    {"name": "value4", "myProperty": "city"},
+                    {"name": "value5", "myProperty": "region"}
+
+                ],
+                "labelPath": "name"
+            },
+            "bindings": {
+                "converter": {"<-": "@owner.fakeConverter"}
+            }
+        }
+
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div data-montage-id="icons"></div>
+        <div class="container">
+            <h1>Widget Examples</h1>
+            <h2>Default</h2>
+            <div data-montage-id="textField"></div>
+            <div data-montage-id="textArea"></div>
+            <div data-montage-id="longTitle"></div>
+            <div data-montage-id="enabled"></div>
+            <div data-montage-id="radioGroup"></div>
+            <div data-montage-id="select"></div>
+            <div data-montage-id="checkbox"></div>
+            <div data-montage-id="checkbox2"></div>
+            <div class="scrollContainer">
+                <div data-montage-id="scrollView">
+                    <div data-montage-id="multiSelect"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

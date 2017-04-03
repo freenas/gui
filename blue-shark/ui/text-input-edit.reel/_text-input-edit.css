@@ -1,0 +1,32 @@
+.TextInputEdit {
+    display: flex;
+    flex: 1;
+}
+
+.TextInputEdit-editButton {
+    @nest .TextInputEdit.is-editing & {
+        display: none;
+    }
+}
+
+.TextInputEdit-cancelButton {
+    display: none;
+    margin-right: .5em !important;
+
+    @nest .TextInputEdit.is-editing & {
+        display: block;
+    }
+}
+
+.TextInputEdit-submitButton {
+    display: none;
+
+    @nest .TextInputEdit.is-editing & {
+        display: block;
+    }
+}
+
+.TextInputEdit-actions {
+    margin-left: .5em;
+    display: flex;
+}

@@ -1,0 +1,3 @@
+.FieldTextInput .control {
+    min-width: var(--input-min-width);
+}

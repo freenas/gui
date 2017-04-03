@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="select-search.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "_inputField": {"@": "input"},
+                "_optionsController": {"@": "optionsController"},
+                "_optionsList": {"@": "options"}
+            },
+            "bindings": {
+                "_optionsPrefix": {"<-": "@owner._typedValue || @input.value || ''"},
+                "classList.has('disabled')": {"<-": "!@owner.enabled"},
+                "classList.has('isExpanded')": {"<-": "@owner.isExpanded"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
+        },
+        "inputContainer": {
+            "prototype": "montage/ui/component",
+            "properties": {
+                "element": {"#": "inputContainer"},
+                "hasTemplate": false
+            },
+            "bindings": {
+                "classList.has('has-value')": {"<-": "@input.value"},
+                "classList.has('has-error')": {"<-": "@owner._inputError"}
+            }
+        },
+        "input": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "input"}
+            },
+            "bindings": {
+                "placeholder": {"<-": "@owner.searchPlaceholderValue"},
+                "classList.has('has-options')": {"<-": "!!@owner.options && @owner.options.length > 0"},
+                "disabled": {"<-": "!@owner.enabled"}
+            }
+        },
+        "clearButton": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "clearButton"}
+            }
+        },
+        "optionsController": {
+            "prototype": "montage/core/range-controller",
+            "bindings": {
+                "content": {"<-": "!!@owner.labelPath ? @owner.options.filter{path(@owner.labelPath).startsWith(@owner._optionsPrefix)} : @owner.options"}
+            }
+        },
+        "options": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "options"},
+                "contentController": {"@": "optionsController"},
+                "isSelectionEnabled": true
+            }
+        },
+        "option": {
+            "prototype": "./select-search-option.reel",
+            "properties": {
+                "element": {"#": "option"}
+            },
+            "bindings": {
+                "option": {"<-": "@options:iteration.object"},
+                "selected": {"<->": "@owner._selectedOption"},
+                "valueToAdd": {"<->": "@owner._valueToAdd"},
+                "labelPath": {"<-": "@owner.labelPath"}
+            }
+        },
+        "inputScroll": {
+            "prototype": "blue-shark/ui/scroller.reel",
+            "properties": {
+                "element": {"#": "inputScroll"},
+                "overflow": "scrollY"
+            },
+            "bindings": {
+                "classList.has('has-content')": {"<-": "@optionsController.content.length > 0"}
+            }
+        },
+        "arrowIcon": {
+            "prototype": "montage/ui/component",
+            "properties": {
+                "element": {"#": "arrowIcon"},
+                "hasTemplate": false
+            },
+            "bindings": {
+                "classList.has('is-visible')": {"<-": "@owner.values.length == 0"}
+            }
+        },
+        "button": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "button"}
+            },
+            "bindings": {
+                "label": {"<-": "@owner.value.name || @owner.placeholderValue"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="SelectSearch" tabindex="0">
+        <div data-montage-id="button" class="SelectSearch-button">
+            <svg data-montage-id="arrowIcon" class="SelectSearch-input-triangle">
+                <use xlink:href="#i-triangle-down"/>
+            </svg>
+        </div>
+        <div data-montage-id="inputContainer" class="SelectSearch-input">
+            <svg data-montage-id="clearButton" class="SelectSearch-input-clearButton">
+                <use xlink:href="#i-plus"/>
+            </svg>
+            <svg data-montage-id="arrowIcon" class="SelectSearch-input-search">
+                <use xlink:href="#i-search"/>
+            </svg>
+            <div data-montage-id="input" class="SelectSearch-input-field"></div>
+            <div data-montage-id="inputScroll" class="SelectSearch-input-options">
+                <div data-montage-id="options">
+                    <div data-montage-id="option" class="SelectSearch-input-option"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

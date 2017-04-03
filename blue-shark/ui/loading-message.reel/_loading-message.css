@@ -1,0 +1,51 @@
+.LoadingMessage {
+    display: none;
+    align-items:     center;
+    justify-content: center;
+    min-height: 3rem;
+
+    &.is-loading { display: flex; }
+
+    &.has-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        &:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,.5);
+            background-image: repeating-linear-gradient(-45deg, rgba(43,156,216,0.25), rgba(43,156,216,0.25) 1px, transparent 1px, transparent 10px);
+            background-size: 28px 28px;
+        }
+    }
+}
+
+.LoadingMessage-message {
+    margin-right: .5em;
+    font-weight: 200;
+
+    @nest .LoadingMessage.has-background & {
+        position: relative;
+        z-index: 1;
+    }
+}
+
+.LoadingMessage-spinner {
+
+    & svg {
+        height: 2em !important;
+        width:  2em !important;
+    }
+
+    @nest .LoadingMessage.has-background & {
+        position: relative;
+        z-index: 1;
+    }
+}

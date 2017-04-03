@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="field-scrollable-list.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "field": {
+            "prototype": "blue-shark/ui/field.reel",
+            "properties": {
+                "element": {"#": "field"}
+            },
+            "bindings": {
+                "label": {"<-": "@owner.label"},
+                "documentationReference": {"<-": "@owner.documentationReference"},
+                "disabled": {"<-": "@owner.disabled"},
+                "isLoading": {"<-": "@owner.isLoading"}
+            }
+        },
+        "control": {
+            "prototype": "blue-shark/ui/scrollable-list.reel",
+            "properties": {
+                "element": {"#": "control"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.content"},
+                "height": {"<-": "@owner.height"},
+                "disabled": {"<-": "@owner.disabled"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="FieldScrollableList">
+        <div data-montage-id="field">
+            <div data-montage-id="control"></div>
+        </div>
+    </div>
+</body>
+</html>

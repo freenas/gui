@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "modal": {"@": "default"}
+            },
+            "listeners": [
+                {
+                    "listener": {"@": "owner"},
+                    "type": "action"
+                }
+            ]
+        },
+        "icons": {
+            "prototype": "blue-shark/ui/icons.reel",
+            "properties": {
+                "element": {"#": "icons"}
+            }
+        },
+        "default": {
+            "prototype": "blue-shark/ui/modal.reel",
+            "properties": {
+                "element": {"#": "default"}
+            }
+        },
+        "trigger": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "trigger"},
+                "value": "Trigger Modal"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div data-montage-id="icons"></div>
+        <div data-montage-id="default">
+            <span>This is the contents of the modal</span>
+        </div>
+        <div class="container">
+            <h1>Loading Message</h1>
+            <h3>Default</h3>
+            <button data-montage-id="trigger"></button>
+        </div>
+    </div>
+</body>
+</html>

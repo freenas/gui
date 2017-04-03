@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "icons": {
+            "prototype": "blue-shark/ui/icons.reel",
+            "properties": {
+                "element": {"#": "icons"}
+            }
+        },
+        "inputSearch": {
+            "prototype": "blue-shark/ui/input-search.reel",
+            "properties": {
+                "element": {"#": "inputSearch"},
+                "placeholderValue": "enter search query"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div class="container">
+            <h1>Input Search</h1>
+            <div data-montage-id="icons" style="display:none;"></div>
+            <div data-montage-id="inputSearch"></div>
+        </div>
+    </div>
+</body>
+</html>

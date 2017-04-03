@@ -1,0 +1,43 @@
+.Scrollbar {
+    border-radius: 9999px;
+    z-index: 2;
+}
+
+.ScrollbarHandle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: opacity 300ms, width 200ms, height 200ms;
+}
+
+.Scrollbar.isAnimating .ScrollbarHandle {
+    transition: width 200ms, height 200ms, transform 200ms;
+}
+
+/* animating size and position changes */
+
+.Scrollbar.isAnimating .ScrollbarHandle:before,
+.is-scrolling .ScrollbarHandle:before {
+    opacity: 1;
+    transition: opacity .2s;
+}
+
+.ScrollbarHandle:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 9999px;
+    background-color: var(--grey-2);
+    border: 1px solid color(var(--grey) shade(25%));
+    opacity: 0;
+    transition: opacity .5s 1s;
+}
+
+.ScrollbarHandle:active:before {
+    background-color: var(--grey-2);
+}

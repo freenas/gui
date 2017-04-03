@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="file-input.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "_fileInput": {"#": "fileInput"}
+            }
+        },
+
+         "label": {
+            "prototype": "montage/ui/component",
+            "properties": {
+                "element": {"#": "label"},
+                "hasTemplate": false
+            },
+            "bindings": {
+                "for": {"<-": "@owner._id"}
+            }
+        },
+
+         "fileInput": {
+            "prototype": "montage/ui/component",
+            "properties": {
+                "element": {"#": "fileInput"},
+                "hasTemplate": false
+            },
+            "bindings": {
+                "id": {"<-": "@owner._id"}
+            }
+        },
+
+        "path": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "path"}
+            },
+            "bindings": {
+                "value": {"<-": "!!@owner.file ? @owner.file.name : 'no file chosen'"}
+            }
+        },
+
+        "errorMessage": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "errorMessage"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.errorValue"},
+                "args": {"<-": "@owner.errorArgs"}
+            }
+        }
+
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="FileInput">
+        <label data-montage-id="label" class="FileInput-button">Browse<input data-montage-id="fileInput" name="file" type="file" class="FileInput-input"/></label>
+        <div data-montage-id="path" class="FileInput-path"></div>
+        <div data-montage-id="errorMessage"></div>
+    </div>
+</body>
+</html>

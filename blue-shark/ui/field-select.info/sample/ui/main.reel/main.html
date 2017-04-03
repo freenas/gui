@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+        "icons": {
+            "prototype": "blue-shark/ui/icons.reel",
+            "properties": {
+                "element": {"#": "icons"}
+            }
+        },
+
+        "scrollview": {
+            "prototype": "blue-shark/ui/scroller.reel",
+            "properties": {
+                "element": {"#": "scrollview"},
+                "overflow": "scrollY"
+            }
+        },
+
+        "fieldSelect": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "fieldSelect"},
+                "label": "test label",
+                "optionsMaxHeight": 50,
+                "options": [
+                    {
+                        "value": "none",
+                        "label": "None"
+                    },
+                    {
+                        "value": "optimal",
+                        "label": "Optimal"
+                    },
+                    {
+                        "value": "virtualization",
+                        "label": "VirtualizationThisisthelongoptionthatisbreakingthings"
+                    },
+                    {
+                        "value": "backups",
+                        "label": "Backups"
+                    },
+                    {
+                        "value": "media",
+                        "label": "Media"
+                    }
+                ]
+            },
+            "bindings": {
+                "selectedValue": {"<->": "virtualization"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <!-- for example only -->
+        <div data-montage-id="icons" style="display: none;"></div>
+        <!-- end -->
+        <div class="container">
+            <h1>Field Select</h1>
+            <h3>Default</h3>
+            <div data-montage-id="scrollview">
+                <div class="content">
+                    <div data-montage-id="fieldSelect"></div>
+                    <p><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium quod eius esse deserunt illo voluptate beatae officia deleniti quo quia dolorem, nisi vitae minus doloremque iste nesciunt asperiores, culpa neque?</span>
+                    <span>Aut ipsam, maxime, culpa quis commodi, saepe repellendus sapiente quia pariatur eum nemo architecto corporis fuga enim! Quas facere aspernatur omnis, adipisci, sapiente modi beatae voluptas, voluptatibus dolor delectus inventore.</span>
+                    <span>Nulla delectus exercitationem quisquam ipsam ad fuga nemo id, deleniti rem ipsum earum odio minus repudiandae nisi fugit excepturi amet, suscipit soluta? Officiis culpa at similique corrupti sequi cupiditate iusto.</span>
+                    <span>Laudantium voluptatibus rem fuga placeat, voluptates voluptas autem exercitationem quibusdam, blanditiis laboriosam vitae eaque numquam tempora quia necessitatibus. Atque qui doloribus ut! Natus assumenda quod, incidunt laboriosam asperiores consectetur. Laborum!</span>
+                    <span>Possimus quam est eos tenetur, hic recusandae sit. Praesentium tempore omnis quaerat illum ducimus earum totam aspernatur amet maiores dicta autem esse laudantium ratione quia, quo temporibus atque asperiores voluptatum?</span>
+                    <span>Aut odio veritatis magni asperiores quos, minus eaque dolorum modi eos excepturi, hic doloribus fugiat. Rem recusandae dolorum amet accusamus placeat et aspernatur dolores. Ullam perferendis, expedita facere nobis. Error!</span>
+                    <span>Beatae dignissimos, quidem porro. Dolores sapiente, mollitia temporibus quas eum doloribus dignissimos error. Accusantium nobis molestiae perspiciatis nisi quasi in sapiente atque nostrum veniam quidem id, architecto voluptate incidunt ducimus.</span>
+                    <span>Dolor, totam molestias optio veritatis itaque minima perferendis, ad ex alias, ducimus sed fugit consequuntur inventore illo impedit libero beatae voluptates perspiciatis eaque dolorem. Numquam dolorem, perferendis commodi aspernatur temporibus.</span>
+                    <span>Eos quis nulla quam unde provident labore, quasi at dignissimos officia, blanditiis dolorum accusamus, eum fuga sed! Velit quia eaque deleniti, harum, fugit facilis tempore magni porro, doloremque nisi rem.</span>
+                    <span>Dolores sequi velit hic natus qui, dolore optio a, voluptatem nobis voluptas veniam alias corporis, enim modi omnis facere inventore! Earum corporis magnam debitis non repudiandae inventore et, in corrupti.</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

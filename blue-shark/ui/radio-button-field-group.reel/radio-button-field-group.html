@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="radio-button-field-group.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "readOnlySubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "readOnlySubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "!!@owner.isReadOnly ? 'ro' : 'rw'"}
+            }
+        },
+        "options": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "options"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.options"}
+            }
+        },
+        "radioButtonController": {
+            "prototype": "montage/core/radio-button-controller",
+            "bindings": {
+                "content": {"<-": "@owner.options"},
+                "value": {"<->": "@owner.selectedValue"}
+            }
+        },
+        "option": {
+            "prototype": "./radio-button-field.reel",
+            "properties": {
+                "element": {"#": "option"},
+                "radioButtonController": {"@": "radioButtonController"}
+            },
+            "bindings": {
+                "label": {"<-": "@options:iteration.object.label || @options:iteration.object"},
+                "value": {"<-": "@options:iteration.object.value || @options:iteration.object"},
+                "disabled": {"<-": "@owner.disabled"}
+            }
+        },
+        "value": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "value"}
+            },
+            "bindings": {
+                "value": {"<-": "(@owner.options && @owner.options.0 && @owner.options.0.label) ? @owner.options.filter{value == @owner.selectedValue}.0.label : @owner.selectedValue"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="RadioButtonFieldGroup">
+        <div data-montage-id="readOnlySubstitution">
+            <div data-montage-id="options" data-arg="rw" class="RadioButtonFieldGroup-options">
+                <div data-montage-id="option" class="RadioButtonFieldGroup-option"></div>
+            </div>
+            <div data-montage-id="value" data-arg="ro"></div>
+        </div>
+    </div>
+</body>
+</html>

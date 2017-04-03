@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "default": {
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "properties": {
+                "element": {"#": "default"},
+                "label": "Multiple Select Label",
+                "options": [
+                    {"name": "foo", "myProperty": "blah 1"},
+                    {"name": "aaoption2", "myProperty": "blah 2"},
+                    {"name": "aaaoption3", "myProperty": "blah 3"},
+                    {"name": "option4", "myProperty": "blah 4"},
+                    {"name": "option42", "myProperty": "blah 5"},
+                    {"name": "_option6", "myProperty": "blah 6"}
+                ],
+                "values": [
+                ],
+                "labelPath": "name",
+                "placeholder": "enter info here",
+                "inputErrorMessage": "This is my custom error message",
+                "valueErrorMessage": "This is an error message for values edition"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <!-- for sample only -->
+        <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+            <symbol id="i-plus" viewBox="0 0 32 32">
+                <title>Plus Icon</title>
+                <g fill="currentColor" fill-rule="evenodd"><path d="M15 3v27h2V2h-2v1z"/><path d="M3 17h27v-2H2v2h1z"/></g>
+            </symbol>
+        </svg>
+        <!-- end -->
+        <div class="container">
+            <h1>Field Date</h1>
+            <h3>Default</h3>
+            <div data-montage-id="default"></div>
+        </div>
+    </div>
+</body>
+</html>

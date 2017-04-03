@@ -1,0 +1,172 @@
+:root {
+    --table-newRow-bg: var(--black);
+}
+
+.TableEditable { position: relative; }
+
+.Table-row-group {
+    position: relative;
+
+    /* row dimmer */
+    &:after {
+        display: none;
+        content: '';
+        position: absolute;
+        background: rgba(0,0,0,.6);
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+    }
+
+    /* inactive row dimmer */
+    &.is-active:after {
+        display: block;
+        pointer-events: all;
+    }
+}
+
+.Table-row-fields {
+
+    &.is-active {
+        position: relative;
+        z-index: 100;
+
+        &:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 1px solid var(--primary--3);
+            border-bottom: none;
+            pointer-events: none;
+        }
+    }
+}
+
+.Table-row {
+    position: relative;
+    z-index: 0;
+    transition: all .5s ease-in-out;
+    flex-wrap: wrap;
+
+    &.is-active {
+        z-index: 20;
+    }
+}
+
+/* Select Cells */
+
+.Table-selectAll,
+.Table-selectRow {
+    display: none !important;
+    align-self: stretch;
+    align-items: center;
+    flex-grow: 0;
+    padding: .25em;
+    padding-left: .5em;
+    padding-right: 0;
+    border-right: 1px solid var(--table-border-color);
+}
+
+.Table.has-multipleSelection .Table-selectAll,
+.Table.has-multipleSelection .Table-selectRow {
+    display: flex !important;
+}
+
+/* Controls */
+.TableEditable-rowControls {
+    max-height: 0;
+    position: relative;
+    width: 100%;
+    background: var(--primary);
+    border: 1px solid var(--primary--3);
+    border-top: none;
+    box-shadow: 0 4px 4px var(--shadow-1);
+    visibility: hidden;
+    overflow: hidden;
+
+    &.is-active {
+        max-height: 10rem;
+        visibility: visible;
+    }
+}
+
+.Table-row-info {
+    display: flex;
+    background-color: var(--red);
+    color: var(--white);
+    max-height: 0px;
+    overflow: hidden;
+
+    &.has-errors {
+        max-height: 10rem;
+        transition: max-height 0.5s ease-in-out;
+        transition-delay: .25s;
+    }
+
+    & .Table-row-info-messages { align-self: center; }
+
+    & svg {
+        margin-left: 1rem;
+        margin-top: .5rem;
+        width:  2rem;
+        height: 2rem;
+        color: color(var(--red) shade(15%));
+    }
+}
+
+.actions {
+    border-top: 1px solid var(--table-border-color);
+    display: flex;
+    justify-content: flex-end;
+    padding: .5rem;
+}
+
+/* New Row */
+
+.Table-body-top {
+    border: 1px solid var(--primary--3);
+    border-bottom: none;
+}
+
+.TableEditable .Table-body-top.Table-row-group {
+    /* magic # based on checkbox width */
+    background-color: var(--primary--7);
+}
+
+.TableEditable .Table.has-multipleSelection .Table-body-top.Table-row-group .Table-cells {
+    padding-left: 2.55em;
+}
+
+
+/* Header Cells */
+
+.TableHeaderLayout-row { display: flex; }
+
+/*
+
+BODY
+
+*/
+
+/* Row Cells */
+
+.TableEditable .Table-cells {
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+
+    /* Row Cell */
+
+    & > div {
+        position: relative;
+        padding: .5em;
+        flex: 1;
+        display: flex;
+        align-items: center;
+    }
+}

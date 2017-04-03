@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "fieldRadioGroup": {
+            "prototype": "blue-shark/ui/field-radio-group.reel",
+            "properties": {
+                "element": {"#": "fieldRadioGroup"},
+                "label": "test label",
+                "options": [
+                    "one", "two", "three"
+                ],
+                "selectedValue": "one"
+            }
+        },
+        "results": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "results"}
+            },
+            "bindings": {
+                "value": {"<-": "@fieldRadioGroup.selectedValue"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div class="container">
+            <h1>Field Text Area</h1>
+            <h3>Default</h3>
+            <div data-montage-id="fieldRadioGroup" class="FieldRadioGroup--block"></div>
+            <h4>Results</h4>
+            <div data-montage-id="results"></div>
+        </div>
+    </div>
+</body>
+</html>

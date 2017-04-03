@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="tabs.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "tabLabelPath": {"<-": "@owner.labelPath.defined() ? @owner.labelPath : 'label'"},
+                "selectedTab": {"<->": "@contentController.selection.0"}
+            }
+        },
+        "contentController": {
+            "prototype": "montage/core/range-controller",
+            "bindings": {
+                "content": {"<-": "@owner.options"}
+            }
+        },
+        "tabs": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "tabs"},
+                "contentController": {"@": "contentController"},
+                "isSelectionEnabled": true
+            }
+        },
+        "tab": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "tab"}
+            },
+            "bindings": {
+                "value": {"<-": "@tabs:iteration.object[@owner.tabLabelPath]"},
+                "enabled": {"<-": "@owner.enabled"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Tabs">
+        <div data-montage-id="tabs" class="Tabs-group">
+            <button data-montage-id="tab" class="Tabs-tab"></button>
+        </div>
+    </div>
+</body>
+</html>

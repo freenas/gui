@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="time-option.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
+        },
+        "option": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "option"},
+                "value": "{option, HH:mm}"
+            },
+            "bindings": {
+                "args": {"<-": "!!@owner.option  && {option: @owner.option}"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="TimeOption">
+        <div data-montage-id="option"></div>
+    </div>
+</body>
+</html>

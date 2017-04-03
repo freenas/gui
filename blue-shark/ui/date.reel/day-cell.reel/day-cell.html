@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="day-cell.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('is-filler')": {"<-": "@owner.isFiller"},
+                "classList.has('is-today')": {"<-": "@owner.isToday"},
+                "classList.has('is-selected')": {"<-": "@owner.isSelected"}
+            }
+        },
+        "dateToDayConverter": {
+            "prototype": "montage/core/converter/date-converter",
+            "properties": {
+                "pattern": " d"
+            }
+        },
+        "day": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "day"},
+                "value": "{day, DD}"
+            },
+            "bindings": {
+                "args": {"<-": "!!@owner.value && {day: @owner.value}"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="DayCell">
+        <div data-montage-id="day"></div>
+    </div>
+</body>
+</html>

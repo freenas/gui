@@ -1,0 +1,270 @@
+:root {
+    /* font */
+
+    --font-default: 'Lato','Helvetica Neue', Helvetica, Arial, sans-serif;
+
+    /* colors */
+
+    --white:            #ffffff;
+
+    /* --red:              #E0003A; */
+    --red:              #CF324F;
+
+    --green:            #1E963F;
+
+    --yellow-orange:    #DE9B16;
+
+    --purple:           #672BD8;
+
+    --aqua:             #008C84;
+
+    --maroon:           #6D2A2A;
+
+    --blue:             #0C5688;
+    --blue-darken-1:    #093A51;
+    --blue-darken-2:    #0B1E29;
+    --blue-darken-3:    #131a20;
+    --blue-lighten-1:   #0D65A0;
+    --blue-lighten-2:   #2089D3;
+
+    --orange:               #D95B1B;
+    --orange-lighten-1:     #DE7225;
+    --orange-lighten-2:     #D78F2A;
+    --orange-darken-1:      color(var(--orange) l(-5%));
+    --orange-darken-2:      color(var(--orange) l(-10%));
+
+    --black:        #0F1213;
+    --black-1:      #0F1213;
+
+    --grey:         #2F3233;
+    --grey-1:       #939E9F;
+    --grey-2:       #B1BCBE;
+    --grey-3:       #E0E5E5;
+
+    --grey-blue:    #242628;
+    --grey-blue-1:  #2A2E33;
+    --grey-blue-2:  #2F3233;
+
+    --main-bg-color:    #16171A;
+
+    --separator-color: var(--primary--4);
+
+    /* event colors */
+
+    --task-scrub-color:             #880E4F;
+    --task-replication-color:       #7B1FA2;
+    --task-smart-color:             #311B92;
+    --task-update-color:            #00695C;
+    --task-command-color:           #33691E;
+    --task-snapshot-color:          #F57F17;
+    --task-rsync-color:             #BF360C;
+
+    /* Calendar */
+
+    --calendar-line--strong:        var(--main-bg-color);
+    --calendar-line--weak:          color(var(--calendarStrongLine) alpha(.3));
+
+    /* fixme */
+    --main-text-color:  var(--primary--0);
+    --text-color:       var(--main-text-color);
+
+    --color-success: var(--green);
+    --color-create:  var(--green);
+    --color-alert:   color(var(--red) alpha(-10%));
+    --color-selected: var(--blue);
+
+    --color-text-dark: #16171A;
+
+    --space:        1em;
+    --space-dbl:    calc(var(--space) * 2);
+    --space-half:   calc(var(--space) / 2);
+
+    --shadow-1: rgba(0,0,0,.3);
+
+    --input-focus: {
+        outline: none;
+        box-shadow: inset 0 0 0 1px var(--blue-lighten-2);
+    }
+
+    --transparent--darken:  rgba(0,0,0,.1);
+    --transparent--lighten: rgba(255,255,255,.1);
+
+    --flex-column {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+    }
+
+    --input-bg-color:       var(--primary);
+    --input-text-color:     var(--white);
+    --input-border-color:   var(--primary--3);
+    --input-bg-color--disabled: var(--primary--6);
+    --input-min-width: 10rem;
+
+    /* table */
+
+    --table-border-color: var(--primary--7);
+
+    --disabled-text-color: var(--grey-2);
+
+    --border-radius: 4px;
+
+    --input-field: {
+        font-weight: 300;
+        font-family: var(--font-default);
+        /* margin:     0; */
+        font-size:   1em;
+        color: var(--input-text-color);
+        width: 100%;
+        -webkit-tap-highlight-color: transparent;
+        appearance: none;
+        outline: none;
+        border: 1px solid var(--input-border-color);
+        background-color: var(--input-bg-color);
+        border-radius: var(--border-radius);
+        /* border-top:     1px solid rgba(0, 0, 0, .23); */
+        /* border-bottom:  1px solid rgba(255, 255, 255, .15); */
+        transition-property: background-color, border-color, opacity;
+        transition-duration: .25s;
+
+        &:hover {
+            background-color: color(var(--primary) tint(3%));
+            border-color:     var(--primary--1);
+        }
+
+        &:focus {
+            background-color: color(var(--primary) tint(3%));
+            border-color: var(--accent);
+        }
+
+        &.montage--disabled {
+            border-color: transparent;
+            opacity: .5;
+            cursor: not-allowed;
+
+            &:hover {
+                background-color: var(--input-bg-color);
+                border-color: transparent;
+            }
+        }
+
+        &.montage--invalidText {
+            border-color: var(--red);
+        }
+
+        &[readonly="readonly"] {
+            background-color: transparent;
+            border: none;
+            padding: 0;
+        }
+    }
+
+    --button: {
+        box-sizing: border-box;
+        font-family: var(--font-default);
+        font-size: .75em;
+        font-weight: 300;
+        min-width: 6em;
+        padding: 0 1em;
+        text-align: center;
+        color: var(--white);
+        border-radius: .3em;
+        border: 0;
+        margin: 0;
+        cursor: pointer;
+        appearance: none;
+        vertical-align: middle;
+        /* text-shadow: 0 1px 0 rgba(0, 0, 0, .5); */
+        background-color: var(--grey--3);
+        /* background-color: var(--grey--3); */
+        /* background-image: linear-gradient(transparent, rgba(0, 0, 0,.2)); */
+        /* box-shadow:
+            inset 0 1px rgba(255, 255, 255, .15),
+            inset 0 -1px rgba(0, 0, 0, .2),
+            0 1px 2px var(--shadow-1); */
+        transition: all .25s ease-in-out;
+
+        &:hover  {
+            background-image: linear-gradient(transparent, transparent);
+            box-shadow:
+                inset 0  1px         rgba(255, 255, 255, .15),
+                inset 0 -1px         var(--shadow-1),
+                      0  2px 6px 1px var(--shadow-1);
+        }
+
+        &:active {
+            background-image: linear-gradient(rgba(0, 0, 0, .2), transparent);
+            box-shadow:
+                inset 0 -1px rgba(255, 255, 255, .1),
+                inset 0 1px var(--shadow-1);
+            outline: none;
+            text-shadow: none;
+        }
+
+        &:focus { @apply --input-focus; }
+
+        &.montage--disabled {
+            cursor: default;
+            cursor: not-allowed;
+
+            &:not(.is-processing) {
+                opacity: .5;
+                background-color: var(--grey-1);
+            }
+        }
+    }
+
+    --button-label: {
+        display: inline-block;
+        white-space: nowrap;
+        vertical-align: middle;
+        line-height: 2.5em;
+
+        @nest .Button:not(.montage--disabled, .Button--naked):active & {
+            transform: translateY(.05em);
+        }
+    }
+
+    /* color palette */
+    --primary: #222b35;
+    --primary--0:  color(var(--primary) tint(70)  s(-0));
+    --primary--1:  color(var(--primary) tint(55)  s(-0));
+    --primary--2:  color(var(--primary) tint(35)  s(-0));
+    --primary--3:  color(var(--primary) tint(22)  s(-0));
+    --primary--4:  color(var(--primary) tint(10)  s(-0));
+    --primary--6:  color(var(--primary) shade(15) s(+0));
+    --primary--7:  color(var(--primary) shade(30) s(+0));
+    --primary--8:  color(var(--primary) shade(45) s(+0));
+    --primary--9:  color(var(--primary) shade(60) s(+0));
+    --primary--10: color(var(--primary) shade(75) s(+0));
+
+    --accent: #2089D3;
+    --accent--1:  color(var(--accent) tint(55)  h(+0) s(-5));
+    --accent--3:  color(var(--accent) tint(30)  h(+0) s(-2));
+    --accent--7:  color(var(--accent) shade(40) h(+2) s(+2));
+    --accent--9:  color(var(--accent) shade(70) h(+3) s(+5));
+    --accent--10: color(var(--accent) shade(90) h(+5) s(+10));
+
+    --secondary: #FECF39;
+    --secondary--1:  color(var(--secondary) tint(45)  s(-10));
+    --secondary--3:  color(var(--secondary) tint(25)  s(-5));
+    --secondary--7:  color(var(--secondary) shade(25) s(+10));
+    --secondary--9:  color(var(--secondary) shade(45) s(+20));
+    --secondary--10: color(var(--secondary) shade(60) s(+25));
+
+
+    --tertiary: #17E0C7;
+    --tertiary--1:  color(var(--tertiary) tint(55)  s(-20));
+    --tertiary--3:  color(var(--tertiary) tint(30)  s(-10));
+    --tertiary--7:  color(var(--tertiary) shade(30) s(+10));
+    --tertiary--9:  color(var(--tertiary) shade(55) s(+20));
+    --tertiary--10: color(var(--tertiary) shade(75) s(+25));
+
+    --grey: #2F3233;
+    --grey--1:  color(var(--grey) tint(55));
+    --grey--3:  color(var(--grey) tint(20));
+    --grey--7:  color(var(--grey) shade(20));
+    --grey--9:  color(var(--grey) shade(55));
+    --grey--10: color(var(--grey) shade(85));
+}
+

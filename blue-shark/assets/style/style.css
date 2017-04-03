@@ -1,0 +1,15 @@
+.container > h1 {
+    background-color: #000;
+    color: #fff;
+    margin: -1rem;
+    padding: 1rem;
+}
+
+.container > h2 {
+    color: #E0E5E5;
+    margin-top: 2rem;
+}
+
+.container {
+    margin: 1rem;
+}

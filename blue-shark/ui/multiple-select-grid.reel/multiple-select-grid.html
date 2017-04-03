@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="multiple-select-grid.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "controller": {"@": "rangeController"}
+            },
+            "bindings": {
+                "classList.has('has-iterator')": {"<-": "@owner.hasIterator"},
+                "_selectedIndexes": {"<-": "@options.selectedIndexes"},
+                "_areOptionsIndexed": {"<-": "@owner.options.defined() && @owner.options.0.index.defined()"}
+            },
+            "listeners": [
+                {
+                    "listener": {"@": "owner"},
+                    "type": "action"
+                }
+            ]
+        },
+
+        "options": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "options"},
+                "contentController": {"@": "rangeController"}
+            }
+        },
+
+        "rangeController": {
+            "prototype": "montage/core/range-controller",
+            "properties": {
+                "allowsMultipleSelection": true,
+                "sortPath": "index"
+            },
+            "bindings": {
+                "sortPath": {"<-": "@owner.sortPath || @owner._areOptionsIndexed ? 'index' : 'value'"},
+                "content": {"<-": "@owner.options"},
+                "selection": {"<->": "@owner._selection"}
+            }
+        },
+
+        "option": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "option"}
+            },
+            "bindings": {
+                "value": {"<-": "@options:iteration.object.label || @options:iteration.object.value"}
+            }
+        },
+
+        "numberIterator": {
+            "prototype": "blue-shark/ui/number-input.reel",
+            "properties": {
+                "element": {"#": "numberIterator"},
+                "min": 0
+            },
+            "bindings": {
+                "max": {"<-": "@owner.options.length"},
+                "value": {"<->": "@owner.frequency"}
+            }
+        },
+
+        "clearSelectionButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "clearSelectionButton"},
+                "value": "Clear Selection"
+            },
+            "bindings": {
+                "disabled": {"<-": "!@owner._selection || !@owner._selection.length"}
+            }
+        },
+        "iteratorLabel": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "iteratorLabel"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.iteratorLabel"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="MultipleSelectGrid">
+        <div data-montage-id="options" class="MultipleSelectGrid-options">
+            <div data-montage-id="option" class="MultipleSelectGrid-option"></div>
+        </div>
+        <div class="MultipleSelectGrid-iterator">
+            <div data-montage-id="clearSelectionButton"></div>
+            <div class="MultipleSelectGrid-control">
+                <span data-montage-id="iteratorLabel" class="MultipleSelectGrid-label"></span>
+                <div data-montage-id="numberIterator" class="MultipleSelectGrid-numberIterator"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

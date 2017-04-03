@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="table-read-only.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "_tableComponent": {"@": "tableLayout"}
+            },
+            "bindings": {
+                "selectedRow": {"<-": "@tableLayout.rowRepetitionComponent.selection.one()"}
+            }
+        },
+
+        "tableLayout": {
+            "prototype": "blue-shark/ui/layouts/table-layout.reel",
+            "properties": {
+                "element": {"#": "tableLayout"}
+            },
+            "bindings": {
+                "rows": {"<-": "@owner.rows"},
+                "sortPath": {"<-": "@owner.sortPath"},
+                "label": {"<-": "@owner.label"},
+                "isSelectionEnabled": {"<-": "@owner.isSelectionEnabled"},
+                "contentMaxHeight": {"<-": "@owner.contentMaxHeight"},
+                "isLoading": {"<-": "@owner.isLoading"},
+                "emptyMessage": {"<-": "@owner.emptyMessage"},
+                "loadingMessage": {"<-": "@owner.loadingMessage"}
+            }
+        },
+
+        "tableReadOnlyHeader": {
+            "prototype": "blue-shark/ui/layouts/table-header-layout.reel",
+            "properties": {
+                "element": {"#": "tableReadOnlyHeader"}
+            },
+            "bindings": {
+                "columns": {"<-": "@owner.columns"},
+                "classList.has('is-hidden')": {"<-": "@owner.isLoading"}
+            }
+        },
+
+        "textRowCellRepetition": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "textRowCellRepetition"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.columns"}
+            }
+        },
+
+        "textRowCell": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "textRowCell"}
+            },
+            "bindings": {
+                "value": {"<-": "@tableLayout:rowIteration.object.path(@textRowCellRepetition:iteration.object.path)"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="TableReadOnly">
+        <div data-montage-id="tableLayout">
+            <div data-param="table-read-only-header-toolbar" class="table-caption"></div>
+            <div data-arg="table-header-columns" data-montage-id="tableReadOnlyHeader"></div>
+            <div data-arg="table-row" data-montage-id="textRowCellRepetition" class="Table-row">
+                <div>
+                    <span data-montage-id="textRowCell" class="Table-cell"></span>
+                </div>
+            </div>
+            <div data-arg="table-footer">
+                <div data-param="table-read-only-footer"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

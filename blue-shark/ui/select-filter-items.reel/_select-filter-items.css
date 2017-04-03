@@ -1,0 +1,17 @@
+.SelectFilterItems {
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    background: var(--grey);
+    padding: .5rem .75rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 2px 2px var(--shadow-1);
+
+    &.montage-Overlay--visible {
+        visibility: visible;
+        opacity: 1;
+        transition-delay: 0s, 0s;
+        z-index: 1000;
+    }
+}
+

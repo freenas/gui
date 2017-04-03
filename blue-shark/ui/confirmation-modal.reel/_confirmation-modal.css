@@ -1,0 +1,28 @@
+/* Content */
+
+.ConfirmationModal .Modal-content {
+    width: 25rem;
+    max-width: calc(100% - 4rem);
+    padding: 1em;
+    color: var(--color-text-dark);
+    background-color: var(--grey-3);
+    transform: translateY(-100%);
+    border-radius: var(--border-radius);
+    transition: transform .3s ease-in-out;
+}
+
+.ConfirmationModal .Modal.is-active .Modal-content { transform: translateY(4rem); }
+
+.ConfirmationModal-header {
+    font-size: 1.25rem;
+    font-weight: 400;
+}
+
+.ConfirmationModal-footer {
+    display: flex;
+    justify-content: flex-end;
+
+    & button + button {
+        margin-left: .5rem;
+    }
+}

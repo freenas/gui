@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="number-unit.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('is-read-only')": {"<-": "@owner.isReadOnly"}
+            }
+        },
+        "count": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "count"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.count"},
+                "classList.has('hide')": {"<-": "@owner.isReadOnly"}
+            }
+        },
+        "unit": {
+            "prototype": "blue-shark/ui/select.reel",
+            "properties": {
+                "element": {"#": "unit"}
+            },
+            "bindings": {
+                "options": {"<-": "@owner.units"},
+                "selectedValue": {"<->": "@owner.unit"},
+                "classList.has('hide')": {"<-": "@owner.isReadOnly"}
+            }
+        },
+        "readOnly": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "readOnly"}
+            },
+            "bindings": {
+                "args": {"<-": "!!@owner.value && {num: @owner.value}"},
+                "value": {"<-": "'{num, ' + (@owner.readOnlyFormat || '0[.0000]') + '}'"},
+                "classList.has('hide')": {"<-": "!@owner.isReadOnly || !@owner.value"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="NumberUnit">
+        <div class="NumberUnit-count">
+            <div data-montage-id="count"></div>
+        </div>
+        <div data-montage-id="unit" class="NumberUnit-unit"></div>
+        <div data-montage-id="readOnly"></div>
+    </div>
+</body>
+</html>

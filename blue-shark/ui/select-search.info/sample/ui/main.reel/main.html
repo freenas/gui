@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "icons": {
+            "prototype": "blue-shark/ui/icons.reel",
+            "properties": {
+                "element": {"#": "icons"}
+            }
+        },
+        "converter": {
+            "prototype": "montage/core/converter/number-converter"
+        },
+        "default": {
+            "prototype": "blue-shark/ui/select-search.reel",
+            "properties": {
+                "element": {"#": "default"},
+                    "options": [
+                    {"name": "foo", "myProperty": "blah 1"},
+                    {"name": "aaoption2", "myProperty": "blah 2"},
+                    {"name": "aaaoption3", "myProperty": "blah 3"},
+                    {"name": "option4", "myProperty": "blah 4"},
+                    {"name": "option42", "myProperty": "blah 5"},
+                    {"name": "_option6", "myProperty": "blah 6"}
+                ],
+                "value": {"name": "aaaoption3", "myProperty": "blah 3"},
+                "labelPath": "name",
+                "placeholderValue": "select an item",
+                "searchPlaceholderValue": "search items"
+            },
+            "bindings": {
+                "converter": {"<-": "@owner.fakeConverter"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div data-montage-id="icons" style="display: none;"></div>
+        <div class="container">
+            <h1>Select</h1>
+            <h3>Default Select Search</h3>
+            <div data-montage-id="default"></div>
+        </div>
+    </div>
+</body>
+</html>

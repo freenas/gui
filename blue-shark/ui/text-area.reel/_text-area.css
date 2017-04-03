@@ -1,0 +1,8 @@
+.TextArea {
+    @apply --input-field;
+    font-size: 100%;
+    height: 5em;
+    padding: 0.25em .5em;
+    resize: vertical;
+    -webkit-tap-highlight-color: transparent;
+}

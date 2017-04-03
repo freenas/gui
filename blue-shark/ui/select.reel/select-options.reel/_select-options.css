@@ -1,0 +1,31 @@
+.SelectOptions {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    visibility: hidden;
+    opacity: 0;
+    font-weight: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    cursor: pointer;
+    z-index: 1000;
+    border-radius: 3px;
+    overflow: hidden;
+    transition: visibility .25s ease-in-out,
+                opacity    .25s ease-in-out;
+    flex: 1;
+    transition-delay: .1s, .1s;
+    box-shadow: 0 0 6px rgba(0, 0, 0, .5);
+    /* places overlay overtop select */
+    transform: translateY(calc(-2.25em))
+}
+
+.SelectOptions.is-below-middle {
+    transform: translateY(calc(-100%));
+}
+
+.SelectOptions.montage-Overlay--visible {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0s, 0s;
+}

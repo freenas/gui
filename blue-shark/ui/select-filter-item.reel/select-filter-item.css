@@ -1,0 +1,1 @@
+.SelectFilterItem:not(:last-child){margin-bottom:.5em}.SelectFilterItem:hover .SelectFilterItem-checkbox label:before{box-shadow:0 0 2px 2px hsla(0,0%,100%,.85)}.SelectFilterItem-checkbox{display:block}.SelectFilterItem-checkbox label{white-space:nowrap;display:block;color:#fff}

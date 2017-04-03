@@ -1,0 +1,43 @@
+@keyframes flash {
+    0%    { fill: var(--white);}
+    35%   { fill: #238EC2;}
+}
+
+.Spinner {
+
+    &.center-in-container {
+        display: flex;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        justify-content: center;
+        align-items: center;
+        z-index: 100;
+        background-color: var(--primary--7)
+    }
+}
+
+.Spinner svg {
+    width:  4rem;
+    height: 4rem;
+
+    & polyline { fill: #238EC2; }
+
+    & #corral-1,
+    & #corral-2,
+    & #corral-3,
+    & #corral-4,
+    & #corral-5,
+    & #corral-6 {
+        animation: flash .6s infinite linear;
+    }
+
+    & #corral-6 { animation-delay: -.3s; }
+    & #corral-5 { animation-delay: -.2s; }
+    & #corral-4 { animation-delay: -.1s; }
+    & #corral-3 { animation-delay: 0s; }
+    & #corral-2 { animation-delay: .1s; }
+    & #corral-1 { animation-delay: .2s; }
+}

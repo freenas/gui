@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="confirmation-modal.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "modal": {"@": "modal"}
+            },
+            "listeners": [
+                {
+                    "listener": {"@": "owner"},
+                    "type": "action"
+                }
+            ]
+        },
+        "modal": {
+            "prototype": "blue-shark/ui/modal.reel",
+            "properties": {
+                "element": {"#": "modal"},
+                "controller": {"@": "owner"}
+            },
+            "bindings": {
+                "isShown": {"<->": "@owner.isShown"}
+            }
+        },
+        "title": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "title"}
+            },
+            "bindings": {
+                "value": {"<-": "!!@owner.title ? @owner.title : 'Are you sure?'"}
+            }
+        },
+        "message": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "message"}
+            },
+            "bindings": {
+                "value": {"<-": "!!@owner.message ? @owner.message : 'Click to confirm.'"}
+            }
+        },
+        "falseButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "falseButton"}
+            },
+            "bindings": {
+                "value": {"<-": "!!@owner.buttonLabelFalse ? @owner.buttonLabelFalse : 'Cancel'"}
+            }
+        },
+        "trueButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "trueButton"}
+            },
+            "bindings": {
+                "value": {"<-": "!!@owner.buttonLabelTrue ? @owner.buttonLabelTrue : 'Confirm'"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="ConfirmationModal">
+        <div data-montage-id="modal">
+            <div class="ConfirmationModal-header">
+                <h3 data-montage-id="title" class="flush-top g-margin-bottom"></h3>
+            </div>
+            <div class="ConfirmationModal-body g-margin-bottom--double">
+                <p data-montage-id="message"></p>
+                <div data-param="*"></div>
+            </div>
+            <div class="ConfirmationModal-footer">
+                <button data-montage-id="falseButton"></button>
+                <button data-montage-id="trueButton" class="Button--primary"></button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="modal.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "content": {"#": "content"}
+            },
+            "bindings": {
+                "classList.has('is-active')": {"<-": "@owner.isShown"}
+            },
+            "listeners": [
+                {
+                    "listener": {"@": "owner"},
+                    "type": "action"
+                }
+            ]
+        },
+        "closeButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "closeButton"}
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "!!@owner.hideCloseButton"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Modal" role="dialog">
+        <div data-montage-id="content" class="Modal-content">
+            <button data-montage-id="closeButton" class="Button--icon Button--naked Modal-close">
+                <svg><use xlink:href="#i-close"/></svg>
+            </button>
+            <div data-param="*"></div>
+        </div>
+    </div>
+</body>
+</html>

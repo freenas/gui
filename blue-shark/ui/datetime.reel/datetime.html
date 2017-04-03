@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="datetime.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "date": {
+            "prototype": "../date.reel",
+            "properties": {
+                "element": {"#": "date"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner._date"},
+                "allowEmpty": {"<-": "@owner.allowEmpty"}
+            }
+        },
+        "time": {
+            "prototype": "../time.reel",
+            "properties": {
+                "element": {"#": "time"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner._time"},
+                "allowEmpty": {"<-": "@owner.allowEmpty"},
+                "intervalInSeconds": {"<-": "@owner.intervalInSeconds"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Datetime">
+        <div data-montage-id="date"></div>
+        <div data-montage-id="time"></div>
+    </div>
+</body>
+</html>
