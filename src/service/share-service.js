@@ -111,6 +111,23 @@ var ShareService = exports.ShareService = Montage.specialize({
         }
     },
 
+    delete: {
+        value: function (shareObject, args) {
+            var saveSharePromise = this.shareRepository.deleteShare(shareObject, _.toArray(args)),
+                self = this, targetId;
+
+            if (shareObject.type === this.constructor.SHARE_TYPES.ISCSI && shareObject.__extent && (targetId = shareObject.__extent.id)) {
+                saveSharePromise.then(function (submittedTask) {
+                    return submittedTask.taskPromise.then(function () {
+                        return self.shareIscsiTargetRepository.delete({id: targetId});
+                    });
+                });
+            }
+
+            return saveSharePromise;
+        }
+    },
+
     save: {
         value: function (shareObject, isServiceEnabled) {
             var saveSharePromise;
@@ -205,12 +222,13 @@ var ShareService = exports.ShareService = Montage.specialize({
                     }
                 };
             }
+
             delete shareObject.properties.refreservation;
 
-            return this.shareRepository.saveShare(shareObject, datasetProperties)
-                .then(function() {
-                    if (isNewShareObject) {
-                        return self._dataService.getNewInstanceForType(Model.ShareIscsiTarget).then(function(target) {
+            return this.shareRepository.saveShare(shareObject, datasetProperties).then(function (submittedTask) {
+                if (isNewShareObject) {
+                    return submittedTask.taskPromise.then(function () {
+                        return self._dataService.getNewInstanceForType(Model.ShareIscsiTarget).then(function (target) {
                             var extentObject = {
                                 name: shareObject.name,
                                 number: shareObject.__extent ? shareObject.__extent.lun : 0
@@ -226,8 +244,9 @@ var ShareService = exports.ShareService = Montage.specialize({
 
                             return self.shareIscsiTargetRepository.save(target);
                         });
-                    }
-                });
+                    });
+                }
+            });
         }
     },
 

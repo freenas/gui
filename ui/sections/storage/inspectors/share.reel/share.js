@@ -204,11 +204,10 @@ exports.Share = AbstractInspector.specialize({
 
     delete: {
         value: function() {
-            if (this.extraDeleteFlags.length > 0) {
-                return this.inspector.delete(this.extraDeleteFlags[0].checked);
-            } else {
-                return this.inspector.delete();
-            }
+            return this._shareService.delete(
+                this.object, 
+                this.extraDeleteFlags.length > 0 ? [this.extraDeleteFlags[0].checked] : void 0
+            );
         }
     },
 
