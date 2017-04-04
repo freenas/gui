@@ -205,12 +205,13 @@ var ShareService = exports.ShareService = Montage.specialize({
                     }
                 };
             }
+
             delete shareObject.properties.refreservation;
 
-            return this.shareRepository.saveShare(shareObject, datasetProperties)
-                .then(function() {
-                    if (isNewShareObject) {
-                        return self._dataService.getNewInstanceForType(Model.ShareIscsiTarget).then(function(target) {
+            return this.shareRepository.saveShare(shareObject, datasetProperties).then(function (submittedTask) {
+                if (isNewShareObject) {
+                    return submittedTask.taskPromise.then(function () {
+                        return self._dataService.getNewInstanceForType(Model.ShareIscsiTarget).then(function (target) {
                             var extentObject = {
                                 name: shareObject.name,
                                 number: shareObject.__extent ? shareObject.__extent.lun : 0
@@ -226,8 +227,9 @@ var ShareService = exports.ShareService = Montage.specialize({
 
                             return self.shareIscsiTargetRepository.save(target);
                         });
-                    }
-                });
+                    });
+                }
+            });
         }
     },
 
