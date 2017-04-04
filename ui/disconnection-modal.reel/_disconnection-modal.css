@@ -15,4 +15,9 @@
 .DisconnectionModal-spinner {
     margin-top: 3em;
     font-size: 1.5em;
+    display: none;
+}
+
+.DisconnectionModal-modal.montage-Overlay--visible .DisconnectionModal-spinner {
+    display: block;
 }
