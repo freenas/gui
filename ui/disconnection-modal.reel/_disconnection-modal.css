@@ -19,5 +19,5 @@
 }
 
 .DisconnectionModal-modal.montage-Overlay--visible .DisconnectionModal-spinner {
-    display: inherit;
+    display: block;
 }
