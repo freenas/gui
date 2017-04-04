@@ -1,0 +1,17 @@
+.TimeOption {
+    line-height: 1em;
+    padding: .25em .5em;
+    user-select: none;
+}
+
+
+.TimeOption:hover {
+    color: var(--white);
+    background-color: var(--transparent--lighten);
+}
+
+.TimeOption.selected {
+    background-color: var(--color-selected);
+    color: var(--white);
+    pointer-events: none;
+}

@@ -49,7 +49,7 @@ var tsProject = ts.createProject('tsconfig.json'),
         cssnano({autoprefixer: false, safe: true})
     ],
     gulpDir = process.cwd(),
-    cssConfig = gulpDir + "/node_modules/blue-shark/ui/_config.css",
+    cssConfig = gulpDir + "/blue-shark/ui/_config.css",
     rollbarDevConfig =  "window._FREENAS_ENVIRONMENT = 'development';\n" +
                         "window._FREENAS_GIT_SHA = 'master';",
     rollbarProdConfig = "window._FREENAS_ENVIRONMENT = 'production';\n" +

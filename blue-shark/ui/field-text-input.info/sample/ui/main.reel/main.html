@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "myFoo": true
+            }
+        },
+        "default": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "default"},
+                "label": "test",
+                "placeholder": "should be test",
+                "isMandatory": true
+            }
+        },
+        "disabled": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "disabled"},
+                "label": "test",
+                "placeholder": "should be test",
+                "readonly": true,
+                "isMandatory": true
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div class="container">
+            <h1>Field Text Input</h1>
+            <div data-montage-id="default"></div>
+            <div data-montage-id="disabled"></div>
+        </div>
+    </div>
+</body>
+</html>

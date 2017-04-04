@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="search.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "_searchInput":  {"@": "input"},
+                "_searchButton":  {"@": "search"},
+                "_changeButton":  {"@": "change"},
+                "_validButton":  {"@": "valid"},
+                "_noneButton":  {"@": "none"},
+                "_cancelButton":  {"@": "cancel"},
+                "_selectComponent":  {"@": "select"}
+            },
+            "listeners": [
+                {
+                    "listener": {"@": "owner"},
+                    "type": "action"
+                }
+            ]
+        },
+
+        "substitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "substitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.switchValue || 'read'"}
+            }
+        },
+
+        "text": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "text"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.displayedValue"}
+            }
+        },
+
+        "change": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "change"},
+                "value": "Change"
+            },
+            "bindings": {
+                "disabled": {"<-": "@owner.disabled"}
+            }
+        },
+
+        "input": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "input"},
+                "placeholder": "e.g search"
+            }
+        },
+
+        "search": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "search"},
+                "value": "Search"
+            },
+            "bindings": {
+                "disabled": {"<-": "@owner.isSearching || !@input.value"}
+            }
+        },
+
+        "select": {
+            "prototype": "blue-shark/ui/select-multiple.reel",
+            "properties": {
+                "element": {"#": "select"},
+                "allowMultiple": false
+            },
+            "bindings": {
+                "options": {"<-": "@owner._results.map{{label: this.path(@owner.labelPath), value: this.path(@owner.valuePath)}}"}
+            }
+        },
+
+        "cancel": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "cancel"},
+                "value": "Cancel"
+            }
+        },
+
+        "none": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "none"},
+                "value": "None"
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "@owner.hasNoneButton.defined() ? !@owner.hasNoneButton : false"}
+            }
+        },
+
+        "valid": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "valid"},
+                "value": "Select"
+            }
+        },
+
+        "message": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "message"},
+                "value": "No results found"
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "!!@select.options && @select.options.length > 0"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Search">
+        <div data-montage-id="substitution">
+            <div data-arg="read">
+                <div data-montage-id="text" class="g-margin-bottom--half"></div>
+                <button data-montage-id="change"></button>
+            </div>
+            <div data-arg="write">
+                 <div class="flex-row g-margin-bottom--half">
+                    <div data-montage-id="input" class="g-margin-right--half"></div>
+                    <button data-montage-id="search" class="Button--primary">
+                        <svg><use xlink:href="#i-search"/></svg>
+                    </button>
+                </div>
+                <div class="Search-results g-margin-bottom--half">
+                    <div data-montage-id="select" ></div>
+                    <div data-montage-id="message" class="Search-results-message"></div>
+                </div>
+                <div class="flex-row button-group">
+                    <button data-montage-id="cancel"></button>
+                    <button data-montage-id="none" class="Button--primary"></button>
+                    <button data-montage-id="valid" class="Button--primary"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

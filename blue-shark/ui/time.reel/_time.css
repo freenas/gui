@@ -1,0 +1,75 @@
+.Time-container {
+    position: relative;
+    user-select: none;
+}
+
+/* Time Controls ---------------------------------- */
+
+.Time-controls {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 1px;
+    display: flex;
+    cursor: default;
+}
+
+.Time-controls .Button {
+
+    & svg {
+        height: 2rem;
+        width:  2rem;
+        opacity: .5;
+        color: var(--white);
+    }
+
+    &:hover {
+        background-color: rgba(255,255,255,.1);
+
+        & svg {
+            opacity: 1;
+        }
+    }
+
+}
+
+.Time-input-decrement {
+    transform: rotate(180deg);
+}
+
+.Time-input-increment {
+    border-top-right-radius:    4px;
+    border-bottom-right-radius: 4px;
+}
+
+
+/* Options ---------------------------------- */
+
+.Time-optionsContainer {
+    display: none;
+    position: absolute;
+    height: 7em;
+    top: 2em;
+    width: 100%;
+    font-family: lato;
+    font-weight: 200;
+    color: var(--grey-1);
+    background: var(--grey-blue);
+    z-index: 100;
+    box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    overflow: hidden;
+}
+
+.Time-options {
+    cursor: pointer;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius:  4px;
+    overflow: hidden;
+}
+
+.Time.has-options .Time-input-field:focus + .Time-optionsContainer,
+.Time-optionsContainer:active {
+    display: block;
+}

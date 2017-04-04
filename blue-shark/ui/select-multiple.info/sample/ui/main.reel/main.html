@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "select": {
+            "prototype": "blue-shark/ui/select-multiple.reel",
+            "properties": {
+                "element": {"#": "select"}
+            },
+            "bindings": {
+                "options": {"<-": "@owner.options"},
+                "selectedValues": {"<->": "@owner.selected"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div class="container">
+            <h1>Select</h1>
+            <h3>Default Select</h3>
+            <div data-montage-id="select"></div>
+        </div>
+    </div>
+</body>
+</html>

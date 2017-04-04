@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="spinner.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "!@owner.isShown"},
+                "classList.has('center-in-container')": {"<-": "@owner.centerInContainer"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Spinner">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 59">
+            <g fill="none" fill-rule="evenodd">
+                <path fill="#FFFFFF" d="M36.998,23.344 C37.337,23.162 37.463,22.739 37.28,22.4 C37.098,22.061 36.675,21.935 36.337,22.118 L25.627,27.894 L14.918,22.118 C14.578,21.935 14.156,22.061 13.974,22.4 C13.791,22.739 13.917,23.162 14.256,23.344 L24.93,29.101 L24.93,43.207 C24.93,43.592 25.242,43.904 25.627,43.904 C26.012,43.904 26.324,43.592 26.324,43.207 L26.324,29.101 L36.998,23.344"/>
+                <polyline id="corral-1" points="24.98 11.031 24.98 .572 .619 14.638 9.681 19.865 24.98 11.031"/>
+                <polyline id="corral-2" points="9.058 20.982 0 15.757 0 43.834 9.058 38.609 9.058 20.982"/>
+                <polyline id="corral-3" points=".634 44.944 24.98 59 24.98 48.541 9.696 39.717 .634 44.944"/>
+                <polyline id="corral-4" points="26.292 48.541 26.292 59 50.634 44.946 41.573 39.719 26.292 48.541"/>
+                <polyline id="corral-5" points="42.215 20.978 42.215 38.613 51.272 43.838 51.272 15.753 42.215 20.978"/>
+                <polyline id="corral-6" points="50.65 14.636 26.292 .572 26.292 11.031 41.589 19.863 50.65 14.636"/>
+            </g>
+        </svg>
+    </div>
+</body>
+</html>

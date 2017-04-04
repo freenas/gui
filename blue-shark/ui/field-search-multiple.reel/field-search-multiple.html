@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="field-search-multiple.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "field": {
+            "prototype": "blue-shark/ui/field.reel",
+            "properties": {
+                "element": {"#": "field"}
+            },
+            "bindings": {
+                "label": {"<-": "@owner.label"},
+                "documentationReference": {"<-": "@owner.documentationReference"},
+                "disabled": {"<-": "@owner.disabled"},
+                "errorMessage": {"<-": "@owner.errorMessage || @control.errorMessage"},
+                "hasError": {"<-": "@owner.hasError || !!@control.errorMessage"},
+                "isMandatory": {"<-": "@owner.isMandatory"},
+                "isLoading": {"<-": "@owner.isLoading"}
+            }
+        },
+        "control": {
+            "prototype": "blue-shark/ui/search-multiple.reel",
+            "properties": {
+                "element": {"#": "control"}
+            },
+            "bindings": {
+                "disabled": {"<-": "@owner.disabled"},
+                "controller": {"<-": "@owner.controller"},
+                "initialOptions": {"<-": "@owner.initialOptions"},
+                "labelExpression": {"<-": "@owner.labelExpression"},
+                "labelPath": {"<-": "@owner.labelPath"},
+                "valuePath": {"<-": "@owner.valuePath"},
+                "values": {"<->": "@owner.values"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="FieldSearchMultiple">
+        <div data-montage-id="field">
+            <div data-montage-id="control"></div>
+        </div>
+    </div>
+</body>
+</html>

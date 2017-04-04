@@ -1,0 +1,70 @@
+.InputSearch {
+    position: relative;
+
+    &.disabled {
+        cursor: not-allowed;
+    }
+}
+
+.InputSearch-field.TextField {
+    padding: .25em;
+    border-radius: 3px;
+    background: var(--grey-3);
+    color: var(--main-bg-color);
+    text-indent: .25em;
+
+    &:focus {
+        border-left:  1px solid var(--blue-lighten-2);
+        border-right: 1px solid var(--blue-lighten-2);
+        box-shadow: 0 0 1px 1px var(--blue-lighten-2);
+    }
+
+    &:hover {
+        background-color: color(var(--grey-3) lightness(100%));
+    }
+}
+
+.InputSearch-clearButton,
+.InputSearch-lens {
+    position: absolute;
+    z-index: 1;
+}
+
+.InputSearch-clearButton {
+    height: 1.3em;
+    width:  1.3em;
+    top: 50%;
+    right: .5em;
+    margin-top: -.65em;
+    padding: .25em;
+    color: var(--grey-3);
+    transform: rotate(45deg);
+    background: var(--grey-blue);
+    border-radius: 2em;
+    cursor: pointer;
+    outline: none;
+    visibility: hidden;
+    opacity: 0;
+    border-radius: 1em;
+
+    @nest .InputSearch.has-input & {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.InputSearch-lens {
+    height: 1.5em;
+    width:  1.5em;
+    top: 50%;
+    right: .4em;
+    margin-top: -.75em;
+    color: var(--main-bg-color);
+    padding: .1em;
+    pointer-events: none;
+
+    @nest .InputSearch.has-input & {
+        opacity: 0;
+        visibility: hidden;
+    }
+}

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="date.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "dateValue": {"@": "dateValue"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": { "@": "owner" }
+                }
+            ]
+        },
+        "dateToStringConverter": {
+            "prototype": "montage/core/converter/date-converter",
+            "properties": {
+                "pattern": "d"
+            }
+        },
+        "dateValue": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "dateValue"},
+                "converter": {"@": "dateToStringConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.value"}
+            }
+        },
+        "currentMonth": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "currentMonth"},
+                "value": "{date, MMM YYYY}"
+            },
+            "bindings": {
+                "args": {"<-": "!!@owner.currentMonth && {date: @owner.currentMonth}"}
+            }
+        },
+        "days": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "days"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.days"}
+            }
+        },
+        "day": {
+            "prototype": "./day-cell.reel",
+            "properties": {
+                "element": {"#": "day"}
+            },
+            "bindings": {
+                "value": {"<-": "@days:iteration.object"},
+                "isFiller": {"<-": "@days:iteration.object.getMonth() != @owner.currentMonth.getMonth()"},
+                "isToday": {"<-": "@days:iteration.object == @owner.today"},
+                "isSelected": {"<-": "@owner.value == @days:iteration.object"},
+                "currentSelection": {"<->": "@owner.value"}
+            }
+        },
+        "increment": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "increment"}
+            }
+        },
+        "decrement": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "decrement"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Date">
+        <div data-montage-id="dateValue" class="Date-value"></div>
+        <div data-montage-id="calendar" class="Date-calendar">
+            <div class="DateCalendar-header">
+                <button data-montage-id="decrement" class="Button--naked Button--icon">
+                    <svg class="DateCalendarHeader-decrement">
+                        <use xlink:href="#i-arrow"/>
+                    </svg>
+                </button>
+                <div data-montage-id="currentMonth"></div>
+                <button data-montage-id="increment" class="Button--naked Button--icon">
+                    <svg class="DateCalendarHeader-increment">
+                        <use xlink:href="#i-arrow"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="DateCalendar-daysHeader">
+                <div>S</div>
+                <div>M</div>
+                <div>T</div>
+                <div>W</div>
+                <div>T</div>
+                <div>F</div>
+                <div>S</div>
+            </div>
+            <div data-montage-id="days" class="DateCalendar-days">
+                <div data-montage-id="day" class="DateCalendarDays-day"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,14 @@
+.Main {
+
+}
+
+h3 {
+    /* margin-bottom: 20em; */
+}
+
+.scrollView-container {
+    display: flex;
+    position: relative;
+    min-width: 15em;
+    outline: 1px solid red;
+}

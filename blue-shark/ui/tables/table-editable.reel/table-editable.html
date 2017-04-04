@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="table-editable.css">
+    <script type="text/montage-serialization">
+   {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "_tableBodyTopElement": {"#": "tableBodyTop"},
+                "contentController": {"@": "contentController"},
+                "_toggleAllComponent": {"@": "toggleAll"},
+                "rowControls": {"#": "rowControls"}
+            },
+            "bindings": {
+                "_rowRepetitionComponent": {"<-": "@tableLayout.rowRepetitionComponent"},
+                "_rowEntries": {"<-": "@contentController.content.map{{object: this, selected: false}}"},
+                "selectedRows": {"<-": "@owner._rowEntries.filter{selected == true}"}
+            }
+        },
+
+        "contentController": {
+            "prototype": "montage/core/range-controller",
+            "bindings": {
+                "content": {"<-": "@owner.rows"}
+            }
+        },
+
+        "tableLayout": {
+            "prototype": "blue-shark/ui/layouts/table-layout.reel",
+            "properties": {
+                "element": {"#": "tableLayout"}
+            },
+            "bindings": {
+                "title": {"<-": "@owner.title"},
+                "rows": {"<-": "@owner._rowEntries"},
+                "sortPath": {"<-": "@owner.sortPath"},
+                "label": {"<-": "@owner.label"},
+                "classList.has('has-multipleSelection')": {"<-": "@owner.isMultiSelectionEnabled"},
+                "contentIsEmpty": {"<-": "!@owner._rowEntries.length && !@owner._canShowNewEntryRow"},
+                "emptyMessage": {"<-": "@owner.emptyMessage"},
+                "contentMaxHeight": {"<-": "@owner.contentMaxHeight"},
+                "isLoading": {"<-": "@owner.isLoading"},
+                "loadingMessage": {"<-": "@owner.loadingMessage"}
+            }
+        },
+
+        "toggleAll": {
+            "prototype": "blue-shark/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "selectAll"}
+            },
+            "bindings": {
+                "disabled": {"<-": "!@owner.rows.length"}
+            }
+        },
+
+        "columnTitle": {
+            "prototype": "blue-shark/ui/layouts/table-header-layout.reel",
+            "properties": {
+                "element": {"#": "columnTitle"}
+            },
+            "bindings": {
+                "columns": {"<-": "@owner.columns"},
+                "classList.has('is-hidden')": {"<-": "@owner.isLoading"}
+            }
+        },
+
+        "tableBodyTop": {
+            "prototype": "montage/ui/component",
+            "properties": {
+                "element": {"#": "tableBodyTop"},
+                "hasTemplate": false
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "!@owner._canShowNewEntryRow"}
+            }
+        },
+
+        "cancel": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "cancel"},
+                "value": "Cancel"
+            }
+        },
+
+        "done": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "done"},
+                "value": "Done"
+            },
+            "bindings": {
+                "disabled": {"<-": "@messages.content.length"}
+            }
+        },
+
+        "selectRow": {
+            "prototype": "blue-shark/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "selectRow"}
+            },
+            "bindings": {
+                "rowEntry": {"<-": "@tableLayout:rowIteration.object"},
+                "checked": {"<->": "@selectRow.rowEntry.selected"}
+            }
+        },
+
+        ":rowIteration": {
+           "alias": "@tableLayout:rowIteration"
+        },
+
+        "messages": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "messages"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner._activeRowEntry.errors"}
+            }
+        },
+
+        "message": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "message"}
+            },
+            "bindings": {
+                "errorObject": {"<-": "@messages:iteration.object"},
+                "value": {"<-": "(errorObject.name ? errorObject.name + ': ' : '') + errorObject.error.message.replace('Error: ', '')"}
+            }
+        },
+
+        "rowControls-info": {
+            "prototype": "montage/ui/component",
+            "properties": {
+                "element": {"#": "rowControls-info"},
+                "hasTemplate": false
+            },
+            "bindings": {
+                "classList.has('has-errors')": {"<-": "@messages.content.length"}
+            }
+        },
+        "rowControls": {
+            "prototype": "montage/ui/component",
+            "properties": {
+                "element": {"#": "rowControls"},
+                "hasTemplate": false
+            }
+        },
+        "addButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "addButton"}
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "!@owner.isMultiSelectionEnabled"},
+                "value": {"<-": "!!@owner.emptyActionLabel ? @owner.emptyActionLabel : 'Add item'"}
+            }
+        },
+
+        ":rowIteration": {
+           "alias": "@tableLayout:rowIteration"
+        },
+
+        "spinner": {
+            "prototype": "blue-shark/ui/spinner.reel",
+            "properties": {
+                "element": {"#": "spinner"},
+                "centerInContainer": true
+            },
+            "bindings": {
+                "isShown": {"<-": "!!@tableLayout:rowIteration.object.object._isLocked"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="TableEditable">
+        <div data-montage-id="tableLayout">
+            <div data-arg="table-header-toolbar" class="TableEditable-toolbar">
+                <div data-param="table-editable-header-toolbar"></div>
+            </div>
+            <div data-arg="table-header-columns">
+                <div data-montage-id="selectAll" class="Table-selectAll"></div>
+                <div data-montage-id="columnTitle" class="TableEditable-columns"></div>
+            </div>
+            <div data-arg="table-body-top" data-montage-id="tableBodyTop" class="Table-body-top">
+                <div data-param="row-new"></div>
+            </div>
+            <div data-arg="table-row" class="Table-row">
+                <div data-montage-id="selectRow" class="Table-selectRow"></div>
+                <div data-param="row-entry"></div>
+                <div data-montage-id="spinner" class="TableEditable-spinner"></div>
+            </div>
+            <div data-arg="table-footer">
+                <div data-param="table-editable-footer"></div>
+            </div>
+            <div data-arg="table-row-controls" data-montage-id="rowControls" class="TableEditable-rowControls">
+                <div>
+                    <div class="flex-column TableEditable-rowControls-content">
+                        <div class="Table-row-info flex-row" data-montage-id="rowControls-info">
+                            <svg><use xlink:href="#i-alert"/></svg>
+                            <ul data-montage-id="messages" class="Table-row-info-messages">
+                                <li data-montage-id="message" class="message"></li>
+                            </ul>
+                        </div>
+                        <div class="actions flex">
+                            <button data-montage-id="cancel" class="g-margin-right--half"></button>
+                            <button data-montage-id="done" class="Button--primary"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <span data-arg="emptyAction" data-montage-id="addButton"></span>
+        </div>
+    </div>
+</body>
+</html>

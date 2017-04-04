@@ -1,0 +1,35 @@
+.DayCell {
+    width: calc(100% / 7);
+    cursor: pointer;
+    line-height: 1em;
+    padding: .25rem 0;
+    transition: background-color .25s ease-in-out,
+                color            .25s ease-in-out;
+
+    &:hover {
+        color: var(--white);
+        background-color: var(--transparent--lighten);
+    }
+
+    &.is-today {
+        font-weight: bold;
+    }
+
+    &.is-selected {
+        background: var(--accent);
+        color: var(--white);
+    }
+
+    &.is-filler {
+        opacity: 0.5;
+        cursor: inherit;
+        pointer-events: none;
+    }
+
+    &.is-filler:hover {
+        color: inherit;
+        background-color: inherit;
+    }
+}
+
+

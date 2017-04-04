@@ -387,6 +387,10 @@ export class VolumeRepository extends AbstractRepository<Volume> {
         return this.volumeDao.onlineVdev(volumeId, vdev);
     }
 
+    public setVolumeKey(volume: Volume, keyFile: File, password: string) {
+        return this.volumeDao.setVolumeKey(volume, keyFile, password);
+    }
+
     private cleanupTopology(topology: ZfsTopology): ZfsTopology {
         let clean = new ZfsTopology();
         for (let key of VolumeRepository.TOPOLOGY_KEYS) {

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="select-filter-items.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "optionsRepetition": {"@": "repetition"}
+            }
+        },
+        "repetition": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "repetition"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.options"}
+            }
+        },
+        "iteration": {
+            "prototype": "blue-shark/ui/select-filter-item.reel",
+            "properties": {
+                "element": {"#": "iteration"}
+            },
+            "bindings": {
+                "data": {"<-": "@repetition:iteration.object"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="SelectFilterItems">
+        <div data-montage-id="repetition">
+            <div data-montage-id="iteration" class="SelectFilterItems-item"></div>
+        </div>
+    </div>
+</body>
+</html>

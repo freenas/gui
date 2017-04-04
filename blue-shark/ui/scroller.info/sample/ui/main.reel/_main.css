@@ -1,0 +1,6 @@
+.Main {
+    & .default {
+        height: 30rem;
+        outline: 1px solid red;
+    }
+}

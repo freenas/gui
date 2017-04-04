@@ -1,0 +1,10 @@
+.TextField {
+
+    @apply --input-field;
+
+    line-height: 2rem;
+    height:      2rem;
+    padding: 0 .25rem .1rem .5rem;
+
+}
+

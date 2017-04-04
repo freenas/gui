@@ -1,0 +1,39 @@
+.SelectMultiple {
+    @apply --input-field;
+    min-width: 10rem;
+}
+
+.SelectMultiple option {
+    position: relative;
+    font-family: 'lato';
+    font-weight: 300;
+    color: var(--grey-3);
+    padding: .25em .5em;
+    z-index: 1;
+
+    &:checked {
+        &:before {
+            content: "\2713 ";
+            width: 1rem;
+            margin-right: .5em;
+            color: var(--white);
+            z-index: 1;
+        }
+        &:after {
+            content: '';
+            position: absolute;
+            top:0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--accent);
+            z-index: -1;
+            pointer-events:none;
+        }
+    }
+}
+
+.SelectMultiple.is-disabled {
+    opacity: .5;
+    pointer-events: none;
+}

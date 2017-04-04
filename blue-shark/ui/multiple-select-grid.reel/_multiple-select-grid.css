@@ -1,0 +1,73 @@
+.MultipleSelectGrid {
+
+}
+
+.MultipleSelectGrid-options {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.MultipleSelectGrid-option {
+    flex: 1;
+    position: relative;
+    padding: .5em;
+    height: 2.5em;
+    line-height: 1.5em;
+    text-align: center;
+    color: var(--grey-1);
+    cursor: pointer;
+}
+
+.MultipleSelectGrid-option:first-child:nth-last-child(n+8),
+.MultipleSelectGrid-option:first-child:nth-last-child(n+8) ~ .MultipleSelectGrid-option {
+    flex: 0;
+    min-width: 2.5em;
+}
+
+.MultipleSelectGrid-option:hover {
+    color: var(--white);
+    background-color: rgba(255,255,255,.1);
+}
+
+.MultipleSelectGrid-option.selected {
+    color: var(--white);
+    background-color: var(--color-selected);
+}
+
+.MultipleSelectGrid-option:before {
+    position: absolute;
+    content: '';
+    top: 1px;
+    left: 1px;
+    right: 0px;
+    bottom: 0px;
+    outline: 1px solid #888;
+}
+
+/* iterator */
+
+.MultipleSelectGrid-iterator {
+    display: none;
+    margin-top: 1rem;
+    justify-content: space-between;
+
+    @nest .MultipleSelectGrid.has-iterator & {
+        display: flex;
+    }
+
+}
+
+.MultipleSelectGrid-control {
+    display: flex;
+    align-items: center;
+
+    & .MultipleSelectGrid-label {
+        margin-right: 1em;
+        font-weight: 300;
+    }
+
+    & .MultipleSelectGrid-numberIterator {
+        max-width: 6.5em;
+    }
+}

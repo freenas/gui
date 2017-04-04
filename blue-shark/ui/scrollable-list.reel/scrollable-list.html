@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="scrollable-list.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "items": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "items"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.content"}
+            }
+        },
+        "item": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "item"}
+            },
+            "bindings": {
+                "value": {"<-": "@items:iteration.object.value || @items:iteration.object.label"}
+            }
+        },
+        "scrollview": {
+            "prototype": "blue-shark/ui/scroller.reel",
+            "properties": {
+                "element": {"#": "scrollview"},
+                "overflow": "scrollY"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="ScrollableList">
+        <div data-montage-id="scrollview" class="ScrollableList-scrollview">
+            <ul data-montage-id="items" class="ScrollableList-items">
+                <li data-montage-id="item" class="ScrollableList-item"></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="file-reader.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('has-progress')": {"<-": "@owner.progress"}
+            }
+        },
+
+        "fileInput": {
+            "prototype": "blue-shark/ui/file-input.reel",
+            "properties": {
+                "element": {"#": "fileInput"}
+            },
+            "bindings": {
+                "file": {"<->": "@owner.file"},
+                "errorValue": {"<->": "@owner.errorValue"},
+                "errorArgs": {"<->": "@owner.errorArgs"},
+                "supportedExtensions": {"<-": "@owner.supportedExtensions"},
+                "supportedFileTypes": {"<-": "@owner.supportedFileTypes"},
+                "maxFileSize": {"<-": "@owner.maxFileSize"}
+            }
+        },
+
+        "progress": {
+            "prototype": "blue-shark/ui/progress.reel",
+            "properties": {
+                "element": {"#": "progress"}
+            },
+            "bindings": {
+                "percentageComplete": {"<-": "@owner.progress"},
+                "status": {"<-": "@owner.status"}
+            }
+        }
+
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="FileReader">
+        <div data-montage-id="fileInput"></div>
+        <div data-montage-id="progress" class="FileReader-progress"></div>
+    </div>
+</body>
+</html>

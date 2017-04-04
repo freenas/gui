@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "default": {
+            "prototype": "blue-shark/ui/time.reel",
+            "properties": {
+                "element": {"#": "default"},
+                "intervalInSeconds": 1800,
+                "enabled": false,
+                "pattern": "HH:mm:ss"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.date"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div class="container">
+            <!-- only for sample -->
+            <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                <symbol id="i-arrow" viewBox="0 0 32 32">
+                    <title>Arrow Icon</title>
+                    <path d="M22.066 15.495L8.586 29 10 30.415 24.93 15.458 9.946 1.588l-1.36 1.466 13.48 12.44z" fill="currentColor" fill-rule="evenodd"/>
+                </symbol>
+            </svg>
+            <!-- end -->
+            <div data-montage-id="default"></div>
+        </div>
+    </div>
+</body>
+</html>

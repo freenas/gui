@@ -1,0 +1,41 @@
+.FileReader {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    &.has-progress {
+        padding-bottom: 1.5em;
+    }
+}
+
+.FileReader-path {
+    font-family: lato;
+    font-weight: 200;
+    font-size: .75em;
+}
+
+.FileReader-button {
+    @apply --button;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 2.5em;
+    margin-right: 1rem;
+}
+
+.FileReader-input {
+    position: absolute;
+    left: -9999px;
+}
+
+.FileReader-progress {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    @nest .FileReader.has-progress & {
+        display: flex;
+    }
+}

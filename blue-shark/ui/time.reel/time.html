@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="time.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "_inputField": {"@": "input"},
+                "_optionsController": {"@": "optionsController"},
+                "_optionsList": {"@": "options"},
+                "_dateConverter": {"@": "dateConverter"}
+            },
+            "bindings": {
+                "classList.has('has-options')": {"<-": "!!@owner.options && !!@owner.options.length"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
+        },
+        "dateConverter": {
+            "prototype": "montage/core/converter/date-converter",
+            "bindings": {
+                "pattern": {"<-": "!!@owner.pattern ? @owner.pattern : 'hh:mm tt'"}
+            }
+        },
+        "input": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "input"},
+                "converter": {"@": "dateConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.value"}
+            }
+        },
+        "optionsController": {
+            "prototype": "montage/core/range-controller",
+            "bindings": {
+                "content": {"<-": "@owner.options"}
+            }
+        },
+        "options": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "options"},
+                "isSelectionEnabled": true,
+                "contentController": {"@": "optionsController"}
+            }
+        },
+        "option": {
+            "prototype": "./time-option.reel",
+            "properties": {
+                "element": {"#": "option"},
+                "converter": {"@": "dateConverter"}
+            },
+            "bindings": {
+                "selected": {"<->": "@owner._selectedOption"},
+                "option": {"<-": "@options:iteration.object"}
+            }
+        },
+        "optionsScroll": {
+            "prototype": "blue-shark/ui/scroller.reel",
+            "properties": {
+                "element": {"#": "optionsScroll"},
+                "overflow": "scrollY"
+            }
+        },
+        "increment": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "increment"}
+            }
+        },
+        "decrement": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "decrement"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Time">
+        <div data-montage-id="inputContainer" class="Time-container">
+            <div class="Time-controls">
+                <button data-montage-id="decrement" class="Time-input-decrement Button--naked Button--icon">
+                    <svg data-montage-id="decrement">
+                        <use xlink:href="#i-arrow"/>
+                    </svg>
+                </button>
+                <button data-montage-id="increment" class="Time-input-increment Button--naked Button--icon">
+                    <svg>
+                        <use xlink:href="#i-arrow"/>
+                    </svg>
+                </button>
+            </div>
+            <div data-montage-id="input" class="Time-input-field"></div>
+            <div data-montage-id="optionsScroll" class="Time-optionsContainer">
+                <div data-montage-id="options" class="Time-options">
+                    <div data-montage-id="option" class="Time-option"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

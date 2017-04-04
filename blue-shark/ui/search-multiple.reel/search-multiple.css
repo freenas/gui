@@ -1,0 +1,8 @@
+.SearchMultiple {
+
+}
+
+.SearchMultiple .MultipleSelect-title,
+.SearchMultiple .MultipleSelect-input-controls {
+    display: none;
+}

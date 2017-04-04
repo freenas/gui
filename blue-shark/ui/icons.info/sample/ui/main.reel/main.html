@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "icons": {
+            "prototype": "blue-shark/ui/icons.reel",
+            "properties": {
+                "element": {"#": "icons"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div class="container">
+            <h1>Icons</h1>
+            <div data-montage-id="icons" style="display:none;"></div>
+            <ul class="icons">
+                <li class="icon">
+                    <span>#i-arrow</span>
+                    <svg><use xlink:href="#i-arrow"/></svg>
+                </li>
+                <li class="icon">
+                    <span>#i-listView</span>
+                    <svg><use xlink:href="#i-listView"/></svg>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

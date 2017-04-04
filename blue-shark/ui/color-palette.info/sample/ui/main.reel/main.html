@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "colors": [
+                    {
+                        "color": "Primary",
+                        "swatches": [
+                            {"variable": "--primary--0"},
+                            {"variable": "--primary--1"},
+                            {"variable": "--primary--2"},
+                            {"variable": "--primary--3"},
+                            {"variable": "--primary--4"},
+                            {"variable": "--primary"},
+                            {"variable": "--primary--6"},
+                            {"variable": "--primary--7"},
+                            {"variable": "--primary--8"},
+                            {"variable": "--primary--9"},
+                            {"variable": "--primary--10"}
+                        ]
+                    },
+                    {
+                        "color": "Secondary",
+                        "swatches": [
+                            {"variable": "--secondary--1"},
+                            {"variable": "--secondary--3"},
+                            {"variable": "--secondary"},
+                            {"variable": "--secondary--7"},
+                            {"variable": "--secondary--9"},
+                            {"variable": "--secondary--10"}
+                        ]
+                    },
+                    {
+                        "color": "Tertiary",
+                        "swatches": [
+                            {"variable": "--tertiary--1"},
+                            {"variable": "--tertiary--3"},
+                            {"variable": "--tertiary"},
+                            {"variable": "--tertiary--7"},
+                            {"variable": "--tertiary--9"},
+                            {"variable": "--tertiary--10"}
+                        ]
+                    },
+                    {
+                        "color": "Accent",
+                        "swatches": [
+                            {"variable": "--accent--1"},
+                            {"variable": "--accent--3"},
+                            {"variable": "--accent"},
+                            {"variable": "--accent--7"},
+                            {"variable": "--accent--9"},
+                            {"variable": "--accent--10"}
+                        ]
+                    },
+                    {
+                        "color": "Grey",
+                        "swatches": [
+                            {"variable": "--grey--1"},
+                            {"variable": "--grey--3"},
+                            {"variable": "--grey"},
+                            {"variable": "--grey--7"},
+                            {"variable": "--grey--9"},
+                            {"variable": "--grey--10"}
+                        ]
+                    }
+                ]
+            }
+        },
+        "repetition": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "repetition"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.colors"}
+            }
+        },
+        "colorName": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "colorName"}
+            },
+            "bindings": {
+                "value": {"<-": "@repetition:iteration.object.color"}
+            }
+        },
+        "swatches": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "swatches"}
+            },
+            "bindings": {
+                "content": {"<-": "@repetition:iteration.object.swatches"}
+            }
+        },
+        "swatch": {
+            "prototype": "blue-shark/ui/color-swatch.reel",
+            "properties": {
+                "element": {"#": "swatch"}
+            },
+            "bindings": {
+                "object": {"<-": "@swatches:iteration.object"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div class="container">
+            <h1>Color Palette</h1>
+            <h2>Swatches</h2>
+            <div data-montage-id="repetition" class="color-list">
+                <div class="colors">
+                    <h3 data-montage-id="colorName">Primary</h3>
+                    <div data-montage-id="swatches" class="swatches flex-row">
+                        <div data-montage-id="swatch" class="swatch"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

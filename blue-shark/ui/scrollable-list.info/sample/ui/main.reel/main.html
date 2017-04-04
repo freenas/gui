@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "content": [
+                    {"value": "one"},
+                    {"value": "two"},
+                    {"value": "three"},
+                    {"value": "four"},
+                    {"value": "five"},
+                    {"value": "six"},
+                    {"value": "seven"},
+                    {"value": "eight"}
+                ]
+            }
+        },
+        "default": {
+            "prototype": "blue-shark/ui/scrollable-list.reel",
+            "properties": {
+                "element": {"#": "default"},
+                "height": 5
+            },
+            "bindings": {
+                "content": {"<-": "@owner.content"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div class="container">
+            <h1>Scrollable List</h1>
+            <h3>Default </h3>
+            <div data-montage-id="default"></div>
+        </div>
+    </div>
+</body>
+</html>

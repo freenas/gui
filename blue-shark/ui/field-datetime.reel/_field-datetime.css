@@ -1,0 +1,8 @@
+.FieldDatetime {
+
+}
+
+/* disabled state on input */
+.FieldDatetime .disabled input[type="datetime"] {
+    opacity: .5;
+}

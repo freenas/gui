@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "icons": {
+            "prototype": "blue-shark/ui/icons.reel",
+            "properties": {
+                "element": {"#": "icons"}
+            }
+        },
+        "button": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "button"},
+                "value": "button",
+                "enabled": false
+            }
+        },
+        "buttonPrimary": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "buttonPrimary"},
+                "value": "button"
+            }
+        },
+        "buttonIconAfter": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "buttonIconAfter"},
+                "value": "button"
+            }
+        },
+        "buttonCreate": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "buttonCreate"},
+                "value": "create"
+            }
+        },
+        "buttonAlert": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "buttonAlert"},
+                "value": "button"
+            }
+        },
+        "buttonSmall": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "buttonSmall"},
+                "value": "button"
+            }
+        },
+        "buttonSmallPrimary": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "buttonSmallPrimary"},
+                "value": "Button"
+            }
+        },
+        "buttonLargeIcon": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "buttonLargeIcon"},
+                "value": "Button with icon"
+            }
+        },
+        "buttonAlertDisabled": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "buttonAlertDisabled"},
+                "value": "alert button"
+            }
+        },
+        "buttonNaked": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "buttonNaked"},
+                "value": "naked button"
+            }
+        },
+        "buttonIcon": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "buttonIcon"},
+                "value": "this should still have a label"
+            }
+        },
+        "buttonTransparent": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "buttonTransparent"},
+                "value": "this should still have a label"
+            }
+        },
+        "buttonAdd": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "buttonAdd"},
+                "value": "create"
+            }
+        },
+        "buttonLoader": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "buttonLoader"},
+                "value": "Button Loader"
+            },
+            "bindings" : {
+                "isProcessing": {"<-": "@checkbox.checked"},
+                "disabled": {"<-": "isProcessing"}
+            }
+        },
+        "checkbox": {
+            "prototype": "blue-shark/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "checkbox"},
+                "label": "trigger loading"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div data-montage-id="icons" style="display: none"></div>
+        <div class="container">
+            <h1>Buttons</h1>
+            <h2>Default Button</h2>
+            <div data-montage-id="button"></div>
+            <h2>Primary Button</h2>
+            <div data-montage-id="buttonPrimary" class="Button--primary"></div>
+            <h2>Create Button</h2>
+            <div data-montage-id="buttonCreate" class="Button--create">
+                <svg><use xlink:href="#i-circle-plus"/></svg>
+            </div>
+            <h2>Alert Button</h2>
+            <div data-montage-id="buttonAlert" class="Button--alert"></div>
+            <div data-montage-id="buttonAlertDisabled" class="Button--alert"></div>
+            <h2>Large Button</h2>
+            <div data-montage-id="buttonSmall" class="Button--large"></div>
+            <h2>Large Primary Button</h2>
+            <div data-montage-id="buttonSmallPrimary" class="Button--large Button--primary"></div>
+            <div data-montage-id="buttonLargeIcon" class="Button--large Button--primary">
+                <svg><use xlink:href="#i-circle-plus"/></svg>
+            </div>
+            <h2>Naked Button</h2>
+            <div data-montage-id="buttonNaked" class="Button--naked">
+                <svg><use xlink:href="#i-circle-plus"/></svg>
+            </div>
+            <h2>Icon Button</h2>
+            <div data-montage-id="buttonIcon" class="Button--icon">
+                <svg><use xlink:href="#i-arrow"/></svg>
+            </div>
+            <h2>Icon After Title Button</h2>
+            <div data-montage-id="buttonIconAfter" class="Button--icon-after">
+                <svg><use xlink:href="#i-arrow"/></svg>
+            </div>
+            <h2>Transparent Button</h2>
+            <div data-montage-id="buttonTransparent" class="Button--icon Button--transparent">
+                <svg><use xlink:href="#i-arrow"/></svg>
+            </div>
+            <h2>Add Button</h2>
+            <div data-montage-id="buttonAdd" class="Button--add">
+                <svg><use xlink:href="#i-plus"/></svg>
+            </div>
+            <h2>Button Loader</h2>
+            <div data-montage-id="checkbox" class="g-margin-bottom"></div>
+            <div data-montage-id="buttonLoader" class="Button--loader Button--primary Button--block Button--large"></div>
+
+
+        </div>
+    </div>
+</body>
+</html>

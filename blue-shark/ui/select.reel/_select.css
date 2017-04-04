@@ -1,0 +1,137 @@
+.Select {
+    @apply --input-field;
+    user-select: none;
+
+    &:not(.montage--disabled, .is-read-only):focus { @apply --input-focus; }
+
+    &:hover:not(:focus) {
+        border-color: var(--primary--1);
+    }
+
+    /* Naked Select Style overrides */
+    &.Select--naked,
+    &.is-read-only {
+        background: none;
+        border: none;
+
+        &:hover { background: none; }
+
+        & .Select-icon {
+            background: none;
+            border: none;
+        }
+
+        & .Select-currentOption { flex: none; }
+    }
+
+    /* Disabled State */
+    @nest .Field.is-disabled & {
+        background: rgba(0, 0, 0, .1);
+        border-color: transparent;
+        opacity: .5;
+        pointer-events: none;
+    }
+}
+
+.Select > button {
+    display: flex;
+    box-sizing: border-box;
+    position: relative;
+    border: none;
+    font-size: 1em;
+    line-height: 1.2;
+    /* handles border */
+    height: calc(2rem - 2px);
+    font-family: inherit;
+    font-size:   inherit;
+    line-height: inherit;
+    font-weight: inherit;
+    width: 100%;
+    text-align: left;
+    background: none;
+    outline: none;
+    padding: 0;
+    padding: 0 .25em 0 .5em;
+    color: var(--grey-3);
+    appearance: none;
+    border-radius: inherit;
+    cursor: initial;
+
+    &:not(.montage--disabled, .is-read-only) {
+        cursor: pointer;
+    }
+}
+
+.Select.is-read-only > button { display: none; }
+
+.Select-currentOption {
+    position: absolute;
+    left: .5rem;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.Select-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: .25rem;
+    top: 50%;
+    margin-top: -.7rem;
+    width:  1.4rem;
+    height: 1.4rem;
+
+    & svg {
+        display: inline-block;
+        width:  .9em;
+        height: .9em;
+    }
+
+    @nest .montage--disabled & {
+        opacity: 0;
+        width:   0;
+    }
+}
+
+/* Options Drop Down */
+
+.Select-options { background-color: var(--primary--3); }
+
+.Select-option {
+    padding: .25em .5em .25em 2em;
+    font-weight: inherit;
+    font-size: inherit;
+    line-height: 1.25em;
+    color: var(--white);
+    margin-top: -.05em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+
+    &:active { background: var(--color-selected); }
+
+    &.highlighted { background: var(--color-selected); }
+
+    &.selected {
+        padding-left: .7em;
+
+        &:before {
+            content: "\2713 ";
+            margin-right: .5em;
+        }
+    }
+}
+
+.Select-readOnly {
+    display: none;
+    color: var(--main-text-color);
+
+    @nest .Select.is-read-only & {
+        display: block;
+    }
+}

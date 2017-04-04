@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "default": {
+            "prototype": "blue-shark/ui/loading-message.reel",
+            "properties": {
+                "element": {"#": "default"},
+                "isLoading": true,
+                "hasBackground": true
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div class="container">
+            <h1>Loading Message</h1>
+            <h3>Default</h3>
+            <div class="loading-container">
+                <div data-montage-id="default"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

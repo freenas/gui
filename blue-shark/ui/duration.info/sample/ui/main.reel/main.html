@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "seconds": 32,
+                "minutes": 90,
+                "hours": 7200,
+                "unit": 86400
+            }
+        },
+        "icons": {
+            "prototype": "blue-shark/ui/icons.reel",
+            "properties": {
+                "element": {"#": "icons"}
+            }
+        },
+        "minutes": {
+            "prototype": "blue-shark/ui/duration.reel",
+            "properties": {
+                "element": {"#": "minutes"},
+                "value": 2592000
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div data-montage-id="icons"></div>
+        <div class="container">
+            <h1>Duration Sample</h1>
+            <div data-montage-id="seconds"></div>
+            <div data-montage-id="minutes"></div>
+            <div data-montage-id="hours"></div>
+        </div>
+    </div>
+</body>
+</html>

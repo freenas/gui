@@ -1,0 +1,36 @@
+.SelectFilter {
+    position: relative;
+    display: flex;
+}
+
+.SelectFilter-filter {
+    position: relative;
+}
+
+.SelectFilter-displayAll.Button {
+    margin-right: .5rem;
+}
+
+.SelectFilter-filterButton.Button {
+    padding-right: .75em;
+
+    & svg {
+        order: 1;
+        margin-right: 0 !important;
+        max-height: 1.2em;
+        max-width: 1.1em;
+
+        @nest .SelectFilter.filters-are-visible & {
+            transform: rotate(180deg);
+        }
+    }
+
+    & .Button-label { margin-right: .5em; }
+}
+
+.SelectFilter-items {
+
+    @nest .SelectFilter.filters-are-visible & {
+        display: block;
+    }
+}

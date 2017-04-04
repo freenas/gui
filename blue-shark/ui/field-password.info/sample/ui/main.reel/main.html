@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "passwordField": {
+            "prototype": "blue-shark/ui/field-password.reel",
+            "properties": {
+                "element": {"#": "passwordField"},
+                "label": "type password",
+                "placeholder1": "enter password",
+                "placeholder2": "confirm password",
+                "errorMessage": "the passwords do not match",
+                "editEnabled": false
+            },
+            "bindings": {
+                "value": {"<-": "@owner.password"}
+            }
+        },
+        "currentPassword": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "currentPassword"},
+                "readOnly": true,
+                "label": "Current Password"
+            },
+            "bindings": {
+                "value": {"<-": "@passwordField.value"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div data-montage-id="passwordField"></div>
+        <div data-montage-id="currentPassword"></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,11 @@
+.RadioButtonFieldGroup.RadioButtonFieldGroup--block {
+    margin-top: 0;
+
+    & .RadioButtonFieldGroup-option {
+        display: block;
+    }
+}
+
+.RadioButtonFieldGroup-option:not(:last-child) {
+    margin-right: 1rem;
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "default": {
+            "prototype": "blue-shark/ui/toggle-switch.reel",
+            "properties": {
+                "element": {"#": "default"}
+            }
+        },
+        "binding": {
+            "prototype": "blue-shark/ui/toggle-switch.reel",
+            "properties": {
+                "element": {"#": "binding"}
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.foo"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div class="container">
+            <h1>Toggle Switch</h1>
+            <h3>Default</h3>
+            <input type="checkbox" data-montage-id="default">
+            <h3>On</h3>
+            <input type="checkbox" data-montage-id="binding">
+        </div>
+    </div>
+</body>
+</html>

@@ -235,6 +235,10 @@ export class StorageSectionService extends AbstractSectionService {
         this.diskRepository.markDiskAsNonReserved(diskPath);
     }
 
+    public markDiskAsFreed(diskPath: string) {
+        this.diskRepository.markDiskAsFreed(diskPath);
+    }
+
     public getDiskAllocation(disk: any) {
         return this.diskRepository.getDiskAllocation(disk);
     }
@@ -349,6 +353,10 @@ export class StorageSectionService extends AbstractSectionService {
 
     public deleteCalendarTask(task) {
         return this.calendarRepository.deleteCalendarTask(task);
+    }
+
+    public setVolumeKey(volume, keyFile, password) {
+        return this.volumeRepository.setVolumeKey(volume, keyFile, password);
     }
 
     private cloneVdevs(vdevs: Array<any>): Array<any> {

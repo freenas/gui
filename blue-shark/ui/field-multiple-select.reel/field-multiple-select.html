@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="field-multiple-select.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "control": {"@": "control"}
+            }
+        },
+        "field": {
+            "prototype": "blue-shark/ui/field.reel",
+            "properties": {
+                "element": {"#": "field"}
+            },
+            "bindings": {
+                "label": {"<-": "@owner.label"},
+                "documentationReference": {"<-": "@owner.documentationReference"},
+                "disabled": {"<-": "@owner.disabled"},
+                "errorMessage": {"<-": "@owner.errorMessage || @control.errorMessage"},
+                "hasError": {"<-": "@owner.hasError || !!@control.errorMessage"},
+                "isMandatory": {"<-": "@owner.isMandatory"},
+                "isLoading": {"<-": "@owner.isLoading"}
+            }
+        },
+        "control": {
+            "prototype": "blue-shark/ui/multiple-select.reel",
+            "properties": {
+                "element": {"#": "control"}
+            },
+            "bindings": {
+                "isDraggable": {"<-": "@owner.isDraggable"},
+                "options": {"<-": "@owner.options"},
+                "converter": {"<-": "@owner.converter"},
+                "labelPath": {"<-": "@owner.labelPath"},
+                "placeholder": {"<-": "@owner.placeholder"},
+                "inputErrorMessage": {"<-": "@owner.inputErrorMessage"},
+                "valueErrorMessage": {"<-": "@owner.valueErrorMessage"},
+                "values": {"<->": "@owner.values"},
+                "disabled": {"<-": "@owner.disabled"},
+                "inputTitle": {"<-": "@owner.inputTitle"},
+                "valuesTitle": {"<-": "@owner.valuesTitle"},
+                "emptyMessage": {"<-": "@owner.emptyMessage"},
+                "canAddNewEntry": {"<-": "@owner.canAddNewEntry"},
+                "controller": {"<-": "@owner.controller"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="FieldMultipleSelect">
+        <div data-montage-id="field">
+            <div data-montage-id="control">
+                <div data-param="*"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

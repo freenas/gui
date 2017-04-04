@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "default": {
+            "prototype": "blue-shark/ui/panel.reel",
+            "properties": {
+                "element": {"#": "default"},
+                "message": "this is the message"
+            }
+        },
+        "asContainer": {
+            "prototype": "blue-shark/ui/panel.reel",
+            "properties": {
+                "status": "warn",
+                "element": {"#": "asContainer"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div class="container">
+            <h1>Panel</h1>
+            <h2>Default Panel</h2>
+            <div data-montage-id="default" class="g-margin-bottom"></div>
+            <h2>Container Panel</h2>
+            <div data-montage-id="asContainer">
+                <span>Element injected into component</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

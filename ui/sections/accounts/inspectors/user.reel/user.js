@@ -1,12 +1,7 @@
 var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
-    Model = require("core/model/model").Model,
     _ = require("lodash"),
     Promise = require("montage/core/promise").Promise;
 
-/**
- * @class User
- * @extends Component
- */
 exports.User = AbstractInspector.specialize({
 
     shellOptions: {
@@ -26,11 +21,11 @@ exports.User = AbstractInspector.specialize({
             return this._object;
         },
         set: function (object) {
-            if (this._object != object) {
+            if (this._object !== object) {
                 this._object = object;
                 this.homeDirectory = null;
 
-                if (object && typeof object.uid != 'number') {
+                if (object && typeof object.uid !== 'number') {
                     this._getNextAvailableUserId();
                 }
             }
@@ -117,9 +112,8 @@ exports.User = AbstractInspector.specialize({
         value: function () {
             var self = this;
             return this._sectionService.getWheelGroup().then(function (wheel) {
-                var object = self.object,
-                    groups = self.context.secondaryGroups || (self.context.secondaryGroups = []);
-                return !!(self._findGroupIndexWithinCollection(wheel, groups) > -1);
+                var groups = self.context.secondaryGroups || (self.context.secondaryGroups = []);
+                return self._findGroupIndexWithinCollection(wheel, groups) > -1;
             });
         }
     },
@@ -142,8 +136,6 @@ exports.User = AbstractInspector.specialize({
 
     save: {
         value: function() {
-            var self=this;
-
             if (this.object.home) {
                 if (this.object._isNew && !_.endsWith('/' + this.object.username)) {
                     this.object.home += '/' + this.object.username;
@@ -157,7 +149,7 @@ exports.User = AbstractInspector.specialize({
                 return groups.id;
             }, this) : null;
 
-           return self._sectionService.saveUser(object).then(function(taskSubmission) {
+            return this._sectionService.saveUser(this.object).then(function (taskSubmission) {
                 return taskSubmission.taskPromise;
             });
         }

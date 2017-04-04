@@ -1,0 +1,35 @@
+:root {
+    --radio-size: 1.5rem;
+}
+
+.RadioButton {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    width:  var(--radio-size);
+    height: var(--radio-size);
+    border-radius: 1rem;
+    -webkit-tap-highlight-color: transparent;
+    border: 1px solid var(--primary--2);
+    transition-property: opacity, border-color;
+    transition-duration: .25s;
+
+    /* States */
+
+    &.montage--active:not(.montage--disabled):before,
+    &.montage-RadioButton--checked:not(.montage--disabled):before {
+        content: '';
+        position: absolute;
+        height: calc(var(--radio-size) / 2);
+        width:  calc(var(--radio-size) / 2);
+        top:  50%;
+        left: 50%;
+        margin-top:  -calc(var(--radio-size) / 4);
+        margin-left: -calc(var(--radio-size) / 4);
+        border-radius: 50%;
+        background-color: var(--accent);
+        transition: background-color.25s;
+    }
+}
+
+

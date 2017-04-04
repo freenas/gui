@@ -1,0 +1,95 @@
+:root {
+    --checkbox-size: 1.5rem;
+}
+
+.Checkbox {
+    position: relative;
+    display: inline-block;
+    font-size: 1em;
+
+    /* hidden input */
+    & input {
+        appearance: none;
+        opacity: 0;
+        position: absolute;
+
+        &:checked + label:after     { opacity: 1; }
+        &:focus   + label:before    { @apply --input-focus; }
+
+        &:not([disabled="disabled"]) + label:hover {
+            &:before {
+                border-color: var(--primary--1);
+            }
+        }
+
+        &[disabled="disabled"] + label {
+            opacity: .5;
+
+            &:hover     {
+                cursor: not-allowed;
+            }
+
+            &:before    { border-color: transparent; }
+
+            &:after     { color: var(--primary--2); }
+        }
+
+    }
+
+
+    /* label */
+    & .Checkbox-label {
+        display: inline-block;
+        cursor: pointer;
+        transition: opacity .25s;
+        position: relative;
+
+        &:after {
+            opacity: 0;
+            content: "\63";
+            font-family: "freenas";
+            font-size: 1.3em;
+            color: var(--blue-lighten-2);
+            position: absolute;
+            top:    .05em;
+            left:   .025em;
+            right:  0;
+            width: 1.1em;
+            height: 1em;
+            text-align: center;
+            transition: color .25s;
+        }
+
+        &:before {
+            content: '';
+            vertical-align: middle;
+            box-sizing: border-box;
+            width:  var(--checkbox-size);
+            height: var(--checkbox-size);
+            margin-right: .5em;
+            margin-top: -0.1em;
+            display: inline-block;
+            cursor: pointer;
+            background-color: var(--input-bg-color);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--input-border-color);
+            transition-property: border-color, box-shadow;
+            transition-duration: .25s;
+        }
+    }
+}
+
+/* Light Theme */
+
+.Checkbox--light {
+
+    & .Checkbox-label:before {
+        background-color: var(--grey-3);
+        /* border-top:     1px solid var(--transparent--darken); */
+        /* border-bottom:  1px solid var(--white); */
+    }
+
+    & input[disabled="disabled"] + label:before { background-color: var(--grey-1);}
+
+    & input[disabled="disabled"] + label:after { color: var(--grey-3); }
+}

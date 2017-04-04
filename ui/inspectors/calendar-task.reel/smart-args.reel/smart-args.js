@@ -7,7 +7,7 @@ exports.SmartArgs = AbstractInspector.specialize({
         value: function() {
             var self = this;
             this._sectionService.listDisks().then(function(disks) {
-                self.disks = _.sortBy(_.filter(disks, { online: true }), 'path');
+                self.disks = _.sortBy(_.filter(disks, { online: true, smart: true }), 'path');
             });
             this.testTypes = DiskSelftestType.members.map(function(x) {
                 return {

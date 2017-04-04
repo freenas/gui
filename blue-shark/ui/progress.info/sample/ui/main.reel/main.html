@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "default": {
+            "prototype": "blue-shark/ui/progress.reel",
+            "properties": {
+                "element": {"#": "default"},
+                "percentageComplete": 10,
+                "status": "active"
+            }
+        },
+        "icons": {
+            "prototype": "blue-shark/ui/icons.reel",
+            "properties": {
+                "element": {"#": "icons"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <!-- for example only -->
+        <div data-montage-id="icons" style="display: none;"></div>
+        <div class="container">
+            <h1>Progress</h1>
+            <div data-montage-id="default"></div>
+        </div>
+    </div>
+</body>
+</html>

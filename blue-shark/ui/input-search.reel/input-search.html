@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="input-search.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "_searchField": {"@": "searchField"}
+            },
+            "bindings": {
+                "classList.has('has-input')": {"<-": "@searchField.value.length > 0"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
+        },
+        "searchField": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "searchField"}
+            },
+            "bindings": {
+                "placeholder": {"<-": "@owner.placeholderValue"},
+                "disabled": {"<-": "!@owner.enabled"}
+            }
+        },
+        "clearButton": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "clearButton"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="InputSearch">
+        <svg data-montage-id="clearButton" class="InputSearch-clearButton">
+            <use xlink:href="#i-plus"/>
+        </svg>
+        <svg class="InputSearch-lens">
+            <use xlink:href="#i-search"/>
+        </svg>
+        <div data-montage-id="searchField" class="InputSearch-field">
+    </div>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "modal": {"@": "default"}
+            },
+            "listeners": [
+                {
+                    "listener": {"@": "owner"},
+                    "type": "action"
+                }
+            ]
+        },
+        "icons": {
+            "prototype": "blue-shark/ui/icons.reel",
+            "properties": {
+                "element": {"#": "icons"}
+            }
+        },
+        "default": {
+            "prototype": "blue-shark/ui/confirmation-modal.reel",
+            "properties": {
+                "element": {"#": "default"},
+                "object": {
+                    "message": "Do you wish to save your changes?",
+                    "title": "You have unsaved changes!",
+                    "trueButtonLabel": "Yes",
+                    "falseButtonLabel": "No"
+                }
+            }
+        },
+        "checkbox": {
+            "prototype": "blue-shark/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "checkbox"},
+                "label": "Optional Item",
+                "checked": true
+            }
+        },
+        "trigger": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "trigger"},
+                "value": "Trigger Modal"
+            }
+        },
+        "result": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "result"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.result"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div data-montage-id="icons"></div>
+        <div data-montage-id="default">
+            <div data-montage-id="checkbox"></div>
+        </div>
+        <div class="container">
+            <h1>Loading Message</h1>
+            <h3>Default</h3>
+            <button data-montage-id="trigger" class="g-margin-bottom"></button>
+            <div>Result: <span data-montage-id="result"></span></div>
+        </div>
+    </div>
+</body>
+</html>
