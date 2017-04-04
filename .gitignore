@@ -79,6 +79,7 @@ core/reducers/
 core/repository/
 core/route/
 core/service/
+core/drag-drop/
 core/model/enumerations/
 core/model/[A-Z]*.js
 ui/**/*.css
