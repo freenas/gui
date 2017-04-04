@@ -82,7 +82,7 @@ exports.DirectoryServices = AbstractInspector.specialize({
 
                 var array = directoryServicesMap.toArray();
                 array._objectType = 'Directory';
-                self.directoryServices = array;
+                self.directoryServices = _.sortBy(array, ['_objectType', 'label']);
             });
         }
     },
