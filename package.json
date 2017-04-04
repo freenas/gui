@@ -19,7 +19,7 @@
     "marked": "^0.3.6",
     "moment": "^2.17.1",
     "moment-timezone": "^0.5.11",
-    "montage": "freenas/montage#66ec59fcd12003aa6134a6bcb49aecdcf6253c7d",
+    "montage": "freenas/montage#5b0d0e27ac07eef7e56d3ee4df05303f547494ee",
     "montage-data": "montagestudio/montage-data#647f5208fcefbc89c405d1afea205c8184fddeda",
     "numeral": "^2.0.4",
     "plottable": "~2.7.0",
