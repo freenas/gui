@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "myFoo": true
+            }
+        },
+        "icons": {
+            "prototype": "blue-shark/ui/icons.reel",
+            "properties": {
+                "element": {"#": "icons"}
+            }
+        },
+        "fieldCheckbox": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "fieldCheckbox"},
+                "label": "test label",
+                "checked": true,
+                "isMandatory": true,
+                "documentationReference": "1024",
+                "helpMessage": "This is the checkbox help message"
+            }
+        },
+        "fieldCheckboxLight": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "fieldCheckboxLight"},
+                "label": "test label",
+                "checked": true
+            }
+        },
+        "fieldCheckboxDisabled": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "fieldCheckboxDisabled"},
+                "label": "test label",
+                "checked": true,
+                "disabled": true
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div data-montage-id="icons"></div>
+        <div class="container">
+            <h1>Field Checkbox</h1>
+            <h2>Default</h2>
+            <div data-montage-id="fieldCheckbox"></div>
+            <h2>Light</h2>
+            <div data-montage-id="fieldCheckboxLight" class="Checkbox--light"></div>
+            <h2>Disabled</h2>
+            <div data-montage-id="fieldCheckboxDisabled" class="Checkbox--light"></div>
+        </div>
+    </div>
+</body>
+</html>

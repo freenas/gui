@@ -1,0 +1,19 @@
+.Main {
+    overflow: hidden;
+}
+
+.color-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -4rem;
+}
+
+.colors {
+    margin-right: 4rem;
+}
+
+.swatches {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}

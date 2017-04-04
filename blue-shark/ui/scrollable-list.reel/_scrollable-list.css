@@ -1,0 +1,21 @@
+.ScrollableList {
+    display: flex;
+    flex-direction: column;
+    height: 10em;
+    border: 1px solid var(--black);
+    background: var(--grey-blue);
+    border-radius: 4px;
+}
+
+.ScrollableList-items {
+    margin: .25em .5em;
+    margin-bottom: .5em;
+    list-style: none;
+    padding: 0;
+}
+
+.ScrollableList-item {
+    font-weight: 300;
+    margin-bottom: .25em;
+    color: var(--white);
+}

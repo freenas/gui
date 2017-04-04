@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "seconds": 32,
+                "minutes": 90,
+                "hours": 7200
+            }
+        },
+        "seconds": {
+            "prototype": "blue-shark/ui/field-duration.reel",
+            "properties": {
+                "element": {"#": "seconds"},
+                "label": "Seconds"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.seconds"}
+            }
+        },
+        "minutes": {
+            "prototype": "blue-shark/ui/field-duration.reel",
+            "properties": {
+                "element": {"#": "minutes"},
+                "label": "A few minutes"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.minutes"}
+            }
+        },
+        "hours": {
+            "prototype": "blue-shark/ui/field-duration.reel",
+            "properties": {
+                "element": {"#": "hours"},
+                "label": "Two hours"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.hours"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div data-montage-id="seconds"></div>
+        <div data-montage-id="minutes"></div>
+        <div data-montage-id="hours"></div>
+    </div>
+</body>
+</html>

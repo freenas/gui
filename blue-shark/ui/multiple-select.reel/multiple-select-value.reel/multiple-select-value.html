@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="multiple-select-value.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "valueField": {"@": "value"}
+            },
+            "bindings": {
+                "_inputError": {"<-": "!!@owner.invalidValue && @owner.invalidValue == @value.value"},
+                "classList.has('has-error')": {"<-": "@owner._inputError"},
+                "classList.has('draggable')": {"<-": "@owner.enabled"}
+            }
+        },
+        "value": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "label"}
+            },
+            "bindings": {
+                "value": {"<-": "!!@owner.labelPath ? @owner.object.path(@owner.labelPath) : @owner.object"}
+            }
+        },
+        "deleteButton": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "deleteButton"}
+            }
+        },
+        "errorMessage": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "errorMessage"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.errorMessage"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="MultipleSelectValue">
+        <div class="MultipleSelectValue-handler"></div>
+        <div data-montage-id="label" class="MultipleSelectValue-label" tabindex="-1"></div>
+        <button data-montage-id="deleteButton" class="MultipleSelectValue-delete">
+            <svg>
+                <use xlink:href="#i-plus"/>
+            </svg>
+        </button>
+        <div class="MultipleSelectValue-error">
+            <div data-montage-id="errorMessage" class="MultipleSelectValue-error-message"></div>
+        </div>
+    </div>
+</body>
+</html>

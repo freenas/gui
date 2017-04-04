@@ -1,0 +1,14 @@
+.MultipleSelectOption {
+    cursor: pointer;
+    padding: .25em .5em .35em;
+    font-family: 'lato';
+    font-weight: 200;
+}
+
+/*
+.MultipleSelectOption:hover,
+*/
+.MultipleSelectOption.selected {
+    background: var(--blue-lighten-2);
+    color: var(--white);
+}

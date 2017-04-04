@@ -1,0 +1,5 @@
+.Duration { display: flex; }
+
+.Duration-count { margin-right: .5rem; }
+
+.Duration-unit { min-width: 8rem; }

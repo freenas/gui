@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "results": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "results"}
+            },
+            "bindings": {
+                "value": {"<-": "@default.selection.sorted{index}.map{value}.join(', ') || 'No Values Selected'"}
+            }
+        },
+        "default": {
+            "prototype": "blue-shark/ui/multiple-select-grid.reel",
+            "properties": {
+                "element": {"#": "default"},
+                "hasIterator": true,
+                "iteratorLabel": "Every"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.daysContent"},
+                "selectedValues": {"<->": "@owner.selectedOnOpen"}
+            }
+        },
+        "default2": {
+            "prototype": "blue-shark/ui/multiple-select-grid.reel",
+            "properties": {
+                "element": {"#": "default2"},
+                "hasIterator": true,
+                "iteratorLabel": "Every"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.minutesContent"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div class="container">
+            <h1>Multiple Select Grid</h1>
+            <div data-montage-id="default"></div>
+            <h4>Results:</h4>
+            <div data-montage-id="results"></div>
+            <div data-montage-id="default2"></div>
+        </div>
+    </div>
+</body>
+</html>

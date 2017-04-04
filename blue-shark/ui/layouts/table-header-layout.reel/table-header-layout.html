@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="table-header-layout.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+        "tableHeaderLayout": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "headerCellRepetition"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.columns"}
+            }
+        },
+
+        "headerCellTitle": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "tableHeaderTitle"}
+            },
+            "bindings": {
+                "value": {"<-": "@tableHeaderLayout:iteration.object.value"}
+            }
+        }
+
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Table-header-group">
+        <div data-montage-id="headerCellRepetition" class="TableHeaderLayout-row">
+            <div data-montage-id="tableHeaderTitle" class="TableHeaderLayout-cell"></div>
+        </div>
+    </div>
+</body>
+</html>

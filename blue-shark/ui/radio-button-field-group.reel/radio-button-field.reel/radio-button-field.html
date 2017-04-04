@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="radio-button-field.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "labelElement": {"#": "label"}
+            },
+            "bindings": {
+                "checked": {"<-": "@radioButton.checked"},
+                "classList.has('checked')": {"<-": "@owner.checked"},
+                "classList.has('montage--disabled')": {"<-": "@owner.disabled"}
+            }
+        },
+        "radioButton": {
+            "prototype": "./radio-button.reel",
+            "properties": {
+                "element": {"#": "radioButton"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.value"},
+                "radioButtonController": {"<-": "@owner.radioButtonController"},
+                "enabled": {"<-": "!@owner.disabled"}
+            }
+        },
+        "label": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "label"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.label"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="RadioButtonField">
+        <span data-montage-id="radioButton" class="RadioButtonField-control"></span>
+        <label data-montage-id="label" class="RadioButtonField-label"></label>
+    </div>
+</body>
+</html>

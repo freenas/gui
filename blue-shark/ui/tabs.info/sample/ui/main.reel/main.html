@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "default": {
+            "prototype": "blue-shark/ui/tabs.reel",
+            "properties": {
+                "element": {"#": "default"},
+                "options": [
+                    {"label": "Day",    "value": "day"},
+                    {"label": "Week",   "value": "week"},
+                    {"label": "Month",  "value": "month"},
+                    {"label": "Year",   "value": "year"}
+                ]
+            },
+            "bindings": {
+                "selection": {"<->": "@owner.currentView"}
+            }
+        },
+        "substitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "substitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.currentView"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div class="container">
+            <h1>Tabs</h1>
+            <h3>Default </h3>
+            <div data-montage-id="default"></div>
+            <h5>Controlling a Substitution</h5>
+            <div data-montage-id="substitution">
+                <div data-arg="day">day</div>
+                <div data-arg="week">week</div>
+                <div data-arg="month">month</div>
+                <div data-arg="year">year</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

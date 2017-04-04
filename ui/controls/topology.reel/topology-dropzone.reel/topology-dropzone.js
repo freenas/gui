@@ -1,4 +1,4 @@
-var AbstractDropZoneComponent = require("blue-shark/core/drag-drop/abstract-dropzone-component").AbstractDropZoneComponent;
+var AbstractDropZoneComponent = require("core/drag-drop/abstract-dropzone-component").AbstractDropZoneComponent;
 
 exports.TopologyDropzone = AbstractDropZoneComponent.specialize(/** @lends TopologyDropzone# */ {
 

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="field-date.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "field": {
+            "prototype": "blue-shark/ui/field.reel",
+            "properties": {
+                "element": {"#": "field"}
+            },
+            "bindings": {
+                "label": {"<-": "@owner.label"},
+                "documentationReference": {"<-": "@owner.documentationReference"},
+                "disabled": {"<-": "@owner.disabled"},
+                "errorMessage": {"<-": "@owner.errorMessage || @control.errorMessage"},
+                "hasError": {"<-": "@owner.hasError || !!@control.errorMessage"},
+                "isMandatory": {"<-": "@owner.isMandatory"},
+                "isLoading": {"<-": "@owner.isLoading"}
+            }
+        },
+        "control": {
+            "prototype": "blue-shark/ui/date.reel",
+            "properties": {
+                "element": {"#": "control"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.value"},
+                "enabled": {"<-": "@owner.enabled"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="FieldDate">
+        <div data-montage-id="field">
+            <div data-montage-id="control"></div>
+        </div>
+    </div>
+</body>
+</html>

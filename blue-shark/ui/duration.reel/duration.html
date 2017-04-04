@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="duration.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "units": [
+                    {"label": " - ",        "value": null},
+                    {"label": "Seconds",    "value": 1},
+                    {"label": "Minutes",    "value": 60},
+                    {"label": "Hours",      "value": 3600},
+                    {"label": "Days",       "value": 86400},
+                    {"label": "Weeks",      "value": 604800}
+                ]
+            }
+        },
+        "count": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "count"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.count"}
+            }
+        },
+        "unit": {
+            "prototype": "blue-shark/ui/select.reel",
+            "properties": {
+                "element": {"#": "unit"}
+            },
+            "bindings": {
+                "options": {"<-": "@owner.units"},
+                "selectedValue": {"<->": "@owner.unit"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Duration">
+        <div data-montage-id="count" class="Duration-count"></div>
+        <div data-montage-id="unit" class="Duration-unit"></div>
+    </div>
+</body>
+</html>

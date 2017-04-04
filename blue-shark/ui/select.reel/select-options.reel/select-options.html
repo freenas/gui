@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="select-options.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "optionsRepetition": {"@": "options"},
+                "scrollView": {"@": "scrollView"}
+            }
+        },
+
+        "options": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "options"},
+                "isSelectionEnabled": true,
+                "contentController": {"@": "optionsController"}
+            }
+        },
+
+        "optionsController": {
+            "prototype": "montage/core/range-controller",
+            "properties": {
+                "avoidsEmptySelection": true
+            },
+            "bindings": {
+                "content": {"<-": "@owner.options"}
+            }
+        },
+
+        "option": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "option"}
+            },
+            "bindings": {
+                "iteration": {"<-": "@options:iteration"},
+                "iteration.selected": {"<->": "@owner.selectedValue == iteration.object.value"},
+                "expressionResult": {"<-": "iteration.object.path(iteration.object.label)"},
+                "value": {"<-": "expressionResult || iteration.object.label "}
+            }
+        },
+
+        "scrollView": {
+            "prototype": "blue-shark/ui/scroller.reel",
+            "properties": {
+                "element": {"#": "scrollView"},
+                "overflow": "scrollY"
+            }
+        }
+
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="SelectOptions">
+        <div data-montage-id="scrollView" class="Select-options-scrollview">
+            <div data-montage-id="options" class="Select-options">
+                <div data-montage-id="option" class="Select-option" role="option"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

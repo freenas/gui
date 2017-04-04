@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "options": [
+                        {"name": "foo", "myProperty": "blah 1"},
+                        {"name": "aaoption2", "myProperty": "blah 2"},
+                        {"name": "aaaoption3", "myProperty": "blah 3"},
+                        {"name": "option4", "myProperty": "blah 4"},
+                        {"name": "option42", "myProperty": "blah 5"},
+                        {"name": "_option6", "myProperty": "blah 6"}
+                    ]
+            }
+        },
+        "icons": {
+            "prototype": "blue-shark/ui/icons.reel",
+            "properties": {
+                "element": {"#": "icons"}
+            }
+        },
+        "converter": {
+            "prototype": "montage/core/converter/number-converter"
+        },
+        "default": {
+            "prototype": "blue-shark/ui/multiple-select.reel",
+            "properties": {
+                "element": {"#": "default"},
+                    "options": [
+                        {"name": "foo", "myProperty": "blah 1"},
+                        {"name": "aaoption2", "myProperty": "blah 2"},
+                        {"name": "aaaoption3", "myProperty": "blah 3"},
+                        {"name": "option4", "myProperty": "blah 4"},
+                        {"name": "option42", "myProperty": "blah 5"},
+                        {"name": "_option6", "myProperty": "blah 6"}
+                    ],
+                "values": [
+                ],
+                "valuesHeight": 5,
+                "labelPath": "name",
+                "inputTitle": "Add item",
+                "valuesTitle": "Items added",
+                "emptyMessage": "No items added",
+                "isDraggable": true,
+                "placeholder": "really long placeholder message to test",
+                "inputErrorMessage": "This is my custom error message",
+                "valueErrorMessage": "This is an error message for values edition"
+            },
+            "bindings": {
+                "converter": {"<-": "@owner.fakeConverter"}
+            }
+        },
+
+        "disabled": {
+            "prototype": "blue-shark/ui/multiple-select.reel",
+            "properties": {
+                "element": {"#": "disabled"},
+                    "options": [
+                        {"name": "foo", "myProperty": "blah 1"},
+                        {"name": "aaoption2", "myProperty": "blah 2"},
+                        {"name": "aaaoption3", "myProperty": "blah 3"},
+                        {"name": "option4", "myProperty": "blah 4"},
+                        {"name": "option42", "myProperty": "blah 5"},
+                        {"name": "_option6", "myProperty": "blah 6"}
+                    ],
+                "values": [
+                ],
+                "disabled": true,
+                "labelPath": "name",
+                "inputTitle": "Add item",
+                "valuesTitle": "Items added",
+                "emptyMessage": "No items added",
+                "isDraggable": true,
+                "placeholderValue": "enter info here",
+                "inputErrorMessage": "This is my custom error message",
+                "valueErrorMessage": "This is an error message for values edition"
+            },
+            "bindings": {
+                "converter": {"<-": "@owner.fakeConverter"}
+            }
+        },
+
+        "test": {
+            "prototype": "blue-shark/ui/multiple-select.reel",
+            "properties": {
+                "element": {"#": "test"},
+                "labelPath": "name",
+                "inputTitle": "Add item",
+                "valuesTitle": "Items added",
+                "emptyMessage": "No items added"
+            },
+            "bindings": {
+                "converter": {"<-": "@owner.fakeConverter"}
+            }
+        },
+
+        "select": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "select"},
+                "label": "select"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.options"}
+            }
+        },
+
+        "name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "name",
+                "placeholder": "enter your name here"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <!-- for sample only -->
+        <div data-montage-id="icons"></div>
+        <!-- end -->
+        <div class="container">
+            <h1>Multiple Select</h1>
+            <h2>Default</h2>
+            <div data-montage-id="default"></div>
+            <h2>Disabled</h2>
+            <div data-montage-id="disabled"></div>
+            <h2>Additional Options</h2>
+            <div data-montage-id="test">
+                <div data-montage-id="select"></div>
+                <div data-montage-id="name"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

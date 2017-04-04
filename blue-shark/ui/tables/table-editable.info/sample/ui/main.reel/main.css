@@ -1,0 +1,24 @@
+.Main {
+    /* only for demo */
+    padding: 5em;
+    font-family: Lato,Helvetica,Arial,sans-serif;
+}
+
+/*
+
+Layout Code
+
+*/
+
+/* Header & Body Cell widths */
+
+.sampleTable .Table-cells > div:nth-child(1),
+.TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(1) {}
+
+.sampleTable .Table-cells > div:nth-child(2),
+.TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(2) {}
+
+.sampleTable .Table-cells > div:nth-child(3),
+.TableHeaderLayout-row .TableHeaderLayout-cell:nth-child(3) {
+    min-width: 6em;
+}

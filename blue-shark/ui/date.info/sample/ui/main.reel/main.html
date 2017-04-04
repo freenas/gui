@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "value": "1/27/2010"
+            }
+        },
+        "icons": {
+            "prototype": "blue-shark/ui/icons.reel",
+            "properties": {
+                "element": {"#": "icons"}
+            }
+        },
+        "default": {
+            "prototype": "blue-shark/ui/date.reel",
+            "properties": {
+                "element": {"#": "default"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.value"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div data-montage-id="icons"></div> <!-- sample only -->
+        <div data-montage-id="default"></div>
+        <div>FOO</div>
+    </div>
+</body>
+</html>

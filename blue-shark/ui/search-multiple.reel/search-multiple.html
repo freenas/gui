@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="search-multiple.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "_searchInput":  {"@": "input"},
+                "_searchButton":  {"@": "search"},
+                "_addButton":  {"@": "add"},
+                "_validButton":  {"@": "valid"},
+                "_cancelButton":  {"@": "cancel"},
+                "_selectComponent":  {"@": "select"},
+                "_multipleSelectComponent":  {"@": "multipleSelect"}
+            },
+            "listeners": [
+                {
+                    "listener": {"@": "owner"},
+                    "type": "action"
+                }
+            ]
+        },
+
+        "substitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "substitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.switchValue || 'read'"}
+            }
+        },
+
+        "add": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "add"},
+                "value": "Add.."
+            },
+            "bindings": {
+                "disabled": {"<-": "@owner.disabled"}
+            }
+        },
+
+        "multipleSelect": {
+            "prototype": "blue-shark/ui/multiple-select.reel",
+            "properties": {
+                "element": {"#": "multipleSelect"}
+            },
+            "bindings": {
+                "values": {"<->": "@owner.values"},
+                "labelPath": {"<-": "@owner.labelPath"}
+            }
+        },
+
+        "input": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "input"},
+                "placeholder": "e.g search"
+            }
+        },
+
+        "search": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "search"},
+                "value": "Search"
+            },
+            "bindings": {
+                "disabled": {"<-": "@owner.isSearching || !@input.value"}
+            }
+        },
+
+        "select": {
+            "prototype": "blue-shark/ui/select-multiple.reel",
+            "properties": {
+                "element": {"#": "select"}
+            },
+            "bindings": {
+                "options": {"<-": "@owner._results.map{{label: this.path(@owner.labelPath), value: this.path(@owner.valuePath)}}"}
+            }
+        },
+
+        "cancel": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "cancel"},
+                "value": "Cancel"
+            }
+        },
+
+        "valid": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "valid"},
+                "value": "Select"
+            }
+        },
+
+        "message": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "message"},
+                "value": "No results found"
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "!!@select.options && @select.options.length > 0"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="SearchMultiple">
+        <div data-montage-id="substitution">
+            <div data-arg="read">
+                <div class="flex-row flex-justifyContent--end">
+                    <button data-montage-id="add" class="g-margin-bottom--half Button--add">
+                        <svg><use xlink:href="#i-plus"/></svg>
+                    </button>
+                </div>
+                <div data-montage-id="multipleSelect"></div>
+            </div>
+            <div data-arg="write">
+                 <div class="flex-row g-margin-bottom--half">
+                    <div data-montage-id="input" class="g-margin-right--half"></div>
+                    <button data-montage-id="search" class="Button--primary">
+                        <svg><use xlink:href="#i-search"/></svg>
+                    </button>
+                </div>
+                <div class="Search-results g-margin-bottom--half">
+                    <div data-montage-id="select" ></div>
+                    <div data-montage-id="message" class="Search-results-message"></div>
+                </div>
+                <div class="flex-row button-group">
+                    <button data-montage-id="cancel"></button>
+                    <button data-montage-id="valid" class="Button--primary"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

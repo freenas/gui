@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "icons": {
+            "prototype": "blue-shark/ui/icons.reel",
+            "properties": {
+                "element": {"#": "icons"}
+            }
+        },
+        "fieldSelectMultiple": {
+            "prototype": "blue-shark/ui/field-select-multiple.reel",
+            "properties": {
+                "element": {"#": "fieldSelectMultiple"},
+                "label": "test label"
+            },
+            "bindings": {
+                "options": {"<->": "@owner.options"},
+                "selectedValues": {"<->": "@owner.selected"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div data-montage-id="icons"></div>
+        <div class="container">
+            <h1>Field Select Multiple</h1>
+            <h3>Default</h3>
+            <div data-montage-id="fieldSelectMultiple"></div>
+        </div>
+    </div>
+</body>
+</html>

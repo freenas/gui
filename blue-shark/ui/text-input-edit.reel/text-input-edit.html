@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="text-input-edit.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "input": {"@": "input"}
+            },
+            "bindings": {
+                "classList.has('is-editing')": {"<-": "@owner.isEditEnabled"}
+            },
+            "listeners": [
+                {
+                    "listener": {"@": "owner"},
+                    "type": "action"
+                }
+            ]
+        },
+
+        "input": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "input"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.value"},
+                "readonly": {"<-": "!@owner.isEditEnabled"}
+            }
+        },
+
+        "editButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "editButton"}
+            },
+            "bindings": {
+                "value": {"<-": "!!@owner.editButtonLabel ? @owner.editButtonLabel : 'Edit'"}
+            }
+        },
+
+        "cancelButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "cancelButton"}
+            },
+            "bindings": {
+                "value": {"<-": "!!@owner.cancelButtonLabel ? @owner.cancelButtonLabel : 'Cancel'"}
+            }
+        },
+
+        "submitButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "submitButton"}
+            },
+            "bindings": {
+                "value": {"<-": "!!@owner.submitButtonLabel ? @owner.submitButtonLabel : 'Submit'"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="TextInputEdit">
+        <div data-montage-id="input" class="TextInputEdit-input"></div>
+        <div class="TextInputEdit-actions">
+            <div data-montage-id="editButton" class="TextInputEdit-editButton Button--icon Button--naked">
+                <svg><use xlink:href="#i-pencil"/></svg>
+            </div>
+            <div data-montage-id="cancelButton" class="TextInputEdit-cancelButton Button--icon">
+                <svg><use xlink:href="#i-x"/></svg>
+            </div>
+            <div data-montage-id="submitButton" class="TextInputEdit-submitButton Button--primary Button--icon">
+                <svg><use xlink:href="#i-circleCheck"/></svg>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="select-filter-item.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "checked": {"<->": "@checkbox.checked"}
+            }
+        },
+        "checkbox": {
+            "prototype": "blue-shark/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "checkbox"}
+            },
+            "bindings": {
+                "label": {"<-": "@owner.data.label || @owner.data.name"},
+                "checked": {"<->": "@owner.data.checked"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="SelectFilterItem">
+        <div data-montage-id="checkbox" class="SelectFilterItem-checkbox"></div>
+    </div>
+</body>
+</html>

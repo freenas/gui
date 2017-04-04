@@ -1,0 +1,13 @@
+.TableReadOnly {}
+
+.TableReadOnly .Table-row > div {
+    position: relative;
+    padding: .5em;
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.TableReadOnly .Table-cell {
+    padding: 0;
+}

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="table-new-row.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "options": [
+                    {"label": "option1", "value": "option1"},
+                    {"label": "option2", "value": "option2"}
+                ]
+            }
+        },
+
+        "errorController": {
+            "prototype": "blue-shark/core/error-controller",
+            "properties": {
+                "form": {"@": "owner"}
+            }
+        },
+
+        "options": {
+            "prototype": "blue-shark/ui/radio-button-field-group.reel",
+            "properties": {
+                "element": {"#": "options"}
+            },
+            "bindings": {
+                "selectedValue": {"<-": "@owner.object.option || 'option1'"},
+                "options": {"<->": "@owner.options"}
+            }
+        },
+
+        "substitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "substitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@options.selectedValue"}
+            }
+        },
+
+        "ageTextField": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "ageTextField"},
+                "errorName": "Age",
+                "placeholder": "age",
+                "isMandatory": true
+            },
+            "bindings": {
+                "converter": {"<-": "@owner.fakeConverter"},
+                "value": {"<->": "@owner.object.age"},
+                "error": {"<->": "@owner.errors.ageTextField"},
+                "hasError": {"<-": "error"}
+            }
+        },
+
+        "readonly-field": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "readonly-field"},
+                "placeholder": "age",
+                "readonly": true
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.age"}
+            }
+        },
+
+        "weightTextField": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "weightTextField"},
+                "errorName": "Weight",
+                "placeholder": "weight"
+            },
+            "bindings": {
+                "converter": {"<-": "@owner.fakeConverter"},
+                "value": {"<->": "@owner.object.weight"},
+                "error": {"<->": "@owner.errors.weightTextField"},
+                "hasError": {"<-": "error"}
+            }
+        }
+
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Table-cells">
+        <div><div data-montage-id="options"></div></div>
+        <div>
+            <div data-montage-id="substitution">
+                <span data-arg="option1" data-montage-id="ageTextField"></span>
+                <span data-arg="option2" data-montage-id="readonly-field"></span>
+            </div>
+        </div>
+        <div><span data-montage-id="weightTextField"></span></div>
+    </div>
+</body>
+</html>

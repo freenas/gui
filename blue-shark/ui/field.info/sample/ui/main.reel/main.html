@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "fieldTextInput": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "fieldTextInput"},
+                "label": "Label",
+                "documentationReference": "reference Id",
+                "placeholder": "enter single line of text",
+                "isMandatory": true,
+                "errorMessage": "Input does not match the correct format and this should wrap around"
+            }
+        },
+        "fieldTextArea": {
+            "prototype": "blue-shark/ui/field-text-area.reel",
+            "properties": {
+                "element": {"#": "fieldTextArea"},
+                "label": "Label",
+                "documentationReference": "reference Id",
+                "placeholder": "enter single line of text",
+                "errorMessage": "Input does not match the correct format"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div class="container">
+            <h1>Fields</h1>
+            <div data-montage-id="fieldTextInput"></div>
+            <div data-montage-id="fieldTextArea"></div>
+        </div>
+    </div>
+</body>
+</html>

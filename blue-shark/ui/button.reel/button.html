@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="button.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('is-processing')": {"<-": "@owner.isProcessing"}
+            }
+        },
+        "buttonLabel": {
+            "prototype": "blue-shark/ui/text.reel",
+            "properties": {
+                "element": {"#": "buttonLabel"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.value"}
+            }
+        },
+        "condition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "condition"}
+            },
+            "bindings": {
+                "condition": {"<-": "@owner.isProcessing"}
+            }
+        },
+        "spinner": {
+            "prototype": "blue-shark/ui/spinner.reel",
+            "properties": {
+                "element": {"#": "spinner"},
+                "isShown": true
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <button data-montage-id="owner" class="Button" role="button">
+        <div class="Button-content">
+            <span data-param="*"></span>
+            <span data-montage-id="buttonLabel" class="Button-label"></span>
+            <div data-montage-id="condition">
+                <div data-montage-id="spinner"></div>
+            </div>
+        </div>
+    </button>
+</body>
+</html>

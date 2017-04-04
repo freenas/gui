@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "myFoo": true
+            }
+        },
+        "fieldText": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "fieldText"},
+                "label": "test label",
+                "value": "text value"
+            }
+        },
+        "text2": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "text2"},
+                "label": "test label",
+                "value": "text value Lorem ipsum dolor sit amet, consectetur adipisicing elit. Placeat non ducimus, libero ut sint blanditiis unde ex hic molestias porro deserunt cum repudiandae saepe consequuntur, exercitationem culpa, nostrum fuga illum."
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div class="container">
+            <h1>Field Text</h1>
+            <h3>Default</h3>
+            <div data-montage-id="fieldText"></div>
+            <div data-montage-id="text2"></div>
+        </div>
+    </div>
+</body>
+</html>

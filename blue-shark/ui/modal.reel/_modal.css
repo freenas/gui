@@ -1,0 +1,30 @@
+.Modal {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    top:    0;
+    left:   0;
+    right:  0;
+    bottom: 0;
+    z-index: 5000;
+    background-color: color(var(--primary--9) a(50%));
+    display: flex;
+    justify-content: top;
+    align-items: center;
+    flex-direction: column;
+    transition: opacity     .25s ease-in-out,
+                visibility  .25s ease-in-out;
+
+    &.is-active {
+        display: flex !important;
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.Modal-close {
+    position: absolute;
+    top:    0;
+    right:  0;
+    font-size: 1rem !important;
+}

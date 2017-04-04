@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "icons": {
+            "prototype": "blue-shark/ui/icons.reel",
+            "properties": {
+                "element": {"#": "icons"}
+            }
+        },
+        "default": {
+            "prototype": "blue-shark/ui/text-input-edit.reel",
+            "properties": {
+                "element": {"#": "default"},
+                "placeholder": "placeholder text",
+                "value": "this is the value text",
+                "editButtonLabel": "Rename"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div data-montage-id="icons"></div>
+        <div class="container">
+            <h1>Text Field</h1>
+            <h3>Text Field</h3>
+            <div data-montage-id="default"></div>
+        </div>
+    </div>
+</body>
+</html>

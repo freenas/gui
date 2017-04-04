@@ -1,0 +1,150 @@
+:root {
+    --fieldtitleWidth: 9rem;
+}
+
+.Field {
+    position: relative;
+    margin-bottom: 1em;
+    display: flex;
+    flex-direction: column;
+
+    & > div:first-child {
+        min-height: 2rem;
+        display: flex;
+        flex: 1;
+    }
+}
+
+.Field.is-disabled { cursor: not-allowed; }
+
+.Field + .Field { margin-top: 0; }
+
+.Field > * {
+    font-family: "Lato";
+    font-size: 1em;
+}
+
+/* Title */
+
+.Field-title {
+    margin-top: .3rem;
+    position: relative;
+    display: flex;
+    height: auto;
+    line-height: 1.25em;
+    width: var(--fieldtitleWidth);
+    margin-right: 1.5rem;
+    transition: opacity .25s;
+
+    @nest .Field.is-disabled & { opacity: .5; }
+
+    @nest .Field.is-mandatory &:after {
+        margin-left: .25em;
+        content: "*";
+        color: var(--red);
+    }
+}
+
+/* Control */
+
+.Field-control-substitution {
+    flex: 1;
+}
+
+.Field-control {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 2rem;
+
+    & > *:first-child {
+        align-self: center;
+    }
+}
+
+/* Field-info Icon */
+
+/* moves icon after isMandatory asterisk */
+.Field-info-condition { order: 1; }
+
+.Field-infoButton.Button {
+    margin-top: -0.25rem;
+    margin-left: .25rem;
+    color: var(--accent);
+
+    & svg {
+        height: 1.2em;
+        width:  1.2em;
+    }
+
+    @nest .help-is-shown & {
+        color: var(--white);
+    }
+}
+
+/* Error Message */
+
+.Field-error {
+    display: none;
+    position: relative;
+    width: 100%;
+    background: var(--red);
+    padding: .5em;
+    padding-top: .2em;
+    font-weight: 300;
+    color: var(--white);
+    border-bottom-left-radius:  4px;
+    border-bottom-right-radius: 4px;
+
+    @nest .Field.has-error & {
+        display: block;
+    }
+}
+
+/* States */
+
+.Field.has-error .Field-control input,
+.Field.has-error .Field-control textarea {
+    border-color: var(--red);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.Field.is-validated .Field-control input,
+.Field.is-validated .Field-control textarea {
+    border-color: var(--green);
+}
+
+.Field-infoButton {
+
+    &:hover {
+        color: var(--white);
+        border-color: var(--white);
+    }
+
+    &.is-expanded {
+        background: var(--accent);
+        color: var(--white);
+
+        & .Field-info-description {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+    }
+}
+
+/* Help */
+
+.Field-help {
+    display: none;
+
+    @nest .help-is-shown & {
+        display: block;
+    }
+}
+
+.Field .Spinner svg {
+    height: 1.5rem;
+    width:  1.5rem;
+}
