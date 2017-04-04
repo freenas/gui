@@ -173,7 +173,7 @@ exports.IscsiShare = AbstractShareInspector.specialize({
                             }
                         }
                     } else { //push "free" target iscsi.
-                        self.targetNames.push({ label: shareIscsiTarget.name, value: shareIscsiTarget.name });
+                        self.targetNames.push({ label: shareIscsiTarget.id, value: shareIscsiTarget.id });
                     }
                 }
             });

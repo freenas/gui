@@ -48,6 +48,10 @@ export class ShareRepository extends AbstractRepository {
         return this.shareDao.save(object, object._isNew ? [datasetProperties] : []);
     }
 
+    public deleteShare(object: any, args: Array<any>) {
+        return this.shareDao.delete(object, args);
+    }
+
     public getNewPermissions() {
         return this.permissionsDao.getNewInstance();
     }
