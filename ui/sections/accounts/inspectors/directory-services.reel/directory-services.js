@@ -94,13 +94,13 @@ exports.DirectoryServices = AbstractInspector.specialize({
         }
     },
 
-    handleRevertAction: {
+    revert: {
         value: function() {
             this.directoryServiceConfig.search_order = this._originalSearchOrder.slice();
         }
     },
 
-    handleSaveAction: {
+    save: {
         value: function() {
             var self = this;
             this.application.dataService.saveDataObject(this.directoryServiceConfig).then(function() {
