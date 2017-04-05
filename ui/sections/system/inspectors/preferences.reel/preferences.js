@@ -12,11 +12,8 @@ exports.Preferences = AbstractInspector.specialize({
             ]).spread(function(systemVersion, taskReponse) {
                 var downloadLink = document.createElement("a");
                 downloadLink.href = taskReponse.link;
-                downloadLink.download = "FreeNAS10-" +
-                    systemVersion.split("-")[3] + "-" +
-                    (new Date()).toISOString().split('T')[0] +
-                    "-database.db";
-                downloadLink.click();
+                downloadLink.download = systemVersion + "-" + (new Date()).toISOString().split('T')[0] + "-database.db";
+                downloadLink.dispatchEvent(new MouseEvent('click'));
             });
         }
     },
@@ -92,7 +89,7 @@ exports.Preferences = AbstractInspector.specialize({
                     })
                 );
                 Promise.all(loadingPromises).then(function() {
-                    self._snapshotDataObjectsIfNecessary()
+                    self._snapshotDataObjectsIfNecessary();
                     self.isLoading = false;
                 });
             }
