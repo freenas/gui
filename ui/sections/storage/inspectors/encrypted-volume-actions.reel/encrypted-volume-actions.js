@@ -10,7 +10,7 @@ exports.EncryptedVolumeActions = AbstractInspector.specialize({
     },
 
     enterDocument: {
-        value: function(isFirstTime) {
+        value: function() {
             this.providers = this.object.volume.providers_presence;
             this.volumeChangedListener = this._eventDispatcherService.addEventListener(Volume.getEventNames().change(this.object.volume.id), this.handleVolumeChanged.bind(this));
         }
@@ -29,13 +29,13 @@ exports.EncryptedVolumeActions = AbstractInspector.specialize({
     },
 
     handleLockButtonAction: {
-        value: function(event) {
+        value: function() {
             this._sectionService.lockVolume(this.object.volume);
         }
     },
 
     handleUnlockButtonAction: {
-        value: function(event) {
+        value: function() {
             var self = this;
             this._sectionService.unlockVolume(this.object.volume, this.object.unlockPassword).then(function() {
                 self.object.unlockPassword = '';
@@ -44,7 +44,7 @@ exports.EncryptedVolumeActions = AbstractInspector.specialize({
     },
 
     handleRekeyButtonAction: {
-        value: function(event) {
+        value: function() {
             this._sectionService.rekeyVolume(this.object.volume, this.object.rekeyKey, this.object.rekeyPassword);
         }
     },
@@ -54,10 +54,17 @@ exports.EncryptedVolumeActions = AbstractInspector.specialize({
             var self = this;
             this._sectionService.getVolumeKey(this.object.volume).then(function(response) {
                 var downloadLink = document.createElement("a");
-                    downloadLink.href = response.link;
+                    downloadLink.href = response.links[0];
                     downloadLink.download = "key_" + self.object.volume.id + ".key";
                     downloadLink.dispatchEvent(new MouseEvent('click'));
-                response.taskPromise.then(function(password) {
+
+                response.taskPromise.then(function (password) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.addEventListener('load', function () {
+                        self.object.backupKeyPassword = this.responseText;
+                    });
+                    xhr.open('GET', response.links[1]);
+                    xhr.send();
                     self.object.backupKeyPassword = password;
                 });
             });

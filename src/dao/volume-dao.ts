@@ -37,7 +37,7 @@ export class VolumeDao extends AbstractDao<Volume> {
     }
 
     public getVolumeKey(volume: Volume) {
-        return this.middlewareClient.submitTaskWithDownload('volume.keys.backup', [volume.id, 'key_' + volume.id]);
+        return this.middlewareClient.submitTaskWithDownload('volume.keys.backup', [volume.id, 'key_' + volume.id, 'password_key_' + volume.id]);
     }
 
     public importEncrypted(name: string, disks: Array<any>, key: string, password: string) {
