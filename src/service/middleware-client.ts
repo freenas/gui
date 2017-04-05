@@ -145,21 +145,21 @@ export class MiddlewareClient {
     }
 
     public submitTaskWithDownload(name: string, args?: Array<any>): Promise<any> {
-        let self = this,
-            temporaryTaskId = uuid.v4();
+        let temporaryTaskId = uuid.v4();
         this.eventDispatcherService.dispatch('taskSubmitted', temporaryTaskId);
         return this.callRpcMethod('task.submit_with_download', [
             name,
             args || []
-        ]).spread(function(taskId, links) {
-            self.eventDispatcherService.dispatch('taskCreated', {
+        ]).spread((taskId, links) => {
+            this.eventDispatcherService.dispatch('taskCreated', {
                 old: temporaryTaskId,
                 new: taskId
             });
             return {
                 taskId: taskId,
-                taskPromise: self.getTaskPromise(taskId),
-                link: MiddlewareClient.getRootURL('http') + links[0]
+                taskPromise: this.getTaskPromise(taskId),
+                link: MiddlewareClient.getRootURL('http') + links[0],
+                links: _.map(links, link => MiddlewareClient.getRootURL('http') + link)
             };
         });
     }
