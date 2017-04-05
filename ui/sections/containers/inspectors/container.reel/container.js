@@ -23,7 +23,17 @@ exports.Container = AbstractInspector.specialize({
                 this.object.names = [];
                 this.object.networks = [];
             } else {
-                this.object._command = _.join(this.object.command, ' ');
+                this.object._command = _.join(
+                    _.map(
+                        this.object.command,
+                        function(part) {
+                            return part.indexOf(' ') !== -1 ?
+                                "'" + part + "'" :
+                                part
+                        }
+                    ),
+                    ' '
+                );
                 this.object._volumes = this._sectionService.getDisplayVolumeObjects(this.object.volumes);
             }
             this.object._environments = this.object.environment ? _.map(this.object.environment, function(environment) {

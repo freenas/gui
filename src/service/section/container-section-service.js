@@ -195,7 +195,13 @@ exports.ContainerSectionService = AbstractSectionService.specialize({
     saveContainer: {
         value: function (container) {
             if (container._command) {
-                container.command = container._command.split(" ");
+                container.command = _.map(
+                    container._command.match(/"[^"]+"|'[^']+'|\S+/g),
+                    function(part) {
+                        return part.replace(/^'(.*)'$/, '$1');
+                    }
+                );
+
             }
 
             if (container._environments) {
