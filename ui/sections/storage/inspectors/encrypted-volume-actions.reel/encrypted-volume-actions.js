@@ -56,7 +56,7 @@ exports.EncryptedVolumeActions = AbstractInspector.specialize({
                 var downloadLink = document.createElement("a");
                     downloadLink.href = response.link;
                     downloadLink.download = "key_" + self.object.volume.id + ".key";
-                    downloadLink.click();
+                    downloadLink.dispatchEvent(new MouseEvent('click'));
                 response.taskPromise.then(function(password) {
                     self.object.backupKeyPassword = password;
                 });
