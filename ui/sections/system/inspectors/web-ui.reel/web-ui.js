@@ -76,8 +76,20 @@ exports.WebUi = AbstractInspector.specialize({
                 this.application.systemService.saveAdvanced(this.systemAdvanced),
                 this.application.systemService.saveUi(this.config)
             ]).spread(function (taskSaveAdvanced, taskSaveUi) {
-                taskSaveUi.taskPromise.then(function () {
-                    self._handleSaveDone();
+                var promises = [];
+
+                if (taskSaveAdvanced) {
+                    promises.push(taskSaveAdvanced.taskPromise);
+                }
+
+                if (taskSaveUi) {
+                    promises.push(taskSaveUi.taskPromise);
+                }
+
+                return Promise.all(promises).then(function () {
+                    if (taskSaveUi) {
+                        self._handleSaveDone();
+                    }
                 });
             });
         }
