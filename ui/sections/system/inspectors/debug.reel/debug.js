@@ -51,7 +51,7 @@ exports.Debug = AbstractInspector.specialize({
                 var downloadLink = document.createElement("a");
                     downloadLink.href = debugObject.link;
                     downloadLink.download = "FreeNAS10" + "-" + self.systemVersion + "-" + todayString + "-" + "debug.tar.gz";
-                    downloadLink.click();
+                    downloadLink.dispatchEvent(new MouseEvent('click'));
             });
         }
     },
