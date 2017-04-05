@@ -15,6 +15,8 @@ import {DockerNetwork} from '../model/DockerNetwork';
 import {DockerCollection} from '../model/DockerCollection';
 import {VmRepository} from '../repository/vm-repository';
 import {Vm} from '../model/Vm';
+import {DockerConfigRepository} from '../repository/docker-config-repository';
+import {DockerConfig} from '../model/DockerConfig';
 
 
 export class DockerRoute extends AbstractRoute {
@@ -28,6 +30,7 @@ export class DockerRoute extends AbstractRoute {
         private dockerNetworkRepository: DockerNetworkRepository,
         private dockerContainerLogsRepository: DockerContainerLogsRepository,
         private dockerImageReadmeRepository: DockerImageReadmeRepository,
+        private dockerConfigRepository: DockerConfigRepository,
         private vmRepository: VmRepository
     ) {
         super();
@@ -43,6 +46,7 @@ export class DockerRoute extends AbstractRoute {
                 DockerNetworkRepository.getInstance(),
                 DockerContainerLogsRepository.getInstance(),
                 DockerImageReadmeRepository.getInstance(),
+                DockerConfigRepository.getInstance(),
                 VmRepository.getInstance()
             );
         }
@@ -309,7 +313,9 @@ export class DockerRoute extends AbstractRoute {
         ).spread((
             hosts: Array<DockerHost>,
             networks: Array<DockerNetwork>,
-            networkModes: Array<any>
+            networkModes: Array<any>,
+            collections: Array<DockerCollection>,
+            dockerConfig: DockerConfig
         ) => {
             return this.loadObjectInColumn(
                 stack,
@@ -324,6 +330,7 @@ export class DockerRoute extends AbstractRoute {
                     container._hosts = hosts;
                     container._networks = networks;
                     container._networkModes = networkModes;
+                    container._dockerConfig = dockerConfig;
                     return stack;
                 }
             );
@@ -398,12 +405,14 @@ export class DockerRoute extends AbstractRoute {
                     networks: Array<DockerNetwork>,
                     networkModes: Array<any>,
                     collections: Array<DockerCollection>,
+                    dockerConfig: DockerConfig,
                     uiDescriptor) => {
             container._collection = _.find(collections, {id: collectionId});
             container._imagesPromise = this.dockerCollectionRepository.getDockerImagesWithCollection(container._collection);
             container._hosts = hosts;
             container._networks = networks;
             container._networkModes = networkModes;
+            container._dockerConfig = dockerConfig;
             context.object = container;
 
             context.userInterfaceDescriptor = uiDescriptor;
@@ -491,7 +500,8 @@ export class DockerRoute extends AbstractRoute {
             this.dockerHostRepository.listDockerHosts(),
             this.dockerNetworkRepository.list(),
             Promise.resolve(DockerNetworkRepository.PRIMARY_NETWORK_MODES),
-            this.dockerCollectionRepository.listDockerCollections()
+            this.dockerCollectionRepository.listDockerCollections(),
+            this.dockerConfigRepository.getDockerContainerSettings()
         ];
     }
 }

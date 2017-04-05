@@ -165,7 +165,7 @@
                 "label": "Docker host"
             },
             "bindings": {
-                "options": {"<-": "[{label: 'default', value: null}].concat(@owner.object._hosts.map{{label: name, value: id}})"},
+                "options": {"<-": "@owner.object._hosts.length > 0 ? @owner.object._hosts.map{{label: name + (id == @owner.object._dockerConfig.default_host ? ' (default)' : ''), value: id}} : [{label: 'Default', value: null}]"},
                 "selectedValue": {"<->": "@owner.object.host"},
                 "isReadOnly": {"<-": "!@owner.object._isNew"}
             }

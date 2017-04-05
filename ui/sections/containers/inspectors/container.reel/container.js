@@ -22,6 +22,7 @@ exports.Container = AbstractInspector.specialize({
             if (this.object._isNew) {
                 this.object.names = [];
                 this.object.networks = [];
+                this.object.host = this.object._dockerConfig.default_host;
             } else {
                 this.object._command = _.join(this.object.command, ' ');
                 this.object._volumes = this._sectionService.getDisplayVolumeObjects(this.object.volumes);
