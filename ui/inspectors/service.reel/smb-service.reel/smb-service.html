@@ -224,18 +224,16 @@
                 "values": {"<->": "@owner.object.bind_addresses"}
             }
         },
-
         "homeShare": {
-            "prototype": "blue-shark/ui/field-select.reel",
+            "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
                 "element": {"#": "homeShare"},
                 "label": "Use as Home Share"
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.object.home_share"},
-                "options": {"<-": "@owner.DOS_CHARSETS"}
+                "selectedValue": {"<->": "@owner.object.home_share"}
             }
-        },
+        }
     }
     </script>
 </head>
