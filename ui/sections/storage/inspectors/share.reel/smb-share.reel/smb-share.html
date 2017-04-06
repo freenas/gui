@@ -133,6 +133,69 @@
                 "element": {"#": "advancedSection"},
                 "title": "Advanced"
             }
+        },
+
+        "users_allow": {
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "properties": {
+                "element": {"#": "users_allow"},
+                "label": "Users allowed for Samba",
+                "placeholder": "eg. Xin",
+                "delegate": {"@": "owner"},
+                "inputTitle": "Add an allowed user",
+                "valuesTitle": "Added Users",
+                "emptyMessage": "No Users added :("
+            },
+            "bindings": {
+                "values": {"<->": "@owner.properties.users_allow"}
+            }
+        },
+        "groups_allow": {
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "properties": {
+                "element": {"#": "groups_allow"},
+                "label": "Groups Allowed for Samba",
+                "placeholder": "eg. Xin",
+                "delegate": {"@": "owner"},
+                "inputTitle": "Add an allowed group",
+                "valuesTitle": "Added groups",
+                "emptyMessage": "No groups added :("
+            },
+            "bindings": {
+                "options": {"<-": "@owner.networkInterfacesAliases.map{address}.filter{!@owner.object.bind_addresses.has(this)}"},
+                "values": {"<->": "@owner.properties.groups_allow"}
+            }
+        },
+        "users_deny": {
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "properties": {
+                "element": {"#": "users_deny"},
+                "label": "Users Deny for Samba",
+                "placeholder": "eg. Xin",
+                "delegate": {"@": "owner"},
+                "inputTitle": "Deny a user",
+                "valuesTitle": "Added Users",
+                "emptyMessage": "No users added :("
+            },
+            "bindings": {
+                "options": {"<-": "@owner.networkInterfacesAliases.map{address}.filter{!@owner.object.bind_addresses.has(this)}"},
+                "values": {"<->": "@owner.properties.users_deny"}
+            }
+        },
+        "groups_deny": {
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "properties": {
+                "element": {"#": "groups_deny"},
+                "label": "Groups Deny for Samba",
+                "placeholder": "eg. Xin",
+                "delegate": {"@": "owner"},
+                "inputTitle": "Deny a group",
+                "valuesTitle": "Added Groups",
+                "emptyMessage": "No groups added :("
+            },
+            "bindings": {
+                "values": {"<->": "@owner.properties.groups_deny"}
+            }
         }
     }
     </script>
@@ -149,6 +212,10 @@
             <div data-montage-id="guestOnly"></div>
             <div data-montage-id="hostAllow"></div>
             <div data-montage-id="hostDeny"></div>
+            <div data-montage-id="users_allow"></div>
+            <div data-montage-id="groups_allow"></div>
+            <div data-montage-id="users_deny"></div>
+            <div data-montage-id="groups_deny"></div>
             <div data-montage-id="vfsObjects"></div>
             <div data-montage-id="previousVersions"></div>
         </div>
