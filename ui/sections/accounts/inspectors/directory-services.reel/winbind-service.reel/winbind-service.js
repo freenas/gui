@@ -14,7 +14,7 @@ exports.WinbindService = Component.specialize({
             this.isLoading = true;
             this._populateObjectIfNeeded().then(function() {
                 if (!self.object.parameters.sasl_wrapping) {
-                    self.object.parameters.sasl_wrapping = 'PLAIN';
+                    self.object.parameters.sasl_wrapping = 'SIGN';
                 }
                 self.isLoading = false;
             });
