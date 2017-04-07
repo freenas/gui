@@ -15,7 +15,7 @@ exports.TableFreeipa = Component.specialize(/** @lends TableFreeipa# */ {
         }
     },
 
-    prepareForActivationEvents: {
+    enterDocument: {
         value: function () {
             this.addEventListener("action", this);
         }

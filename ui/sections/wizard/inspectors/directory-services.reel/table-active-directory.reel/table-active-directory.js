@@ -15,7 +15,7 @@ exports.TableActiveDirectory = Component.specialize(/** @lends TableActiveDirect
         }
     },
 
-    prepareForActivationEvents: {
+    enterDocument: {
         value: function () {
             this.addEventListener("action", this);
         }

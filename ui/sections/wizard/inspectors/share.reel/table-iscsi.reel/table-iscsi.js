@@ -18,7 +18,7 @@ exports.TableIscsi = Component.specialize(/** @lends TableIscsi# */ {
         }
     },
 
-    prepareForActivationEvents: {
+    enterDocument: {
         value: function () {
             this.addEventListener("action", this);
         }

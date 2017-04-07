@@ -18,7 +18,7 @@ exports.TableSmb = Component.specialize(/** @lends TableSmb# */ {
         }
     },
 
-    prepareForActivationEvents: {
+    enterDocument: {
         value: function () {
             this.addEventListener("action", this);
         }

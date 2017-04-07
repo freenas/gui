@@ -1,7 +1,7 @@
 var Component = require("montage/ui/component").Component;
 
 exports.TablePort = Component.specialize({
-    prepareForActivationEvents: {
+    enterDocument: {
         value: function () {
             this.addEventListener("action", this);
         }

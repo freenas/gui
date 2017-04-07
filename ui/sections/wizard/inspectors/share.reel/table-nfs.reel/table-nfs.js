@@ -17,7 +17,7 @@ exports.TableNfs = Component.specialize(/** @lends TableNfs# */ {
             });
         }
     },
-    prepareForActivationEvents: {
+    enterDocument: {
         value: function () {
             this.addEventListener("action", this);
         }

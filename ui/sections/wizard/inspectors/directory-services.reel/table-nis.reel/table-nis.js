@@ -14,7 +14,7 @@ exports.TableNis = Component.specialize(/** @lends TableNis# */ {
         }
     },
 
-    prepareForActivationEvents: {
+    enterDocument: {
         value: function () {
             this.addEventListener("action", this);
         }

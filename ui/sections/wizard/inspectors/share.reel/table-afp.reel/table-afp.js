@@ -19,7 +19,7 @@ exports.TableAfp = Component.specialize(/** @lends TableAfp# */ {
         }
     },
 
-    prepareForActivationEvents: {
+    enterDocument: {
         value: function () {
             this.addEventListener("action", this);
         }
