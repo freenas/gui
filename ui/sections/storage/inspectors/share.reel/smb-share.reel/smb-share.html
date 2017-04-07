@@ -134,64 +134,49 @@
                 "title": "Advanced"
             }
         },
-
         "users_allow": {
-            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "prototype": "ui/controls/search-users-multiple.reel",
             "properties": {
                 "element": {"#": "users_allow"},
-                "label": "Users allowed for Samba",
-                "placeholder": "eg. Xin",
-                "delegate": {"@": "owner"},
-                "inputTitle": "Add an allowed user",
-                "valuesTitle": "Added Users",
-                "emptyMessage": "No Users added :("
+                "label": "Users Allowed",
+                "emptyMessage": "No allowed users added",
+                "valuePath": "username"
             },
             "bindings": {
                 "values": {"<->": "@owner.properties.users_allow"}
             }
         },
         "groups_allow": {
-            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "prototype": "ui/controls/search-groups-multiple.reel",
             "properties": {
                 "element": {"#": "groups_allow"},
-                "label": "Groups Allowed for Samba",
-                "placeholder": "eg. Xin",
-                "delegate": {"@": "owner"},
-                "inputTitle": "Add an allowed group",
-                "valuesTitle": "Added groups",
-                "emptyMessage": "No groups added :("
+                "label": "Groups Allowed",
+                "emptyMessage": "No allowed groups added",
+                "valuePath": "name"
             },
             "bindings": {
-                "options": {"<-": "@owner.networkInterfacesAliases.map{address}.filter{!@owner.object.bind_addresses.has(this)}"},
                 "values": {"<->": "@owner.properties.groups_allow"}
             }
         },
         "users_deny": {
-            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "prototype": "ui/controls/search-users-multiple.reel",
             "properties": {
                 "element": {"#": "users_deny"},
-                "label": "Users Deny for Samba",
-                "placeholder": "eg. Xin",
-                "delegate": {"@": "owner"},
-                "inputTitle": "Deny a user",
-                "valuesTitle": "Added Users",
-                "emptyMessage": "No users added :("
+                "label": "Users Allowed",
+                "emptyMessage": "No allowed users added",
+                "valuePath": "username"
             },
             "bindings": {
-                "options": {"<-": "@owner.networkInterfacesAliases.map{address}.filter{!@owner.object.bind_addresses.has(this)}"},
                 "values": {"<->": "@owner.properties.users_deny"}
             }
         },
         "groups_deny": {
-            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "prototype": "ui/controls/search-groups-multiple.reel",
             "properties": {
                 "element": {"#": "groups_deny"},
-                "label": "Groups Deny for Samba",
-                "placeholder": "eg. Xin",
-                "delegate": {"@": "owner"},
-                "inputTitle": "Deny a group",
-                "valuesTitle": "Added Groups",
-                "emptyMessage": "No groups added :("
+                "label": "Groups Allowed",
+                "emptyMessage": "No allowed groups added",
+                "valuePath": "name"
             },
             "bindings": {
                 "values": {"<->": "@owner.properties.groups_deny"}
