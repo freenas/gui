@@ -20,7 +20,8 @@
                 "element": {"#": "jobId"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.type + ' #' + @owner.object.idd"}
+                "value": {"<-": "@owner.object.type + ' #' + @owner.object.idd"},
+                "classList.has('is-hidden')": {"<-": "!value"}
             }
         },
         "taskName": {
@@ -40,6 +41,16 @@
             "bindings": {
                 "value": {"<-": "@owner.object.description"}
             }
+        },
+        "updateButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "updateButton"},
+                "value": "Update"
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "@owner.object.clazz != 'UserMessage'"}
+            }
         }
     }
     </script>
@@ -48,6 +59,7 @@
     <div data-montage-id="owner" class="AlertNotificationDetails">
         <header>
             <div data-montage-id="jobId" class="Notification-details-title"></div>
+            <div data-montage-id="updateButton" class="Button--primary Button--small g-margin--half"></div>
         </header>
         <main>
             <h4 class="bold">Task Name:</h4>
