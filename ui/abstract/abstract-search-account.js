@@ -30,25 +30,6 @@ exports.AbstractSearchAccount = Component.specialize({
         }
     },
 
-    _valuePath: {
-        value: null
-    },
-
-    valuePath: {
-        set: function (path) {
-            if (this._valuePath !== path) {
-                if (typeof path === "string" && path.length) {
-                    this._valuePath = path;
-                } else {
-                    this._valuePath = null;
-                }
-            }
-        },
-        get: function () {
-            return this._valuePath || this.constructor.valuePath;
-        }
-    },
-
     _isLoading: {
         value: null
     },

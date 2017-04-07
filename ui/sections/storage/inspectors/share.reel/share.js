@@ -171,11 +171,28 @@ exports.Share = AbstractInspector.specialize({
             }
 
             if (share.properties) {
-                var properties = share.properties;
-                properties.groups_allow = this._mapAccountCollection(this.context.groupsAllow, 'name');
-                properties.groups_deny = this._mapAccountCollection(this.context.groupsDeny, 'name');
-                properties.users_allow = this._mapAccountCollection(this.context.usersAllow, 'username');
-                properties.users_deny = this._mapAccountCollection(this.context.usersDeny, 'username');
+                var properties = share.properties,
+                    context = this.context,
+                    username = 'username',
+                    name = 'name';
+
+                properties.groups_allow = this._mapAccountCollection(this.context.groupsAllow, name);
+                properties.groups_deny = this._mapAccountCollection(this.context.groupsDeny, name);
+                properties.users_allow = this._mapAccountCollection(this.context.usersAllow, username);
+                properties.users_deny = this._mapAccountCollection(this.context.usersDeny, username);
+
+                properties.maproot_user = context.maprootUser ? context.maprootUser.username : void 0;
+                properties.mapall_user = context.mapallUser ? context.mapallUser.username : void 0;
+                properties.mapall_group = context.mapallGroup ? context.mapallGroup.name : void 0;
+                properties.maproot_group = context.maprootGroup ? context.maprootGroup.name : void 0;
+            }
+
+            if (share.permissions) {
+                var permissions = share.permissions,
+                    context = this.context;
+
+                permissions.user = context.permissionsUser ? context.permissionsUser.username : void 0;
+                permissions.group = context.permissionsGroup ? context.permissionsGroup.name : void 0;
             }
 
             if (servicePromise) {

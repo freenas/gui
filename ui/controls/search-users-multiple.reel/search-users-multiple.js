@@ -25,10 +25,6 @@ exports.SearchUsersMultiple = AbstractSearchAccountMultiple.specialize(/** @lend
 
     labelPath: {
         value: 'username'
-    },
-
-    valuePath: {
-        value: 'id'
     }
 
 });

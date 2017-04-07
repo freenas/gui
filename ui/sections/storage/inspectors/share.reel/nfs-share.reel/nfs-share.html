@@ -7,6 +7,12 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "context.maprootUser": {"<-": "@owner.properties.maproot_user.{username: this}"},
+                "context.maprootGroup": {"<-": "@owner.properties.maproot_group.{name: this}"},
+                "context.mapallGroup": {"<-": "@owner.properties.mapall_group.{name: this}"},
+                "context.mapallUser": {"<-": "@owner.properties.mapall_user.{username: this}}"}
             }
         },
         "readOnly": {
@@ -55,46 +61,40 @@
             "prototype": "ui/controls/search-users.reel",
             "properties": {
                 "element": {"#": "maprootUser"},
-                "label": "Maproot user",
-                "valuePath": "username"
+                "label": "Maproot user"
             },
             "bindings": {
-                "value": {"<->": "@owner.properties.maproot_user"}
+                "value": {"<->": "@owner.context.maprootUser"}
             }
         },
         "maprootGroup": {
             "prototype": "ui/controls/search-groups.reel",
             "properties": {
                 "element": {"#": "maprootGroup"},
-                "label": "Maproot group",
-                "valuePath": "name"
+                "label": "Maproot group"
             },
             "bindings": {
-                "value": {"<->": "@owner.properties.maproot_group"}
+                "value": {"<->": "@owner.context.maprootGroup"}
             }
         },
         "mapallUser": {
             "prototype": "ui/controls/search-users.reel",
             "properties": {
                 "element": {"#": "mapallUser"},
-                "label": "Mapall user",
-                "labelPath": "username",
-                "valuePath": "username"
+                "label": "Mapall user"
             },
             "bindings": {
-                "value": {"<->": "@owner.properties.mapall_user"}
+                "value": {"<->": "@owner.context.mapallUser"}
             }
         },
         "mapallGroup": {
             "prototype": "ui/controls/search-groups.reel",
             "properties": {
                 "element": {"#": "mapallGroup"},
-                "label": "Mapall group",
-                "labelPath": "name",
-                "valuePath": "name"
+                "label": "Mapall group"
             },
             "bindings": {
-                "value": {"<->": "@owner.properties.mapall_group"}
+                "value": {"<->": "@owner.context.mapallGroup"}
             }
         },
         "security": {

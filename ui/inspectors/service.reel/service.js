@@ -39,6 +39,11 @@ exports.Service = AbstractInspector.specialize({
             if (this.configComponent && typeof this.configComponent.save === 'function') {
                 this.configComponent.save();
             }
+
+            if (this.name === 'afp' || this.name === 'smb') {
+                this.object.config.guest_user = this.context.guestUser.username;
+            }
+
             this._sectionService.saveService(this.object);
         }
     },

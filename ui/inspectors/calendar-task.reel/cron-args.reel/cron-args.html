@@ -8,6 +8,9 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "context.cronUser": {"<-": "@owner.object.0.{username: this}"}
             }
         },
         "command": {
@@ -24,11 +27,10 @@
             "prototype": "ui/controls/search-users.reel",
             "properties": {
                 "element": {"#": "user"},
-                "label": "User",
-                "valuePath": "username"
+                "label": "User"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.0"}
+                "value": {"<->": "@owner.context.cronUser"}
             }
         }
     }

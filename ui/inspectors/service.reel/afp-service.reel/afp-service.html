@@ -8,6 +8,9 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            }, 
+            "bindings": { 
+                "context.guestUser": {"<-": "@owner.object.guest_user.{username: this}"}
             }
         },
         "positiveIntegerValidator": {
@@ -71,11 +74,10 @@
             "prototype": "ui/controls/search-users.reel",
             "properties": {
                 "element": {"#": "guest_user"},
-                "label": "Guest User",
-                "valuePath": "username"
+                "label": "Guest User"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.guest_user"}
+                "value": {"<->": "@owner.context.guestUser"}
             }
         },
         "homedir_path": {

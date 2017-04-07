@@ -144,7 +144,8 @@
                 "element": {"#": "permissions"}
             },
             "bindings": {
-                "object": {"<->": "@owner.object"},
+                "object": {"<-": "@owner.object"},
+                "context": {"<-": "@owner.context"},
                 "classList.has('hide')": {"<-": "@owner.object.type != 'FILESYSTEM'"}
             }
         },
