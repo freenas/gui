@@ -45,6 +45,7 @@ exports.Volume = AbstractInspector.specialize({
             this._setVolumeDatasets();
             this.sharesEventListener = this.eventDispatcherService.addEventListener('sharesChange', this._handleSharesChange.bind(this));
             this.datasetsEventListener = this.eventDispatcherService.addEventListener('volumeDatasetsChange', this._handleDatasetsChange.bind(this));
+            this.isUpgradeConfirmationVisible = false;
         }
     },
 
@@ -114,7 +115,19 @@ exports.Volume = AbstractInspector.specialize({
     },
 
     handleUpgradeAction: {
-        value: function () {
+        value: function() {
+            this.isUpgradeConfirmationVisible = true;
+        }
+    },
+
+    cancelUpgrade: {
+        value: function() {
+            this.isUpgradeConfirmationVisible = false;
+        }
+    },
+
+    confirmUpgrade: {
+        value: function() {
             this._sectionService.upgradeVolume(this.object);
         }
     },

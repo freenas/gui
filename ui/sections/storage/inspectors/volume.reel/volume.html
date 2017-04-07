@@ -57,6 +57,7 @@
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
+                "classList.has('other-confirmation-is-visible')": {"<-": "@owner.isUpgradeConfirmationVisible"},
                 "isConfirmationVisible": {"<-": "@owner.isConfirmationVisible"}
             }
         },
@@ -161,6 +162,19 @@
                 "classList.has('hide')": {"<-": "@owner.object.status == 'LOCKED'"}
             }
         },
+        "confirmationUpgrade": {
+            "prototype": "ui/inspectors/inspector.reel/inspector-confirmation.reel",
+            "properties": {
+                "element": {"#": "confirmationUpgrade"},
+                "inspector": {"@": "owner"},
+                "confirmMethod": "confirmUpgrade",
+                "cancelMethod": "cancelUpgrade",
+                "confirmLabel": "Upgrade"
+            },
+            "bindings": {
+                "confirmMessage": {"<-": "'Are you sure you want to upgrade your volume? Once it is upgraded you will no longer be able to import it on previous versions of FreeNAS.'"}
+            }
+        },
         "upgrade": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
@@ -196,6 +210,7 @@
 <body>
     <div data-montage-id="owner" class="Volume">
         <div data-montage-id="inspector">
+            <div data-montage-id="confirmationUpgrade" class="Inspector-confirmationMessage other-confirmation"></div>
             <div class="Volume-header">
                 <div data-montage-id="volumeIcon" class="Volume-header-icon"></div>
                 <div class="Volume-header-info">

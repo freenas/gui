@@ -29,11 +29,13 @@
                 "canRevert": true,
                 "scrollViewDelegate": {"@": "owner"},
                 "controller": {"@": "owner"},
+                "confirmSaveMessage": "Are you sure you want to use encryption for this volume? Data loss can result if keys or passwords are lost!",
                 "canSave": true
             },
             "bindings": {
                 "isLoading": {"<-": "@owner.isLoading"},
                 "context": {"<-": "@owner.context"},
+                "needSaveConfirmation": {"<-": "@owner.object._password || @owner.object.key_encrypted"},
                 "isSaveDisabled": {"<-": "@owner.object.topology.data.length == 0"}
             }
         },
