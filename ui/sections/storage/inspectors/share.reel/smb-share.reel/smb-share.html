@@ -133,6 +133,54 @@
                 "element": {"#": "advancedSection"},
                 "title": "Advanced"
             }
+        },
+        "users_allow": {
+            "prototype": "ui/controls/search-users-multiple.reel",
+            "properties": {
+                "element": {"#": "users_allow"},
+                "label": "Users Allowed",
+                "emptyMessage": "No allowed users added",
+                "valuePath": "username"
+            },
+            "bindings": {
+                "values": {"<->": "@owner.properties.users_allow"}
+            }
+        },
+        "groups_allow": {
+            "prototype": "ui/controls/search-groups-multiple.reel",
+            "properties": {
+                "element": {"#": "groups_allow"},
+                "label": "Groups Allowed",
+                "emptyMessage": "No allowed groups added",
+                "valuePath": "name"
+            },
+            "bindings": {
+                "values": {"<->": "@owner.properties.groups_allow"}
+            }
+        },
+        "users_deny": {
+            "prototype": "ui/controls/search-users-multiple.reel",
+            "properties": {
+                "element": {"#": "users_deny"},
+                "label": "Users Allowed",
+                "emptyMessage": "No allowed users added",
+                "valuePath": "username"
+            },
+            "bindings": {
+                "values": {"<->": "@owner.properties.users_deny"}
+            }
+        },
+        "groups_deny": {
+            "prototype": "ui/controls/search-groups-multiple.reel",
+            "properties": {
+                "element": {"#": "groups_deny"},
+                "label": "Groups Allowed",
+                "emptyMessage": "No allowed groups added",
+                "valuePath": "name"
+            },
+            "bindings": {
+                "values": {"<->": "@owner.properties.groups_deny"}
+            }
         }
     }
     </script>
@@ -149,6 +197,10 @@
             <div data-montage-id="guestOnly"></div>
             <div data-montage-id="hostAllow"></div>
             <div data-montage-id="hostDeny"></div>
+            <div data-montage-id="users_allow"></div>
+            <div data-montage-id="groups_allow"></div>
+            <div data-montage-id="users_deny"></div>
+            <div data-montage-id="groups_deny"></div>
             <div data-montage-id="vfsObjects"></div>
             <div data-montage-id="previousVersions"></div>
         </div>
