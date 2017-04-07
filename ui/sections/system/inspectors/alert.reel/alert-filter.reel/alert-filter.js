@@ -50,6 +50,12 @@ exports.AlertFilter = AbstractInspector.specialize({
         }
     },
 
+    handleAddButtonAction: {
+        value: function () {
+            this.table.showNewEntryRow();
+        }
+    },
+
     tableWillDeleteEntry: {
         value: function(filter) {
             this.deletedFilters.push(filter);
