@@ -17,7 +17,7 @@ exports.TableHosts = Component.specialize({
         }
     },
 
-    prepareForActivationEvents: {
+    enterDocument: {
         value: function () {
             this.addEventListener("action", this);
         }

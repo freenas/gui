@@ -14,7 +14,7 @@ exports.TableLdap = Component.specialize(/** @lends TableLdap# */ {
         }
     },
 
-    prepareForActivationEvents: {
+    enterDocument: {
         value: function () {
             this.addEventListener("action", this);
         }

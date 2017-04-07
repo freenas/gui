@@ -14,7 +14,7 @@ exports.TableUsers = Component.specialize(/** @lends TableUsers# */ {
         }
     },
     //TODO: password checking.
-    prepareForActivationEvents: {
+    enterDocument: {
         value: function () {
             this.addEventListener("action", this);
         }
