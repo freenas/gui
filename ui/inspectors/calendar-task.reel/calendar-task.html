@@ -75,6 +75,7 @@
             "bindings": {
                 "moduleId": {"<-": "'ui/inspectors/calendar-task.reel/' + @owner.taskToInspector[@owner.object.task] + '-args.reel'"},
                 "object": {"<->": "@owner.object.args"},
+                "context": {"<->": "@owner.context"},
                 "component.isNew": {"<-": "@owner.object._isNew"}
             }
         },

@@ -178,8 +178,9 @@
                 "element": {"#": "permissions"}
             },
             "bindings": {
-                "object": {"<->": "@owner.object"},
-                "classList.has('hide')": {"<-": "@owner.object.type == 'iscsi'"}
+                "object": {"<-": "@owner.object"},
+                "classList.has('hide')": {"<-": "@owner.object.type == 'iscsi'"},
+                "context": {"<-": "@owner.context"}
             }
         }
     }

@@ -25,10 +25,6 @@ exports.SearchGroups = AbstractSearchAccount.specialize(/** @lends SearchGroups#
 
     labelPath: {
         value: 'name'
-    },
-
-    valuePath: {
-        value: 'id'
     }
 
 });

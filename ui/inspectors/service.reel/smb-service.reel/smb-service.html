@@ -8,6 +8,9 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            }, 
+            "bindings": { 
+                "context.guestUser": {"<-": "@owner.object.guest_user.{username: this}"}
             }
         },
         "netbiosName": {
@@ -107,11 +110,10 @@
             "prototype": "ui/controls/search-users.reel",
             "properties": {
                 "element": {"#": "guestUser"},
-                "label": "Guest account",
-                "valuePath": "username"
+                "label": "Guest account"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.guest_user"}
+                "value": {"<->": "@owner.context.guestUser"}
             }
         },
         "fileMask": {

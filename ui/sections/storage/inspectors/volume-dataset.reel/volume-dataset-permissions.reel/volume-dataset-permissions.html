@@ -7,6 +7,10 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            }, 
+            "bindings": {
+                "context.permissionsUser": {"<-": "@owner.object.permissions.user.{username: this}"},
+                "context.permissionsGroup": {"<-": "@owner.object.permissions.group.{name: this}"}            
             }
         },
         "permissionsSection": {
@@ -31,22 +35,20 @@
             "prototype": "ui/controls/search-users.reel",
             "properties": {
                 "element": {"#": "ownerUser"},
-                "label": "Owner user",
-                "valuePath": "username"
+                "label": "Owner user"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.permissions.user"}
+                "value": {"<->": "@owner.context.permissionsUser"}
             }
         },
         "ownerGroup": {
             "prototype": "ui/controls/search-groups.reel",
             "properties": {
                 "element": {"#": "ownerGroup"},
-                "label": "Owner group",
-                "valuePath": "name"
+                "label": "Owner group"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.permissions.group"}
+                "value": {"<->": "@owner.context.permissionsGroup"}
             }
         },
         "modes": {

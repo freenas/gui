@@ -119,6 +119,11 @@ exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# *
                 this.object.permissions = undefined;
             }
 
+            if (this.object.permissions) {
+                this.object.permissions.user = this.context.permissionsUser.username;
+                this.object.permissions.group = this.context.permissionsGroup.name;
+            }
+
             return this.inspector.save.apply(this.inspector, this.object._recursive ? [this.object._recursive] : []);
         }
     }

@@ -144,8 +144,7 @@ exports.User = AbstractInspector.specialize({
                 delete this.object.home;
             }
 
-            this.object.group = this.context.primaryGroup ? this.context.primaryGroup : null;
-            this.object.group = this.object.group && typeof this.object.group === 'object' ? this.object.group.id : this.object.group;
+            this.object.group = this.context.primaryGroup ? this.context.primaryGroup.id : null;
             this.object.groups = this.context.secondaryGroups ? this.context.secondaryGroups.map(function (groups) {
                 return groups.id;
             }, this) : null;

@@ -92,15 +92,8 @@ exports.CalendarTask = AbstractInspector.specialize({
             this._sectionService.updateScheduleOnTask(this.object);
             delete this.object.status;
 
-            var argsPromise = this.object.args;
-            if (this.argsInspector && typeof this.argsInspector.save === 'function') {
-                argsPromise = this.argsInspector.save(this.object);
-            }
-            argsPromise = Promise.is(argsPromise) ? argsPromise : this.resolveArgs(argsPromise);
-
             var self = this;
-            return argsPromise.then(function(args) {
-                self.object.args = args;
+            return this._saveCalendarTaskArgs().then(function () {
                 return self.inspector.save();
             });
         }
@@ -117,15 +110,9 @@ exports.CalendarTask = AbstractInspector.specialize({
 
     handleRunNowAction: {
         value: function () {
-            var argsPromise = this.object.args;
-            if (this.argsInspector && typeof this.argsInspector.save === 'function') {
-                argsPromise = this.argsInspector.save(this.object);
-            }
-            var self = this,
-                argsPromise = Promise.is(argsPromise) ? argsPromise : Promise.resolve(argsPromise);
+            var self = this;
 
-            return argsPromise.then(function(args) {
-                self.object.args = args;
+            return this._saveCalendarTaskArgs().then(function () {
                 return self._sectionService.runTask(self.object);
             });
         }
@@ -138,6 +125,35 @@ exports.CalendarTask = AbstractInspector.specialize({
             } else {
                 this.context.cascadingListItem.selectedObject = this.object._customSchedule;
             }
+        }
+    },
+
+    _saveCalendarTaskArgs: {
+        value: function () {
+            var args = this._prepareCalendarTaskArgs(),
+                self = this;
+            
+            if (this.argsInspector && typeof this.argsInspector.save === 'function') {
+                args = this.argsInspector.save(this.object);
+            }
+
+            return (Promise.is(args) ? args : Promise.resolve(args)).then(function (args) {
+                self.object.args = args;
+            });
+        }
+    },
+
+    _prepareCalendarTaskArgs: {
+        value: function () {
+            var args = this.object.args;
+
+            if (this.taskToInspector[this.object.task] === 'cron') {
+                args[0] = this.context.cronUser.username;
+            } else if (this.taskToInspector[this.object.task] === 'rsync' && args[0]) {
+                args[0].user = this.context.rsyncUser.username;
+            }
+
+            return args;
         }
     },
 

@@ -25,10 +25,6 @@ exports.SearchGroupsMultiple = AbstractSearchAccountMultiple.specialize(/** @len
 
     labelPath: {
         value: 'name'
-    },
-
-    valuePath: {
-        value: 'id'
     }
 
 });

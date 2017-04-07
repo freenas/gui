@@ -34,7 +34,7 @@ exports.SearchMultiple = Search.specialize(/** @lends SearchMultiple# */ {
                         _.concat(this.values || [],
                             _.difference(this._results,
                                 _.differenceWith(this._results, this._selectComponent.selectedValues, function (object, value) {
-                                    return object[self.valuePath] === value;
+                                    return object[self.labelPath] === value;
                                 })
                             )
                         )
